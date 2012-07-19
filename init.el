@@ -4,7 +4,7 @@
 (package-initialize)
 
 (defvar my-packages '(ac-slime ace-jump-mode android-mode auctex
-  auto-complete c-eldoc color-theme-solarized ido-ubiquitous
+  auto-complete c-eldoc color-theme-solarized fuzzy ido-ubiquitous
   magit paredit php-mode rainbow-mode scratch slime slime-fuzzy
   slime-repl smex smooth-scroll undo-tree yas-jit yasnippet
   zeitgeist))
