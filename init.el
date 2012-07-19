@@ -176,7 +176,9 @@
 ;; http://www.slate.com/articles/technology/technology/2011/01/space_invaders.html
 (setq sentence-end-double-space nil)
 
-;; use proper english
+;; use proper english - use aspell on fedora instead of default
+;; hunspell
+(setq ispell-program-name "aspell")
 (setq ispell-dictionary "british")
 
 ;; default to unified diff
