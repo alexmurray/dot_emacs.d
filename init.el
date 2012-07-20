@@ -387,8 +387,6 @@
   (visual-line-mode 1)
   ;; Enable flyspell
   (flyspell-mode 1)
-  ;; for auctex and reftex integration
-  (require 'auctex)
   ;; standard auctex setup
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
