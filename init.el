@@ -3,11 +3,11 @@
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
-(defvar my-packages '(ac-slime ace-jump-mode android-mode auctex
-  auto-complete c-eldoc color-theme-solarized fuzzy ido-ubiquitous
-  magit paredit php-mode rainbow-mode scratch slime slime-fuzzy
-  slime-repl smex smooth-scroll undo-tree yas-jit yasnippet
-  zeitgeist))
+(defvar my-packages
+  '(ac-slime ace-jump-mode android-mode auctex auto-complete c-eldoc
+    color-theme-solarized expand-region fuzzy ido-ubiquitous magit
+    paredit php-mode rainbow-mode scratch slime slime-fuzzy slime-repl
+    smex smooth-scroll undo-tree yas-jit yasnippet zeitgeist))
 
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
@@ -357,6 +357,9 @@
 ;; magit
 (require 'magit)
 (global-set-key (kbd "C-x C-z") 'magit-status)
+
+;; expand-region
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 ;; common stuff for all programming languages
 (defun common-programming-setup ()
