@@ -258,12 +258,13 @@
 
 ;; external packages from elpa / marmalade
 
+;; undo-tree
+(global-undo-tree-mode 1)
+
 ;; ace-jump-mode
-(require 'ace-jump-mode)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 ;; rainbow mode - for colouring strings that represent colors
-(require 'rainbow-mode)
 ;; enable rainbow mode automatically for css and html modes
 (dolist (hook '(css-mode-hook html-mode-hook))
   (add-hook hook 'rainbow-mode))
