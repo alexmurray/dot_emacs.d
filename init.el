@@ -1,13 +1,15 @@
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
 (defvar my-packages
   '(ac-slime ace-jump-mode android-mode auctex auto-complete c-eldoc
-    color-theme-solarized expand-region fuzzy ido-ubiquitous magit
-    paredit php-mode rainbow-mode scratch slime slime-fuzzy slime-repl
-    smex smooth-scroll undo-tree yas-jit yasnippet zeitgeist))
+	     color-theme-solarized expand-region fuzzy ido-ubiquitous js2-mode magit
+	     paredit php-mode rainbow-mode scratch slime slime-fuzzy slime-repl
+	     smex smooth-scroll undo-tree yas-jit yasnippet zeitgeist))
 
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
