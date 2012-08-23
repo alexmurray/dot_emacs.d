@@ -6,10 +6,11 @@
 (package-initialize)
 
 (defvar my-packages
-  '(ac-slime ace-jump-mode android-mode auctex auto-complete c-eldoc
-	     color-theme-solarized expand-region fuzzy ido-ubiquitous js2-mode magit
-	     paredit php-mode rainbow-mode scratch slime slime-fuzzy slime-repl
-	     smex smooth-scroll undo-tree yas-jit yasnippet zeitgeist))
+  '(ac-slime ace-jump-mode android-mode auctex auto-complete
+	     c-eldoc color-theme-solarized expand-region fuzzy
+	     ido-ubiquitous js2-mode magit paredit php-mode
+	     rainbow-mode scratch slime smex smooth-scroll
+	     undo-tree yas-jit yasnippet zeitgeist))
 
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
