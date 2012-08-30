@@ -6,9 +6,9 @@
 (package-initialize)
 
 (defvar my-packages
-  '(ac-slime ace-jump-mode android-mode auctex
-	     auto-complete c-eldoc color-theme-sanityinc-solarized
-	     expand-region fuzzy ido-ubiquitous js2-mode magit paredit
+  '(ac-slime ace-jump-mode android-mode auctex auto-complete c-eldoc
+     	     color-theme-sanityinc-solarized expand-region fuzzy
+     	     ido-ubiquitous js2-mode magit multiple-cursors paredit
 	     php-mode rainbow-mode scratch slime smex smooth-scroll
 	     undo-tree yas-jit yasnippet zeitgeist))
 
@@ -260,6 +260,12 @@
 (which-function-mode t)
 
 ;; external packages from elpa / marmalade
+
+;; multiple cursors
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; undo-tree
 (global-undo-tree-mode 1)
