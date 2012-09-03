@@ -10,7 +10,7 @@
      	     color-theme-sanityinc-solarized expand-region fuzzy
      	     ido-ubiquitous js2-mode magit multiple-cursors paredit
 	     php-mode rainbow-mode scratch slime smex smooth-scroll
-	     undo-tree yas-jit yasnippet zeitgeist))
+	     undo-tree yasnippet zeitgeist))
 
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
