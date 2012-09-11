@@ -471,6 +471,8 @@
   ;; be operated on separately as separate words
   (subword-mode 1)
   (auto-fill-mode 1)
+  ;; diminish auto-fill in the modeline
+  (diminish 'auto-fill-function " φ")
   ;; show trailing whitespace
   (setq show-trailing-whitespace t)
   ;; turn on auto-newline and hungry-delete
