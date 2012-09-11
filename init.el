@@ -7,10 +7,10 @@
 
 (defvar my-packages
   '(ac-slime ace-jump-mode android-mode auctex auto-complete c-eldoc
-     	     color-theme-sanityinc-solarized expand-region fuzzy
-     	     ido-ubiquitous js2-mode magit multiple-cursors paredit
-	     php-mode rainbow-mode scratch slime smex smooth-scroll
-	     undo-tree yasnippet zeitgeist))
+	     color-theme-sanityinc-solarized diminish expand-region
+	     fuzzy ido-ubiquitous js2-mode magit multiple-cursors
+	     paredit php-mode rainbow-mode scratch slime smex
+	     smooth-scroll undo-tree yasnippet zeitgeist))
 
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
@@ -260,6 +260,27 @@
 (which-function-mode t)
 
 ;; external packages from elpa / marmalade
+
+;; diminish
+(when (require 'diminish nil 'noerror)
+  (eval-after-load "abbrev"
+    '(diminish 'abbrev-mode))
+  (eval-after-load "eldoc"
+    '(diminish 'eldoc-mode))
+  (eval-after-load "flyspell"
+    '(diminish 'flyspell-mode))
+  (eval-after-load "auto-complete"
+    '(diminish 'auto-complete-mode " α"))
+  (eval-after-load "paredit"
+    '(diminish 'paredit-mode " π"))
+  (eval-after-load "undo-tree"
+    '(diminish 'undo-tree-mode " θ"))
+  (eval-after-load "yasnippet"
+    '(diminish 'yas-minor-mode " υ")))
+
+(add-hook 'emacs-lisp-mode-hook
+  (lambda()
+    (setq mode-name "EL")))
 
 ;; multiple cursors
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
