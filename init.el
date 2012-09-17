@@ -259,6 +259,9 @@
 (require 'which-func)
 (which-function-mode t)
 
+;; for locally installed stuff
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor"))
+
 ;; external packages from elpa / marmalade
 
 ;; diminish
