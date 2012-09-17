@@ -14,6 +14,9 @@
   (start-process-shell-command "devhelp" nil "devhelp" "-a" w)
   (set-process-query-on-exit-flag (get-process "devhelp") nil))
 
+(defvar devhelp-assistant-timeout 0.6
+  "Number of idle seconds before invoking devhelp assistant.")
+
 (defvar devhelp-timer nil)
 
 (defun devhelp-disable-assistant ()
@@ -23,7 +26,8 @@
 
 (defun devhelp-enable-assistant ()
   (message "Devhelp assistant enabled")
-  (setq devhelp-timer (run-with-idle-timer 0.6 t 'devhelp-assistant-word-at-point)))
+  (setq devhelp-timer (run-with-idle-timer devhelp-assistant-timeout t
+		       'devhelp-assistant-word-at-point)))
 
 (defun devhelp-toggle-automatic-assistant ()
   "Toggles automatic Devhelp assistant on and off"
