@@ -496,8 +496,6 @@
   (require 'c-eldoc)
   ;; turn on c-eldoc
   (c-turn-on-eldoc-mode)
-  ;; enable gobject helper
-  (require 'gobject-class)
   ;; enable gtk-doc helpers from gtk-doc-tools to easily
   ;; insert gtk-doc style comment declarations using C-x 4 h
   ;; (gtk-doc-insert) or C-x 4 s (gtk-doc-insert-section) to
