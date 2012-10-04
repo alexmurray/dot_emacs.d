@@ -6,11 +6,11 @@
 (package-initialize)
 
 (defvar my-packages
-  '(ac-slime ace-jump-mode android-mode auctex auto-complete c-eldoc
-	     color-theme-sanityinc-solarized diminish expand-region
-	     fuzzy ido-ubiquitous js2-mode magit multiple-cursors
-	     paredit php-mode rainbow-mode scratch slime smex
-	     smooth-scroll undo-tree yasnippet zeitgeist))
+  '(ac-slime ace-jump-mode android-mode auctex auto-complete autopair
+	     c-eldoc color-theme-sanityinc-solarized diminish
+	     expand-region fuzzy ido-ubiquitous js2-mode magit
+	     multiple-cursors paredit php-mode rainbow-mode scratch
+	     slime smex smooth-scroll undo-tree yasnippet zeitgeist))
 
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
@@ -67,7 +67,6 @@
 ;; electric indent and layout modes to make more IDE like
 (electric-indent-mode t)
 (electric-layout-mode t)
-(electric-pair-mode t)
 
 ;; show empty lines in left fringe
 (setq indicate-empty-lines t)
