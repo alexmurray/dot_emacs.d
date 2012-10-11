@@ -10,8 +10,7 @@
 	     c-eldoc color-theme-sanityinc-solarized diminish
 	     expand-region fuzzy ido-ubiquitous js2-mode magit
 	     multiple-cursors paredit php-mode rainbow-mode scratch
-	     slime smex smooth-scroll undo-tree yasnippet zeitgeist))
-
+	     smex smooth-scroll undo-tree yasnippet zeitgeist))
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
   (package-refresh-contents)
@@ -356,31 +355,25 @@
 (setq yas/snippet-dirs "~/.emacs.d/snippets")
 ;; enable yasnippet globally
 (yas/global-mode 1)
-
-;; slime
-(autoload 'slime-fuzzy-init "slime-fuzzy" "" nil)
-(eval-after-load 'slime-fuzzy
-  '(require 'slime-repl))
-(eval-after-load 'slime
-  '(progn
-     (setq slime-lisp-implementations '((sbcl ("/usr/bin/sbcl"))))
-
-     ;; autoload slime when you open a .lisp file
-     (defun slime-mode-setup ()
-       (unless (slime-connected-p)
-	 (save-excursion (slime))))
-     (add-hook 'slime-mode-hook 'slime-mode-setup)
-     ;; autoclose emacs even if lisp processes are running
-     (setq slime-kill-without-query-p t)
-     ;; bind C-z to slime-selector
-     (global-set-key (kbd "C-z") 'slime-selector)
-     ;; enable paredit for slime modes
-     (dolist (hook '(slime-mode-hook slime-repl-mode-hook))
-       (add-hook hook 'enable-paredit-mode))
-     ;; use REPL by default
-     (slime-setup '(slime-repl slime-fuzzy))))
-
-;; slime autocomplete
+ ;; slime
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/slime-2012-10-10"))
+(require 'slime-autoloads)
+(setq slime-lisp-implementations '((sbcl ("/usr/bin/sbcl"))))
+;; autoload slime when you open a .lisp file
+(defun slime-mode-setup ()
+  (unless (slime-connected-p)
+    (save-excursion (slime))))
+(add-hook 'slime-mode-hook 'slime-mode-setup)
+;; autoclose emacs even if lisp processes are running
+(setq slime-kill-without-query-p t)
+;; bind C-z to slime-selector
+(global-set-key (kbd "C-z") 'slime-selector)
+;; enable paredit for slime modes
+(dolist (hook '(slime-mode-hook slime-repl-mode-hook))
+  (add-hook hook 'enable-paredit-mode))
+;; enable repl and fancy etc
+(slime-setup '(slime-fancy slime-repl slime-asdf slime-tramp))
+ ;; slime autocomplete
 (require 'ac-slime)
 ;; set load slime-ac on slime modes and set ac-modes to include slime
 (dolist (mode '(slime-mode slime-repl-mode))
