@@ -344,11 +344,10 @@
 ;; auto-complete
 (require 'auto-complete-config)
 (ac-config-default)
-;; don't show automatically - instead use tab to show completions
-(setq ac-delay 0)
-(setq ac-auto-show-menu nil)
-(setq ac-expand-on-auto-complete nil)
-(define-key ac-completing-map "\t" 'ac-complete)
+(setq ac-auto-start 1) ; make autostart after entering a single character
+(setq ac-auto-show-menu (+ ac-delay 0.1)) ; show menu after 100ms
+;; quick help has to be after menu so again set to 100ms more
+(setq ac-quick-help-delay (+ ac-auto-show-menu 0.1))
 
 ;; yasnippet
 (require 'yasnippet)
