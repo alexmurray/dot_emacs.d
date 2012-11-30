@@ -78,14 +78,11 @@
 (global-set-key (kbd "C-x C-m") 'compile)
 (global-set-key (kbd "C-x m") 'eshell)
 
-;; C-h is more useful as a delete substitute like readline
-(global-set-key (kbd "C-h") 'backward-delete-char)
-(global-set-key (kbd "C-c C-h") help-map)
 (global-set-key (kbd "C-M-h") 'backward-kill-word) ;; also like readline
 (global-set-key (kbd "C-c r") 'revert-buffer)
 
 ;; Help should search more than just commands
-(global-set-key (kbd "C-c C-h a") 'apropos)
+(global-set-key (kbd "C-h a") 'apropos)
 
 ;; Use regex searches and replace by default.
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
@@ -365,8 +362,6 @@
 (add-hook 'slime-mode-hook 'slime-mode-setup)
 ;; autoclose emacs even if lisp processes are running
 (setq slime-kill-without-query-p t)
-;; bind C-z to slime-selector
-(global-set-key (kbd "C-z") 'slime-selector)
 ;; enable paredit for slime modes
 (dolist (hook '(slime-mode-hook slime-repl-mode-hook))
   (add-hook hook 'enable-paredit-mode))
@@ -381,7 +376,7 @@
 
 ;; magit
 (require 'magit)
-(global-set-key (kbd "C-x C-z") 'magit-status)
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
