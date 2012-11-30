@@ -218,38 +218,6 @@
 (require 'windmove)
 (windmove-default-keybindings 'super)
 
-;; some notifications stuff - only do if can load with no error so
-;; when via ssh etc and no dbus we are still okay
-(when (require 'notifications "notifications" t)
-  ;; notify on compilation finished
-  (defun notify-compilation-finished (buffer result)
-    ;; ignore non-compilation buffers (such as grep etc)
-    (when (string-match "compilation" (buffer-name buffer))
-      (let ((title "Emacs compilation finished")
-	    (body "Success")
-	    (icon nil))
-	;; remove any newlines in result message
-	(while (string-match "\n" result)
-	  (setq result (replace-match "" t nil result)))
-	;; if looks like an error message show it with error icon
-	(unless (string-match "finished" result)
-	  (setq body result
-		icon "gtk-dialog-error"))
-	;; close notification automatically after 5 seconds
-	(let ((n (notifications-notify :title title :body body :icon icon
-				       :timeout 5000 :transient t)))
-	  (run-with-timer 5 nil #'notifications-close-notification n)))))
-  (setq compilation-finish-functions 'notify-compilation-finished)
-
-  ;; also notify when reverting a buffer if we auto-revert
-  (defun notify-buffer-reverted ()
-    ;; close notification automatically after 5 seconds
-    (let ((n (notifications-notify :title "Emacs buffer reverted"
-				   :body (buffer-name (current-buffer))
-				   :timeout 5000 :transient t)))
-      (run-with-timer 5 nil #'notifications-close-notification n)))
-  (add-hook 'after-revert-hook 'notify-buffer-reverted))
-
 ;; which-function-mode to display current defun in modeline
 (require 'which-func)
 (which-function-mode t)
@@ -351,6 +319,7 @@
 (setq yas/snippet-dirs "~/.emacs.d/snippets")
 ;; enable yasnippet globally
 (yas/global-mode 1)
+
  ;; slime
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/slime-2012-10-10"))
 (require 'slime-autoloads)
