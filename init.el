@@ -174,10 +174,34 @@
 ;; http://www.slate.com/articles/technology/technology/2011/01/space_invaders.html
 (setq sentence-end-double-space nil)
 
+(defun install-package-by-name (name)
+  (interactive "sPackage to install: ")
+  (if (require 'dbus nil t)
+      (condition-case ex
+	  (dbus-call-method :session
+			    "org.freedesktop.PackageKit"
+			    "/org/freedesktop/PackageKit"
+			    "org.freedesktop.PackageKit.Modify"
+			    "InstallPackageNames"
+			    0
+			    `(:array ,name)
+			    "hide-finished")
+	('error (format "Error trying to install package %s: %s" name ex)))))
+
 ;; use proper english - use aspell on fedora instead of default
 ;; hunspell
-(setq ispell-program-name "aspell")
-(setq ispell-dictionary "british")
+(eval-after-load "ispell"
+  (progn
+    (setq ispell-program-name "aspell"
+	  ispell-dictionary "british")
+      ;; check aspell works
+    (condition-case nil
+	(with-temp-buffer
+	  (ispell-buffer))
+      ;; file-error is raised if aspell isn't installed
+      (file-error
+       (unless (install-package-by-name "aspell-en")
+	 (message "Please install the aspell-en package for british spell checking"))))))
 
 ;; default to unified diff
 (setq diff-switches "-u")
