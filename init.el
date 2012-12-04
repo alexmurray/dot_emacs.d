@@ -375,6 +375,9 @@
 ;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+;; ensure zeitgeist support is loaded
+(require 'zeitgeist)
+
 ;; common stuff for all programming languages
 (defun common-programming-setup ()
   ;; turn on spell checking for strings and comments
