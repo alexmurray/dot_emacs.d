@@ -183,6 +183,7 @@
 			    "/org/freedesktop/PackageKit"
 			    "org.freedesktop.PackageKit.Modify"
 			    "InstallPackageNames"
+			    :timeout 1000
 			    0
 			    `(:array ,name)
 			    "hide-finished")
