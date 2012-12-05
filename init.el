@@ -7,10 +7,11 @@
 
 (defvar my-packages
   '(ac-slime ace-jump-mode android-mode auctex auto-complete autopair
-	     c-eldoc color-theme-sanityinc-solarized diminish
+	     c-eldoc color-theme-sanityinc-tomorrow diminish
 	     expand-region fuzzy ido-ubiquitous js2-mode magit
 	     multiple-cursors paredit php-mode rainbow-mode scratch
 	     smex smooth-scroll undo-tree yasnippet zeitgeist))
+
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
   (package-refresh-contents)
@@ -320,8 +321,8 @@
              (,mode-name 1)))))))
 (suspend-mode-during-cua-rect-selection 'paredit-mode)
 
-;; solarized theme
-(load-theme 'sanityinc-solarized-light t)
+;; theme
+(load-theme 'sanityinc-tomorrow-night t)
 
 ;; smex
 (setq smex-save-file (concat user-emacs-directory ".smex-items"))
