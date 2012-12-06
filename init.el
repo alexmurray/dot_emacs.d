@@ -8,9 +8,10 @@
 (defvar my-packages
   '(ac-slime ace-jump-mode android-mode auctex auto-complete autopair
 	     c-eldoc color-theme-sanityinc-tomorrow diminish
-	     expand-region fuzzy ido-ubiquitous js2-mode magit
-	     multiple-cursors paredit php-mode rainbow-mode scratch
-	     smex smooth-scroll undo-tree yasnippet zeitgeist))
+	     expand-region flycheck flymake-cursor fuzzy
+	     ido-ubiquitous js2-mode magit multiple-cursors paredit
+	     php-mode rainbow-mode scratch smex smooth-scroll
+	     undo-tree yasnippet zeitgeist))
 
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
@@ -252,6 +253,9 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor"))
 
 ;; external packages from elpa / marmalade
+
+;; flycheck - enable by default for all types it supports
+(add-hook 'find-file-hook 'flycheck-mode-on)
 
 ;; diminish
 (when (require 'diminish nil 'noerror)
