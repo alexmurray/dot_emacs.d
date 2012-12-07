@@ -14,7 +14,7 @@
 (defvar my-packages
   '(ac-slime ace-jump-mode android-mode auctex auto-complete autopair
 	     c-eldoc color-theme-sanityinc-tomorrow diminish
-	     expand-region flycheck flymake-cursor fuzzy
+	     expand-region flymake-cursor flymake-jslint fuzzy
 	     ido-ubiquitous js2-mode magit multiple-cursors paredit
 	     php-mode rainbow-mode scratch smex smooth-scroll
 	     undo-tree yasnippet zeitgeist))
@@ -235,9 +235,6 @@
 
 ;; external packages from elpa / marmalade
 
-;; flycheck - enable by default for all types it supports
-(add-hook 'find-file-hook 'flycheck-mode-on)
-
 ;; diminish
 (when (require 'diminish nil 'noerror)
   (eval-after-load "abbrev"
@@ -366,6 +363,9 @@
 ;; ensure zeitgeist support is loaded
 (require 'zeitgeist)
 
+;;; Programming Modes
+
+;; Common programming related stuff for a range of modes
 (defun common-programming-setup ()
   "Tweaks and customisations for all programming modes."
   ;; turn on spell checking for strings and comments
@@ -387,9 +387,15 @@
 		javascript-mode-hook))
   (add-hook hook 'common-programming-setup))
 
-;; use eldoc-mode for emacs-lisp
+;; Emacs Lisp - use eldoc-mode for emacs-lisp
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 
+;; Javascript
+;; On-the-fly syntax checking
+(eval-after-load 'js
+  '(add-hook 'js-mode-hook 'flymake-jslint-load))
+
+;; LaTeX
 (defun latex-mode-setup ()
   "Tweaks and customisations for LaTeX mode."
   ;; use visual line mode to do soft word wrapping
@@ -410,6 +416,7 @@
   (setq TeX-source-specials-view-start-server t))
 (add-hook 'LaTeX-mode-hook 'latex-mode-setup)
 
+;; C
 ;; show #if 0 / #endif etc regions in comment face - taken from
 ;; http://stackoverflow.com/questions/4549015/in-c-c-mode-in-emacs-change-face-of-code-in-if-0-endif-block-to-comment-fa
 (defun c-mode-font-lock-if0 (limit)
@@ -491,7 +498,7 @@ code sections."
     (global-set-key (kbd "<f7>") 'devhelp-assistant-word-at-point)))
 (add-hook 'c-mode-hook 'c-mode-setup)
 
-;; android mode
+;; Android (Java)
 (require 'android-mode)
 (setq android-mode-sdk-dir "~/android-sdk-linux/")
 ;; change prefix so doesn't conflict with comment-region
@@ -502,9 +509,10 @@ code sections."
   (add-to-list 'gud-jdb-classpath (expand-file-name "~/android-sdk-linux/platforms/android-10/android.jar")))
 (add-hook 'gud-mode-hook 'gud-mode-setup)
 
-;; setup python mode for eldoc and auto-complete with semantic
+;; Python
 (defun python-mode-setup ()
   "Tweaks and customisations for `python-mode'."
+  ;; setup python mode for eldoc and auto-complete with semantic
   (eldoc-mode)
   (add-to-list 'ac-sources 'ac-source-semantic))
 (add-hook 'python-mode-hook 'python-mode-setup)
