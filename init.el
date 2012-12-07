@@ -250,7 +250,7 @@
 (which-function-mode t)
 
 ;; for locally installed stuff
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor"))
+(add-to-list 'load-path (expand-file-name (concat user-emacs-directory "vendor")))
 
 ;; external packages from elpa / marmalade
 
@@ -329,7 +329,7 @@
 (load-theme 'sanityinc-tomorrow-night t)
 
 ;; smex
-(setq smex-save-file (concat user-emacs-directory ".smex-items"))
+(setq smex-save-file (expand-file-name (concat user-emacs-directory ".smex-items")))
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
 
@@ -346,12 +346,12 @@
 
 ;; yasnippet
 (require 'yasnippet)
-(setq yas/snippet-dirs "~/.emacs.d/snippets")
+(setq yas/snippet-dirs (expand-file-name (concat user-emacs-directory "snippets")))
 ;; enable yasnippet globally
 (yas/global-mode 1)
 
  ;; slime
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/slime-2012-10-10"))
+(add-to-list 'load-path (expand-file-name (concat user-emacs-directory "vendor/slime-2012-10-10")))
 (require 'slime-autoloads)
 (setq slime-lisp-implementations '((sbcl ("/usr/bin/sbcl"))))
 ;; autoload slime when you open a .lisp file
@@ -483,7 +483,7 @@
   (add-to-list 'ac-sources 'ac-source-semantic)
   ;; use linux kernel and hence GNOME coding style for C
   (c-set-style "linux")
-  (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/c-eldoc"))
+  (add-to-list 'load-path (expand-file-name (concat user-emacs-directory "vendor/c-eldoc")))
   (require 'c-eldoc)
   ;; turn on c-eldoc
   (c-turn-on-eldoc-mode)
