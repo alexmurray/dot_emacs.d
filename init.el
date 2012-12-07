@@ -266,17 +266,17 @@
   (eval-after-load "flyspell"
     '(diminish 'flyspell-mode))
   (eval-after-load "auto-complete"
-    '(diminish 'auto-complete-mode " α"))
+    '(diminish 'auto-complete-mode " A"))
   (eval-after-load "paredit"
-    '(diminish 'paredit-mode " π"))
+    '(diminish 'paredit-mode " P"))
   (eval-after-load "undo-tree"
-    '(diminish 'undo-tree-mode " θ"))
+    '(diminish 'undo-tree-mode " U"))
   (eval-after-load "yasnippet"
-    '(diminish 'yas-minor-mode " υ")))
+    '(diminish 'yas-minor-mode " Y")))
 
 (add-hook 'emacs-lisp-mode-hook
-  (lambda()
-    (setq mode-name "EL")))
+  (lambda ()
+    (setq mode-name "el")))
 
 ;; multiple cursors
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -463,7 +463,7 @@
   (subword-mode 1)
   (auto-fill-mode 1)
   ;; diminish auto-fill in the modeline
-  (diminish 'auto-fill-function " φ")
+  (diminish 'auto-fill-function " F")
   ;; show trailing whitespace
   (setq show-trailing-whitespace t)
   ;; turn on auto-newline and hungry-delete
