@@ -209,12 +209,11 @@
   (progn
     (setq ispell-program-name "aspell"
 	  ispell-dictionary "british")
-      ;; check aspell works
+    ;; check aspell works
     (condition-case nil
 	(with-temp-buffer
 	  (ispell-buffer))
-      ;; file-error is raised if aspell isn't installed
-      (file-error
+      (error
        (unless (pk-install-package-name "aspell-en")
 	 (message "Please install the aspell-en package for british spell checking"))))))
 
