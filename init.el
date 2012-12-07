@@ -1,3 +1,9 @@
+;;; init.el --- Starting point for Alex Murray's Emacs Configuration
+
+;;; Commentary:
+;;
+
+;;; Code:
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
@@ -98,6 +104,7 @@
 ;;  'greek small letter lambda' / utf8 cebb / unicode 03bb -> \u03BB / mule?!
 ;; in greek-iso8859-7 -> 107  >  86 ec
 (defun pretty-lambdas ()
+  "Add font-lock keywords to replace (\lambda to λ. in the current mode."
   (font-lock-add-keywords
    nil `(("(\\(\\lambda\\>\\)"
           (0 (progn (compose-region (match-beginning 1) (match-end 1)
@@ -125,6 +132,7 @@
 
 ;; a couple nice definitions taken from emacs-starter-kit
 (defun sudo-edit (&optional arg)
+  "Open the current buffer (or prompt for file if ARG is non-nill) using sudo to edit as root."
   (interactive "p")
   (if (or arg (not buffer-file-name))
       (find-file (concat "/sudo::" (ido-read-file-name "File: ")))
@@ -143,7 +151,8 @@
 
 ;; make f11 full-screen - from http://www.emacswiki.org/emacs/FullScreen
 (defvar *old-fullscreen* nil)
-(defun toggle-fullscreen (&optional f)
+(defun toggle-fullscreen ()
+  "Toggle the current frame between fullscreen and normal."
   (interactive)
   (let ((current-value (frame-parameter nil 'fullscreen)))
     (set-frame-parameter nil 'fullscreen
@@ -162,10 +171,12 @@
 
 ;; delete trailing whitespace on save - make sure we can toggle it
 (defun enable-delete-trailing-whitespace ()
+  "Delete trailing whitespace on buffer close."
   (interactive)
   (add-hook 'before-save-hook 'delete-trailing-whitespace))
 
 (defun disable-delete-trailing-whitespace ()
+  "Don't delete trailing whitespace on buffer close."
   (interactive)
   (remove-hook 'before-save-hook 'delete-trailing-whitespace))
 
@@ -176,7 +187,8 @@
 ;; http://www.slate.com/articles/technology/technology/2011/01/space_invaders.html
 (setq sentence-end-double-space nil)
 
-(defun install-package-by-name (name)
+(defun pk-install-package-name (name)
+  "Call PackageKit to install the package NAME on the current system."
   (interactive "sPackage to install: ")
   (if (require 'dbus nil t)
       (condition-case ex
@@ -203,7 +215,7 @@
 	  (ispell-buffer))
       ;; file-error is raised if aspell isn't installed
       (file-error
-       (unless (install-package-by-name "aspell-en")
+       (unless (pk-install-package-name "aspell-en")
 	 (message "Please install the aspell-en package for british spell checking"))))))
 
 ;; default to unified diff
@@ -304,12 +316,13 @@
   (add-hook hook 'enable-paredit-mode))
 
 (defun conditionally-enable-paredit-mode ()
-  "Enable paredit-mode during eval-expression"
+  "Enable function `paredit-mode' during `eval-expression'."
   (if (eq this-command 'eval-expression)
       (paredit-mode 1)))
 (add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
 
 (defun suspend-mode-during-cua-rect-selection (mode-name)
+  "Suspend mode MODE-NAME during cua-rect-selection."
   (let ((flagvar (intern (format "%s-was-active-before-cua-rectangle" mode-name)))
         (advice-name (intern (format "suspend-%s" mode-name))))
     (eval-after-load "cua-rect"
@@ -356,6 +369,7 @@
 (setq slime-lisp-implementations '((sbcl ("/usr/bin/sbcl"))))
 ;; autoload slime when you open a .lisp file
 (defun slime-mode-setup ()
+  "Setup slime mode to automatically start slime if not connected."
   (unless (slime-connected-p)
     (save-excursion (slime))))
 (add-hook 'slime-mode-hook 'slime-mode-setup)
@@ -383,8 +397,8 @@
 ;; ensure zeitgeist support is loaded
 (require 'zeitgeist)
 
-;; common stuff for all programming languages
 (defun common-programming-setup ()
+  "Tweaks and customisations for all programming modes."
   ;; turn on spell checking for strings and comments
   (flyspell-prog-mode)
   ;; workaround bug in autocomplete and flyspell
@@ -408,6 +422,7 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 
 (defun latex-mode-setup ()
+  "Tweaks and customisations for LaTeX mode."
   ;; use visual line mode to do soft word wrapping
   (visual-line-mode 1)
   ;; Enable flyspell
@@ -429,6 +444,9 @@
 ;; show #if 0 / #endif etc regions in comment face - taken from
 ;; http://stackoverflow.com/questions/4549015/in-c-c-mode-in-emacs-change-face-of-code-in-if-0-endif-block-to-comment-fa
 (defun c-mode-font-lock-if0 (limit)
+  "Fontify #if 0 / #endif as comments for c modes etc.
+Bound search to LIMIT as a buffer position to find appropriate
+code sections."
   (save-restriction
     (widen)
     (save-excursion
@@ -453,6 +471,7 @@
 
 ;; c-mode and other derived modes (c++, java etc) etc
 (defun c-mode-common-setup ()
+  "Tweaks and customisations for all modes derived from c-common-mode."
   ;; use spaces not tabs to indent
   (setq indent-tabs-mode nil)
   ;; set a reasonable fill and comment column
@@ -479,6 +498,7 @@
 
 ;; c-only modes
 (defun c-mode-setup ()
+  "Tweaks and customisations for `c-mode'."
   ;; use semantic as source for auto complete
   (add-to-list 'ac-sources 'ac-source-semantic)
   ;; use linux kernel and hence GNOME coding style for C
@@ -509,11 +529,13 @@
 (setq android-mode-key-prefix (kbd "C-c C-m"))
 ;; setup gud for debugging - http://gregorygrubbs.com/development/tips-on-android-development-using-emacs
 (defun gud-mode-setup ()
+  "Setup gud-mode for debugging during android development."
   (add-to-list 'gud-jdb-classpath (expand-file-name "~/android-sdk-linux/platforms/android-10/android.jar")))
 (add-hook 'gud-mode-hook 'gud-mode-setup)
 
 ;; setup python mode for eldoc and auto-complete with semantic
 (defun python-mode-setup ()
+  "Tweaks and customisations for `python-mode'."
   (eldoc-mode)
   (add-to-list 'ac-sources 'ac-source-semantic))
 (add-hook 'python-mode-hook 'python-mode-setup)
@@ -525,3 +547,7 @@
   (setq ropemacs-guess-project t)
   (setq ropemacs-separate-doc-buffer t)
   (setq ropemacs-enable-autoimport nil))
+
+(provide 'init)
+
+;;; init.el ends here
