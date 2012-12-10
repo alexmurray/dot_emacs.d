@@ -6,6 +6,11 @@
 
 ;;; Code:
 
+;; use gb dictionary
+(setq ispell-program-name "aspell")
+(setq ispell-dictionary "british")
+
+;; use utf8 by default
 (prefer-coding-system 'utf-8)
 
 ;; automatically reload buffer when file on disk changes
