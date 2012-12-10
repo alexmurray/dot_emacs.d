@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: modeline
+# key: modeline
+# --
+/* -*- c-indentation-style: linux; indent-tabs-mode: nil -*- */
