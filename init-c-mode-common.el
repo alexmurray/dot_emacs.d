@@ -40,7 +40,7 @@ code sections."
   ;; use spaces not tabs to indent
   (setq indent-tabs-mode nil)
   ;; set a reasonable fill and comment column
-  (setq fill-column 80)
+  (setq fill-column 78)
   (setq comment-column 70)
   ;; make CamelCase words separate subwords (ie. Camel and Case can
   ;; be operated on separately as separate words
