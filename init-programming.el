@@ -3,11 +3,15 @@
 ;; Common programming related stuff for a range of modes
 
 ;;; Commentary:
-;; 
+;;
 
 ;;; Code:
 (defun common-programming-setup ()
   "Tweaks and customisations for all programming modes."
+  ;; delete trailing whitespace by default
+  (enable-delete-trailing-whitespace)
+  ;; show trailing whitespace
+  (setq show-trailing-whitespace t)
   ;; turn on spell checking for strings and comments
   (flyspell-prog-mode)
   ;; workaround bug in autocomplete and flyspell

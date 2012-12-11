@@ -32,12 +32,6 @@
 ;; show empty lines in left fringe
 (setq indicate-empty-lines t)
 
-;; show trailing whitespace in all modes
-(require 'whitespace)
-(setq-default whitespace-style '(face trailing))
-(setq-default whitespace-line-column 80)
-(global-whitespace-mode 1)
-
 ;; sentences have single spaces, not double spaces in between them -
 ;; http://www.slate.com/articles/technology/technology/2011/01/space_invaders.html
 (setq sentence-end-double-space nil)
