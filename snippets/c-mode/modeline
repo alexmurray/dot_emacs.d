@@ -2,4 +2,4 @@
 # name: modeline
 # key: modeline
 # --
-/* -*- c-indentation-style: linux; indent-tabs-mode: nil -*- */
+/* -*- mode: C; c-indentation-style: linux; indent-tabs-mode: nil -*- */
