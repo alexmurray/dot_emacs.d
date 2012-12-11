@@ -20,16 +20,7 @@
   (font-lock-add-keywords nil
    '(("\\<\\(TODO\\|todo\\|FIXME\\|fixme\\)" 1 font-lock-warning-face t))))
 
-(dolist (hook '(c-mode-common-hook
-		lisp-mode-hook
-		emacs-lisp-mode-hook
-		python-mode-hook
-		shell-mode-hook
-		php-mode-hook
-		css-mode-hook
-		nxml-mode-hook
-		javascript-mode-hook))
-  (add-hook hook 'common-programming-setup))
+(add-hook 'prog-mode-hook 'common-programming-setup)
 
 (provide 'init-programming)
 
