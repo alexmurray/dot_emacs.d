@@ -6,9 +6,11 @@
 
 ;;; Code:
 
-;; use gb dictionary
-(setq ispell-program-name "aspell")
-(setq ispell-dictionary "british")
+;; use gb dictionary via aspell if available
+(when (executable-find "aspell")
+  (setq ispell-program-name "aspell"
+	ispell-dictionary "british"
+        ispell-extra-args '("--sug-mode=ultra")))
 
 ;; use utf8 by default
 (prefer-coding-system 'utf-8)
