@@ -20,6 +20,7 @@
 (require 'init-auto-complete)
 (require 'init-diminish)
 (require 'init-expand-region)
+(require 'init-fill-column-indicator)
 (require 'init-magit)
 (require 'init-mc)
 (require 'init-rainbow-mode)

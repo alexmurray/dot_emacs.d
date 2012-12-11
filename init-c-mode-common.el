@@ -48,8 +48,6 @@ code sections."
   (auto-fill-mode 1)
   ;; diminish auto-fill in the modeline
   (diminish 'auto-fill-function " F")
-  ;; show trailing whitespace
-  (setq show-trailing-whitespace t)
   ;; turn on auto-newline and hungry-delete
   (c-toggle-auto-hungry-state t)
   ;; set auto newline

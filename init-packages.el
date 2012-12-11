@@ -14,10 +14,10 @@
 (defvar my-packages
   '(ac-slime ace-jump-mode android-mode auctex auto-complete autopair
 	     c-eldoc color-theme-sanityinc-tomorrow diminish
-	     expand-region flymake-cursor flymake-jslint fuzzy
-	     ido-ubiquitous js2-mode magit multiple-cursors paredit
-	     php-mode rainbow-mode scratch smex smooth-scroll
-	     undo-tree yasnippet zeitgeist))
+	     expand-region fill-column-indicator flymake-cursor
+	     flymake-jslint fuzzy ido-ubiquitous js2-mode magit
+	     multiple-cursors paredit php-mode rainbow-mode scratch
+	     smex smooth-scroll undo-tree yasnippet zeitgeist))
 
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
