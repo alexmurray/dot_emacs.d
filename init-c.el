@@ -2,7 +2,7 @@
 ;; c-only modes
 
 ;;; Commentary:
-;; 
+;;
 
 ;;; Code:
 
@@ -12,6 +12,9 @@
   (add-to-list 'ac-sources 'ac-source-semantic)
   ;; use linux kernel and hence GNOME coding style for C
   (c-set-style "linux")
+  ;; and treat linux style as safe for local variable
+  (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
+  ;; use c-eldoc from vendor
   (add-to-list 'load-path (expand-file-name (concat user-emacs-directory "vendor/c-eldoc")))
   (require 'c-eldoc)
   ;; turn on c-eldoc
