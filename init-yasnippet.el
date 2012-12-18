@@ -2,13 +2,13 @@
 ;; yasnippet
 
 ;;; Commentary:
-;; 
+;;
 
 ;;; Code:
 (require 'yasnippet)
 ;; set this first so we don't get the bundled snippets loaded since
 ;; they don't generally match my desired style / indentation etc
-(setq yas/snippet-dirs (expand-file-name (concat user-emacs-directory "snippets")))
+(setq yas/snippet-dirs (expand-file-name "snippets" user-emacs-directory))
 ;; enable yasnippet globally
 (yas/global-mode 1)
 

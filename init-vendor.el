@@ -6,7 +6,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (expand-file-name (concat user-emacs-directory "vendor")))
+(add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
 
 (provide 'init-vendor)
 

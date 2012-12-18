@@ -2,11 +2,11 @@
 ;; smex
 
 ;;; Commentary:
-;; 
+;;
 
 ;;; Code:
 
-(setq smex-save-file (expand-file-name (concat user-emacs-directory ".smex-items")))
+(setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
 

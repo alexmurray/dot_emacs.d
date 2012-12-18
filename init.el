@@ -4,7 +4,7 @@
 ;;
 
 ;;; Code:
-(add-to-list 'load-path (expand-file-name user-emacs-directory))
+(add-to-list 'load-path user-emacs-directory)
 
 (require 'init-packages)
 (require 'init-misc)

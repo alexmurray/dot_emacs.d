@@ -15,7 +15,7 @@
   ;; and treat linux style as safe for local variable
   (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
   ;; use c-eldoc from vendor
-  (add-to-list 'load-path (expand-file-name (concat user-emacs-directory "vendor/c-eldoc")))
+  (add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
   (require 'c-eldoc)
   ;; turn on c-eldoc
   (c-turn-on-eldoc-mode)

@@ -2,10 +2,10 @@
  ;; slime
 ;;; Code:
 
-(add-to-list 'load-path (expand-file-name (concat user-emacs-directory "vendor/slime-2012-10-10")))
+(add-to-list 'load-path (expand-file-name "vendor/slime-2012-10-10" user-emacs-directory))
 
 ;;; Commentary:
-;; 
+;;
 
 (require 'slime-autoloads)
 (setq slime-lisp-implementations '((sbcl ("/usr/bin/sbcl"))))
