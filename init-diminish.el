@@ -13,6 +13,8 @@
   '(diminish 'eldoc-mode))
 (eval-after-load "flyspell"
   '(diminish 'flyspell-mode))
+(eval-after-load "whitespace"
+  '(diminish 'whitespace-mode))
 
 (provide 'init-diminish)
 
