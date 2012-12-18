@@ -19,6 +19,11 @@
 ;; since we store .emacs in a symlinked git repo, always follow symlinks for vc
 (setq vc-follow-symlinks t)
 
+;; Save point position between sessions
+(require 'saveplace)
+(setq-default save-place t)
+(setq save-place-file (expand-file-name ".places" user-emacs-directory))
+
 (provide 'init-misc)
 
 ;;; init-misc.el ends here
