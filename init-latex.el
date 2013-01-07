@@ -2,7 +2,7 @@
 ;; LaTeX
 
 ;;; Commentary:
-;; 
+;;
 
 ;;; Code:
 
@@ -26,7 +26,9 @@
   ;; use visual line mode to do soft word wrapping
   (visual-line-mode 1)
   ;; Enable flyspell
-  (flyspell-mode 1))
+  (flyspell-mode 1)
+  ;; use flycheck for on the fly syntax checking
+  (flycheck-mode-on))
 (add-hook 'LaTeX-mode-hook 'latex-mode-setup)
 
 (provide 'init-latex)
