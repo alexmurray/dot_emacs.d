@@ -2,9 +2,12 @@
 ;; auto-complete
 
 ;;; Commentary:
-;; 
+;;
 
 ;;; Code:
+
+(require 'auto-complete-clang)
+(setq clang-completion-suppress-error 't)
 
 (require 'auto-complete-config)
 (ac-config-default)
