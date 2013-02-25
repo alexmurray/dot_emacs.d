@@ -13,7 +13,7 @@
 
 (defvar my-packages
   '(ac-slime ace-jump-mode android-mode auctex auto-complete
-	     auto-complete-clang autopair c-eldoc
+	     auto-complete-clang autopair c-eldoc change-inner
 	     color-theme-sanityinc-tomorrow diminish
 	     expand-region fill-column-indicator flycheck
 	     fuzzy ido-ubiquitous js2-mode magit
