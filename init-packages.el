@@ -14,11 +14,12 @@
 (defvar my-packages
   '(ac-slime ace-jump-mode android-mode auctex auto-complete
 	     auto-complete-clang autopair c-eldoc change-inner
-	     color-theme-sanityinc-tomorrow diminish
-	     expand-region fill-column-indicator flycheck
-	     fuzzy ido-ubiquitous js2-mode magit
-	     multiple-cursors paredit php-mode rainbow-mode scratch
-	     smex smooth-scroll undo-tree yasnippet zeitgeist))
+	     color-theme-sanityinc-tomorrow diminish evil evil-leader
+	     evil-numbers evil-paredit evil-nerd-commenter
+	     expand-region fill-column-indicator flycheck fuzzy
+	     ido-ubiquitous js2-mode magit multiple-cursors paredit
+	     php-mode rainbow-mode scratch smex smooth-scroll
+	     undo-tree yasnippet zeitgeist))
 
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")

@@ -20,6 +20,7 @@
 (require 'init-auto-complete)
 (require 'init-change-inner)
 (require 'init-diminish)
+(require 'init-evil)
 (require 'init-expand-region)
 (require 'init-fill-column-indicator)
 (require 'init-magit)
