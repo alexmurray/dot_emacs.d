@@ -7,6 +7,7 @@
 ;;; Code:
 
 ;; use gb dictionary via aspell if available
+(require 'ispell)
 (when (executable-find "aspell")
   (setq ispell-program-name "aspell"
 	ispell-dictionary "british"
