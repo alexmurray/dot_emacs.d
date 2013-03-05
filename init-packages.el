@@ -18,9 +18,9 @@
 	     evil-numbers evil-paredit evil-nerd-commenter
 	     expand-region fill-column-indicator flycheck fuzzy
 	     git-commit-mode gitconfig-mode gitignore-mode
-	     ido-ubiquitous js2-mode magit multiple-cursors paredit
-	     php-mode rainbow-mode scratch smex smooth-scroll
-	     undo-tree yasnippet zeitgeist))
+	     git-gutter-fringe ido-ubiquitous js2-mode magit
+	     multiple-cursors paredit php-mode rainbow-mode scratch
+	     smex smooth-scroll undo-tree yasnippet zeitgeist))
 
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
