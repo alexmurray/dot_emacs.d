@@ -7,4 +7,6 @@
 /elpa
 /eshell
 /semanticdb
+/session.*
+/tramp
 /url
