@@ -18,7 +18,7 @@
 	     evil-numbers evil-paredit evil-nerd-commenter
 	     expand-region fill-column-indicator flycheck fuzzy
 	     git-commit-mode gitconfig-mode gitignore-mode
-	     git-gutter-fringe ido-ubiquitous js2-mode magit
+	     git-gutter ido-ubiquitous js2-mode magit
 	     multiple-cursors paredit php-mode rainbow-mode scratch
 	     smex smooth-scroll undo-tree yasnippet zeitgeist))
 
