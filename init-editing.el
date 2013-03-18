@@ -85,6 +85,16 @@
 	(list (region-beginning) (region-end))
       (list (line-beginning-position) (line-beginning-position 2)))))
 
+;; cycle buffers around the frames in the current window - from
+;; http://www.reddit.com/r/emacs/comments/1agkd6/function_to_cycle_your_current_buffers/
+(defun cycle-windows (&optional reverse)
+  "Cycle the windows' buffers.  If given a prefix argument, cycle in REVERSE."
+  (interactive "P")
+  (dolist (window (butlast (if reverse (reverse (window-list)) (window-list))))
+    (let ((next-window-buffer (window-buffer (next-window window 0))))
+      (set-window-buffer (next-window window 0) (window-buffer window))
+      (set-window-buffer window next-window-buffer))))
+
 ;; a couple nice definitions taken from emacs-starter-kit
 (defun sudo-edit (&optional arg)
   "Open the current buffer (or prompt for file if ARG is non-nill) using sudo to edit as root."
