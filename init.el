@@ -34,7 +34,6 @@
 (require 'init-slime)
 (require 'init-smex)
 (require 'init-yasnippet)
-(require 'init-zeitgeist)
 ;; programming languages
 (require 'init-programming)
 (require 'init-android)
