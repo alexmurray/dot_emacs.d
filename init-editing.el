@@ -114,17 +114,6 @@
           "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
           "culpa qui officia deserunt mollit anim id est laborum."))
 
-;; delete trailing whitespace on save - make sure we can toggle it
-(defun enable-delete-trailing-whitespace ()
-  "Delete trailing whitespace on buffer close."
-  (interactive)
-  (add-hook 'before-save-hook 'delete-trailing-whitespace))
-
-(defun disable-delete-trailing-whitespace ()
-  "Don't delete trailing whitespace on buffer close."
-  (interactive)
-  (remove-hook 'before-save-hook 'delete-trailing-whitespace))
-
 (provide 'init-editing)
 
 ;;; init-editing.el ends here
