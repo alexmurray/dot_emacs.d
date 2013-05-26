@@ -31,19 +31,6 @@
 ;; show colours correctly in shell
 (ansi-color-for-comint-mode-on)
 
-;; make f11 full-screen - from http://www.emacswiki.org/emacs/FullScreen
-(defvar *old-fullscreen* nil)
-(defun toggle-fullscreen ()
-  "Toggle the current frame between fullscreen and normal."
-  (interactive)
-  (let ((current-value (frame-parameter nil 'fullscreen)))
-    (set-frame-parameter nil 'fullscreen
-			 (if (equal 'fullboth current-value)
-			     *old-fullscreen*
-			   (progn (setq *old-fullscreen* current-value)
-				  'fullboth)))))
-(global-set-key (kbd "<f11>") 'toggle-fullscreen)
-
 ;; pretty lambda (see also slime) ->  "λ"
 ;;  'greek small letter lambda' / utf8 cebb / unicode 03bb -> \u03BB / mule?!
 ;; in greek-iso8859-7 -> 107  >  86 ec

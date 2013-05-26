@@ -23,6 +23,7 @@
 (require 'init-evil)
 (require 'init-expand-region)
 (require 'init-fill-column-indicator)
+(require 'init-fullscreen-mode)
 (require 'init-git-gutter)
 (require 'init-magit)
 (require 'init-mc)
