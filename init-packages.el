@@ -3,15 +3,17 @@
 ;;; Commentary:
 ;;
 
-(require 'package)
 ;;; Code:
+(require 'cl)
+(require 'package)
+
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-(defvar my-packages
+(defvar apm-packages
   '(ac-slime ace-jump-mode android-mode auctex auto-complete
 	     auto-complete-clang autopair c-eldoc
 	     color-theme-sanityinc-tomorrow diminish evil evil-leader
@@ -23,15 +25,22 @@
 	     smartparens smex smooth-scroll surround undo-tree
 	     yasnippet))
 
-(when (null package-archive-contents)
-  (message "%s" "Updating packages...")
-  (package-refresh-contents)
-  (message "%s" "done."))
+(defun apm-packages-installed-p ()
+  "Check if all packages in `apm-packages' are installed."
+  (every #'package-installed-p apm-packages))
 
-;; see if all packages are installed
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
+(defun apm-install-packages ()
+  "Install all packages listed in `apm-packages'."
+  (unless (apm-packages-installed-p)
+    ;; check for new packages (package versions)
+    (message "%s" "Emacs is now refreshing its package database...")
+    (package-refresh-contents)
+    (message "%s" " done.")
+    ;; install the missing packages
+    (mapc #'package-install
+     (remove-if #'package-installed-p apm-packages))))
+
+(apm-install-packages)
 
 (provide 'init-packages)
 
