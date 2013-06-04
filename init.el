@@ -18,7 +18,6 @@
 ;; external packages from elpa / marmalade
 (require 'init-ace-jump-mode)
 (require 'init-auto-complete)
-(require 'init-change-inner)
 (require 'init-diminish)
 (require 'init-evil)
 (require 'init-expand-region)
