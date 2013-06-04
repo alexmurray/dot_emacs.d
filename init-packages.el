@@ -20,7 +20,8 @@
 	     fullscreen-mode fuzzy git-commit-mode gitconfig-mode
 	     gitignore-mode git-gutter ido-ubiquitous js2-mode magit
 	     multiple-cursors paredit php-mode rainbow-mode scratch
-	     smartparens smex smooth-scroll undo-tree yasnippet))
+	     smartparens smex smooth-scroll surround undo-tree
+	     yasnippet))
 
 (when (null package-archive-contents)
   (message "%s" "Updating packages...")
