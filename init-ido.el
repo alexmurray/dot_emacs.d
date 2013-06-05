@@ -1,10 +1,12 @@
-;;; init-ido.el --- Initialise ido-mode
+;;; init-ido.el --- Initialise ido-mode and related packages
 ;; ido mode for opening files and switching buffers
 
 ;;; Commentary:
 ;;
 
 ;;; Code:
+(require 'ido-ubiquitous)
+(require 'flx-ido)
 
 (ido-mode t)
 (setq ido-enable-flex-matching t
@@ -18,6 +20,11 @@
 
 ;; ido-ubiquitous - is a separate package but let's initialise it here
 (ido-ubiquitous-mode t)
+
+;; also initialise flx package with ido
+(flx-ido-mode t)
+;; disable ido faces to see flx highlights
+(setq ido-use-faces nil)
 
 (provide 'init-ido)
 

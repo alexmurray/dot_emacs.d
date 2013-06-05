@@ -18,7 +18,7 @@
 	     auto-complete-clang autopair c-eldoc
 	     color-theme-sanityinc-tomorrow diminish evil evil-leader
 	     evil-numbers evil-paredit evil-nerd-commenter
-	     expand-region fill-column-indicator flycheck
+	     expand-region fill-column-indicator flycheck flx
 	     fullscreen-mode fuzzy git-commit-mode gitconfig-mode
 	     gitignore-mode git-gutter ido-ubiquitous js2-mode magit
 	     multiple-cursors paredit php-mode rainbow-mode scratch
