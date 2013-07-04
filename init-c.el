@@ -8,10 +8,6 @@
 
 (defun c-mode-setup ()
   "Tweaks and customisations for `c-mode'."
-  ;; use semantic and yasnippet as only sources for auto complete
-  ;; since abbrev and words-in-same-buffer pollute the list to much -
-  ;; semantic should pick up global etc as well so no need to use that
-  (setq ac-sources '(ac-source-semantic ac-source-yasnippet))
   ;; use Cohda style for C which is ellemtel with 2 spaces
   (c-set-style "ellemtel")
   (setq c-basic-offset 2)

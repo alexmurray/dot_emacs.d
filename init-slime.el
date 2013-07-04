@@ -24,15 +24,6 @@
 ;; enable repl and fancy etc
 (slime-setup '(slime-fancy slime-repl slime-asdf slime-tramp))
 
-;; slime autocomplete
-(eval-after-load "auto-complete"
-  '(progn
-     (require 'ac-slime)
-  ;; set load slime-ac on slime modes and set ac-modes to include slime
-     '(dolist (mode '(slime-mode slime-repl-mode))
-	(add-hook (intern (concat (symbol-name mode) "-hook")) 'set-up-slime-ac)
-	(add-to-list 'ac-modes mode))))
-
 (provide 'init-slime)
 
 ;;; init-slime.el ends here

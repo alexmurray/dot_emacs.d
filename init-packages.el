@@ -13,17 +13,14 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-(defvar apm-packages
-  '(ac-slime ace-jump-mode android-mode auctex auto-complete
-	     auto-complete-clang autopair c-eldoc
-	     color-theme-sanityinc-tomorrow diminish evil evil-leader
-	     evil-numbers evil-paredit evil-nerd-commenter
-	     expand-region fill-column-indicator flycheck flx
-	     fullscreen-mode fuzzy git-commit-mode gitconfig-mode
-	     gitignore-mode git-gutter ido-ubiquitous js2-mode magit
-	     multiple-cursors paredit php-mode rainbow-mode scratch
-	     smartparens smex smooth-scroll surround undo-tree
-	     yasnippet))
+(defvar apm-packages '(ace-jump-mode android-mode auctex autopair
+  c-eldoc color-theme-sanityinc-tomorrow company diminish evil
+  evil-leader evil-numbers evil-paredit evil-nerd-commenter
+  expand-region fill-column-indicator flycheck flx fullscreen-mode
+  fuzzy git-commit-mode gitconfig-mode gitignore-mode git-gutter
+  ido-ubiquitous js2-mode magit multiple-cursors paredit php-mode
+  rainbow-mode scratch smartparens smex smooth-scroll surround
+  undo-tree yasnippet))
 
 (defun apm-packages-installed-p ()
   "Check if all packages in `apm-packages' are installed."

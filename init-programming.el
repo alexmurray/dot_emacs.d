@@ -12,8 +12,6 @@
   (setq show-trailing-whitespace t)
   ;; turn on spell checking for strings and comments
   (flyspell-prog-mode)
-  ;; workaround bug in autocomplete and flyspell
-  (ac-flyspell-workaround)
   ;; highlight TODO and fixme so it looks scary
   (font-lock-add-keywords nil '(("\\<\\(TODO\\|todo\\|FIXME\\|fixme\\)" 1 font-lock-warning-face t)))
   ;; use flycheck for syntax checking
