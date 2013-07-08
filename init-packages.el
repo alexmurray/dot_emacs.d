@@ -13,12 +13,11 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-(defvar apm-packages '(ace-jump-mode android-mode auctex autopair
-  c-eldoc color-theme-sanityinc-tomorrow company diminish evil
-  evil-leader evil-numbers evil-paredit evil-nerd-commenter
-  expand-region fill-column-indicator flycheck flx fullscreen-mode
-  fuzzy git-commit-mode gitconfig-mode gitignore-mode git-gutter
-  ido-ubiquitous js2-mode magit multiple-cursors paredit php-mode
+(defvar apm-packages '(ace-jump-mode android-mode auctex c-eldoc
+  color-theme-sanityinc-tomorrow company diff-hl diminish evil
+  evil-leader evil-numbers expand-region flycheck flx
+  fullscreen-mode git-commit-mode gitconfig-mode gitignore-mode
+  ido-ubiquitous js2-mode magit multiple-cursors php-mode
   rainbow-mode scratch smartparens smex smooth-scroll surround
   undo-tree yasnippet))
 
