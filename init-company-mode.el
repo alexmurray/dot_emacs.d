@@ -6,6 +6,9 @@
 ;;; Code:
 (require 'company)
 
+;; enable company-mode completion faster
+(setq company-idle-delay 0.2)
+
 (add-hook 'after-init-hook 'global-company-mode)
 
 (eval-after-load "diminish"
