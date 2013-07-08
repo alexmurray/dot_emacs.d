@@ -59,6 +59,20 @@ code sections."
 
 (add-hook 'c-mode-common-hook 'c-mode-common-setup)
 
+;; use smartparens to indent new blocks correctly
+(defun apm-c-mode-common-open-block (&rest _ignored)
+  "Open a new brace or bracket expression, with relevant newlines and indent. "
+  (newline)
+  (indent-according-to-mode)
+  (previous-line)
+  (indent-according-to-mode))
+
+(eval-after-load "smartparens"
+  (dolist (mode '(c-mode c++-mode java-mode))
+    ;; use smartparens to automatically indent correctly when opening
+    ;; a new block
+    (sp-local-pair mode "{" nil :post-handlers '((apm-c-mode-common-open-block "RET")))))
+
 (provide 'init-c-mode-common)
 
 ;;; init-c-mode-common.el ends here
