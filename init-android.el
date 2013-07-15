@@ -7,7 +7,7 @@
 (require 'android-mode)
 ;;; Code:
 
-(setq android-mode-sdk-dir "~/Android/android-sdk-linux/")
+(setq android-mode-sdk-dir "/opt/android-sdk-linux/")
 ;; change prefix so doesn't conflict with comment-region
 (setq android-mode-key-prefix (kbd "C-c C-m"))
 ;; setup gud for debugging - http://gregorygrubbs.com/development/tips-on-android-development-using-emacs
