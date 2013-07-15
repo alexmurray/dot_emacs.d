@@ -11,6 +11,15 @@
 
 (add-hook 'after-init-hook 'global-company-mode)
 
+(eval-after-load "evil"
+  ;; make evil and company-mode play nicely when doing repeated
+  ;; commands in evil with .
+  '(mapc #'evil-declare-change-repeat
+	 '(company-complete-common
+	   company-select-next
+	   company-select-previous
+	   company-complete-selection)))
+
 (eval-after-load "diminish"
   '(diminish 'company-mode " C"))
 
