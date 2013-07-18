@@ -15,7 +15,7 @@
 
 (defvar apm-packages '(ace-jump-mode android-mode auctex c-eldoc
   color-theme-sanityinc-tomorrow company diff-hl diminish evil
-  evil-leader evil-numbers expand-region flycheck flx
+  evil-leader evil-numbers expand-region flycheck flx flx-ido
   fullscreen-mode git-commit-mode gitconfig-mode gitignore-mode
   ido-ubiquitous js2-mode magit multiple-cursors php-mode
   rainbow-mode scratch smartparens smex smooth-scroll surround
