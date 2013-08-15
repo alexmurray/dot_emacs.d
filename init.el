@@ -20,6 +20,7 @@
 (require 'init-company-mode)
 (require 'init-diff-hl)
 (require 'init-diminish)
+(require 'init-dsvn)
 (require 'init-evil)
 (require 'init-expand-region)
 (require 'init-magit)
