@@ -17,9 +17,9 @@
   color-theme-sanityinc-tomorrow company diff-hl diminish dsvn evil
   evil-leader evil-numbers expand-region flycheck flx flx-ido
   fullscreen-mode git-commit-mode gitconfig-mode gitignore-mode
-  ido-ubiquitous js2-mode magit multiple-cursors php-mode
-  rainbow-mode scratch smartparens smex smooth-scroll surround
-  undo-tree yasnippet))
+  ido-ubiquitous js2-mode magit multiple-cursors php-mode rainbow-mode
+  scratch shell-pop smartparens smex smooth-scroll surround undo-tree
+  yasnippet))
 
 (defun apm-packages-installed-p ()
   "Check if all packages in `apm-packages' are installed."

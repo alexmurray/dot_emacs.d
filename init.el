@@ -29,6 +29,7 @@
 (require 'init-undo-tree)
 (require 'init-uniquify)
 (require 'init-semantic)
+(require 'init-shell-pop)
 (require 'init-smartparens)
 (require 'init-smex)
 (require 'init-yasnippet)
