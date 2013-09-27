@@ -17,6 +17,7 @@
 (require 'init-vendor)
 ;; external packages from elpa / marmalade
 (require 'init-ace-jump-mode)
+(require 'init-anzu)
 (require 'init-company-mode)
 (require 'init-diff-hl)
 (require 'init-diminish)
