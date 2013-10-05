@@ -8,8 +8,9 @@
 
 (defun python-mode-setup ()
   "Tweaks and customisations for `python-mode'."
-  ;; setup python mode for eldoc
-  (eldoc-mode))
+  ;; setup python mode for eldoc and auto-complete with semantic
+  (eldoc-mode)
+  (add-to-list 'ac-sources 'ac-source-semantic))
 (add-hook 'python-mode-hook 'python-mode-setup)
 
 ;; enable pymacs / ropemacs support
