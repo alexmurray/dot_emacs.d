@@ -25,8 +25,7 @@
   (tooltip-mode -1)
   (mouse-wheel-mode t)
   (blink-cursor-mode -1)
-  ;; (set-face-attribute 'default nil :font "Ubuntu Mono 12")
-  )
+  (set-face-attribute 'default nil :font "Ubuntu Mono 12"))
 
 ;; show colours correctly in shell
 (ansi-color-for-comint-mode-on)
