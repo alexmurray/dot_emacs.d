@@ -8,6 +8,9 @@
 ;; use the default smartparens config
 (require 'smartparens-config)
 (smartparens-global-mode t)
+;; always jump out of string when hitting end "
+(setq sp-autoskip-closing-pair "always")
+(setq smartparens-strict-mode t)
 
 ;; use smartparens keybindings
 (sp-use-smartparens-bindings)
