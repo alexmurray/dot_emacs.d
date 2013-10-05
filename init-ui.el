@@ -44,6 +44,17 @@
 
 
 
+;; toggle fullscreen in X
+(defun toggle-fullscreen ()
+  "Toggle fullscreen in X."
+  (interactive)
+  (when (eq window-system 'x)
+    (set-frame-parameter
+     nil 'fullscreen
+     (when (not (frame-parameter nil 'fullscreen)) 'fullboth))))
+
+(global-set-key [f11] 'toggle-fullscreen)
+
 ;; theme
 (load-theme 'sanityinc-tomorrow-night t)
 

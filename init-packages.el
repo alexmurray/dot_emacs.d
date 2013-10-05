@@ -17,10 +17,10 @@
    auctex auto-complete auto-complete-clang c-eldoc
    color-theme-sanityinc-tomorrow diff-hl diminish dsvn evil
    evil-leader evil-numbers expand-region flycheck flx flx-ido
-   fullscreen-mode fuzzy git-commit-mode gitconfig-mode
-   gitignore-mode ido-ubiquitous js2-mode magit multiple-cursors
-   php-mode rainbow-mode scratch shell-pop smartparens smex
-   smooth-scroll surround undo-tree yasnippet))
+   fuzzy git-commit-mode gitconfig-mode gitignore-mode
+   ido-ubiquitous js2-mode magit multiple-cursors php-mode
+   rainbow-mode scratch shell-pop smartparens smex smooth-scroll
+   surround undo-tree yasnippet))
 
 (defun apm-packages-installed-p ()
   "Check if all packages in `apm-packages' are installed."
