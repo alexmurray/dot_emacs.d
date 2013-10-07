@@ -20,7 +20,7 @@
    flycheck flx flx-ido fuzzy git-commit-mode gitconfig-mode
    gitignore-mode ido-ubiquitous js2-mode magit multiple-cursors
    php-mode rainbow-mode scratch shell-pop smartparens smex
-   smooth-scroll surround undo-tree yasnippet))
+   smooth-scroll surround undo-tree yasnippet zeitgeist))
 
 (defun apm-packages-installed-p ()
   "Check if all packages in `apm-packages' are installed."
