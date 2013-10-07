@@ -12,7 +12,8 @@
     ".recentf"
     "COMMIT_EDITMSG"
     ;; TODO - we still don't seem to catch the flycheck- files events
-    "flycheck-{file}")
+    "flycheck-{file}"
+    "git-rebase-todo")
   "List of filename regex's to ignore for zeitgeist.
 
 {file} is replaced by the name of the file.")
