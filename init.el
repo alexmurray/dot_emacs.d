@@ -34,6 +34,7 @@
 (require 'init-shell-pop)
 (require 'init-smartparens)
 (require 'init-smex)
+(require 'init-tracwiki-mode)
 (require 'init-yasnippet)
 (require 'init-zeitgeist)
 ;; programming languages
