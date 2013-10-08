@@ -37,8 +37,6 @@ code sections."
 ;; c-mode and other derived modes (c++, java etc) etc
 (defun c-mode-common-setup ()
   "Tweaks and customisations for all modes derived from c-common-mode."
-  ;; use spaces not tabs to indent
-  (setq indent-tabs-mode nil)
   ;; set a reasonable fill and comment column
   (setq fill-column 78)
   (setq comment-column 70)
