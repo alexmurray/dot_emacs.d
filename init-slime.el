@@ -17,10 +17,10 @@
 (add-hook 'slime-mode-hook 'slime-mode-setup)
 ;; autoclose Emacs even if Lisp processes are running
 (setq slime-kill-without-query-p t)
-;; enable paredit for slime modes
-(eval-after-load "paredit"
+;; enable strict smartparens for slime modes
+(eval-after-load "smartparens"
   (dolist (hook '(slime-mode-hook slime-repl-mode-hook))
-    (add-hook hook 'enable-paredit-mode)))
+    (add-hook hook 'smartparens-strict-mode)))
 ;; enable repl and fancy etc
 (slime-setup '(slime-fancy slime-repl slime-asdf slime-tramp))
 
@@ -30,8 +30,8 @@
      (require 'ac-slime)
   ;; set load slime-ac on slime modes and set ac-modes to include slime
      '(dolist (mode '(slime-mode slime-repl-mode))
-	(add-hook (intern (concat (symbol-name mode) "-hook")) 'set-up-slime-ac)
-	(add-to-list 'ac-modes mode))))
+        (add-hook (intern (concat (symbol-name mode) "-hook")) 'set-up-slime-ac)
+        (add-to-list 'ac-modes mode))))
 
 (provide 'init-slime)
 

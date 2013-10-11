@@ -28,7 +28,9 @@
   ;; Enable flyspell
   (flyspell-mode 1)
   ;; use flycheck for on the fly syntax checking
-  (flycheck-mode-on))
+  (flycheck-mode-on)
+  ;; smartparens latex support
+  (require 'smartparens-latex))
 (add-hook 'LaTeX-mode-hook 'latex-mode-setup)
 
 (provide 'init-latex)
