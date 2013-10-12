@@ -21,6 +21,9 @@
      (TeX-source-specials-mode 1)
      (setq TeX-source-specials-view-start-server t)))
 
+;; load latex-extra keysas well
+(eval-after-load 'latex '(latex/setup-keybinds))
+
 (defun latex-mode-setup ()
   "Tweaks and customisations for LaTeX mode."
   ;; use visual line mode to do soft word wrapping
