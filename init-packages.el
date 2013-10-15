@@ -16,12 +16,12 @@
 (defvar apm-packages '(ac-slime ack-and-a-half ace-jump-mode
    android-mode anzu auctex auto-complete auto-complete-clang
    c-eldoc color-theme-sanityinc-tomorrow diff-hl diminish dsvn
-   ethan-wspace evil evil-leader evil-numbers expand-region
-   flycheck flx-ido fuzzy git-commit-mode gitconfig-mode
-   gitignore-mode helm ido-ubiquitous js2-mode latex-extra magit
-   multiple-cursors php-mode rainbow-mode scratch shell-pop
-   smartparens smex smooth-scroll surround undo-tree xml-rpc
-   yasnippet zeitgeist))
+   ethan-wspace evil evil-leader evil-matchit evil-numbers
+   expand-region flycheck flx-ido fuzzy git-commit-mode
+   gitconfig-mode gitignore-mode helm ido-ubiquitous js2-mode
+   latex-extra magit multiple-cursors php-mode rainbow-mode
+   scratch shell-pop smartparens smex smooth-scroll surround
+   undo-tree xml-rpc yasnippet zeitgeist))
 
 (defun apm-packages-installed-p ()
   "Check if all packages in `apm-packages' are installed."
