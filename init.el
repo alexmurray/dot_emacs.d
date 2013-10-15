@@ -29,6 +29,7 @@
 (require 'init-helm)
 (require 'init-magit)
 (require 'init-mc)
+(require 'init-projectile)
 (require 'init-rainbow-mode)
 (require 'init-undo-tree)
 (require 'init-uniquify)
