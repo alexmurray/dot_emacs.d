@@ -13,6 +13,9 @@
 	ispell-dictionary "british"
         ispell-extra-args '("--sug-mode=ultra")))
 
+;; enable narrow-to-region
+(put 'narrow-to-region 'disabled nil)
+
 ;; use utf8 by default
 (prefer-coding-system 'utf-8)
 
