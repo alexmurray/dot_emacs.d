@@ -34,6 +34,20 @@ code sections."
           (c-put-font-lock-face start (point) 'font-lock-comment-face)))))
   nil)
 
+(defun apm-gtags-create-or-update ()
+  "Create or update the GNU Global tag file."
+  (interactive)
+  (if (not (= 0 (call-process "global" nil nil nil " -p")))
+      ;; tagfile does not exist yet - prompt for where to create one
+      (let ((olddir default-directory)
+            (topdir (read-directory-name
+                     "gtags: top of source tree:" default-directory)))
+        (cd topdir)
+        (shell-command "gtags && echo 'Created GNU Global tag file'")
+        (cd olddir)) ; restore
+    ;; tagfile already exists - update it
+    (shell-command "global -u && echo 'Updated GNU Global tagfile'")))
+
 ;; c-mode and other derived modes (c++, java etc) etc
 (defun c-mode-common-setup ()
   "Tweaks and customisations for all modes derived from c-common-mode."
@@ -50,6 +64,11 @@ code sections."
   (c-toggle-auto-hungry-state t)
   ;; set auto newline
   (setq c-auto-newline 1)
+  ;; use gtags-mode (gnu global) over ctags / etags
+  (require 'gtags)
+  (gtags-mode t)
+  ;; update / create a global tags db automatically
+  (apm-gtags-create-or-update)
   ;; show #if 0 / #endif etc regions in comment face
   (font-lock-add-keywords
    nil
