@@ -50,6 +50,8 @@ and the default include guard would be __FOO_BAR_H__.")
   (setq c-basic-offset 2)
   ;; and treat linux style as safe for local variable
   (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
+  ;; use gtags-mode (gnu global) over ctags / etags
+  (gtags-mode t)
   ;; use c-eldoc from vendor
   (add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
   (require 'c-eldoc)
