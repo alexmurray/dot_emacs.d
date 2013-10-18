@@ -22,16 +22,12 @@
    ((bound-and-true-p gtags-mode) (gtags-find-tag-from-here))
    (t ad-do-it)))
 
-(dolist (mode '(bc-menu-mode
-                comint-mode
+(dolist (mode '(comint-mode
+                eshell-mode
                 inferior-emacs-lisp-mode
-                ebib-entry-mode
-                ebib-index-mode
-                ebib-log-mode
                 gtags-select-mode
                 magit-branch-manager-mode
                 pylookup-mode
-                rdictcc-buffer-mode
                 semantic-symref-results-mode
                 shell-mode
                 term-mode))
