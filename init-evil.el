@@ -24,6 +24,7 @@
                 pylookup-mode
                 semantic-symref-results-mode
                 shell-mode
+                svn-status-mode
                 term-mode))
   (evil-set-initial-state mode 'emacs))
 
