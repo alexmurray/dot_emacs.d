@@ -67,6 +67,7 @@ code sections."
   ;; use gtags-mode (gnu global) over ctags / etags
   (require 'gtags)
   (gtags-mode t)
+  (diminish 'gtags-mode " G")
   ;; update / create a global tags db automatically
   (apm-gtags-create-or-update)
   ;; show #if 0 / #endif etc regions in comment face
