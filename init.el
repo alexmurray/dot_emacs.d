@@ -9,6 +9,7 @@
 (require 'init-packages)
 (require 'init-misc)
 (require 'init-editing)
+(require 'init-gtags)
 (require 'init-ido)
 (require 'init-ui)
 (require 'init-semantic)
