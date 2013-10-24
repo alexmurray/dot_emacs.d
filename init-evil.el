@@ -53,7 +53,17 @@
 
 (evil-leader/set-key
   "ci" 'evilnc-comment-or-uncomment-lines
-  "cc" 'evilnc-comment-or-uncomment-to-the-line)
+  "cc" 'evilnc-comment-or-uncomment-to-the-line
+  "gr" 'gtags-find-rtag
+  "gy" 'gtags-find-symbol
+  "cg" 'apm-gtags-create-or-update
+  "ma" 'mc/mark-all-like-this-in-defun
+  "mw" 'mc/mark-all-words-like-this-in-defun
+  "ms" 'mc/mark-all-symbols-like-this-in-defun
+  "md" 'mc/mark-all-like-this-dwim
+  "rw" 'rotate-windows
+  "x"  'er/expand-region)
+
 
 (provide 'init-evil)
 

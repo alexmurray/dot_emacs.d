@@ -88,10 +88,10 @@
 	(list (region-beginning) (region-end))
       (list (line-beginning-position) (line-beginning-position 2)))))
 
-;; cycle buffers around the frames in the current window - from
+;; rotate buffers around the frames in the current window - from
 ;; http://www.reddit.com/r/emacs/comments/1agkd6/function_to_cycle_your_current_buffers/
-(defun cycle-windows (&optional reverse)
-  "Cycle the windows' buffers.  If given a prefix argument, cycle in REVERSE."
+(defun rotate-windows (&optional reverse)
+  "Rotate the windows' buffers.  If given a prefix argument, rotate in REVERSE."
   (interactive "P")
   (dolist (window (butlast (if reverse (reverse (window-list)) (window-list))))
     (let ((next-window-buffer (window-buffer (next-window window 0))))
