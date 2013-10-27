@@ -19,10 +19,11 @@
    ethan-wspace evil evil-leader evil-matchit evil-numbers
    evil-visualstar expand-region flycheck flx-ido fuzzy
    git-commit-mode gitconfig-mode gitignore-mode helm
-   helm-projectile ido-ubiquitous js2-mode latex-extra magit
-   multiple-cursors php-mode projectile rainbow-mode scratch
-   shell-pop smart-mode-line smartparens smex smooth-scroll
-   surround undo-tree xml-rpc yasnippet zeitgeist))
+   helm-projectile ido-vertical-mode ido-ubiquitous js2-mode
+   latex-extra magit multiple-cursors php-mode projectile
+   rainbow-mode scratch shell-pop smart-mode-line smartparens
+   smex smooth-scroll surround undo-tree xml-rpc yasnippet
+   zeitgeist))
 
 (defun apm-packages-installed-p ()
   "Check if all packages in `apm-packages' are installed."

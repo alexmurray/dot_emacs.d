@@ -26,6 +26,9 @@
 ;; disable ido faces to see flx highlights
 (setq ido-use-faces nil)
 
+;; ido-vertical-mode - is a separate package but let's initialise it here
+(ido-vertical-mode t)
+
 (provide 'init-ido)
 
 ;;; init-ido.el ends here
