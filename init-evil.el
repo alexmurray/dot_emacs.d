@@ -8,11 +8,16 @@
 (require 'evil)
 (evil-mode t)
 
+;; make cursor easier to see
+(setq evil-normal-state-cursor '("#b294bb" box))
+(setq evil-insert-state-cursor '("#de935f" bar))
+(setq evil-emacs-state-cursor '("#cc6666" box))
+
 ;; ensure can more easily distinguish current evil mode
-(setq evil-normal-state-tag (propertize "N" 'face '((:background "green" :foreground "black")))
-      evil-emacs-state-tag (propertize "E" 'face '((:background "orange" :foreground "black")))
-      evil-insert-state-tag (propertize "I" 'face '((:background "red")))
-      evil-motion-state-tag (propertize "M" 'face '((:background "blue")))
+(setq evil-normal-state-tag (propertize "N" 'face '((:background "#b294bb" :foreground "black")))
+      evil-emacs-state-tag (propertize "E" 'face '((:background "#cc6666" :foreground "black")))
+      evil-insert-state-tag (propertize "I" 'face '((:background "#de935f" :foreground "black")))
+      evil-motion-state-tag (propertize "M" 'face '((:background "#81a2be")))
       evil-visual-state-tag (propertize "V" 'face '((:background "grey80" :foreground "black")))
       evil-operator-state-tag (propertize "O" 'face '((:background "purple"))))
 
