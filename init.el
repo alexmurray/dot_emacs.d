@@ -36,6 +36,7 @@
 (require 'init-uniquify)
 (require 'init-semantic)
 (require 'init-shell-pop)
+(require 'init-smart-mode-line)
 (require 'init-smartparens)
 (require 'init-smex)
 (require 'init-tracwiki-mode)

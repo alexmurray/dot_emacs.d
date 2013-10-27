@@ -21,8 +21,8 @@
    git-commit-mode gitconfig-mode gitignore-mode helm
    helm-projectile ido-ubiquitous js2-mode latex-extra magit
    multiple-cursors php-mode projectile rainbow-mode scratch
-   shell-pop smartparens smex smooth-scroll surround undo-tree
-   xml-rpc yasnippet zeitgeist))
+   shell-pop smart-mode-line smartparens smex smooth-scroll
+   surround undo-tree xml-rpc yasnippet zeitgeist))
 
 (defun apm-packages-installed-p ()
   "Check if all packages in `apm-packages' are installed."
