@@ -10,11 +10,10 @@
 ;; remove message from initial scratch buffer
 (setq initial-scratch-message nil)
 
-;; disable tool-bar and scroll-bar, show matching parenthesis and time
+;; disable menu, tool and scroll-bars, show time
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
-(show-paren-mode 1)
 (display-time)
 ;; Show line column numbers in mode line
 (line-number-mode t)
