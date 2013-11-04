@@ -18,7 +18,7 @@
    c-eldoc color-theme-sanityinc-tomorrow diff-hl diminish dsvn
    ethan-wspace evil evil-leader evil-matchit evil-numbers
    evil-visualstar expand-region flycheck flx-ido fuzzy
-   git-commit-mode gitconfig-mode gitignore-mode gtags helm
+   git-commit-mode gitconfig-mode gitignore-mode helm
    helm-projectile ido-vertical-mode ido-ubiquitous js2-mode
    latex-extra magit multiple-cursors php-mode projectile
    rainbow-mode scratch shell-pop smart-mode-line smartparens
