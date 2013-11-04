@@ -34,26 +34,6 @@ code sections."
           (c-put-font-lock-face start (point) 'font-lock-comment-face)))))
   nil)
 
-(defun apm-gtags-create-or-update ()
-  "Create or update the GNU Global tag file."
-  (interactive)
-  (if (not (= 0 (call-process "global" nil nil nil " -p")))
-      ;; tagfile does not exist yet - prompt for where to create one
-      (let ((olddir default-directory)
-            (topdir (read-directory-name
-                     "gtags: top of source tree:" default-directory)))
-        (cd topdir)
-        (shell-command "gtags && echo 'Created GNU Global tag file'")
-        (cd olddir)) ; restore
-    ;; tagfile already exists - update it
-    (shell-command "global -u && echo 'Updated GNU Global tagfile'")))
-
-(defvar apm-gtags-ignore-paths
-  '("/usr/"
-    ".*/linux-smx6_03/"
-    ".*/2.6.28/")
-  "A list of paths to no automatically run apm-gtags-create-or-update.")
-
 ;; c-mode and other derived modes (c++, java etc) etc
 (defun c-mode-common-setup ()
   "Tweaks and customisations for all modes derived from c-common-mode."
@@ -74,10 +54,9 @@ code sections."
   (require 'gtags)
   (gtags-mode t)
   (diminish 'gtags-mode " G")
-  (let ((dir (expand-file-name default-directory)))
-    (when (cl-notany '(lambda (path) (string-match path dir)) apm-gtags-ignore-paths)
-      ;; update / create a global tags db automatically
-      (apm-gtags-create-or-update)))
+  (add-to-list 'apm-gtags-prompt-paths ".*/linux-smx6_03/")
+  (add-to-list 'apm-gtags-prompt-paths ".*/2.6.28/")
+  (apm-gtags-create-or-update)
   ;; show #if 0 / #endif etc regions in comment face
   (font-lock-add-keywords
    nil
