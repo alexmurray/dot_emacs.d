@@ -44,7 +44,8 @@ and the default include guard would be __FOO_BAR_H__.")
   ;; use semantic and yasnippet as only sources for auto complete
   ;; since abbrev and words-in-same-buffer pollute the list to much -
   ;; semantic should pick up global etc as well so no need to use that
-  (setq ac-sources '(ac-source-gtags ac-source-semantic ac-source-semantic-raw ac-source-yasnippet))
+  (setq ac-sources '(ac-source-gtags ac-source-semantic
+                     ac-source-semantic-raw ac-source-yasnippet))
   ;; use Cohda style for C which is ellemtel with 2 spaces
   (c-set-style "ellemtel")
   (setq c-basic-offset 2)

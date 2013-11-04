@@ -10,8 +10,8 @@
 (setq clang-completion-suppress-error 't)
 
 (require 'auto-complete-config)
+(global-auto-complete-mode t)
 (ac-config-default)
-(setq ac-auto-start 1) ; make autostart after entering a single character
 (setq ac-auto-show-menu (+ ac-delay 0.1)) ; show menu after 100ms
 ;; quick help has to be after menu so again set to 100ms more
 (setq ac-quick-help-delay (+ ac-auto-show-menu 0.1))
