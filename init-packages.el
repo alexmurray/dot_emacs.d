@@ -16,9 +16,9 @@
 (defvar apm-packages '(ac-slime ack-and-a-half ace-jump-mode
    android-mode anzu auctex auto-complete auto-complete-clang
    c-eldoc color-theme-sanityinc-tomorrow diff-hl diminish dsvn
-   ethan-wspace evil evil-leader evil-matchit evil-numbers
-   evil-visualstar expand-region flycheck flx-ido fuzzy
-   git-commit-mode gitconfig-mode gitignore-mode helm
+   ethan-wspace evil evil-leader evil-matchit evil-nerd-commenter
+   evil-numbers evil-visualstar expand-region flycheck flx-ido
+   fuzzy git-commit-mode gitconfig-mode gitignore-mode helm
    helm-projectile ido-vertical-mode ido-ubiquitous js2-mode
    latex-extra magit multiple-cursors php-mode projectile
    rainbow-mode scratch shell-pop smart-mode-line smartparens

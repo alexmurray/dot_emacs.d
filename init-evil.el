@@ -6,7 +6,6 @@
 
 ;;; Code:
 (require 'evil)
-(evil-mode t)
 
 ;; make cursor easier to see
 (setq evil-normal-state-cursor '("#b294bb" box))
@@ -54,11 +53,13 @@
 (setq evil-leader/leader ","
       evil-leader/in-all-states t)
 (require 'evil-leader)
-(global-evil-leader-mode)
+(global-evil-leader-mode 1)
 
 (evil-leader/set-key
-  "ci" 'evilnc-comment-or-uncomment-lines
-  "cc" 'evilnc-comment-or-uncomment-to-the-line
+  "ci" 'surround-change
+  "si" 'evilmi-select-items
+  "di" 'evilmi-delete-items
+  "cc" 'evilnc-comment-or-uncomment-lines
   "gr" 'gtags-find-rtag
   "gy" 'gtags-find-symbol
   "cg" 'apm-gtags-create-or-update
@@ -69,6 +70,9 @@
   "rw" 'rotate-windows
   "x"  'er/expand-region)
 
+;; only start at end so *Messages* and *scratch* get evil leader set
+;; etc.
+(evil-mode t)
 
 (provide 'init-evil)
 
