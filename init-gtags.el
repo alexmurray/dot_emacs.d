@@ -17,27 +17,19 @@
     ;; check is not ignored
     (when (cl-notany '(lambda (path) (string-match path dir))
                      apm-gtags-ignore-paths)
-      (when (cl-some '(lambda (path)
-                        (when (string-match path dir)
-                          (y-or-n-p "Do you want to update / create gtags? ")))
-                     apm-gtags-prompt-paths)
-        ;; update / create a global tags db automatically
-        (if (not (= 0 (call-process "global" nil nil nil " -p")))
-            ;; tagfile does not exist yet - prompt for where to create one
-            (let ((olddir default-directory)
-                  (topdir (read-directory-name
-                           "gtags: top of source tree:" default-directory)))
-              (cd topdir)
-              (shell-command "gtags && echo 'Created GNU Global tag file'")
-              (cd olddir)) ; restore
-          ;; tagfile already exists - update it
-          (shell-command "global -u && echo 'Updated GNU Global tagfile'"))))))
+      (if (not (= 0 (call-process "global" nil nil nil " -p")))
+          ;; tagfile does not exist yet - prompt for where to create one
+          (let ((olddir default-directory)
+                (topdir (read-directory-name
+                         "gtags: top of source tree:" default-directory)))
+            (cd topdir)
+            (shell-command "gtags && echo 'Created GNU Global tag file'")
+            (cd olddir)) ; restore
+        ;; tagfile already exists - update it
+        (shell-command "global -u && echo 'Updated GNU Global tagfile'")))))
 
 (defvar apm-gtags-ignore-paths '("/usr/")
   "A list of paths to not automatically run apm-gtags-create-or-update.")
-
-(defvar apm-gtags-prompt-paths nil
-  "A list of paths to prompt to run apm-gtags-create-or-update.")
 
 (provide 'init-gtags)
 

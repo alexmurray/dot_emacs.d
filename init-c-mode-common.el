@@ -54,8 +54,8 @@ code sections."
   (require 'gtags)
   (gtags-mode t)
   (diminish 'gtags-mode " G")
-  (add-to-list 'apm-gtags-prompt-paths ".*/linux-smx6_03/")
-  (add-to-list 'apm-gtags-prompt-paths ".*/2.6.28/")
+  (add-to-list 'apm-gtags-ignore-paths ".*/linux-smx6_03/")
+  (add-to-list 'apm-gtags-ignore-paths ".*/2.6.28/")
   (apm-gtags-create-or-update)
   ;; show #if 0 / #endif etc regions in comment face
   (font-lock-add-keywords
