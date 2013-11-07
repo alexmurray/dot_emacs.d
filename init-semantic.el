@@ -19,11 +19,12 @@
 
 ;; get semantic to index back to various top-level marker files
 (defvar apm-semantic-project-root-markers
- '(".git" "cohda-version" "GTAGS" "TAGS" "Makefile"))
+ '(".git" "GTAGS" "TAGS" ".svn" "Makefile"))
 
 (setq semanticdb-project-root-functions
       (mapcar #'(lambda (file)
-		  (eval `(lambda (directory) (locate-dominating-file directory ,file))))
+		  (eval `(lambda (directory)
+			   (locate-dominating-file directory ,file))))
 	      apm-semantic-project-root-markers))
 
 ;; setup for c, c++ and java
