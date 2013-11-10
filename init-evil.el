@@ -23,6 +23,7 @@
 (dolist (mode '(comint-mode
                 eshell-mode
                 inferior-emacs-lisp-mode
+                git-rebase-mode
                 gtags-select-mode
                 magit-branch-manager-mode
                 pylookup-mode
