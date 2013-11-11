@@ -56,9 +56,6 @@ and the default include guard would be __FOO_BAR_H__.")
   (require 'c-eldoc)
   ;; turn on c-eldoc
   (c-turn-on-eldoc-mode)
-  ;; add doxygen support
-  (require 'doxygen)
-  (global-set-key (kbd "C-x 4 h") 'doxygen-insert-function-comment)
   ;; enable gtk-doc helpers from gtk-doc-tools to easily
   ;; insert gtk-doc style comment declarations using C-x 4 h
   ;; (gtk-doc-insert) or C-x 4 s (gtk-doc-insert-section) to

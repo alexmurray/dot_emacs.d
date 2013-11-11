@@ -50,6 +50,9 @@ code sections."
   (c-toggle-auto-hungry-state t)
   ;; set auto newline
   (setq c-auto-newline 1)
+  ;; add doxygen support
+  (require 'doxygen)
+  (global-set-key (kbd "C-x 4 h") 'doxygen-insert-function-comment)
   ;; use gtags-mode (gnu global) over ctags / etags
   (require 'gtags)
   (gtags-mode t)
