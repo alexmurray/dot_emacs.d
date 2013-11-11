@@ -6,7 +6,9 @@
 ;;; Code:
 (require 'elpy)
 
-(elpy-enable)
+;; enable elpy but skip it initializing variables so it doesn't
+;; override auto-complete and yasnippet bits etc
+(elpy-enable t)
 (elpy-use-ipython)
 
 (provide 'init-elpy)
