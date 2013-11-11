@@ -37,6 +37,8 @@ code sections."
 ;; c-mode and other derived modes (c++, java etc) etc
 (defun c-mode-common-setup ()
   "Tweaks and customisations for all modes derived from c-common-mode."
+  (setq ac-sources '(ac-source-yasnippet ac-source-gtags
+                     ac-source-semantic ac-source-semantic-raw))
   ;; set a reasonable fill and comment column
   (setq fill-column 78)
   (setq comment-column 70)
@@ -54,6 +56,9 @@ code sections."
   (require 'doxymacs)
   (doxymacs-mode)
   (doxymacs-font-lock)
+  ;; ensure fill-paragraph takes doxygen @ markers as start of new
+  ;; paragraphs properly
+  (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
   ;; use gtags-mode (gnu global) over ctags / etags
   (require 'gtags)
   (gtags-mode t)

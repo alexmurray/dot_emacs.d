@@ -41,11 +41,6 @@ and the default include guard would be __FOO_BAR_H__.")
 
 (defun c-mode-setup ()
   "Tweaks and customisations for `c-mode'."
-  ;; use semantic and yasnippet as only sources for auto complete
-  ;; since abbrev and words-in-same-buffer pollute the list to much -
-  ;; semantic should pick up global etc as well so no need to use that
-  (setq ac-sources '(ac-source-gtags ac-source-semantic
-                     ac-source-semantic-raw ac-source-yasnippet))
   ;; use Cohda style for C which is ellemtel with 2 spaces
   (c-set-style "ellemtel")
   (setq c-basic-offset 2)
@@ -68,7 +63,10 @@ and the default include guard would be __FOO_BAR_H__.")
     ;; Bind F6 to enable the automatic assistant.
     (global-set-key (kbd "<f6>") 'devhelp-toggle-automatic-assistant)
     ;; Bind F7 to search with the assistant window.
-    (global-set-key (kbd "<f7>") 'devhelp-assistant-word-at-point)))
+    (global-set-key (kbd "<f7>") 'devhelp-assistant-word-at-point))
+  ;; ensure fill-paragraph takes doxygen @ markers as start of new
+  ;; paragraphs properly
+  (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
 (add-hook 'c-mode-hook 'c-mode-setup)
 
 (provide 'init-c)
