@@ -24,6 +24,7 @@
 (require 'init-diff-hl)
 (require 'init-diminish)
 (require 'init-dsvn)
+(require 'init-elpy)
 (require 'init-ethan-wspace)
 (require 'init-evil)
 (require 'init-expand-region)
@@ -51,7 +52,6 @@
 (require 'init-java)
 (require 'init-javascript)
 (require 'init-latex)
-(require 'init-python)
 
 (provide 'init)
 
