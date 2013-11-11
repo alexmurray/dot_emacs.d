@@ -5,6 +5,7 @@
 
 (require 'semantic)
 (require 'semantic/ia)
+(require 'semantic/bovine/c)
 (require 'semantic/bovine/gcc)
 (require 'semantic/db)
 ;;; Code:
@@ -27,14 +28,11 @@
 			   (locate-dominating-file directory ,file))))
 	      apm-semantic-project-root-markers))
 
-;; setup for c, c++ and java
-(defvar apm-semantic-modes
-  '(c-mode c++-mode java-mode))
+;; parse include headers in idle time
+(setq semantic-idle-work-update-headers-flag t)
 
-(dolist (mode apm-semantic-modes)
-  (setq-mode-local mode
-		   semanticdb-find-default-throttle
-		   '(project unloaded system recursive omniscience))
+;; setup for c, c++ and java
+(dolist (mode '(c-mode c++-mode java-mode))
   ;; enable support for gnu global - to generate a global database for a
   ;; project, something like the following works:
   ;; find . -not -iwholename "/.svn" -name *.[ch] | gtags -f -
