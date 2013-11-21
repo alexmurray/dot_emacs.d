@@ -31,13 +31,6 @@
 ;; parse include headers in idle time
 (setq semantic-idle-work-update-headers-flag t)
 
-;; setup for c, c++ and java
-(dolist (mode '(c-mode c++-mode java-mode))
-  ;; enable support for gnu global - to generate a global database for a
-  ;; project, something like the following works:
-  ;; find . -not -iwholename "/.svn" -name *.[ch] | gtags -f -
-  (semanticdb-enable-gnu-global-databases mode))
-
 (provide 'init-semantic)
 
 ;;; init-semantic.el ends here
