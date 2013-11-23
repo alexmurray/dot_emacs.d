@@ -13,7 +13,8 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-(defvar apm-packages '(ac-math
+(defvar apm-packages '(ac-ispell
+                       ac-math
                        ac-slime
                        ack-and-a-half
                        ace-jump-mode

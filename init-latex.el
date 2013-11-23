@@ -11,6 +11,7 @@
   '(progn
      (setq TeX-auto-save t)
      (setq TeX-parse-self t)
+     (setq TeX-PDF-mode t)
      (setq-default TeX-master nil)
      ;; enable math mode in latex
      (LaTeX-math-mode 1)
@@ -28,9 +29,13 @@
   ;; Enable flyspell
   (flyspell-mode 1)
   ;; use flycheck for on the fly syntax checking
-  (flycheck-mode-on)
+  (flycheck-mode t)
+  ;; use ac-ispell for auto-complete
+  (require 'ac-ispell)
+  (ac-ispell-ac-setup)
   ;; smartparens latex support
   (require 'smartparens-latex))
+
 (add-hook 'LaTeX-mode-hook 'latex-mode-setup)
 
 (provide 'init-latex)
