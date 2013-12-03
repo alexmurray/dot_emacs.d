@@ -7,20 +7,14 @@
 ;;; Code:
 
 ;; standard auctex setup
-(eval-after-load "auctex"
+(eval-after-load "latex"
   '(progn
-     (setq TeX-auto-save t)
-     (setq TeX-parse-self t)
-     (setq TeX-PDF-mode t)
+     (setq-default TeX-auto-save t)
+     (setq-default TeX-parse-self t)
+     (setq-default TeX-PDF-mode t)
      (setq-default TeX-master nil)
-     ;; enable math mode in latex
-     (LaTeX-math-mode 1)
-     ;; Enable reftex
-     (turn-on-reftex)
-     (setq reftex-plug-into-AUCTeX t)
-     ;; Enable source-specials for Control-click forward/reverse search.
-     (TeX-source-specials-mode 1)
-     (setq TeX-source-specials-view-start-server t)))
+     (setq-default reftex-plug-into-AUCTeX t)
+     (setq-default TeX-source-specials-view-start-server t)))
 
 (defun latex-mode-setup ()
   "Tweaks and customisations for LaTeX mode."
@@ -29,12 +23,18 @@
   ;; Enable flyspell
   (flyspell-mode 1)
   ;; use flycheck for on the fly syntax checking
-  (flycheck-mode t)
+  (flycheck-mode 1)
   ;; use ac-ispell for auto-complete
   (require 'ac-ispell)
   (ac-ispell-ac-setup)
   ;; smartparens latex support
-  (require 'smartparens-latex))
+  (require 'smartparens-latex)
+  ;; Enable source-specials for Control-click forward/reverse search.
+  (TeX-source-specials-mode 1)
+  ;; enable math mode in latex
+  (LaTeX-math-mode 1)
+  ;; Enable reftex
+  (turn-on-reftex))
 
 (add-hook 'LaTeX-mode-hook 'latex-mode-setup)
 
