@@ -20,6 +20,8 @@
   "Tweaks and customisations for LaTeX mode."
   ;; use visual line mode to do soft word wrapping
   (visual-line-mode 1)
+  ;; and use adaptive-wrap to 'indent' paragraphs appropriately with visual-line-mode
+  (adaptive-wrap-prefix-mode 1)
   ;; Enable flyspell
   (flyspell-mode 1)
   ;; use flycheck for on the fly syntax checking

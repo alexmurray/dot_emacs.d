@@ -18,6 +18,7 @@
                        ac-slime
                        ack-and-a-half
                        ace-jump-mode
+                       adaptive-wrap
                        android-mode
                        anzu
                        auctex
