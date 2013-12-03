@@ -62,7 +62,7 @@
 (global-set-key (kbd "C-M-%") 'query-replace)
 
 ;; better buffer list
-(global-set-key (kbd "C-x C-b%") 'bs-show)
+(global-set-key (kbd "C-x C-b") 'bs-show)
 
 ;; Jump to a definition in the current file. (This is awesome.)
 (require 'imenu)
