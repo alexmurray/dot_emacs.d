@@ -24,6 +24,8 @@
   (adaptive-wrap-prefix-mode 1)
   ;; Enable flyspell
   (flyspell-mode 1)
+  ;; give warning if words misspelled when typing
+  (ispell-minor-mode 1)
   ;; use flycheck for on the fly syntax checking
   (flycheck-mode 1)
   ;; use ac-ispell for auto-complete

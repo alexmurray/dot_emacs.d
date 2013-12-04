@@ -24,6 +24,10 @@
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
+;; save minibuffer history
+(require 'savehist)
+(savehist-mode 1)
+
 ;; use webjump to search websites quickly
 (require 'webjump)
 (global-set-key (kbd "C-x w") 'webjump)

@@ -14,10 +14,13 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
-(display-time)
+(display-time-mode 1)
 ;; Show line column numbers in mode line
-(line-number-mode t)
-(column-number-mode t)
+(line-number-mode 1)
+(column-number-mode 1)
+
+;; blink cursor
+(blink-cursor-mode 1)
 
 (when window-system
   (setq frame-title-format '(buffer-file-name "%f" ("%b")))

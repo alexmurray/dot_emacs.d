@@ -42,10 +42,9 @@ code sections."
   ;; set a reasonable fill and comment column
   (setq fill-column 78)
   (setq comment-column 70)
-  ;; make CamelCase words separate subwords (ie. Camel and Case can
-  ;; be operated on separately as separate words
-  (subword-mode 1)
   (auto-fill-mode 1)
+  ;; hide ifdef
+  (hide-ifdef-mode 1)
   ;; diminish auto-fill in the modeline
   (diminish 'auto-fill-function " F")
   ;; turn on auto-newline and hungry-delete

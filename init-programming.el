@@ -22,6 +22,12 @@
 
 (add-hook 'prog-mode-hook 'common-programming-setup)
 
+;; show suspicious c constructs automatically
+(global-cwarn-mode 1)
+;; make CamelCase words separate subwords (ie. Camel and Case can
+;; be operated on separately as separate words
+(global-subword-mode 1)
+
 (provide 'init-programming)
 
 ;;; init-programming.el ends here
