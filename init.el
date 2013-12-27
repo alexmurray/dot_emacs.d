@@ -21,6 +21,7 @@
 (require 'init-ack-and-a-half)
 (require 'init-anzu)
 (require 'init-auto-complete)
+(require 'init-butler)
 (require 'init-diff-hl)
 (require 'init-diminish)
 (require 'init-dsvn)

@@ -24,6 +24,7 @@
                        auctex
                        auto-complete
                        auto-complete-clang
+                       butler
                        c-eldoc
                        color-theme-sanityinc-tomorrow
                        diff-hl
