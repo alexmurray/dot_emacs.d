@@ -24,6 +24,10 @@
 
 ;; show suspicious c constructs automatically
 (global-cwarn-mode 1)
+;; diminish cwarn from modeline
+(eval-after-load "diminish"
+  '(diminish 'cwarn-mode))
+
 ;; make CamelCase words separate subwords (ie. Camel and Case can
 ;; be operated on separately as separate words
 (global-subword-mode 1)
