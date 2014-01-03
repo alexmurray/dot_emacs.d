@@ -24,7 +24,7 @@
 
 (eval-after-load "auto-complete"
   (eval-after-load "diminish"
-    '(diminish 'auto-complete-mode " A")))
+    '(diminish 'auto-complete-mode " AC")))
 
 (provide 'init-auto-complete)
 
