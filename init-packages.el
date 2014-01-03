@@ -19,6 +19,7 @@
                        ack-and-a-half
                        ace-jump-mode
                        adaptive-wrap
+                       afternoon-theme
                        android-mode
                        anzu
                        auctex

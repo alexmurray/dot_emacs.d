@@ -57,7 +57,7 @@
 (global-set-key [f11] 'toggle-fullscreen)
 
 ;; theme
-(load-theme 'sanityinc-tomorrow-night t)
+(load-theme 'afternoon t)
 
 (provide 'init-ui)
 
