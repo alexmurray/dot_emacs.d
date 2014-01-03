@@ -42,17 +42,20 @@ code sections."
   ;; set a reasonable fill and comment column
   (setq fill-column 78)
   (setq comment-column 70)
-  (auto-fill-mode 1)
   ;; hide ifdef
   (hide-ifdef-mode 1)
+  (eval-after-load "diminish"
+    '(diminish 'hide-ifdef-mode))
+  (auto-fill-mode 1)
   ;; diminish auto-fill in the modeline
-  (diminish 'auto-fill-function " F")
+  (eval-after-load "diminish"
+    '(diminish 'auto-fill-function))
   ;; turn on auto-newline and hungry-delete
   (c-toggle-auto-hungry-state t)
   ;; set auto newline
   (setq c-auto-newline 1)
   ;; add doxygen support via doxymacs
-  (when  (require 'doxymacs nil t)
+  (when (require 'doxymacs nil t)
     (doxymacs-mode)
     (doxymacs-font-lock))
   ;; ensure fill-paragraph takes doxygen @ markers as start of new
