@@ -57,7 +57,7 @@
 (global-set-key [f11] 'toggle-fullscreen)
 
 ;; theme
-(load-theme 'afternoon t)
+(load-theme 'zenburn t)
 
 (provide 'init-ui)
 

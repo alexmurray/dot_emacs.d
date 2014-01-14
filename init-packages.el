@@ -19,7 +19,6 @@
                        ack-and-a-half
                        ace-jump-mode
                        adaptive-wrap
-                       afternoon-theme
                        android-mode
                        anzu
                        auctex
@@ -27,7 +26,6 @@
                        auto-complete-clang
                        butler
                        c-eldoc
-                       color-theme-sanityinc-tomorrow
                        diff-hl
                        diminish
                        dsvn
@@ -66,7 +64,8 @@
                        undo-tree
                        xml-rpc
                        yasnippet
-                       zeitgeist))
+                       zeitgeist
+                       zenburn-theme))
 
 (defun apm-packages-installed-p ()
   "Check if all packages in `apm-packages' are installed."
