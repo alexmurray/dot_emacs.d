@@ -17,7 +17,7 @@
 (add-hook 'gud-mode-hook 'gud-mode-setup)
 
 (eval-after-load "diminish"
-  '(diminish 'android-mode " Andr"))
+  '(diminish 'android-mode " And"))
 
 (provide 'init-android)
 
