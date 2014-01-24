@@ -25,7 +25,7 @@
                        auto-complete
                        auto-complete-clang
                        butler
-                       c-eldoc
+                       deferred
                        diff-hl
                        diminish
                        dsvn
