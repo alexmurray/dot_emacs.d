@@ -28,9 +28,6 @@
   (ispell-minor-mode 1)
   ;; use flycheck for on the fly syntax checking
   (flycheck-mode 1)
-  ;; use ac-ispell for auto-complete
-  (require 'ac-ispell)
-  (ac-ispell-ac-setup)
   ;; smartparens latex support
   (require 'smartparens-latex)
   ;; Enable source-specials for Control-click forward/reverse search.

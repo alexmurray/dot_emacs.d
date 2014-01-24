@@ -7,7 +7,7 @@
 (require 'elpy)
 
 ;; enable elpy but skip it initializing variables so it doesn't
-;; override auto-complete and yasnippet bits etc
+;; override company and yasnippet bits etc
 (elpy-enable t)
 (elpy-use-ipython)
 

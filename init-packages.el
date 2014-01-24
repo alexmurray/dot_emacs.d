@@ -13,18 +13,14 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-(defvar apm-packages '(ac-ispell
-                       ac-math
-                       ac-slime
-                       ack-and-a-half
+(defvar apm-packages '(ack-and-a-half
                        ace-jump-mode
                        adaptive-wrap
                        android-mode
                        anzu
                        auctex
-                       auto-complete
-                       auto-complete-clang
                        butler
+                       company
                        deferred
                        diff-hl
                        diminish
