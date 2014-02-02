@@ -36,7 +36,7 @@
 ;;  'greek small letter lambda' / utf8 cebb / unicode 03bb -> \u03BB / mule?!
 ;; in greek-iso8859-7 -> 107  >  86 ec
 (defun font-lock-pretty-lambdas ()
-  "Add font-lock keywords to replace (\lambda to λ. in the current mode."
+  "Add font-lock keywords to replace (\lambda to λ in the current mode."
   (font-lock-add-keywords
    nil `(("(\\(\\lambda\\>\\)"
           (0 (progn (compose-region (match-beginning 1) (match-end 1)
@@ -57,7 +57,7 @@
 (global-set-key [f11] 'toggle-fullscreen)
 
 ;; theme
-(load-theme 'zenburn t)
+(load-theme 'solarized-light t)
 
 (provide 'init-ui)
 

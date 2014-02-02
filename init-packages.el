@@ -56,6 +56,7 @@
                        smartparens
                        smex
                        smooth-scroll
+                       solarized-theme
                        surround
                        undo-tree
                        xml-rpc
