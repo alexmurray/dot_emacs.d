@@ -9,6 +9,9 @@
 
 (add-hook 'after-init-hook 'global-company-mode)
 
+(eval-after-load "diminish"
+  '(diminish 'company-mode))
+
 (provide 'init-company)
 
 ;;; init-company.el ends here
