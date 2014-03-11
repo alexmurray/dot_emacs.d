@@ -13,6 +13,9 @@
 (define-key company-active-map (kbd "\C-d") 'company-show-doc-buffer)
 (define-key company-active-map (kbd "<tab>") 'company-complete)
 
+;; put most often used completions at stop of list
+(setq company-transformers '(company-sort-by-occurrence))
+
 ;; enable company in all buffers
 (add-hook 'after-init-hook 'global-company-mode)
 
