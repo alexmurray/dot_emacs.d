@@ -7,7 +7,9 @@
 /auto-save-list
 /elpa
 /eshell
+/history
 /projectile-bookmarks.eld
+/projectile.cache
 /semanticdb
 /session.*
 /tramp
