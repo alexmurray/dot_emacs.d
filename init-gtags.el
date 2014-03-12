@@ -4,7 +4,10 @@
 ;;
 
 ;;; Code:
-(require 'gtags)
+
+;; don't explicity require gtags as may not be installed
+(unless (require 'gtags nil t)
+  (message "gtags support not available - is GNU Global installed?"))
 
 ;; stop gtags.el stealing middle mouse click paste
 (eval-after-load 'gtags
