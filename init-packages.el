@@ -17,6 +17,7 @@
                        ace-jump-mode
                        adaptive-wrap
                        android-mode
+                       anaconda-mode
                        anzu
                        auctex
                        butler
@@ -25,7 +26,6 @@
                        diff-hl
                        diminish
                        dsvn
-                       elpy
                        ethan-wspace
                        evil
                        evil-leader

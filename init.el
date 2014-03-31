@@ -19,13 +19,13 @@
 ;; external packages from elpa / marmalade
 (require 'init-ace-jump-mode)
 (require 'init-ack-and-a-half)
+(require 'init-anaconda-mode)
 (require 'init-anzu)
 (require 'init-butler)
 (require 'init-company)
 (require 'init-diff-hl)
 (require 'init-diminish)
 (require 'init-dsvn)
-(require 'init-elpy)
 (require 'init-ethan-wspace)
 (require 'init-evil)
 (require 'init-expand-region)
@@ -57,3 +57,15 @@
 (provide 'init)
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
