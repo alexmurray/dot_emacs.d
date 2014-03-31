@@ -12,6 +12,7 @@
 (define-key company-active-map (kbd "\C-p") 'company-select-previous)
 (define-key company-active-map (kbd "\C-d") 'company-show-doc-buffer)
 (define-key company-active-map (kbd "<tab>") 'company-complete)
+(global-set-key (kbd "C-x y") 'company-yasnippet)
 
 ;; put most often used completions at stop of list
 (setq company-transformers '(company-sort-by-occurrence))
