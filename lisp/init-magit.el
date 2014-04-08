@@ -23,6 +23,9 @@
 
 (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
 
+(eval-after-load 'magit
+  '(diminish 'magit-auto-revert-mode))
+
 (provide 'init-magit)
 
 ;;; init-magit.el ends here
