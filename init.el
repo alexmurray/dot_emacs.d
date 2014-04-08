@@ -4,7 +4,9 @@
 ;;
 
 ;;; Code:
-(add-to-list 'load-path user-emacs-directory)
+
+;; custom init files live under lisp/
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 (require 'init-packages)
 (require 'init-misc)
