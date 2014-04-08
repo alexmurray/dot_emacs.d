@@ -23,7 +23,6 @@
 (require 'init-ack-and-a-half)
 (require 'init-anaconda-mode)
 (require 'init-anzu)
-(require 'init-butler)
 (require 'init-company)
 (require 'init-diff-hl)
 (require 'init-diminish)

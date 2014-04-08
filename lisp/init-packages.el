@@ -20,7 +20,6 @@
                        anaconda-mode
                        anzu
                        auctex
-                       butler
                        company
                        deferred
                        diff-hl
