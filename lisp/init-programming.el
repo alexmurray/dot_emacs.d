@@ -26,10 +26,6 @@
 (eval-after-load "diminish"
   '(diminish 'cwarn-mode))
 
-;; make CamelCase words separate subwords (ie. Camel and Case can
-;; be operated on separately as separate words
-(global-subword-mode 1)
-
 (provide 'init-programming)
 
 ;;; init-programming.el ends here
