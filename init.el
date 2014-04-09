@@ -30,6 +30,7 @@
 (require 'init-ethan-wspace)
 (require 'init-evil)
 (require 'init-expand-region)
+(require 'init-flycheck)
 (require 'init-helm)
 (require 'init-magit)
 (require 'init-mc)
