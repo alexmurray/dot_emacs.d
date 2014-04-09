@@ -34,6 +34,7 @@
                        evil-visualstar
                        expand-region
                        flycheck
+                       flycheck-pos-tip
                        flx-ido
                        fuzzy
                        git-commit-mode
