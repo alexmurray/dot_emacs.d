@@ -7,11 +7,10 @@
 ;;; Code:
 (require 'company)
 
-;; add some better keybindings for company
-(define-key company-active-map (kbd "\C-n") 'company-select-next)
-(define-key company-active-map (kbd "\C-p") 'company-select-previous)
-(define-key company-active-map (kbd "\C-d") 'company-show-doc-buffer)
-(global-set-key (kbd "C-x y") 'company-yasnippet)
+;; some better default values
+(setq company-idle-delay 0.5)
+(setq company-tooltip-limit 10)
+(setq company-minimum-prefix-length 2)
 
 ;; put most often used completions at stop of list
 (setq company-transformers '(company-sort-by-occurrence))
