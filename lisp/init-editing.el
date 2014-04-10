@@ -74,11 +74,6 @@
 ;; which-function-mode to display current defun in modeline
 (require 'which-func)
 (which-function-mode t)
-;; put which-function-mode in the header line
-(setq-default header-line-format
-              '((which-func-mode ("" which-func-format " "))))
-(setq mode-line-misc-info
-            (assq-delete-all 'which-func-mode mode-line-misc-info))
 
 ;; if no mark is active then change copy / cut to do current line
 ;; rather than nothing to easily allow copying / cutting of lines
