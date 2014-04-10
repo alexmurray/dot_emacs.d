@@ -35,6 +35,7 @@
                        expand-region
                        flycheck
                        flycheck-pos-tip
+                       flycheck-color-mode-line
                        flx-ido
                        fuzzy
                        git-commit-mode

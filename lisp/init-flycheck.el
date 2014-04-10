@@ -16,7 +16,12 @@
   '(custom-set-variables
     '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
-(eval-after-load "diminish"
+(require 'flycheck-color-mode-line)
+
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
+
+(eval-after-load 'diminish
   '(diminish 'flycheck-mode "FyC"))
 
 (provide 'init-flycheck)
