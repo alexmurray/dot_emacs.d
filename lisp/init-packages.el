@@ -52,7 +52,6 @@
                        rainbow-mode
                        scratch
                        shell-pop
-                       smart-mode-line
                        smartparens
                        smex
                        smooth-scroll
