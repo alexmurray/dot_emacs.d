@@ -16,7 +16,7 @@
   (add-to-list 'gud-jdb-classpath (expand-file-name "~/android-sdk-linux/platforms/android-10/android.jar")))
 (add-hook 'gud-mode-hook 'gud-mode-setup)
 
-(eval-after-load "diminish"
+(eval-after-load 'diminish
   '(diminish 'android-mode " And"))
 
 (provide 'init-android)

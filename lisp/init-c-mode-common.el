@@ -42,11 +42,11 @@ code sections."
   (setq comment-column 70)
   ;; hide ifdef
   (hide-ifdef-mode 1)
-  (eval-after-load "diminish"
+  (eval-after-load 'diminish
     '(diminish 'hide-ifdef-mode))
   (auto-fill-mode 1)
   ;; diminish auto-fill in the modeline
-  (eval-after-load "diminish"
+  (eval-after-load 'diminish
     '(diminish 'auto-fill-function))
   ;; turn on auto-newline and hungry-delete
   (c-toggle-auto-hungry-state t)
@@ -87,7 +87,7 @@ code sections."
   (previous-line)
   (indent-according-to-mode))
 
-(eval-after-load "smartparens"
+(eval-after-load 'smartparens
   (dolist (mode '(c-mode c++-mode java-mode))
     ;; use smartparens to automatically indent correctly when opening
     ;; a new block

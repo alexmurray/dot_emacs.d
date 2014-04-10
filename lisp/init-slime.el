@@ -18,7 +18,7 @@
 ;; autoclose Emacs even if Lisp processes are running
 (setq slime-kill-without-query-p t)
 ;; enable strict smartparens for slime modes
-(eval-after-load "smartparens"
+(eval-after-load 'smartparens
   (dolist (hook '(slime-mode-hook slime-repl-mode-hook))
     (add-hook hook 'smartparens-strict-mode)))
 ;; enable repl and fancy etc

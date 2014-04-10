@@ -19,7 +19,7 @@
 ;; enable company in all buffers
 (add-hook 'after-init-hook 'global-company-mode)
 
-(eval-after-load "diminish"
+(eval-after-load 'diminish
   '(diminish 'company-mode))
 
 (provide 'init-company)

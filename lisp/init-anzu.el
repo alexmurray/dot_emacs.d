@@ -10,7 +10,7 @@
 
 (global-anzu-mode)
 
-(eval-after-load "diminish"
+(eval-after-load 'diminish
   '(diminish 'anzu-mode))
 
 (provide 'init-anzu)

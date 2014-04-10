@@ -13,7 +13,7 @@
 ;; use projectile keybinding which includes helm-mini
 (global-set-key (kbd "C-c h") 'helm-projectile)
 
-(eval-after-load "diminish"
+(eval-after-load 'diminish
   '(diminish 'projectile-mode "Prj"))
 
 (provide 'init-projectile)

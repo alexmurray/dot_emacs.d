@@ -8,7 +8,7 @@
 
 (global-undo-tree-mode 1)
 
-(eval-after-load "diminish"
+(eval-after-load 'diminish
   '(diminish 'undo-tree-mode))
 
 (provide 'init-undo-tree)

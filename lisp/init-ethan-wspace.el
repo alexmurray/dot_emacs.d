@@ -8,7 +8,7 @@
 
 (global-ethan-wspace-mode 1)
 
-(eval-after-load "diminish"
+(eval-after-load 'diminish
   '(diminish 'ethan-wspace-mode))
 
 (provide 'init-ethan-wspace)

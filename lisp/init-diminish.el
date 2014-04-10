@@ -7,13 +7,13 @@
 (require 'diminish)
 
 ;;; Code:
-(eval-after-load "abbrev"
+(eval-after-load 'abbrev
   '(diminish 'abbrev-mode))
-(eval-after-load "eldoc"
+(eval-after-load 'eldoc
   '(diminish 'eldoc-mode))
-(eval-after-load "flyspell"
+(eval-after-load 'flyspell
   '(diminish 'flyspell-mode))
-(eval-after-load "whitespace"
+(eval-after-load 'whitespace
   '(diminish 'whitespace-mode))
 
 (provide 'init-diminish)

@@ -10,7 +10,7 @@
 (add-to-list 'auto-mode-alist '("\\.tex\\'" . LaTeX-mode))
 
 ;; standard auctex setup
-(eval-after-load "latex"
+(eval-after-load 'latex
   '(progn
      (setq-default TeX-auto-save t)
      (setq-default TeX-parse-self t)

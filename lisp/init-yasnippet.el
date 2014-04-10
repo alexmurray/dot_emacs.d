@@ -12,8 +12,8 @@
 ;; enable yasnippet globally
 (yas/global-mode 1)
 
-(eval-after-load "yasnippet"
-  '(eval-after-load "diminish"
+(eval-after-load 'yasnippet
+  '(eval-after-load 'diminish
      '(diminish 'yas-minor-mode " Y")))
 
 (provide 'init-yasnippet)

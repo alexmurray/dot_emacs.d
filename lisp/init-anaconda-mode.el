@@ -7,6 +7,7 @@
 (require 'anaconda-mode)
 
 (defun anaconda-mode-setup ()
+  "Setup anaconda-mode for python programming."
   ;; turn on anaconda-mode
   (anaconda-mode t)
   ;; integrate into eldoc
@@ -16,7 +17,7 @@
 (add-hook 'python-mode-hook 'anaconda-mode-setup)
 
 ;; enable anaconda-mode backend for company
-(eval-after-load "company"
+(eval-after-load 'company
   '(add-to-list 'company-backends 'company-anaconda))
 
 (provide 'init-anaconda-mode)
