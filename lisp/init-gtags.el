@@ -22,14 +22,27 @@
                      apm-gtags-ignore-paths)
       (if (not (= 0 (call-process "global" nil nil nil " -p")))
           ;; tagfile does not exist yet - prompt for where to create one
-          (let ((olddir default-directory)
-                (topdir (read-directory-name
-                         "gtags: top of source tree:" default-directory)))
-            (cd topdir)
-            (shell-command "gtags && echo 'Created GNU Global tag file'")
-            (cd olddir)) ; restore
+          (let* ((dir (read-directory-name
+                       "gtags: top of source tree:" default-directory))
+                 (cmd (format
+                       "cd %s && gtags && echo 'Created GNU Global tag file'"
+                       dir))
+                 (process (start-process-shell-command "gtags-create" nil
+                                                       cmd)))
+            ;; display message about creating tags file
+            (message "Creating global tags file...")
+            (set-process-sentinel process
+                                  '(lambda (process event)
+                                     (message "Finished creating global tags file: %s" event))))
         ;; tagfile already exists - update it
-        (shell-command "global -u && echo 'Updated GNU Global tagfile'")))))
+        (let ((process (start-process-shell-command "gtags-update" nil
+                                                    "global -u")))
+            ;; display message about updating tags file
+            (message "Updating global tags file...")
+            (set-process-sentinel process
+                                  '(lambda (process event)
+                                     (message "Finished updating global tags file: %s" event))
+))))))
 
 (defvar apm-gtags-ignore-paths '("/usr/")
   "A list of paths to not automatically run apm-gtags-create-or-update.")
