@@ -67,11 +67,11 @@ code sections."
   (add-to-list 'apm-gtags-ignore-paths ".*/linux-smx6_03/")
   (add-to-list 'apm-gtags-ignore-paths ".*/2.6.28/")
   (apm-gtags-create-or-update)
+
   ;; set company backends appropriately to prefer local dabbrev,
   ;; clang, gtags, semantic, yasnippet
   (eval-after-load "company"
-    '(setq company-backends '(company-dabbrev-code company-semantic company-clang
-    company-gtags company-yasnippet)))
+    '(setq company-backends '((company-semantic company-clang company-gtags company-dabbrev-code company-yasnippet))))
   ;; show #if 0 / #endif etc regions in comment face
   (font-lock-add-keywords
    nil
