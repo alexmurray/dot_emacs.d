@@ -49,6 +49,7 @@
                        magit
                        multiple-cursors
                        php-mode
+                       powerline
                        projectile
                        rainbow-mode
                        scratch
