@@ -27,6 +27,7 @@
 (require 'init-diff-hl)
 (require 'init-diminish)
 (require 'init-dsvn)
+(require 'init-exec-path-from-shell)
 (require 'init-ethan-wspace)
 (require 'init-evil)
 (require 'init-expand-region)

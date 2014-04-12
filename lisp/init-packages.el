@@ -32,6 +32,7 @@
                        evil-nerd-commenter
                        evil-numbers
                        evil-visualstar
+                       exec-path-from-shell
                        expand-region
                        flycheck
                        flycheck-pos-tip
