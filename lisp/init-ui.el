@@ -19,15 +19,20 @@
 (line-number-mode 1)
 (column-number-mode 1)
 
-;; blink cursor
-(blink-cursor-mode 1)
+(defun apm-graphic-frame-init ()
+  "Initialise properties specific to graphical display."
+  (when (display-graphic-p)
+    (setq frame-title-format '(buffer-file-name "%f" ("%b")))
+    ;; don't use gtk style tooltips so instead can use pos-tip etc
+    (custom-set-variables
+     '(x-gtk-use-system-tooltips nil))
+    (tooltip-mode -1)
+    (mouse-wheel-mode t)
+    (blink-cursor-mode -1)
+    (set-face-attribute 'default nil :font "Ubuntu Mono 12")))
 
-(when window-system
-  (setq frame-title-format '(buffer-file-name "%f" ("%b")))
-  (tooltip-mode -1)
-  (mouse-wheel-mode t)
-  (blink-cursor-mode -1)
-  (set-face-attribute 'default nil :font "Ubuntu Mono 12"))
+;; make sure graphical properties get set on client frames
+(add-hook 'server-visit-hook 'apm-graphic-frame-init)
 
 ;; show colours correctly in shell
 (ansi-color-for-comint-mode-on)
