@@ -33,10 +33,11 @@
                 term-mode))
   (evil-set-initial-state mode 'emacs))
 
-(defadvice evil-jump-to-tag (around evil-gtags-jump-to-tag activate)
-  "Make use of gtags if possible instead of etags for finding definitions."
+(defadvice evil-jump-to-tag (around apm-gtags-jump-to-tag activate)
+  "Make use of gtags / elisp-slime-nav if possible instead of etags for finding definitions."
   (cond
    ((bound-and-true-p gtags-mode) (gtags-find-tag-from-here))
+   ((bound-and-true-p elisp-slime-nav-mode) (elisp-slime-nav-find-elisp-thing-at-point (thing-at-point 'symbol)))
    (t ad-do-it)))
 
 ;; enable surround

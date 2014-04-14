@@ -25,6 +25,7 @@
                        diff-hl
                        diminish
                        dsvn
+                       elisp-slime-nav
                        ethan-wspace
                        evil
                        evil-leader

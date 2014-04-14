@@ -27,6 +27,7 @@
 (require 'init-diff-hl)
 (require 'init-diminish)
 (require 'init-dsvn)
+(require 'init-elisp-slime-nav)
 (require 'init-exec-path-from-shell)
 (require 'init-ethan-wspace)
 (require 'init-evil)
