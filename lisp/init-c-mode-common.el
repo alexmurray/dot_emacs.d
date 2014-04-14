@@ -55,7 +55,9 @@ code sections."
   ;; add doxygen support via doxymacs
   (when (require 'doxymacs nil t)
     (doxymacs-mode)
-    (doxymacs-font-lock))
+    (doxymacs-font-lock)
+    (eval-after-load 'diminish
+      '(diminish 'doxymacs-mode)))
   ;; ensure fill-paragraph takes doxygen @ markers as start of new
   ;; paragraphs properly
   (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
