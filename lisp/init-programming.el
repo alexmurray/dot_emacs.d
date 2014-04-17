@@ -8,6 +8,9 @@
 ;;; Code:
 (defun common-programming-setup ()
   "Tweaks and customisations for all programming modes."
+  ;; highlight lines longer than 80 chars with column-enforce-mode
+  (eval-after-load 'column-enforce-mode
+    (column-enforce-mode))
   ;; turn on spell checking for strings and comments
   (flyspell-prog-mode)
   ;; highlight TODO and fixme so it looks scary

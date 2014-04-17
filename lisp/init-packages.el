@@ -20,6 +20,7 @@
                        anaconda-mode
                        anzu
                        auctex
+                       column-enforce-mode
                        company
                        deferred
                        diff-hl
