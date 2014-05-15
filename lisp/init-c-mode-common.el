@@ -64,7 +64,7 @@ code sections."
   ;; use gtags-mode (gnu global) over ctags / etags
   (require 'gtags)
   (gtags-mode t)
-  (diminish 'gtags-mode " G")
+  (diminish 'gtags-mode (concat " " [#xF02C]))
   (add-to-list 'apm-gtags-ignore-paths ".*/linux-3.0.35/")
   (add-to-list 'apm-gtags-ignore-paths ".*/linux-smx6_03/")
   (add-to-list 'apm-gtags-ignore-paths ".*/2.6.28/")
