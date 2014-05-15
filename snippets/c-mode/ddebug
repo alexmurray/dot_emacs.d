@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: d_printf(D_DEBUG, NULL, "");
+# key: ddebug
+# --
+d_printf(D_DEBUG, ${1:NULL}, "$2"$3);

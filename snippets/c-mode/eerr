@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: d_error(D_ERR, NULL, "");
+# key: eerr
+# --
+d_error(D_ERR, ${1:NULL}, "$2"$3);

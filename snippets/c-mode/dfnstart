@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: d_fnstart(D_INFO, NULL, "()");
+# key: dfnstart
+# --
+d_fnstart(${1:D_INFO}, ${2:NULL}, "($3)"$4);

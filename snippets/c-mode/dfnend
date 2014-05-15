@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: d_fnend(D_INFO, NULL, "()");
+# key: dfnend
+# --
+d_fnend(${1:D_INFO}, ${2:NULL}, "($3)${4: = $5}"$6);
