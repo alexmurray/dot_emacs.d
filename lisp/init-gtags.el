@@ -41,8 +41,7 @@
             (message "Updating global tags file...")
             (set-process-sentinel process
                                   '(lambda (process event)
-                                     (message "Finished updating global tags file: %s" event))
-))))))
+                                     (message "Finished updating global tags file: %s" event))))))))
 
 (defvar apm-gtags-ignore-paths '("/usr/")
   "A list of paths to not automatically run apm-gtags-create-or-update.")

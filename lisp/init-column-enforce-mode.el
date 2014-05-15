@@ -8,6 +8,9 @@
 
 (column-enforce-mode t)
 
+(eval-after-load 'diminish
+  '(diminish 'column-enforce-mode))
+
 (provide 'init-column-enforce-mode)
 
 ;;; init-column-enforce-mode.el ends here

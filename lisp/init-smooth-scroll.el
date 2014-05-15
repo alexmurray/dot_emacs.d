@@ -9,7 +9,7 @@
 (smooth-scroll-mode)
 
 (eval-after-load 'diminish
-  '(diminish 'smooth-scrolling-mode))
+  '(diminish 'smooth-scroll-mode))
 
 (provide 'init-smooth-scroll)
 
