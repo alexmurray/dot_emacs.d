@@ -24,6 +24,7 @@
 (require 'init-anaconda-mode)
 (require 'init-anzu)
 (require 'init-company)
+(require 'init-column-enforce-mode)
 (require 'init-diff-hl)
 (require 'init-diminish)
 (require 'init-dsvn)
@@ -45,6 +46,7 @@
 (require 'init-shell-pop)
 (require 'init-smartparens)
 (require 'init-smex)
+(require 'init-smooth-scroll)
 (require 'init-trac-wiki)
 (require 'init-yasnippet)
 (require 'init-zeitgeist)
@@ -57,6 +59,7 @@
 (require 'init-java)
 (require 'init-javascript)
 (require 'init-latex)
+(require 'init-slime)
 
 (provide 'init)
 
@@ -66,7 +69,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(flycheck-display-errors-function (function flycheck-pos-tip-error-messages))
+ '(magit-use-overlays nil)
+ '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
