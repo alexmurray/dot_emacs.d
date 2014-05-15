@@ -45,9 +45,9 @@ code sections."
   (eval-after-load 'diminish
     '(diminish 'hide-ifdef-mode))
   (auto-fill-mode 1)
-  ;; diminish auto-fill in the modeline
+  ;; diminish auto-fill in the modeline to icon from fontawesome
   (eval-after-load 'diminish
-    '(diminish 'auto-fill-function))
+    '(diminish 'auto-fill-function (concat " " [#xF036])))
   ;; turn on auto-newline and hungry-delete
   (c-toggle-auto-hungry-state t)
   ;; set auto newline
@@ -64,6 +64,7 @@ code sections."
   ;; use gtags-mode (gnu global) over ctags / etags
   (require 'gtags)
   (gtags-mode t)
+  ;; diminish to tags icon from fontawesome
   (diminish 'gtags-mode (concat " " [#xF02C]))
   (add-to-list 'apm-gtags-ignore-paths ".*/linux-3.0.35/")
   (add-to-list 'apm-gtags-ignore-paths ".*/linux-smx6_03/")

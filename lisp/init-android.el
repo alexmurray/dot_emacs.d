@@ -16,8 +16,9 @@
   (add-to-list 'gud-jdb-classpath (expand-file-name "~/android-sdk-linux/platforms/android-10/android.jar")))
 (add-hook 'gud-mode-hook 'gud-mode-setup)
 
+;; diminish to android icon from fontawesome
 (eval-after-load 'diminish
-  '(diminish 'android-mode " And"))
+  '(diminish 'android-mode (concat " " [#xF17B])))
 
 (provide 'init-android)
 

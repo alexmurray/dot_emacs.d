@@ -21,8 +21,9 @@
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
 
+;; diminish to check icon from fontawesome
 (eval-after-load 'diminish
-  '(diminish 'flycheck-mode "FyC"))
+  '(diminish 'flycheck-mode (concat " " [#xF00C])))
 
 (provide 'init-flycheck)
 

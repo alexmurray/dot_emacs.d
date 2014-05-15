@@ -12,9 +12,9 @@
 ;; enable yasnippet globally
 (yas/global-mode 1)
 
-(eval-after-load 'yasnippet
-  '(eval-after-load 'diminish
-     '(diminish 'yas-minor-mode " Y")))
+;; diminish to expand icon from fontawesome
+(eval-after-load 'diminish
+  '(diminish 'yas-minor-mode (concat " " [#xF065])))
 
 (provide 'init-yasnippet)
 

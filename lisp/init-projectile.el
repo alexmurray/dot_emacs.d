@@ -13,8 +13,9 @@
 ;; use projectile keybinding which includes helm-mini
 (global-set-key (kbd "C-c h") 'helm-projectile)
 
+;; diminish to gear icon from fontawesome
 (eval-after-load 'diminish
-  '(diminish 'projectile-mode "Prj"))
+  '(diminish 'projectile-mode (concat " " [#xF013])))
 
 (provide 'init-projectile)
 
