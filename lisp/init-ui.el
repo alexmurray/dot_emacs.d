@@ -66,7 +66,7 @@
 (global-set-key [f11] 'toggle-fullscreen)
 
 ;; theme
-(load-theme 'solarized-light t)
+(load-theme 'solarized-dark t)
 
 (provide 'init-ui)
 
