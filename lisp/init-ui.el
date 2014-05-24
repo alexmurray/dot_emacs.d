@@ -19,9 +19,11 @@
 (line-number-mode 1)
 (column-number-mode 1)
 
-;; check fontawesome is available
-(unless (font-info "fontawesome")
-  (message "Please install fontawesome for modeline goodness"))
+;; check fontawesome is available but only when graphical since
+;; (font-info) errors when called under terminal
+(when (display-graphic-p)
+  (unless (font-info "fontawesome")
+    (message "Please install fontawesome for modeline goodness")))
 
 (defun apm-graphic-frame-init ()
   "Initialise properties specific to graphical display."
