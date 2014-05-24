@@ -32,6 +32,12 @@
 (require 'webjump)
 (global-set-key (kbd "C-x w") 'webjump)
 
+(defun apm-notify (msg)
+  "Notify user of MSG using desktop notification or (message)."
+  (if (not (require 'notifications nil t))
+      (message msg)
+    (notifications-notify :body msg)))
+
 (provide 'init-misc)
 
 ;;; init-misc.el ends here
