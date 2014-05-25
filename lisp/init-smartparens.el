@@ -19,6 +19,9 @@
 ;; disable pairing of ' in minibuffer
 (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
 
+(eval-after-load 'diminish
+  '(diminish 'smartparens-mode " ()"))
+
 (provide 'init-smartparens)
 
 ;;; init-smartparens.el ends here
