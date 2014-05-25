@@ -16,6 +16,11 @@
   '(custom-set-variables
     '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
+;; hide pos-tip automatically
+(eval-after-load 'pos-tip
+  '(defadvice flycheck-hide-error-buffer (after hide-pos-tip activate)
+     (pos-tip-hide)))
+
 (require 'flycheck-color-mode-line)
 
 (eval-after-load 'flycheck
