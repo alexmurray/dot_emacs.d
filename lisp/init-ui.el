@@ -34,6 +34,8 @@
 ;; make sure graphical properties get set on client frames
 (add-hook 'server-visit-hook 'apm-graphic-frame-init)
 
+(apm-graphic-frame-init)
+
 ;; show colours correctly in shell
 (ansi-color-for-comint-mode-on)
 
