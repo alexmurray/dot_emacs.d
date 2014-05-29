@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: d_dump(D_INFO, NULL, pData, Len);
+# key: ddump
+# --
+d_dump(${1:D_INFO}, ${2:NULL}, ${3:pData}, ${4:Len});
