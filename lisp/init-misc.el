@@ -7,7 +7,7 @@
 ;;; Code:
 
 (setq user-full-name "Alex Murray")
-(setq user-mail-address "murray.alex@gmail.com")
+(setq user-mail-address "alexmurray@fastmail.fm")
 
 ;; just use y or n not yes or no
 (defalias 'yes-or-no-p 'y-or-n-p)
