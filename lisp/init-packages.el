@@ -32,6 +32,7 @@
                        evil-matchit
                        evil-nerd-commenter
                        evil-numbers
+                       evil-paredit
                        evil-visualstar
                        exec-path-from-shell
                        expand-region
