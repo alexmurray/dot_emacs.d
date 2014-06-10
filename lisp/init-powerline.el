@@ -6,7 +6,8 @@
 ;;; Code:
 (require 'powerline)
 
-(powerline-default-theme)
+;; show evil state in powerline
+(powerline-center-evil-theme)
 
 (provide 'init-powerline)
 
