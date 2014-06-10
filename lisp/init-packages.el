@@ -27,6 +27,7 @@
                        elisp-slime-nav
                        ethan-wspace
                        evil
+                       evil-args
                        evil-leader
                        evil-matchit
                        evil-nerd-commenter
