@@ -34,9 +34,9 @@
 
 (defun apm-notify (msg)
   "Notify user of MSG using desktop notification or (message)."
-  (if (not (require 'notifications nil t))
-      (message msg)
-    (notifications-notify :body msg)))
+  (if (eq system-type 'gnu/linux)
+      (notifications-notify :body msg)
+    (message msg)))
 
 (provide 'init-misc)
 
