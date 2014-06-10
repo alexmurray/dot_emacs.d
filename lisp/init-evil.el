@@ -44,6 +44,7 @@
 (require 'evil-visualstar)
 
 ;; evil-leader config
+(require 'evil-leader)
 (setq evil-leader/leader ","
       evil-leader/in-all-states t)
 (require 'evil-leader)
