@@ -18,6 +18,7 @@
                 git-rebase-mode
                 gtags-select-mode
                 magit-branch-manager-mode
+                paradox-menu-mode
                 pylookup-mode
                 semantic-symref-results-mode
                 shell-mode
