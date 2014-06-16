@@ -21,8 +21,10 @@
 
 ;; ediff options to not use a second window and split properly
 (require 'ediff)
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)﻿
-(setq ediff-split-window-function 'split-window-horizontally)
+(autoload 'ediff-files "ediff")
+(autoload 'ediff-buffers "ediff")
+(setq ediff-window-setup-function 'ediff-setup-windows-plain
+      ediff-split-window-function 'split-window-horizontally)
 
 ;; Save point position between sessions
 (require 'saveplace)
