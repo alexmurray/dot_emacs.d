@@ -19,6 +19,11 @@
 ;; since we store .emacs in a symlinked git repo, always follow symlinks for vc
 (setq vc-follow-symlinks t)
 
+;; ediff options to not use a second window and split properly
+(require 'ediff)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)﻿
+(setq ediff-split-window-function 'split-window-horizontally)
+
 ;; Save point position between sessions
 (require 'saveplace)
 (setq-default save-place t)
