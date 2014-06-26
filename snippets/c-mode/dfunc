@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: static void Function(void)...
+# key: dfunc
+# --
+${14:dox}${1:static }${2:int} ${3:FunctionName}(${4:void})
+{
+  ${5:int Ret = 0}
+  d_fnstart(${6:D_INFO}, ${7:NULL}, "($8)\n"$9);
+
+  // do some stuff
+
+  d_fnend($6, $7, "($8)${10: = %d}\n"$9${11:, Ret});
+  ${12:return Ret;}
+}
