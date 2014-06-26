@@ -1,10 +1,11 @@
 # -*- mode: snippet -*-
-# name: static void Function(void)...
+# name: static int Module_Function(void)...
 # key: dfunc
 # --
-${14:dox}${1:static }${2:int} ${3:FunctionName}(${4:void})
+dox$0
+${1:static }${2:int} ${3:Module_FunctionName}(${4:void})
 {
-  ${5:int Ret = 0}
+  ${5:int Ret = 0;}
   d_fnstart(${6:D_INFO}, ${7:NULL}, "($8)\n"$9);
 
   // do some stuff

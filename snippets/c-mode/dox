@@ -4,22 +4,23 @@
 # type: command
 # contributor: Jonathan Kotta <jpkotta@gmail.com>
 # --
-(let* ((next-func-alist (doxymacs-find-next-func))
-       (func-name (cdr (assoc 'func next-func-alist)))
-       (params-list (cdr (assoc 'args next-func-alist)))
-       (return-name (cdr (assoc 'return next-func-alist)))
-       (snippet-text "")
-       (idx 1))
-  (setq snippet-text (format "/**\n * @brief ${1:%s}\n" func-name))
-  (setq idx 2)
-  (dolist (param params-list)
-    (unless (string= param "this")
+(when (require 'doxymacs nil t)
+  (let* ((next-func-alist (doxymacs-find-next-func))
+         (func-name (cdr (assoc 'func next-func-alist)))
+         (params-list (cdr (assoc 'args next-func-alist)))
+         (return-name (cdr (assoc 'return next-func-alist)))
+         (snippet-text "")
+         (idx 1))
+    (setq snippet-text (format "/**\n * @brief ${1:%s}\n" func-name))
+    (setq idx 2)
+    (dolist (param params-list)
+      (unless (string= param "this")
+        (setq snippet-text (concat snippet-text
+                                   (format " * @param %s ${%d:Description of %s parameter}\n" param idx param)))
+        (setq idx (+ 1 idx))))
+    (when (and return-name (not (string= return-name "void")))
       (setq snippet-text (concat snippet-text
-                                 (format " * @param %s ${%d:Description of %s parameter}\n" param idx param)))
-      (setq idx (+ 1 idx))))
-  (when (and return-name (not (string= return-name "void")))
+                                 (format " * @return ${%d:%s}\n" idx return-name))))
     (setq snippet-text (concat snippet-text
-                               (format " * @return ${%d:%s}\n" idx return-name))))
-  (setq snippet-text (concat snippet-text
-                             (format " *\n * ${%d:Long description}\n */" (+ 1 idx))))
-  (yas/expand-snippet snippet-text))
+                               (format " *\n * ${%d:Long description}\n */" (+ 1 idx))))
+  (yas/expand-snippet snippet-text)))
