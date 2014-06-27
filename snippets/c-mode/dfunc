@@ -5,11 +5,11 @@
 dox$0
 ${1:static }${2:int} ${3:Module_FunctionName}(${4:void})
 {
-  ${5:int Ret = 0;}
-  d_fnstart(${6:D_INFO}, ${7:NULL}, "($8)\n"$9);
+  ${5:${2:$(unless (string= yas-text "void") (concatenate 'string yas-text " Ret = 0;"))}}
+  d_fnstart(${6:D_INFO}, ${7:NULL}, "($8)\n"${4:$(mapconcat 'identity (append '("") (apm-c-get-function-param-names yas-text)) ", ")});
 
   // do some stuff
 
-  d_fnend($6, $7, "($8)${10: = %d}\n"$9${11:, Ret});
-  ${12:return Ret;}
+  d_fnend($6, $7, "($8)${10: = %d}\n"${4:$(mapconcat 'identity (append '("") (apm-c-get-function-param-names yas-text)) ", ")}${5:$(let ((name (apm-c-get-variable-name-from-declaration yas-text))) (when name (concatenate 'string ", " name)))});
+  ${5:$(let ((name (apm-c-get-variable-name-from-declaration yas-text))) (when name (concatenate 'string "return " name ";")))}
 }

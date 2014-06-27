@@ -6,6 +6,56 @@
 
 ;;; Code:
 
+;; useful functions for parsing out c function type arguments used in
+;; c snippets for yasnippet
+(defun apm-c-get-function-param-names (param-string)
+  "Return a list of the parameter names from PARAM-STRING."
+  (let ((names nil))
+    (unless (string= param-string "void")
+      ;; split into individual parameter groups
+      (dolist (param (split-string param-string ","))
+        (let ((tokens (split-string param " ")))
+          ;; now find name of parameter as last element in each group with
+          ;; any leading * removed
+          (setq names (append names (list (replace-regexp-in-string "\\*" "" (car (last tokens))))))))
+      names)))
+
+(defun apm-c-get-variable-name-from-declaration (decl-string)
+  "Return the name of the variable declared in DECL-STRING."
+  (let ((name nil)
+	(prev nil))
+    (dolist (token (split-string decl-string " "))
+      ;; keep track of prev token and current - if current is = then
+      ;; prev must be variable name - or if token ends in ; or , then
+      ;; this must be the variable name
+      (when (string= token "=")
+	(setq name prev))
+      (when (and (null name)
+		 (not (string= token ""))
+		 (or (string= ";" (substring token -1 nil))
+		     (string= "," (substring token -1 nil))))
+	(setq name (substring token 0 -1)))
+      (setq prev token))
+    ;; remove any * from name before returning
+    (when name
+      (replace-regexp-in-string "\\*" "" name))))
+
+(defun apm-c-get-variable-type-from-declaration (decl-string)
+  "Return the type of the variable declared in DECL-STRING."
+  (let ((name (apm-c-get-variable-name-from-declaration decl-string))
+	(type nil)
+	(done nil))
+    (dolist (token (split-string decl-string " "))
+      (unless done
+	(if (string= (replace-regexp-in-string "\\*" "" token) name)
+	    (progn
+	      (while (string= (substring token 0 1) "*")
+		(concatenate 'string type "*")
+		(setq token (substring token 1 nil)))
+	      (setq done t))
+	  (setq type (concatenate 'string type token)))))
+    type))
+
 (defvar include-guard-format "__%s__"
   "Format string for include guard.
 %s replaced by uppercase of filename with - and . replaced by _
