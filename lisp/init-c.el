@@ -11,6 +11,8 @@
   (cond ((or (null type)
              (string= type ""))
          nil)
+        ((string-match "^[[:space:]]*char \\*[[:space:]]*$" type)
+         "%s")
         ((string-match "\\*" type)
          "%p")
         ((cl-some #'(lambda (r) (string-match r type))
