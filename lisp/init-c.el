@@ -9,21 +9,21 @@
 (defun apm-c-type-to-format (type)
   "Return a printf format directive for TYPE."
   (cond ((or (null type)
-	     (string= type ""))
-	 nil)
-	((string-match "\\*" type)
-	 "%p")
-	((cl-some #'(lambda (r) (string-match r type))
-		 '("u\\(char\\|int\\|long\\)" "unsigned"))
-	 "%u")
-	((cl-some #'(lambda (r) (string-match r type))
-		 '("\\(char\\|int\\|long\\)"))
-	 "%d")
-	((cl-some #'(lambda (r) (string-match r type))
-		 '("\\(float\\|double\\)"))
-	 "%f")
-	;; use an invalid printf directive if none found
-	(t "%?")))
+             (string= type ""))
+         nil)
+        ((string-match "\\*" type)
+         "%p")
+        ((cl-some #'(lambda (r) (string-match r type))
+                 '("u\\(char\\|int\\|long\\)" "unsigned"))
+         "%u")
+        ((cl-some #'(lambda (r) (string-match r type))
+                 '("\\(char\\|int\\|long\\)"))
+         "%d")
+        ((cl-some #'(lambda (r) (string-match r type))
+                 '("\\(float\\|double\\)"))
+         "%f")
+        ;; use an invalid printf directive if none found
+        (t "%?")))
 
 (defvar apm-c-variable-decl-regex
   "\\([[:alpha:][:space:]\\*_]+[[:space:]\\*]+\\)\\([[:alpha:]_][[:alnum:]_]*\\)")
@@ -34,19 +34,19 @@
   "Return a list of the parameter names from PARAM-STRING.
 PARAM-STRING should be as <typename> <variable>,..."
   (unless (or (string= param-string "")
-	      (string= param-string "void"))
+              (string= param-string "void"))
     ;; get variable name from individual parameter groups
     (mapcar 'apm-c-get-variable-name-from-declaration
-	    (split-string param-string ","))))
+            (split-string param-string ","))))
 
 (defun apm-c-get-function-param-types (param-string)
   "Return a list of the parameter types from PARAM-STRING.
 PARAM-STRING should be as <typename> <variable>,..."
   (unless (or (string= param-string "")
-	      (string= param-string "void"))
+              (string= param-string "void"))
     ;; get variable type from individual parameter groups
     (mapcar 'apm-c-get-variable-type-from-declaration
-	    (split-string param-string ","))))
+            (split-string param-string ","))))
 
 (defun apm-c-get-function-param-formats (param-string)
   "Return a list of the parameter printf formats from PARAM-STRING.
@@ -84,19 +84,19 @@ and the default include guard would be __FOO_BAR_H__.")
   (let ((filename (buffer-file-name (current-buffer))))
     (when (string= ".h" (substring filename -2))
       (let ((include-guard (include-guard-for-filename filename)))
-	(insert "#ifndef " include-guard)
-	(newline)
-	(insert "#define " include-guard)
-	(newline 4)
-	(insert "#endif")
-	(newline)
-	(forward-line -3)
-	(set-buffer-modified-p nil)))))
+        (insert "#ifndef " include-guard)
+        (newline)
+        (insert "#define " include-guard)
+        (newline 4)
+        (insert "#endif")
+        (newline)
+        (forward-line -3)
+        (set-buffer-modified-p nil)))))
 
 ;; when creating a new .h file automatically insert an appropriate
 ;; include gaurd
 (add-hook 'find-file-not-found-hooks
-	  'add-include-guard-if-header-file)
+          'add-include-guard-if-header-file)
 
 (defun c-mode-setup ()
   "Tweaks and customisations for `c-mode'."
