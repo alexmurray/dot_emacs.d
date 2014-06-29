@@ -2,13 +2,17 @@
 # name: static int Module_Function(void)...
 # key: dfunc
 # --
-dox$0
+/**
+ * @brief ${11:$3}${12:${4:$(mapconcat 'identity (append '("") (mapcar #'(lambda (x) (concatenate 'string x " Describe " x)) (apm-c-get-function-param-names yas-text))) "
+ * @param ")}}${13:${2:$(let ((type yas-text)) (unless (string= yas-text "void") (concatenate 'string "
+ * @return " yas-text)))}}
+ */
 ${1:static }${2:int} ${3:Module_FunctionName}(${4:void})
 {
   ${5:${2:$(unless (string= yas-text "void") (concatenate 'string yas-text " Ret = 0;"))}}
   d_fnstart(${6:D_INFO}, ${7:NULL}, "(${8:${4:$(mapconcat 'identity (apm-c-get-function-param-formats yas-text) ", ")}})\n"${4:$(mapconcat 'identity (append '("") (apm-c-get-function-param-names yas-text)) ", ")});
 
-  // do some stuff
+  // do some stuff$0
 
   d_fnend($6, $7, "($8)${10:${5:$(let ((fmt (apm-c-type-to-format (apm-c-get-variable-type-from-declaration yas-text)))) (if fmt (concatenate 'string " = " fmt) ""))}}\n"${4:$(mapconcat 'identity (append '("") (apm-c-get-function-param-names yas-text)) ", ")}${5:$(let ((name (apm-c-get-variable-name-from-declaration yas-text))) (when name (concatenate 'string ", " name)))});
   ${5:$(let ((name (apm-c-get-variable-name-from-declaration yas-text))) (when name (concatenate 'string "return " name ";")))}
