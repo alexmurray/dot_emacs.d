@@ -57,13 +57,13 @@ PARAM-STRING should be as <typename> <variable>,..."
   "Return the name of the variable declared in DECL-STRING."
   (if (string-match apm-c-variable-decl-regex decl-string)
       (match-string 2 decl-string)
-    ""))
+    nil))
 
 (defun apm-c-get-variable-type-from-declaration (decl-string)
   "Return the type of the variable declared in DECL-STRING."
   (if (string-match apm-c-variable-decl-regex decl-string)
       (match-string 1 decl-string)
-    ""))
+    nil))
 
 (defvar include-guard-format "__%s__"
   "Format string for include guard.
