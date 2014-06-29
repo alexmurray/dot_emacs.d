@@ -28,13 +28,15 @@
 (defvar apm-c-variable-decl-regex
   "\\([[:alpha:][:space:]\\*_]+[[:space:]\\*]+\\)\\([[:alpha:]_][[:alnum:]_]*\\)")
 
+(defvar apm-c-void-regex
+  "^\\([[:space:]]*\\(void\\)?[[:space:]]*\\)$")
+
 ;; useful functions for parsing out c function type arguments used in
 ;; c snippets for yasnippet
 (defun apm-c-get-function-param-names (param-string)
   "Return a list of the parameter names from PARAM-STRING.
 PARAM-STRING should be as <typename> <variable>,..."
-  (unless (or (string= param-string "")
-              (string= param-string "void"))
+  (unless (string-match apm-c-void-regex param-string)
     ;; get variable name from individual parameter groups
     (mapcar 'apm-c-get-variable-name-from-declaration
             (split-string param-string ","))))
@@ -42,8 +44,7 @@ PARAM-STRING should be as <typename> <variable>,..."
 (defun apm-c-get-function-param-types (param-string)
   "Return a list of the parameter types from PARAM-STRING.
 PARAM-STRING should be as <typename> <variable>,..."
-  (unless (or (string= param-string "")
-              (string= param-string "void"))
+  (unless (string-match apm-c-void-regex param-string)
     ;; get variable type from individual parameter groups
     (mapcar 'apm-c-get-variable-type-from-declaration
             (split-string param-string ","))))
