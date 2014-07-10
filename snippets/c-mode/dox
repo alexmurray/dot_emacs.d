@@ -18,9 +18,9 @@
         (setq snippet-text (concat snippet-text
                                    (format " * @param %s ${%d:Description of %s parameter}\n" param idx param)))
         (setq idx (+ 1 idx))))
-    (when (and return-name (not (string= return-name "void")))
+    (when (and return-name (not (string-match apm-c-void-regex return-name)))
       (setq snippet-text (concat snippet-text
                                  (format " * @return ${%d:%s}\n" idx return-name))))
     (setq snippet-text (concat snippet-text
-                               (format " *\n * ${%d:Long description}\n */" (+ 1 idx))))
+                               (format " *${%d:\n * Long description}\n */" (+ 1 idx))))
   (yas/expand-snippet snippet-text)))
