@@ -82,6 +82,13 @@
 ;; bind evil-jump-out-args
 (define-key evil-normal-state-map "K" 'evil-jump-out-args)
 
+;; evil-jumper to provide C-i / C-o buffer boundaries
+(require 'evil-jumper)
+
+;; evil-space to repeat last motion using space key (like .)
+(require 'evil-space)
+(evil-space-default-setup)
+
 ;; only start at end so *Messages* and *scratch* get evil leader set
 ;; etc.
 (evil-mode t)

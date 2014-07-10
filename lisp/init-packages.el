@@ -29,11 +29,13 @@
                        ethan-wspace
                        evil
                        evil-args
+                       evil-jumper
                        evil-leader
                        evil-matchit
                        evil-nerd-commenter
                        evil-numbers
                        evil-paredit
+                       evil-space
                        evil-visualstar
                        exec-path-from-shell
                        expand-region
