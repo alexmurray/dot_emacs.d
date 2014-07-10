@@ -6,8 +6,8 @@
 ;;; Code:
 (require 'powerline)
 
-;; show evil state in powerline
-(powerline-center-evil-theme)
+;; use powerline default theme to support which-func etc
+(powerline-default-theme)
 
 (provide 'init-powerline)
 
