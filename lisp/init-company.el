@@ -22,8 +22,8 @@
   '(diminish 'company-mode))
 
 ;; add company-auctex
-(require 'company-auctex)
-(company-auctex-init)
+;; (require 'company-auctex)
+;; (company-auctex-init)
 
 (provide 'init-company)
 
