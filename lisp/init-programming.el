@@ -21,7 +21,7 @@
 ;; show suspicious c constructs automatically
 (global-cwarn-mode 1)
 ;; diminish cwarn from modeline
-(eval-after-load "diminish"
+(eval-after-load 'diminish
   '(diminish 'cwarn-mode))
 
 (provide 'init-programming)
