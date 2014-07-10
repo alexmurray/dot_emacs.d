@@ -21,6 +21,10 @@
 (eval-after-load 'diminish
   '(diminish 'company-mode))
 
+;; add company-auctex
+(require 'company-auctex)
+(company-auctex-init)
+
 (provide 'init-company)
 
 ;;; init-company.el ends here

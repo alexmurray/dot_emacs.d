@@ -20,6 +20,7 @@
                        auctex
                        column-enforce-mode
                        company
+                       company-auctex
                        deferred
                        diff-hl
                        diminish
