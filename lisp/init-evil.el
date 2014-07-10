@@ -56,8 +56,9 @@
   "si" 'evilmi-select-items
   "di" 'evilmi-delete-items
   "cc" 'evilnc-comment-or-uncomment-lines
+  "gt" 'gtags-find-tag
   "gr" 'gtags-find-rtag
-  "gy" 'gtags-find-symbol
+  "gs" 'gtags-find-symbol
   "cg" 'apm-gtags-create-or-update
   "ma" 'mc/mark-all-like-this-in-defun
   "mw" 'mc/mark-all-words-like-this-in-defun
