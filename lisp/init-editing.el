@@ -13,6 +13,29 @@
 	ispell-dictionary "british"
         ispell-extra-args '("--sug-mode=ultra")))
 
+;; taken from
+;; http://endlessparentheses.com/ispell-and-abbrev-the-perfect-auto-correct.html
+;; - use abbrev to autocorrect common spelling mistakes and put spell
+;; check / fix on C-x C-i
+(define-key ctl-x-map "\C-i" 'endless/ispell-word-then-abbrev)
+
+(defun endless/ispell-word-then-abbrev (p)
+  "Call `ispell-word'. Then create an abbrev for the correction made.
+With prefix P, create local abbrev. Otherwise it will be global."
+  (interactive "P")
+  (let ((bef (downcase (or (thing-at-point 'word) ""))) aft)
+    (call-interactively 'ispell-word)
+    (setq aft (downcase (or (thing-at-point 'word) "")))
+    (unless (string= aft bef)
+      (message "\"%s\" now expands to \"%s\" %sally"
+               bef aft (if p "loc" "glob"))
+      (define-abbrev
+        (if p local-abbrev-table global-abbrev-table)
+        bef aft))))
+
+(setq save-abbrevs t)
+(setq-default abbrev-mode t)
+
 ;; enable narrow-to-region
 (put 'narrow-to-region 'disabled nil)
 
