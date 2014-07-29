@@ -12,6 +12,13 @@
 
 (global-ethan-wspace-mode 1)
 
+;; disable ethan-wspace caring about tabs in Makefile's
+(defun makefile-tabs-are-less-evil ()
+  "Disable ethan-wspace from caring about tabs in Makefile's."
+  (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))
+
+(add-hook 'makefile-mode-hook 'makefile-tabs-are-less-evil)
+  
 (eval-after-load 'diminish
   '(diminish 'ethan-wspace-mode))
 
