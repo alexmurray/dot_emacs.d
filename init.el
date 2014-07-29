@@ -36,6 +36,7 @@
 (require 'init-expand-region)
 (require 'init-flycheck)
 (require 'init-helm)
+(require 'init-hungry-delete)
 (require 'init-magit)
 (require 'init-mc)
 (require 'init-powerline)

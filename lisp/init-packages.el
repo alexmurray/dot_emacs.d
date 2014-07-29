@@ -49,6 +49,7 @@
                        gitignore-mode
                        helm
                        helm-projectile
+                       hungry-delete
                        ido-vertical-mode
                        ido-ubiquitous
                        js2-mode
