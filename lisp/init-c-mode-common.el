@@ -74,7 +74,7 @@ code sections."
   ;; set company backends appropriately to prefer local dabbrev,
   ;; clang, gtags, semantic, yasnippet
   (eval-after-load 'company
-    '(setq-local company-backends '((company-semantic company-clang) company-gtags)))
+    '(setq-local company-backends '((company-semantic company-clang :with company-dabbrev company-yasnippet))))
   ;; show #if 0 / #endif etc regions in comment face
   (font-lock-add-keywords
    nil
