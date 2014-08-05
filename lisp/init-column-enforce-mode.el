@@ -6,7 +6,7 @@
 ;;; Code:
 (require 'column-enforce-mode)
 
-(column-enforce-mode t)
+(global-column-enforce-mode)
 
 (eval-after-load 'diminish
   '(diminish 'column-enforce-mode))
