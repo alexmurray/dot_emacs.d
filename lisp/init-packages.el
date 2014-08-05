@@ -64,8 +64,6 @@
                        shell-pop
                        smartparens
                        smex
-                       smooth-scroll
-                       smooth-scrolling
                        solarized-theme
                        surround
                        undo-tree

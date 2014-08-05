@@ -48,7 +48,6 @@
 (require 'init-shell-pop)
 (require 'init-smartparens)
 (require 'init-smex)
-(require 'init-smooth-scroll)
 (require 'init-trac-wiki)
 (require 'init-yasnippet)
 (require 'init-zeitgeist)
