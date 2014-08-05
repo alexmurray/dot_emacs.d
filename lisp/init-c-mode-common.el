@@ -71,10 +71,10 @@ code sections."
   (add-to-list 'apm-gtags-ignore-paths ".*/2.6.28/")
   (apm-gtags-create-or-update)
 
-  ;; set company backends appropriately to prefer local dabbrev,
-  ;; clang, gtags, semantic, yasnippet
+  ;; set company backends appropriately to prefer smart backends over
+  ;; dumb and finish with yasnippet
   (eval-after-load 'company
-    '(setq-local company-backends '((company-semantic company-clang :with company-dabbrev company-yasnippet))))
+    '(setq-local company-backends '((company-semantic company-clang :with company-yasnippet))))
   ;; show #if 0 / #endif etc regions in comment face
   (font-lock-add-keywords
    nil
