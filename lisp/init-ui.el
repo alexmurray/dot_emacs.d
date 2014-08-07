@@ -14,6 +14,8 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
+(when (fboundp 'horizontal-scroll-bar-mode)
+  (horizontal-scroll-bar-mode 0))
 (display-time-mode 1)
 ;; Show line column numbers in mode line
 (line-number-mode 1)
