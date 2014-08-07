@@ -37,10 +37,6 @@
 (require 'surround)
 (global-surround-mode 1)
 
-;; enable matchit
-(require 'evil-matchit)
-(global-evil-matchit-mode 1)
-
 ;; visualstar allows to start a */# search from visual selection
 (require 'evil-visualstar)
 

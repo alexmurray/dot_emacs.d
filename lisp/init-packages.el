@@ -31,7 +31,6 @@
                        evil-args
                        evil-jumper
                        evil-leader
-                       evil-matchit
                        evil-nerd-commenter
                        evil-numbers
                        evil-paredit
