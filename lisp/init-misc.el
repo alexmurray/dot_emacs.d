@@ -41,7 +41,8 @@
 
 (defun apm-notify (msg)
   "Notify user of MSG using desktop notification or (message)."
-  (if (eq system-type 'gnu/linux)
+  (if (and (eq system-type 'gnu/linux)
+           (require 'notifications nil t))
       (notifications-notify :body msg)
     (message msg)))
 

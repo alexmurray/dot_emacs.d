@@ -5,7 +5,6 @@
 
 (require 'semantic)
 (require 'semantic/ia)
-(require 'semantic/bovine/c)
 (require 'semantic/bovine/gcc)
 (require 'semantic/db)
 ;;; Code:
