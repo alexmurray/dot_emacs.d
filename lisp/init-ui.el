@@ -31,7 +31,11 @@
     (tooltip-mode -1)
     (mouse-wheel-mode t)
     (blink-cursor-mode -1)
-    (set-face-attribute 'default nil :font "Ubuntu Mono 12")))
+    (if (font-info "Ubuntu Mono")
+        (set-face-attribute 'default nil :font "Ubuntu Mono 12")
+      (apm-notify "Ubuntu Mono font is not installed."))
+    (unless (font-info "FontAwesome")
+      (apm-notify "FontAwesome is not installed."))))
 
 ;; make sure graphical properties get set on client frames
 (add-hook 'server-visit-hook 'apm-graphic-frame-init)
