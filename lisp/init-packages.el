@@ -63,13 +63,12 @@
                        shell-pop
                        smartparens
                        smex
-                       solarized-theme
+                       spacegray-theme
                        surround
                        undo-tree
                        xml-rpc
                        yasnippet
-                       zeitgeist
-                       zenburn-theme))
+                       zeitgeist))
 
 (defun apm-packages-installed-p ()
   "Check if all packages in `apm-packages' are installed."
