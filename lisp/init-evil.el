@@ -34,8 +34,8 @@
    (t ad-do-it)))
 
 ;; enable surround
-(require 'surround)
-(global-surround-mode 1)
+(require 'evil-surround)
+(global-evil-surround-mode 1)
 
 ;; visualstar allows to start a */# search from visual selection
 (require 'evil-visualstar)

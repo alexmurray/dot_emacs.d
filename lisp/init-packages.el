@@ -35,6 +35,7 @@
                        evil-numbers
                        evil-paredit
                        evil-space
+                       evil-surround
                        evil-visualstar
                        exec-path-from-shell
                        expand-region
