@@ -60,12 +60,11 @@
                        powerline
                        projectile
                        rainbow-mode
+                       color-theme-sanityinc-tomorrow
                        scratch
                        shell-pop
                        smartparens
                        smex
-                       spacegray-theme
-                       surround
                        undo-tree
                        xml-rpc
                        yasnippet
