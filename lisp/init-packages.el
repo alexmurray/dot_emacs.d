@@ -4,7 +4,7 @@
 ;;
 
 ;;; Code:
-(require 'cl)
+(require 'cl-lib)
 (require 'package)
 
 (add-to-list 'package-archives
@@ -73,7 +73,7 @@
 
 (defun apm-packages-installed-p ()
   "Check if all packages in `apm-packages' are installed."
-  (every #'package-installed-p apm-packages))
+  (cl-every #'package-installed-p apm-packages))
 
 (defun apm-install-packages ()
   "Install all packages listed in `apm-packages'."
@@ -84,7 +84,7 @@
     (message "%s" " done.")
     ;; install the missing packages
     (mapc #'package-install
-     (remove-if #'package-installed-p apm-packages))))
+     (cl-remove-if #'package-installed-p apm-packages))))
 
 (apm-install-packages)
 
