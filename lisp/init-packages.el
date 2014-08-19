@@ -18,6 +18,7 @@
                        anaconda-mode
                        anzu
                        auctex
+                       browse-kill-ring
                        column-enforce-mode
                        company
                        company-auctex
