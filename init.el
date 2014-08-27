@@ -56,6 +56,7 @@
 (require 'init-c-mode-common)
 (require 'init-c)
 (require 'init-emacs-lisp)
+(require 'init-info)
 (require 'init-java)
 (require 'init-javascript)
 (require 'init-latex)
