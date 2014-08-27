@@ -1,0 +1,33 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: gobject
+# key: gobject
+# --
+include "$1.h"
+
+struct _${2:${1:$(apm-camelize yas-text "-")}}Private
+{
+
+};
+
+enum {
+  PROP_0,
+  LAST_PROP
+};
+
+G_DEFINE_TYPE_WITH_PRIVATE ($2, ${3:${1:$(replace-regexp-in-string "-" "_" yas-text)}}, ${4:G_TYPE_OBJECT});
+
+static GParamSpec *gParamSpecs [LAST_PROP];
+
+$2 *
+$3_new (void)
+{
+  return g_object_new (${1:$(let* ((parts (split-string yas-text "-"))) (concat (upcase (first parts)) "_TYPE_" (mapconcat 'identity (mapcar '(lambda (word) (upcase word)) (rest (split-string yas-text "-"))) "_")))}, NULL);
+}
+
+static void
+$3_finalize (GObject *object)
+{
+  $2Private *priv = ${3:$(upcase yas-text)} (object)->priv;
+
+  G_OBJECT_CLASS ($3_parent_class)->finalize (object);
+}

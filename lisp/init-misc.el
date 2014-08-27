@@ -46,6 +46,13 @@
       (notifications-notify :body msg)
     (message msg)))
 
+(defun apm-camelize (s &optional delim)
+  "Convert under_score string S to CamelCase string with optional DELIM."
+  (interactive "s")
+  (mapconcat 'identity (mapcar
+                        '(lambda (word) (capitalize (downcase word)))
+                        (split-string s (if delim delim "_"))) ""))
+
 (provide 'init-misc)
 
 ;;; init-misc.el ends here
