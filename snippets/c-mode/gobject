@@ -2,7 +2,7 @@
 # name: gobject
 # key: gobject
 # --
-include "$1.h"
+#include "$1.h"
 
 struct _${2:${1:$(apm-camelize yas-text "-")}}Private
 {
