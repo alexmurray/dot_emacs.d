@@ -12,9 +12,9 @@
 ;; enable yasnippet globally
 (yas/global-mode 1)
 
-;; diminish to expand icon from fontawesome
+;; diminish to cut / scissors icon from fontawesome
 (eval-after-load 'diminish
-  '(diminish 'yas-minor-mode (concat " " [#xF065])))
+  '(diminish 'yas-minor-mode (concat " " [#xF0C4])))
 
 (provide 'init-yasnippet)
 
