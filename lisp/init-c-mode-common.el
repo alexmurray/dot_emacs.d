@@ -7,6 +7,8 @@
 ;; 
 
 ;;; Code:
+(require 'cc-mode)
+(require 'company)
 
 (defun c-mode-font-lock-if0 (limit)
   "Fontify #if 0 / #endif as comments for c modes etc.
@@ -83,11 +85,11 @@ code sections."
 (add-hook 'c-mode-common-hook 'c-mode-common-setup)
 
 ;; use smartparens to indent new blocks correctly
-(defun apm-c-mode-common-open-block (&rest _ignored)
-  "Open a new brace or bracket expression, with relevant newlines and indent. "
+(defun apm-c-mode-common-open-block (&rest ignored)
+  "Open a new brace or bracket expression, with relevant newlines and indent (IGNORED is ignored)."
   (newline)
   (indent-according-to-mode)
-  (previous-line)
+  (forward-line -1)
   (indent-according-to-mode))
 
 (eval-after-load 'smartparens
