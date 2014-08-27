@@ -37,9 +37,9 @@ $3_finalize (GObject *object)
 
 static void
 $3_get_property (GObject *object,
-${3:$(replace-regexp-in-string "[a-z_]" " " yas-text)}guint prop_id,
-${3:$(replace-regexp-in-string "[a-z_]" " " yas-text)}GValue *value,
-${3:$(replace-regexp-in-string "[a-z_]" " " yas-text)}GParamSpec *pspec)
+${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}guint prop_id,
+${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}GValue *value,
+${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}GParamSpec *pspec)
 {
 ${3:$(concat " " " ") ;; worst hack ever since 2 spaces doesn't actually seem to indent properly}${2:$(concat yas-text " *")}self = $5 (object);
 
