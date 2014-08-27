@@ -68,8 +68,7 @@
                        smex
                        undo-tree
                        xml-rpc
-                       yasnippet
-                       zeitgeist))
+                       yasnippet))
 
 (defun apm-packages-installed-p ()
   "Check if all packages in `apm-packages' are installed."
