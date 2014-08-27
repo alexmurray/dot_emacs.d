@@ -55,11 +55,13 @@ code sections."
   ;; set auto newline
   (setq c-auto-newline 1)
   ;; add doxygen support via doxymacs
-  (when (require 'doxymacs nil t)
-    (doxymacs-mode)
-    (doxymacs-font-lock)
-    (eval-after-load 'diminish
-      '(diminish 'doxymacs-mode)))
+  (if (require 'doxymacs nil t)
+      (progn
+        (doxymacs-mode)
+        (doxymacs-font-lock)
+        (eval-after-load 'diminish
+          '(diminish 'doxymacs-mode)))
+    (apm-notify "Doxymacs does not appear to be installed."))
   ;; ensure fill-paragraph takes doxygen @ markers as start of new
   ;; paragraphs properly
   (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
