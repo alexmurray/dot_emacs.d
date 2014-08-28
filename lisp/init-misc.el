@@ -13,8 +13,8 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; use firefox as default broswer
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "firefox")
+(setq-default browse-url-browser-function 'browse-url-generic
+              browse-url-generic-program "firefox")
 
 ;; since we store .emacs in a symlinked git repo, always follow symlinks for vc
 (setq vc-follow-symlinks t)
@@ -39,10 +39,10 @@
 (require 'webjump)
 (global-set-key (kbd "C-x w") 'webjump)
 
+(require 'notifications nil t)
 (defun apm-notify (msg)
   "Notify user of MSG using desktop notification or (message)."
-  (if (and (eq system-type 'gnu/linux)
-           (require 'notifications nil t))
+  (if (eq system-type 'gnu/linux)
       (notifications-notify :body msg)
     (message msg)))
 
@@ -50,7 +50,7 @@
   "Convert under_score string S to CamelCase string with optional DELIM."
   (interactive "s")
   (mapconcat 'identity (mapcar
-                        '(lambda (word) (capitalize (downcase word)))
+                        #'(lambda (word) (capitalize (downcase word)))
                         (split-string s (if delim delim "_"))) ""))
 
 (provide 'init-misc)
