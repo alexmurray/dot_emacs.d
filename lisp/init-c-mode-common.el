@@ -78,6 +78,11 @@ code sections."
   (add-to-list 'apm-gtags-ignore-paths ".*/2.6.28/")
   (apm-gtags-create-or-update)
 
+  ;; add key-bindings for smartparents hybrid sexps
+  (local-set-key (kbd "C-)") 'sp-slurp-hybrid-sexp)
+  (local-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
+  (local-set-key (kbd "C-<left>") 'sp-dedent-adjust-sexp)
+
   ;; set company backends appropriately to prefer smart backends over
   ;; dumb and finish with yasnippet
   (eval-after-load 'company
