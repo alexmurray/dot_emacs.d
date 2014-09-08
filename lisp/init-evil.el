@@ -48,9 +48,7 @@
 (global-evil-leader-mode 1)
 
 (evil-leader/set-key
-  "ci" 'surround-change
-  "si" 'evilmi-select-items
-  "di" 'evilmi-delete-items
+  "ci" 'evil-surround-change
   "cc" 'evilnc-comment-or-uncomment-lines
   "gt" 'gtags-find-tag
   "gr" 'gtags-find-rtag
