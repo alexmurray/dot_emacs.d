@@ -53,7 +53,7 @@
   "gt" 'gtags-find-tag
   "gr" 'gtags-find-rtag
   "gs" 'gtags-find-symbol
-  "cg" 'apm-gtags-create-or-update
+  "gc" 'apm-gtags-create-or-update
   "ma" 'mc/mark-all-like-this-in-defun
   "mw" 'mc/mark-all-words-like-this-in-defun
   "ms" 'mc/mark-all-symbols-like-this-in-defun
