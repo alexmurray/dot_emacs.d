@@ -84,6 +84,9 @@
 (require 'evil-space)
 (evil-space-default-setup)
 
+;; fixup company-complete-number to be handled better with evil
+(evil-declare-change-repeat 'company-complete-number)
+
 ;; only start at end so *Messages* and *scratch* get evil leader set
 ;; etc.
 (evil-mode t)
