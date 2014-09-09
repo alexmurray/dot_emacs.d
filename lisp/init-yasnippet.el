@@ -9,6 +9,8 @@
 ;; set this first so we don't get the bundled snippets loaded since
 ;; they don't generally match my desired style / indentation etc
 (setq yas/snippet-dirs (expand-file-name "snippets" user-emacs-directory))
+;; prompt using ido
+(setq yas/prompt-functions '(yas/ido-prompt yas/completing-prompt yas/no-prompt))
 ;; enable yasnippet globally
 (yas/global-mode 1)
 
