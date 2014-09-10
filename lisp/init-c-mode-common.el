@@ -54,6 +54,9 @@ code sections."
   (c-toggle-auto-hungry-state t)
   ;; set auto newline
   (setq c-auto-newline 1)
+  ;; make underscore a word character so movements across words
+  ;; include it - this is the same as vim
+  (modify-syntax-entry ?_ "w")
   ;; add doxygen support via doxymacs
   (if (require 'doxymacs nil t)
       (progn
