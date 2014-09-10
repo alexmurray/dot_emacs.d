@@ -12,6 +12,7 @@
 (require 'init-misc)
 (require 'init-editing)
 (require 'init-eshell)
+(require 'init-gdb)
 (require 'init-gtags)
 (require 'init-ido)
 (require 'init-ui)
