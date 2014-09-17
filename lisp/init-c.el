@@ -101,11 +101,20 @@ and the default include guard would be __FOO_BAR_H__.")
 (add-hook 'find-file-not-found-hooks
           'add-include-guard-if-header-file)
 
+;; define a specific Cohda C indentation style - inherit from ellemtel
+;; but use 2 spaces, no tabs and no offset for labels
+(defconst cohda-c-style
+  '("ellemtel"
+    (indent-tabs-mode . nil)
+    (c-basic-offset . 2)
+    (c-offsets-alist . ((label . 0))))
+  "Cohda C Programming Style.")
+
+(c-add-style "cohda" cohda-c-style)
+
 (defun c-mode-setup ()
   "Tweaks and customisations for `c-mode'."
-  ;; use Cohda style for C which is ellemtel with 2 spaces
-  (c-set-style "ellemtel")
-  (setq c-basic-offset 2)
+  (c-set-style "cohda")
   ;; and treat linux style as safe for local variable
   (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
   ;; use c-eldoc from vendor
