@@ -19,6 +19,7 @@
                        anzu
                        auctex
                        browse-kill-ring
+                       c-eldoc
                        column-enforce-mode
                        company
                        company-auctex
