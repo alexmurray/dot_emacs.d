@@ -35,7 +35,6 @@
                        evil-leader
                        evil-nerd-commenter
                        evil-numbers
-                       evil-paredit
                        evil-space
                        evil-surround
                        evil-visualstar

@@ -11,9 +11,7 @@
   (eldoc-mode t)
   (font-lock-pretty-lambdas)
   ;; use smartparens in strict mode for lisp
-  (smartparens-strict-mode +1)
-  ;; enable helpers for evil to maintain parens
-  (evil-paredit-mode t))
+  (smartparens-strict-mode +1))
 
 (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-mode-setup)
 
