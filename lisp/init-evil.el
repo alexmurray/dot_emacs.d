@@ -33,6 +33,10 @@
    ((bound-and-true-p elisp-slime-nav-mode) (elisp-slime-nav-find-elisp-thing-at-point (thing-at-point 'symbol)))
    (t ad-do-it)))
 
+;; persist search highlight like in vim - disable with C-x SPACE
+(require 'evil-search-highlight-persist)
+(global-evil-search-highlight-persist t)
+
 ;; enable surround
 (require 'evil-surround)
 (global-evil-surround-mode 1)

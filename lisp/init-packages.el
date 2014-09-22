@@ -31,6 +31,7 @@
                        ethan-wspace
                        evil
                        evil-args
+                       evil-search-highlight-persist
                        evil-jumper
                        evil-leader
                        evil-nerd-commenter
