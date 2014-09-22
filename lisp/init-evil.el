@@ -63,7 +63,10 @@
   "ms" 'mc/mark-all-symbols-like-this-in-defun
   "md" 'mc/mark-all-like-this-dwim
   "rw" 'rotate-windows
-  "x"  'er/expand-region)
+  "e" 'evil-ace-jump-word-mode ; ,e for Ace Jump (word)
+  "l" 'evil-ace-jump-line-mode ; ,l for Ace Jump (line)
+  "x" 'evil-ace-jump-char-mode ; ,x for Ace Jump (char)
+  "SPC" 'evil-search-highlight-persist-remove-all)
 
 ;; evil-args
 (require 'evil-args)
