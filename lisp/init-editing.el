@@ -10,7 +10,7 @@
 (require 'ispell)
 (when (executable-find "aspell")
   (setq ispell-program-name "aspell"
-	ispell-dictionary "british"
+        ispell-dictionary "british"
         ispell-extra-args '("--sug-mode=ultra")))
 
 ;; taken from
@@ -98,6 +98,9 @@ With prefix P, create local abbrev. Otherwise it will be global."
 (require 'which-func)
 (which-function-mode t)
 
+; map return to newline and indent
+(define-key global-map (kbd "RET") 'newline-and-indent)
+
 ;; if no mark is active then change copy / cut to do current line
 ;; rather than nothing to easily allow copying / cutting of lines
 ;; without selecting them - from
@@ -114,7 +117,7 @@ With prefix P, create local abbrev. Otherwise it will be global."
   "When called interactively with no active region, kill a single line instead."
   (interactive
     (if mark-active
-	(list (region-beginning) (region-end))
+        (list (region-beginning) (region-end))
       (list (line-beginning-position) (line-beginning-position 2)))))
 
 ;; rotate buffers around the frames in the current window - from
