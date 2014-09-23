@@ -13,6 +13,7 @@
 
 (defvar apm-packages '(ack-and-a-half
                        ace-jump-mode
+                       ace-jump-zap
                        adaptive-wrap
                        android-mode
                        anaconda-mode

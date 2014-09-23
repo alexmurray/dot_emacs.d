@@ -66,6 +66,8 @@
   "e" 'evil-ace-jump-word-mode ; ,e for Ace Jump (word)
   "l" 'evil-ace-jump-line-mode ; ,l for Ace Jump (line)
   "x" 'evil-ace-jump-char-mode ; ,x for Ace Jump (char)
+  "zt" 'ace-jump-zap-to-char    ; ,zt for Ace Jump Zap To Char
+  "zu" 'ace-jump-zap-up-to-char ; ,zu for Ace Jump Zap UP To Char
   "SPC" 'evil-search-highlight-persist-remove-all)
 
 ;; evil-args
