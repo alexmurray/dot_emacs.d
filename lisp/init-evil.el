@@ -58,16 +58,17 @@
   "gr" 'gtags-find-rtag
   "gs" 'gtags-find-symbol
   "gc" 'apm-gtags-create-or-update
+  "jw" 'evil-ace-jump-word-mode ; ,jw for Ace Jump (word)
+  "jl" 'evil-ace-jump-line-mode ; ,jl for Ace Jump (line)
+  "jc" 'evil-ace-jump-char-mode ; ,jc for Ace Jump (char)
   "ma" 'mc/mark-all-like-this-in-defun
   "mw" 'mc/mark-all-words-like-this-in-defun
   "ms" 'mc/mark-all-symbols-like-this-in-defun
   "md" 'mc/mark-all-like-this-dwim
   "rw" 'rotate-windows
-  "e" 'evil-ace-jump-word-mode ; ,e for Ace Jump (word)
-  "l" 'evil-ace-jump-line-mode ; ,l for Ace Jump (line)
-  "x" 'evil-ace-jump-char-mode ; ,x for Ace Jump (char)
   "zt" 'ace-jump-zap-to-char    ; ,zt for Ace Jump Zap To Char
   "zu" 'ace-jump-zap-up-to-char ; ,zu for Ace Jump Zap UP To Char
+  "x" 'smex
   "SPC" 'evil-search-highlight-persist-remove-all)
 
 ;; evil-args
