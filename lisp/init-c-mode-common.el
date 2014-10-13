@@ -86,7 +86,7 @@ code sections."
   ;; set company backends appropriately to prefer smart backends over
   ;; dumb and finish with yasnippet
   (eval-after-load 'company
-    '(setq-local company-backends '((company-semantic company-clang company-gtags))))
+    '(setq-local company-backends '((company-semantic company-clang) company-gtags)))
   ;; show #if 0 / #endif etc regions in comment face
   (font-lock-add-keywords
    nil
