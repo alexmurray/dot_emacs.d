@@ -62,11 +62,11 @@
                        powerline
                        projectile
                        rainbow-mode
-                       color-theme-sanityinc-tomorrow
                        scratch
                        shell-pop
                        smartparens
                        smex
+                       solarized-theme
                        undo-tree
                        xml-rpc
                        yasnippet))
