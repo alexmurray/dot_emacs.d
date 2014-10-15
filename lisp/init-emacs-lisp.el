@@ -9,7 +9,6 @@
   "Setup Emacs Lisp mode."
   (setq mode-name "el")
   (eldoc-mode t)
-  (font-lock-pretty-lambdas)
   ;; use smartparens in strict mode for lisp
   (smartparens-strict-mode +1))
 

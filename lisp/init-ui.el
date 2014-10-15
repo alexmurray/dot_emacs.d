@@ -42,20 +42,11 @@
 
 (apm-graphic-frame-init)
 
+;; prettify symbols (turn lambda -> λ)
+(global-prettify-symbols-mode 1)
+
 ;; show colours correctly in shell
 (ansi-color-for-comint-mode-on)
-
-;; pretty lambda (see also slime) ->  "λ"
-;;  'greek small letter lambda' / utf8 cebb / unicode 03bb -> \u03BB / mule?!
-;; in greek-iso8859-7 -> 107  >  86 ec
-(defun font-lock-pretty-lambdas ()
-  "Add font-lock keywords to replace (\lambda to λ in the current mode."
-  (font-lock-add-keywords
-   nil `(("(\\(\\lambda\\>\\)"
-          (0 (progn (compose-region (match-beginning 1) (match-end 1)
-                                    ,(make-char 'greek-iso8859-7 107))
-                    'font-lock-keyword-face))))))
-
 
 
 ;; toggle fullscreen in X
