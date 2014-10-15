@@ -19,6 +19,7 @@
                        anaconda-mode
                        anzu
                        auctex
+                       bind-key
                        browse-kill-ring
                        c-eldoc
                        column-enforce-mode

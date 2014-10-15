@@ -69,30 +69,32 @@ With prefix P, create local abbrev. Otherwise it will be global."
 ;; default to unified diff
 (setq diff-switches "-u")
 
-(global-set-key (kbd "C-x C-h") 'hexl-mode)
-(global-set-key (kbd "C-x C-m") 'compile)
-(global-set-key (kbd "C-x m") 'eshell)
+;; key bindings
+(require 'bind-key)
+(bind-key "C-x C-h" 'hexl-mode)
+(bind-key "C-x C-m" 'compile)
+(bind-key "C-x m" 'eshell)
 
-(global-set-key (kbd "C-M-h") 'backward-kill-word) ;; also like readline
-(global-set-key (kbd "C-c r") 'revert-buffer)
+(bind-key "C-M-h" 'backward-kill-word) ;; also like readline
+(bind-key "C-c r" 'revert-buffer)
 
 ;; Help should search more than just commands
-(global-set-key (kbd "C-h a") 'apropos)
+(bind-key "C-h a" 'apropos)
 
 ;; Use regex searches and replace by default.
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "M-%") 'query-replace-regexp)
-(global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
-(global-set-key (kbd "C-M-%") 'query-replace)
+(bind-key "C-s" 'isearch-forward-regexp)
+(bind-key "C-r" 'isearch-backward-regexp)
+(bind-key "M-%" 'query-replace-regexp)
+(bind-key "C-M-s" 'isearch-forward)
+(bind-key "C-M-r" 'isearch-backward)
+(bind-key "C-M-%" 'query-replace)
 
 ;; better buffer list
-(global-set-key (kbd "C-x C-b") 'bs-show)
+(bind-key "C-x C-b" 'bs-show)
 
 ;; Jump to a definition in the current file. (This is awesome.)
 (require 'imenu)
-(global-set-key (kbd "C-x C-i") 'imenu)
+(bind-key "C-x C-i" 'imenu)
 
 ;; which-function-mode to display current defun in modeline
 (require 'which-func)
@@ -173,8 +175,7 @@ point reaches the beginning or end of the buffer, stop there."
       (move-beginning-of-line 1))))
 
 ;; remap C-a to `smarter-move-beginning-of-line'
-(global-set-key [remap move-beginning-of-line]
-                'smarter-move-beginning-of-line)
+(bind-key [remap move-beginning-of-line] 'smarter-move-beginning-of-line)
 
 (provide 'init-editing)
 

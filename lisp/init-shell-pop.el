@@ -5,7 +5,10 @@
 
 (require 'shell-pop)
 
-(global-set-key (kbd "C-c ;") 'shell-pop)
+;;; Code:
+
+(require 'bind-key)
+(bind-key "C-c ;" 'shell-pop)
 
 (provide 'init-shell-pop)
 

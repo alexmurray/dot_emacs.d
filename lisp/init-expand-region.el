@@ -6,7 +6,8 @@
 
 ;;; Code:
 
-(global-set-key (kbd "C-=") 'er/expand-region)
+(require 'bind-key)
+(bind-key "C-=" 'er/expand-region)
 
 (provide 'init-expand-region)
 

@@ -12,10 +12,11 @@
      (add-hook 'multiple-cursors-mode-enabled-hook 'evil-emacs-state)
      (add-hook 'multiple-cursors-mode-disabled-hook 'evil-normal-state)))
 
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(require 'bind-key)
+(bind-key "C-S-c C-S-c" 'mc/edit-lines)
+(bind-key "C->" 'mc/mark-next-like-this)
+(bind-key "C-<" 'mc/mark-previous-like-this)
+(bind-key "C-c C-<" 'mc/mark-all-like-this)
 
 (provide 'init-mc)
 

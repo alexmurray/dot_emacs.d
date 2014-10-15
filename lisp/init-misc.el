@@ -44,7 +44,8 @@
 
 ;; use webjump to search websites quickly
 (require 'webjump)
-(global-set-key (kbd "C-x w") 'webjump)
+(require 'bind-key)
+(bind-key "C-x w" 'webjump)
 
 (require 'notifications nil t)
 (defun apm-notify (msg)

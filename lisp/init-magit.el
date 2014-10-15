@@ -7,7 +7,8 @@
 ;;; Code:
 (require 'magit)
 
-(global-set-key (kbd "C-x g") 'magit-status)
+(require 'bind-key)
+(bind-key "C-x g" 'magit-status)
 
 ;; full screen magit-status
 (defadvice magit-status (around magit-fullscreen activate)

@@ -132,9 +132,10 @@ and the default include guard would be __FOO_BAR_H__.")
     ;; reduce timeout to look up faster
     (setq devhelp-assistant-timeout 0.2)
     ;; Bind F6 to enable the automatic assistant.
-    (global-set-key (kbd "<f6>") 'devhelp-toggle-automatic-assistant)
+    (require 'bind-key)
+    (bind-key "<f6>" 'devhelp-toggle-automatic-assistant)
     ;; Bind F7 to search with the assistant window.
-    (global-set-key (kbd "<f7>") 'devhelp-assistant-word-at-point))
+    (bind-key "<f7>" 'devhelp-assistant-word-at-point))
   ;; ensure fill-paragraph takes doxygen @ markers as start of new
   ;; paragraphs properly
   (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
