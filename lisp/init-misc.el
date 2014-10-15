@@ -9,6 +9,13 @@
 (setq user-full-name "Alex Murray")
 (setq user-mail-address "alexmurray@fastmail.fm")
 
+;; some emacs 24.4 specific options
+;; prefer newer non-byte compiled sources to older byte compiled ones
+(setq load-prefer-newer t)
+;; enable eldoc in eval-expression
+(add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
+
+;;
 ;; just use y or n not yes or no
 (defalias 'yes-or-no-p 'y-or-n-p)
 
