@@ -5,9 +5,11 @@
 
 ;;; Code:
 
-;; js2-mode doesn't inherit from prog-mode so make sure we get our own
-;; custom goodness
-(add-hook 'js2-mode-hook 'common-programming-setup)
+(defun js2-mode-setup ()
+  "Setup js2-mode."
+  (setq mode-name "js2"))
+
+(add-hook 'js2-mode-hook 'js2-mode-setup)
 
 (provide 'init-javascript)
 
