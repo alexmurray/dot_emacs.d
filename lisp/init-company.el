@@ -30,8 +30,8 @@
 (set-face-attribute 'company-scrollbar-fg nil :background "gray40")
 
 ;; add company-auctex
-;; (require 'company-auctex)
-;; (company-auctex-init)
+(require 'company-auctex)
+(company-auctex-init)
 
 (provide 'init-company)
 
