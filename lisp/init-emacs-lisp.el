@@ -8,6 +8,8 @@
 (defun emacs-lisp-mode-setup ()
   "Setup Emacs Lisp mode."
   (setq mode-name "el")
+  ;; use aggressive indent
+  (aggressive-indent-mode 1)
   (eldoc-mode t)
   ;; use smartparens in strict mode for lisp
   (smartparens-strict-mode +1))
