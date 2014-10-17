@@ -61,6 +61,9 @@
                         #'(lambda (word) (capitalize (downcase word)))
                         (split-string s (if delim delim "_"))) ""))
 
+(when (version< emacs-version "24.4")
+  (apm-notify "Emacs version too old - please run 24.4 or newer"))
+
 (provide 'init-misc)
 
 ;;; init-misc.el ends here
