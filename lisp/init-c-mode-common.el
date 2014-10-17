@@ -55,7 +55,7 @@ code sections."
   ;; set auto newline
   (setq c-auto-newline 1)
   ;; enable aggressive indent
-  ;; (aggressive-indent-mode 1)
+  (aggressive-indent-mode 1)
   ;; make underscore a word character so movements across words
   ;; include it - this is the same as vim
   (modify-syntax-entry ?_ "w")
