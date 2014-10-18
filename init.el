@@ -23,7 +23,6 @@
 ;; external packages from elpa / marmalade
 (require 'init-ace-jump-mode)
 (require 'init-ack-and-a-half)
-(require 'init-aggressive-indent)
 (require 'init-anaconda-mode)
 (require 'init-anzu)
 (require 'init-company)
