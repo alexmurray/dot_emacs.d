@@ -6,6 +6,10 @@
 
 ;;; Code:
 
+;; put customisations in a separate file than init.el
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
+
 (setq user-full-name "Alex Murray")
 (setq user-mail-address "alexmurray@fastmail.fm")
 
