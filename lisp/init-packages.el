@@ -59,6 +59,7 @@
                        js2-mode
                        magit
                        multiple-cursors
+                       paradox
                        php-mode
                        powerline
                        projectile
