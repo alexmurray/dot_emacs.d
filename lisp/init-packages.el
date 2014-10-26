@@ -15,6 +15,7 @@
                        ace-jump-mode
                        ace-jump-zap
                        adaptive-wrap
+                       aggressive-indent
                        android-mode
                        anaconda-mode
                        anzu
