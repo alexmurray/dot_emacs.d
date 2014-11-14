@@ -16,11 +16,6 @@
   '(custom-set-variables
     '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
-(require 'flycheck-color-mode-line)
-
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
-
 ;; diminish to check icon from fontawesome
 (eval-after-load 'diminish
   '(diminish 'flycheck-mode (concat " " [#xF00C])))
