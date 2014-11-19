@@ -8,7 +8,8 @@
 
 ;; put customisations in a separate file than init.el
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)
+;; load custom but ignore error if doesn't exist
+(load custom-file t)
 
 (setq user-full-name "Alex Murray")
 (setq user-mail-address "alexmurray@fastmail.fm")
