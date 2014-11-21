@@ -26,6 +26,7 @@
                        column-enforce-mode
                        company
                        company-auctex
+                       company-math
                        deferred
                        diff-hl
                        diminish
