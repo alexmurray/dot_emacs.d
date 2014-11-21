@@ -12,6 +12,9 @@
 (setq company-tooltip-limit 10)
 (setq company-minimum-prefix-length 2)
 
+;; align annotations in tooltip
+(setq company-tooltip-align-annotations t)
+
 ;; nicer keybinding
 (define-key company-active-map (kbd "<tab>") 'company-complete)
 
