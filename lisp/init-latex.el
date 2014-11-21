@@ -31,10 +31,6 @@
   (ispell-minor-mode 1)
   ;; use flycheck for on the fly syntax checking
   (flycheck-mode 1)
-  ;; use ispell backend for company in latex
-  (eval-after-load 'company
-    '(set (make-local-variable 'company-backends)
-          (append '(company-ispell) company-backends)))
   ;; smartparens latex support
   (require 'smartparens-latex)
   ;; Enable source-specials for Control-click forward/reverse search.
