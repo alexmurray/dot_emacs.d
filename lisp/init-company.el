@@ -12,6 +12,9 @@
 (setq company-tooltip-limit 10)
 (setq company-minimum-prefix-length 2)
 
+;; nicer keybinding
+(define-key company-active-map (kbd "<tab>") 'company-complete)
+
 ;; put most often used completions at stop of list
 (setq company-transformers '(company-sort-by-occurrence))
 
