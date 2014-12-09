@@ -59,6 +59,7 @@
                        ido-ubiquitous
                        js2-mode
                        magit
+                       markdown-mode
                        multiple-cursors
                        paradox
                        php-mode
