@@ -3,6 +3,10 @@
 ;;; Commentary:
 ;;
 
+;;; Code:
+
+(add-to-list 'load-path (expand-file-name "vendor/flycheck-cohda-c-style" user-emacs-directory))
+
 ;; don't absolutely require
 (unless (require 'flycheck-cohda-c-style nil t)
   (apm-notify "flycheck-cohda-c-style not found"))
