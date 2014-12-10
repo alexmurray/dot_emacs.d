@@ -54,6 +54,7 @@
 (evil-leader/set-key
   "ci" 'evil-surround-change
   "cc" 'evilnc-comment-or-uncomment-lines
+  "fc" 'flycheck-buffer
   "fn" 'flycheck-next-error
   "fp" 'flycheck-previous-error
   "gt" 'gtags-find-tag
