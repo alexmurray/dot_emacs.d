@@ -126,7 +126,7 @@ and the default include guard would be __FOO_BAR_H__.")
   ;; insert gtk-doc style comment declarations using C-x 4 h
   ;; (gtk-doc-insert) or C-x 4 s (gtk-doc-insert-section) to
   ;; comment current function or section respectively
-  (load "gtk-doc" t) ; ignore error if can't be found
+  ;;(load "gtk-doc" t) ; ignore error if can't be found
   ;; devhelp - ignore error if couldn't be loaded
   (when (require 'devhelp nil t)
     ;; reduce timeout to look up faster
@@ -139,6 +139,7 @@ and the default include guard would be __FOO_BAR_H__.")
   ;; ensure fill-paragraph takes doxygen @ markers as start of new
   ;; paragraphs properly
   (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
+
 (add-hook 'c-mode-hook 'c-mode-setup)
 
 (provide 'init-c)
