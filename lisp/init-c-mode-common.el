@@ -86,9 +86,11 @@ code sections."
   (local-set-key (kbd "C-<left>") 'sp-dedent-adjust-sexp)
 
   ;; set company backends appropriately to prefer smart backends over
-  ;; dumb and finish with yasnippet
+  ;; dumb
+  (unless (executable-find company-clang-executable)
+    (apm-notify "clang not found for company-clang - is it installed?"))
   (eval-after-load 'company
-    '(setq-local company-backends '((company-semantic company-clang) company-gtags)))
+    '(setq-local company-backends '((company-clang company-semantic) company-gtags)))
   ;; show #if 0 / #endif etc regions in comment face
   (font-lock-add-keywords
    nil
