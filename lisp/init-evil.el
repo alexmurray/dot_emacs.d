@@ -26,12 +26,20 @@
                 term-mode))
   (evil-set-initial-state mode 'emacs))
 
-(defadvice evil-jump-to-tag (around apm-gtags-jump-to-tag activate)
-  "Make use of gtags / elisp-slime-nav if possible instead of etags for finding definitions."
+(defun apm-evil-jump-to-tag (orig-fun &rest args)
+  "Make use of gtags / elisp-slime-nav for finding definitions.
+
+If no gtags or elisp-slime-nav support then ORIG-FUN with ARGS
+will be used instead."
   (cond
-   ((bound-and-true-p gtags-mode) (gtags-find-tag-from-here))
-   ((bound-and-true-p elisp-slime-nav-mode) (elisp-slime-nav-find-elisp-thing-at-point (thing-at-point 'symbol)))
-   (t ad-do-it)))
+   ((bound-and-true-p gtags-mode)
+    (gtags-find-tag-from-here))
+   ((bound-and-true-p elisp-slime-nav-mode)
+    (elisp-slime-nav-find-elisp-thing-at-point (thing-at-point 'symbol)))
+   (t
+    (apply orig-fun args))))
+
+(advice-add 'evil-jump-to-tag :around #'apm-evil-jump-to-tag)
 
 ;; persist search highlight like in vim - disable with C-x SPACE
 (require 'evil-search-highlight-persist)
