@@ -103,25 +103,6 @@ With prefix P, create local abbrev. Otherwise it will be global."
 ; map return to newline and indent
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
-;; if no mark is active then change copy / cut to do current line
-;; rather than nothing to easily allow copying / cutting of lines
-;; without selecting them - from
-;; http://emacs-fu.blogspot.com/2009/11/copying-lines-without-selecting-them.html
-(defadvice kill-ring-save (before slick-copy activate compile)
-  "When called interactively with no active region, copy a single line instead."
-  (interactive
-   (if mark-active
-       (list (region-beginning) (region-end))
-     (message "Copied line")
-     (list (line-beginning-position) (line-beginning-position 2)))))
-
-(defadvice kill-region (before slick-cut activate compile)
-  "When called interactively with no active region, kill a single line instead."
-  (interactive
-    (if mark-active
-        (list (region-beginning) (region-end))
-      (list (line-beginning-position) (line-beginning-position 2)))))
-
 ;; rotate buffers around the frames in the current window - from
 ;; http://www.reddit.com/r/emacs/comments/1agkd6/function_to_cycle_your_current_buffers/
 (defun rotate-windows (&optional reverse)
