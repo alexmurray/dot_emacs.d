@@ -39,7 +39,7 @@
       (apm-notify "FontAwesome is not installed."))))
 
 ;; make sure graphical properties get set on client frames
-(add-hook 'server-visit-hook 'apm-graphic-frame-init)
+(add-hook 'find-file-hook 'apm-graphic-frame-init)
 
 (apm-graphic-frame-init)
 
