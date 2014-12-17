@@ -31,6 +31,7 @@
                        diff-hl
                        diminish
                        dsvn
+                       dts-mode
                        elisp-slime-nav
                        ethan-wspace
                        evil
