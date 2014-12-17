@@ -23,6 +23,7 @@
 
 (defun apm-graphic-frame-init ()
   "Initialise properties specific to graphical display."
+  (interactive)
   (when (display-graphic-p)
     (setq frame-title-format '(buffer-file-name "%f" ("%b")))
     ;; don't use gtk style tooltips so instead can use pos-tip etc
