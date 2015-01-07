@@ -53,8 +53,6 @@
                        git-commit-mode
                        gitconfig-mode
                        gitignore-mode
-                       helm
-                       helm-projectile
                        hungry-delete
                        ido-vertical-mode
                        ido-ubiquitous
@@ -68,7 +66,6 @@
                        projectile
                        rainbow-mode
                        scratch
-                       shell-pop
                        smartparens
                        smex
                        solarized-theme
