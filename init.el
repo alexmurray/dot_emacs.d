@@ -426,7 +426,10 @@ code sections."
 
 (use-package diff-hl
   :ensure t
-  :init (global-diff-hl-mode))
+  :init (progn
+          (global-diff-hl-mode)
+          ;; Highlight changed files in the fringe of dired
+          (add-hook 'dired-mode-hook 'diff-hl-dired-mode)))
 
 (use-package diminish
   :ensure t)
