@@ -393,7 +393,9 @@ code sections."
           (add-to-list 'company-backends 'company-math-symbols-latex)))
 
 (use-package compile
-  :bind ("C-x C-m" . compile))
+  :bind ("C-x C-m" . compile)
+  ;; automatically scroll to first error on output
+  :config (setq compilation-scroll-output 'first-error))
 
 (use-package cua-base
   ;; use CUA mode for rectangle selections etc but not copy/paste etc
