@@ -352,8 +352,18 @@ code sections."
             (define-key company-active-map (kbd "C-n") 'company-select-next)
             (define-key company-active-map (kbd "C-p") 'company-select-previous)
             (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer)
-            (define-key company-active-map (kbd "<tab>") 'company-complete)
 
+            ;; make tab cycle through candidates like vim
+            (defun company-complete-common-or-cycle ()
+              (interactive)
+              (when (company-manual-begin)
+                (if (eq last-command 'company-complete-common-or-cycle)
+                    (let ((company-selection-wrap-around t))
+                      (call-interactively 'company-select-next))
+                  (call-interactively 'company-complete-common))))
+
+            (define-key company-active-map [tab] 'company-complete-common-or-cycle)
+            (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
             ;; put most often used completions at stop of list
             (setq company-transformers '(company-sort-by-occurrence))
 
