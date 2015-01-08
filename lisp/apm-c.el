@@ -1,4 +1,4 @@
-;;; init-c.el --- Initialise c mode
+;;; apm-c.el --- My customisations for c mode
 ;; c-only modes
 
 ;;; Commentary:
@@ -112,7 +112,7 @@ and the default include guard would be __FOO_BAR_H__.")
 
 (c-add-style "cohda" cohda-c-style)
 
-(defun c-mode-setup ()
+(defun apm-c-mode-setup ()
   "Tweaks and customisations for `c-mode'."
   (c-set-style "cohda")
   ;; and treat linux style as safe for local variable
@@ -140,8 +140,8 @@ and the default include guard would be __FOO_BAR_H__.")
   ;; paragraphs properly
   (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
 
-(add-hook 'c-mode-hook 'c-mode-setup)
+(add-hook 'c-mode-hook 'apm-c-mode-setup)
 
-(provide 'init-c)
+(provide 'apm-c)
 
-;;; init-c.el ends here
+;;; apm-c.el ends here
