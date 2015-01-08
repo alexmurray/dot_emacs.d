@@ -335,9 +335,11 @@ code sections."
 (use-package company
   :ensure t
   :defer t
-  :init (global-company-mode t)
+  :idle (global-company-mode t)
   :diminish company-mode
   :config (progn
+            ;; Use Company for completion
+            (bind-key [remap completion-at-point] #'company-complete company-mode-map)
             ;; some better default values
             (setq company-idle-delay 0.5)
             (setq company-tooltip-limit 10)
@@ -361,9 +363,7 @@ code sections."
             (set-face-attribute 'company-preview nil :background "black")
             (set-face-attribute 'company-preview-common nil :inherit 'company-preview :foreground "gray40")
             (set-face-attribute 'company-scrollbar-bg nil :inherit 'company-tooltip :background "gray20")
-            (set-face-attribute 'company-scrollbar-fg nil :background "gray40"))
-  :init (company-mode))
-
+            (set-face-attribute 'company-scrollbar-fg nil :background "gray40")))
 
 (use-package company-anaconda
   (with-eval-after-load 'company
