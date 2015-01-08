@@ -793,7 +793,9 @@ will be used instead."
              (add-hook 'multiple-cursors-mode-disabled-hook 'evil-normal-state))))
 
 (use-package paradox
-  :ensure t)
+  :ensure t
+  ;; don't bother trying to integrate with github
+  :config (setq paradox-github-token nil))
 
 (use-package php-mode
   :ensure t)
