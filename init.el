@@ -385,7 +385,12 @@ code sections."
   :init (company-auctex-init))
 
 (use-package company-math
-  :ensure t)
+  :ensure t
+  :defer t
+  ;; Add backend for math characters
+  :init (with-eval-after-load 'company
+          (add-to-list 'company-backends 'company-math-symbols-unicode)
+          (add-to-list 'company-backends 'company-math-symbols-latex)))
 
 (use-package compile
   :bind ("C-x C-m" . compile))
