@@ -366,8 +366,9 @@ code sections."
             (set-face-attribute 'company-scrollbar-fg nil :background "gray40")))
 
 (use-package company-anaconda
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-anaconda)))
+  :ensure t
+  :config (with-eval-after-load 'company
+            (add-to-list 'company-backends 'company-anaconda)))
 
 (use-package company-auctex
   :ensure t
