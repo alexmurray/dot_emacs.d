@@ -725,12 +725,15 @@ will be used instead."
 
 (use-package js2-mode
   :ensure t
-  :init (progn
-          (defun apm-js2-mode-setup ()
-            "Setup js2-mode."
-            (setq mode-name "js2"))
+  :defer t
+  :config (progn
+            (setq-default js2-basic-offset 2)
 
-          (add-hook 'js2-mode-hook 'apm-js2-mode-setup)))
+            (defun apm-js2-mode-setup ()
+              "Setup js2-mode."
+              (setq mode-name "js2"))
+
+            (add-hook 'js2-mode-hook 'apm-js2-mode-setup)))
 
 (use-package lisp-mode
   :config (progn
