@@ -54,6 +54,9 @@
 ;; remove message from initial scratch buffer
 (setq initial-scratch-message nil)
 
+;; Make Tab complete if the line is indented
+(setq tab-always-indent 'complete)
+
 ;; disable menu, tool and scroll-bars, show time
 (menu-bar-mode 0)
 (tool-bar-mode 0)
@@ -86,9 +89,6 @@
 (add-hook 'find-file-hook 'apm-graphic-frame-init)
 
 (apm-graphic-frame-init)
-
-;; prettify symbols (turn lambda -> λ)
-(global-prettify-symbols-mode 1)
 
 ;; show colours correctly in shell
 (ansi-color-for-comint-mode-on)
@@ -449,6 +449,7 @@ code sections."
   :ensure t)
 
 (use-package ediff
+  :defer t
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain
                 ediff-split-window-function 'split-window-horizontally))
 
@@ -806,6 +807,9 @@ will be used instead."
 
 (use-package prog-mode
   :config (progn
+            ;; prettify symbols (turn lambda -> λ)
+            (global-prettify-symbols-mode 1)
+
             (defun apm-programming-setup ()
               "Tweaks and customisations for all programming modes."
               ;; highlight lines longer than 80 chars with column-enforce-mode
