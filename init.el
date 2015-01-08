@@ -312,11 +312,11 @@ code sections."
 
               ;; set company backends appropriately to prefer smart
               ;; backends over dumb
-
               (with-eval-after-load 'company
                 (unless (executable-find company-clang-executable)
                   (apm-notify "clang not found for company-clang - is it installed?"))
                 (setq-local company-backends '((company-clang company-semantic) company-gtags)))
+
               ;; show #if 0 / #endif etc regions in comment face
               (font-lock-add-keywords
                nil
@@ -435,7 +435,6 @@ code sections."
   :diminish eldoc-mode
   ;; enable eldoc in eval-expression
   :config (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode))
-
 
 (use-package electric
   :init (progn
