@@ -443,9 +443,6 @@ code sections."
           (electric-indent-mode t)
           (electric-layout-mode t)))
 
-(use-package elec-pair
-  :init (electric-pair-mode t))
-
 (use-package elisp-slime-nav
   :ensure t
   :diminish elisp-slime-nav-mode
@@ -845,6 +842,7 @@ will be used instead."
   :ensure t
   :diminish (smartparens-mode . " ()")
   :config (progn
+            (require 'smartparens-config)
             (setq sp-base-key-bindings 'paredit)
             ;; always jump out of string when hitting end "
             (setq sp-autoskip-closing-pair 'always)
