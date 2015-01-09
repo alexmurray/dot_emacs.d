@@ -335,8 +335,8 @@ code sections."
 (use-package company
   :ensure t
   :defer t
-  :idle (global-company-mode t)
   :diminish company-mode
+  :init (global-company-mode t)
   :config (progn
             ;; Use Company for completion
             (bind-key [remap completion-at-point] #'company-complete company-mode-map)
@@ -357,13 +357,15 @@ code sections."
             (defun company-complete-common-or-cycle ()
               (interactive)
               (when (company-manual-begin)
-                (if (eq last-command 'company-complete-common-or-cycle)
+                (let ((tick (buffer-chars-modified-tick)))
+                  (call-interactively 'company-complete-common)
+                  (when (eq tick (buffer-chars-modified-tick))
                     (let ((company-selection-wrap-around t))
-                      (call-interactively 'company-select-next))
-                  (call-interactively 'company-complete-common))))
+                      (call-interactively 'company-select-next))))))
 
             (define-key company-active-map [tab] 'company-complete-common-or-cycle)
             (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+
             ;; put most often used completions at stop of list
             (setq company-transformers '(company-sort-by-occurrence))
 
