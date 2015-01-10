@@ -352,16 +352,6 @@ code sections."
             (define-key company-active-map (kbd "C-p") 'company-select-previous)
             (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer)
 
-            ;; make tab cycle through candidates like vim
-            (defun company-complete-common-or-cycle ()
-              (interactive)
-              (when (company-manual-begin)
-                (let ((tick (buffer-chars-modified-tick)))
-                  (call-interactively 'company-complete-common)
-                  (when (eq tick (buffer-chars-modified-tick))
-                    (let ((company-selection-wrap-around t))
-                      (call-interactively 'company-select-next))))))
-
             (define-key company-active-map [tab] 'company-complete-common-or-cycle)
             (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
 
