@@ -295,8 +295,8 @@ code sections."
                 '(diminish 'hide-ifdef-mode))
               (auto-fill-mode 1)
               ;; diminish auto-fill in the modeline to icon from fontawesome
-              (eval-after-load 'diminish
-                '(diminish 'auto-fill-function (concat " " [#xF036])))
+              (with-eval-after-load 'diminish
+                (diminish 'auto-fill-function (concat " " [#xF036])))
               ;; turn on auto-newline and hungry-delete
               (c-toggle-auto-hungry-state t)
               ;; set auto newline
@@ -310,9 +310,10 @@ code sections."
               ;; paragraphs properly
               (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
               ;; add key-bindings for smartparens hybrid sexps
-              (local-set-key (kbd "C-)") 'sp-slurp-hybrid-sexp)
-              (local-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
-              (local-set-key (kbd "C-<left>") 'sp-dedent-adjust-sexp)
+              (with-eval-after-load 'smartparens
+                (local-set-key (kbd "C-)") 'sp-slurp-hybrid-sexp)
+                (local-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
+                (local-set-key (kbd "C-<left>") 'sp-dedent-adjust-sexp))
 
               ;; set company backends appropriately to prefer smart
               ;; backends over dumb
