@@ -90,7 +90,7 @@
       (apm-notify "FontAwesome is not installed."))))
 
 ;; make sure graphical properties get set on client frames
-(add-hook 'find-file-hook 'apm-graphic-frame-init)
+(add-hook 'find-file-hook #'apm-graphic-frame-init)
 
 (apm-graphic-frame-init)
 
@@ -200,7 +200,7 @@ point reaches the beginning or end of the buffer, stop there."
             (anaconda-eldoc))
 
           ;; use anaconda-mode for python
-          (add-hook 'python-mode-hook 'apm-anaconda-mode-setup)))
+          (add-hook 'python-mode-hook #'apm-anaconda-mode-setup)))
 
 (use-package anzu
   :ensure t
@@ -245,7 +245,7 @@ point reaches the beginning or end of the buffer, stop there."
             ;; Enable reftex
             (turn-on-reftex))
 
-          (add-hook 'LaTeX-mode-hook 'apm-latex-mode-setup)))
+          (add-hook 'LaTeX-mode-hook #'apm-latex-mode-setup)))
 
 (use-package browse-kill-ring
   :ensure t)
@@ -326,7 +326,7 @@ code sections."
                nil
                '((c-mode-font-lock-if0 (0 font-lock-comment-face prepend))) 'add-to-end))
 
-            (add-hook 'c-mode-common-hook 'apm-c-mode-common-setup)))
+            (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup)))
 
 (use-package c-eldoc
   :ensure t)
@@ -435,7 +435,7 @@ code sections."
   :init (progn
           (global-diff-hl-mode)
           ;; Highlight changed files in the fringe of dired
-          (add-hook 'dired-mode-hook 'diff-hl-dired-mode)))
+          (add-hook 'dired-mode-hook #'diff-hl-dired-mode)))
 
 (use-package diminish
   :ensure t)
@@ -475,7 +475,7 @@ code sections."
   :diminish elisp-slime-nav-mode
   :init (progn
           (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-            (add-hook hook 'elisp-slime-nav-mode))))
+            (add-hook hook #'elisp-slime-nav-mode))))
 
 (use-package eshell
   :bind ("C-x m" . eshell)
@@ -484,7 +484,7 @@ code sections."
             "Initialise 'eshell-mode'."
             (setq mode-name (concat "e" [#xF120])))
 
-          (add-hook 'eshell-mode-hook 'apm-eshell-mode-setup)))
+          (add-hook 'eshell-mode-hook #'apm-eshell-mode-setup)))
 
 (use-package ethan-wspace
   :ensure t
@@ -500,7 +500,7 @@ code sections."
             "Disable ethan-wspace from caring about tabs in Makefile's."
             (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))
 
-          (add-hook 'makefile-mode-hook 'makefile-tabs-are-less-evil)))
+          (add-hook 'makefile-mode-hook #'makefile-tabs-are-less-evil)))
 
 (use-package evil
   :ensure t
@@ -709,7 +709,7 @@ will be used instead."
               ;; enable tooltips in gud mode buffer
               (gud-tooltip-mode t))
 
-            (add-hook 'gud-mode-hook 'apm-enable-gud-tooltip-mode)))
+            (add-hook 'gud-mode-hook #'apm-enable-gud-tooltip-mode)))
 
 ;;; gtags
 (use-package auto-gtags
@@ -753,7 +753,7 @@ will be used instead."
               ;; use smartparens in strict mode for lisp
               (smartparens-strict-mode +1))
 
-            (add-hook 'emacs-lisp-mode-hook 'apm-emacs-lisp-mode-setup)))
+            (add-hook 'emacs-lisp-mode-hook #'apm-emacs-lisp-mode-setup)))
 
 (use-package magit
   :ensure t
@@ -794,10 +794,9 @@ will be used instead."
          ("C-<" . mc/mark-previous-like-this)
          ("C-c C-<" . mc/mark-all-like-this))
   :config (setq mc/unsupported-minor-modes '(company-mode flyspell-mode))
-  :init (eval-after-load 'evil
-          '(progn
-             (add-hook 'multiple-cursors-mode-enabled-hook 'evil-emacs-state)
-             (add-hook 'multiple-cursors-mode-disabled-hook 'evil-normal-state))))
+  :init (with-eval-after-load 'evil
+          (add-hook 'multiple-cursors-mode-enabled-hook #'evil-emacs-state)
+          (add-hook 'multiple-cursors-mode-disabled-hook #'evil-normal-state)))
 
 (use-package paradox
   :ensure t
@@ -816,17 +815,17 @@ will be used instead."
             ;; prettify symbols (turn lambda -> λ)
             (global-prettify-symbols-mode 1)
 
-            (defun apm-programming-setup ()
+            (defun apm-prog-mode-setup ()
               "Tweaks and customisations for all programming modes."
               ;; highlight lines longer than 80 chars with column-enforce-mode
-              (eval-after-load 'column-enforce-mode
+              (with-eval-after-load 'column-enforce-mode
                 (column-enforce-mode))
               ;; turn on spell checking for strings and comments
               (flyspell-prog-mode)
               ;; highlight TODO and fixme so it looks scary
               (font-lock-add-keywords nil '(("\\<\\(TODO\\|todo\\|FIXME\\|fixme\\)" 1 font-lock-warning-face t))))
 
-            (add-hook 'prog-mode-hook 'apm-programming-setup)))
+            (add-hook 'prog-mode-hook #'apm-prog-mode-setup)))
 
 (use-package projectile
   :ensure t
@@ -836,7 +835,7 @@ will be used instead."
 (use-package rainbow-mode
   :ensure t
   :init (dolist (hook '(css-mode-hook html-mode-hook))
-          (add-hook hook 'rainbow-mode)))
+          (add-hook hook #'rainbow-mode)))
 
 ;; save minibuffer history
 (use-package savehist
