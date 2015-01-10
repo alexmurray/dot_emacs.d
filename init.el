@@ -187,7 +187,7 @@ point reaches the beginning or end of the buffer, stop there."
             ;; change prefix so doesn't conflict with comment-region
             (setq android-mode-sdk-dir "/opt/android-sdk-linux/"
                   android-mode-key-prefix (kbd "C-c C-m")))
-  :diminish (android-mode . (concat " " [#xF17B])))
+  :diminish (android-mode . ,(concat " " [#xF17B])))
 
 (use-package anaconda-mode
   :ensure t
@@ -627,7 +627,7 @@ will be used instead."
 
 (use-package flycheck
   :ensure t
-  :diminish (flycheck-mode . (concat " " [#xF00C]))
+  :diminish (flycheck-mode . ,(concat " " [#xF00C]))
   :config (setq flycheck-completion-system 'ido)
   :init (global-flycheck-mode +1))
 
@@ -723,12 +723,12 @@ will be used instead."
             (add-hook 'c-mode-common-hook #'auto-gtags-create-or-update)))
 
 (use-package gtags
+  :diminish (gtags-mode . ,(concat " " [#xF02C]))
   ;; stop gtags.el stealing middle mouse click paste
   :config (progn
             (define-key gtags-mode-map [mouse-2] 'mouse-yank-primary)
             ;; enable gtags in all c common mode buffers
-            (add-hook 'c-mode-common-hook #'gtags-mode))
-  :diminish (gtags-mode . (concat " " [#xF02C])))
+            (add-hook 'c-mode-common-hook #'gtags-mode)))
 
 (use-package js2-mode
   :ensure t
@@ -829,7 +829,7 @@ will be used instead."
 
 (use-package projectile
   :ensure t
-  :diminish (projectile-mode . (concat " " [#xF013]))
+  :diminish (projectile-mode . ,(concat " " [#xF013]))
   :init (projectile-global-mode))
 
 (use-package rainbow-mode
@@ -949,14 +949,15 @@ will be used instead."
 
 (use-package yasnippet
   :ensure t
-  :diminish (yas-minor-mode . (concat " " [#xF0C4]))
+  :commands yas-global-mode
+  :diminish (yas-minor-mode . ,(concat " " [#xF0C4]))
   :config (progn
             ;; set this first so we don't get the bundled snippets loaded since
             ;; they don't generally match my desired style / indentation etc
             (setq yas-snippet-dirs (expand-file-name "snippets" user-emacs-directory))
             ;; prompt using ido
             (setq yas-prompt-functions '(yas/ido-prompt yas/completing-prompt yas/no-prompt)))
-  :init (yas-global-mode 1))
+  :idle (yas-global-mode t))
 
 (provide 'init)
 
