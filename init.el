@@ -151,16 +151,6 @@ point reaches the beginning or end of the buffer, stop there."
 (bind-key [remap move-beginning-of-line] 'smarter-move-beginning-of-line)
 
 ;;; Packages
-(use-package ack-and-a-half
-  :ensure t
-  :defer t
-  :config (progn
-            ;; shorter aliases for ack-and-a-half commands
-            (defalias 'ack 'ack-and-a-half)
-            (defalias 'ack-same 'ack-and-a-half-same)
-            (defalias 'ack-find-file 'ack-and-a-half-find-file)
-            (defalias 'ack-find-file-same 'ack-and-a-half-find-file-same)))
-
 (use-package ace-jump-mode
   :ensure t
   :bind ("C-c SPC" . ace-jump-mode))
