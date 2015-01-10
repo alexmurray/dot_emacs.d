@@ -289,10 +289,6 @@ code sections."
               ;; set a reasonable fill and comment column
               (setq fill-column 78)
               (setq comment-column 70)
-              ;; hide ifdef
-              (hide-ifdef-mode 1)
-              (eval-after-load 'diminish
-                '(diminish 'hide-ifdef-mode))
               (auto-fill-mode 1)
               ;; diminish auto-fill in the modeline to icon from fontawesome
               (with-eval-after-load 'diminish
