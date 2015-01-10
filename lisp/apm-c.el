@@ -6,6 +6,8 @@
 
 ;;; Code:
 
+(require 'cohda-c)
+
 (defun apm-c-type-to-format (type)
   "Return a printf format directive for TYPE."
   (cond ((or (null type)
@@ -16,13 +18,13 @@
         ((string-match "\\*" type)
          "%p")
         ((cl-some #'(lambda (r) (string-match r type))
-                 '("u\\(char\\|int\\|long\\)" "unsigned"))
+                  '("u\\(char\\|int\\|long\\)" "unsigned"))
          "%u")
         ((cl-some #'(lambda (r) (string-match r type))
-                 '("\\(char\\|int\\|long\\)"))
+                  '("\\(char\\|int\\|long\\)"))
          "%d")
         ((cl-some #'(lambda (r) (string-match r type))
-                 '("\\(float\\|double\\)"))
+                  '("\\(float\\|double\\)"))
          "%f")
         ;; use an invalid printf directive if none found
         (t "%?")))
@@ -100,17 +102,6 @@ and the default include guard would be __FOO_BAR_H__.")
 ;; include gaurd
 (add-hook 'find-file-not-found-hooks
           'add-include-guard-if-header-file)
-
-;; define a specific Cohda C indentation style - inherit from ellemtel
-;; but use 2 spaces, no tabs and no offset for labels
-(defconst cohda-c-style
-  '("ellemtel"
-    (indent-tabs-mode . nil)
-    (c-basic-offset . 2)
-    (c-offsets-alist . ((label . 0))))
-  "Cohda C Programming Style.")
-
-(c-add-style "cohda" cohda-c-style)
 
 (defun apm-c-mode-setup ()
   "Tweaks and customisations for `c-mode'."
