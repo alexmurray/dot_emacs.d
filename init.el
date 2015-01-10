@@ -888,6 +888,8 @@ will be used instead."
   :init (load-theme 'solarized-light t))
 
 (use-package trac-wiki
+  :pre-load (use-package xml-rpc
+              :ensure t)
   :load-path "vendor/"
   :config
   (setq trac-projects '(("mk2"
@@ -918,9 +920,6 @@ will be used instead."
 
 (use-package whitespace
   :diminish whitespace-mode)
-
-(use-package xml-rpc
-  :ensure t)
 
 (use-package yasnippet
   :ensure t
