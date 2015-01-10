@@ -286,9 +286,6 @@ code sections."
             ;; c-mode and other derived modes (c++, java etc) etc
             (defun apm-c-mode-common-setup ()
               "Tweaks and customisations for all modes derived from c-common-mode."
-              ;; set a reasonable fill and comment column
-              (setq fill-column 78)
-              (setq comment-column 70)
               (auto-fill-mode 1)
               ;; diminish auto-fill in the modeline to icon from fontawesome
               (with-eval-after-load 'diminish
