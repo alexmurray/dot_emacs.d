@@ -189,9 +189,12 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package evil-anzu
   :load-path "vendor/"
-  :pre-load (use-package anzu
-              :ensure t
-              :defer t)
+  :pre-load (progn
+	      (use-package anzu
+		:ensure t
+		:defer t)
+	      (use-package evil
+		:ensure t))
   :diminish evil-anzu-mode
   :config (progn
             (define-key evil-motion-state-map "n" 'evil-anzu-search-next)
