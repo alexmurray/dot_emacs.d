@@ -725,7 +725,8 @@ will be used instead."
               (aggressive-indent-mode 1)
               (eldoc-mode t)
               ;; use smartparens in strict mode for lisp
-              (smartparens-strict-mode +1))
+              (with-eval-after-load 'smartparens
+                (smartparens-strict-mode +1)))
 
             (add-hook 'emacs-lisp-mode-hook #'apm-emacs-lisp-mode-setup)))
 
