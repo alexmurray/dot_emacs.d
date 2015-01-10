@@ -340,7 +340,7 @@ code sections."
             (bind-key [remap completion-at-point] #'company-complete company-mode-map)
             (setq company-auto-complete t)
             ;; some better default values
-            (setq company-idle-delay 0.5)
+            (setq company-idle-delay 0.1)
             (setq company-tooltip-limit 10)
             (setq company-minimum-prefix-length 2)
 
