@@ -798,7 +798,7 @@ will be used instead."
               ;; turn on spell checking for strings and comments
               (flyspell-prog-mode)
               ;; highlight TODO and fixme so it looks scary
-              (font-lock-add-keywords nil '(("\\<\\(TODO\\|todo\\|FIXME\\|fixme\\)" 1 font-lock-warning-face t))))
+              (font-lock-add-keywords nil '(("\\<\\(TODO\\|ToDo\\|todo\\|FIXME\\|FixMe\\|fixme\\)" 1 font-lock-warning-face t))))
 
             (add-hook 'prog-mode-hook #'apm-prog-mode-setup)))
 
