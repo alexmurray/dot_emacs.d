@@ -181,14 +181,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package anaconda-mode
   :ensure t
-  :config (progn
-            (defun apm-anaconda-mode-setup ()
-              "Setup anaconda-mode for python programming."
-              ;; turn on anaconda-mode
-              (anaconda-mode t))
-
-            ;; use anaconda-mode for python
-            (add-hook 'python-mode-hook #'apm-anaconda-mode-setup)))
+  :defer t
+  :config (add-hook 'python-mode-hook #'anaconda-mode))
 
 (use-package anzu
   :ensure t
@@ -204,6 +198,27 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package autorevert
   :init (global-auto-revert-mode t))
 
+(defun apm-latex-mode-setup ()
+  "Tweaks and customisations for LaTeX mode."
+  ;; use visual line mode to do soft word wrapping
+  (visual-line-mode 1)
+  ;; and use adaptive-wrap to 'indent' paragraphs appropriately with visual-line-mode
+  (adaptive-wrap-prefix-mode 1)
+  ;; Enable flyspell
+  (flyspell-mode 1)
+  ;; give warning if words misspelled when typing
+  (ispell-minor-mode 1)
+  ;; use flycheck for on the fly syntax checking
+  (flycheck-mode 1)
+  ;; smartparens latex support
+  (require 'smartparens-latex)
+  ;; Enable source-correlate for Control-click forward/reverse search.
+  (TeX-source-correlate-mode 1)
+  ;; enable math mode in latex
+  (LaTeX-math-mode 1)
+  ;; Enable reftex
+  (turn-on-reftex))
+
 (use-package auctex
   :ensure t
   :mode ("\\.tex\\'" . LaTeX-mode)
@@ -215,27 +230,6 @@ point reaches the beginning or end of the buffer, stop there."
             (setq-default reftex-plug-into-AUCTeX t)
             (setq-default TeX-source-specials-view-start-server t)
 
-            (defun apm-latex-mode-setup ()
-              "Tweaks and customisations for LaTeX mode."
-              ;; use visual line mode to do soft word wrapping
-              (visual-line-mode 1)
-              ;; and use adaptive-wrap to 'indent' paragraphs appropriately with visual-line-mode
-              (adaptive-wrap-prefix-mode 1)
-              ;; Enable flyspell
-              (flyspell-mode 1)
-              ;; give warning if words misspelled when typing
-              (ispell-minor-mode 1)
-              ;; use flycheck for on the fly syntax checking
-              (flycheck-mode 1)
-              ;; smartparens latex support
-              (require 'smartparens-latex)
-              ;; Enable source-correlate for Control-click forward/reverse search.
-              (TeX-source-correlate-mode 1)
-              ;; enable math mode in latex
-              (LaTeX-math-mode 1)
-              ;; Enable reftex
-              (turn-on-reftex))
-
             (add-hook 'LaTeX-mode-hook #'apm-latex-mode-setup)))
 
 (use-package browse-kill-ring
@@ -244,72 +238,76 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package bs
   :bind ("C-x C-b" . bs-show))
 
-(use-package cc-mode
-  :config (progn
-            ;; show #if 0 / #endif etc regions in comment face - taken from
-            ;; http://stackoverflow.com/questions/4549015/in-c-c-mode-in-emacs-change-face-of-code-in-if-0-endif-block-to-comment-fa
-            (defun c-mode-font-lock-if0 (limit)
-              "Fontify #if 0 / #endif as comments for c modes etc.
+;; show #if 0 / #endif etc regions in comment face - taken from
+;; http://stackoverflow.com/questions/4549015/in-c-c-mode-in-emacs-change-face-of-code-in-if-0-endif-block-to-comment-fa
+(defun c-mode-font-lock-if0 (limit)
+  "Fontify #if 0 / #endif as comments for c modes etc.
 Bound search to LIMIT as a buffer position to find appropriate
 code sections."
-              (save-restriction
-                (widen)
-                (save-excursion
-                  (goto-char (point-min))
-                  (let ((depth 0) str start start-depth)
-                    (while (re-search-forward "^\\s-*#\\s-*\\(if\\|else\\|endif\\)" limit 'move)
-                      (setq str (match-string 1))
-                      (if (string= str "if")
-                          (progn
-                            (setq depth (1+ depth))
-                            (when (and (null start) (looking-at "\\s-+0"))
-                              (setq start (match-end 0)
-                                    start-depth depth)))
-                        (when (and start (= depth start-depth))
-                          (c-put-font-lock-face start (match-beginning 0) 'font-lock-comment-face)
-                          (setq start nil))
-                        (when (string= str "endif")
-                          (setq depth (1- depth)))))
-                    (when (and start (> depth 0))
-                      (c-put-font-lock-face start (point) 'font-lock-comment-face)))))
-              nil)
+  (save-restriction
+    (widen)
+    (save-excursion
+      (goto-char (point-min))
+      (let ((depth 0) str start start-depth)
+        (while (re-search-forward "^\\s-*#\\s-*\\(if\\|else\\|endif\\)" limit 'move)
+          (setq str (match-string 1))
+          (if (string= str "if")
+              (progn
+                (setq depth (1+ depth))
+                (when (and (null start) (looking-at "\\s-+0"))
+                  (setq start (match-end 0)
+                        start-depth depth)))
+            (when (and start (= depth start-depth))
+              (c-put-font-lock-face start (match-beginning 0) 'font-lock-comment-face)
+              (setq start nil))
+            (when (string= str "endif")
+              (setq depth (1- depth)))))
+        (when (and start (> depth 0))
+          (c-put-font-lock-face start (point) 'font-lock-comment-face)))))
+  nil)
 
-            ;; c-mode and other derived modes (c++, java etc) etc
-            (defun apm-c-mode-common-setup ()
-              "Tweaks and customisations for all modes derived from c-common-mode."
-              (auto-fill-mode 1)
-              ;; diminish auto-fill in the modeline to icon from fontawesome
-              (with-eval-after-load 'diminish
-                (diminish 'auto-fill-function (concat " " [#xF036])))
-              ;; turn on auto-newline and hungry-delete
-              (c-toggle-auto-hungry-state t)
-              ;; set auto newline
-              (setq c-auto-newline 1)
-              ;; enable aggressive indent
-              (aggressive-indent-mode 1)
-              ;; make underscore a word character so movements across words
-              ;; include it - this is the same as vim
-              (modify-syntax-entry ?_ "w")
-              ;; ensure fill-paragraph takes doxygen @ markers as start of new
-              ;; paragraphs properly
-              (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
-              ;; add key-bindings for smartparens hybrid sexps
-              (with-eval-after-load 'smartparens
-                (local-set-key (kbd "C-)") 'sp-slurp-hybrid-sexp)
-                (local-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
-                (local-set-key (kbd "C-<left>") 'sp-dedent-adjust-sexp))
+;; c-mode and other derived modes (c++, java etc) etc
+(defun apm-c-mode-common-setup ()
+  "Tweaks and customisations for all modes derived from c-common-mode."
+  (auto-fill-mode 1)
+  ;; diminish auto-fill in the modeline to icon from fontawesome
+  (with-eval-after-load 'diminish
+    (diminish 'auto-fill-function (concat " " [#xF036])))
+  ;; turn on auto-newline and hungry-delete
+  (c-toggle-auto-hungry-state t)
+  ;; set auto newline
+  (setq c-auto-newline 1)
+  ;; enable aggressive indent
+  (aggressive-indent-mode 1)
+  ;; make underscore a word character so movements across words
+  ;; include it - this is the same as vim
+  (modify-syntax-entry ?_ "w")
+  ;; ensure fill-paragraph takes doxygen @ markers as start of new
+  ;; paragraphs properly
+  (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
+  ;; add key-bindings for smartparens hybrid sexps
+  (with-eval-after-load 'smartparens
+    (local-set-key (kbd "C-)") 'sp-slurp-hybrid-sexp)
+    (local-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
+    (local-set-key (kbd "C-<left>") 'sp-dedent-adjust-sexp))
 
-              ;; set company backends appropriately to prefer smart
-              ;; backends over dumb
-              (with-eval-after-load 'company
-                (unless (executable-find company-clang-executable)
-                  (apm-notify "clang not found for company-clang - is it installed?"))
-                (setq-local company-backends '((company-clang company-semantic) company-gtags)))
+  ;; set company backends appropriately to prefer smart
+  ;; backends over dumb
+  (with-eval-after-load 'company
+    (unless (executable-find company-clang-executable)
+      (apm-notify "clang not found for company-clang - is it installed?"))
+    (setq-local company-backends '((company-clang company-semantic) company-gtags)))
 
-              ;; show #if 0 / #endif etc regions in comment face
-              (font-lock-add-keywords
-               nil
-               '((c-mode-font-lock-if0 (0 font-lock-comment-face prepend))) 'add-to-end))
+  ;; show #if 0 / #endif etc regions in comment face
+  (font-lock-add-keywords
+   nil
+   '((c-mode-font-lock-if0 (0 font-lock-comment-face prepend))) 'add-to-end))
+
+(use-package cc-mode
+  :config (progn
+
+
+
 
             (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup)))
 
@@ -407,15 +405,14 @@ code sections."
 (use-package diminish
   :ensure t)
 
+(defun apm-doxymacs-setup()
+  (doxymacs-mode)
+  (doxymacs-font-lock))
+
 (use-package doxymacs
   :defer t
   :diminish doxymacs-mode
-  :config (progn
-            (defun apm-doxymacs-setup()
-              (doxymacs-mode)
-              (doxymacs-font-lock))
-            ;; enable in c common modes
-            (add-hook 'c-mode-common-hook #'apm-doxymacs-setup)))
+  :config (add-hook 'c-mode-common-hook #'apm-doxymacs-setup))
 
 (use-package dts-mode
   :ensure t)
@@ -443,15 +440,18 @@ code sections."
           (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
             (add-hook hook #'elisp-slime-nav-mode))))
 
+(defun apm-eshell-mode-setup ()
+  "Initialise 'eshell-mode'."
+  (setq mode-name (concat "e" [#xF120])))
+
 (use-package eshell
   :commands eshell
   :bind ("C-x m" . eshell)
-  :config (progn
-            (defun apm-eshell-mode-setup ()
-              "Initialise 'eshell-mode'."
-              (setq mode-name (concat "e" [#xF120])))
+  :config (add-hook 'eshell-mode-hook #'apm-eshell-mode-setup))
 
-            (add-hook 'eshell-mode-hook #'apm-eshell-mode-setup)))
+(defun makefile-tabs-are-less-evil ()
+  "Disable ethan-wspace from caring about tabs in Makefile's."
+  (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))
 
 (use-package ethan-wspace
   :ensure t
@@ -461,12 +461,21 @@ code sections."
             ;; hopefully this doesn't cause problems
             (setq mode-require-final-newline nil)
             ;; disable ethan-wspace caring about tabs in Makefile's
-            (defun makefile-tabs-are-less-evil ()
-              "Disable ethan-wspace from caring about tabs in Makefile's."
-              (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))
-
             (add-hook 'makefile-mode-hook #'makefile-tabs-are-less-evil))
   :init (global-ethan-wspace-mode 1))
+
+(defun apm-evil-jump-to-tag (orig-fun &rest args)
+  "Make use of gtags / elisp-slime-nav for finding definitions.
+
+If no gtags or elisp-slime-nav support then ORIG-FUN with ARGS
+will be used instead."
+  (cond
+   ((bound-and-true-p gtags-mode)
+    (gtags-find-tag-from-here))
+   ((bound-and-true-p elisp-slime-nav-mode)
+    (elisp-slime-nav-find-elisp-thing-at-point (thing-at-point 'symbol)))
+   (t
+    (apply orig-fun args))))
 
 (use-package evil
   :ensure t
@@ -494,18 +503,7 @@ code sections."
             ;; fixup company-complete-number to be handled better with evil
             (evil-declare-change-repeat 'company-complete-number)
 
-            (defun apm-evil-jump-to-tag (orig-fun &rest args)
-              "Make use of gtags / elisp-slime-nav for finding definitions.
 
-If no gtags or elisp-slime-nav support then ORIG-FUN with ARGS
-will be used instead."
-              (cond
-               ((bound-and-true-p gtags-mode)
-                (gtags-find-tag-from-here))
-               ((bound-and-true-p elisp-slime-nav-mode)
-                (elisp-slime-nav-find-elisp-thing-at-point (thing-at-point 'symbol)))
-               (t
-                (apply orig-fun args))))
 
             (advice-add 'evil-jump-to-tag :around #'apm-evil-jump-to-tag)))
 
@@ -668,13 +666,7 @@ will be used instead."
             (setq gdb-show-main t)))
 
 (use-package gud
-  :config (progn
-            (defun apm-enable-gud-tooltip-mode ()
-              "Enable `'gud-tooltip-mode'."
-              ;; enable tooltips in gud mode buffer
-              (gud-tooltip-mode t))
-
-            (add-hook 'gud-mode-hook #'apm-enable-gud-tooltip-mode)))
+  :config (add-hook 'gud-mode-hook #'gud-tooltip-mode))
 
 ;;; gtags
 (use-package auto-gtags
@@ -695,31 +687,43 @@ will be used instead."
             ;; enable gtags in all c common mode buffers
             (add-hook 'c-mode-common-hook #'gtags-mode)))
 
+(defun apm-js2-mode-setup ()
+  "Setup js2-mode."
+  (setq mode-name "js2"))
+
 (use-package js2-mode
   :ensure t
   :defer t
   :config (progn
             (setq-default js2-basic-offset 2)
 
-            (defun apm-js2-mode-setup ()
-              "Setup js2-mode."
-              (setq mode-name "js2"))
-
             (add-hook 'js2-mode-hook 'apm-js2-mode-setup)))
 
-(use-package lisp-mode
-  :config (progn
-            (defun apm-emacs-lisp-mode-setup ()
-              "Setup Emacs Lisp mode."
-              (setq mode-name "el")
-              ;; use aggressive indent
-              (aggressive-indent-mode 1)
-              (eldoc-mode t)
-              ;; use smartparens in strict mode for lisp
-              (with-eval-after-load 'smartparens
-                (smartparens-strict-mode +1)))
+(defun apm-emacs-lisp-mode-setup ()
+  "Setup Emacs Lisp mode."
+  (setq mode-name "el")
+  ;; use aggressive indent
+  (aggressive-indent-mode 1)
+  (eldoc-mode t)
+  ;; use smartparens in strict mode for lisp
+  (with-eval-after-load 'smartparens
+    (smartparens-strict-mode +1)))
 
-            (add-hook 'emacs-lisp-mode-hook #'apm-emacs-lisp-mode-setup)))
+(use-package lisp-mode
+  :config (add-hook 'emacs-lisp-mode-hook #'apm-emacs-lisp-mode-setup))
+
+;; full screen magit-status
+(defun apm-fullscreen-magit-status (orig-fun &rest args)
+  "Create a fullscreen `magit-status' via ORIG-FUN and ARGS."
+  (window-configuration-to-register :magit-fullscreen)
+  (apply orig-fun args)
+  (delete-other-windows))
+
+(defun apm-quit-magit-session ()
+  "Restore the previous window config and kill the magit buffer."
+  (interactive)
+  (kill-buffer)
+  (jump-to-register :magit-fullscreen))
 
 (use-package magit
   :ensure t
@@ -727,22 +731,9 @@ will be used instead."
   :bind ("C-x g" . magit-status)
   :diminish magit-auto-revert-mode
   :config (progn
-            ;; full screen magit-status
-            (defun apm-fullscreen-magit-status (orig-fun &rest args)
-              "Create a fullscreen `magit-status' via ORIG-FUN and ARGS."
-              (window-configuration-to-register :magit-fullscreen)
-              (apply orig-fun args)
-              (delete-other-windows))
-
             (advice-add 'magit-status :around #'apm-fullscreen-magit-status)
 
-            (defun magit-quit-session ()
-              "Restore the previous window config and kill the magit buffer."
-              (interactive)
-              (kill-buffer)
-              (jump-to-register :magit-fullscreen))
-
-            (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)))
+            (define-key magit-status-mode-map (kbd "q") 'apm-quit-magit-session)))
 
 (use-package markdown-mode
   :ensure t
@@ -776,20 +767,20 @@ will be used instead."
   :ensure t
   :init (powerline-default-theme))
 
+(defun apm-prog-mode-setup ()
+  "Tweaks and customisations for all programming modes."
+  ;; highlight lines longer than 80 chars with column-enforce-mode
+  (with-eval-after-load 'column-enforce-mode
+    (column-enforce-mode))
+  ;; turn on spell checking for strings and comments
+  (flyspell-prog-mode)
+  ;; highlight TODO and fixme so it looks scary
+  (font-lock-add-keywords nil '(("\\<\\(TODO\\|ToDo\\|todo\\|FIXME\\|FixMe\\|fixme\\)" 1 font-lock-warning-face t))))
+
 (use-package prog-mode
   :config (progn
             ;; prettify symbols (turn lambda -> λ)
             (global-prettify-symbols-mode 1)
-
-            (defun apm-prog-mode-setup ()
-              "Tweaks and customisations for all programming modes."
-              ;; highlight lines longer than 80 chars with column-enforce-mode
-              (with-eval-after-load 'column-enforce-mode
-                (column-enforce-mode))
-              ;; turn on spell checking for strings and comments
-              (flyspell-prog-mode)
-              ;; highlight TODO and fixme so it looks scary
-              (font-lock-add-keywords nil '(("\\<\\(TODO\\|ToDo\\|todo\\|FIXME\\|FixMe\\|fixme\\)" 1 font-lock-warning-face t))))
 
             (add-hook 'prog-mode-hook #'apm-prog-mode-setup)))
 
@@ -838,6 +829,13 @@ will be used instead."
           ;; show summary of tag at point when idle
           (global-semantic-idle-summary-mode 1)))
 
+(defun apm-c-mode-common-open-block (&rest ignored)
+  "Open a new brace or bracket expression, with relevant newlines and indent (IGNORED is ignored)."
+  (newline)
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
+
 (use-package smartparens
   :ensure t
   :diminish (smartparens-mode . " ()")
@@ -857,13 +855,6 @@ will be used instead."
 
             ;; use smartparens to automatically indent correctly when opening
             ;; a new block
-            (defun apm-c-mode-common-open-block (&rest ignored)
-              "Open a new brace or bracket expression, with relevant newlines and indent (IGNORED is ignored)."
-              (newline)
-              (indent-according-to-mode)
-              (forward-line -1)
-              (indent-according-to-mode))
-
             (dolist (mode '(c-mode c++-mode java-mode))
               (sp-local-pair mode "{" nil :post-handlers '((apm-c-mode-common-open-block "RET"))))))
 
