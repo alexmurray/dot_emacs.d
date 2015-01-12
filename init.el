@@ -605,7 +605,7 @@ will be used instead."
 (use-package flycheck-pos-tip
   :ensure t
   :defer t
-  :init (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  :config (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
 (use-package flyspell
   :diminish flyspell-mode)
