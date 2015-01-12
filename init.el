@@ -181,14 +181,14 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package anaconda-mode
   :ensure t
-  :init (progn
-          (defun apm-anaconda-mode-setup ()
-            "Setup anaconda-mode for python programming."
-            ;; turn on anaconda-mode
-            (anaconda-mode t))
+  :config (progn
+            (defun apm-anaconda-mode-setup ()
+              "Setup anaconda-mode for python programming."
+              ;; turn on anaconda-mode
+              (anaconda-mode t))
 
-          ;; use anaconda-mode for python
-          (add-hook 'python-mode-hook #'apm-anaconda-mode-setup)))
+            ;; use anaconda-mode for python
+            (add-hook 'python-mode-hook #'apm-anaconda-mode-setup)))
 
 (use-package anzu
   :ensure t
@@ -213,30 +213,30 @@ point reaches the beginning or end of the buffer, stop there."
             (setq-default TeX-PDF-mode t)
             (setq-default TeX-master nil)
             (setq-default reftex-plug-into-AUCTeX t)
-            (setq-default TeX-source-specials-view-start-server t))
-  :init (progn
-          (defun apm-latex-mode-setup ()
-            "Tweaks and customisations for LaTeX mode."
-            ;; use visual line mode to do soft word wrapping
-            (visual-line-mode 1)
-            ;; and use adaptive-wrap to 'indent' paragraphs appropriately with visual-line-mode
-            (adaptive-wrap-prefix-mode 1)
-            ;; Enable flyspell
-            (flyspell-mode 1)
-            ;; give warning if words misspelled when typing
-            (ispell-minor-mode 1)
-            ;; use flycheck for on the fly syntax checking
-            (flycheck-mode 1)
-            ;; smartparens latex support
-            (require 'smartparens-latex)
-            ;; Enable source-correlate for Control-click forward/reverse search.
-            (TeX-source-correlate-mode 1)
-            ;; enable math mode in latex
-            (LaTeX-math-mode 1)
-            ;; Enable reftex
-            (turn-on-reftex))
+            (setq-default TeX-source-specials-view-start-server t)
 
-          (add-hook 'LaTeX-mode-hook #'apm-latex-mode-setup)))
+            (defun apm-latex-mode-setup ()
+              "Tweaks and customisations for LaTeX mode."
+              ;; use visual line mode to do soft word wrapping
+              (visual-line-mode 1)
+              ;; and use adaptive-wrap to 'indent' paragraphs appropriately with visual-line-mode
+              (adaptive-wrap-prefix-mode 1)
+              ;; Enable flyspell
+              (flyspell-mode 1)
+              ;; give warning if words misspelled when typing
+              (ispell-minor-mode 1)
+              ;; use flycheck for on the fly syntax checking
+              (flycheck-mode 1)
+              ;; smartparens latex support
+              (require 'smartparens-latex)
+              ;; Enable source-correlate for Control-click forward/reverse search.
+              (TeX-source-correlate-mode 1)
+              ;; enable math mode in latex
+              (LaTeX-math-mode 1)
+              ;; Enable reftex
+              (turn-on-reftex))
+
+            (add-hook 'LaTeX-mode-hook #'apm-latex-mode-setup)))
 
 (use-package browse-kill-ring
   :ensure t)
@@ -459,15 +459,14 @@ code sections."
   :config (progn
             ;; ethan-wspace-mode raises lots of warnings if this is enabled...
             ;; hopefully this doesn't cause problems
-            (setq mode-require-final-newline nil))
-  :init (progn
-          (global-ethan-wspace-mode 1)
-          ;; disable ethan-wspace caring about tabs in Makefile's
-          (defun makefile-tabs-are-less-evil ()
-            "Disable ethan-wspace from caring about tabs in Makefile's."
-            (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))
+            (setq mode-require-final-newline nil)
+            ;; disable ethan-wspace caring about tabs in Makefile's
+            (defun makefile-tabs-are-less-evil ()
+              "Disable ethan-wspace from caring about tabs in Makefile's."
+              (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))
 
-          (add-hook 'makefile-mode-hook #'makefile-tabs-are-less-evil)))
+            (add-hook 'makefile-mode-hook #'makefile-tabs-are-less-evil))
+  :init (global-ethan-wspace-mode 1))
 
 (use-package evil
   :ensure t
