@@ -444,13 +444,14 @@ code sections."
             (add-hook hook #'elisp-slime-nav-mode))))
 
 (use-package eshell
+  :commands eshell
   :bind ("C-x m" . eshell)
-  :init (progn
-          (defun apm-eshell-mode-setup ()
-            "Initialise 'eshell-mode'."
-            (setq mode-name (concat "e" [#xF120])))
+  :config (progn
+            (defun apm-eshell-mode-setup ()
+              "Initialise 'eshell-mode'."
+              (setq mode-name (concat "e" [#xF120])))
 
-          (add-hook 'eshell-mode-hook #'apm-eshell-mode-setup)))
+            (add-hook 'eshell-mode-hook #'apm-eshell-mode-setup)))
 
 (use-package ethan-wspace
   :ensure t
