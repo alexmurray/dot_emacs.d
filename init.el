@@ -8,6 +8,9 @@
 ;; prefer newer non-byte compiled sources to older byte compiled ones
 (setq load-prefer-newer t)
 
+;; uncomment to debug package loading times
+;; (setq use-package-verbose t)
+
 ;;; Package management
 (require 'package)
 ;; we use use-package to do this for us
@@ -348,12 +351,15 @@ code sections."
 
 (use-package company-anaconda
   :ensure t
-  :config (with-eval-after-load 'company
-            (add-to-list 'company-backends 'company-anaconda)))
+  :defer t
+  :init (with-eval-after-load 'company
+          (add-to-list 'company-backends 'company-anaconda)))
 
 (use-package company-auctex
   :ensure t
-  :init (company-auctex-init))
+  :defer t
+  :commands company-auctex-init
+  :idle (company-auctex-init))
 
 (use-package company-math
   :ensure t
@@ -610,17 +616,16 @@ will be used instead."
   :ensure t)
 
 (use-package git-commit-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package gitconfig-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package gitignore-mode
-  :ensure t)
-
-(use-package hungry-delete
   :ensure t
-  :init (global-hungry-delete-mode))
+  :defer t)
 
 (use-package ido
   :config (progn
@@ -761,7 +766,8 @@ will be used instead."
   :config (setq paradox-github-token nil))
 
 (use-package php-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package powerline
   :ensure t
@@ -786,6 +792,7 @@ will be used instead."
 
 (use-package projectile
   :ensure t
+  :defer t
   :diminish (projectile-mode . ,(concat " " [#xF013]))
   :init (projectile-global-mode))
 
@@ -807,6 +814,8 @@ will be used instead."
   :ensure t)
 
 (use-package semantic
+  ;; disable semantic for now since generally just use company-clang now
+  :disabled t
   :config (progn
             ;; parse include headers in idle time
             (setq semantic-idle-work-update-headers-flag t)
@@ -870,8 +879,10 @@ will be used instead."
   :init (load-theme 'solarized-light t))
 
 (use-package trac-wiki
+  :defer t
   :pre-load (use-package xml-rpc
-              :ensure t)
+              :ensure t
+              :defer t)
   :load-path "vendor/"
   :config (setq trac-projects '(("mk2"
                                  :endpoint "http://projects.cohda.wireless:8000/trac/mk2/login/xmlrpc"
