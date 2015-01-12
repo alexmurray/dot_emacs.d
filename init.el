@@ -412,13 +412,12 @@ code sections."
 (use-package doxymacs
   :defer t
   :diminish doxymacs-mode
-  :config
-  :init  (progn
-           (defun apm-doxymacs-setup()
-             (doxymacs-mode)
-             (doxymacs-font-lock))
-           ;; enable in c common modes
-           (add-hook 'c-mode-common-hook #'apm-doxymacs-setup)))
+  :config (progn
+            (defun apm-doxymacs-setup()
+              (doxymacs-mode)
+              (doxymacs-font-lock))
+            ;; enable in c common modes
+            (add-hook 'c-mode-common-hook #'apm-doxymacs-setup)))
 
 (use-package dts-mode
   :ensure t)
