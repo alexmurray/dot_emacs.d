@@ -662,12 +662,11 @@ will be used instead."
 
 (use-package ispell
   :defer t
-  :config (progn
+  :config (when (executable-find "aspell")
             ;; use gb dictionary via aspell if available
-            (when (executable-find "aspell")
-              (setq ispell-program-name "aspell"
-                    ispell-dictionary "british"
-                    ispell-extra-args '("--sug-mode=ultra")))))
+            (setq ispell-program-name "aspell"
+                  ispell-dictionary "british"
+                  ispell-extra-args '("--sug-mode=ultra"))))
 
 (use-package flx-ido
   :ensure t
@@ -895,10 +894,9 @@ will be used instead."
   :pre-load (use-package xml-rpc
               :ensure t)
   :load-path "vendor/"
-  :config
-  (setq trac-projects '(("mk2"
-                         :endpoint "http://projects.cohda.wireless:8000/trac/mk2/login/xmlrpc"
-                         :login "amurray"))))
+  :config (setq trac-projects '(("mk2"
+                                 :endpoint "http://projects.cohda.wireless:8000/trac/mk2/login/xmlrpc"
+                                 :login "amurray"))))
 
 (use-package unicode-fonts
   :ensure t
