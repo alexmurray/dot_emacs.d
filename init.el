@@ -185,9 +185,7 @@ point reaches the beginning or end of the buffer, stop there."
           (defun apm-anaconda-mode-setup ()
             "Setup anaconda-mode for python programming."
             ;; turn on anaconda-mode
-            (anaconda-mode t)
-            ;; integrate into eldoc
-            (anaconda-eldoc))
+            (anaconda-mode t))
 
           ;; use anaconda-mode for python
           (add-hook 'python-mode-hook #'apm-anaconda-mode-setup)))
@@ -231,8 +229,8 @@ point reaches the beginning or end of the buffer, stop there."
             (flycheck-mode 1)
             ;; smartparens latex support
             (require 'smartparens-latex)
-            ;; Enable source-specials for Control-click forward/reverse search.
-            (TeX-source-specials-mode 1)
+            ;; Enable source-correlate for Control-click forward/reverse search.
+            (TeX-source-correlate-mode 1)
             ;; enable math mode in latex
             (LaTeX-math-mode 1)
             ;; Enable reftex
