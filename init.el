@@ -203,6 +203,9 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package apropos
   :bind ("C-h a" . apropos))
 
+(use-package autorevert
+  :init (global-auto-revert-mode t))
+
 (use-package auctex
   :ensure t
   :mode ("\\.tex\\'" . LaTeX-mode)
