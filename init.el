@@ -325,7 +325,7 @@ code sections."
 
 (use-package company
   :ensure t
-  :defer t
+  :commands global-company-mode
   :diminish company-mode
   :init (global-company-mode t)
   :config (progn
@@ -348,15 +348,7 @@ code sections."
             (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
 
             ;; put most often used completions at stop of list
-            (setq company-transformers '(company-sort-by-occurrence))
-
-            ;; choose better colours for company
-            (set-face-attribute 'company-tooltip nil :background "black" :foreground "gray40")
-            (set-face-attribute 'company-tooltip-selection nil :inherit 'company-tooltip :background "gray15")
-            (set-face-attribute 'company-preview nil :background "black")
-            (set-face-attribute 'company-preview-common nil :inherit 'company-preview :foreground "gray40")
-            (set-face-attribute 'company-scrollbar-bg nil :inherit 'company-tooltip :background "gray20")
-            (set-face-attribute 'company-scrollbar-fg nil :background "gray40")))
+            (setq company-transformers '(company-sort-by-occurrence))))
 
 (use-package company-anaconda
   :ensure t
