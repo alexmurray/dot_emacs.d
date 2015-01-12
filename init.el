@@ -538,32 +538,31 @@ will be used instead."
   :ensure t
   :config (progn
             (setq evil-leader/leader ","
-                  evil-leader/in-all-states t))
-  :init (progn
-          (global-evil-leader-mode 1)
-          (evil-leader/set-key
-            "ci" 'evil-surround-change
-            "cc" 'evilnc-comment-or-uncomment-lines
-            "fc" 'flycheck-buffer
-            "fn" 'flycheck-next-error
-            "fp" 'flycheck-previous-error
-            "gt" 'gtags-find-tag
-            "gr" 'gtags-find-rtag
-            "gs" 'gtags-find-symbol
-            "gc" 'auto-gtags-create-or-update
-            "jw" 'evil-ace-jump-word-mode ; ,jw for Ace Jump (word)
-            "jl" 'evil-ace-jump-line-mode ; ,jl for Ace Jump (line)
-            "jc" 'evil-ace-jump-char-mode ; ,jc for Ace Jump (char)
-            "mg" 'magit-status
-            "ma" 'mc/mark-all-like-this-in-defun
-            "mw" 'mc/mark-all-words-like-this-in-defun
-            "ms" 'mc/mark-all-symbols-like-this-in-defun
-            "md" 'mc/mark-all-like-this-dwim
-            "rw" 'rotate-windows
-            "zt" 'ace-jump-zap-to-char    ; ,zt for Ace Jump Zap To Char
-            "zu" 'ace-jump-zap-up-to-char ; ,zu for Ace Jump Zap UP To Char
-            "x" 'smex
-            "SPC" 'evil-search-highlight-persist-remove-all)))
+                  evil-leader/in-all-states t)
+            (evil-leader/set-key
+              "ci" 'evil-surround-change
+              "cc" 'evilnc-comment-or-uncomment-lines
+              "fc" 'flycheck-buffer
+              "fn" 'flycheck-next-error
+              "fp" 'flycheck-previous-error
+              "gt" 'gtags-find-tag
+              "gr" 'gtags-find-rtag
+              "gs" 'gtags-find-symbol
+              "gc" 'auto-gtags-create-or-update
+              "jw" 'evil-ace-jump-word-mode ; ,jw for Ace Jump (word)
+              "jl" 'evil-ace-jump-line-mode ; ,jl for Ace Jump (line)
+              "jc" 'evil-ace-jump-char-mode ; ,jc for Ace Jump (char)
+              "mg" 'magit-status
+              "ma" 'mc/mark-all-like-this-in-defun
+              "mw" 'mc/mark-all-words-like-this-in-defun
+              "ms" 'mc/mark-all-symbols-like-this-in-defun
+              "md" 'mc/mark-all-like-this-dwim
+              "rw" 'rotate-windows
+              "zt" 'ace-jump-zap-to-char    ; ,zt for Ace Jump Zap To Char
+              "zu" 'ace-jump-zap-up-to-char ; ,zu for Ace Jump Zap UP To Char
+              "x" 'smex
+              "SPC" 'evil-search-highlight-persist-remove-all))
+  :init (global-evil-leader-mode 1))
 
 (use-package evil-nerd-commenter
   :ensure t)
