@@ -563,6 +563,7 @@ will be used instead."
             "jw" 'evil-ace-jump-word-mode ; ,jw for Ace Jump (word)
             "jl" 'evil-ace-jump-line-mode ; ,jl for Ace Jump (line)
             "jc" 'evil-ace-jump-char-mode ; ,jc for Ace Jump (char)
+            "mg" 'magit-status
             "ma" 'mc/mark-all-like-this-in-defun
             "mw" 'mc/mark-all-words-like-this-in-defun
             "ms" 'mc/mark-all-symbols-like-this-in-defun
