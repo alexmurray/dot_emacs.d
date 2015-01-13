@@ -607,6 +607,12 @@ will be used instead."
 (use-package flycheck-cohda-c-style
   :load-path "vendor/flycheck-cohda-c-style")
 
+(use-package flycheck-package
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'flycheck
+          (flycheck-package-setup)))
+
 (use-package flycheck-pos-tip
   :ensure t
   :defer t
