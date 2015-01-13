@@ -193,7 +193,8 @@ point reaches the beginning or end of the buffer, stop there."
   :init (global-anzu-mode))
 
 (use-package apm-c
-  :load-path "lisp/")
+  :load-path "lisp/"
+  :config (add-hook 'c-mode-hook 'apm-c-mode-setup))
 
 (use-package apropos
   :bind ("C-h a" . apropos))

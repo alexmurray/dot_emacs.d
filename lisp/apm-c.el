@@ -79,8 +79,6 @@ PARAM-STRING should be as <typename> <variable>,..."
   ;; paragraphs properly
   (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
 
-(add-hook 'c-mode-hook 'apm-c-mode-setup)
-
 (provide 'apm-c)
 
 ;;; apm-c.el ends here
