@@ -852,8 +852,9 @@ will be used instead."
           ;; show summary of tag at point when idle
           (global-semantic-idle-summary-mode 1)))
 
-(defun apm-c-mode-common-open-block (&rest ignored)
-  "Open a new brace or bracket expression, with relevant newlines and indent (IGNORED is ignored)."
+;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
+(defun apm-c-mode-common-open-block (&rest _ignored)
+  "Open a new brace or bracket expression, with relevant newlines and indent (_IGNORED is ignored)."
   (newline)
   (indent-according-to-mode)
   (forward-line -1)
@@ -862,6 +863,7 @@ will be used instead."
 (use-package smartparens
   :ensure t
   :diminish (smartparens-mode . " ()")
+  :init (smartparens-global-mode t)
   :config (progn
             (require 'smartparens-config)
             (setq sp-base-key-bindings 'paredit)
