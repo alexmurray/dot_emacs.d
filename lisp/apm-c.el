@@ -70,39 +70,6 @@ PARAM-STRING should be as <typename> <variable>,..."
       (match-string 1 decl-string)
     nil))
 
-(defvar include-guard-format "__%s__"
-  "Format string for include guard.
-%s replaced by uppercase of filename with - and . replaced by _
-So if the filename is foo-bar.h the replacement would be FOO_BAR_H
-and the default include guard would be __FOO_BAR_H__.")
-
-(defun include-guard-for-filename (filename)
-  "Return a suitable C/C++ include guard derived from FILENAME."
-  (let* ((fbasename (replace-regexp-in-string ".*/" "" filename))
-         (inc-guard-base (replace-regexp-in-string "[.-]"
-                                                   "_"
-                                                   fbasename)))
-    (format include-guard-format (upcase inc-guard-base))))
-
-(defun add-include-guard-if-header-file ()
-  "Insert include guard if current buffer filename ends with .h."
-  (let ((filename (buffer-file-name (current-buffer))))
-    (when (string= ".h" (substring filename -2))
-      (let ((include-guard (include-guard-for-filename filename)))
-        (insert "#ifndef " include-guard)
-        (newline)
-        (insert "#define " include-guard)
-        (newline 4)
-        (insert "#endif")
-        (newline)
-        (forward-line -3)
-        (set-buffer-modified-p nil)))))
-
-;; when creating a new .h file automatically insert an appropriate
-;; include gaurd
-(add-hook 'find-file-not-found-hooks
-          'add-include-guard-if-header-file)
-
 (defun apm-c-mode-setup ()
   "Tweaks and customisations for `c-mode'."
   (c-set-style "cohda")
