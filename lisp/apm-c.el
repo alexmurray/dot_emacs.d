@@ -75,20 +75,6 @@ PARAM-STRING should be as <typename> <variable>,..."
   (c-set-style "cohda")
   ;; and treat linux style as safe for local variable
   (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
-  ;; enable gtk-doc helpers from gtk-doc-tools to easily
-  ;; insert gtk-doc style comment declarations using C-x 4 h
-  ;; (gtk-doc-insert) or C-x 4 s (gtk-doc-insert-section) to
-  ;; comment current function or section respectively
-  ;;(load "gtk-doc" t) ; ignore error if can't be found
-  ;; devhelp - ignore error if couldn't be loaded
-  (when (require 'devhelp nil t)
-    ;; reduce timeout to look up faster
-    (setq devhelp-assistant-timeout 0.2)
-    ;; Bind F6 to enable the automatic assistant.
-    (require 'bind-key)
-    (bind-key "<f6>" 'devhelp-toggle-automatic-assistant)
-    ;; Bind F7 to search with the assistant window.
-    (bind-key "<f7>" 'devhelp-assistant-word-at-point))
   ;; ensure fill-paragraph takes doxygen @ markers as start of new
   ;; paragraphs properly
   (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
