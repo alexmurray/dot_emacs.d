@@ -212,10 +212,8 @@ point reaches the beginning or end of the buffer, stop there."
   (flyspell-mode 1)
   ;; give warning if words misspelled when typing
   (ispell-minor-mode 1)
-  ;; use flycheck for on the fly syntax checking
-  (flycheck-mode 1)
   ;; smartparens latex support
-  (require 'smartparens-latex)
+  (use-package smartparens-latex)
   ;; Enable source-correlate for Control-click forward/reverse search.
   (TeX-source-correlate-mode 1)
   ;; enable math mode in latex
@@ -232,7 +230,7 @@ point reaches the beginning or end of the buffer, stop there."
             (setq-default TeX-PDF-mode t)
             (setq-default TeX-master nil)
             (setq-default reftex-plug-into-AUCTeX t)
-            (setq-default TeX-source-specials-view-start-server t)
+            (setq-default TeX-source-correlate-start-server t)
 
             (add-hook 'LaTeX-mode-hook #'apm-latex-mode-setup)))
 
@@ -308,12 +306,7 @@ code sections."
    '((c-mode-font-lock-if0 (0 font-lock-comment-face prepend))) 'add-to-end))
 
 (use-package cc-mode
-  :config (progn
-
-
-
-
-            (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup)))
+  :config (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
 
 (use-package c-eldoc
   :ensure t
