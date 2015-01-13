@@ -693,13 +693,18 @@ will be used instead."
             ;; auto try and create / update gtags for c common modes
             (add-hook 'c-mode-common-hook #'auto-gtags-create-or-update)))
 
+(defun apm-gtags-setup ()
+  (gtags-mode 1)
+  ;; seems we can't diminish gtags-mode via use-package :diminish directive -
+  ;; instead do it manually after enabling
+  (diminish 'gtags-mode))
+
 (use-package gtags
-  :diminish (gtags-mode . ,(concat " " [#xF02C]))
   ;; stop gtags.el stealing middle mouse click paste
   :config (progn
             (define-key gtags-mode-map [mouse-2] 'mouse-yank-primary)
             ;; enable gtags in all c common mode buffers
-            (add-hook 'c-mode-common-hook #'gtags-mode)))
+            (add-hook 'c-mode-common-hook #'apm-gtags-setup)))
 
 (defun apm-js2-mode-setup ()
   "Setup js2-mode."
