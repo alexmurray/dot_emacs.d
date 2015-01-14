@@ -477,19 +477,6 @@ code sections."
             (add-hook 'makefile-mode-hook #'makefile-tabs-are-less-evil))
   :init (global-ethan-wspace-mode 1))
 
-(defun apm-evil-jump-to-tag (orig-fun &rest args)
-  "Make use of gtags / elisp-slime-nav for finding definitions.
-
-If no gtags or elisp-slime-nav support then ORIG-FUN with ARGS
-will be used instead."
-  (cond
-   ((bound-and-true-p gtags-mode)
-    (gtags-find-tag-from-here))
-   ((bound-and-true-p elisp-slime-nav-mode)
-    (elisp-slime-nav-find-elisp-thing-at-point (thing-at-point 'symbol)))
-   (t
-    (apply orig-fun args))))
-
 (use-package evil
   :ensure t
   :init (evil-mode t)
@@ -516,9 +503,13 @@ will be used instead."
             ;; fixup company-complete-number to be handled better with evil
             (evil-declare-change-repeat 'company-complete-number)
 
-
-
-            (advice-add 'evil-jump-to-tag :around #'apm-evil-jump-to-tag)))
+            ;; use gtags / elisp-slime-nav for searching when in those modes
+            (with-eval-after-load 'gtags
+              (evil-define-key 'normal gtags-mode-map (kbd "C-]")
+                #'gtags-find-tag-from-here))
+            (with-eval-after-load 'elisp-slime-nav
+              (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
+                #'elisp-slime-nav-find-elisp-thing-at-point))))
 
 (use-package evil-args
   :ensure t
