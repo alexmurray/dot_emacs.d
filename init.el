@@ -500,6 +500,10 @@ code sections."
                             term-mode))
               (evil-set-initial-state mode 'emacs))
 
+            ;; add vim binding for go to next misspelled word
+            (with-eval-after-load 'flyspell
+              (define-key evil-normal-state-map "]s" 'flyspell-goto-next-error))
+
             ;; fixup company-complete-number to be handled better with evil
             (evil-declare-change-repeat 'company-complete-number)
 
