@@ -187,10 +187,16 @@ point reaches the beginning or end of the buffer, stop there."
   :defer t
   :config (add-hook 'python-mode-hook #'anaconda-mode))
 
-(use-package anzu
-  :ensure t
-  :diminish anzu-mode
-  :init (global-anzu-mode))
+(use-package evil-anzu
+  :load-path "vendor/"
+  :pre-load (use-package anzu
+              :ensure t
+              :defer t)
+  :diminish evil-anzu-mode
+  :config (progn
+            (define-key evil-motion-state-map "n" 'evil-anzu-search-next)
+            (define-key evil-motion-state-map "N" 'evil-anzu-search-previous))
+  :init (global-evil-anzu-mode))
 
 (use-package apm-c
   :load-path "lisp/"
