@@ -791,10 +791,6 @@ code sections."
   :ensure t
   :defer t)
 
-(use-package powerline
-  :ensure t
-  :init (powerline-default-theme))
-
 (defun apm-prog-mode-setup ()
   "Tweaks and customisations for all programming modes."
   ;; highlight lines longer than 80 chars with column-enforce-mode
