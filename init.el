@@ -865,7 +865,11 @@ code sections."
 
 (use-package smart-mode-line
   :ensure t
-  :init (sml/setup)
+  :defer t
+  ;; seems we need to trust on first setup since custom file has not been read
+  ;; yet when running emacs daemon
+  :init (let ((sml/no-confirm-load-theme t))
+          (sml/setup))
   :config (sml/apply-theme 'automatic))
 
 (use-package smartparens
