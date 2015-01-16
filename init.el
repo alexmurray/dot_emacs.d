@@ -84,7 +84,6 @@
     (custom-set-variables
      '(x-gtk-use-system-tooltips nil))
     (tooltip-mode -1)
-    (mouse-wheel-mode t)
     (blink-cursor-mode -1)
     (if (font-info "Ubuntu Mono")
         (set-face-attribute 'default nil :font "Ubuntu Mono 12")
