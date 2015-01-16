@@ -896,7 +896,10 @@ code sections."
 (use-package solarized-theme
   :ensure t
   :defer t
-  :init (load-theme 'solarized-light t))
+  :init (progn
+          (setq x-underline-at-descent-line t)
+          (setq solarized-distinct-fringe-background t)
+          (load-theme 'solarized-light t)))
 
 (use-package trac-wiki
   :defer t
