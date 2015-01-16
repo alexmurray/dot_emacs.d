@@ -863,6 +863,11 @@ code sections."
   (forward-line -1)
   (indent-according-to-mode))
 
+(use-package smart-mode-line
+  :ensure t
+  :init (sml/setup)
+  :config (sml/apply-theme 'automatic))
+
 (use-package smartparens
   :ensure t
   :diminish (smartparens-mode . " ()")
