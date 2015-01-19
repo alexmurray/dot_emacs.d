@@ -152,6 +152,23 @@ point reaches the beginning or end of the buffer, stop there."
 ;; remap C-a to `smarter-move-beginning-of-line'
 (bind-key [remap move-beginning-of-line] 'smarter-move-beginning-of-line)
 
+;; general modes in text-mode or derived from
+(defun apm-text-mode-setup ()
+  "Setup `text-mode' buffers."
+  ;; use visual line mode to do soft word wrapping
+  (visual-line-mode 1)
+  ;; and use adaptive-wrap to 'indent' paragraphs appropriately with visual-line-mode
+  (adaptive-wrap-prefix-mode 1)
+  ;; Enable flyspell
+  (flyspell-mode 1)
+  ;; give warning if words misspelled when typing
+  (ispell-minor-mode 1)
+  ;; add company-ispell backend
+  (with-eval-after-load 'company
+    (setq-local company-backends (append '(company-ispell) company-backends))))
+
+(add-hook 'text-mode-hook #'apm-text-mode-setup)
+
 ;;; Packages
 (use-package ace-jump-mode
   :ensure t
@@ -212,14 +229,6 @@ point reaches the beginning or end of the buffer, stop there."
 
 (defun apm-latex-mode-setup ()
   "Tweaks and customisations for LaTeX mode."
-  ;; use visual line mode to do soft word wrapping
-  (visual-line-mode 1)
-  ;; and use adaptive-wrap to 'indent' paragraphs appropriately with visual-line-mode
-  (adaptive-wrap-prefix-mode 1)
-  ;; Enable flyspell
-  (flyspell-mode 1)
-  ;; give warning if words misspelled when typing
-  (ispell-minor-mode 1)
   ;; smartparens latex support
   (use-package smartparens-latex)
   ;; Enable source-correlate for Control-click forward/reverse search.
