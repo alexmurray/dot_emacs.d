@@ -920,6 +920,7 @@ code sections."
 
 (use-package trac-wiki
   :defer t
+  :commands trac-wiki
   :pre-load (use-package xml-rpc
               :ensure t
               :defer t)
