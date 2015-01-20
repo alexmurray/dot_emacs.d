@@ -918,16 +918,12 @@ code sections."
           (setq solarized-distinct-fringe-background t)
           (load-theme 'solarized-light t)))
 
-(use-package trac-wiki
+(use-package tracwiki-mode
+  :ensure t
   :defer t
-  :commands trac-wiki
-  :pre-load (use-package xml-rpc
-              :ensure t
-              :defer t)
-  :load-path "vendor/"
-  :config (setq trac-projects '(("mk2"
-                                 :endpoint "http://projects.cohda.wireless:8000/trac/mk2/login/xmlrpc"
-                                 :login "amurray"))))
+  :commands tracwiki
+  :config (tracwiki-define-project "mk2"
+                                   "http://projects.cohda.wireless:8000/trac/mk2"))
 
 (use-package unicode-fonts
   :ensure t
