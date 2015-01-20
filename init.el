@@ -880,7 +880,7 @@ code sections."
 
 (use-package smartparens
   :ensure t
-  :diminish (smartparens-mode . " ()")
+  :diminish (smartparens-mode . " ⒮")
   :init (smartparens-global-mode t)
   :config (progn
             (require 'smartparens-config)
