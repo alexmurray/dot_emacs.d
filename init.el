@@ -331,12 +331,13 @@ code sections."
 (use-package company
   :ensure t
   :commands global-company-mode
-  :init (global-company-mode t)
+  :init (progn
+          ;; set default lighter as nothing so in general it is not displayed
+          ;; but will still be shown when completion popup is active to show the
+          ;; backend which is in use
+          (setq company-default-lighter "")
+          (global-company-mode t))
   :config (progn
-            ;; set default lighter as nothing so in general it is not displayed
-            ;; but will still be shown when completion popup is active to show the
-            ;; backend which is in use
-            (setq company-default-lighter "")
             ;; Use Company for completion
             (bind-key [remap completion-at-point] #'company-complete company-mode-map)
 
