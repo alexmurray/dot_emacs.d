@@ -204,13 +204,7 @@ point reaches the beginning or end of the buffer, stop there."
   :config (add-hook 'python-mode-hook #'anaconda-mode))
 
 (use-package evil-anzu
-  :load-path "vendor/"
-  :pre-load (progn
-              (use-package anzu
-                :ensure t
-                :defer t)
-              (use-package evil
-                :ensure t))
+  :ensure t
   :diminish evil-anzu-mode
   :config (progn
             (define-key evil-motion-state-map "n" 'evil-anzu-search-next)
