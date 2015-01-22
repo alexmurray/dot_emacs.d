@@ -942,6 +942,13 @@ code sections."
 (use-package web-jump
   :bind ("C-x w" . webjump))
 
+(use-package web-mode
+  :ensure t
+  :commands web-mode
+  ;; use smartparens instead
+  :config (setq web-mode-enable-auto-pairing nil)
+  :mode ("\\.php\\'" . web-mode))
+
 (use-package which-func
   :init (which-function-mode t))
 
