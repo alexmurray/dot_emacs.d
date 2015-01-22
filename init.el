@@ -205,11 +205,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package evil-anzu
   :ensure t
-  :diminish evil-anzu-mode
-  :config (progn
-            (define-key evil-motion-state-map "n" 'evil-anzu-search-next)
-            (define-key evil-motion-state-map "N" 'evil-anzu-search-previous))
-  :init (global-evil-anzu-mode))
+  :diminish evil-anzu-mode)
 
 (use-package apm-c
   :load-path "lisp/"
