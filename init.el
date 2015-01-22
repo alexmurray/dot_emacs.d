@@ -877,7 +877,10 @@ code sections."
   ;; yet when running emacs daemon
   :init (let ((sml/no-confirm-load-theme t))
           (sml/setup))
-  :config (sml/apply-theme 'automatic))
+  :config (progn
+            (add-to-list 'sml/replacer-regexp-list '("^~/dev/branches/RelX/" ":Relx:") t)
+            (add-to-list 'sml/replacer-regexp-list '("^:RelX:\\(.*\\)/software/" ":RelX/\\1/:") t)
+            (sml/apply-theme 'respectful)))
 
 (use-package smartparens
   :ensure t
