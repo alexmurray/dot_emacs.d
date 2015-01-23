@@ -834,15 +834,13 @@ code sections."
   :ensure t)
 
 (use-package semantic
-  ;; disable semantic for now since generally just use company-clang now
-  :disabled t
   :config (progn
             ;; parse include headers in idle time
             (setq semantic-idle-work-update-headers-flag t)
 
             ;; get semantic to index back to various top-level marker files
             (defvar apm-semantic-project-root-markers
-              '(".git" "GTAGS" "TAGS" ".svn" "Makefile"))
+              '(".git" "GTAGS" "TAGS" "Makefile" ".svn" ))
 
             (setq semanticdb-project-root-functions
                   (mapcar #'(lambda (file)
