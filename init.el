@@ -337,6 +337,9 @@ code sections."
             ;; Use Company for completion
             (bind-key [remap completion-at-point] #'company-complete company-mode-map)
 
+            ;; enable clang documentation
+            (setq company-clang-parse-documentation t)
+
             ;; complete automatically with explicit actions
             (setq company-auto-complete 'company-explicit-action-p)
 
