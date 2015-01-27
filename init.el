@@ -305,7 +305,7 @@ code sections."
   (with-eval-after-load 'company
     (unless (executable-find company-clang-executable)
       (apm-notify "clang not found for company-clang - is it installed?"))
-    (setq-local company-backends '((company-clang company-semantic) company-gtags)))
+    (setq-local company-backends '(company-clang company-semantic company-gtags)))
 
   ;; show #if 0 / #endif etc regions in comment face
   (font-lock-add-keywords
