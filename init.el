@@ -382,6 +382,15 @@ code sections."
           (add-to-list 'company-backends 'company-math-symbols-unicode)
           (add-to-list 'company-backends 'company-math-symbols-latex)))
 
+(use-package company-quickhelp
+  :load-path "vendor/"
+  :pre-load (progn
+              (use-package company
+                :ensure t)
+              (use-package popup
+                :ensure t))
+  :init (add-hook 'company-mode-hook #'company-quickhelp-mode))
+
 (use-package compile
   :bind ("C-x C-m" . compile)
   ;; automatically scroll to first error on output
