@@ -1,15 +1,16 @@
-;;; Adapted from https://gist.github.com/dgutov/6dd7669697c5c0cd7e8f
+;;; From https://gist.github.com/dgutov/6dd7669697c5c0cd7e8f
 ;;; WIP, somewhat usable
 (require 'company)
-(require 'popup)
+(require 'pos-tip)
 
 (defun company-quickhelp-frontend (command)
   "`company-mode' front-end showing documentation in a
-  `popup' popup."
+  `pos-tip' popup."
   (pcase command
     (`post-command (company-quickhelp--set-timer))
     (`hide
-     (company-quickhelp--cancel-timer))))
+     (company-quickhelp--cancel-timer)
+     (pos-tip-hide))))
 
 (defun company-quickhelp--show ()
   (company-quickhelp--cancel-timer)
@@ -21,11 +22,16 @@
         (let* ((width (overlay-get ovl 'company-width))
                (col (overlay-get ovl 'company-column))
                (extra (- (+ width col) (company--window-width))))
-          (setq company-quickhelp--popup
-                (popup-tip (with-current-buffer doc-buffer (buffer-string)))))))))
-
-(defvar company-quickhelp--popup nil
-  "Quickhelp popup.")
+          (pos-tip-show (with-current-buffer doc-buffer (buffer-string))
+                        nil
+                        nil
+                        nil
+                        300
+                        80
+                        nil
+                        (* (frame-char-width)
+                           (- width (length company-prefix)
+                              (if (< 0 extra) extra 1)))))))))
 
 (defvar company-quickhelp--timer nil
   "Quickhelp idle timer.")
@@ -46,7 +52,7 @@
 
 ;;;###autoload
 (define-minor-mode company-quickhelp-mode
-  "Provides documentation popups for `company-mode' using `popup'."
+  "Provides documentation popups for `company-mode' using `pos-tip'."
   :global t
   (if company-quickhelp-mode
       (push 'company-quickhelp-frontend company-frontends)
