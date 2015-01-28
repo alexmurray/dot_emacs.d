@@ -177,6 +177,9 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package ace-jump-zap
   :ensure t)
 
+(use-package ace-window
+  :ensure t)
+
 (use-package adaptive-wrap
   :ensure t)
 
@@ -587,6 +590,7 @@ code sections."
               "rw" 'rotate-windows
               "zt" 'ace-jump-zap-to-char    ; ,zt for Ace Jump Zap To Char
               "zu" 'ace-jump-zap-up-to-char ; ,zu for Ace Jump Zap UP To Char
+              "w" 'ace-window
               "x" 'smex
               "SPC" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
