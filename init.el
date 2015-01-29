@@ -614,10 +614,6 @@ code sections."
 (use-package evil-visualstar
   :ensure t)
 
-(use-package evil-paredit
-  :ensure t
-  :init (add-hook 'emacs-lisp-mode-hook #'evil-paredit-mode))
-
 (use-package exec-path-from-shell
   :ensure t
   :init (when (memq window-system '(mac ns))
