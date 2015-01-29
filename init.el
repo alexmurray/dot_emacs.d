@@ -587,6 +587,8 @@ code sections."
               "mw" 'mc/mark-all-words-like-this-in-defun
               "ms" 'mc/mark-all-symbols-like-this-in-defun
               "md" 'mc/mark-all-like-this-dwim
+              "pf" 'projectile-find-file
+              "pd" 'projectile-find-file-dwim
               "rw" 'rotate-windows
               "zt" 'ace-jump-zap-to-char    ; ,zt for Ace Jump Zap To Char
               "zu" 'ace-jump-zap-up-to-char ; ,zu for Ace Jump Zap UP To Char
@@ -830,7 +832,8 @@ code sections."
   :ensure t
   :defer t
   :diminish (projectile-mode . ,(concat " " [#xF013]))
-  :init (projectile-global-mode))
+  :init (projectile-global-mode)
+  :config (setq projectile-enable-caching t))
 
 (use-package rainbow-mode
   :ensure t
