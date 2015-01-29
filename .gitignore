@@ -1,5 +1,5 @@
-*~
 *#*#
+*~
 /.mc-lists.el
 /.places
 /.smex-items
@@ -12,7 +12,9 @@
 /ido.last
 /projectile-bookmarks.eld
 /projectile.cache
+/recentf
 /semanticdb
 /session.*
 /tramp
 /url
+/var/
