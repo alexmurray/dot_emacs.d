@@ -304,7 +304,7 @@ code sections."
   ;; set company backends appropriately to prefer smart
   ;; backends over dumb
   (with-eval-after-load 'company
-    (unless (executable-find company-clang-executable)
+    (unless company-clang-executable
       (apm-notify "clang not found for company-clang - is it installed?"))
     (setq-local company-backends '(company-clang company-semantic company-gtags)))
 
