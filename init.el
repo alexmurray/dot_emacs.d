@@ -969,6 +969,11 @@ code sections."
 (use-package whitespace
   :diminish whitespace-mode)
 
+(defun apm-yas-company-prompt (prompt choices &optional display-fn)
+  "PROMPT for yasnippet CHOICES via `company-begin-with'.
+DISPLAY-FN is ignored."
+  (company-begin-with choices))
+
 (use-package yasnippet
   :ensure t
   :commands yas-global-mode
@@ -977,8 +982,11 @@ code sections."
             ;; set this first so we don't get the bundled snippets loaded since
             ;; they don't generally match my desired style / indentation etc
             (setq yas-snippet-dirs (expand-file-name "snippets" user-emacs-directory))
-            ;; prompt using ido
-            (setq yas-prompt-functions '(yas/ido-prompt yas/completing-prompt yas/no-prompt)))
+            (setq yas-prompt-functions '(yas-ido-prompt yas-completing-prompt yas-no-prompt))
+            ;; prompt with company
+            (with-eval-after-load 'company
+              (add-to-list 'yas-prompt-functions 'apm-yas-company-prompt)))
+
   :idle (yas-global-mode t))
 
 (provide 'init)
