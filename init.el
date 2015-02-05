@@ -382,7 +382,8 @@ code sections."
 
 (use-package company-quickhelp
   :ensure t
-  :init (add-hook 'company-mode-hook #'company-quickhelp-mode))
+  :init (add-hook 'company-mode-hook #'company-quickhelp-mode)
+  :config (setq company-quickhelp-delay 0.1))
 
 (use-package compile
   :bind ("C-x C-m" . compile)
