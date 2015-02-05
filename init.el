@@ -384,12 +384,7 @@ code sections."
           (add-to-list 'company-backends 'company-math-symbols-latex)))
 
 (use-package company-quickhelp
-  :load-path "vendor/"
-  :pre-load (progn
-              (use-package company
-                :ensure t)
-              (use-package pos-tip
-                :ensure t))
+  :ensure t
   :init (add-hook 'company-mode-hook #'company-quickhelp-mode))
 
 (use-package compile
