@@ -332,7 +332,7 @@ code sections."
           ;; set default lighter as nothing so in general it is not displayed
           ;; but will still be shown when completion popup is active to show the
           ;; backend which is in use
-          (setq company-default-lighter "")
+          (setq company-lighter-base "")
           (global-company-mode t))
   :config (progn
             ;; Use Company for completion
