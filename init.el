@@ -49,7 +49,7 @@
 
 ;;; General settings etc
 
-;; enable using narrow-to-region
+;; enable narrow-to-region
 (put 'narrow-to-region 'disabled nil)
 
 ;; set a reasonable fill and comment column
