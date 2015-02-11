@@ -635,7 +635,7 @@ code sections."
 (use-package flycheck-pos-tip
   :ensure t
   :defer t
-  :config (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  :init (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
 (use-package flyspell
   :diminish flyspell-mode)
