@@ -967,6 +967,41 @@ code sections."
 DISPLAY-FN is ignored."
   (company-begin-with choices))
 
+(defun apm-insert-doxygen-function-snippet ()
+  "Generate and expand a yasnippet template for function."
+  (unless (and (fboundp 'semantic-current-tag)
+               semantic-mode)
+    (error "Semantic required to use dox snippet"))
+  (let ((tag (senator-next-tag)))
+    (while (or (null tag)
+               (not (semantic-tag-of-class-p tag 'function)))
+      (setq tag (senator-next-tag)))
+    (let* ((name (semantic-tag-name tag))
+           (attrs (semantic-tag-attributes tag))
+           (args (plist-get attrs :arguments))
+           (return-name (plist-get attrs :type))
+           (idx 1))
+      (if (listp return-name)
+          (setq return-name (car return-name)))
+      (yas/expand-snippet
+       (format
+        "/**
+* @brief ${1:%s}
+*
+%s
+%s*/
+"
+        name
+        (mapconcat
+         (lambda (x)
+           (format "* @param %s ${%d:Description of %s}"
+                   (car x) (incf idx) (car x)))
+         args
+         "\n")
+        (if (and return-name (not (string-equal "void" return-name)))
+            (format " * @return ${%d:%s}\n" (incf idx) return-name)
+          ""))))))
+
 (use-package yasnippet
   :ensure t
   :commands yas-global-mode
