@@ -218,6 +218,10 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package apropos
   :bind ("C-h a" . apropos))
 
+(use-package asn1-mode
+  :ensure t
+  :mode (("\\.asn1?$" . asn1-mode)))
+
 (use-package autorevert
   :init (global-auto-revert-mode t))
 
