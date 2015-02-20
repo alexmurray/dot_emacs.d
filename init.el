@@ -211,10 +211,6 @@ point reaches the beginning or end of the buffer, stop there."
   :defer t
   :config (add-hook 'python-mode-hook #'anaconda-mode))
 
-(use-package evil-anzu
-  :ensure t
-  :diminish evil-anzu-mode)
-
 (use-package apm-c
   :load-path "lisp/"
   :config (add-hook 'c-mode-hook 'apm-c-mode-setup))
@@ -536,6 +532,10 @@ code sections."
             (with-eval-after-load 'elisp-slime-nav
               (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
                 #'elisp-slime-nav-find-elisp-thing-at-point))))
+
+(use-package evil-anzu
+  :ensure t
+  :diminish evil-anzu-mode)
 
 (use-package evil-args
   :ensure t
