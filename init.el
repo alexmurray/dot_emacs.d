@@ -192,6 +192,11 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package aggressive-indent
   :ensure t)
 
+(use-package ag
+  :ensure t
+  :init (unless (executable-find "ag")
+          (apm-notify "ag not found - is it installed?")))
+
 (use-package android-mode
   :ensure t
   :defer t
