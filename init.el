@@ -603,6 +603,10 @@ code sections."
 (use-package evil-numbers
   :ensure t)
 
+(use-package evil-smartparens
+  :ensure t
+  :init (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
+
 (use-package evil-space
   :ensure t
   :init (evil-space-default-setup))
