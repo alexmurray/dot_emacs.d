@@ -601,7 +601,9 @@ code sections."
   :ensure t)
 
 (use-package evil-numbers
-  :ensure t)
+  :ensure t
+  :bind (("C-c +" . evil-numbers/inc-at-pt)
+         ("C-c -" . evil-numbers/dec-at-pt)))
 
 (use-package evil-smartparens
   :ensure t
