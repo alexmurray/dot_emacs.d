@@ -30,9 +30,9 @@
 (require 'notifications nil t)
 (defun apm-notify (msg)
   "Notify user of MSG using desktop notification or (message)."
-  (if (fboundp #'notifications-notify)
-      (notifications-notify :body msg)
-    (message msg)))
+    (if (eq system-type 'gnu/linux)
+	(notifications-notify :body msg)
+      (message msg)))
 
 (defun apm-camelize (s &optional delim)
   "Convert under_score string S to CamelCase string with optional DELIM."
