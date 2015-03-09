@@ -455,6 +455,42 @@ code sections."
 (use-package dts-mode
   :ensure t)
 
+;; taken from http://kaushalmodi.github.io/2015/03/09/do-ediff-as-i-mean/
+(defun apm-ediff-dwim ()
+  "Do ediff as I mean.
+
+If a region is active when this command is called, call `ediff-regions-wordwise'.
+
+Else if the current frame has 2 windows,
+- Do `ediff-files' if the buffers are associated to files and the buffers
+  have not been modified.
+- Do `ediff-buffers' otherwise.
+
+Otherwise call `ediff-buffers' interactively."
+  (interactive)
+  (if (region-active-p)
+      (call-interactively 'ediff-regions-wordwise)
+    (if (= 2 (safe-length (window-list)))
+        (let (bufa bufb filea fileb)
+          (setq bufa  (get-buffer (buffer-name)))
+          (setq filea (buffer-file-name bufa))
+          (save-excursion
+            (other-window 1)
+            (setq bufb (get-buffer (buffer-name))))
+          (setq fileb (buffer-file-name bufb))
+          (if (or
+               ;; if either of the buffers is not associated to a file
+               (null filea) (null fileb)
+               ;; if either of the buffers is modified
+               (buffer-modified-p bufa) (buffer-modified-p bufb))
+              (progn
+                (message "Running (ediff-buffers \"%s\" \"%s\") .." bufa bufb)
+                (ediff-buffers bufa bufb))
+            (progn
+              (message "Running (ediff-files \"%s\" \"%s\") .." filea fileb)
+              (ediff-files filea fileb))))
+      (call-interactively 'ediff-buffers))))
+
 (use-package ediff
   :defer t
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain
