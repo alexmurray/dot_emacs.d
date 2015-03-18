@@ -24,7 +24,10 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(require 'use-package)
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
 
 ;; some useful functions for the rest of this init file
 (require 'notifications nil t)
@@ -207,7 +210,7 @@ point reaches the beginning or end of the buffer, stop there."
             ;; change prefix so doesn't conflict with comment-region
             (setq android-mode-sdk-dir "/opt/android-sdk-linux/"
                   android-mode-key-prefix (kbd "C-c C-m")))
-  :diminish (android-mode . ,(concat " " [#xF17B])))
+  :diminish (android-mode . " \uf17b "))
 
 (use-package anaconda-mode
   :ensure t
@@ -331,7 +334,7 @@ code sections."
 (use-package column-enforce-mode
   :ensure t
   :diminish column-enforce-mode
-  :init (global-column-enforce-mode))
+  :config (global-column-enforce-mode))
 
 (use-package company
   :ensure t
@@ -376,9 +379,7 @@ code sections."
 
 (use-package company-auctex
   :ensure t
-  :defer t
-  :commands company-auctex-init
-  :idle (company-auctex-init))
+  :defer t)
 
 (use-package company-math
   :ensure t
@@ -577,8 +578,7 @@ Otherwise call `ediff-buffers' interactively."
                 #'elisp-slime-nav-find-elisp-thing-at-point))))
 
 (use-package evil-anzu
-  :ensure t
-  :diminish evil-anzu-mode)
+  :ensure t)
 
 (use-package evil-args
   :ensure t
@@ -673,7 +673,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck
   :ensure t
-  :diminish (flycheck-mode . ,(concat " " [#xF00C]))
+  :diminish (flycheck-mode . " \uF00C")
   :config (setq flycheck-completion-system 'ido)
   :init (global-flycheck-mode +1))
 
@@ -876,7 +876,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package projectile
   :ensure t
   :defer t
-  :diminish (projectile-mode . ,(concat " " [#xF013]))
+  :diminish (projectile-mode . " \uF013")
   :init (projectile-global-mode)
   :config (setq projectile-enable-caching t))
 
@@ -1016,11 +1016,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package whitespace
   :diminish whitespace-mode)
 
-(defun apm-yas-company-prompt (prompt choices &optional display-fn)
-  "PROMPT for yasnippet CHOICES via `company-begin-with'.
-DISPLAY-FN is ignored."
-  (company-begin-with choices))
-
 (defun apm-insert-doxygen-function-snippet ()
   "Generate and expand a yasnippet template for function."
   (unless (and (fboundp 'semantic-current-tag)
@@ -1058,18 +1053,13 @@ DISPLAY-FN is ignored."
 
 (use-package yasnippet
   :ensure t
-  :commands yas-global-mode
-  :diminish (yas-minor-mode . ,(concat " " [#xF0C4]))
+  :diminish (yas-minor-mode . " \uF0C4")
   :config (progn
             ;; set this first so we don't get the bundled snippets loaded since
             ;; they don't generally match my desired style / indentation etc
             (setq yas-snippet-dirs (expand-file-name "snippets" user-emacs-directory))
             (setq yas-prompt-functions '(yas-ido-prompt yas-completing-prompt yas-no-prompt))
-            ;; prompt with company
-            (with-eval-after-load 'company
-              (add-to-list 'yas-prompt-functions 'apm-yas-company-prompt)))
-
-  :idle (yas-global-mode t))
+            (yas-global-mode t)))
 
 (provide 'init)
 
