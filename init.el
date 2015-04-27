@@ -820,6 +820,8 @@ Otherwise call `ediff-buffers' interactively."
   :bind ("C-x g" . magit-status)
   :diminish magit-auto-revert-mode
   :config (progn
+            ;; use ido for magit options
+            (setq magit-completing-read-function 'magit-ido-completing-read)
             (advice-add 'magit-status :around #'apm-fullscreen-magit-status)
 
             (define-key magit-status-mode-map (kbd "q") 'apm-quit-magit-session)))
