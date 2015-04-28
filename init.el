@@ -29,14 +29,12 @@
 (require 'diminish)
 (require 'bind-key)
 
-;; some useful functions for the rest of this init file
-(require 'notifications nil t)
-(defun apm-notify (msg)
-  "Notify user of MSG using desktop notification or (message)."
-    (if (eq system-type 'gnu/linux)
-	(notifications-notify :body msg)
-      (message msg)))
+(use-package alert
+  :ensure t
+  :init (when (eq system-type 'gnu/linux)
+          (setq alert-default-style 'notifications)))
 
+;; some useful functions for the rest of this init file
 (defun apm-camelize (s &optional delim)
   "Convert under_score string S to CamelCase string with optional DELIM."
   (interactive "s")
@@ -45,7 +43,8 @@
                         (split-string s (if delim delim "_"))) ""))
 
 (when (version< emacs-version "24.4")
-  (apm-notify "Emacs version too old - please run 24.4 or newer"))
+  (alert "Emacs version too old - please run 24.4 or newer"
+         :severity 'high))
 
 ;;; General settings etc
 
@@ -93,9 +92,9 @@
     (blink-cursor-mode -1)
     (if (font-info "Ubuntu Mono")
         (set-face-attribute 'default nil :font "Ubuntu Mono 12")
-      (apm-notify "Ubuntu Mono font is not installed."))
+      (alert "Ubuntu Mono font is not installed."))
     (unless (font-info "FontAwesome")
-      (apm-notify "FontAwesome is not installed."))))
+      (alert "FontAwesome is not installed."))))
 
 ;; make sure graphical properties get set on client frames
 (add-hook 'find-file-hook #'apm-graphic-frame-init)
@@ -201,7 +200,7 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package ag
   :ensure t
   :init (unless (executable-find "ag")
-          (apm-notify "ag not found - is it installed?")))
+          (alert "ag not found - is it installed?")))
 
 (use-package android-mode
   :ensure t
@@ -316,7 +315,7 @@ code sections."
   ;; backends over dumb
   (with-eval-after-load 'company
     (unless company-clang-executable
-      (apm-notify "clang not found for company-clang - is it installed?"))
+      (alert "clang not found for company-clang - is it installed?"))
     (setq-local company-backends '(company-clang company-semantic company-gtags)))
 
   ;; show #if 0 / #endif etc regions in comment face
@@ -833,7 +832,7 @@ Otherwise call `ediff-buffers' interactively."
    ("\\.markdown\\'" . markdown-mode))
   :config (progn
             (unless (executable-find markdown-command)
-              (apm-notify "markdown not found - is it installed?"))))
+              (alert "markdown not found - is it installed?"))))
 
 (use-package multiple-cursors
   :ensure t
