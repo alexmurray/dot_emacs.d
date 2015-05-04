@@ -93,7 +93,11 @@
     (if (font-info "Ubuntu Mono")
         (set-face-attribute 'default nil :font "Ubuntu Mono 12")
       (alert "Ubuntu Mono font is not installed."))
-    (unless (font-info "FontAwesome")
+    (if (font-info "FontAwesome")
+        ;; make sure to use FontAwesome for it's range in the unicode
+        ;; private use area since on Windows this doesn't happen
+        ;; automagically
+        (set-fontset-font "fontset-default" '(#xf000 . #xf23a) "FontAwesome")
       (alert "FontAwesome is not installed."))))
 
 ;; make sure graphical properties get set on client frames
