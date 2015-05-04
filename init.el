@@ -592,9 +592,9 @@ Otherwise call `ediff-buffers' interactively."
             ;; bind evil-jump-out-args
             (define-key evil-normal-state-map "K" 'evil-jump-out-args)))
 
-(use-package evil-search-highlight-persist
-  :ensure t
-  :init (global-evil-search-highlight-persist t))
+(use-package evil-flycheck
+  :ensure flycheck
+  :load-path "vendor/evil-flycheck")
 
 (use-package evil-jumper
   :ensure t)
@@ -639,6 +639,11 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :bind (("C-c +" . evil-numbers/inc-at-pt)
          ("C-c -" . evil-numbers/dec-at-pt)))
+
+(use-package evil-search-highlight-persist
+  :ensure t
+  :init (global-evil-search-highlight-persist t))
+
 
 (use-package evil-smartparens
   :ensure t
