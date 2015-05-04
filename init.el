@@ -298,7 +298,7 @@ code sections."
   (auto-fill-mode 1)
   ;; diminish auto-fill in the modeline to icon from fontawesome
   (with-eval-after-load 'diminish
-    (diminish 'auto-fill-function (concat " " [#xF036])))
+    (diminish 'auto-fill-function " \uF036"))
   ;; turn on auto-newline and hungry-delete
   (c-toggle-auto-hungry-state t)
   ;; set auto newline
@@ -517,7 +517,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-eshell-mode-setup ()
   "Initialise 'eshell-mode'."
-  (setq mode-name (concat "e" [#xF120])))
+  (setq mode-name "e\uF120"))
 
 (use-package eshell
   :commands eshell
