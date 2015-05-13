@@ -599,10 +599,7 @@ Otherwise call `ediff-buffers' interactively."
             (define-key evil-normal-state-map "L" 'evil-forward-arg)
             (define-key evil-normal-state-map "H" 'evil-backward-arg)
             (define-key evil-motion-state-map "L" 'evil-forward-arg)
-            (define-key evil-motion-state-map "H" 'evil-backward-arg)
-
-            ;; bind evil-jump-out-args
-            (define-key evil-normal-state-map "K" 'evil-jump-out-args)))
+            (define-key evil-motion-state-map "H" 'evil-backward-arg)))
 
 (use-package evil-flycheck
   :ensure flycheck
