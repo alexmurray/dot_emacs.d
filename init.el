@@ -996,9 +996,6 @@ Otherwise call `ediff-buffers' interactively."
                 uniquify-after-kill-buffer-p t
                 uniquify-ignore-buffers-re "^\\*"))
 
-(use-package web-jump
-  :bind ("C-x w" . webjump))
-
 (use-package web-mode
   :ensure t
   :commands web-mode
