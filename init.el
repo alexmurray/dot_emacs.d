@@ -996,11 +996,16 @@ Otherwise call `ediff-buffers' interactively."
                 uniquify-after-kill-buffer-p t
                 uniquify-ignore-buffers-re "^\\*"))
 
+(defun apm-web-mode-mode-setup ()
+  "Setup web mode."
+  (setq mode-name "\uF0AC"))
+
 (use-package web-mode
   :ensure t
   :commands web-mode
   ;; use smartparens instead
-  :config (setq web-mode-enable-auto-pairing nil)
+  :config ((setq web-mode-enable-auto-pairing nil)
+           (add-hook 'web-mode-hook #'apm-web-mode-setup))
   :mode ("\\.php\\'" . web-mode))
 
 (use-package which-func
