@@ -402,6 +402,12 @@ code sections."
   :init (add-hook 'company-mode-hook #'company-quickhelp-mode)
   :config (setq company-quickhelp-delay 0.1))
 
+(use-package company-web
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'company
+          (add-to-list 'company-backends 'company-web-html)))
+
 (use-package compile
   :bind ("C-x C-m" . compile)
   ;; automatically scroll to first error on output
