@@ -627,10 +627,6 @@ Otherwise call `ediff-buffers' interactively."
               "jl" 'evil-ace-jump-line-mode ; ,jl for Ace Jump (line)
               "jc" 'evil-ace-jump-char-mode ; ,jc for Ace Jump (char)
               "mg" 'magit-status
-              "ma" 'mc/mark-all-like-this-in-defun
-              "mw" 'mc/mark-all-words-like-this-in-defun
-              "ms" 'mc/mark-all-symbols-like-this-in-defun
-              "md" 'mc/mark-all-like-this-dwim
               "pf" 'projectile-find-file
               "pd" 'projectile-find-file-dwim
               "rw" 'rotate-windows
@@ -847,17 +843,6 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             (unless (executable-find markdown-command)
               (alert "markdown not found - is it installed?"))))
-
-(use-package multiple-cursors
-  :ensure t
-  :bind (("C-S-c C-S-c" . mc/edit-lines)
-         ("C->" . mc/mark-next-like-this)
-         ("C-<" . mc/mark-previous-like-this)
-         ("C-c C-<" . mc/mark-all-like-this))
-  :config (setq mc/unsupported-minor-modes '(company-mode flyspell-mode))
-  :init (with-eval-after-load 'evil
-          (add-hook 'multiple-cursors-mode-enabled-hook #'evil-emacs-state)
-          (add-hook 'multiple-cursors-mode-disabled-hook #'evil-normal-state)))
 
 (use-package paradox
   :ensure t
