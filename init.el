@@ -867,7 +867,6 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             ;; prettify symbols (turn lambda -> λ)
             (global-prettify-symbols-mode 1)
-
             (add-hook 'prog-mode-hook #'apm-prog-mode-setup)))
 
 (use-package projectile
@@ -917,14 +916,6 @@ Otherwise call `ediff-buffers' interactively."
           ;; show summary of tag at point when idle
           (global-semantic-idle-summary-mode 1)))
 
-;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
-(defun apm-c-mode-common-open-block (&rest _ignored)
-  "Open a new brace or bracket expression, with relevant newlines and indent (_IGNORED is ignored)."
-  (newline)
-  (indent-according-to-mode)
-  (forward-line -1)
-  (indent-according-to-mode))
-
 (use-package smart-mode-line
   :ensure t
   :defer t
@@ -936,6 +927,14 @@ Otherwise call `ediff-buffers' interactively."
             (add-to-list 'sml/replacer-regexp-list '("^~/dev/branches/RelX/" ":RelX:") t)
             (add-to-list 'sml/replacer-regexp-list '("^:RelX:\\(.*\\)/software/" ":RelX/\\1/:") t)
             (sml/apply-theme 'respectful)))
+
+;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
+(defun apm-c-mode-common-open-block (&rest _ignored)
+  "Open a new brace or bracket expression, with relevant newlines and indent (_IGNORED is ignored)."
+  (newline)
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
 
 (use-package smartparens
   :ensure t
