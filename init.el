@@ -843,6 +843,16 @@ Otherwise call `ediff-buffers' interactively."
             (unless (executable-find markdown-command)
               (alert "markdown not found - is it installed?"))))
 
+(use-package minimap
+  :ensure t
+  :defer t
+  :config (progn
+	    ;; don't always keep scroll region in middle
+	    (setq minimap-recenter-type 'free)
+	    (setq minimap-window-location 'right)
+	    ;; always create a minimap
+	    (minimap-create)))
+
 (use-package paradox
   :ensure t
   ;; don't bother trying to integrate with github
