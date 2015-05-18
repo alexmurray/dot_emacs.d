@@ -183,9 +183,6 @@ point reaches the beginning or end of the buffer, stop there."
   :ensure t
   :bind ("C-c SPC" . ace-jump-mode))
 
-(use-package ace-jump-zap
-  :ensure t)
-
 (use-package ace-window
   :ensure t)
 
@@ -629,16 +626,12 @@ Otherwise call `ediff-buffers' interactively."
               "gr" 'gtags-find-rtag
               "gs" 'gtags-find-symbol
               "gc" 'auto-gtags-create-or-update
-              "jw" 'evil-ace-jump-word-mode ; ,jw for Ace Jump (word)
-              "jl" 'evil-ace-jump-line-mode ; ,jl for Ace Jump (line)
-              "jc" 'evil-ace-jump-char-mode ; ,jc for Ace Jump (char)
               "mg" 'magit-status
               "pf" 'projectile-find-file
               "pd" 'projectile-find-file-dwim
-              "rw" 'rotate-windows
-              "zt" 'ace-jump-zap-to-char    ; ,zt for Ace Jump Zap To Char
-              "zu" 'ace-jump-zap-up-to-char ; ,zu for Ace Jump Zap UP To Char
-              "w" 'ace-window
+              "w" 'evil-ace-jump-word-mode ; ,w for Ace Jump (word)
+              "l" 'evil-ace-jump-line-mode ; ,l for Ace Jump (line)
+              "c" 'evil-ace-jump-char-mode ; ,c for Ace Jump (char)
               "x" 'smex
               "SPC" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
