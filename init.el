@@ -303,8 +303,8 @@ code sections."
     (add-to-list
      'aggressive-indent-dont-indent-if
      '(and (member major-mode '(c-mode c++-mode java-mode))
-	   (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-			       (thing-at-point 'line)))))
+           (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
+                               (thing-at-point 'line)))))
     (aggressive-indent-mode t))
   ;; set auto newline
   (setq c-auto-newline 1)
@@ -847,11 +847,11 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :config (progn
-	    ;; don't always keep scroll region in middle
-	    (setq minimap-recenter-type 'free)
-	    (setq minimap-window-location 'right)
-	    ;; always create a minimap
-	    (minimap-create)))
+            ;; don't always keep scroll region in middle
+            (setq minimap-recenter-type 'free)
+            (setq minimap-window-location 'right)
+            ;; always create a minimap
+            (minimap-create)))
 
 (use-package paradox
   :ensure t
