@@ -1,0 +1,81 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: gobject-c
+# key: gobject-c
+# --
+#include "$1.h"
+
+typedef _${2:${1:$(apm-camelize yas-text "-")}}Private $2Private;
+
+struct _$2Private
+{
+
+};
+
+G_DEFINE_TYPE_WITH_PRIVATE($2, ${3:${1:$(replace-regexp-in-string "-" "_" yas-text)}}, ${4:G_TYPE_OBJECT});
+
+${2:$(concat yas-text " *")}
+$3_new(void)
+{
+  return g_object_new(${1:$(let* ((parts (split-string yas-text "-"))) (concat (upcase (first parts)) "_TYPE_" (mapconcat 'identity (mapcar '(lambda (word) (upcase word)) (rest (split-string yas-text "-"))) "_")))}, NULL);
+}
+
+static void
+$3_finalize(GObject *object)
+{
+  $2Private *priv = ${5:${3:$(upcase yas-text)}}(object)->priv;
+
+  // TODO: remove this - keep compiler happy
+  (void)priv;
+
+  G_OBJECT_CLASS($3_parent_class)->finalize(object);
+}
+
+static void
+$3_get_property(GObject *object,
+${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}guint prop_id,
+${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}GValue *value,
+${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}GParamSpec *pspec)
+{
+${3:$(concat " " " ") ;; worst hack ever since 2 spaces doesn't actually seem to indent properly}${2:$(concat yas-text " *")}self = $5(object);
+
+  // TODO: remove this - keep compiler happy
+  (void)self;
+
+  switch (prop_id) {
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+  }
+}
+
+static void
+$3_set_property(GObject *object,
+${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}guint prop_id,
+${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}const GValue *value,
+${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}GParamSpec *pspec)
+{
+${3:$(concat " " " ") ;; worst hack ever since 2 spaces doesn't actually seem to indent properly}${2:$(concat yas-text " *")}self = $5(object);
+
+  // TODO: remove this - keep compiler happy
+  (void)self;
+
+  switch (prop_id) {
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+  }
+}
+
+static void
+$3_class_init($2Class *klass)
+{
+  GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+  object_class->finalize = $3_finalize;
+  object_class->get_property = $3_get_property;
+  object_class->set_property = $3_set_property;
+}
+
+static void
+$3_init(${2:$(concat yas-text " *")}self)
+{
+  self->priv = $3_get_instance_private(self);
+}
