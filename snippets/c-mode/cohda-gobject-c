@@ -18,10 +18,18 @@ typedef struct $2Private t$2Private;
 
 struct $2Private
 {
-  gint Dummy;
+  gint Foo;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE(t$2, $2, ${4:G_TYPE_OBJECT});
+
+enum
+{
+  PROP_0,
+  NUM_PROPERTIES
+};
+
+static GParamSpec *ppProperties[NUM_PROPERTIES] = { NULL, };
 
 t$2 *
 $2_New(void)
