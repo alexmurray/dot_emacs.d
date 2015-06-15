@@ -982,6 +982,13 @@ Otherwise call `ediff-buffers' interactively."
           (setq solarized-distinct-fringe-background t)
           (load-theme 'solarized-light t)))
 
+(use-package sublimity
+  :ensure t
+  :config (sublimity-mode t))
+
+(use-package sublimity-scroll
+  :ensure sublimity)
+
 (use-package tracwiki-mode
   :ensure t
   :defer t
