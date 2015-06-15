@@ -617,21 +617,22 @@ Otherwise call `ediff-buffers' interactively."
             (setq evil-leader/leader ","
                   evil-leader/in-all-states t)
             (evil-leader/set-key
-              "ci" 'evil-surround-change
-              "cc" 'evilnc-comment-or-uncomment-lines
+              "c" 'evil-ace-jump-char-mode ; ,c for Ace Jump (char)
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
-              "gt" 'gtags-find-tag
+              "gc" 'auto-gtags-create-or-update
               "gr" 'gtags-find-rtag
               "gs" 'gtags-find-symbol
-              "gc" 'auto-gtags-create-or-update
-              "mg" 'magit-status
-              "pf" 'projectile-find-file
-              "pd" 'projectile-find-file-dwim
-              "w" 'evil-ace-jump-word-mode ; ,w for Ace Jump (word)
+              "gt" 'gtags-find-tag
               "l" 'evil-ace-jump-line-mode ; ,l for Ace Jump (line)
-              "c" 'evil-ace-jump-char-mode ; ,c for Ace Jump (char)
+              "mg" 'magit-status
+              "mm" 'minimap-toggle
+              "nc" 'evilnc-comment-or-uncomment-lines
+              "pd" 'projectile-find-file-dwim
+              "pf" 'projectile-find-file
+              "sc" 'evil-surround-change
+              "w" 'evil-ace-jump-word-mode ; ,w for Ace Jump (word)
               "x" 'smex
               "SPC" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
