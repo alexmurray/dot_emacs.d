@@ -560,7 +560,7 @@ Otherwise call `ediff-buffers' interactively."
                             eshell-mode
                             inferior-emacs-lisp-mode
                             git-rebase-mode
-                            gtags-select-mode
+                            ggtags-global-mode
                             magit-branch-manager-mode
                             paradox-menu-mode
                             pylookup-mode
@@ -577,10 +577,10 @@ Otherwise call `ediff-buffers' interactively."
             ;; fixup company-complete-number to be handled better with evil
             (evil-declare-change-repeat 'company-complete-number)
 
-            ;; use gtags / elisp-slime-nav for searching when in those modes
-            (with-eval-after-load 'gtags
-              (evil-define-key 'normal gtags-mode-map (kbd "C-]")
-                #'gtags-find-tag-from-here))
+            ;; use ggtags / elisp-slime-nav for searching when in those modes
+            (with-eval-after-load 'ggtags
+              (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
+                #'ggtags-find-tag-dwim))
             (with-eval-after-load 'elisp-slime-nav
               (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
                 #'elisp-slime-nav-find-elisp-thing-at-point))))
@@ -758,29 +758,16 @@ Otherwise call `ediff-buffers' interactively."
 (use-package gud
   :config (add-hook 'gud-mode-hook #'gud-tooltip-mode))
 
-;;; gtags
-(use-package auto-gtags
-  :load-path "lisp/"
-  :config (progn
-            (add-to-list 'auto-gtags-ignore-paths ".*/linux-3.0.35/")
-            (add-to-list 'auto-gtags-ignore-paths ".*/linux-smx6_03/")
-            (add-to-list 'auto-gtags-ignore-paths ".*/linux-imx/")
-            (add-to-list 'auto-gtags-ignore-paths ".*/2.6.28/")
-            ;; auto try and create / update gtags for c common modes
-            (add-hook 'c-mode-common-hook #'auto-gtags-create-or-update)))
+(defun apm-ggtags-setup ()
+  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+    (ggtags-mode 1)))
 
-(defun apm-gtags-setup ()
-  (gtags-mode 1)
-  ;; seems we can't diminish gtags-mode via use-package :diminish directive -
-  ;; instead do it manually after enabling
-  (diminish 'gtags-mode))
-
-(use-package gtags
-  ;; stop gtags.el stealing middle mouse click paste
+(use-package ggtags
+  :ensure t
+  :diminish (ggtags-mode ggtags-navigation-mode)
   :config (progn
-            (define-key gtags-mode-map [mouse-2] 'mouse-yank-primary)
-            ;; enable gtags in all c common mode buffers
-            (add-hook 'c-mode-common-hook #'apm-gtags-setup)))
+            ;; enable ggtags in all c common mode buffers
+            (add-hook 'c-mode-common-hook #'apm-ggtags-setup)))
 
 (defun apm-js2-mode-setup ()
   "Setup js2-mode."
