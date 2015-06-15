@@ -760,7 +760,8 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-ggtags-setup ()
   (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-    (ggtags-mode 1)))
+    (ggtags-mode 1)
+    (setq-local imenu-create-index-function #'ggtags-build-imenu-index)))
 
 (use-package ggtags
   :ensure t
