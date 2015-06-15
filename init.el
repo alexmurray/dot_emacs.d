@@ -58,9 +58,6 @@
 ;; just use y or n not yes or no
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; map return to newline and indent
-(define-key global-map (kbd "RET") 'newline-and-indent)
-
 ;; inhibit startup message and splash screen
 (setq inhibit-startup-message t)
 ;; remove message from initial scratch buffer
