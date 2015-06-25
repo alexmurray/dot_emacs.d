@@ -634,6 +634,10 @@ Otherwise call `ediff-buffers' interactively."
               "SPC" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
 
+(use-package evil-matchit
+  :ensure t
+  :init (global-evil-matchit-mode 1))
+
 (use-package evil-nerd-commenter
   :ensure t)
 
