@@ -295,14 +295,6 @@ code sections."
     (diminish 'auto-fill-function " \uF036"))
   ;; turn on auto-newline and hungry-delete
   (c-toggle-auto-hungry-state t)
-  (with-eval-after-load 'aggressive-indent
-    ;; don't indent until put trailing semi-colon
-    (add-to-list
-     'aggressive-indent-dont-indent-if
-     '(and (member major-mode '(c-mode c++-mode java-mode))
-           (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-                               (thing-at-point 'line)))))
-    (aggressive-indent-mode t))
   ;; set auto newline
   (setq c-auto-newline 1)
   ;; make underscore a word character so movements across words
