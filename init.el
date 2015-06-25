@@ -770,6 +770,8 @@ Otherwise call `ediff-buffers' interactively."
 (use-package ggtags
   :ensure t
   :diminish (ggtags-mode ggtags-navigation-mode)
+  :init (unless (executable-find "global")
+          (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
   :config (progn
             ;; enable ggtags in all c common mode buffers
             (add-hook 'c-mode-common-hook #'apm-ggtags-setup)))
