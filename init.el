@@ -214,6 +214,12 @@ point reaches the beginning or end of the buffer, stop there."
   :defer t
   :config (add-hook 'python-mode-hook #'anaconda-mode))
 
+(use-package anzu
+  :ensure t
+  :init (global-anzu-mode)
+  :bind (("M-%" . anzu-query-replace-regexp)
+         ("C-M-%" . anzu-query-replace)))
+
 (use-package apm-c
   :load-path "lisp/"
   :config (add-hook 'c-mode-hook 'apm-c-mode-setup))
