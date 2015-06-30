@@ -313,13 +313,6 @@ code sections."
     (local-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
     (local-set-key (kbd "C-<left>") 'sp-dedent-adjust-sexp))
 
-  ;; set company backends appropriately to prefer smart
-  ;; backends over dumb
-  (with-eval-after-load 'company
-    (unless company-clang-executable
-      (alert "clang not found for company-clang - is it installed?"))
-    (setq-local company-backends '(company-clang company-semantic company-gtags)))
-
   ;; show #if 0 / #endif etc regions in comment face
   (font-lock-add-keywords
    nil
@@ -378,6 +371,11 @@ code sections."
 (use-package company-auctex
   :ensure t
   :defer t)
+
+(use-package company-irony
+  :ensure t
+  :init (with-eval-after-load 'company
+          (add-to-list 'company-backends 'company-irony)))
 
 (use-package company-math
   :ensure t
@@ -683,6 +681,11 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-cohda-c-style
   :load-path "vendor/flycheck-cohda-c-style")
 
+(use-package flycheck-irony
+  :ensure t
+  :init (with-eval-after-load 'flycheck
+          (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
+
 (use-package flycheck-package
   :ensure t
   :defer t
@@ -735,6 +738,26 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package imenu
   :bind ("C-x C-i" . imenu))
+
+(defun apm-irony-mode-setup ()
+  "Setup irony-mode."
+  (define-key irony-mode-map [remap completion-at-point]
+    'irony-completion-at-point-async)
+  (define-key irony-mode-map [remap complete-symbol]
+    'irony-completion-at-point-async)
+  (irony-cdb-autosetup-compile-options)
+  (with-eval-after-load 'company-irony
+    (company-irony-setup-begin-commands)))
+
+(use-package irony
+  :ensure t
+  :init (progn
+          (add-hook 'c-mode-hook 'irony-mode)
+          (add-hook 'c++-mode-hook 'irony-mode)
+          (add-hook 'irony-mode-hook 'apm-irony-mode-setup)))
+
+(use-package irony-eldoc
+  :ensure t)
 
 (use-package ispell
   :defer t
