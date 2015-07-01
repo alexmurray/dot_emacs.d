@@ -216,6 +216,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package anzu
   :ensure t
+  :diminish anzu-mode
   :init (global-anzu-mode)
   :bind (("M-%" . anzu-query-replace-regexp)
          ("C-M-%" . anzu-query-replace)))
@@ -651,6 +652,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-space
   :ensure t
+  :diminish evil-space-mode
   :init (evil-space-default-setup))
 
 (use-package evil-surround
@@ -751,6 +753,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package irony
   :ensure t
+  :diminish irony-mode
   :init (progn
           (add-hook 'c-mode-hook 'irony-mode)
           (add-hook 'c++-mode-hook 'irony-mode)
