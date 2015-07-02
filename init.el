@@ -1030,8 +1030,9 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :commands web-mode
   ;; use smartparens instead
-  :config ((setq web-mode-enable-auto-pairing nil)
-           (add-hook 'web-mode-hook #'apm-web-mode-setup))
+  :config (progn
+            (setq web-mode-enable-auto-pairing nil)
+            (add-hook 'web-mode-hook #'apm-web-mode-setup))
   :mode ("\\.php\\'" . web-mode))
 
 (use-package which-func
