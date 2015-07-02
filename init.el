@@ -557,6 +557,7 @@ Otherwise call `ediff-buffers' interactively."
                             git-rebase-mode
                             ggtags-global-mode
                             magit-branch-manager-mode
+                            magit-popup-mode
                             paradox-menu-mode
                             pylookup-mode
                             semantic-symref-results-mode
@@ -705,10 +706,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package fuzzy
   :ensure t)
 
-(use-package git-commit-mode
-  :ensure t
-  :defer t)
-
 (use-package gitconfig-mode
   :ensure t
   :defer t)
@@ -840,7 +837,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :bind ("C-x g" . magit-status)
-  :diminish magit-auto-revert-mode
   :config (progn
             ;; use ido for magit options
             (setq magit-completing-read-function 'magit-ido-completing-read)
