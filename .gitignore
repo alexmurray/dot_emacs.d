@@ -3,6 +3,7 @@
 /.mc-lists.el
 /.places
 /.smex-items
+/abbrev_defs
 /ac-comphist.dat
 /auto-save-list
 /custom.el
