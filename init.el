@@ -733,7 +733,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package ido-vertical-mode
   :ensure t
-  :init (ido-vertical-mode t))
+  :init (progn
+          (ido-vertical-mode t)
+          (setq ido-vertical-define-keys 'C-n-and-C-p-only)))
 
 (use-package imenu
   :bind ("C-x C-i" . imenu))
