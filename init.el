@@ -682,12 +682,20 @@ Otherwise call `ediff-buffers' interactively."
   :init (global-flycheck-mode +1))
 
 (use-package flycheck-cohda-c-style
-  :load-path "vendor/flycheck-cohda-c-style")
+  :load-path "vendor/flycheck-cohda-c-style"
+  :init (with-eval-after-load 'flycheck
+          (add-hook 'flycheck-mode-hook #'flycheck-cohda-c-style-setup))
+  :config  (with-eval-after-load 'flycheck
+             (with-eval-after-load 'flycheck-irony
+               ;; chain irony after ourself
+               (flycheck-add-next-checker 'cohda-c-style '(warning . irony)))))
 
 (use-package flycheck-irony
   :ensure t
   :init (with-eval-after-load 'flycheck
-          (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
+          (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+  :config (with-eval-after-load 'flycheck
+            (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck))))
 
 (use-package flycheck-package
   :ensure t
