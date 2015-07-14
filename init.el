@@ -614,10 +614,10 @@ Otherwise call `ediff-buffers' interactively."
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
-              "gc" 'auto-gtags-create-or-update
-              "gr" 'gtags-find-rtag
-              "gs" 'gtags-find-symbol
-              "gt" 'gtags-find-tag
+              "gc" 'ggtags-create-tags
+              "gr" 'ggtags-find-reference
+              "gs" 'ggtags-find-other-symbol
+              "gt" 'ggtags-tag-at-point
               "l" 'evil-ace-jump-line-mode ; ,l for Ace Jump (line)
               "mg" 'magit-status
               "mm" 'minimap-toggle
