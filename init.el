@@ -617,7 +617,7 @@ Otherwise call `ediff-buffers' interactively."
               "gc" 'ggtags-create-tags
               "gr" 'ggtags-find-reference
               "gs" 'ggtags-find-other-symbol
-              "gt" 'ggtags-tag-at-point
+              "gt" 'ggtags-find-tag-regexp
               "l" 'evil-ace-jump-line-mode ; ,l for Ace Jump (line)
               "mg" 'magit-status
               "mm" 'minimap-toggle
@@ -632,7 +632,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-matchit
   :ensure t
-  :init (global-evil-matchit-mode 1))
+  :config (global-evil-matchit-mode 1))
 
 (use-package evil-nerd-commenter
   :ensure t)
