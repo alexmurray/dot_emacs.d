@@ -176,13 +176,6 @@ point reaches the beginning or end of the buffer, stop there."
 (add-hook 'text-mode-hook #'apm-text-mode-setup)
 
 ;;; Packages
-(use-package ace-jump-mode
-  :ensure t
-  :bind ("C-c SPC" . ace-jump-mode))
-
-(use-package ace-window
-  :ensure t)
-
 (use-package adaptive-wrap
   :ensure t)
 
@@ -258,6 +251,10 @@ point reaches the beginning or end of the buffer, stop there."
             (setq-default TeX-source-correlate-start-server t)
 
             (add-hook 'LaTeX-mode-hook #'apm-latex-mode-setup)))
+
+(use-package avy
+  :ensure t
+  :bind ("C-c SPC" . avy-goto-char))
 
 (use-package browse-kill-ring
   :ensure t)
@@ -610,7 +607,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq evil-leader/leader ","
                   evil-leader/in-all-states t)
             (evil-leader/set-key
-              "c" 'evil-ace-jump-char-mode ; ,c for Ace Jump (char)
+              "c" 'avy-goto-char
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
@@ -618,14 +615,14 @@ Otherwise call `ediff-buffers' interactively."
               "gr" 'ggtags-find-reference
               "gs" 'ggtags-find-other-symbol
               "gt" 'ggtags-find-tag-regexp
-              "l" 'evil-ace-jump-line-mode ; ,l for Ace Jump (line)
+              "l" 'avy-goto-line
               "mg" 'magit-status
               "mm" 'minimap-toggle
               "nc" 'evilnc-comment-or-uncomment-lines
               "pd" 'projectile-find-file-dwim
               "pf" 'projectile-find-file
               "sc" 'evil-surround-change
-              "w" 'evil-ace-jump-word-mode ; ,w for Ace Jump (word)
+              "w" 'avy-goto-word-1
               "x" 'smex
               "SPC" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
