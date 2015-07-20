@@ -176,6 +176,10 @@ point reaches the beginning or end of the buffer, stop there."
 (add-hook 'text-mode-hook #'apm-text-mode-setup)
 
 ;;; Packages
+(use-package ace-window
+  :ensure t
+  :bind ("M-p" . ace-window))
+
 (use-package adaptive-wrap
   :ensure t)
 
