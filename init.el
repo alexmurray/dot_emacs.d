@@ -178,7 +178,8 @@ point reaches the beginning or end of the buffer, stop there."
 ;;; Packages
 (use-package ace-window
   :ensure t
-  :bind ("M-p" . ace-window))
+  :bind (("C-x o" . ace-window)
+         ("M-p" . ace-window)))
 
 (use-package adaptive-wrap
   :ensure t)
