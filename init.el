@@ -627,7 +627,7 @@ Otherwise call `ediff-buffers' interactively."
               "pd" 'projectile-find-file-dwim
               "pf" 'projectile-find-file
               "sc" 'evil-surround-change
-              "w" 'avy-goto-word-1
+              "w" 'avy-goto-word-or-subword-1
               "x" 'smex
               "SPC" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
