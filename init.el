@@ -684,6 +684,7 @@ Otherwise call `ediff-buffers' interactively."
   :init (global-flycheck-mode +1))
 
 (use-package flycheck-cohda-c-style
+  :disabled t
   :load-path "vendor/flycheck-cohda-c-style"
   :init (with-eval-after-load 'flycheck
           (add-hook 'flycheck-mode-hook #'flycheck-cohda-c-style-setup))
