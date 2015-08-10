@@ -385,6 +385,14 @@ code sections."
   :init (with-eval-after-load 'company
           (add-to-list 'company-backends 'company-irony)))
 
+(use-package company-irony-c-headers
+  :ensure t
+  :init (progn
+          (setq company-irony-c-headers--compiler-executable "clang++-3.6")
+          (with-eval-after-load 'company
+            ;; group with company-irony but beforehand so we get first pick
+            (add-to-list 'company-backends '(company-irony-c-headers company-irony)))))
+
 (use-package company-math
   :ensure t
   :defer t
