@@ -328,6 +328,11 @@ code sections."
   :ensure t
   :config (add-hook 'c-mode-hook #'c-turn-on-eldoc-mode))
 
+(use-package color-theme-sanityinc-tomorrow
+  :ensure t
+  :defer t
+  :init (color-theme-sanityinc-tomorrow-night))
+
 (use-package column-enforce-mode
   :ensure t
   :diminish column-enforce-mode
@@ -999,6 +1004,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package solarized-theme
   :ensure t
+  :disabled t
   :defer t
   :init (progn
           (setq x-underline-at-descent-line t)
