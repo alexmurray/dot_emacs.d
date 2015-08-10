@@ -573,6 +573,7 @@ Otherwise call `ediff-buffers' interactively."
                             ggtags-global-mode
                             magit-branch-manager-mode
                             magit-popup-mode
+                            magit-popup-sequence-mode
                             paradox-menu-mode
                             pylookup-mode
                             semantic-symref-results-mode
