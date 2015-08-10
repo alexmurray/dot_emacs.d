@@ -1002,6 +1002,10 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))))
 
+(use-package smooth-scrolling
+  :ensure t
+  :config (setq smooth-scroll-margin 2))
+
 (use-package solarized-theme
   :ensure t
   :disabled t
@@ -1010,13 +1014,6 @@ Otherwise call `ediff-buffers' interactively."
           (setq x-underline-at-descent-line t)
           (setq solarized-distinct-fringe-background t)
           (load-theme 'solarized-light t)))
-
-(use-package sublimity
-  :ensure t
-  :config (sublimity-mode t))
-
-(use-package sublimity-scroll
-  :ensure sublimity)
 
 (use-package tracwiki-mode
   :ensure t
