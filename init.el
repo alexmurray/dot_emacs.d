@@ -331,7 +331,7 @@ code sections."
 (use-package color-theme-sanityinc-tomorrow
   :ensure t
   :defer t
-  :init (color-theme-sanityinc-tomorrow-night))
+  :config (load-theme 'sanityinc-tomorrow-night))
 
 (use-package column-enforce-mode
   :ensure t
