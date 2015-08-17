@@ -739,6 +739,22 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t)
 
+(use-package helm
+  :ensure t
+  :bind (("M-x" . helm-M-x)
+         ("M-y" . helm-show-kill-ring)
+         ("C-x b" . helm-mini)
+         ("C-x C-b" . helm-buffers-list)
+         ("C-x C-f" . helm-find-files)
+         ("C-x C-r" . helm-recentf))
+  :config (progn
+            (require 'helm-config)
+            (setq helm-M-x-fuzzy-match t
+                  helm-buffers-fuzzy-matching t
+                  helm-recentf-fuzzy-match t)
+            (helm-mode t)
+            (helm-adaptive-mode t)))
+
 (use-package ido
   :config (progn
             (setq ido-enable-flex-matching t
