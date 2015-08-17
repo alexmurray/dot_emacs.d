@@ -755,6 +755,10 @@ Otherwise call `ediff-buffers' interactively."
             (helm-mode t)
             (helm-adaptive-mode t)))
 
+(use-package helm-projectile
+  :ensure t
+  :config (helm-projectile-on))
+
 (use-package ido
   :config (progn
             (setq ido-enable-flex-matching t
