@@ -638,8 +638,11 @@ Otherwise call `ediff-buffers' interactively."
               "mg" 'magit-status
               "mm" 'minimap-toggle
               "nc" 'evilnc-comment-or-uncomment-lines
-              "pd" 'projectile-find-file-dwim
-              "pf" 'projectile-find-file
+              "pa" 'helm-projectile-ag
+              "pd" 'helm-projectile-find-file-dwim
+              "pf" 'helm-projectile-find-file
+              "po" 'helm-projectile-find-other-file
+              "pp" 'helm-projectile-switch-project
               "sc" 'evil-surround-change
               "w" 'avy-goto-word-or-subword-1
               "x" 'smex
@@ -755,6 +758,9 @@ Otherwise call `ediff-buffers' interactively."
                   helm-recentf-fuzzy-match t)
             (helm-mode t)
             (helm-adaptive-mode t)))
+
+(use-package helm-ag
+  :ensure t)
 
 (use-package helm-projectile
   :ensure t
@@ -940,8 +946,11 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :diminish (projectile-mode . " \uF013")
-  :init (projectile-global-mode)
-  :config (setq projectile-enable-caching t))
+  :init (progn
+          (setq projectile-enable-caching t)
+          (projectile-global-mode))
+  :config (with-eval-after-load 'helm-projectile
+            (setq projectile-completion-system 'helm)))
 
 (use-package rainbow-mode
   :ensure t
