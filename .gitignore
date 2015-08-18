@@ -9,6 +9,7 @@
 /custom.el
 /elpa
 /eshell
+/helm-adaptive-history
 /history
 /ido.last
 /irony/
