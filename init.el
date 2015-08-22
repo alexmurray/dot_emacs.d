@@ -330,8 +330,7 @@ code sections."
 
 (use-package color-theme-sanityinc-tomorrow
   :ensure t
-  :defer t
-  :config (load-theme 'sanityinc-tomorrow-night))
+  :config (load-theme 'sanityinc-tomorrow-night t))
 
 (use-package column-enforce-mode
   :ensure t
