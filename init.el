@@ -77,6 +77,9 @@
 (line-number-mode 1)
 (column-number-mode 1)
 
+(defvar apm-preferred-font-family "Source Code Pro"
+  "Preferred font to use.")
+
 (defun apm-graphic-frame-init ()
   "Initialise properties specific to graphical display."
   (interactive)
@@ -87,9 +90,11 @@
      '(x-gtk-use-system-tooltips nil))
     (tooltip-mode -1)
     (blink-cursor-mode -1)
-    (if (font-info "Ubuntu Mono")
-        (set-face-attribute 'default nil :font "Ubuntu Mono 12")
-      (alert "Ubuntu Mono font is not installed."))
+    (if (font-info apm-preferred-font-family)
+        (set-face-attribute 'default nil
+                            :family apm-preferred-font-family
+                            :height 110)
+      (alert (format "%s font not installed" apm-preferred-font-family)))
     (if (font-info "FontAwesome")
         ;; make sure to use FontAwesome for it's range in the unicode
         ;; private use area since on Windows this doesn't happen
