@@ -1049,6 +1049,11 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))))
 
+(use-package smooth-scroll
+  :ensure t
+  :init (setq smooth-scroll/vscroll-step-size 5)
+  :config (smooth-scroll-mode t))
+
 (use-package smooth-scrolling
   :ensure t
   :config (setq smooth-scroll-margin 2))
