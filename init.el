@@ -1074,6 +1074,9 @@ Otherwise call `ediff-buffers' interactively."
   :config (tracwiki-define-project "mk2"
                                    "http://projects.cohda.wireless:8000/trac/mk2"))
 
+(use-package type-break
+  :config (type-break-mode))
+
 (use-package unicode-fonts
   :ensure t
   :init (unicode-fonts-setup))
