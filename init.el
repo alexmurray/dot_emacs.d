@@ -617,6 +617,10 @@ Otherwise call `ediff-buffers' interactively."
             (define-key evil-motion-state-map "L" 'evil-forward-arg)
             (define-key evil-motion-state-map "H" 'evil-backward-arg)))
 
+(use-package evil-avy
+  :ensure t
+  :config (evil-avy-mode t))
+
 (use-package evil-flycheck
   :ensure flycheck
   :load-path "vendor/evil-flycheck")
