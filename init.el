@@ -1051,6 +1051,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package smooth-scroll
   :ensure t
+  :diminish smooth-scroll-mode
   :init (setq smooth-scroll/vscroll-step-size 5)
   :config (smooth-scroll-mode t))
 
