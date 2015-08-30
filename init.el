@@ -77,7 +77,7 @@
 (line-number-mode 1)
 (column-number-mode 1)
 
-(defvar apm-preferred-font-family "Source Code Pro"
+(defvar apm-preferred-font-family "Hack"
   "Preferred font to use.")
 
 (defun apm-graphic-frame-init ()
