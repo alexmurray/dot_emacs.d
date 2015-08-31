@@ -78,7 +78,10 @@
 (column-number-mode 1)
 
 (defvar apm-preferred-font-family "Hack"
-  "Preferred font to use.")
+  "Preferred font family to use.")
+
+(defvar apm-preferred-font-height 108
+  "Preferred font height to use.")
 
 (defun apm-graphic-frame-init ()
   "Initialise properties specific to graphical display."
@@ -93,7 +96,7 @@
     (if (font-info apm-preferred-font-family)
         (set-face-attribute 'default nil
                             :family apm-preferred-font-family
-                            :height 110)
+                            :height apm-preferred-font-height)
       (alert (format "%s font not installed" apm-preferred-font-family)))
     (if (font-info "FontAwesome")
         ;; make sure to use FontAwesome for it's range in the unicode
