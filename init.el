@@ -690,6 +690,12 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :init (global-evil-surround-mode 1))
 
+(use-package evil-textobj-anyblock
+  :ensure t
+  :config (progn
+            (define-key evil-inner-text-objects-map "b" 'evil-textobj-anyblock-inner-block)
+            (define-key evil-outer-text-objects-map "b" 'evil-textobj-anyblock-a-block)))
+
 (use-package evil-visualstar
   :ensure t)
 
