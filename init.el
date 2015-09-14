@@ -77,10 +77,10 @@
 (line-number-mode 1)
 (column-number-mode 1)
 
-(defvar apm-preferred-font-family "Fantasque Sans Mono"
+(defvar apm-preferred-font-family "Inconsolata"
   "Preferred font family to use.")
 
-(defvar apm-preferred-font-height 118
+(defvar apm-preferred-font-height 117
   "Preferred font height to use.")
 
 (defun apm-graphic-frame-init ()
