@@ -645,6 +645,7 @@ Otherwise call `ediff-buffers' interactively."
               "gr" 'ggtags-find-reference
               "gs" 'ggtags-find-other-symbol
               "gt" 'ggtags-find-tag-regexp
+              "gu" 'ggtags-update-tags
               "l" 'avy-goto-line
               "mg" 'magit-status
               "mm" 'minimap-toggle
