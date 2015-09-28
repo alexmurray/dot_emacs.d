@@ -2,7 +2,7 @@
 # name: gobject-c
 # key: gobject-c
 # --
-#include "$1.h"
+#include "${1:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`}.h"
 
 typedef _${2:${1:$(apm-camelize yas-text "-")}}Private $2Private;
 
