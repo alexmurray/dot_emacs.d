@@ -970,6 +970,7 @@ Otherwise call `ediff-buffers' interactively."
   :diminish projectile-mode
   :init (progn
           (setq projectile-enable-caching t)
+          (add-to-list 'projectile-project-root-files "configure.ac")
           (projectile-global-mode))
   :config (with-eval-after-load 'helm-projectile
             (setq projectile-completion-system 'helm)))
@@ -998,7 +999,7 @@ Otherwise call `ediff-buffers' interactively."
 
             ;; get semantic to index back to various top-level marker files
             (defvar apm-semantic-project-root-markers
-              '(".git" "GTAGS" "TAGS" "Makefile" ".svn" ))
+              '(".git" "configure.ac" "GTAGS" "TAGS" "Makefile" ".svn" ))
 
             (setq semanticdb-project-root-functions
                   (mapcar #'(lambda (file)
