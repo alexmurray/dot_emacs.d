@@ -5,6 +5,7 @@
 /.smex-items
 /abbrev_defs
 /ac-comphist.dat
+/anaconda-mode/*
 /auto-save-list
 /custom.el
 /elpa
@@ -18,6 +19,7 @@
 /recentf
 /semanticdb
 /session.*
+/srecode-map.el
 /tramp
 /url
 /var/
