@@ -307,9 +307,9 @@ code sections."
 (defun apm-c-mode-common-setup ()
   "Tweaks and customisations for all modes derived from c-common-mode."
   (auto-fill-mode 1)
-  ;; diminish auto-fill in the modeline to icon from fontawesome
+  ;; diminish auto-fill in the modeline
   (with-eval-after-load 'diminish
-    (diminish 'auto-fill-function " \uF036"))
+    (diminish 'auto-fill-function))
   ;; turn on auto-newline and hungry-delete
   (c-toggle-auto-hungry-state t)
   ;; make underscore a word character so movements across words
@@ -714,7 +714,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck
   :ensure t
-  :diminish (flycheck-mode . " \uF00C")
+  :diminish flycheck-mode
   :config (setq flycheck-completion-system 'ido)
   :init (global-flycheck-mode +1))
 
@@ -963,7 +963,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package projectile
   :ensure t
   :defer t
-  :diminish (projectile-mode . " \uF013")
+  :diminish projectile-mode
   :init (progn
           (setq projectile-enable-caching t)
           (projectile-global-mode))
@@ -1032,7 +1032,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package smartparens
   :ensure t
-  :diminish (smartparens-mode . " ⒮")
+  :diminish smartparens-mode
   :init (smartparens-global-mode t)
   :config (progn
             (require 'smartparens-config)
@@ -1160,7 +1160,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package yasnippet
   :ensure t
-  :diminish (yas-minor-mode . " \uF0C4")
+  :diminish yas-minor-mode
   :config (progn
             ;; set this first so we don't get the bundled snippets loaded since
             ;; they don't generally match my desired style / indentation etc
