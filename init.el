@@ -704,6 +704,11 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :bind ("C-=" . er/expand-region))
 
+(use-package fancy-battery
+  :ensure t
+  :defer t
+  :config (fancy-battery-mode))
+
 (use-package files
   :bind ("C-c r" . revert-buffer))
 
@@ -1076,6 +1081,15 @@ Otherwise call `ediff-buffers' interactively."
           (setq x-underline-at-descent-line t)
           (setq solarized-distinct-fringe-background t)
           (load-theme 'solarized-light t)))
+
+(use-package spaceline
+  :ensure t
+  :config (progn
+            (require 'spaceline-config)
+            ;; show evil state with colour change
+            (setq spaceline-highlight-face-func
+                  #'spaceline-highlight-face-evil-state)
+            (spaceline-spacemacs-theme)))
 
 (use-package tracwiki-mode
   :ensure t
