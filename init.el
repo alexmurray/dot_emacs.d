@@ -485,7 +485,7 @@ code sections."
 (defun apm-ediff-dwim ()
   "Do ediff as I mean.
 
-If a region is active when this command is called, call `ediff-regions-wordwise'.
+If a region is active when command is called, call `ediff-regions-wordwise'.
 
 Else if the current frame has 2 windows,
 - Do `ediff-files' if the buffers are associated to files and the buffers
@@ -538,7 +538,10 @@ Otherwise call `ediff-buffers' interactively."
   :diminish elisp-slime-nav-mode
   :init (progn
           (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-            (add-hook hook #'elisp-slime-nav-mode))))
+            (add-hook hook #'elisp-slime-nav-mode)))
+  :config (with-eval-after-load 'evil
+            (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
+              #'elisp-slime-nav-find-elisp-thing-at-point)))
 
 (defun apm-eshell-mode-setup ()
   "Initialise 'eshell-mode'."
@@ -594,15 +597,7 @@ Otherwise call `ediff-buffers' interactively."
               (define-key evil-normal-state-map "]s" 'flyspell-goto-next-error))
 
             ;; fixup company-complete-number to be handled better with evil
-            (evil-declare-change-repeat 'company-complete-number)
-
-            ;; use ggtags / elisp-slime-nav for searching when in those modes
-            (with-eval-after-load 'ggtags
-              (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
-                #'ggtags-find-tag-dwim))
-            (with-eval-after-load 'elisp-slime-nav
-              (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
-                #'elisp-slime-nav-find-elisp-thing-at-point))))
+            (evil-declare-change-repeat 'company-complete-number)))
 
 (use-package evil-anzu
   :ensure t)
@@ -685,7 +680,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package evil-space
   :ensure t
   :diminish evil-space-mode
-  :init (evil-space-default-setup))
+  :init (evil-space-mode))
 
 (use-package evil-surround
   :ensure t
@@ -854,6 +849,7 @@ Otherwise call `ediff-buffers' interactively."
   :config (add-hook 'gud-mode-hook #'gud-tooltip-mode))
 
 (defun apm-ggtags-setup ()
+  "Setup ggtags for various modes."
   (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
     (ggtags-mode 1)
     (setq-local imenu-create-index-function #'ggtags-build-imenu-index)))
@@ -864,6 +860,9 @@ Otherwise call `ediff-buffers' interactively."
   :init (unless (executable-find "global")
           (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
   :config (progn
+            (with-eval-after-load 'evil
+              (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
+                #'ggtags-find-tag-dwim))
             ;; enable ggtags in all c common mode buffers
             (add-hook 'c-mode-common-hook #'apm-ggtags-setup)))
 
@@ -1139,7 +1138,7 @@ Otherwise call `ediff-buffers' interactively."
            (idx 1))
       (if (listp return-name)
           (setq return-name (car return-name)))
-      (yas/expand-snippet
+      (yas-expand-snippet
        (format
         "/**
 * @brief ${1:%s}
