@@ -619,10 +619,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (evil-avy-mode t))
 
-(use-package evil-flycheck
-  :ensure flycheck
-  :load-path "vendor/evil-flycheck")
-
 (use-package evil-jumper
   :ensure t)
 
