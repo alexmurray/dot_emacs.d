@@ -884,7 +884,6 @@ Otherwise call `ediff-buffers' interactively."
   :bind ("C-x g" . magit-status)
   :config (progn
             (advice-add 'magit-status :around #'apm-fullscreen-magit-status)
-
             (define-key magit-status-mode-map (kbd "q") 'apm-quit-magit-session)))
 
 (use-package markdown-mode
