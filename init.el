@@ -648,6 +648,7 @@ Otherwise call `ediff-buffers' interactively."
               "sc" 'evil-surround-change
               "w" 'avy-goto-word-or-subword-1
               "x" 'helm-M-x
+              "zf" 'vimish-fold-avy
               "SPC" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
 
