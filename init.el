@@ -639,7 +639,6 @@ Otherwise call `ediff-buffers' interactively."
               "gu" 'ggtags-update-tags
               "l" 'avy-goto-line
               "mg" 'magit-status
-              "mm" 'minimap-toggle
               "nc" 'evilnc-comment-or-uncomment-lines
               "pa" 'helm-projectile-ag
               "pd" 'helm-projectile-find-file-dwim
@@ -895,16 +894,6 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             (unless (executable-find markdown-command)
               (alert "markdown not found - is it installed?"))))
-
-(use-package minimap
-  :ensure t
-  :defer t
-  :config (progn
-            ;; don't always keep scroll region in middle
-            (setq minimap-recenter-type 'free)
-            (setq minimap-window-location 'right)
-            ;; always create a minimap
-            (minimap-create)))
 
 (use-package paradox
   :ensure t
