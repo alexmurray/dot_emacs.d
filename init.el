@@ -648,7 +648,7 @@ Otherwise call `ediff-buffers' interactively."
               "pp" 'helm-projectile-switch-project
               "sc" 'evil-surround-change
               "w" 'avy-goto-word-or-subword-1
-              "x" 'smex
+              "x" 'helm-M-x
               "SPC" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
 
@@ -1053,12 +1053,6 @@ Otherwise call `ediff-buffers' interactively."
             ;; a new block
             (dolist (mode '(c-mode c++-mode java-mode))
               (sp-local-pair mode "{" nil :post-handlers '((apm-c-mode-common-open-block "RET"))))))
-
-(use-package smex
-  :ensure t
-  :bind (([remap execute-extended-command] . smex))
-  :config (progn
-            (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))))
 
 (use-package smooth-scroll
   :ensure t
