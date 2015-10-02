@@ -126,7 +126,7 @@
   "Open the current buffer (or prompt for file if ARG is non-nill) using sudo to edit as root."
   (interactive "p")
   (if (or arg (not buffer-file-name))
-      (find-file (concat "/sudo::" (ido-read-file-name "File: ")))
+      (find-file (concat "/sudo::" (helm-read-file-name "File: ")))
     (find-alternate-file (concat "/sudo::" buffer-file-name))))
 
 (defun lorem ()
@@ -711,7 +711,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode
-  :config (setq flycheck-completion-system 'ido)
+  :config (setq flycheck-completion-system 'nil)
   :init (global-flycheck-mode +1))
 
 (use-package flycheck-cohda-c-style
@@ -780,29 +780,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (helm-projectile-on))
 
-(use-package ido
-  :config (progn
-            (setq ido-enable-flex-matching t
-                  ;; use ido virtual buffers to remember previously opened files
-                  ido-use-virtual-buffers t)
-            ;; when using ido, the confirmation is rather annoying...
-            (setq confirm-nonexistent-file-or-buffer nil)
-            ;; disable ido faces to see flx highlights
-            (setq ido-use-faces nil))
-  :init (progn
-          (ido-mode t)
-          (ido-everywhere t)))
-
-(use-package ido-ubiquitous
-  :ensure t
-  :init (ido-ubiquitous-mode t))
-
-(use-package ido-vertical-mode
-  :ensure t
-  :init (progn
-          (ido-vertical-mode t)
-          (setq ido-vertical-define-keys 'C-n-and-C-p-only)))
-
 (use-package imenu
   :bind ("C-x C-i" . imenu))
 
@@ -834,10 +811,6 @@ Otherwise call `ediff-buffers' interactively."
             (setq ispell-program-name "aspell"
                   ispell-dictionary "british"
                   ispell-extra-args '("--sug-mode=ultra"))))
-
-(use-package flx-ido
-  :ensure t
-  :init (flx-ido-mode t))
 
 (use-package gdb-mi
   :config (progn
@@ -910,8 +883,6 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :bind ("C-x g" . magit-status)
   :config (progn
-            ;; use ido for magit options
-            (setq magit-completing-read-function 'magit-ido-completing-read)
             (advice-add 'magit-status :around #'apm-fullscreen-magit-status)
 
             (define-key magit-status-mode-map (kbd "q") 'apm-quit-magit-session)))
@@ -1169,7 +1140,7 @@ Otherwise call `ediff-buffers' interactively."
             ;; set this first so we don't get the bundled snippets loaded since
             ;; they don't generally match my desired style / indentation etc
             (setq yas-snippet-dirs (expand-file-name "snippets" user-emacs-directory))
-            (setq yas-prompt-functions '(yas-ido-prompt yas-completing-prompt yas-no-prompt))
+            (setq yas-prompt-functions '(yas-completing-prompt yas-no-prompt))
             (yas-global-mode t)))
 
 (provide 'init)
