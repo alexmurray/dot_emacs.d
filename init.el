@@ -1074,16 +1074,6 @@ Otherwise call `ediff-buffers' interactively."
             ;; turn on globally
             (vimish-fold-global-mode)
 
-            (if (fboundp 'vimish-fold-refold-all)
-                (alert "Can remove own internal definition of vimish-fold-refold-all")
-              (defun vimish-fold-refold-all ()
-                "Refold all closed folds in current buffer."
-                (interactive)
-                (mapc #'vimish-fold--refold
-                      (vimish-fold--folds-in
-                       (point-min)
-                       (point-max)))))
-
             ;; and integrate with evil - if hacks from
             ;; https://bitbucket.org/lyro/evil/pull-requests/24 is accepted then
             ;; this can be removed
