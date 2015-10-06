@@ -688,6 +688,9 @@ Otherwise call `ediff-buffers' interactively."
             (define-key evil-inner-text-objects-map "b" 'evil-textobj-anyblock-inner-block)
             (define-key evil-outer-text-objects-map "b" 'evil-textobj-anyblock-a-block)))
 
+(use-package evil-vimish-fold
+  :load-path "vendor/evil-vimish-fold")
+
 (use-package evil-visualstar
   :ensure t)
 
@@ -1070,42 +1073,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package vimish-fold
   :ensure t
-  :config (progn
-            ;; turn on globally
-            (vimish-fold-global-mode)
-
-            ;; and integrate with evil - if hacks from
-            ;; https://bitbucket.org/lyro/evil/pull-requests/24 is accepted then
-            ;; this can be removed
-            (with-eval-after-load 'evil
-              ;; alert when can be removed...
-              (when (fboundp 'evil-create-fold)
-                (alert "Can remove this hack now, yay!"))
-
-              (evil-define-command evil-create-fold ()
-                "Create a fold from the current region.
-See also `evil-delete-fold'."
-                (evil-fold-action evil-fold-list :create))
-
-              (evil-define-command evil-delete-fold ()
-                "Delete a fold under point.
-See also `evil-create-fold'."
-                (evil-fold-action evil-fold-list :delete))
-
-              (define-key evil-normal-state-map "zd" 'evil-delete-fold)
-              (define-key evil-visual-state-map "zf" 'evil-create-fold)
-
-              (add-to-list 'evil-fold-list
-                           `((vimish-fold-mode)
-                             :create     ,(lambda ()
-                                            (vimish-fold (region-beginning) (region-end)))
-                             :delete     vimish-fold-delete
-                             :open-all   vimish-fold-unfold-all
-                             :close-all  vimish-fold-refold-all
-                             :toggle     vimish-fold-toggle
-                             :open       vimish-fold-unfold
-                             :open-rec   nil
-                             :close      vimish-fold)))))
+  :config (vimish-fold-global-mode t))
 
 (defun apm-web-mode-mode-setup ()
   "Setup web mode."
