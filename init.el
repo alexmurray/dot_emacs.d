@@ -619,6 +619,10 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (evil-avy-mode t))
 
+(use-package evil-commentary
+  :ensure t
+  :config (evil-commentary-mode t))
+
 (use-package evil-jumper
   :ensure t)
 
@@ -639,7 +643,6 @@ Otherwise call `ediff-buffers' interactively."
               "gu" 'ggtags-update-tags
               "l" 'avy-goto-line
               "mg" 'magit-status
-              "nc" 'evilnc-comment-or-uncomment-lines
               "pa" 'helm-projectile-ag
               "pd" 'helm-projectile-find-file-dwim
               "pf" 'helm-projectile-find-file
@@ -655,9 +658,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package evil-matchit
   :ensure t
   :config (global-evil-matchit-mode 1))
-
-(use-package evil-nerd-commenter
-  :ensure t)
 
 (use-package evil-numbers
   :ensure t
