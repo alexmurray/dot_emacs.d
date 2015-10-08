@@ -21,5 +21,6 @@
 /session.*
 /srecode-map.el
 /tramp
+/type-break
 /url
 /var/
