@@ -689,7 +689,7 @@ Otherwise call `ediff-buffers' interactively."
             (define-key evil-outer-text-objects-map "b" 'evil-textobj-anyblock-a-block)))
 
 (use-package evil-vimish-fold
-  :load-path "vendor/evil-vimish-fold")
+  :ensure t)
 
 (use-package evil-visualstar
   :ensure t)
