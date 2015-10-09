@@ -889,6 +889,12 @@ Otherwise call `ediff-buffers' interactively."
             (advice-add 'magit-status :around #'apm-fullscreen-magit-status)
             (define-key magit-status-mode-map (kbd "q") 'apm-quit-magit-session)))
 
+(use-package mallard-mode
+  :ensure t)
+
+(use-package mallard-snippets
+  :ensure t)
+
 (use-package markdown-mode
   :ensure t
   :mode
