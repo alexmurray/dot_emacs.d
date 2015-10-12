@@ -621,6 +621,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-commentary
   :ensure t
+  :diminish evil-commentary-mode
   :config (evil-commentary-mode t))
 
 (use-package evil-jumper
