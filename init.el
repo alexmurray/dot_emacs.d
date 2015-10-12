@@ -779,6 +779,11 @@ Otherwise call `ediff-buffers' interactively."
 (use-package helm-ag
   :ensure t)
 
+(use-package helm-flyspell
+  :ensure t
+  :config (with-eval-after-load 'evil
+            (define-key evil-normal-state-map "z=" 'helm-flyspell-correct)))
+
 (use-package helm-projectile
   :ensure t
   :config (helm-projectile-on))
