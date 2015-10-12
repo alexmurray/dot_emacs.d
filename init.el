@@ -229,7 +229,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package apm-c
   :load-path "lisp/"
-  :config (add-hook 'c-mode-hook 'apm-c-mode-setup))
+  :config (dolist (hook '(c-mode-hook c++-mode-hook))
+            (add-hook hook 'apm-c-mode-setup)))
 
 (use-package apropos
   :bind ("C-h a" . apropos))
