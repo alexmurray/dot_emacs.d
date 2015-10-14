@@ -1,5 +1,6 @@
 *#*#
 *~
+/.cask/
 /.mc-lists.el
 /.places
 /.smex-items
@@ -24,3 +25,4 @@
 /type-break
 /url
 /var/
+/vimish-fold/
