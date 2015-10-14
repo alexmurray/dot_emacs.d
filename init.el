@@ -333,10 +333,6 @@ code sections."
 (use-package cc-mode
   :config (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
 
-(use-package c-eldoc
-  :ensure t
-  :config (add-hook 'c-mode-hook #'c-turn-on-eldoc-mode))
-
 (use-package color-theme-sanityinc-tomorrow
   :ensure t
   :config (load-theme 'sanityinc-tomorrow-night t))
