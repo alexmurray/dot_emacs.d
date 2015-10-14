@@ -829,7 +829,9 @@ Otherwise call `ediff-buffers' interactively."
     'irony-completion-at-point-async)
   (irony-cdb-autosetup-compile-options)
   (with-eval-after-load 'company-irony
-    (company-irony-setup-begin-commands)))
+    (company-irony-setup-begin-commands))
+  (with-eval-after-load 'irony-eldoc
+    (irony-eldoc)))
 
 (use-package irony
   :ensure t
