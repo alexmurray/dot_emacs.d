@@ -996,26 +996,10 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package semantic
   :config (progn
-            ;; parse include headers in idle time
-            (setq semantic-idle-work-update-headers-flag t)
-
-            ;; get semantic to index back to various top-level marker files
-            (defvar apm-semantic-project-root-markers
-              '(".git" "configure.ac" "GTAGS" "TAGS" "Makefile" ".svn" ))
-
-            (setq semanticdb-project-root-functions
-                  (mapcar #'(lambda (file)
-                              (eval `(lambda (directory)
-                                       (locate-dominating-file directory ,file))))
-                          apm-semantic-project-root-markers)))
-  :init (progn
-          ;; semantic and semanticdb - stores semantic information in a db so is
-          ;; faster to compute next time a file is loaded
-          (semantic-mode 1)
-          (global-semanticdb-minor-mode 1)
-
-          ;; show summary of tag at point when idle
-          (global-semantic-idle-summary-mode 1)))
+            ;; semantic and semanticdb - stores semantic information in a db so is
+            ;; faster to compute next time a file is loaded
+            (semantic-mode 1)
+            (global-semanticdb-minor-mode 1)))
 
 (use-package smart-mode-line
   :ensure t
