@@ -804,10 +804,23 @@ Otherwise call `ediff-buffers' interactively."
                   helm-buffers-fuzzy-matching t
                   helm-recentf-fuzzy-match t)
             (helm-mode t)
-            (helm-adaptive-mode t)))
+            (helm-adaptive-mode t)
+            ;; integrate with evil
+            (with-eval-after-load 'evil
+              (define-key evil-ex-map "b " 'helm-mini)
+              (define-key evil-ex-map "e " 'helm-find-files)
+              (evil-ex-define-cmd "ap[ropos]" 'helm-apropos)
+              (define-key evil-ex-map "ap " 'helm-apropos))))
 
 (use-package helm-ag
-  :ensure t)
+  :ensure t
+  :config (progn
+            ;; integrate weith evil
+            (with-eval-after-load 'evil
+              (evil-ex-define-cmd "ag" 'helm-ag)
+              (evil-ex-define-cmd "agi[nteractive]" 'helm-do-ag)
+              (define-key evil-ex-map "ag " 'helm-ag)
+              (define-key evil-ex-map "agi " 'helm-do-ag))))
 
 (use-package helm-flyspell
   :ensure t
