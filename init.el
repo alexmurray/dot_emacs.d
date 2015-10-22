@@ -545,6 +545,21 @@ Otherwise call `ediff-buffers' interactively."
             (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
               #'elisp-slime-nav-find-elisp-thing-at-point)))
 
+(defun apm-erc-alert (&optional match-type nick message)
+  "Show an alert when nick mentioned."
+  (if (or (null match-type) (not (eq match-type 'fool)))
+      (let (alert-log-messages)
+        (alert (or message (buffer-string)) :severity 'high
+               :title (concat "ERC: " (or nick (buffer-name)))
+               :data message))))
+
+(use-package erc
+  :config (progn
+            (setq erc-nick "alexmurray")
+            ;; notify via alert when mentioned
+            (add-hook 'erc-text-matched-hook 'apm-erc-alert)))
+
+
 (defun apm-eshell-mode-setup ()
   "Initialise 'eshell-mode'."
   (setq mode-name "e\uF120"))
