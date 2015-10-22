@@ -384,6 +384,11 @@ code sections."
   :ensure t
   :defer t)
 
+(use-package company-flx
+  :ensure t
+  :init (with-eval-after-load 'company
+          (company-flx-mode t)))
+
 (use-package company-irony
   :ensure t
   :init (with-eval-after-load 'company
