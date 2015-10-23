@@ -333,10 +333,6 @@ code sections."
 (use-package cc-mode
   :config (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
 
-(use-package color-theme-sanityinc-tomorrow
-  :ensure t
-  :config (load-theme 'sanityinc-tomorrow-night t))
-
 (use-package column-enforce-mode
   :ensure t
   :diminish column-enforce-mode
@@ -1062,7 +1058,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package solarized-theme
   :ensure t
-  :disabled t
   :defer t
   :init (progn
           (setq x-underline-at-descent-line t)
