@@ -638,7 +638,8 @@ Otherwise call `ediff-buffers' interactively."
   :config (evil-commentary-mode t))
 
 (use-package evil-jumper
-  :ensure t)
+  :ensure t
+  :config (global-evil-jumper-mode t))
 
 (use-package evil-leader
   :ensure t
