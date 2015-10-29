@@ -1102,8 +1102,9 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :commands tracwiki
-  :config (tracwiki-define-project "mk2"
-                                   "http://projects.cohda.wireless:8000/trac/mk2"))
+  :config (tracwiki-define-project
+           "mk2"
+           "http://projects.cohda.wireless:8000/trac/mk2"))
 
 (use-package type-break
   :config (type-break-mode))
