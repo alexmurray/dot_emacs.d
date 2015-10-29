@@ -199,6 +199,7 @@ point reaches the beginning or end of the buffer, stop there."
             (setq-default abbrev-mode t)))
 
 (use-package aggressive-indent
+  :diminish aggressive-indent-mode
   :ensure t)
 
 (use-package ag
@@ -686,6 +687,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-smartparens
   :ensure t
+  :diminish evil-smartparens-mode
   :init (add-hook 'smartparens-strict-mode-hook #'evil-smartparens-mode))
 
 (use-package evil-space
