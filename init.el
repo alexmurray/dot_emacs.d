@@ -774,6 +774,10 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t)
 
+(use-package helm-fuzzier
+  :ensure t
+  :init (helm-fuzzier-mode t))
+
 ;; enable hlm-flx before helm
 (use-package helm-flx
   :ensure t
