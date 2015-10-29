@@ -1078,7 +1078,15 @@ Otherwise call `ediff-buffers' interactively."
             ;; show evil state with colour change
             (setq spaceline-highlight-face-func
                   #'spaceline-highlight-face-evil-state)
-            (spaceline-spacemacs-theme)))
+            (spaceline-spacemacs-theme)
+
+            ;; define a segment for which-function
+            (spaceline-define-segment which-function
+              "spaceline segment for which-function"
+              (which-function)
+              :when (bound-and-true-p which-function-mode)
+              :enabled t)
+            (add-to-list 'spaceline-right 'which-function)))
 
 (use-package tracwiki-mode
   :ensure t
@@ -1124,7 +1132,7 @@ Otherwise call `ediff-buffers' interactively."
   :mode ("\\.php\\'" . web-mode))
 
 (use-package which-func
-  :init (which-function-mode t))
+  :config (which-function-mode t))
 
 (use-package whitespace
   :diminish whitespace-mode)
