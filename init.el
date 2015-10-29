@@ -592,9 +592,11 @@ Otherwise call `ediff-buffers' interactively."
 
             (dolist (mode '(comint-mode
                             eshell-mode
-                            inferior-emacs-lisp-mode
                             git-rebase-mode
                             ggtags-global-mode
+                            jenkins-mode
+                            jenkins-job-view-mode
+                            inferior-emacs-lisp-mode
                             magit-branch-manager-mode
                             magit-popup-mode
                             magit-popup-sequence-mode
@@ -888,6 +890,14 @@ Otherwise call `ediff-buffers' interactively."
                 #'ggtags-find-tag-dwim))
             ;; enable ggtags in all c common mode buffers
             (add-hook 'c-mode-common-hook #'apm-ggtags-setup)))
+
+(use-package jenkins
+  :ensure t
+  ;; don't set jenkins-api-token here - do it in custom.el so it is not checked
+  ;; into git
+  :config (setq jenkins-hostname "http://cw-jenkins/jenkins/"
+                jenkins-username "amurray"
+                jenkins-viewname "RelX"))
 
 (defun apm-js2-mode-setup ()
   "Setup js2-mode."
