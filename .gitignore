@@ -11,6 +11,7 @@
 /custom.el
 /elpa
 /eshell
+/flycheck_init.el
 /helm-adaptive-history
 /history
 /ido.last
