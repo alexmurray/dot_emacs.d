@@ -179,6 +179,9 @@ point reaches the beginning or end of the buffer, stop there."
   (ispell-minor-mode 1)
   ;; add company-ispell backend
   (with-eval-after-load 'company
+    ;; DON'T USE :with company-yasnippet since then we return results for say a
+    ;; C mode buffer from just yasnippet and without getting to the real
+    ;; completion backend (say irony)
     (add-to-list 'company-backends 'company-ispell)))
 
 (add-hook 'text-mode-hook #'apm-text-mode-setup)
