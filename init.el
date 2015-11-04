@@ -257,15 +257,15 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package auctex
   :ensure t
   :mode ("\\.tex\\'" . LaTeX-mode)
-  :config (progn
-            (setq-default TeX-auto-save t)
-            (setq-default TeX-parse-self t)
-            (setq-default TeX-PDF-mode t)
-            (setq-default TeX-master nil)
-            (setq-default reftex-plug-into-AUCTeX t)
-            (setq-default TeX-source-correlate-start-server t)
+  :init (progn
+          (setq-default TeX-auto-save t)
+          (setq-default TeX-parse-self t)
+          (setq-default TeX-PDF-mode t)
+          (setq-default TeX-master nil)
+          (setq-default reftex-plug-into-AUCTeX t)
+          (setq-default TeX-source-correlate-start-server t)
 
-            (add-hook 'LaTeX-mode-hook #'apm-latex-mode-setup)))
+          (add-hook 'LaTeX-mode-hook #'apm-latex-mode-setup)))
 
 (use-package avy
   :ensure t
