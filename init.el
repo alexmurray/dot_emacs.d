@@ -387,8 +387,8 @@ code sections."
 (use-package company-anaconda
   :ensure t
   :defer t
-  :init (with-eval-after-load 'company
-          (add-to-list 'company-backends '(company-anaconda :with company-yasnippet))))
+  :after company
+  :init (add-to-list 'company-backends '(company-anaconda :with company-yasnippet)))
 
 (use-package company-auctex
   :ensure t
@@ -396,27 +396,28 @@ code sections."
 
 (use-package company-flx
   :ensure t
-  :init (with-eval-after-load 'company
-          (company-flx-mode t)))
+  :after company
+  :init (company-flx-mode t))
 
 (use-package company-irony
   :ensure t
-  :init (with-eval-after-load 'company
-          (add-to-list 'company-backends '(company-irony :with company-yasnippet))))
+  :after company
+  :init (add-to-list 'company-backends '(company-irony :with company-yasnippet)))
 
 (use-package company-irony-c-headers
   :ensure t
+  :after company
   :init (progn
           (setq company-irony-c-headers--compiler-executable "clang++-3.6")
-          (with-eval-after-load 'company
-            ;; group with company-irony but beforehand so we get first pick
-            (add-to-list 'company-backends '(company-irony-c-headers company-irony :with company-yasnippet)))))
+          ;; group with company-irony but beforehand so we get first pick
+          (add-to-list 'company-backends '(company-irony-c-headers company-irony :with company-yasnippet))))
 
 (use-package company-math
   :ensure t
   :defer t
+  :after company
   ;; Add backend for math characters
-  :init (with-eval-after-load 'company
+  :init (progn
           (add-to-list 'company-backends '(company-math-symbols-unicode :with company-yasnippet))
           (add-to-list 'company-backends '(company-math-symbols-latex :with company-yasnippet))))
 
@@ -428,8 +429,8 @@ code sections."
 (use-package company-web
   :ensure t
   :defer t
-  :init (with-eval-after-load 'company
-          (add-to-list 'company-backends '(company-web-html :with company-yasnippet))))
+  :after company
+  :init (add-to-list 'company-backends '(company-web-html :with company-yasnippet)))
 
 (use-package compile
   :bind ("C-x C-m" . compile)
@@ -752,25 +753,23 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-cohda-c-style
   :disabled t
   :load-path "vendor/flycheck-cohda-c-style"
-  :init (with-eval-after-load 'flycheck
-          (add-hook 'flycheck-mode-hook #'flycheck-cohda-c-style-setup))
-  :config  (with-eval-after-load 'flycheck
-             (with-eval-after-load 'flycheck-irony
-               ;; chain irony after ourself
-               (flycheck-add-next-checker 'cohda-c-style '(warning . irony)))))
+  :after flycheck
+  :init (add-hook 'flycheck-mode-hook #'flycheck-cohda-c-style-setup)
+  :config  (with-eval-after-load 'flycheck-irony
+             ;; chain irony after ourself
+             (flycheck-add-next-checker 'cohda-c-style '(warning . irony))))
 
 (use-package flycheck-irony
   :ensure t
-  :init (with-eval-after-load 'flycheck
-          (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
-  :config (with-eval-after-load 'flycheck
-            (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck))))
+  :after flycheck
+  :init (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
+  :config (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck)))
 
 (use-package flycheck-package
   :ensure t
   :defer t
-  :init (with-eval-after-load 'flycheck
-          (flycheck-package-setup)))
+  :after flycheck
+  :init (flycheck-package-setup))
 
 (use-package flycheck-pos-tip
   :ensure t
@@ -826,7 +825,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package helm-ag
   :ensure t
   :config (progn
-            ;; integrate weith evil
+            ;; integrate with evil
             (with-eval-after-load 'evil
               (evil-ex-define-cmd "ag" 'helm-ag)
               (evil-ex-define-cmd "agi[nteractive]" 'helm-do-ag)
