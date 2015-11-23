@@ -1143,15 +1143,15 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (vimish-fold-global-mode t))
 
-(defun apm-web-mode-mode-setup ()
+(defun apm-web-mode-setup ()
   "Setup web mode."
   (setq mode-name "\uF0AC"))
 
 (use-package web-mode
   :ensure t
   :commands web-mode
-  ;; use smartparens instead
   :config (progn
+            ;; use smartparens instead
             (setq web-mode-enable-auto-pairing nil)
             (add-hook 'web-mode-hook #'apm-web-mode-setup))
   :mode ("\\.php\\'" . web-mode))
