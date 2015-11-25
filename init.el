@@ -1006,6 +1006,7 @@ Otherwise call `ediff-buffers' interactively."
   :init (progn
           (setq projectile-enable-caching t)
           (add-to-list 'projectile-project-root-files "configure.ac")
+          (add-to-list 'projectile-project-root-files ".clang_complete")
           (projectile-global-mode))
   :config (with-eval-after-load 'helm-projectile
             (setq projectile-completion-system 'helm)))
