@@ -1034,6 +1034,10 @@ Otherwise call `ediff-buffers' interactively."
             (semantic-mode 1)
             (global-semanticdb-minor-mode 1)))
 
+(use-package sh-mode
+  :init (setq-default sh-basic-offset 2
+                      sh-indentation 2))
+
 (use-package smart-mode-line
   :ensure t
   :defer t
