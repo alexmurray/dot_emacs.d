@@ -741,7 +741,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package fancy-battery
   :ensure t
   :defer t
-  :config (fancy-battery-mode))
+  :config (fancy-battery-mode t))
 
 (use-package fancy-narrow
   :ensure t
@@ -1111,6 +1111,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package spaceline
   :ensure t
+  :defer t
   :config (progn
             (require 'spaceline-config)
             ;; show evil state with colour change
