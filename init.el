@@ -746,7 +746,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package fancy-narrow
   :ensure t
   :defer t
-  :config (fancy-narrow-mode 1))
+  :init (fancy-narrow-mode 1))
 
 (use-package files
   :bind ("C-c r" . revert-buffer))
