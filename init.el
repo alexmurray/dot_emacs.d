@@ -28,8 +28,6 @@
 
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
 
 (use-package alert
   :ensure t
@@ -209,6 +207,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package ag
   :ensure t
+  :defer t
   :init (unless (executable-find "ag")
           (alert "ag not found - is it installed?")))
 
@@ -567,6 +566,7 @@ Otherwise call `ediff-buffers' interactively."
                :data message))))
 
 (use-package erc
+  :defer t
   :config (progn
             (setq erc-nick "alexmurray")
             ;; notify via alert when mentioned
@@ -804,6 +804,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package helm
   :ensure t
   :diminish helm-mode
+  :defer t
   :bind (("M-x" . helm-M-x)
          ("M-y" . helm-show-kill-ring)
          ("C-x b" . helm-mini)
@@ -960,10 +961,12 @@ Otherwise call `ediff-buffers' interactively."
             (define-key magit-status-mode-map (kbd "q") 'apm-quit-magit-session)))
 
 (use-package mallard-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package mallard-snippets
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package markdown-mode
   :ensure t
@@ -1029,6 +1032,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t)
 
 (use-package semantic
+  :defer t
   :config (progn
             ;; semantic and semanticdb - stores semantic information in a db so is
             ;; faster to compute next time a file is loaded
