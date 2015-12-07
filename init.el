@@ -746,6 +746,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package fancy-narrow
   :ensure t
   :defer t
+  :diminish fancy-narrow-mode
   :init (fancy-narrow-mode 1))
 
 (use-package files
@@ -1112,20 +1113,20 @@ Otherwise call `ediff-buffers' interactively."
 (use-package spaceline
   :ensure t
   :defer t
-  :config (progn
-            (require 'spaceline-config)
-            ;; show evil state with colour change
-            (setq spaceline-highlight-face-func
-                  #'spaceline-highlight-face-evil-state)
-            (spaceline-spacemacs-theme)
+  :init (progn
+          (require 'spaceline-config)
+          ;; show evil state with colour change
+          (setq spaceline-highlight-face-func
+                #'spaceline-highlight-face-evil-state)
+          (spaceline-spacemacs-theme)
 
-            ;; define a segment for which-function
-            (spaceline-define-segment which-function
-              "spaceline segment for which-function"
-              (which-function)
-              :when (bound-and-true-p which-function-mode)
-              :enabled t)
-            (add-to-list 'spaceline-right 'which-function)))
+          ;; define a segment for which-function
+          (spaceline-define-segment which-function
+                                    "spaceline segment for which-function"
+                                    (which-function)
+                                    :when (bound-and-true-p which-function-mode)
+                                    :enabled t)
+          (add-to-list 'spaceline-right 'which-function)))
 
 (use-package tracwiki-mode
   :ensure t
