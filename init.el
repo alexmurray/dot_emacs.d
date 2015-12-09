@@ -176,13 +176,7 @@ point reaches the beginning or end of the buffer, stop there."
   ;; Enable flyspell
   (flyspell-mode 1)
   ;; give warning if words misspelled when typing
-  (ispell-minor-mode 1)
-  ;; add company-ispell backend
-  (with-eval-after-load 'company
-    ;; DON'T USE :with company-yasnippet since then we return results for say a
-    ;; C mode buffer from just yasnippet and without getting to the real
-    ;; completion backend (say irony)
-    (add-to-list 'company-backends 'company-ispell)))
+  (ispell-minor-mode 1))
 
 (add-hook 'text-mode-hook #'apm-text-mode-setup)
 
@@ -256,7 +250,10 @@ point reaches the beginning or end of the buffer, stop there."
   ;; enable math mode in latex
   (LaTeX-math-mode 1)
   ;; Enable reftex
-  (turn-on-reftex))
+  (turn-on-reftex)
+  ;; add company-ispell backend
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'company-ispell)))
 
 (use-package auctex
   :ensure t
