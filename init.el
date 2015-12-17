@@ -77,8 +77,8 @@
 (line-number-mode 1)
 (column-number-mode 1)
 
-(defun apm-emoji-fontset-init (&optional frame)
-  "Set fontset for FRAME to display emoji correctly."
+(defun apm-emoji-fontset-init ()
+  "Set fontset to display emoji correctly."
   (if (eq system-type 'darwin)
       ;; For NS/Cocoa
       (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
@@ -97,7 +97,7 @@
   "Initialise properties specific to graphical display for FRAME."
   (interactive)
   (when (display-graphic-p)
-    (apm-emoji-fontset-init frame)
+    (apm-emoji-fontset-init)
     (setq frame-title-format '(buffer-file-name "%f" ("%b")))
     ;; don't use gtk style tooltips so instead can use pos-tip etc
     (custom-set-variables
@@ -117,8 +117,8 @@
       (alert "FontAwesome is not installed."))))
 
 ;; make sure graphical properties get set on client frames - do the emoji setup
-;; (with a nil frame) on find-file so that it doesn't happen when we first start
-;; emacs daemon otherwise it errors out
+;; on find-file so that it doesn't happen when we first start emacs daemon
+;; otherwise it errors out
 (add-hook 'find-file-hook #'apm-emoji-fontset-init)
 (add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
 
