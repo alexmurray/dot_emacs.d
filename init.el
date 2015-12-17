@@ -77,16 +77,27 @@
 (line-number-mode 1)
 (column-number-mode 1)
 
+(defun apm-emoji-fontset-init (&optional frame)
+  "Set fontset for FRAME to display emoji correctly."
+  (if (eq system-type 'darwin)
+      ;; For NS/Cocoa
+      (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+    ;; For Linux
+    (if (font-info "Symbola")
+        (set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'prepend)
+      (alert "Symbola is not installed (ttf-ancient-fonts)"))))
+
 (defvar apm-preferred-font-family "Inconsolata"
   "Preferred font family to use.")
 
 (defvar apm-preferred-font-height 117
   "Preferred font height to use.")
 
-(defun apm-graphic-frame-init ()
-  "Initialise properties specific to graphical display."
+(defun apm-graphic-frame-init (frame)
+  "Initialise properties specific to graphical display for FRAME."
   (interactive)
   (when (display-graphic-p)
+    (apm-emoji-fontset-init frame)
     (setq frame-title-format '(buffer-file-name "%f" ("%b")))
     ;; don't use gtk style tooltips so instead can use pos-tip etc
     (custom-set-variables
@@ -106,9 +117,8 @@
       (alert "FontAwesome is not installed."))))
 
 ;; make sure graphical properties get set on client frames
-(add-hook 'find-file-hook #'apm-graphic-frame-init)
-
-(apm-graphic-frame-init)
+(add-hook 'find-file-hook #'apm-emoji-fontset-init)
+(add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
 
 ;; show colours correctly in shell
 (ansi-color-for-comint-mode-on)
@@ -391,6 +401,11 @@ code sections."
 (use-package company-auctex
   :ensure t
   :defer t)
+
+(use-package company-emoji
+  :ensure t
+  :after company
+  :init (add-to-list 'company-backends '(company-emoji :with company-yasnippet)))
 
 (use-package company-flx
   :ensure t
