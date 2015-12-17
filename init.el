@@ -116,7 +116,9 @@
         (set-fontset-font "fontset-default" '(#xf000 . #xf23a) "FontAwesome")
       (alert "FontAwesome is not installed."))))
 
-;; make sure graphical properties get set on client frames
+;; make sure graphical properties get set on client frames - do the emoji setup
+;; (with a nil frame) on find-file so that it doesn't happen when we first start
+;; emacs daemon otherwise it errors out
 (add-hook 'find-file-hook #'apm-emoji-fontset-init)
 (add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
 
