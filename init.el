@@ -1025,6 +1025,8 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package prog-mode
   :config (progn
+            ;; show original text when point is over a prettified symbol
+            (setq prettify-symbols-unprettify-at-point 'right-edge)
             ;; prettify symbols (turn lambda -> λ)
             (global-prettify-symbols-mode 1)
             (add-hook 'prog-mode-hook #'apm-prog-mode-setup)))
