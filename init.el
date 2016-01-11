@@ -772,6 +772,13 @@ Otherwise call `ediff-buffers' interactively."
   :config (setq flycheck-completion-system 'nil)
   :init (global-flycheck-mode +1))
 
+(use-package flycheck-checkbashisms
+  :ensure t
+  :after flycheck
+  :init (unless (executable-find "checkbashisms")
+          (alert "checkbashisms not found - is it installed? (sudo apt-get intall devscripts)"))
+  :config (flycheck-checkbashisms-setup))
+
 (use-package flycheck-cohda-c-style
   :disabled t
   :load-path "vendor/flycheck-cohda-c-style"
