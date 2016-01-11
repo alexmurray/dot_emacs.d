@@ -796,7 +796,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-pos-tip
   :ensure t
   :defer t
-  :init (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  :config (flycheck-pos-tip-mode))
 
 (use-package flyspell
   :diminish flyspell-mode)
