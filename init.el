@@ -930,6 +930,7 @@ Otherwise call `ediff-buffers' interactively."
             (with-eval-after-load 'evil
               (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
                 #'ggtags-find-tag-dwim))
+            (setq ggtags-enable-navigation-keys nil)
             ;; enable ggtags in all c common mode buffers
             (add-hook 'c-mode-common-hook #'apm-ggtags-setup)))
 
