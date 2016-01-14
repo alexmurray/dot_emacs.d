@@ -1161,6 +1161,7 @@ Otherwise call `ediff-buffers' interactively."
            "http://projects.cohda.wireless:8000/trac/mk2"))
 
 (use-package type-break
+  :defer t
   :config (type-break-mode))
 
 (use-package unicode-fonts
