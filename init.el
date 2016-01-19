@@ -1121,15 +1121,9 @@ Otherwise call `ediff-buffers' interactively."
             (dolist (mode '(c-mode c++-mode java-mode))
               (sp-local-pair mode "{" nil :post-handlers '((apm-c-mode-common-open-block "RET"))))))
 
-(use-package smooth-scroll
-  :ensure t
-  :diminish smooth-scroll-mode
-  :init (setq smooth-scroll/vscroll-step-size 5)
-  :config (smooth-scroll-mode t))
-
 (use-package smooth-scrolling
   :ensure t
-  :config (setq smooth-scroll-margin 2))
+  :config (setq smooth-scroll-margin 5))
 
 (use-package solarized-theme
   :ensure t
