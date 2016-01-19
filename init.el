@@ -1049,6 +1049,11 @@ Otherwise call `ediff-buffers' interactively."
   :init (dolist (hook '(css-mode-hook html-mode-hook))
           (add-hook hook #'rainbow-mode)))
 
+(use-package region-state
+  :ensure t
+  :defer t
+  :config (region-state-mode 1))
+
 ;; save minibuffer history
 (use-package savehist
   :init (savehist-mode 1))
