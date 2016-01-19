@@ -346,9 +346,6 @@ code sections."
     (diminish 'auto-fill-function))
   ;; turn on auto-newline and hungry-delete
   (c-toggle-auto-hungry-state t)
-  ;; make underscore a word character so movements across words
-  ;; include it - this is the same as vim
-  (modify-syntax-entry ?_ "w")
   ;; ensure fill-paragraph takes doxygen @ markers as start of new
   ;; paragraphs properly
   (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
@@ -634,6 +631,9 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :init (evil-mode t)
   :config (progn
+            ;; make underscore a word character so movements across words
+            ;; include it - this is the same as vim
+            (modify-syntax-entry ?_ "w")
             ;; make cursor easier to see
             (setq evil-normal-state-cursor '("#b294bb" box))
             (setq evil-insert-state-cursor '("#de935f" bar))
