@@ -627,13 +627,19 @@ Otherwise call `ediff-buffers' interactively."
             (add-hook 'makefile-mode-hook #'makefile-tabs-are-less-evil))
   :init (global-ethan-wspace-mode 1))
 
+(defun apm-make-underscore-word-character ()
+  "Make _ a word character."
+  (modify-syntax-entry ?_ "w"))
+
 (use-package evil
   :ensure t
   :init (evil-mode t)
   :config (progn
             ;; make underscore a word character so movements across words
-            ;; include it - this is the same as vim
-            (modify-syntax-entry ?_ "w")
+            ;; include it - this is the same as vim - need to do it on each
+            ;; major mode change
+            (add-hook 'after-change-major-mode-hook
+                      #'apm-make-underscore-word-character)
             ;; make cursor easier to see
             (setq evil-normal-state-cursor '("#b294bb" box))
             (setq evil-insert-state-cursor '("#de935f" bar))
