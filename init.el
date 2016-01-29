@@ -813,7 +813,7 @@ Otherwise call `ediff-buffers' interactively."
   :config (flycheck-checkbashisms-setup))
 
 (use-package flycheck-cstyle
-  :load-path "vendor/flycheck-cstyle"
+  :ensure t
   :after flycheck
   :init (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup))
 
