@@ -468,6 +468,9 @@ code sections."
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error))
 
+(use-package cstyle
+  :load-path "vendor/cstyle.el")
+
 (use-package cua-base
   ;; use CUA mode for rectangle selections etc but not copy/paste etc
   :init (cua-selection-mode t))
@@ -804,14 +807,10 @@ Otherwise call `ediff-buffers' interactively."
           (alert "checkbashisms not found - is it installed? (sudo apt-get intall devscripts)"))
   :config (flycheck-checkbashisms-setup))
 
-(use-package flycheck-cohda-c-style
-  :disabled t
-  :load-path "vendor/flycheck-cohda-c-style"
+(use-package flycheck-cstyle
+  :load-path "vendor/flycheck-cstyle"
   :after flycheck
-  :init (add-hook 'flycheck-mode-hook #'flycheck-cohda-c-style-setup)
-  :config  (with-eval-after-load 'flycheck-irony
-             ;; chain irony after ourself
-             (flycheck-add-next-checker 'cohda-c-style '(warning . irony))))
+  :init (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup))
 
 (use-package flycheck-irony
   :ensure t
