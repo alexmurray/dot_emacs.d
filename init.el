@@ -815,13 +815,16 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-cstyle
   :ensure t
   :after flycheck
-  :init (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup))
+  :init (unless (executable-find "cstyle")
+          (alert "cstyle not found - is it install?"))
+  :config (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup))
 
 (use-package flycheck-irony
   :ensure t
   :after flycheck
-  :init (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
-  :config (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck)))
+  :config (progn
+            (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
+            (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck))))
 
 (use-package flycheck-package
   :ensure t
