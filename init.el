@@ -381,9 +381,6 @@ code sections."
             ;; Use Company for completion
             (bind-key [remap completion-at-point] #'company-complete company-mode-map)
 
-            ;; keep original case
-            (setq company-dabbrev-downcase nil)
-
             ;; some better default values
             (setq company-idle-delay 0.5)
             (setq company-tooltip-limit 10)
@@ -422,6 +419,11 @@ code sections."
 (use-package company-auctex
   :ensure t
   :defer t)
+
+(use-package company-dabbrev
+  :after company
+  :config             ;; keep original case
+  (setq company-dabbrev-downcase nil))
 
 (use-package company-emoji
   :ensure t
