@@ -812,19 +812,25 @@ Otherwise call `ediff-buffers' interactively."
           (alert "checkbashisms not found - is it installed? (sudo apt-get intall devscripts)"))
   :config (flycheck-checkbashisms-setup))
 
-(use-package flycheck-cstyle
-  :ensure t
-  :after flycheck
-  :init (unless (executable-find "cstyle")
-          (alert "cstyle not found - is it install?"))
-  :config (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup))
-
 (use-package flycheck-irony
   :ensure t
   :after flycheck
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
             (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck))))
+
+;; we want to make sure irony comes before us in the list of flycheck-checkers
+;; so do our cstyle setup after irony
+(use-package flycheck-cstyle
+  :ensure t
+  :after flycheck-irony
+  :init (unless (executable-find "cstyle")
+          (alert "cstyle not found - is it install?"))
+  :config (progn
+            (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup)
+            ;; chain after cppcheck so we have
+            ;; irony->cppcheck->cstyle
+            (flycheck-add-next-checker 'c/c++-cppcheck '(warning . cstyle))))
 
 (use-package flycheck-package
   :ensure t
