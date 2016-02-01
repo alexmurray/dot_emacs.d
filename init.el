@@ -1074,6 +1074,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :diminish projectile-mode
+  :bind ("C-x C-m" . projectile-compile-project)
   :init (progn
           (setq projectile-enable-caching t)
           (add-to-list 'projectile-project-root-files "configure.ac")
