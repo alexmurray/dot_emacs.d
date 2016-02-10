@@ -398,23 +398,13 @@ code sections."
             (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
 
             ;; put most often used completions at stop of list
-            (setq company-transformers '(company-sort-by-occurrence))
-
-            ;; Add yasnippet support for all existing company backends
-            (setq company-backends (mapcar #'(lambda (backend)
-                                               (if (and (listp backend)
-                                                        (member 'company-yasnippet backend))
-                                                   backend
-                                                 (append (if (consp backend)
-                                                             backend
-                                                           (list backend))
-                                                         '(:with company-yasnippet)))) company-backends))))
+            (setq company-transformers '(company-sort-by-occurrence))))
 
 (use-package company-anaconda
   :ensure t
   :defer t
   :after company
-  :init (add-to-list 'company-backends '(company-anaconda :with company-yasnippet)))
+  :init (add-to-list 'company-backends 'company-anaconda))
 
 (use-package company-auctex
   :ensure t
@@ -428,7 +418,7 @@ code sections."
 (use-package company-emoji
   :ensure t
   :after company
-  :init (add-to-list 'company-backends '(company-emoji :with company-yasnippet)))
+  :init (add-to-list 'company-backends 'company-emoji))
 
 (use-package company-flx
   :ensure t
@@ -438,7 +428,7 @@ code sections."
 (use-package company-irony
   :ensure t
   :after company
-  :init (add-to-list 'company-backends '(company-irony :with company-yasnippet)))
+  :init (add-to-list 'company-backends 'company-irony))
 
 (use-package company-irony-c-headers
   :ensure t
@@ -446,7 +436,7 @@ code sections."
   :init (progn
           (setq company-irony-c-headers--compiler-executable "clang++-3.6")
           ;; group with company-irony but beforehand so we get first pick
-          (add-to-list 'company-backends '(company-irony-c-headers company-irony :with company-yasnippet))))
+          (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
 
 (use-package company-math
   :ensure t
@@ -454,8 +444,8 @@ code sections."
   :after company
   ;; Add backend for math characters
   :init (progn
-          (add-to-list 'company-backends '(company-math-symbols-unicode :with company-yasnippet))
-          (add-to-list 'company-backends '(company-math-symbols-latex :with company-yasnippet))))
+          (add-to-list 'company-backends 'company-math-symbols-unicode)
+          (add-to-list 'company-backends 'company-math-symbols-latex)))
 
 (use-package company-quickhelp
   :ensure t
@@ -466,7 +456,7 @@ code sections."
   :ensure t
   :defer t
   :after company
-  :init (add-to-list 'company-backends '(company-web-html :with company-yasnippet)))
+  :init (add-to-list 'company-backends 'company-web-html))
 
 (use-package compile
   :bind ("C-x C-m" . compile)
