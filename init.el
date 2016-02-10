@@ -1044,6 +1044,11 @@ Otherwise call `ediff-buffers' interactively."
   ;; don't bother trying to integrate with github
   :config (setq paradox-github-token nil))
 
+(use-package pdf-tools
+  :ensure t
+  :defer t
+  :config (pdf-tools-install))
+
 (use-package php-mode
   :ensure t
   :defer t)
