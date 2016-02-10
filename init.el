@@ -452,6 +452,12 @@ code sections."
   :init (add-hook 'company-mode-hook #'company-quickhelp-mode)
   :config (setq company-quickhelp-delay 0.1))
 
+(use-package company-shell
+  :ensure t
+  :defer t
+  :after company
+  :init (add-to-list 'company-backends 'company-shell))
+
 (use-package company-web
   :ensure t
   :defer t
