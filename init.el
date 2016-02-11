@@ -109,6 +109,9 @@
 (defvar apm-preferred-font-family "Inconsolata"
   "Preferred font family to use.")
 
+(defvar apm-preferred-font-family-package "fonts-inconsolata"
+  "Package to install to get `apm-preferred-font-family'.")
+
 (defvar apm-preferred-font-height 117
   "Preferred font height to use.")
 
@@ -127,13 +130,15 @@
         (set-face-attribute 'default nil
                             :family apm-preferred-font-family
                             :height apm-preferred-font-height)
-      (alert (format "%s font not installed" apm-preferred-font-family)))
+      (alert (format "%s font not installed (%s)"
+                     apm-preferred-font-family
+                     apm-preferred-font-family-package)))
     (if (font-info "FontAwesome")
         ;; make sure to use FontAwesome for it's range in the unicode
         ;; private use area since on Windows this doesn't happen
         ;; automagically
         (set-fontset-font "fontset-default" '(#xf000 . #xf23a) "FontAwesome")
-      (alert "FontAwesome is not installed."))))
+      (alert "FontAwesome is not installed (fonts-font-awesome)."))))
 
 ;; make sure graphical properties get set on client frames - do the emoji setup
 ;; on find-file so that it doesn't happen when we first start emacs daemon
@@ -805,7 +810,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :after flycheck
   :init (unless (executable-find "checkbashisms")
-          (alert "checkbashisms not found - is it installed? (sudo apt-get intall devscripts)"))
+          (alert "checkbashisms not found - is it installed? (devscripts)"))
   :config (flycheck-checkbashisms-setup))
 
 (use-package flycheck-irony
