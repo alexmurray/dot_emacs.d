@@ -115,8 +115,8 @@
 (defvar apm-preferred-font-height 117
   "Preferred font height to use.")
 
-(defun apm-graphic-frame-init (frame)
-  "Initialise properties specific to graphical display for FRAME."
+(defun apm-graphic-frame-init ()
+  "Initialise properties specific to graphical display."
   (interactive)
   (when (display-graphic-p)
     (apm-emoji-fontset-init)
@@ -140,11 +140,9 @@
         (set-fontset-font "fontset-default" '(#xf000 . #xf23a) "FontAwesome")
       (alert "FontAwesome is not installed (fonts-font-awesome)."))))
 
-;; make sure graphical properties get set on client frames - do the emoji setup
-;; on find-file so that it doesn't happen when we first start emacs daemon
-;; otherwise it errors out
-(add-hook 'find-file-hook #'apm-emoji-fontset-init)
-(add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
+;; make sure graphical properties get set on client frames
+(add-hook 'server-visit-hook #'apm-graphic-frame-init)
+(apm-graphic-frame-init)
 
 ;; show colours correctly in shell
 (ansi-color-for-comint-mode-on)
