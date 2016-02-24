@@ -287,6 +287,9 @@ point reaches the beginning or end of the buffer, stop there."
   (turn-on-reftex)
   ;; add company-ispell backend
   (with-eval-after-load 'company
+    ;; silence byte-compilation warnings
+    (eval-when-compile
+      (require 'company))
     (add-to-list 'company-backends 'company-ispell)))
 
 (use-package auctex
@@ -621,6 +624,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun makefile-tabs-are-less-evil ()
   "Disable ethan-wspace from caring about tabs in Makefile's."
+  ;; silence byte-compilation warnings
+  (eval-when-compile
+    (require 'ethan-wspace))
   (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))
 
 (use-package ethan-wspace
@@ -801,7 +807,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode
-  :config (setq flycheck-completion-system 'nil)
   :init (global-flycheck-mode +1))
 
 (use-package flycheck-checkbashisms
@@ -877,6 +882,10 @@ Otherwise call `ediff-buffers' interactively."
          ("C-x C-r" . helm-recentf))
   :config (progn
             (require 'helm-config)
+            ;; silence byte-compile warnings
+            (eval-when-compile
+              (require 'helm-command)
+              (require 'helm-files))
             (setq helm-M-x-fuzzy-match t
                   helm-buffers-fuzzy-matching t
                   helm-recentf-fuzzy-match t)
@@ -1068,8 +1077,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package prog-mode
   :config (progn
-            ;; show original text when point is over a prettified symbol
-            (setq prettify-symbols-unprettify-at-point 'right-edge)
+            (when (boundp 'prettify-symbols-unprettify-at-point)
+              ;; show original text when point is over a prettified symbol
+              (setq prettify-symbols-unprettify-at-point 'right-edge))
             ;; prettify symbols (turn lambda -> λ)
             (global-prettify-symbols-mode 1)
             (add-hook 'prog-mode-hook #'apm-prog-mode-setup)))
@@ -1184,15 +1194,9 @@ Otherwise call `ediff-buffers' interactively."
           ;; show evil state with colour change
           (setq spaceline-highlight-face-func
                 #'spaceline-highlight-face-evil-state)
-          (spaceline-spacemacs-theme)
-
-          ;; define a segment for which-function
-          (spaceline-define-segment which-function
-                                    "spaceline segment for which-function"
-                                    (which-function)
-                                    :when (bound-and-true-p which-function-mode)
-                                    :enabled t)
-          (add-to-list 'spaceline-right 'which-function)))
+          (eval-when-compile
+            (require 'spaceline-config))
+          (spaceline-spacemacs-theme)))
 
 (use-package tracwiki-mode
   :ensure t
