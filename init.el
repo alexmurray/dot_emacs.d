@@ -698,10 +698,6 @@ Otherwise call `ediff-buffers' interactively."
             (define-key evil-motion-state-map "L" 'evil-forward-arg)
             (define-key evil-motion-state-map "H" 'evil-backward-arg)))
 
-(use-package evil-avy
-  :ensure t
-  :config (evil-avy-mode t))
-
 (use-package evil-commentary
   :ensure t
   :diminish evil-commentary-mode
