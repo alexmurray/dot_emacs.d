@@ -241,10 +241,9 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package android-mode
   :ensure t
-  :defer t
   :config (progn
             ;; change prefix so doesn't conflict with comment-region
-            (setq android-mode-sdk-dir "/opt/android-sdk-linux/"
+            (setq android-mode-sdk-dir (expand-file-name "~/android-sdk-linux/")
                   android-mode-key-prefix (kbd "C-c C-m")))
   :diminish (android-mode . " \uf17b "))
 
