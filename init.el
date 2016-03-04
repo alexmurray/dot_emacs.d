@@ -597,7 +597,7 @@ Otherwise call `ediff-buffers' interactively."
               #'elisp-slime-nav-find-elisp-thing-at-point)))
 
 (defun apm-erc-alert (&optional match-type nick message)
-  "Show an alert when nick mentioned."
+  "Show an alert when nick mentioned with MATCH-TYPE NICK and MESSAGE."
   (if (or (null match-type) (not (eq match-type 'fool)))
       (let (alert-log-messages)
         (alert (or message (buffer-string)) :severity 'high
@@ -743,36 +743,30 @@ Otherwise call `ediff-buffers' interactively."
 (use-package evil-multiedit
   :ensure t
   :config (progn
-            ;; Highlights all matches of the selection in the buffer.
-            (define-key evil-visual-state-map "R" 'evil-multiedit-match-all)
+            (bind-keys :map evil-visual-state-map
+                       ;; Highlights all matches of the selection in the buffer.
+                       ("R"   . evil-multiedit-match-all)
+                       ;; Match selected region.
+                       ("M-d" . evil-multiedit-match-and-next)
+                       ;; Same as M-d but in reverse.
+                       ("M-D" . evil-multiedit-match-and-prev))
 
-            ;; Match the word under cursor (i.e. make it an edit region). Consecutive presses will
-            ;; incrementally add the next unmatched match.
-            (define-key evil-normal-state-map (kbd "M-d") 'evil-multiedit-match-and-next)
-            ;; Match selected region.
-            (define-key evil-visual-state-map (kbd "M-d") 'evil-multiedit-match-and-next)
+            (bind-keys :map evil-normal-state-map
+                       ;; Match the word under cursor (i.e. make it an edit region). Consecutive presses will
+                       ;; incrementally add the next unmatched match.
+                       ("M-d" . evil-multiedit-match-and-next)
+                       ;; Same as M-d but in reverse.
+                       ("M-D" . evil-multiedit-match-and-prev))
 
-            ;; Same as M-d but in reverse.
-            (define-key evil-normal-state-map (kbd "M-D") 'evil-multiedit-match-and-prev)
-            (define-key evil-visual-state-map (kbd "M-D") 'evil-multiedit-match-and-prev)
+            (bind-keys :map evil-multiedit-state-map
+                       ;; For moving between edit regions
+                       ("C-n" . evil-multiedit-next)
+                       ("C-p" . evil-multiedit-prev))
 
-            ;; OPTIONAL: If you prefer to grab symbols rather than words, use
-            ;; `evil-multiedit-match-symbol-and-next` (or prev).
-
-            ;; Restore the last group of multiedit regions.
-            (define-key evil-visual-state-map (kbd "C-M-D") 'evil-multiedit-restore)
-
-            ;; RET will toggle the region under the cursor
-            (define-key evil-multiedit-state-map (kbd "RET") 'evil-multiedit-toggle-or-restrict-region)
-
-            ;; ...and in visual mode, RET will disable all fields outside the selected region
-            (define-key evil-visual-state-map (kbd "RET") 'evil-multiedit-toggle-or-restrict-region)
-
-            ;; For moving between edit regions
-            (define-key evil-multiedit-state-map (kbd "C-n") 'evil-multiedit-next)
-            (define-key evil-multiedit-state-map (kbd "C-p") 'evil-multiedit-prev)
-            (define-key evil-multiedit-insert-state-map (kbd "C-n") 'evil-multiedit-next)
-            (define-key evil-multiedit-insert-state-map (kbd "C-p") 'evil-multiedit-prev)
+            (bind-keys :map evil-multiedit-insert-state-map
+                       ;; For moving between edit regions
+                       ("C-n" . evil-multiedit-next)
+                       ("C-p" . evil-multiedit-prev))
 
             ;; Ex command that allows you to invoke evil-multiedit with a regular expression, e.g.
             (evil-ex-define-cmd "ie[dit]" 'evil-multiedit-ex-match)))
@@ -785,12 +779,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package evil-search-highlight-persist
   :ensure t
   :init (global-evil-search-highlight-persist t))
-
-
-(use-package evil-smartparens
-  :ensure t
-  :diminish evil-smartparens-mode
-  :init (add-hook 'smartparens-strict-mode-hook #'evil-smartparens-mode))
 
 (use-package evil-space
   :ensure t
@@ -1177,8 +1165,8 @@ Otherwise call `ediff-buffers' interactively."
             (sml/apply-theme 'respectful)))
 
 ;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
-(defun apm-c-mode-common-open-block (&rest _ignored)
-  "Open a new brace or bracket expression, with relevant newlines and indent (_IGNORED is ignored)."
+(defun apm-c-mode-common-open-block (&rest ignored)
+  "Open a new brace or bracket expression, with relevant newlines and indent (IGNORED is ignored)."
   (newline)
   (indent-according-to-mode)
   (forward-line -1)
