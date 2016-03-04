@@ -4,7 +4,7 @@
 # --
 #include "${1:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`}.h"
 
-typedef _${2:${1:$(apm-camelize yas-text "-")}}Private $2Private;
+typedef struct _${2:${1:$(apm-camelize yas-text "-")}}Private $2Private;
 
 struct _$2Private
 {
@@ -22,7 +22,7 @@ $3_new(void)
 static void
 $3_finalize(GObject *object)
 {
-  $2Private *priv = ${5:${3:$(upcase yas-text)}}(object)->priv;
+  $2Private *priv = $3_get_instance_private(${5:${3:$(upcase yas-text)}}(object));
 
   // TODO: remove this - keep compiler happy
   (void)priv;
@@ -32,11 +32,11 @@ $3_finalize(GObject *object)
 
 static void
 $3_get_property(GObject *object,
-${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}guint prop_id,
-${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}GValue *value,
-${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}GParamSpec *pspec)
+                guint prop_id,
+                GValue *value,
+                GParamSpec *pspec)
 {
-${3:$(concat " " " ") ;; worst hack ever since 2 spaces doesn't actually seem to indent properly}${2:$(concat yas-text " *")}self = $5(object);
+  ${2:$(concat yas-text " *")}self = $5(object);
 
   // TODO: remove this - keep compiler happy
   (void)self;
@@ -49,11 +49,11 @@ ${3:$(concat " " " ") ;; worst hack ever since 2 spaces doesn't actually seem to
 
 static void
 $3_set_property(GObject *object,
-${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}guint prop_id,
-${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}const GValue *value,
-${3:$(replace-regexp-in-string "[a-z_]" " " yas-text) ;; hack since doesn't indent right otherwise}GParamSpec *pspec)
+                guint prop_id,
+                const GValue *value,
+                GParamSpec *pspec)
 {
-${3:$(concat " " " ") ;; worst hack ever since 2 spaces doesn't actually seem to indent properly}${2:$(concat yas-text " *")}self = $5(object);
+  ${2:$(concat yas-text " *")}self = $5(object);
 
   // TODO: remove this - keep compiler happy
   (void)self;
@@ -77,5 +77,7 @@ $3_class_init($2Class *klass)
 static void
 $3_init(${2:$(concat yas-text " *")}self)
 {
-  self->priv = $3_get_instance_private(self);
+  $2Private *priv = $3_get_instance_private(self);
+  // TODO: remove this - keep compiler happy
+  (void)priv;
 }

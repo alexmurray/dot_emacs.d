@@ -16,6 +16,16 @@ G_BEGIN_DECLS
 typedef struct _$2         ${2:${1:$(apm-camelize yas-text)}};
 typedef struct _$2Class    $2Class;
 
+struct _$2
+{
+  ${3:GObject} parent;
+};
+
+struct _$2Class
+{
+  $3Class parent_class;
+};
+
 GType ${1:$(downcase yas-text)}_get_type(void);
 $2 *${1:$(downcase yas-text)}_new(void);
 
