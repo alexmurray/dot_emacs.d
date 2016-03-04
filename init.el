@@ -762,7 +762,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package evil-space
   :ensure t
   :diminish evil-space-mode
-  :init (evil-space-mode))
+  :init (evil-space-mode 1))
 
 (use-package evil-surround
   :ensure t
