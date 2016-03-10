@@ -854,7 +854,9 @@ Otherwise call `ediff-buffers' interactively."
             (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup)
             ;; chain after cppcheck so we have
             ;; irony->cppcheck->cstyle
-            (flycheck-add-next-checker 'c/c++-cppcheck '(warning . cstyle))))
+            (flycheck-add-next-checker 'c/c++-cppcheck '(warning . cstyle))
+            (unless (executable-find "cppcheck")
+              (alert "cppcheck not found - is it installed?"))))
 
 (use-package flycheck-package
   :ensure t
