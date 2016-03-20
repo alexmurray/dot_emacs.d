@@ -823,7 +823,9 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode
-  :init (global-flycheck-mode +1))
+  :init (unless (executable-find "shellcheck")
+          (alert "shellcheck not found - is it installed? (shellcheck)"))
+  :config (global-flycheck-mode +1))
 
 (use-package flycheck-checkbashisms
   :ensure t
