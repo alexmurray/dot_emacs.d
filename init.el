@@ -703,10 +703,6 @@ Otherwise call `ediff-buffers' interactively."
   :diminish evil-commentary-mode
   :config (evil-commentary-mode t))
 
-(use-package evil-jumper
-  :ensure t
-  :config (global-evil-jumper-mode t))
-
 (use-package evil-leader
   :ensure t
   :config (progn
