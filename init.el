@@ -34,9 +34,12 @@
 (require 'package)
 ;; we use use-package to do this for us
 (setq package-enable-at-startup nil)
-;; use https for both melpa and gelpa
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+;; use https for both melpa and gelpa if available
+(if (gnutls-available-p)
+    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+			     ("melpa" . "https://melpa.org/packages/")))
+  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+			   ("melpa" . "http://melpa.org/packages/"))))
 
 (package-initialize)
 
