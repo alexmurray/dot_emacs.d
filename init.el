@@ -158,25 +158,6 @@
 (bind-key "C-M-r" 'isearch-backward)
 (bind-key "C-M-%" 'query-replace)
 
-;; a couple nice definitions taken from emacs-starter-kit
-(defun sudo-edit (&optional arg)
-  "Open the current buffer (or prompt for file if ARG is non-nill) using sudo to edit as root."
-  (interactive "p")
-  (if (or arg (not buffer-file-name))
-      (find-file (concat "/sudo::" (helm-read-file-name "File: ")))
-    (find-alternate-file (concat "/sudo::" buffer-file-name))))
-
-(defun lorem ()
-  "Insert a lorem ipsum."
-  (interactive)
-  (insert "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do "
-          "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim"
-          "ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
-          "aliquip ex ea commodo consequat. Duis aute irure dolor in "
-          "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
-          "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
-          "culpa qui officia deserunt mollit anim id est laborum."))
-
 (defun smarter-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
 
@@ -1221,6 +1202,9 @@ Otherwise call `ediff-buffers' interactively."
           (eval-when-compile
             (require 'spaceline-config))
           (spaceline-spacemacs-theme)))
+
+(use-package sudo-edit
+  :ensure t)
 
 (use-package tracwiki-mode
   :ensure t
