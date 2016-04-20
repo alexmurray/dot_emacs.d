@@ -5,25 +5,6 @@
 
 ;;; Code:
 
-;; mess with gc threshold to speed up init
-(defvar apm-orig-gc-cons-threshold gc-cons-threshold)
-
-(defun apm-restore-gc-cons-threshold ()
-  "Restore `gc-cons-threshold'."
-  (setq gc-cons-threshold apm-orig-gc-cons-threshold))
-
-;; speed up init - restore back later
-(setq gc-cons-threshold 100000000)
-(add-hook 'after-init-hook #'apm-restore-gc-cons-threshold)
-
-(defun apm-max-gc-cons-threshold ()
-  "Set `gc-cons-threshold' to maximum and store old value."
-  (setq apm-orig-gc-cons-threshold gc-cons-threshold)
-  (setq gc-cons-threshold most-positive-fixnum))
-
-(add-hook 'minibuffer-setup-hook #'apm-max-gc-cons-threshold)
-(add-hook 'minibuffer-exit-hook #'apm-restore-gc-cons-threshold)
-
 ;; prefer newer non-byte compiled sources to older byte compiled ones
 (setq load-prefer-newer t)
 
