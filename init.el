@@ -37,9 +37,9 @@
 ;; use https for both melpa and gelpa if available
 (if (gnutls-available-p)
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			     ("melpa" . "https://melpa.org/packages/")))
+                             ("melpa" . "https://melpa.org/packages/")))
   (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			   ("melpa" . "http://melpa.org/packages/"))))
+                           ("melpa" . "http://melpa.org/packages/"))))
 
 (package-initialize)
 
