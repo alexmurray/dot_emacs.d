@@ -1236,6 +1236,10 @@ Otherwise call `ediff-buffers' interactively."
 (use-package which-func
   :config (which-function-mode t))
 
+(use-package which-key
+  :ensure t
+  :config (which-key-mode))
+
 (use-package whitespace
   :diminish whitespace-mode)
 
