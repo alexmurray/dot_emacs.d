@@ -757,7 +757,9 @@ Otherwise call `ediff-buffers' interactively."
             (define-key evil-outer-text-objects-map "b" 'evil-textobj-anyblock-a-block)))
 
 (use-package evil-vimish-fold
-  :ensure t)
+  :ensure t
+  :diminish evil-vimish-fold-mode
+  :config (evil-vimish-fold-mode 1)))
 
 (use-package evil-visualstar
   :ensure t)
@@ -1238,6 +1240,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package which-key
   :ensure t
+  :diminish which-key-mode
   :config (which-key-mode))
 
 (use-package whitespace
