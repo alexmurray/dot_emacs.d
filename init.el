@@ -404,7 +404,9 @@ code sections."
   :ensure t
   :after company
   :init (progn
-          (setq company-irony-c-headers--compiler-executable "clang++-3.5")
+          (setq company-irony-c-headers--compiler-executable
+                (or (executable-find "clang++")
+                    (executable-find "clang++-3.5")))
           ;; group with company-irony but beforehand so we get first pick
           (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
 
