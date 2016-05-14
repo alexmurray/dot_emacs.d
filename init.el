@@ -51,6 +51,9 @@
 
 ;;; General settings etc
 
+;; automatically garbage collect when switch away from emacs
+(add-hook 'focus-out-hook 'garbage-collect)
+
 ;; enable narrow-to-region
 (put 'narrow-to-region 'disabled nil)
 
