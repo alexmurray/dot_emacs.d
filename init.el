@@ -1290,12 +1290,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
-  :config (progn
-            ;; set this first so we don't get the bundled snippets loaded since
-            ;; they don't generally match my desired style / indentation etc
-            (setq yas-snippet-dirs (expand-file-name "snippets" user-emacs-directory))
-            (setq yas-prompt-functions '(yas-completing-prompt yas-no-prompt))
-            (yas-global-mode t)))
+  :init (yas-global-mode t))
 
 (provide 'init)
 
