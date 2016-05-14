@@ -441,6 +441,10 @@ code sections."
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error))
 
+(use-package coverlay
+  :ensure t
+  :config (coverlay-mode 1))
+
 (use-package cstyle
   :load-path "vendor/cstyle.el")
 
