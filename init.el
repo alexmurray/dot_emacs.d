@@ -388,11 +388,6 @@ code sections."
   :config             ;; keep original case
   (setq company-dabbrev-downcase nil))
 
-(use-package company-emoji
-  :ensure t
-  :after company
-  :init (add-to-list 'company-backends 'company-emoji))
-
 (use-package company-flx
   :ensure t
   :after company
@@ -412,6 +407,11 @@ code sections."
                     (executable-find "clang++-3.5")))
           ;; group with company-irony but beforehand so we get first pick
           (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
+
+(use-package company-emoji
+  :ensure t
+  :after company
+  :init (add-to-list 'company-backends 'company-emoji))
 
 (use-package company-math
   :ensure t
