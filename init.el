@@ -1187,14 +1187,11 @@ Otherwise call `ediff-buffers' interactively."
 (use-package spaceline
   :ensure t
   :defer t
-  :init (progn
-          (require 'spaceline-config)
-          ;; show evil state with colour change
-          (setq spaceline-highlight-face-func
-                #'spaceline-highlight-face-evil-state)
-          (eval-when-compile
-            (require 'spaceline-config))
-          (spaceline-spacemacs-theme)))
+  :config (progn
+            (require 'spaceline-config)
+            ;; show evil state with colour change
+            (setq spaceline-highlight-face-func #'spaceline-highlight-face-evil-state)
+            (spaceline-spacemacs-theme)))
 
 (use-package sudo-edit
   :ensure t)
