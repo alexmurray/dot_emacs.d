@@ -182,6 +182,21 @@ point reaches the beginning or end of the buffer, stop there."
 
 (add-hook 'text-mode-hook #'apm-text-mode-setup)
 
+;; autogenerate a .clang_complete if there is an associated .clang_complete.in
+(defun apm-autogenerate-clang-complete ()
+  "Autogenerate a .clang_complete if needed when opening a project."
+  (message "running apm-autogenerate-clang-complete")
+  (when (and (projectile-project-root)
+             (file-exists-p (concat (file-name-as-directory (projectile-project-root))
+                                    ".clang_complete.in")))
+    (projectile-with-default-dir (projectile-project-root)
+      (shell-command "make .clang_complete"))))
+
+(defun apm-after-find-file--auto-generate-clang-complete (&optional error warn noauto after-find-file-revert-buffer nomodes)
+  (apm-autogenerate-clang-complete))
+
+(advice-add 'after-find-file :before 'apm-after-find-file--auto-generate-clang-complete)
+
 ;;; Packages
 (use-package ace-window
   :ensure t
