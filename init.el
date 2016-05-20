@@ -808,7 +808,11 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package fill-column-indicator
   :ensure t
-  :config (fci-mode t))
+  ;; use fci-mode everywhere
+  :config (progn
+            (define-global-minor-mode global-fci-mode fci-mode
+              (lambda () (fci-mode 1)))
+            (global-fci-mode 1)))
 
 (use-package flycheck
   :ensure t
