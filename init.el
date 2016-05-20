@@ -351,11 +351,6 @@ code sections."
 (use-package cc-mode
   :config (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
 
-(use-package column-enforce-mode
-  :ensure t
-  :diminish column-enforce-mode
-  :config (global-column-enforce-mode))
-
 (use-package company
   :ensure t
   :commands global-company-mode
@@ -811,6 +806,10 @@ Otherwise call `ediff-buffers' interactively."
 (use-package files
   :bind ("C-c r" . revert-buffer))
 
+(use-package fill-column-indicator
+  :ensure t
+  :config (fci-mode t))
+
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode
@@ -1078,9 +1077,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-prog-mode-setup ()
   "Tweaks and customisations for all programming modes."
-  ;; highlight lines longer than 80 chars with column-enforce-mode
-  (with-eval-after-load 'column-enforce-mode
-    (column-enforce-mode))
   ;; turn on spell checking for strings and comments
   (flyspell-prog-mode)
   ;; highlight TODO and fixme so it looks scary
