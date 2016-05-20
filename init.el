@@ -1110,6 +1110,12 @@ Otherwise call `ediff-buffers' interactively."
   :config (with-eval-after-load 'helm-projectile
             (setq projectile-completion-system 'helm)))
 
+(defun apm-python-mode-setup ()
+  (setq python-indent-offset 2))
+
+(use-package python-mode
+  :config (add-hook 'python-mode #'apm-python-mode-setup))
+
 (use-package rainbow-mode
   :ensure t
   :init (dolist (hook '(css-mode-hook html-mode-hook))
