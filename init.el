@@ -255,7 +255,7 @@ point reaches the beginning or end of the buffer, stop there."
   :mode (("\\.asn1?$" . asn1-mode)))
 
 (use-package autorevert
-  :init (global-auto-revert-mode t))
+  :init (global-auto-revert-mode 1))
 
 (defun apm-latex-mode-setup ()
   "Tweaks and customisations for LaTeX mode."
@@ -359,7 +359,7 @@ code sections."
           ;; but will still be shown when completion popup is active to show the
           ;; backend which is in use
           (setq company-lighter-base "")
-          (global-company-mode t))
+          (global-company-mode 1))
   :config (progn
             ;; Use Company for completion
             (bind-key [remap completion-at-point] #'company-complete company-mode-map)
@@ -401,7 +401,7 @@ code sections."
 (use-package company-flx
   :ensure t
   :after company
-  :init (company-flx-mode t))
+  :init (company-flx-mode 1))
 
 (use-package company-irony
   :ensure t
@@ -463,7 +463,7 @@ code sections."
 
 (use-package cua-base
   ;; use CUA mode for rectangle selections etc but not copy/paste etc
-  :init (cua-selection-mode t))
+  :init (cua-selection-mode 1))
 
 (use-package cus-edit
   :config (progn
@@ -567,8 +567,8 @@ Otherwise call `ediff-buffers' interactively."
 (use-package electric
   :init (progn
           ;; electric indent and layout modes to make more IDE like
-          (electric-indent-mode t)
-          (electric-layout-mode t)))
+          (electric-indent-mode 1)
+          (electric-layout-mode 1)))
 
 (use-package elisp-slime-nav
   :ensure t
@@ -629,7 +629,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil
   :ensure t
-  :init (evil-mode t)
+  :init (evil-mode 1)
   :config (progn
             ;; make underscore a word character so movements across words
             ;; include it - this is the same as vim - need to do it on each
@@ -685,7 +685,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package evil-commentary
   :ensure t
   :diminish evil-commentary-mode
-  :config (evil-commentary-mode t))
+  :config (evil-commentary-mode 1))
 
 (use-package evil-leader
   :ensure t
@@ -795,7 +795,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package fancy-battery
   :ensure t
   :defer t
-  :config (fancy-battery-mode t))
+  :config (fancy-battery-mode 1))
 
 (use-package fancy-narrow
   :ensure t
@@ -877,12 +877,12 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package helm-fuzzier
   :ensure t
-  :init (helm-fuzzier-mode t))
+  :init (helm-fuzzier-mode 1))
 
 ;; enable hlm-flx before helm
 (use-package helm-flx
   :ensure t
-  :init (helm-flx-mode t))
+  :init (helm-flx-mode 1))
 
 (use-package helm
   :ensure t
@@ -903,8 +903,8 @@ Otherwise call `ediff-buffers' interactively."
             (setq helm-M-x-fuzzy-match t
                   helm-buffers-fuzzy-matching t
                   helm-recentf-fuzzy-match t)
-            (helm-mode t)
-            (helm-adaptive-mode t)
+            (helm-mode 1)
+            (helm-adaptive-mode 1)
             ;; integrate with evil
             (with-eval-after-load 'evil
               (define-key evil-ex-map "b " 'helm-mini)
@@ -1019,7 +1019,7 @@ Otherwise call `ediff-buffers' interactively."
   (setq mode-name "el")
   ;; use aggressive indent
   (aggressive-indent-mode 1)
-  (eldoc-mode t)
+  (eldoc-mode 1)
   ;; use smartparens in strict mode for lisp
   (with-eval-after-load 'smartparens
     (smartparens-strict-mode +1)))
@@ -1167,7 +1167,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package smartparens
   :ensure t
   :diminish smartparens-mode
-  :init (smartparens-global-mode t)
+  :init (smartparens-global-mode 1)
   :config (progn
             (require 'smartparens-config)
             (setq sp-base-key-bindings 'paredit)
@@ -1241,7 +1241,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package vimish-fold
   :ensure t
-  :config (vimish-fold-global-mode t))
+  :config (vimish-fold-global-mode 1))
 
 (defun apm-web-mode-setup ()
   "Setup web mode."
@@ -1257,7 +1257,7 @@ Otherwise call `ediff-buffers' interactively."
   :mode ("\\.php\\'" . web-mode))
 
 (use-package which-func
-  :config (which-function-mode t))
+  :config (which-function-mode 1))
 
 (use-package which-key
   :ensure t
@@ -1305,7 +1305,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
-  :init (yas-global-mode t))
+  :init (yas-global-mode 1))
 
 (provide 'init)
 
