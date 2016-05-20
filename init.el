@@ -1197,7 +1197,7 @@ Otherwise call `ediff-buffers' interactively."
   :init (progn
           (setq x-underline-at-descent-line t)
           (setq solarized-distinct-fringe-background t)
-          (load-theme 'solarized-light t)))
+          (load-theme 'solarized-dark t)))
 
 (use-package spaceline
   :ensure t
