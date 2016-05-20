@@ -812,7 +812,16 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             (define-global-minor-mode global-fci-mode fci-mode
               (lambda () (fci-mode 1)))
-            (global-fci-mode 1)))
+            (global-fci-mode 1)
+            ;; make fci play nicely with company-mode - from https://github.com/alpaker/Fill-Column-Indicator/issues/54#issuecomment-218344694
+            (with-eval-after-load 'company
+              (defun on-off-fci-before-company(command)
+                (when (string= "show" command)
+                  (turn-off-fci-mode))
+                (when (string= "hide" command)
+                  (turn-on-fci-mode)))
+
+              (advice-add 'company-call-frontends :before #'on-off-fci-before-company))))
 
 (use-package flycheck
   :ensure t
