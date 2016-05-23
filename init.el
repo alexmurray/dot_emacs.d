@@ -456,9 +456,13 @@ code sections."
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error))
 
+(defun apm-coverlay-setup()
+  (coverlay-mode 1))
+
 (use-package coverlay
   :ensure t
-  :config (coverlay-mode 1))
+  :diminish coverlay-mode
+  :config (add-hook 'c-mode-common-hook #'apm-coverlay-setup))
 
 (use-package cstyle
   :load-path "vendor/cstyle.el")
