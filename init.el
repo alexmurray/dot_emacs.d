@@ -1127,6 +1127,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq projectile-completion-system 'helm)))
 
 (defun apm-python-mode-setup ()
+  "Tweaks and customisations for `python-mode'."
   (setq python-indent-offset 2))
 
 (use-package python-mode
