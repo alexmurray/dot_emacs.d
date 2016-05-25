@@ -583,9 +583,8 @@ Otherwise call `ediff-buffers' interactively."
 (use-package elisp-slime-nav
   :ensure t
   :diminish elisp-slime-nav-mode
-  :init (progn
-          (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-            (add-hook hook #'elisp-slime-nav-mode)))
+  :init (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
+          (add-hook hook #'elisp-slime-nav-mode))
   :config (with-eval-after-load 'evil
             (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
               #'elisp-slime-nav-find-elisp-thing-at-point)))
