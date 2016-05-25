@@ -772,7 +772,8 @@ Otherwise call `ediff-buffers' interactively."
 (use-package evil-smartparens
   :ensure t
   :diminish evil-smartparens-mode
-  :init (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
+  ;; only use with strict smartparens otherwise is too annoying for normal cases
+  :init (add-hook 'smartparens-strict-mode-hook #'evil-smartparens-mode))
 
 (use-package evil-space
   :ensure t
