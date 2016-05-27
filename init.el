@@ -186,7 +186,10 @@ point reaches the beginning or end of the buffer, stop there."
 (defun apm-autogenerate-clang-complete ()
   "Autogenerate a .clang_complete if needed when opening a project."
   (when (and (fboundp 'projectile-project-root)
-             (not (null (projectile-project-root)))
+             ;; handle if not in project by returning nil
+             (not (null (condition-case nil
+                            (projectile-project-root)
+                          (error nil))))
              (file-exists-p (concat (file-name-as-directory
                                      (projectile-project-root))
                                     ".clang_complete.in")))
