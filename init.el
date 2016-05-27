@@ -459,6 +459,16 @@ code sections."
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error))
 
+(use-package counsel
+  :ensure t
+  :bind (("C-x C-f" . counsel-find-file)
+         ("C-x C-i" . counsel-imenu)
+         ("C-h f" . counsel-describe-function)
+         ("C-h v" . counsel-describe-variable)))
+
+(use-package counsel-projectile
+  :ensure t)
+
 (defun apm-coverlay-setup()
   (coverlay-mode 1))
 
@@ -705,7 +715,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq evil-leader/leader ","
                   evil-leader/in-all-states t)
             (evil-leader/set-key
-              "," 'helm-projectile
+              "," 'counsel-projectile
               "c" 'avy-goto-char
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
@@ -717,15 +727,14 @@ Otherwise call `ediff-buffers' interactively."
               "gu" 'ggtags-update-tags
               "l" 'avy-goto-line
               "mg" 'magit-status
-              "pa" 'helm-projectile-ag
-              "pe" 'helm-projectile-switch-to-eshell
-              "pd" 'helm-projectile-find-file-dwim
-              "pf" 'helm-projectile-find-file
-              "po" 'helm-projectile-find-other-file
-              "pp" 'helm-projectile-switch-project
+              "pa" 'counsel-projectile-
+              "pe" 'projectile-switch-to-eshell
+              "pd" 'projectile-find-file-dwim
+              "pf" 'counsel-projectile-find-file
+              "pp" 'projectile-switch-project
               "sc" 'evil-surround-change
               "w" 'avy-goto-word-or-subword-1
-              "x" 'helm-M-x
+              "x" 'counsel-M-x
               "zf" 'vimish-fold-avy
               "SPC" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
@@ -906,64 +915,15 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t)
 
-(use-package helm-fuzzier
+(use-package ivy
   :ensure t
-  :init (helm-fuzzier-mode 1))
-
-;; enable hlm-flx before helm
-(use-package helm-flx
-  :ensure t
-  :init (helm-flx-mode 1))
-
-(use-package helm
-  :ensure t
-  :diminish helm-mode
-  :defer t
-  :bind (("M-x" . helm-M-x)
-         ("M-y" . helm-show-kill-ring)
-         ("C-x b" . helm-mini)
-         ("C-x C-b" . helm-buffers-list)
-         ("C-x C-f" . helm-find-files)
-         ("C-x C-r" . helm-recentf))
-  :config (progn
-            (require 'helm-config)
-            ;; silence byte-compile warnings
-            (eval-when-compile
-              (require 'helm-command)
-              (require 'helm-files))
-            (setq helm-M-x-fuzzy-match t
-                  helm-buffers-fuzzy-matching t
-                  helm-recentf-fuzzy-match t)
-            (helm-mode 1)
-            (helm-adaptive-mode 1)
-            ;; integrate with evil
-            (with-eval-after-load 'evil
-              (define-key evil-ex-map "b " 'helm-mini)
-              (define-key evil-ex-map "e " 'helm-find-files)
-              (evil-ex-define-cmd "ap[ropos]" 'helm-apropos)
-              (define-key evil-ex-map "ap " 'helm-apropos))))
-
-(use-package helm-ag
-  :ensure t
-  :config (progn
-            ;; integrate with evil
-            (with-eval-after-load 'evil
-              (evil-ex-define-cmd "ag" 'helm-ag)
-              (evil-ex-define-cmd "agi[nteractive]" 'helm-do-ag)
-              (define-key evil-ex-map "ag " 'helm-ag)
-              (define-key evil-ex-map "agi " 'helm-do-ag))))
-
-(use-package helm-flyspell
-  :ensure t
-  :config (with-eval-after-load 'evil
-            (define-key evil-normal-state-map "z=" 'helm-flyspell-correct)))
-
-(use-package helm-projectile
-  :ensure t
-  :config (helm-projectile-on))
-
-(use-package imenu
-  :bind ("C-x C-i" . imenu))
+  :diminish ivy-mode
+  :commands (ivy-mode ivy-read)
+  :bind
+  :init (progn
+          (setq ivy-display-style 'fancy)
+          (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word))
+  :config (ivy-mode 1))
 
 (defun apm-irony-mode-setup ()
   "Setup irony-mode."
@@ -1138,8 +1098,8 @@ Otherwise call `ediff-buffers' interactively."
           (add-to-list 'projectile-project-root-files ".clang_complete.in")
           (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
           (projectile-global-mode))
-  :config (with-eval-after-load 'helm-projectile
-            (setq projectile-completion-system 'helm)))
+            (with-eval-after-load 'ivy
+              (setq projectile-completion-system 'ivy))))
 
 (defun apm-python-mode-setup ()
   "Tweaks and customisations for `python-mode'."
@@ -1248,6 +1208,10 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package sudo-edit
   :ensure t)
+
+(use-package swiper
+  :ensure
+  :bind ("C-s" . swiper))
 
 (use-package tracwiki-mode
   :ensure t
