@@ -705,6 +705,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq evil-leader/leader ","
                   evil-leader/in-all-states t)
             (evil-leader/set-key
+              "," 'helm-projectile
               "c" 'avy-goto-char
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
@@ -717,6 +718,7 @@ Otherwise call `ediff-buffers' interactively."
               "l" 'avy-goto-line
               "mg" 'magit-status
               "pa" 'helm-projectile-ag
+              "pe" 'helm-projectile-switch-to-eshell
               "pd" 'helm-projectile-find-file-dwim
               "pf" 'helm-projectile-find-file
               "po" 'helm-projectile-find-other-file
