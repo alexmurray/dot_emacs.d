@@ -1093,11 +1093,12 @@ Otherwise call `ediff-buffers' interactively."
   :bind ("C-x C-m" . projectile-compile-project)
   :init (progn
           (setq projectile-enable-caching t)
-          (add-to-list 'projectile-project-root-files "configure.ac")
-          (add-to-list 'projectile-project-root-files ".clang_complete")
-          (add-to-list 'projectile-project-root-files ".clang_complete.in")
-          (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
           (projectile-global-mode))
+  :config (progn
+            (add-to-list 'projectile-project-root-files "configure.ac")
+            (add-to-list 'projectile-project-root-files ".clang_complete")
+            (add-to-list 'projectile-project-root-files ".clang_complete.in")
+            (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
             (with-eval-after-load 'ivy
               (setq projectile-completion-system 'ivy))))
 
