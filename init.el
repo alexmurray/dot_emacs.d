@@ -1212,7 +1212,16 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package swiper
   :ensure
-  :bind ("C-s" . swiper))
+  :bind ("C-s" . swiper)
+  ;; use with evil as well
+  :init (with-eval-after-load 'evil
+          (evil-global-set-key 'normal [remap evil-search-forward] #'swiper)
+          (evil-global-set-key 'normal [remap evil-search-backward] #'swiper)
+          (evil-global-set-key 'motion [remap evil-search-forward] #'swiper)
+          (evil-global-set-key 'motion [remap evil-search-backward] #'swiper))
+  ;; recenter after running swiper for context
+  :config (progn
+            (advice-add #'swiper :after #'recenter)))
 
 (use-package tracwiki-mode
   :ensure t
