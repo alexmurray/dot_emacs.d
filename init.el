@@ -472,7 +472,9 @@ code sections."
          ("C-x C-i" . counsel-imenu)
          ("C-h f" . counsel-describe-function)
          ("C-h v" . counsel-describe-variable))
-  :init (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+  :init (progn
+          (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+          (setq counsel-find-file-at-point t))
   :config (with-eval-after-load 'evil
             (evil-global-set-key 'normal [remap evil-search-forward] #'swiper)
             (evil-global-set-key 'normal [remap evil-search-backward] #'swiper)
