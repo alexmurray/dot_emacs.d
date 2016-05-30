@@ -461,10 +461,16 @@ code sections."
 
 (use-package counsel
   :ensure t
-  :bind (("C-x C-f" . counsel-find-file)
+  :bind (("C-s" . counsel-grep-or-swiper)
+         ("C-x C-f" . counsel-find-file)
          ("C-x C-i" . counsel-imenu)
          ("C-h f" . counsel-describe-function)
-         ("C-h v" . counsel-describe-variable)))
+         ("C-h v" . counsel-describe-variable))
+  :config (with-eval-after-load 'evil
+            (evil-global-set-key 'normal [remap evil-search-forward] #'swiper)
+            (evil-global-set-key 'normal [remap evil-search-backward] #'swiper)
+            (evil-global-set-key 'motion [remap evil-search-forward] #'swiper)
+            (evil-global-set-key 'motion [remap evil-search-backward] #'swiper)))
 
 (use-package counsel-projectile
   :ensure t)
@@ -1209,19 +1215,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package sudo-edit
   :ensure t)
-
-(use-package swiper
-  :ensure
-  :bind ("C-s" . swiper)
-  ;; use with evil as well
-  :init (with-eval-after-load 'evil
-          (evil-global-set-key 'normal [remap evil-search-forward] #'swiper)
-          (evil-global-set-key 'normal [remap evil-search-backward] #'swiper)
-          (evil-global-set-key 'motion [remap evil-search-forward] #'swiper)
-          (evil-global-set-key 'motion [remap evil-search-backward] #'swiper))
-  ;; recenter after running swiper for context
-  :config (progn
-            (advice-add #'swiper :after #'recenter)))
 
 (use-package tracwiki-mode
   :ensure t
