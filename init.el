@@ -448,6 +448,11 @@ code sections."
   :after company
   :init (add-to-list 'company-backends 'company-shell))
 
+(use-package company-statistics
+  :ensure t
+  :after company
+  :config (company-statistics-mode 1))
+
 (use-package company-web
   :ensure t
   :defer t
