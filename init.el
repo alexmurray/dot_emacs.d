@@ -928,9 +928,12 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :diminish ivy-mode
   :commands (ivy-mode ivy-read)
-  :bind
   :init (progn
+          ;; show recent files and bookmarks with `ivy-switch-buffer'
+          (setq ivy-use-virtual-buffers t)
           (setq ivy-display-style 'fancy)
+          (bind-key [remap switch-to-buffer] 'ivy-switch-buffer)
+          ;; restore behaviour of C-s C-w to search for word at point
           (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word))
   :config (ivy-mode 1))
 
