@@ -471,6 +471,7 @@ code sections."
          ("C-x C-i" . counsel-imenu)
          ("C-h f" . counsel-describe-function)
          ("C-h v" . counsel-describe-variable))
+  :init (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
   :config (with-eval-after-load 'evil
             (evil-global-set-key 'normal [remap evil-search-forward] #'swiper)
             (evil-global-set-key 'normal [remap evil-search-backward] #'swiper)
@@ -932,7 +933,8 @@ Otherwise call `ediff-buffers' interactively."
 (use-package ivy
   :ensure t
   :diminish ivy-mode
-  :commands (ivy-mode ivy-read)
+  :commands (ivy-mode ivy-read ivy-resume)
+  :bind (("C-c C-r" . ivy-resume))
   :init (progn
           ;; show recent files and bookmarks with `ivy-switch-buffer'
           (setq ivy-use-virtual-buffers t)
