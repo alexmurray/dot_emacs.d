@@ -722,18 +722,21 @@ Otherwise call `ediff-buffers' interactively."
                   evil-leader/in-all-states t)
             (evil-leader/set-key
               "," 'counsel-projectile
+              "ag" 'counsel-ag
+              "b" 'ivy-switch-buffer
               "c" 'avy-goto-char
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
               "gc" 'ggtags-create-tags
+              "gg" 'counsel-git-grep
               "gr" 'ggtags-find-reference
               "gs" 'ggtags-find-other-symbol
               "gt" 'ggtags-find-tag-regexp
               "gu" 'ggtags-update-tags
               "l" 'avy-goto-line
               "mg" 'magit-status
-              "pa" 'counsel-projectile-
+              "pa" 'projectile-ag
               "pe" 'projectile-switch-to-eshell
               "pd" 'projectile-find-file-dwim
               "pf" 'counsel-projectile-find-file
