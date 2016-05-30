@@ -260,6 +260,7 @@ point reaches the beginning or end of the buffer, stop there."
   :mode (("\\.asn1?$" . asn1-mode)))
 
 (use-package autorevert
+  :diminish auto-revert-mode
   :init (global-auto-revert-mode 1))
 
 (defun apm-latex-mode-setup ()
