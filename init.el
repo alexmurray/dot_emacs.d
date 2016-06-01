@@ -933,6 +933,10 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t)
 
+(use-package hungry-delete
+  :ensure t
+  :config (global-hungry-delete-mode 1))
+
 (use-package ivy
   :ensure t
   :diminish ivy-mode
