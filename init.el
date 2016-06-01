@@ -922,6 +922,9 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flyspell
   :diminish flyspell-mode)
 
+(use-package flx
+  :ensure t)
+
 (use-package fuzzy
   :ensure t)
 
