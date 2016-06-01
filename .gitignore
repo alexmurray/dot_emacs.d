@@ -8,6 +8,7 @@
 /ac-comphist.dat
 /anaconda-mode/*
 /auto-save-list
+/company-statistics-cache.el
 /custom.el
 /elpa
 /eshell
