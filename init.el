@@ -1140,7 +1140,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-python-mode-setup ()
   "Tweaks and customisations for `python-mode'."
-  (setq python-indent-offset 2))
+  (setq python-indent-offset 4))
 
 (use-package python-mode
   :config (add-hook 'python-mode #'apm-python-mode-setup))
