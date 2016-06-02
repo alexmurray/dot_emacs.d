@@ -738,7 +738,9 @@ Otherwise call `ediff-buffers' interactively."
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
               "gc" 'ggtags-create-tags
+              "ge" 'google-error
               "gg" 'counsel-git-grep
+              "go" 'google-this
               "gr" 'ggtags-find-reference
               "gs" 'ggtags-find-other-symbol
               "gt" 'ggtags-find-tag-regexp
@@ -935,6 +937,10 @@ Otherwise call `ediff-buffers' interactively."
 (use-package gitignore-mode
   :ensure t
   :defer t)
+
+(use-package google-this
+  :ensure t
+  :commands (google-this google-error))
 
 (use-package hungry-delete
   :ensure t
