@@ -168,6 +168,19 @@ point reaches the beginning or end of the buffer, stop there."
 ;; remap C-a to `smarter-move-beginning-of-line'
 (bind-key [remap move-beginning-of-line] #'smarter-move-beginning-of-line)
 
+;; from http://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html
+(defun endless/fill-or-unfill ()
+  "Like `fill-paragraph', but unfill if used twice."
+  (interactive)
+  (let ((fill-column
+         (if (eq last-command 'endless/fill-or-unfill)
+             (progn (setq this-command nil)
+                    (point-max))
+           fill-column)))
+    (call-interactively #'fill-paragraph)))
+
+(bind-key [remap fill-paragraph] #'endless/fill-or-unfill)
+
 ;; general modes in text-mode or derived from
 (defun apm-text-mode-setup ()
   "Setup `text-mode' buffers."
