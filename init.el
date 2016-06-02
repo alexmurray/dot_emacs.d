@@ -166,7 +166,7 @@ point reaches the beginning or end of the buffer, stop there."
       (move-beginning-of-line 1))))
 
 ;; remap C-a to `smarter-move-beginning-of-line'
-(bind-key [remap move-beginning-of-line] 'smarter-move-beginning-of-line)
+(bind-key [remap move-beginning-of-line] #'smarter-move-beginning-of-line)
 
 ;; general modes in text-mode or derived from
 (defun apm-text-mode-setup ()
