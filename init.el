@@ -1092,6 +1092,10 @@ Otherwise call `ediff-buffers' interactively."
             (unless (executable-find markdown-command)
               (alert "markdown not found - is it installed?"))))
 
+(use-package modern-cpp-font-lock
+  :ensure t
+  :config (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
+
 (use-package paradox
   :ensure t
   ;; don't bother trying to integrate with github
