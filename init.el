@@ -1224,7 +1224,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package smooth-scrolling
   :ensure t
-  :config (setq smooth-scroll-margin 5))
+  :config (progn
+            (setq smooth-scroll-margin 2)
+            (smooth-scrolling-mode 1)))
 
 (use-package solarized-theme
   :ensure t
