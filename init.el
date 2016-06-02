@@ -843,7 +843,8 @@ Otherwise call `ediff-buffers' interactively."
   :config (evil-vimish-fold-mode 1))
 
 (use-package evil-visualstar
-  :ensure t)
+  :ensure t
+  :config (global-evil-visualstar-mode 1))
 
 (use-package exec-path-from-shell
   :ensure t
