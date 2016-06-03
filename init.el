@@ -83,6 +83,10 @@
 (line-number-mode 1)
 (column-number-mode 1)
 
+;; ensure scrolling forwards / backwards preserves original location such that
+;; they undo each other
+(setq scroll-preserve-screen-position 'always)
+
 (defun apm-emoji-fontset-init ()
   "Set fontset to display emoji correctly."
   (if (eq system-type 'darwin)
