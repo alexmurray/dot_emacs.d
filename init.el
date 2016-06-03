@@ -679,7 +679,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil
   :ensure t
-  :init (evil-mode 1)
   :config (progn
             ;; make underscore a word character so movements across words
             ;; include it - this is the same as vim - need to do it on each
@@ -713,8 +712,15 @@ Otherwise call `ediff-buffers' interactively."
             (with-eval-after-load 'flyspell
               (define-key evil-normal-state-map "]s" 'flyspell-goto-next-error))
 
+            ;; these should be bound automatically but apparently not so rebind
+            ;; them
+            (bind-keys :map evil-insert-state-map
+                       ("C-x C-n" . evil-complete-next-line)
+                       ("C-x C-p" . evil-complete-previous-line))
+
             ;; fixup company-complete-number to be handled better with evil
-            (evil-declare-change-repeat 'company-complete-number)))
+            (evil-declare-change-repeat 'company-complete-number)
+            (evil-mode 1)))
 
 (use-package evil-anzu
   :ensure t)
