@@ -131,9 +131,6 @@
 (add-hook 'server-visit-hook #'apm-graphic-frame-init)
 (apm-graphic-frame-init)
 
-;; show colours correctly in shell
-(ansi-color-for-comint-mode-on)
-
 ;; Use regex searches and replace by default.
 (bind-key "C-s" 'isearch-forward-regexp)
 (bind-key "C-r" 'isearch-backward-regexp)
@@ -252,6 +249,10 @@ point reaches the beginning or end of the buffer, stop there."
   :ensure t
   :defer t
   :config (add-hook 'python-mode-hook #'anaconda-mode))
+
+(use-package ansi-color
+  ;; show colours correctly in shell
+  :config (ansi-color-for-comint-mode-on))
 
 (use-package anzu
   :ensure t
