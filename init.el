@@ -1163,7 +1163,8 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :diminish projectile-mode
-  :bind ("C-x C-m" . projectile-compile-project)
+  :bind (("C-x C-m" . projectile-compile-project)
+         ("C-x C-g" . projectile-find-file))
   :init (progn
           (setq projectile-enable-caching t)
           (projectile-global-mode))
