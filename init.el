@@ -764,6 +764,7 @@ Otherwise call `ediff-buffers' interactively."
               "pe" 'projectile-switch-to-eshell
               "pd" 'projectile-find-file-dwim
               "pf" 'counsel-projectile-find-file
+              "po" 'projectile-find-other-file
               "pp" 'projectile-switch-project
               "sc" 'evil-surround-change
               "w" 'avy-goto-word-or-subword-1
