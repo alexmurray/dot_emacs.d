@@ -468,6 +468,13 @@ code sections."
   :after company
   :config (company-statistics-mode 1))
 
+(use-package company-try-hard
+  :ensure t
+  :after company
+  :config (progn
+            (global-set-key (kbd "C-<tab>") #'company-try-hard)
+            (define-key company-active-map (kbd "C-<tab>") #'company-try-hard)))
+
 (use-package company-web
   :ensure t
   :defer t
