@@ -1205,14 +1205,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package scratch
   :ensure t)
 
-(use-package semantic
-  :defer t
-  :config (progn
-            ;; semantic and semanticdb - stores semantic information in a db so is
-            ;; faster to compute next time a file is loaded
-            (semantic-mode 1)
-            (global-semanticdb-minor-mode 1)))
-
 (use-package sh-mode
   :init (setq-default sh-basic-offset 2
                       sh-indentation 2))
@@ -1344,38 +1336,43 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-insert-doxygen-function-snippet ()
   "Generate and expand a yasnippet template for function."
-  (unless (and (fboundp 'semantic-current-tag)
-               semantic-mode)
+  (unless (or semantic-mode (require 'semantic nil t))
     (error "Semantic required to use dox snippet"))
-  (let ((tag (senator-next-tag)))
-    (while (or (null tag)
-               (not (semantic-tag-of-class-p tag 'function)))
-      (setq tag (senator-next-tag)))
-    (let* ((name (semantic-tag-name tag))
-           (attrs (semantic-tag-attributes tag))
-           (args (plist-get attrs :arguments))
-           (return-name (plist-get attrs :type))
-           (idx 1))
-      (if (listp return-name)
-          (setq return-name (car return-name)))
-      (yas-expand-snippet
-       (format
-        "/**
+  (let ((semantic-enabled semantic-mode))
+    (unless semantic-enabled
+      (semantic-mode 1)
+      (semantic-fetch-tags))
+    (let ((tag (senator-next-tag)))
+      (while (or (null tag)
+                 (not (semantic-tag-of-class-p tag 'function)))
+        (setq tag (senator-next-tag)))
+      (let* ((name (semantic-tag-name tag))
+             (attrs (semantic-tag-attributes tag))
+             (args (plist-get attrs :arguments))
+             (return-name (plist-get attrs :type))
+             (idx 1))
+        (if (listp return-name)
+            (setq return-name (car return-name)))
+        (yas-expand-snippet
+         (format
+          "/**
 * @brief ${1:%s}
 *
 %s
 %s*/
 "
-        name
-        (mapconcat
-         (lambda (x)
-           (format "* @param %s ${%d:Description of %s}"
-                   (car x) (incf idx) (car x)))
-         args
-         "\n")
-        (if (and return-name (not (string-equal "void" return-name)))
-            (format " * @return ${%d:%s}\n" (incf idx) return-name)
-          ""))))))
+          name
+          (mapconcat
+           (lambda (x)
+             (format "* @param %s ${%d:Description of %s}"
+                     (car x) (incf idx) (car x)))
+           args
+           "\n")
+          (if (and return-name (not (string-equal "void" return-name)))
+              (format " * @return ${%d:%s}\n" (incf idx) return-name)
+            "")))))
+    (unless semantic-enabled
+      (semantic-mode 0))))
 
 (use-package yasnippet
   :ensure t
