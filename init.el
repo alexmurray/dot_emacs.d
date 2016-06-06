@@ -1095,19 +1095,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package lisp-mode
   :config (add-hook 'emacs-lisp-mode-hook #'apm-emacs-lisp-mode-setup))
 
-;; full screen magit-status
-(defun apm-fullscreen-magit-status (orig-fun &rest args)
-  "Create a fullscreen `magit-status' via ORIG-FUN and ARGS."
-  (window-configuration-to-register :magit-fullscreen)
-  (apply orig-fun args)
-  (delete-other-windows))
-
-(defun apm-quit-magit-session ()
-  "Restore the previous window config and kill the magit buffer."
-  (interactive)
-  (kill-buffer)
-  (jump-to-register :magit-fullscreen))
-
 (use-package magit
   :ensure t
   :defer t
