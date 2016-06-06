@@ -893,7 +893,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package fancy-narrow
   :ensure t
   :diminish fancy-narrow-mode
-  :init (fancy-narrow-mode 1))
+  :config (fancy-narrow-mode 1))
 
 (use-package files
   :bind ("C-c r" . revert-buffer))
