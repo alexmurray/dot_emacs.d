@@ -1111,10 +1111,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package magit
   :ensure t
   :defer t
-  :bind ("C-x g" . magit-status)
-  :config (progn
-            (advice-add 'magit-status :around #'apm-fullscreen-magit-status)
-            (define-key magit-status-mode-map (kbd "q") 'apm-quit-magit-session)))
+  :bind ("C-x g" . magit-status))
 
 (use-package mallard-mode
   :ensure t
