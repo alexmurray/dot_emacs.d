@@ -1214,7 +1214,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package scratch
   :ensure t)
 
-(use-package sh-mode
+(use-package sh-script
   :init (setq-default sh-basic-offset 2
                       sh-indentation 2))
 
