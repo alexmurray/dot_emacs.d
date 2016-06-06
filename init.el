@@ -1190,8 +1190,8 @@ Otherwise call `ediff-buffers' interactively."
   (anaconda-mode 1)
   (anaconda-eldoc-mode 1))
 
-(use-package python-mode
-  :config (add-hook 'python-mode #'apm-python-mode-setup))
+(use-package python
+  :config (add-hook 'python-mode-hook #'apm-python-mode-setup))
 
 (use-package rainbow-mode
   :ensure t
