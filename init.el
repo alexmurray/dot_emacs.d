@@ -251,8 +251,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package anaconda-mode
   :ensure t
-  :defer t
-  :config (add-hook 'python-mode-hook #'anaconda-mode))
+  ;; enable with apm-python-mode-setup below
+  :defer t)
 
 (use-package ansi-color
   ;; show colours correctly in shell
@@ -575,6 +575,7 @@ code sections."
 
 (use-package doxymacs
   :defer t
+  :commands (doxymacs-mode doxymacs-font-lock)
   :diminish doxymacs-mode
   :config (add-hook 'c-mode-common-hook #'apm-doxymacs-setup))
 
@@ -887,12 +888,10 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package fancy-battery
   :ensure t
-  :defer t
   :config (fancy-battery-mode 1))
 
 (use-package fancy-narrow
   :ensure t
-  :defer t
   :diminish fancy-narrow-mode
   :init (fancy-narrow-mode 1))
 
@@ -906,7 +905,7 @@ Otherwise call `ediff-buffers' interactively."
               ;; only enable when buffer is not a special buffer (starts and
               ;; ends with an asterisk)
               (lambda () (if (not (string-match "^\*.*\*$" (buffer-name)))
-                        (fci-mode 1))))
+                             (fci-mode 1))))
             (global-fci-mode 1)
             ;; make fci play nicely with company-mode - from https://github.com/alpaker/Fill-Column-Indicator/issues/54#issuecomment-218344694
             (with-eval-after-load 'company
@@ -962,8 +961,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck-pos-tip
   :ensure t
-  :defer t
-  :config (flycheck-pos-tip-mode))
+  :config (flycheck-pos-tip-mode 1))
 
 (use-package flyspell
   :diminish flyspell-mode)
@@ -1030,11 +1028,11 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package ispell
   :defer t
-  :config (when (executable-find "aspell")
-            ;; use gb dictionary via aspell if available
-            (setq ispell-program-name "aspell"
-                  ispell-dictionary "british"
-                  ispell-extra-args '("--sug-mode=ultra"))))
+  :init (when (executable-find "aspell")
+          ;; use gb dictionary via aspell if available
+          (setq ispell-program-name "aspell"
+                ispell-dictionary "british"
+                ispell-extra-args '("--sug-mode=ultra"))))
 
 (use-package gdb-mi
   :config (progn
@@ -1080,10 +1078,9 @@ Otherwise call `ediff-buffers' interactively."
 (use-package js2-mode
   :ensure t
   :defer t
-  :config (progn
-            (setq-default js2-basic-offset 2)
-
-            (add-hook 'js2-mode-hook 'apm-js2-mode-setup)))
+  :init (progn
+          (setq-default js2-basic-offset 2)
+          (add-hook 'js2-mode-hook 'apm-js2-mode-setup)))
 
 (defun apm-emacs-lisp-mode-setup ()
   "Setup Emacs Lisp mode."
@@ -1189,7 +1186,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-python-mode-setup ()
   "Tweaks and customisations for `python-mode'."
-  (setq python-indent-offset 4))
+  (setq python-indent-offset 4)
+  (anaconda-mode 1)
+  (anaconda-eldoc-mode 1))
 
 (use-package python-mode
   :config (add-hook 'python-mode #'apm-python-mode-setup))
@@ -1201,7 +1200,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package region-state
   :ensure t
-  :defer t
   :config (region-state-mode 1))
 
 ;; save minibuffer history
@@ -1219,18 +1217,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package sh-mode
   :init (setq-default sh-basic-offset 2
                       sh-indentation 2))
-
-(use-package smart-mode-line
-  :ensure t
-  :defer t
-  ;; seems we need to trust on first setup since custom file has not been read
-  ;; yet when running emacs daemon
-  :init (let ((sml/no-confirm-load-theme t))
-          (sml/setup))
-  :config (progn
-            (add-to-list 'sml/replacer-regexp-list '("^~/dev/branches/RelX/" ":RelX:") t)
-            (add-to-list 'sml/replacer-regexp-list '("^:RelX:\\(.*\\)/software/" ":RelX/\\1/:") t)
-            (sml/apply-theme 'respectful)))
 
 ;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
 (defun apm-c-mode-common-open-block (&rest ignored)
@@ -1279,7 +1265,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package spaceline
   :ensure t
-  :defer t
   :config (progn
             (require 'spaceline-config)
             ;; show evil state with colour change
@@ -1298,7 +1283,6 @@ Otherwise call `ediff-buffers' interactively."
            "http://projects.cohda.wireless:8000/trac/mk2"))
 
 (use-package type-break
-  :defer t
   :config (type-break-mode))
 
 (use-package unicode-fonts
