@@ -219,6 +219,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;;; Packages
 (use-package ace-window
   :ensure t
+  :defer t
   :bind (("C-x o" . ace-window)
          ("M-p" . ace-window)))
 
@@ -232,8 +233,9 @@ point reaches the beginning or end of the buffer, stop there."
             (setq-default abbrev-mode t)))
 
 (use-package aggressive-indent
-  :diminish aggressive-indent-mode
-  :ensure t)
+  :ensure t
+  :defer t
+  :diminish aggressive-indent-mode)
 
 (use-package ag
   :ensure t
@@ -243,10 +245,12 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package android-mode
   :ensure t
-  :config (progn
-            ;; change prefix so doesn't conflict with comment-region
-            (setq android-mode-sdk-dir (expand-file-name "~/android-sdk-linux/")
-                  android-mode-key-prefix (kbd "C-c C-m")))
+  :commands (android-mode)
+  :init (progn
+          ;; change prefix so doesn't conflict with comment-region
+          (setq android-mode-sdk-dir (expand-file-name "~/android-sdk-linux/")
+                android-mode-key-prefix (kbd "C-c C-m"))
+          (add-hook 'java-mode-hook #'android-mode))
   :diminish (android-mode . " \uf17b "))
 
 (use-package anaconda-mode
@@ -267,8 +271,9 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package apm-c
   :load-path "lisp/"
-  :config (dolist (hook '(c-mode-hook c++-mode-hook))
-            (add-hook hook 'apm-c-mode-setup)))
+  :commands (apm-c-mode-setup)
+  :init (dolist (hook '(c-mode-hook c++-mode-hook))
+          (add-hook hook 'apm-c-mode-setup)))
 
 (use-package apropos
   :bind ("C-h a" . apropos))
@@ -291,15 +296,12 @@ point reaches the beginning or end of the buffer, stop there."
   (LaTeX-math-mode 1)
   ;; Enable reftex
   (turn-on-reftex)
-  ;; add company-ispell backend
-  (with-eval-after-load 'company
-    ;; silence byte-compilation warnings
-    (eval-when-compile
-      (require 'company))
-    (add-to-list 'company-backends 'company-ispell)))
+  ;; integrate with company
+  (company-auctex-init))
 
 (use-package auctex
   :ensure t
+  :defer t
   :mode ("\\.tex\\'" . LaTeX-mode)
   :init (progn
           (setq-default TeX-auto-save t)
@@ -313,6 +315,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package avy
   :ensure t
+  :defer t
   :bind ("C-c SPC" . avy-goto-char))
 
 (use-package browse-kill-ring
@@ -373,7 +376,8 @@ code sections."
    '((c-mode-font-lock-if0 (0 font-lock-comment-face prepend))) 'add-to-end))
 
 (use-package cc-mode
-  :config (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
+  :defer t
+  :init (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
 
 (use-package company
   :ensure t
@@ -415,12 +419,13 @@ code sections."
 
 (use-package company-auctex
   :ensure t
+  ;; loaded in apm-latex-mode-setup
   :defer t)
 
 (use-package company-dabbrev
   :after company
-  :config             ;; keep original case
-  (setq company-dabbrev-downcase nil))
+  ;; keep original case
+  :config (setq company-dabbrev-downcase nil))
 
 (use-package company-flx
   :ensure t
@@ -458,6 +463,7 @@ code sections."
 
 (use-package company-quickhelp
   :ensure t
+  :defer t
   :init (add-hook 'company-mode-hook #'company-quickhelp-mode)
   :config (setq company-quickhelp-delay 0.1))
 
@@ -507,13 +513,16 @@ code sections."
             (evil-global-set-key 'motion [remap evil-search-backward] #'swiper)))
 
 (use-package counsel-projectile
-  :ensure t)
+  :ensure t
+  ;; defer since we bind with evil-leader
+  :defer t)
 
 (defun apm-coverlay-setup()
   (coverlay-mode 1))
 
 (use-package coverlay
   :ensure t
+  :defer t
   :diminish coverlay-mode
   :config (add-hook 'c-mode-common-hook #'apm-coverlay-setup))
 
@@ -525,10 +534,11 @@ code sections."
   :init (cua-selection-mode 1))
 
 (use-package cus-edit
-  :config (progn
-            (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-            ;; load custom but ignore error if doesn't exist
-            (load custom-file t)))
+  :defer t
+  :init (progn
+          (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+          ;; load custom but ignore error if doesn't exist
+          (load custom-file t)))
 
 ;; show suspicious c constructs automatically
 (use-package cwarn
@@ -625,8 +635,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package eldoc
   :diminish eldoc-mode
+  :commands (eldoc-mode)
   ;; enable eldoc in eval-expression
-  :config (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode))
+  :init (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode))
 
 (use-package electric
   :init (progn
@@ -740,16 +751,17 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-args
   :ensure t
-  :config (progn
-            ;; bind evil-args text objects
-            (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
-            (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
+  :defer t
+  :init (progn
+          ;; bind evil-args text objects
+          (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
+          (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
 
-            ;; bind evil-forward/backward-args
-            (define-key evil-normal-state-map "L" 'evil-forward-arg)
-            (define-key evil-normal-state-map "H" 'evil-backward-arg)
-            (define-key evil-motion-state-map "L" 'evil-forward-arg)
-            (define-key evil-motion-state-map "H" 'evil-backward-arg)))
+          ;; bind evil-forward/backward-args
+          (define-key evil-normal-state-map "L" 'evil-forward-arg)
+          (define-key evil-normal-state-map "H" 'evil-backward-arg)
+          (define-key evil-motion-state-map "L" 'evil-forward-arg)
+          (define-key evil-motion-state-map "H" 'evil-backward-arg)))
 
 (use-package evil-commentary
   :ensure t
@@ -834,10 +846,11 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-search-highlight-persist
   :ensure t
-  :init (global-evil-search-highlight-persist t))
+  :init (global-evil-search-highlight-persist 1))
 
 (use-package evil-smartparens
   :ensure t
+  :defer t
   :diminish evil-smartparens-mode
   ;; only use with strict smartparens otherwise is too annoying for normal cases
   :init (add-hook 'smartparens-strict-mode-hook #'evil-smartparens-mode))
@@ -853,9 +866,8 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-textobj-anyblock
   :ensure t
-  :config (progn
-            (define-key evil-inner-text-objects-map "b" 'evil-textobj-anyblock-inner-block)
-            (define-key evil-outer-text-objects-map "b" 'evil-textobj-anyblock-a-block)))
+  :bind ((:map evil-inner-text-objects-map ("b" . 'evil-textobj-anyblock-inner-block)
+               :map evil-outer-text-objects-map ("b" . 'evil-textobj-anyblock-a-block))))
 
 (use-package evil-vimish-fold
   :ensure t
@@ -922,7 +934,7 @@ Otherwise call `ediff-buffers' interactively."
   :diminish flycheck-mode
   :init (unless (executable-find "shellcheck")
           (alert "shellcheck not found - is it installed? (shellcheck)"))
-  :config (global-flycheck-mode +1))
+  :config (global-flycheck-mode 1))
 
 (use-package flycheck-checkbashisms
   :ensure t
@@ -999,9 +1011,10 @@ Otherwise call `ediff-buffers' interactively."
           (setq ivy-use-virtual-buffers t)
           (setq ivy-display-style 'fancy)
           (bind-key [remap switch-to-buffer] 'ivy-switch-buffer)
-          ;; restore behaviour of C-s C-w to search for word at point
-          (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word))
-  :config (ivy-mode 1))
+          (ivy-mode 1))
+  :config (progn
+            ;; restore behaviour of C-s C-w to search for word at point
+            (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word)))
 
 (defun apm-irony-mode-setup ()
   "Setup irony-mode."
@@ -1018,13 +1031,15 @@ Otherwise call `ediff-buffers' interactively."
 (use-package irony
   :ensure t
   :diminish irony-mode
+  :commands (irony-mode)
   :init (progn
           (add-hook 'c-mode-hook 'irony-mode)
           (add-hook 'c++-mode-hook 'irony-mode)
           (add-hook 'irony-mode-hook 'apm-irony-mode-setup)))
 
 (use-package irony-eldoc
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package ispell
   :defer t
@@ -1035,14 +1050,16 @@ Otherwise call `ediff-buffers' interactively."
                 ispell-extra-args '("--sug-mode=ultra"))))
 
 (use-package gdb-mi
-  :config (progn
-            ;; use gdb-many-windows by default
-            (setq gdb-many-windows t)
-            ;; Non-nil means display source file containing the main routine at startup
-            (setq gdb-show-main t)))
+  :defer t
+  :init (progn
+          ;; use gdb-many-windows by default
+          (setq gdb-many-windows t)
+          ;; Non-nil means display source file containing the main routine at startup
+          (setq gdb-show-main t)))
 
 (use-package gud
-  :config (add-hook 'gud-mode-hook #'gud-tooltip-mode))
+  :defer t
+  :init (add-hook 'gud-mode-hook #'gud-tooltip-mode))
 
 (defun apm-ggtags-setup ()
   "Setup ggtags for various modes."
@@ -1052,19 +1069,21 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package ggtags
   :ensure t
+  :defer t
   :diminish (ggtags-mode ggtags-navigation-mode)
-  :init (unless (executable-find "global")
-          (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
-  :config (progn
-            (with-eval-after-load 'evil
-              (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
-                #'ggtags-find-tag-dwim))
-            (setq ggtags-enable-navigation-keys nil)
-            ;; enable ggtags in all c common mode buffers
-            (add-hook 'c-mode-common-hook #'apm-ggtags-setup)))
+  :init (progn
+          (unless (executable-find "global")
+            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
+          (with-eval-after-load 'evil
+            (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
+              #'ggtags-find-tag-dwim))
+          (setq ggtags-enable-navigation-keys nil)
+          ;; enable ggtags in all c common mode buffers
+          (add-hook 'c-mode-common-hook #'apm-ggtags-setup)))
 
 (use-package jenkins
   :ensure t
+  :commands (jenkins)
   ;; don't set jenkins-api-token here - do it in custom.el so it is not checked
   ;; into git
   :config (setq jenkins-hostname "http://cw-jenkins/jenkins/"
@@ -1090,7 +1109,7 @@ Otherwise call `ediff-buffers' interactively."
   (eldoc-mode 1)
   ;; use smartparens in strict mode for lisp
   (with-eval-after-load 'smartparens
-    (smartparens-strict-mode +1)))
+    (smartparens-strict-mode 1)))
 
 (use-package lisp-mode
   :config (add-hook 'emacs-lisp-mode-hook #'apm-emacs-lisp-mode-setup))
@@ -1110,6 +1129,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package markdown-mode
   :ensure t
+  :defer t
   :mode
   (("\\.md\\'" . markdown-mode)
    ("\\.markdown\\'" . markdown-mode))
@@ -1119,21 +1139,19 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package modern-cpp-font-lock
   :ensure t
-  :config (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
+  :defer t
+  :init (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
 
 (use-package paradox
   :ensure t
+  :commands (paradox-list-packages)
   ;; don't bother trying to integrate with github
-  :config (setq paradox-github-token nil))
+  :init (setq paradox-github-token nil))
 
 (use-package pdf-tools
   :ensure t
   :defer t
   :config (pdf-tools-install))
-
-(use-package php-mode
-  :ensure t
-  :defer t)
 
 (defun apm-prog-mode-setup ()
   "Tweaks and customisations for all programming modes."
@@ -1175,10 +1193,12 @@ Otherwise call `ediff-buffers' interactively."
   (anaconda-eldoc-mode 1))
 
 (use-package python
-  :config (add-hook 'python-mode-hook #'apm-python-mode-setup))
+  :defer t
+  :init (add-hook 'python-mode-hook #'apm-python-mode-setup))
 
 (use-package rainbow-mode
   :ensure t
+  :commands (rainbow-mode)
   :init (dolist (hook '(css-mode-hook html-mode-hook))
           (add-hook hook #'rainbow-mode)))
 
@@ -1196,7 +1216,8 @@ Otherwise call `ediff-buffers' interactively."
             (setq save-place-file (expand-file-name ".places" user-emacs-directory))))
 
 (use-package scratch
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package sh-script
   :init (setq-default sh-basic-offset 2
@@ -1223,7 +1244,7 @@ Otherwise call `ediff-buffers' interactively."
             (sp-use-paredit-bindings)
 
             ;; highlights matching pairs
-            (show-smartparens-global-mode +1)
+            (show-smartparens-global-mode 1)
 
             ;; disable pairing of ' in minibuffer
             (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
@@ -1247,8 +1268,10 @@ Otherwise call `ediff-buffers' interactively."
           (setq solarized-distinct-fringe-background t)
           (load-theme 'solarized-dark t)))
 
-(use-package spaceline
-  :ensure t
+(use-package spaceline-config
+  :ensure spaceline
+  :init (setq spaceline-workspace-numbers-unicode t
+              spaceline-window-numbers-unicode t)
   :config (progn
             (require 'spaceline-config)
             ;; show evil state with colour change
@@ -1256,7 +1279,8 @@ Otherwise call `ediff-buffers' interactively."
             (spaceline-spacemacs-theme)))
 
 (use-package sudo-edit
-  :ensure t)
+  :ensure t
+  :commands (sudo-edit))
 
 (use-package tracwiki-mode
   :ensure t
@@ -1271,13 +1295,13 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package unicode-fonts
   :ensure t
+  :defer t
   :init (unicode-fonts-setup))
 
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
-  :init (progn
-          (global-undo-tree-mode 1)))
+  :init (global-undo-tree-mode 1))
 
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'post-forward
