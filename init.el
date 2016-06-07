@@ -11,6 +11,11 @@
 ;; uncomment to debug package loading times
 ;; (setq use-package-verbose t)
 
+;; customisations
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+;; load custom but ignore error if doesn't exist
+(load custom-file t)
+
 ;;; Package management
 (require 'package)
 ;; we use use-package to do this for us
@@ -532,13 +537,6 @@ code sections."
 (use-package cua-base
   ;; use CUA mode for rectangle selections etc but not copy/paste etc
   :init (cua-selection-mode 1))
-
-(use-package cus-edit
-  :defer t
-  :init (progn
-          (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-          ;; load custom but ignore error if doesn't exist
-          (load custom-file t)))
 
 ;; show suspicious c constructs automatically
 (use-package cwarn
