@@ -1213,6 +1213,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package rainbow-mode
   :ensure t
+  :diminish rainbow-mode
   :commands (rainbow-mode)
   :init (dolist (hook '(css-mode-hook html-mode-hook))
           (add-hook hook #'rainbow-mode)))
