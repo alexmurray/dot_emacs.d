@@ -321,7 +321,9 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package avy
   :ensure t
   :defer t
-  :bind ("C-c SPC" . avy-goto-char))
+  :bind ("C-c SPC" . avy-goto-char)
+  ;; dim text when avy is active
+  :config (setq avy-background t))
 
 (use-package browse-kill-ring
   :ensure t)
