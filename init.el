@@ -764,11 +764,6 @@ Otherwise call `ediff-buffers' interactively."
           (define-key evil-motion-state-map "L" 'evil-forward-arg)
           (define-key evil-motion-state-map "H" 'evil-backward-arg)))
 
-(use-package evil-commentary
-  :ensure t
-  :diminish evil-commentary-mode
-  :config (evil-commentary-mode 1))
-
 (use-package evil-leader
   :ensure t
   :config (progn
@@ -776,9 +771,19 @@ Otherwise call `ediff-buffers' interactively."
                   evil-leader/in-all-states t)
             (evil-leader/set-key
               "," 'counsel-projectile
+              "ac" 'avy-goto-char
+              "al" 'avy-goto-line
+              "aw" 'avy-goto-word-or-subword-1
               "ag" 'counsel-ag
               "b" 'ivy-switch-buffer
-              "c" 'avy-goto-char
+              "ci" 'evilnc-comment-or-uncomment-lines
+              "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+              "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
+              "cc" 'evilnc-copy-and-comment-lines
+              "cp" 'evilnc-comment-or-uncomment-paragraphs
+              "cr" 'comment-or-uncomment-region
+              "cv" 'evilnc-toggle-invert-comment-line-by-line
+              "\\" 'evilnc-comment-operator ; if you prefer backslash key
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
@@ -790,7 +795,6 @@ Otherwise call `ediff-buffers' interactively."
               "gs" 'ggtags-find-other-symbol
               "gt" 'ggtags-find-tag-regexp
               "gu" 'ggtags-update-tags
-              "l" 'avy-goto-line
               "mg" 'magit-status
               "pa" 'projectile-ag
               "pe" 'projectile-switch-to-eshell
@@ -799,7 +803,6 @@ Otherwise call `ediff-buffers' interactively."
               "po" 'projectile-find-other-file
               "pp" 'projectile-switch-project
               "sc" 'evil-surround-change
-              "w" 'avy-goto-word-or-subword-1
               "x" 'counsel-M-x
               "zf" 'vimish-fold-avy
               "SPC" 'evil-search-highlight-persist-remove-all))
@@ -839,6 +842,11 @@ Otherwise call `ediff-buffers' interactively."
 
             ;; Ex command that allows you to invoke evil-multiedit with a regular expression, e.g.
             (evil-ex-define-cmd "ie[dit]" 'evil-multiedit-ex-match)))
+
+(use-package evil-nerd-commenter
+  :ensure t
+  :defer t
+  :bind (("M-;" . evilnc-comment-or-uncomment-lines)))
 
 (use-package evil-numbers
   :ensure t
