@@ -1278,11 +1278,10 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package solarized-theme
   :ensure t
-  :defer t
-  :init (progn
-          (setq x-underline-at-descent-line t)
-          (setq solarized-distinct-fringe-background t)
-          (load-theme 'solarized-dark t)))
+  :config (progn
+            (setq x-underline-at-descent-line t)
+            (setq solarized-distinct-fringe-background t)
+            (load-theme 'solarized-dark t)))
 
 (use-package spaceline-config
   :ensure spaceline
