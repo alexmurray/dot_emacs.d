@@ -285,6 +285,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package asn1-mode
   :ensure t
+  :load-path "vendor/"
   :mode (("\\.asn1?$" . asn1-mode)))
 
 (use-package autorevert
