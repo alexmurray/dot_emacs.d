@@ -1151,6 +1151,12 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :init (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
 
+(use-package move-text
+  :ensure t
+  :bind
+  (([(meta shift up)] . move-text-up)
+   ([(meta shift down)] . move-text-down)))
+
 (use-package paradox
   :ensure t
   :commands (paradox-list-packages)
