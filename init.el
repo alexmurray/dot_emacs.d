@@ -714,7 +714,8 @@ Otherwise call `ediff-buffers' interactively."
             (setq evil-insert-state-cursor '("#de935f" bar))
             (setq evil-emacs-state-cursor '("#cc6666" box))
 
-            (dolist (mode '(comint-mode
+            (dolist (mode '(bs-mode
+                            comint-mode
                             eshell-mode
                             git-rebase-mode
                             ggtags-global-mode
