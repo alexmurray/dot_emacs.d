@@ -981,6 +981,12 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flyspell
   :diminish flyspell-mode)
 
+(use-package flyspell-correct-ivy
+  :ensure t
+  :after ivy
+  ;; use instead of ispell-word which evil binds to z=
+  :config (bind-key [remap ispell-word] 'flyspell-correct-word-generic))
+
 (use-package flx
   :ensure t)
 
