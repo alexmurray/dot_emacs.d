@@ -765,6 +765,11 @@ Otherwise call `ediff-buffers' interactively."
           (define-key evil-motion-state-map "L" 'evil-forward-arg)
           (define-key evil-motion-state-map "H" 'evil-backward-arg)))
 
+(use-package evil-commentary
+  :ensure t
+  :diminish evil-commentary-mode
+  :config (evil-commentary-mode 1))
+
 (use-package evil-leader
   :ensure t
   :config (progn
@@ -777,11 +782,7 @@ Otherwise call `ediff-buffers' interactively."
               "aw" 'avy-goto-word-or-subword-1
               "ag" 'counsel-ag
               "b" 'ivy-switch-buffer
-              "cc" 'evilnc-comment-or-uncomment-lines
-              "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-              "cp" 'evilnc-comment-or-uncomment-paragraphs
               "cr" 'comment-or-uncomment-region
-              "cv" 'evilnc-toggle-invert-comment-line-by-line
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
@@ -840,11 +841,6 @@ Otherwise call `ediff-buffers' interactively."
 
             ;; Ex command that allows you to invoke evil-multiedit with a regular expression, e.g.
             (evil-ex-define-cmd "ie[dit]" 'evil-multiedit-ex-match)))
-
-(use-package evil-nerd-commenter
-  :ensure t
-  :defer t
-  :bind (("M-;" . evilnc-comment-or-uncomment-lines)))
 
 (use-package evil-numbers
   :ensure t
