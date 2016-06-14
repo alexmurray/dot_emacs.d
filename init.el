@@ -225,8 +225,7 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package ace-window
   :ensure t
   :defer t
-  :bind (("C-x o" . ace-window)
-         ("M-p" . ace-window)))
+  :bind (("C-x o" . ace-window)))
 
 (use-package adaptive-wrap
   :ensure t)
@@ -593,7 +592,8 @@ code sections."
 (use-package drag-stuff
   :ensure t
   :diminish drag-stuff-mode
-  :defer t)
+  :bind (("M-<up>" . drag-stuff-up)
+         ("M-<down>" . drag-stuff-down)))
 
 (use-package dts-mode
   :ensure t)
