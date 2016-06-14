@@ -787,6 +787,7 @@ Otherwise call `ediff-buffers' interactively."
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
               "gc" 'ggtags-create-tags
+              "gd" 'ggtags-delete-tags
               "ge" 'google-error
               "gg" 'counsel-git-grep
               "go" 'google-this
