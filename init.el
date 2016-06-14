@@ -1084,6 +1084,8 @@ Otherwise call `ediff-buffers' interactively."
           (unless (executable-find "global")
             (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
           (with-eval-after-load 'evil
+            (evil-define-key 'visual ggtags-mode-map (kbd "C-]")
+              #'ggtags-find-tag-dwim)
             (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
               #'ggtags-find-tag-dwim))
           (setq ggtags-enable-navigation-keys nil)
