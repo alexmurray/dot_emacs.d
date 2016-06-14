@@ -590,6 +590,11 @@ code sections."
   :diminish doxymacs-mode
   :config (add-hook 'c-mode-common-hook #'apm-doxymacs-setup))
 
+(use-package drag-stuff
+  :ensure t
+  :diminish drag-stuff-mode
+  :defer t)
+
 (use-package dts-mode
   :ensure t)
 
@@ -1175,6 +1180,8 @@ Otherwise call `ediff-buffers' interactively."
   "Tweaks and customisations for all programming modes."
   ;; turn on spell checking for strings and comments
   (flyspell-prog-mode)
+  ;; use drag stuff
+  (drag-stuff-mode 1)
   ;; highlight TODO and fixme so it looks scary
   (font-lock-add-keywords nil '(("\\<\\(TODO\\|ToDo\\|todo\\|FIXME\\|FixMe\\|fixme\\)" 1 font-lock-warning-face t))))
 
