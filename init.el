@@ -420,9 +420,9 @@ code sections."
 
 (use-package company-anaconda
   :ensure t
-  :defer t
+  :commands (company-anaconda)
   :after company
-  :init (add-to-list 'company-backends 'company-anaconda))
+  :init (add-to-list 'company-backends #'company-anaconda))
 
 (use-package company-auctex
   :ensure t
