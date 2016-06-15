@@ -1173,7 +1173,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package pdf-tools
   :ensure t
-  :defer t
+  :defer 5
   :config (pdf-tools-install))
 
 (defun apm-prog-mode-setup ()
