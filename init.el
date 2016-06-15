@@ -1317,8 +1317,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package unicode-fonts
   :ensure t
-  :defer t
-  :init (unicode-fonts-setup))
+  :config (unicode-fonts-setup))
 
 (use-package undo-tree
   :ensure t
