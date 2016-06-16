@@ -781,6 +781,13 @@ Otherwise call `ediff-buffers' interactively."
               "gt" 'ggtags-find-tag-regexp
               "gu" 'ggtags-update-tags
               "mg" 'magit-status
+              "oa" 'org-agenda
+              "occ" 'org-clock-cancel
+              "ocd" 'org-clock-display
+              "ocg" 'org-clock-goto
+              "oci" 'org-clock-in
+              "oco" ' org-clock-out
+              "ot" 'org-todo-list
               "pa" 'projectile-ag
               "pe" 'projectile-switch-to-eshell
               "pd" 'projectile-find-file-dwim
@@ -1168,6 +1175,26 @@ Otherwise call `ediff-buffers' interactively."
   :bind
   (([(meta shift up)] . move-text-up)
    ([(meta shift down)] . move-text-down)))
+
+(use-package org
+  :ensure t
+  :init (setq org-agenda-files '("~/Documents/cohda.org")
+              ))
+
+(use-package org-clock
+  :after org
+  ;; assume idle after 5 minutes
+  :init (setq org-clock-idle-time 5))
+
+(use-package org-agenda
+  :commands (org-agenda))
+
+(use-package org-bullets
+  :ensure t
+  :commands (org-bullets-mode)
+  :init (progn
+          (setq org-bullets-bullet-list '("✺" "✹" "✸" "✷" "✶" "✭" "✦" "■" "▲" "●" ))
+          (add-hook 'org-mode-hook #'org-bullets-mode)))
 
 (use-package paradox
   :ensure t
