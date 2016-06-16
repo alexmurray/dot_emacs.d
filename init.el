@@ -201,26 +201,6 @@ point reaches the beginning or end of the buffer, stop there."
 
 (add-hook 'text-mode-hook #'apm-text-mode-setup)
 
-;; autogenerate a .clang_complete if there is an associated .clang_complete.in
-(defun apm-autogenerate-clang-complete ()
-  "Autogenerate a .clang_complete if needed when opening a project."
-  (when (and (fboundp 'projectile-project-root)
-             ;; handle if not in project by returning nil
-             (not (null (condition-case nil
-                            (projectile-project-root)
-                          (error nil))))
-             (file-exists-p (concat (file-name-as-directory
-                                     (projectile-project-root))
-                                    ".clang_complete.in")))
-    (projectile-with-default-dir (projectile-project-root)
-      (shell-command "make .clang_complete"))))
-
-(defun apm-after-find-file--auto-generate-clang-complete (&optional error warn noauto after-find-file-revert-buffer nomodes)
-  "Try and autogenerate a .clang_complete (ERROR WARN NOAUTO AFTER-FIND-FILE-REVERT-BUFFER NOMODES are ignored)."
-  (apm-autogenerate-clang-complete))
-
-(advice-add 'after-find-file :before 'apm-after-find-file--auto-generate-clang-complete)
-
 ;;; Packages
 (use-package ace-window
   :ensure t
@@ -1043,11 +1023,30 @@ Otherwise call `ediff-buffers' interactively."
   (with-eval-after-load 'irony-eldoc
     (irony-eldoc)))
 
+;; autogenerate a .clang_complete if there is an associated .clang_complete.in
+(defun apm-autogenerate-clang-complete ()
+  "Autogenerate a .clang_complete if needed when opening a project."
+  (when (and (fboundp 'projectile-project-root)
+             ;; handle if not in project by returning nil
+             (not (null (condition-case nil
+                            (projectile-project-root)
+                          (error nil))))
+             (file-exists-p (concat (file-name-as-directory
+                                     (projectile-project-root))
+                                    ".clang_complete.in")))
+    (projectile-with-default-dir (projectile-project-root)
+      (shell-command "make .clang_complete"))))
+
+(defun apm-irony-cdb-clang-complete--auto-generate-clang-complete (command &rest args)
+  "Try and autogenerate a .clang_complete (COMMAND ARGS are ignored)."
+  (apm-autogenerate-clang-complete))
+
 (use-package irony
   :ensure t
   :diminish irony-mode
   :commands (irony-mode)
   :init (progn
+          (advice-add 'irony-cdb-clang-complete :before 'apm-irony-cdb-clang-complete--auto-generate-clang-complete)
           (add-hook 'c-mode-hook 'irony-mode)
           (add-hook 'c++-mode-hook 'irony-mode)
           (add-hook 'irony-mode-hook 'apm-irony-mode-setup)))
