@@ -1178,8 +1178,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package org
   :ensure t
-  :init (setq org-agenda-files '("~/Documents/cohda.org")
-              ))
+  :init (setq org-agenda-files '("~/Documents/cohda.org")))
 
 (use-package org-clock
   :after org
@@ -1188,13 +1187,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package org-agenda
   :commands (org-agenda))
-
-(use-package org-bullets
-  :ensure t
-  :commands (org-bullets-mode)
-  :init (progn
-          (setq org-bullets-bullet-list '("✺" "✹" "✸" "✷" "✶" "✭" "✦" "■" "▲" "●" ))
-          (add-hook 'org-mode-hook #'org-bullets-mode)))
 
 (use-package paradox
   :ensure t
