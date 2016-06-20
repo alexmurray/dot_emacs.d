@@ -1183,6 +1183,10 @@ Otherwise call `ediff-buffers' interactively."
   :init (setq org-agenda-files '("~/Documents/personal.org"
                                  "~/Documents/cohda.org")))
 
+(use-package org-alert
+  :ensure t
+  :config (org-alert-enable))
+
 (use-package org-clock
   :after org
   ;; assume idle after 5 minutes
