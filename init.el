@@ -782,6 +782,8 @@ Otherwise call `ediff-buffers' interactively."
               "gu" 'ggtags-update-tags
               "mg" 'magit-status
               "oa" 'org-agenda
+              "ob" 'org-ido-switchb
+              "oca" 'org-capture
               "occ" 'org-clock-cancel
               "ocd" 'org-clock-display
               "ocg" 'org-clock-goto
@@ -1178,7 +1180,8 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package org
   :ensure t
-  :init (setq org-agenda-files '("~/Documents/cohda.org")))
+  :init (setq org-agenda-files '("~/Documents/personal.org"
+                                 "~/Documents/cohda.org")))
 
 (use-package org-clock
   :after org
