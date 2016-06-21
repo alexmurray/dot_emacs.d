@@ -1183,7 +1183,8 @@ Otherwise call `ediff-buffers' interactively."
   :init (setq org-agenda-files '("~/Documents/personal.org"
                                  "~/Documents/cohda.org")))
 
-(use-package org-agenda)
+(use-package org-agenda
+  :commands (org-agenda))
 
 (use-package org-alert
   :ensure t
@@ -1193,9 +1194,6 @@ Otherwise call `ediff-buffers' interactively."
   :after org
   ;; assume idle after 5 minutes
   :init (setq org-clock-idle-time 5))
-
-(use-package org-agenda
-  :commands (org-agenda))
 
 (use-package paradox
   :ensure t
