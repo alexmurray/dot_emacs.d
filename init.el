@@ -905,6 +905,10 @@ Otherwise call `ediff-buffers' interactively."
   :diminish fancy-narrow-mode
   :config (fancy-narrow-mode 1))
 
+(use-package fic-mode
+  :ensure t
+  :defer t)
+
 (use-package files
   :bind ("C-c r" . revert-buffer))
 
@@ -1211,8 +1215,8 @@ Otherwise call `ediff-buffers' interactively."
   (flyspell-prog-mode)
   ;; use drag stuff
   (drag-stuff-mode 1)
-  ;; highlight TODO and fixme so it looks scary
-  (font-lock-add-keywords nil '(("\\<\\(TODO\\|ToDo\\|todo\\|FIXME\\|FixMe\\|fixme\\)" 1 font-lock-warning-face t))))
+  ;; highlight TODO etc in comments only
+  (fic-mode 1))
 
 (use-package prog-mode
   :config (progn
