@@ -1141,6 +1141,7 @@ Otherwise call `ediff-buffers' interactively."
   ;; use aggressive indent
   (aggressive-indent-mode 1)
   (eldoc-mode 1)
+  (fic-mode 1)
   ;; use smartparens in strict mode for lisp
   (with-eval-after-load 'smartparens
     (smartparens-strict-mode 1)))
