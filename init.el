@@ -1200,6 +1200,12 @@ Otherwise call `ediff-buffers' interactively."
   ;; assume idle after 5 minutes
   :init (setq org-clock-idle-time 5))
 
+(use-package org-clock-convenience
+  :ensure t
+  :bind (:map org-agenda-mode-map
+              ("S-<up>" . org-clock-convenience-timestamp-up)
+              ("S-<down>" . org-clock-convenience-timestamp-down)))
+
 (use-package paradox
   :ensure t
   :commands (paradox-list-packages)
