@@ -1192,6 +1192,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package org-alert
   :ensure t
+  :disabled t
   :config (org-alert-enable))
 
 (use-package org-clock
