@@ -1394,6 +1394,9 @@ Otherwise call `ediff-buffers' interactively."
              (args (plist-get attrs :arguments))
              (return-name (plist-get attrs :type))
              (idx 1))
+        (if (and (= 1 (length args))
+                 (string-equal "" (car (car args))))
+            (setq args nil))
         (if (listp return-name)
             (setq return-name (car return-name)))
         (yas-expand-snippet
@@ -1401,16 +1404,19 @@ Otherwise call `ediff-buffers' interactively."
           "/**
 * @brief ${1:%s}
 *
-%s
-%s*/
+%s%s*/
 "
           name
-          (mapconcat
-           (lambda (x)
-             (format "* @param %s ${%d:Description of %s}"
-                     (car x) (incf idx) (car x)))
-           args
-           "\n")
+          (if args
+              (concat
+               (mapconcat
+                (lambda (x)
+                  (format "* @param %s ${%d:Description of %s}"
+                          (car x) (incf idx) (car x)))
+                args
+                "\n")
+               "\n")
+            "")
           (if (and return-name (not (string-equal "void" return-name)))
               (format " * @return ${%d:%s}\n" (incf idx) return-name)
             "")))))
