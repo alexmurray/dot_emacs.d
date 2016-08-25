@@ -994,6 +994,7 @@ Otherwise call `ediff-buffers' interactively."
   :init (progn
           ;; show recent files and bookmarks with `ivy-switch-buffer'
           (setq ivy-use-virtual-buffers t)
+          (setq ivy-count-format "(%d/%d) ")
           (setq ivy-display-style 'fancy)
           (bind-key [remap switch-to-buffer] 'ivy-switch-buffer)
           (ivy-mode 1))
