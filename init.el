@@ -740,12 +740,11 @@ Otherwise call `ediff-buffers' interactively."
                   evil-leader/in-all-states t)
             (evil-leader/set-key
               "," 'counsel-projectile
-              "ac" 'avy-goto-char
-              "al" 'avy-goto-line
-              "aw" 'avy-goto-word-or-subword-1
+              "SPC" 'avy-goto-word-or-subword-1
+              "l" 'avy-goto-line
+              "c" 'avy-goto-char
               "ag" 'counsel-ag
               "b" 'ivy-switch-buffer
-              "cr" 'comment-or-uncomment-region
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
@@ -777,7 +776,7 @@ Otherwise call `ediff-buffers' interactively."
               "sc" 'evil-surround-change
               "x" 'counsel-M-x
               "zf" 'vimish-fold-avy
-              "SPC" 'evil-search-highlight-persist-remove-all))
+              "DEL" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
 
 (use-package evil-matchit
