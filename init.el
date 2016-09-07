@@ -275,7 +275,6 @@
 (use-package avy
   :ensure t
   :defer t
-  :bind ("C-c SPC" . avy-goto-char)
   ;; dim text when avy is active
   :config (setq avy-background t))
 
@@ -736,15 +735,15 @@ Otherwise call `ediff-buffers' interactively."
 (use-package evil-leader
   :ensure t
   :config (progn
-            (setq evil-leader/leader ","
+            (setq evil-leader/leader "<SPC>"
                   evil-leader/in-all-states t)
             (evil-leader/set-key
-              "," 'counsel-projectile
               "SPC" 'avy-goto-word-or-subword-1
               "l" 'avy-goto-line
               "c" 'avy-goto-char
-              "ag" 'counsel-ag
+              "a" 'counsel-ag
               "b" 'ivy-switch-buffer
+              "d" 'counsel-dired-jump
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
@@ -757,6 +756,7 @@ Otherwise call `ediff-buffers' interactively."
               "gs" 'ggtags-find-other-symbol
               "gt" 'ggtags-find-tag-regexp
               "gu" 'ggtags-update-tags
+              "i" 'counsel-imenu
               "mg" 'magit-status
               "oa" 'org-agenda
               "ob" 'org-ido-switchb
@@ -765,15 +765,17 @@ Otherwise call `ediff-buffers' interactively."
               "ocd" 'org-clock-display
               "ocg" 'org-clock-goto
               "oci" 'org-clock-in
-              "oco" ' org-clock-out
+              "oco" 'org-clock-out
               "ot" 'org-todo-list
               "pa" 'projectile-ag
-              "pe" 'projectile-switch-to-eshell
+              "pb" 'counsel-projectile-switch-to-buffer
+              "pe" 'projectile-run-eshell
               "pd" 'projectile-find-file-dwim
               "pf" 'counsel-projectile-find-file
               "po" 'projectile-find-other-file
-              "pp" 'projectile-switch-project
+              "pp" 'counsel-projectile
               "sc" 'evil-surround-change
+              "u" 'counsel-unicode-char
               "x" 'counsel-M-x
               "zf" 'vimish-fold-avy
               "DEL" 'evil-search-highlight-persist-remove-all))
