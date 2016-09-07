@@ -689,6 +689,7 @@ Otherwise call `ediff-buffers' interactively."
                             magit-popup-mode
                             magit-popup-sequence-mode
                             paradox-menu-mode
+                            pcap-mode
                             pylookup-mode
                             semantic-symref-results-mode
                             shell-mode
@@ -1191,6 +1192,10 @@ Otherwise call `ediff-buffers' interactively."
   :commands (paradox-list-packages)
   ;; don't bother trying to integrate with github
   :init (setq paradox-github-token nil))
+
+(use-package pcap-mode
+  :ensure t
+  :mode ("\\.pcapng\\'" . pcap-mode))
 
 (use-package pdf-tools
   :ensure t
