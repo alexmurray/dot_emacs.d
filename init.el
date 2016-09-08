@@ -777,6 +777,7 @@ Otherwise call `ediff-buffers' interactively."
               "pp" 'counsel-projectile
               "sc" 'evil-surround-change
               "u" 'counsel-unicode-char
+              "v" 'er/expand-region
               "x" 'counsel-M-x
               "zf" 'vimish-fold-avy
               "DEL" 'evil-search-highlight-persist-remove-all))
@@ -863,7 +864,8 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package expand-region
   :ensure t
-  :bind ("C-=" . er/expand-region))
+  :config (setq expand-region-contract-fast-key "V"
+                expand-region-reset-fast-key "r"))
 
 (use-package eyebrowse
   :ensure t
