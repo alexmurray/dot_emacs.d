@@ -1201,8 +1201,8 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package pdf-tools
   :ensure t
-  :defer 5
-  :config (pdf-tools-install))
+  ;; only try and install when needed
+  :mode ("\\.pdf\\'" . pdf-tools-install))
 
 (defun apm-prog-mode-setup ()
   "Tweaks and customisations for all programming modes."
