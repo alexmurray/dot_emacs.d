@@ -50,8 +50,8 @@
                         #'(lambda (word) (capitalize (downcase word)))
                         (split-string s (if delim delim "_"))) ""))
 
-(when (version< emacs-version "24.4")
-  (alert "Emacs version too old - please run 24.4 or newer"
+(when (version< emacs-version "25.1")
+  (alert "Emacs version too old - please run 25.1 or newer"
          :severity 'high))
 
 ;;; General settings etc
@@ -87,6 +87,9 @@
 ;; Show line column numbers in mode line
 (line-number-mode 1)
 (column-number-mode 1)
+
+;; prompt when trying to switch out of a dedicated window
+(setq switch-to-buffer-in-dedicated-window 'prompt)
 
 ;; ensure scrolling forwards / backwards preserves original location such that
 ;; they undo each other
@@ -598,15 +601,14 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package eldoc
   :diminish eldoc-mode
-  :commands (eldoc-mode)
-  ;; enable eldoc in eval-expression
-  :init (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode))
+  :config (global-eldoc-mode 1))
 
 (use-package electric
   :init (progn
           ;; electric indent and layout modes to make more IDE like
           (electric-indent-mode 1)
-          (electric-layout-mode 1)))
+          (electric-layout-mode 1)
+          (electric-quote-mode 1)))
 
 (use-package elisp-slime-nav
   :ensure t
@@ -1123,7 +1125,6 @@ Otherwise call `ediff-buffers' interactively."
   (setq mode-name "el")
   ;; use aggressive indent
   (aggressive-indent-mode 1)
-  (eldoc-mode 1)
   (fic-mode 1)
   ;; use smartparens in strict mode for lisp
   (with-eval-after-load 'smartparens
