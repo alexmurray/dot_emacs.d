@@ -701,7 +701,10 @@ Otherwise call `ediff-buffers' interactively."
             ;; them
             (bind-keys :map evil-insert-state-map
                        ("C-x C-n" . evil-complete-next-line)
+                       ("C-x C-l" . evil-complete-next-line)
                        ("C-x C-p" . evil-complete-previous-line))
+
+            (evil-ex-define-cmd "b[uffers]" 'ivy-switch-buffer)
 
             ;; fixup company-complete-number to be handled better with evil
             (evil-declare-change-repeat 'company-complete-number)
