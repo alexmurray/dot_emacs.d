@@ -461,19 +461,13 @@ code sections."
 
 (use-package counsel
   :ensure t
-  :bind (("C-s" . counsel-grep-or-swiper)
-         ("C-x C-f" . counsel-find-file)
+  :bind (("C-x C-f" . counsel-find-file)
          ("C-x C-i" . counsel-imenu)
          ("C-h f" . counsel-describe-function)
          ("C-h v" . counsel-describe-variable))
   :init (progn
           (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-          (setq counsel-find-file-at-point t))
-  :config (with-eval-after-load 'evil
-            (evil-global-set-key 'normal [remap evil-search-forward] #'counsel-grep-or-swiper)
-            (evil-global-set-key 'normal [remap evil-search-backward] #'counsel-grep-or-swiper)
-            (evil-global-set-key 'motion [remap evil-search-forward] #'counsel-grep-or-swiper)
-            (evil-global-set-key 'motion [remap evil-search-backward] #'counsel-grep-or-swiper)))
+          (setq counsel-find-file-at-point t)))
 
 (use-package counsel-projectile
   :ensure t
@@ -777,7 +771,7 @@ Otherwise call `ediff-buffers' interactively."
               "pf" 'counsel-projectile-find-file
               "po" 'projectile-find-other-file
               "pp" 'counsel-projectile
-              "sc" 'evil-surround-change
+              "s" 'counsel-grep-or-swiper
               "u" 'counsel-unicode-char
               "v" 'er/expand-region
               "x" 'counsel-M-x
