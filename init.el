@@ -721,7 +721,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq evil-leader/leader "<SPC>"
                   evil-leader/in-all-states t)
             (evil-leader/set-key
-              "SPC" 'helm-projectile
+              "SPC" 'avy-goto-word-or-subword-1
               "l" 'avy-goto-line
               "c" 'avy-goto-char
               "a" 'helm-ag
@@ -750,11 +750,14 @@ Otherwise call `ediff-buffers' interactively."
               "oco" 'org-clock-out
               "ot" 'org-todo-list
               "pa" 'helm-projectile-ag
+              "pb" 'helm-projectile-switch-to-buffer
               "pe" 'helm-projectile-switch-to-eshell
-              "pd" 'helm-projectile-find-file-dwim
+              "pd" 'helm-projectile-find-dir
               "pf" 'helm-projectile-find-file
+              "ph" 'helm-projectile
               "po" 'helm-projectile-find-other-file
               "pp" 'helm-projectile-switch-project
+              "pr" 'helm-projectile-recentf
               "u" 'helm-unicode
               "v" 'er/expand-region
               "x" 'helm-M-x
@@ -961,9 +964,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package helm-fuzzier
    :ensure t
+   :after helm
    :init (helm-fuzzier-mode 1))
 
-;; enable hlm-flx before helm
 (use-package helm-flx
   :ensure t
   :init (helm-flx-mode 1))
@@ -971,7 +974,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package helm
   :ensure t
   :diminish helm-mode
-  :before helm-flx
+  :after helm-flx ; enable hlm-flx before helm
   :defer t
   :bind (("M-x" . helm-M-x)
          ("M-y" . helm-show-kill-ring)
