@@ -1024,6 +1024,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package helm-gtags
   :ensure t
   :after helm
+  :diminish helm-gtags-mode
   :init (progn
           (unless (executable-find "global")
             (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
