@@ -662,7 +662,6 @@ Otherwise call `ediff-buffers' interactively."
                             comint-mode
                             eshell-mode
                             git-rebase-mode
-                            ggtags-global-mode
                             jenkins-mode
                             jenkins-job-view-mode
                             inferior-emacs-lisp-mode
@@ -729,15 +728,17 @@ Otherwise call `ediff-buffers' interactively."
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
-              "gc" 'ggtags-create-tags
-              "gd" 'ggtags-delete-tags
               "ge" 'google-error
               "gg" 'helm-grep-do-git-grep
               "go" 'google-this
-              "gr" 'ggtags-find-reference
-              "gs" 'ggtags-find-other-symbol
-              "gt" 'ggtags-find-tag-regexp
-              "gu" 'ggtags-update-tags
+              "gc" 'helm-gtags-create-tags
+              "gf" 'helm-gtags-tags-in-this-function
+              "gn" 'helm-gtags-next-history
+              "gp" 'helm-gtags-previous-history
+              "gr" 'helm-gtags-find-rtag
+              "gs" 'helm-gtags-find-symbol
+              "gt" 'helm-gtags-select
+              "gu" 'helm-gtags-update-tags
               "i" 'helm-imenu
               "mg" 'magit-status
               "oa" 'org-agenda
@@ -962,11 +963,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :commands (google-this google-error))
 
-(use-package helm-fuzzier
-   :ensure t
-   :after helm
-   :init (helm-fuzzier-mode 1))
-
 (use-package helm-flx
   :ensure t
   :init (helm-flx-mode 1))
@@ -1014,6 +1010,30 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (with-eval-after-load 'evil
             (define-key evil-normal-state-map "z=" 'helm-flyspell-correct)))
+
+(use-package helm-fuzzier
+  :ensure t
+  :after helm
+  :init (helm-fuzzier-mode 1))
+
+(defun apm-helm-gtags-setup ()
+  "Setup helm-gtags for various modes."
+  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+    (helm-gtags-mode 1)))
+
+(use-package helm-gtags
+  :ensure t
+  :after helm
+  :init (progn
+          (unless (executable-find "global")
+            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
+          (with-eval-after-load 'evil
+            (evil-define-key 'visual helm-gtags-mode-map (kbd "C-]")
+              #'helm-gtags-dwim)
+            (evil-define-key 'normal helm-gtags-mode-map (kbd "C-]")
+              #'helm-gtags-dwim))
+          ;; enable helm-gtags in all c common mode buffers
+          (add-hook 'c-mode-common-hook #'apm-helm-gtags-setup)))
 
 (use-package helm-projectile
   :ensure t
@@ -1095,28 +1115,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package gud
   :defer t
   :init (add-hook 'gud-mode-hook #'gud-tooltip-mode))
-
-(defun apm-ggtags-setup ()
-  "Setup ggtags for various modes."
-  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-    (ggtags-mode 1)
-    (setq-local imenu-create-index-function #'ggtags-build-imenu-index)))
-
-(use-package ggtags
-  :ensure t
-  :defer t
-  :diminish (ggtags-mode ggtags-navigation-mode)
-  :init (progn
-          (unless (executable-find "global")
-            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
-          (with-eval-after-load 'evil
-            (evil-define-key 'visual ggtags-mode-map (kbd "C-]")
-              #'ggtags-find-tag-dwim)
-            (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
-              #'ggtags-find-tag-dwim))
-          (setq ggtags-enable-navigation-keys nil)
-          ;; enable ggtags in all c common mode buffers
-          (add-hook 'c-mode-common-hook #'apm-ggtags-setup)))
 
 (use-package jenkins
   :ensure t
