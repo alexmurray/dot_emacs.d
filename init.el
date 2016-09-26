@@ -990,6 +990,7 @@ Otherwise call `ediff-buffers' interactively."
                   helm-recentf-fuzzy-match t)
             (helm-mode 1)
             (helm-adaptive-mode 1)
+            (define-key isearch-mode-map (kbd "M-o") 'helm-occur-from-isearch)
             ;; integrate with evil
             (with-eval-after-load 'evil
               (define-key evil-ex-map "b " 'helm-mini)
