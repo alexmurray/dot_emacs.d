@@ -759,6 +759,7 @@ Otherwise call `ediff-buffers' interactively."
               "po" 'helm-projectile-find-other-file
               "pp" 'helm-projectile-switch-project
               "pr" 'helm-projectile-recentf
+              "s" 'helm-swoop
               "u" 'helm-unicode
               "v" 'er/expand-region
               "x" 'helm-M-x
@@ -1039,6 +1040,10 @@ Otherwise call `ediff-buffers' interactively."
 (use-package helm-projectile
   :ensure t
   :config (helm-projectile-on))
+
+(use-package helm-swoop
+  :ensure t
+  :commands (helm-swoop helm-multi-swoop))
 
 (use-package helm-unicode
   :ensure t)
