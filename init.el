@@ -1033,7 +1033,9 @@ Otherwise call `ediff-buffers' interactively."
             (evil-define-key 'visual helm-gtags-mode-map (kbd "C-]")
               #'helm-gtags-dwim)
             (evil-define-key 'normal helm-gtags-mode-map (kbd "C-]")
-              #'helm-gtags-dwim))
+              #'helm-gtags-dwim)
+            (evil-define-key 'normal helm--mode-map (kbd "M-*")
+              #'helm-gtags-pop-stack))
           ;; enable helm-gtags in all c common mode buffers
           (add-hook 'c-mode-common-hook #'apm-helm-gtags-setup)))
 
