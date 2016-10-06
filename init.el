@@ -1151,6 +1151,12 @@ Otherwise call `ediff-buffers' interactively."
   ;; use aggressive indent
   (aggressive-indent-mode 1)
   (fic-mode 1)
+  ;; make imenu list each package for easy navigation - from
+  ;; https://github.com/jwiegley/use-package/issues/80#issuecomment-46687774
+  (when (string= buffer-file-name (expand-file-name "init.el" "~/dot_emacs.d"))
+    (add-to-list
+     'imenu-generic-expression
+     '("Packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)))
   ;; use smartparens in strict mode for lisp
   (with-eval-after-load 'smartparens
     (smartparens-strict-mode 1)))
