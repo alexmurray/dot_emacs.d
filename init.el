@@ -1187,6 +1187,21 @@ Otherwise call `ediff-buffers' interactively."
             (unless (executable-find markdown-command)
               (alert "markdown not found - is it installed?"))))
 
+(defun apm-meghanada-mode-setup ()
+  "Setup meghanada-mode."
+  (unless (f-exists? (meghanada--locate-server-jar))
+    (meghanada-install-server)))
+
+(use-package meghanada
+  :ensure t
+  :init (progn
+          (add-hook 'meghanada-mode-hook #'apm-meghanada-mode-setup)
+          (add-hook 'java-mode-hook 'meghanada-mode))
+  :config (progn
+            (setq meghanada-use-company t
+                  meghanada-use-flycheck t
+                  meghanada-auto-start t)))
+
 (use-package modern-cpp-font-lock
   :ensure t
   :defer t
