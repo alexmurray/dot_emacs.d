@@ -1,0 +1,1 @@
+../../emacs-counsel-gtags/counsel-gtags.el

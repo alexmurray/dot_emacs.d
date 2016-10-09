@@ -459,6 +459,50 @@ code sections."
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error))
 
+(use-package counsel
+  :ensure t
+  :bind (("M-x" . counsel-M-x)
+         ("M-y" . counsel-yank-pop)
+         ("C-x C-f" . counsel-find-file)
+         ("C-x C-i" . counsel-imenu)
+         ("C-h f" . counsel-describe-function)
+         ("C-h v" . counsel-describe-variable))
+  :init (progn
+          (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+          (setq counsel-find-file-at-point t))
+  :config
+  ;; integrate with evil
+  (with-eval-after-load 'evil
+
+    (define-key evil-ex-map "e " 'counsel-find-files)
+    (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
+    (define-key evil-ex-map "ap " 'counsel-apropos)))
+
+(defun apm-counsel-gtags-setup ()
+  "Setup conusel-gtags for various modes."
+  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+    (counsel-gtags-mode 1)))
+
+(use-package counsel-gtags
+  :load-path "vendor/cstyle.el"
+  :after counsel
+  :diminish counsel-gtags-mode
+  :init (progn
+          (unless (executable-find "global")
+            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
+          (with-eval-after-load 'evil
+            (evil-define-key 'visual counsel-gtags-mode-map (kbd "C-]")
+              #'counsel-gtags-dwim)
+            (evil-define-key 'normal counsel-gtags-mode-map (kbd "C-]")
+              #'counsel-gtags-dwim)
+            (evil-define-key 'normal counsel-gtags-mode-map (kbd "M-*")
+              #'counsel-gtags-pop))
+          (add-hook 'c-mode-common-hook #'apm-counsel-gtags-setup)))
+
+(use-package counsel-projectile
+  :ensure t
+  :init (counsel-projectile-on))
+
 (defun apm-coverlay-setup()
   (coverlay-mode 1))
 
@@ -723,23 +767,20 @@ Otherwise call `ediff-buffers' interactively."
               "SPC" 'avy-goto-word-or-subword-1
               "l" 'avy-goto-line
               "c" 'avy-goto-char
-              "a" 'helm-ag
-              "b" 'helm-buffers-list
+              "a" 'counsel-ag
+              "b" 'ivy-switch-buffer
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
               "ge" 'google-error
-              "gg" 'helm-grep-do-git-grep
+              "gg" 'counsel-git-grep
               "go" 'google-this
-              "gc" 'helm-gtags-create-tags
-              "gf" 'helm-gtags-tags-in-this-function
-              "gn" 'helm-gtags-next-history
-              "gp" 'helm-gtags-previous-history
-              "gr" 'helm-gtags-find-rtag
-              "gs" 'helm-gtags-find-symbol
-              "gt" 'helm-gtags-select
-              "gu" 'helm-gtags-update-tags
-              "i" 'helm-imenu
+              "gc" 'counsel-gtags-create-tags
+              "gr" 'counsel-gtags-find-reference
+              "gs" 'counsel-gtags-find-symbol
+              "gt" 'counsel-gtags-find-definition
+              "gu" 'counsel-gtags-update-tags
+              "i" 'counsel-imenu
               "mg" 'magit-status
               "oa" 'org-agenda
               "ob" 'org-ido-switchb
@@ -750,19 +791,17 @@ Otherwise call `ediff-buffers' interactively."
               "oci" 'org-clock-in
               "oco" 'org-clock-out
               "ot" 'org-todo-list
-              "pa" 'helm-projectile-ag
-              "pb" 'helm-projectile-switch-to-buffer
-              "pe" 'helm-projectile-switch-to-eshell
-              "pd" 'helm-projectile-find-dir
-              "pf" 'helm-projectile-find-file
-              "ph" 'helm-projectile
-              "po" 'helm-projectile-find-other-file
-              "pp" 'helm-projectile-switch-project
-              "pr" 'helm-projectile-recentf
-              "s" 'helm-swoop
-              "u" 'helm-unicode
+              "pb" 'counsel-projectile-switch-to-buffer
+              "pe" 'projectile-run-eshell
+              "pd" 'counsel-projectile-find-dir
+              "pf" 'counsel-projectile-find-file
+              "ph" 'counsel-projectile
+              "po" 'counsel-projectile-find-other-file
+              "pp" 'counsel-projectile-switch-project
+              "s" 'swiper
+              "u" 'counsel-unicode
               "v" 'er/expand-region
-              "x" 'helm-M-x
+              "x" 'counsel-M-x
               "zf" 'vimish-fold-avy
               "DEL" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
@@ -946,6 +985,12 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flyspell
   :diminish flyspell-mode)
 
+(use-package flyspell-correct-ivy
+  :ensure t
+  :after ivy
+  ;; use instead of ispell-word which evil binds to z=
+  :config (bind-key [remap ispell-word] 'flyspell-correct-word-generic))
+
 (use-package flx
   :ensure t)
 
@@ -964,92 +1009,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :commands (google-this google-error))
 
-(use-package helm-flx
-  :ensure t
-  :init (helm-flx-mode 1))
 
-(use-package helm
-  :ensure t
-  :diminish helm-mode
-  :after helm-flx ; enable hlm-flx before helm
-  :defer t
-  :bind (("M-x" . helm-M-x)
-         ("M-y" . helm-show-kill-ring)
-         ("C-x b" . helm-mini)
-         ("C-x C-b" . helm-buffers-list)
-         ("C-x C-f" . helm-find-files)
-         ("C-x C-r" . helm-recentf))
-  :config (progn
-            (require 'helm-config)
-            ;; silence byte-compile warnings
-            (eval-when-compile
-              (require 'helm-command)
-              (require 'helm-files))
-            (setq helm-M-x-fuzzy-match t
-                  helm-buffers-fuzzy-matching t
-                  helm-recentf-fuzzy-match t)
-            (helm-mode 1)
-            (helm-adaptive-mode 1)
-            (define-key isearch-mode-map (kbd "M-o") 'helm-occur-from-isearch)
-            ;; integrate with evil
-            (with-eval-after-load 'evil
-              (define-key evil-ex-map "b " 'helm-mini)
-              (define-key evil-ex-map "e " 'helm-find-files)
-              (evil-ex-define-cmd "ap[ropos]" 'helm-apropos)
-              (define-key evil-ex-map "ap " 'helm-apropos))))
-
-(use-package helm-ag
-  :ensure t
-  :config (progn
-            ;; integrate with evil
-            (with-eval-after-load 'evil
-              (evil-ex-define-cmd "ag" 'helm-ag)
-              (evil-ex-define-cmd "agi[nteractive]" 'helm-do-ag)
-              (define-key evil-ex-map "ag " 'helm-ag)
-              (define-key evil-ex-map "agi " 'helm-do-ag))))
-
-(use-package helm-flyspell
-  :ensure t
-  :config (with-eval-after-load 'evil
-            (define-key evil-normal-state-map "z=" 'helm-flyspell-correct)))
-
-(use-package helm-fuzzier
-  :ensure t
-  :after helm
-  :init (helm-fuzzier-mode 1))
-
-(defun apm-helm-gtags-setup ()
-  "Setup helm-gtags for various modes."
-  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-    (helm-gtags-mode 1)))
-
-(use-package helm-gtags
-  :ensure t
-  :after helm
-  :diminish helm-gtags-mode
-  :init (progn
-          (unless (executable-find "global")
-            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
-          (with-eval-after-load 'evil
-            (evil-define-key 'visual helm-gtags-mode-map (kbd "C-]")
-              #'helm-gtags-dwim)
-            (evil-define-key 'normal helm-gtags-mode-map (kbd "C-]")
-              #'helm-gtags-dwim)
-            (evil-define-key 'normal helm-gtags-mode-map (kbd "M-*")
-              #'helm-gtags-pop-stack))
-          ;; enable helm-gtags in all c common mode buffers
-          (add-hook 'c-mode-common-hook #'apm-helm-gtags-setup)))
-
-(use-package helm-projectile
-  :ensure t
-  :config (helm-projectile-on))
-
-(use-package helm-swoop
-  :ensure t
-  :commands (helm-swoop helm-multi-swoop))
-
-(use-package helm-unicode
-  :ensure t)
 
 (use-package hungry-delete
   :ensure t
@@ -1112,6 +1072,20 @@ Otherwise call `ediff-buffers' interactively."
             (setq ispell-program-name "aspell"
                   ispell-dictionary "british"
                   ispell-extra-args '("--sug-mode=ultra")))))
+
+(use-package ivy
+  :ensure t
+  :diminish ivy-mode
+  :commands (ivy-mode)
+  :bind (("C-c C-r" . ivy-resume))
+  :init (progn
+          (setq ivy-use-recent-buffers t
+                ivy-count-format ""
+                ivy-display-style 'fancy)
+          (bind-key [remap switch-to-buffer] 'ivy-switch-buffer)
+          (ivy-mode 1))
+  :config (with-eval-after-load 'evil
+            (define-key evil-ex-map "b " 'ivy-switch-buffer)))
 
 (use-package gdb-mi
   :defer t
@@ -1283,8 +1257,8 @@ Otherwise call `ediff-buffers' interactively."
             (add-to-list 'projectile-project-root-files ".clang_complete")
             (add-to-list 'projectile-project-root-files ".clang_complete.in")
             (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
-            (with-eval-after-load 'helm
-              (setq projectile-completion-system 'helm))))
+            (with-eval-after-load 'ivy
+              (setq projectile-completion-system 'ivy))))
 
 (defun apm-python-mode-setup ()
   "Tweaks and customisations for `python-mode'."
