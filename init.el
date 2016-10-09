@@ -1329,6 +1329,10 @@ Otherwise call `ediff-buffers' interactively."
             (dolist (mode '(c-mode c++-mode java-mode))
               (sp-local-pair mode "{" nil :post-handlers '((apm-c-mode-common-open-block "RET"))))))
 
+(use-package smex
+  :ensure t
+  :config (smex-initialize))
+
 (use-package smooth-scrolling
   :ensure t
   :config (progn
