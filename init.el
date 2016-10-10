@@ -346,6 +346,8 @@ code sections."
 (use-package company
   :ensure t
   :commands global-company-mode
+  ;; Use Company for completion
+  :bind (:map company-mode-map ([remap completion-at-point] . company-complete))
   :init (progn
           ;; set default lighter as nothing so in general it is not displayed
           ;; but will still be shown when completion popup is active to show the
@@ -353,9 +355,6 @@ code sections."
           (setq company-lighter-base "")
           (global-company-mode 1))
   :config (progn
-            ;; Use Company for completion
-            (bind-key [remap completion-at-point] #'company-complete company-mode-map)
-
             ;; some better default values
             (setq company-idle-delay 0.5)
             (setq company-tooltip-limit 10)
@@ -515,7 +514,8 @@ code sections."
 
 (use-package crux
   :ensure t
-  :config (global-set-key [remap move-beginning-of-line] #'crux-move-beginning-of-line))
+  :bind (([remap move-beginning-of-line] . crux-move-beginning-of-line)
+         ("C-c o" . crux-open-with)))
 
 (use-package cstyle
   :load-path "vendor/cstyle.el")
@@ -990,7 +990,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :after ivy
   ;; use instead of ispell-word which evil binds to z=
-  :config (bind-key [remap ispell-word] 'flyspell-correct-word-generic))
+  :bind (([remap ispell-word] . flyspell-correct-word-generic)))
 
 (use-package flx
   :ensure t)
@@ -1010,8 +1010,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :commands (google-this google-error))
 
-
-
 (use-package hungry-delete
   :ensure t
   :diminish hungry-delete-mode
@@ -1019,10 +1017,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-irony-mode-setup ()
   "Setup irony-mode."
-  (define-key irony-mode-map [remap completion-at-point]
-    'irony-completion-at-point-async)
-  (define-key irony-mode-map [remap complete-symbol]
-    'irony-completion-at-point-async)
   (irony-cdb-autosetup-compile-options)
   (with-eval-after-load 'company-irony
     (company-irony-setup-begin-commands))
@@ -1051,6 +1045,8 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :diminish irony-mode
   :commands (irony-mode)
+  :bind (:irony-mode-map ([remap completion-at-point] . irony-completion-at-point-async)
+                         ([remap complete-symbol] . irony-completion-at-point-async))
   :init (progn
           (advice-add 'irony-cdb-clang-complete :before 'apm-irony-cdb-clang-complete--auto-generate-clang-complete)
           (add-hook 'c-mode-hook 'irony-mode)
@@ -1078,12 +1074,12 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :diminish ivy-mode
   :commands (ivy-mode)
-  :bind (("C-c C-r" . ivy-resume))
+  :bind (("C-c C-r" . ivy-resume)
+         ([remap switch-to-buffer] . ivy-switch-buffer))
   :init (progn
           (setq ivy-use-recent-buffers t
                 ivy-count-format ""
                 ivy-display-style 'fancy)
-          (bind-key [remap switch-to-buffer] 'ivy-switch-buffer)
           (ivy-mode 1))
   :config (with-eval-after-load 'evil
             (define-key evil-ex-map "b " 'ivy-switch-buffer)))
