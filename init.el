@@ -212,10 +212,11 @@
           (setq android-mode-sdk-dir (expand-file-name "~/android-sdk-linux/")
                 android-mode-key-prefix (kbd "C-c C-m"))
           (add-hook 'java-mode-hook #'android-mode))
-  :diminish (android-mode . " \uf17b "))
+  :diminish (android-mode . "  "))
 
 (use-package anaconda-mode
   :ensure t
+  :diminish (anaconda-mode . " 🐍 ")
   ;; enable with apm-python-mode-setup below
   :defer t)
 
@@ -660,7 +661,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-eshell-mode-setup ()
   "Initialise 'eshell-mode'."
-  (setq mode-name "e\uF120"))
+  (setq mode-name ""))
 
 (use-package eshell
   :commands eshell
@@ -1389,7 +1390,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-web-mode-setup ()
   "Setup web mode."
-  (setq mode-name "\uF0AC"))
+  (setq mode-name ""))
 
 (use-package web-mode
   :ensure t
