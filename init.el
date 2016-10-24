@@ -478,27 +478,6 @@ code sections."
     (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
     (define-key evil-ex-map "ap " 'counsel-apropos)))
 
-(defun apm-counsel-gtags-setup ()
-  "Setup conusel-gtags for various modes."
-  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-    (counsel-gtags-mode 1)))
-
-(use-package counsel-gtags
-  :load-path "vendor/cstyle.el"
-  :after counsel
-  :diminish counsel-gtags-mode
-  :init (progn
-          (unless (executable-find "global")
-            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
-          (with-eval-after-load 'evil
-            (evil-define-key 'visual counsel-gtags-mode-map (kbd "C-]")
-              #'counsel-gtags-dwim)
-            (evil-define-key 'normal counsel-gtags-mode-map (kbd "C-]")
-              #'counsel-gtags-dwim)
-            (evil-define-key 'normal counsel-gtags-mode-map (kbd "M-*")
-              #'counsel-gtags-pop))
-          (add-hook 'c-mode-common-hook #'apm-counsel-gtags-setup)))
-
 (use-package counsel-projectile
   :ensure t
   :init (counsel-projectile-on))
@@ -703,9 +682,12 @@ Otherwise call `ediff-buffers' interactively."
             (setq evil-insert-state-cursor '("#de935f" bar))
             (setq evil-emacs-state-cursor '("#cc6666" box))
 
+            ;; TODO: move these into their own mode-specific sections since
+            ;; evil shouldn't have to know about every other mode...
             (dolist (mode '(bs-mode
                             comint-mode
                             eshell-mode
+                            ggtags-global-mode
                             git-rebase-mode
                             jenkins-mode
                             jenkins-job-view-mode
@@ -776,11 +758,11 @@ Otherwise call `ediff-buffers' interactively."
               "ge" 'google-error
               "gg" 'counsel-git-grep
               "go" 'google-this
-              "gc" 'counsel-gtags-create-tags
-              "gr" 'counsel-gtags-find-reference
-              "gs" 'counsel-gtags-find-symbol
-              "gt" 'counsel-gtags-find-definition
-              "gu" 'counsel-gtags-update-tags
+              "gc" 'ggtags-create-tags
+              "gr" 'ggtags-delete-tags
+              "gs" 'ggtags-find-other-symbol
+              "gt" 'ggtags-find-definition
+              "gu" 'ggtags-update-tags
               "i" 'counsel-imenu
               "mg" 'magit-status
               "oa" 'org-agenda
@@ -997,6 +979,27 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package fuzzy
   :ensure t)
+
+(defun apm-ggtags-setup ()
+  "Setup conusel-gtags for various modes."
+  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+    (ggtags-mode 1)))
+
+(use-package ggtags
+  :ensure t
+  :defer t
+  :diminish (ggtags-mode ggtags-navigation-mode)
+  :init (progn
+          (unless (executable-find "global")
+            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
+          (add-hook 'c-mode-common-hook #'apm-ggtags-setup))
+  :config (with-eval-after-load 'evil
+            (evil-define-key 'visual ggtags-mode-map (kbd "C-]")
+              #'ggtags-find-tag-dwim)
+            (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
+              #'ggtags-find-tag-dwim)
+            (evil-define-key 'normal ggtags-mode-map (kbd "M-*")
+              #'pop-tag-mark)))
 
 (use-package gitconfig-mode
   :ensure t
