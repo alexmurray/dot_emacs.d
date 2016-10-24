@@ -1333,12 +1333,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (smex-initialize))
 
-(use-package smooth-scrolling
-  :ensure t
-  :config (progn
-            (setq smooth-scroll-margin 2)
-            (smooth-scrolling-mode 1)))
-
 (use-package solarized-theme
   :ensure t
   :config (progn
