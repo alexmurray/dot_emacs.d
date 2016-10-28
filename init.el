@@ -610,8 +610,7 @@ Otherwise call `ediff-buffers' interactively."
   :init (progn
           ;; electric indent and layout modes to make more IDE like
           (electric-indent-mode 1)
-          (electric-layout-mode 1)
-          (electric-quote-mode 1)))
+          (electric-layout-mode 1)))
 
 (use-package elisp-slime-nav
   :ensure t
