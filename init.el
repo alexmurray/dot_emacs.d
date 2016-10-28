@@ -691,6 +691,7 @@ Otherwise call `ediff-buffers' interactively."
                             jenkins-mode
                             jenkins-job-view-mode
                             inferior-emacs-lisp-mode
+                            log-edit-mode
                             magit-branch-manager-mode
                             magit-popup-mode
                             magit-popup-sequence-mode
@@ -1136,6 +1137,22 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package lisp-mode
   :config (add-hook 'emacs-lisp-mode-hook #'apm-emacs-lisp-mode-setup))
+
+(defun apm-log-edit-insert-yasnippet-template ()
+  "Insert the default template with Summary and Author."
+  (interactive)
+  (when (or (called-interactively-p 'interactive)
+            (log-edit-empty-buffer-p))
+    (yas-expand-snippet "${1:Summary of this change}
+
+${2:Longer description of this change}
+
+${3:Ticket: #${4:XXXX}}")))
+
+(use-package log-edit
+  :config (progn
+            (add-hook 'log-edit-hook 'apm-log-edit-insert-yasnippet-template)
+            (remove-hook 'log-edit-hook 'log-edit-insert-message-template)))
 
 (use-package magit
   :ensure t
