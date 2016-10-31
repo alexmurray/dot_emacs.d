@@ -697,7 +697,6 @@ Otherwise call `ediff-buffers' interactively."
                             jenkins-mode
                             jenkins-job-view-mode
                             inferior-emacs-lisp-mode
-                            log-edit-mode
                             magit-branch-manager-mode
                             magit-popup-mode
                             magit-popup-sequence-mode
@@ -1157,6 +1156,8 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package log-edit
   :config (progn
+            (with-eval-after-load 'evil
+              (evil-set-initial-state 'log-edit-mode 'insert))
             (add-hook 'log-edit-hook 'apm-log-edit-insert-yasnippet-template)
             (remove-hook 'log-edit-hook 'log-edit-insert-message-template)))
 
