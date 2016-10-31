@@ -441,6 +441,12 @@ code sections."
   :after company
   :config (company-statistics-mode 1))
 
+(use-package company-tracwiki
+  :load-path "vendor/company-tracwiki.el"
+  :defer t
+  :after company tracwiki-mode
+  :init (add-to-list 'company-backends 'company-tracwiki))
+
 (use-package company-try-hard
   :ensure t
   :after company
