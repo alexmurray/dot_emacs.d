@@ -548,6 +548,12 @@ code sections."
 (use-package diminish
   :ensure t)
 
+(use-package doxyas
+  :load-path "vendor/doxyas.el"
+  :commands doxyas-document-function
+  ;; defer since is bound via evil-leader
+  :defer t)
+
 (defun apm-doxymacs-setup()
   (doxymacs-mode)
   (doxymacs-font-lock))
@@ -1428,12 +1434,6 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package whitespace
   :diminish whitespace-mode)
-
-(use-package yadoxygen
-  :load-path "vendor/yadoxygen.el"
-  :commands yadoxygen-document-function
-  ;; defer since is bound via evil-leader
-  :defer t)
 
 (use-package yasnippet
   :ensure t
