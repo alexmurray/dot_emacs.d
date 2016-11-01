@@ -3,4 +3,4 @@
 # key: dox
 # type: command
 # --
-(apm-insert-doxygen-function-snippet)
+(yadoxygen-document-function)
