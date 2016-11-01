@@ -757,6 +757,7 @@ Otherwise call `ediff-buffers' interactively."
               "c" 'avy-goto-char
               "a" 'counsel-ag
               "b" 'ivy-switch-buffer
+              "df" 'yadoxygen-document-function
               "fc" 'flycheck-buffer
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
@@ -1428,51 +1429,11 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package whitespace
   :diminish whitespace-mode)
 
-(defun apm-insert-doxygen-function-snippet ()
-  "Generate and expand a yasnippet template for function."
-  (unless (or semantic-mode (require 'semantic nil t))
-    (error "Semantic required to use dox snippet"))
-  (let ((semantic-enabled semantic-mode))
-    (unless semantic-enabled
-      (semantic-mode 1)
-      (semantic-fetch-tags))
-    (let ((tag (senator-next-tag)))
-      (while (or (null tag)
-                 (not (semantic-tag-of-class-p tag 'function)))
-        (setq tag (senator-next-tag)))
-      (let* ((name (semantic-tag-name tag))
-             (attrs (semantic-tag-attributes tag))
-             (args (plist-get attrs :arguments))
-             (return-name (plist-get attrs :type))
-             (idx 1))
-        (if (and (= 1 (length args))
-                 (string-equal "" (car (car args))))
-            (setq args nil))
-        (if (listp return-name)
-            (setq return-name (car return-name)))
-        (yas-expand-snippet
-         (format
-          "/**
-* @brief ${1:%s}
-*
-%s%s*/
-"
-          name
-          (if args
-              (concat
-               (mapconcat
-                (lambda (x)
-                  (format "* @param %s ${%d:Description of %s}"
-                          (car x) (incf idx) (car x)))
-                args
-                "\n")
-               "\n")
-            "")
-          (if (and return-name (not (string-equal "void" return-name)))
-              (format " * @return ${%d:%s}\n" (incf idx) return-name)
-            "")))))
-    (unless semantic-enabled
-      (semantic-mode 0))))
+(use-package yadoxygen
+  :load-path "vendor/yadoxygen.el"
+  :commands yadoxygen-document-function
+  ;; defer since is bound via evil-leader
+  :defer t)
 
 (use-package yasnippet
   :ensure t
