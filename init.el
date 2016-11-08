@@ -237,6 +237,17 @@
   :init (dolist (hook '(c-mode-hook c++-mode-hook))
           (add-hook hook 'apm-c-mode-setup)))
 
+(defun apm-appt-notify (time-to-appt time msg)
+  "Notify for appointment at TIME-TO-APPT TIME MSG alert."
+  (alert msg
+         :title (format "Appointment in %s minutes" time-to-appt)
+         :severity 'high))
+
+(use-package appt
+  :config (progn
+            (setq appt-disp-window-function #'apm-appt-notify)
+            (appt-activate 1)))
+
 (use-package apropos
   :bind ("C-h a" . apropos))
 
@@ -1220,13 +1231,24 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package org
   :ensure t
   :init (setq org-agenda-files '("~/Documents/personal.org"
-                                 "~/Documents/cohda.org")))
+                                 "~/Documents/cohda.org")
+              org-imenu-depth 4))
 
-(use-package org-agenda)
+(defun apm-update-appointments-on-agenda-save ()
+  "Rebuild appointments when saving any org agenda files."
+  (when (member (buffer-file-name) org-agenda-files)
+    (org-agenda-to-appt t)))
+
+(use-package org-agenda
+  :config (progn
+            ;; when saving agenda files make sure to update appt
+            (add-hook 'after-save-hook #'apm-update-appointments-on-agenda-save)
+            ;; rebuild appointments now
+            (org-agenda-to-appt t)))
 
 (use-package org-alert
   :ensure t
-  :disabled t
+  :after org-agenda
   :config (org-alert-enable))
 
 (use-package org-clock
@@ -1239,6 +1261,12 @@ ${3:Ticket: #${4:XXXX}}")))
   :bind (:map org-agenda-mode-map
               ("S-<up>" . org-clock-convenience-timestamp-up)
               ("S-<down>" . org-clock-convenience-timestamp-down)))
+
+(use-package org-notify
+  :config (progn
+            (org-notify-start)
+            (org-notify-add 'default '(:time "15m" :actions -notify/window
+                                             :period "2m" :duration 120))))
 
 (use-package paradox
   :ensure t
