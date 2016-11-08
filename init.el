@@ -179,6 +179,12 @@
 (add-hook 'text-mode-hook #'apm-text-mode-setup)
 
 ;;; Packages
+(use-package abbrev
+  :diminish abbrev-mode
+  :config (progn
+            (setq save-abbrevs t)
+            (setq-default abbrev-mode t)))
+
 (use-package ace-window
   :ensure t
   :defer t
@@ -186,12 +192,6 @@
 
 (use-package adaptive-wrap
   :ensure t)
-
-(use-package abbrev
-  :diminish abbrev-mode
-  :config (progn
-            (setq save-abbrevs t)
-            (setq-default abbrev-mode t)))
 
 (use-package aggressive-indent
   :ensure t
