@@ -782,6 +782,7 @@ Otherwise call `ediff-buffers' interactively."
               "gg" 'counsel-git-grep
               "go" 'google-this
               "gc" 'ggtags-create-tags
+              "gd" 'ggtags-delete-tags
               "gr" 'ggtags-delete-tags
               "gs" 'ggtags-find-other-symbol
               "gt" 'ggtags-find-definition
@@ -804,6 +805,7 @@ Otherwise call `ediff-buffers' interactively."
               "ph" 'counsel-projectile
               "po" 'counsel-projectile-find-other-file
               "pp" 'counsel-projectile-switch-project
+              "r" 'ivy-recentf
               "s" 'swiper
               "u" 'counsel-unicode
               "v" 'er/expand-region
@@ -1355,6 +1357,11 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package sh-script
   :init (setq-default sh-basic-offset 2
                       sh-indentation 2))
+
+(use-package simple
+  ;; save whatever is in the system clipboard to the kill ring before killing
+  ;; something else into the kill ring
+  :init (setq save-interprogram-paste-before-kill t))
 
 ;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
 (defun apm-c-mode-common-open-block (&rest ignored)
