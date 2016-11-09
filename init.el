@@ -1253,10 +1253,15 @@ ${3:Ticket: #${4:XXXX}}")))
   :after org-agenda
   :config (org-alert-enable))
 
+(defun apm-org-clock-heading ()
+  "Create `org-clock-heading' by truncating if needed."
+  (s-truncate 8 (nth 4 (org-heading-components))))
+
 (use-package org-clock
   :after org
   ;; assume idle after 5 minutes
-  :init (setq org-clock-idle-time 5))
+  :init (setq org-clock-idle-time 5
+              org-clock-heading-function #'apm-org-clock-heading))
 
 (use-package org-clock-convenience
   :ensure t
