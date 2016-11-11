@@ -241,7 +241,7 @@
   "Notify for appointment at TIME-TO-APPT TIME MSG alert."
   (alert msg
          :title (format "Appointment in %s minutes" time-to-appt)
-         :severity 'high))
+         :icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"))
 
 (use-package appt
   :config (progn
