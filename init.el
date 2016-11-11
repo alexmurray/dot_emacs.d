@@ -1339,6 +1339,9 @@ ${3:Ticket: #${4:XXXX}}")))
             (with-eval-after-load 'ivy
               (setq projectile-completion-system 'ivy))))
 
+(use-package psvn
+  :ensure t)
+
 (defun apm-python-mode-setup ()
   "Tweaks and customisations for `python-mode'."
   (setq python-indent-offset 4)
