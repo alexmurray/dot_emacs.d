@@ -787,7 +787,7 @@ Otherwise call `ediff-buffers' interactively."
               "go" 'google-this
               "gc" 'ggtags-create-tags
               "gd" 'ggtags-delete-tags
-              "gr" 'ggtags-delete-tags
+              "gr" 'ggtags-find-reference
               "gs" 'ggtags-find-other-symbol
               "gt" 'ggtags-find-definition
               "gu" 'ggtags-update-tags
@@ -811,7 +811,7 @@ Otherwise call `ediff-buffers' interactively."
               "pp" 'counsel-projectile-switch-project
               "r" 'ivy-recentf
               "s" 'swiper
-              "u" 'counsel-unicode
+              "u" 'counsel-unicode-char
               "v" 'er/expand-region
               "x" 'counsel-M-x
               "zf" 'vimish-fold-avy
