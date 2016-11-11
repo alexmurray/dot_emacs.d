@@ -793,6 +793,7 @@ Otherwise call `ediff-buffers' interactively."
               "gu" 'ggtags-update-tags
               "i" 'counsel-imenu
               "mg" 'magit-status
+              "ms" 'svn-status
               "oa" 'org-agenda
               "ob" 'org-ido-switchb
               "oca" 'org-capture
