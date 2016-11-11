@@ -1230,9 +1230,8 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package move-text
   :ensure t
-  :bind
-  (([(meta shift up)] . move-text-up)
-   ([(meta shift down)] . move-text-down)))
+  :bind (([(meta shift up)] . move-text-up)
+         ([(meta shift down)] . move-text-down)))
 
 (use-package org
   :ensure t
