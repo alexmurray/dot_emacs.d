@@ -642,7 +642,11 @@ Otherwise call `ediff-buffers' interactively."
           (add-hook hook #'elisp-slime-nav-mode))
   :config (with-eval-after-load 'evil
             (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
-              #'elisp-slime-nav-find-elisp-thing-at-point)))
+              #'elisp-slime-nav-find-elisp-thing-at-point)
+            (evil-define-key 'visual elisp-slime-nav-mode-map (kbd "C-]")
+              #'elisp-slime-nav-find-elisp-thing-at-point)
+            (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "M-*")
+              #'pop-tag-mark)))
 
 (defun apm-erc-alert (&optional match-type nick message)
   "Show an alert when nick mentioned with MATCH-TYPE NICK and MESSAGE."
