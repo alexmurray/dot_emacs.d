@@ -1340,7 +1340,8 @@ ${3:Ticket: #${4:XXXX}}")))
               (setq projectile-completion-system 'ivy))))
 
 (use-package psvn
-  :ensure t)
+  :ensure t
+  :init (setq svn-status-state-mark-modeline nil))
 
 (defun apm-python-mode-setup ()
   "Tweaks and customisations for `python-mode'."
