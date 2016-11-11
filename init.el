@@ -1236,9 +1236,12 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package org
   :ensure t
-  :init (setq org-agenda-files '("~/Documents/personal.org"
-                                 "~/Documents/cohda.org")
-              org-imenu-depth 4))
+  :init (setq org-agenda-files (mapcar #'expand-file-name
+                                       '("~/Documents/personal.org"
+                                         "~/Documents/cohda.org"))
+              org-imenu-depth 4
+              org-todo-keywords '((sequence "TODO(t)" "STARTED(s)" "|" "DONE(d)")
+                                  (sequence "|" "CANCELLED(c)"))))
 
 (defun apm-update-appointments-on-agenda-save ()
   "Rebuild appointments when saving any org agenda files."
@@ -1264,8 +1267,15 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package org-clock
   :after org
   ;; assume idle after 5 minutes
-  :init (setq org-clock-idle-time 5
-              org-clock-heading-function #'apm-org-clock-heading))
+  :config (progn
+            (setq org-clock-idle-time 5
+                  org-clock-heading-function #'apm-org-clock-heading
+                  org-clock-persist 'history
+                  ;; insert a CLOSED timestamp when TODOs are marked DONE
+                  org-log-done 'time)
+            (unless (executable-find "xprintidle")
+              (alert "xprintidle not found - is it installed?" ))
+            (org-clock-persistence-insinuate)))
 
 (use-package org-clock-convenience
   :ensure t
