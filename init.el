@@ -1255,11 +1255,6 @@ ${3:Ticket: #${4:XXXX}}")))
             ;; rebuild appointments now
             (org-agenda-to-appt t)))
 
-(use-package org-alert
-  :ensure t
-  :after org-agenda
-  :config (org-alert-enable))
-
 (defun apm-org-clock-heading ()
   "Create `org-clock-heading' by truncating if needed."
   (s-truncate 8 (nth 4 (org-heading-components))))
