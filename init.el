@@ -1240,7 +1240,7 @@ ${3:Ticket: #${4:XXXX}}")))
                                        '("~/Documents/personal.org"
                                          "~/Documents/cohda.org"))
               org-imenu-depth 4
-              org-todo-keywords '((sequence "TODO(t)" "STARTED(s)" "|" "DONE(d)")
+              org-todo-keywords '((sequence "TODO(t)" "STARTED(s)" "BLOCKED(b)" "|" "DONE(d)")
                                   (sequence "|" "CANCELLED(c)"))))
 
 (defun apm-update-appointments-on-agenda-save ()
