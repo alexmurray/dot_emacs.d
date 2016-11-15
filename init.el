@@ -1241,7 +1241,7 @@ ${3:Ticket: #${4:XXXX}}")))
                                          "~/Documents/cohda.org"))
               org-imenu-depth 4
               org-todo-keywords '((sequence "TODO(t)" "STARTED(s)" "BLOCKED(b)" "|" "DONE(d)")
-                                  (sequence "|" "CANCELLED(c)"))))
+                                  (sequence "|" "CANCELLED(c)" "DELEGATED(D)"))))
 
 (defun apm-update-appointments-on-agenda-save ()
   "Rebuild appointments when saving any org agenda files."
