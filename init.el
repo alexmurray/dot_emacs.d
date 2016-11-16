@@ -1266,6 +1266,12 @@ ${3:Ticket: #${4:XXXX}}")))
   "Create `org-clock-heading' by truncating if needed."
   (s-truncate 8 (nth 4 (org-heading-components))))
 
+(defun apm-org-notify-if-not-clocked-in ()
+  "Notify when not clocked in."
+  (interactive)
+  (unless org-clock-current-task
+    (alert "You're not clocked in!")))
+
 (use-package org-clock
   :after org
   ;; assume idle after 5 minutes
@@ -1277,7 +1283,9 @@ ${3:Ticket: #${4:XXXX}}")))
                   org-log-done 'time)
             (unless (executable-find "xprintidle")
               (alert "xprintidle not found - is it installed?" ))
-            (org-clock-persistence-insinuate)))
+            (org-clock-persistence-insinuate)
+            ;; notify if not clocked in
+            (run-with-timer 60 60 #'apm-org-notify-if-not-clocked-in)))
 
 (use-package org-clock-convenience
   :ensure t
