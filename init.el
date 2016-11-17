@@ -810,7 +810,8 @@ Otherwise call `ediff-buffers' interactively."
               "ph" 'counsel-projectile
               "po" 'counsel-projectile-find-other-file
               "pp" 'counsel-projectile-switch-project
-              "r" 'ivy-recentf
+              "pr" 'projectile-recentf
+              "r" 'counsel-recentf
               "s" 'swiper
               "u" 'counsel-unicode-char
               "v" 'er/expand-region
