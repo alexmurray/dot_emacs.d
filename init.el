@@ -1238,29 +1238,30 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package org
   :ensure t
   :init (setq org-agenda-files (mapcar #'expand-file-name
-                                       '("~/Documents/personal.org"
-                                         "~/Documents/cohda.org"))
+                                       '("~/Dropbox/Orgzly/personal.org"
+                                         "~/Dropbox/Orgzly/cohda.org"))
               org-imenu-depth 4
               org-todo-keywords '((sequence "TODO(t)" "STARTED(s)" "BLOCKED(b)" "|" "DONE(d)")
                                   (sequence "|" "CANCELLED(c)" "DELEGATED(D)"))))
 
-(defun apm-update-appointments-on-agenda-save ()
-  "Rebuild appointments when saving any org agenda files."
-  (when (member (buffer-file-name) org-agenda-files)
-    (org-agenda-to-appt t)))
+(defun apm-org-agenda-file-notify (event)
+  "Rebuild appointments when EVENT specifies any org agenda files change."
+  (org-agenda-to-appt t))
 
 (use-package org-agenda
   :config (progn
-            ;; when saving agenda files make sure to update appt
-            (add-hook 'after-save-hook #'apm-update-appointments-on-agenda-save)
+            ;; when modifying agenda files make sure to update appt
+            (require 'filenotify)
+            (dolist (file org-agenda-files)
+              (file-notify-add-watch file '(change) #'apm-org-agenda-file-notify))
             ;; rebuild appointments now
             (org-agenda-to-appt t)))
 
 (use-package org-capture
   :after org
-  :config (setq org-capture-templates '(("t" "Todo" entry (file "~/Documents/cohda.org")
+  :config (setq org-capture-templates '(("t" "Todo" entry (file "~/Dropbox/Orgzly/cohda.org")
                                          "* TODO %?")
-                                        ("p" "Project" entry (file "~/Documents/cohda.org")
+                                        ("p" "Project" entry (file "~/Dropbox/Orgzly/cohda.org")
                                          "* %?"))))
 
 (defun apm-org-clock-heading ()
