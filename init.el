@@ -478,12 +478,14 @@ code sections."
 
 (use-package counsel
   :ensure t
-  :bind (("M-x" . counsel-M-x)
+  :bind (([remap execute-extended-command] . counsel-M-x)
+         ([remap find-file] . counsel-find-file)
+         ([remap describe-function]        . counsel-describe-function)
+         ([remap describe-variable]        . counsel-describe-variable)
+         ([remap info-lookup-symbol]       . counsel-info-lookup-symbol)
+         ([remap completion-at-point]      . counsel-company)
          ("M-y" . counsel-yank-pop)
-         ("C-x C-f" . counsel-find-file)
-         ("C-x C-i" . counsel-imenu)
-         ("C-h f" . counsel-describe-function)
-         ("C-h v" . counsel-describe-variable))
+         ("C-x C-i" . counsel-imenu))
   :init (progn
           (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
           (setq counsel-find-file-at-point t))
