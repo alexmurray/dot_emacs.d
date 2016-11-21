@@ -1309,6 +1309,10 @@ ${3:Ticket: #${4:XXXX}}")))
   ;; don't bother trying to integrate with github
   :init (setq paradox-github-token nil))
 
+(use-package paren-face
+  :ensure t
+  :config (global-paren-face-mode 1))
+
 (use-package pcap-mode
   :ensure t
   :mode ("\\.pcapng\\'" . pcap-mode))
