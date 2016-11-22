@@ -299,6 +299,10 @@
 (use-package bs
   :bind ("C-x C-b" . bs-show))
 
+(use-package bug-reference
+  :config (setq bug-reference-url-format "http://projects.cohda.wireless:8000/trac/mk2/ticket/%s"
+                bug-reference-bug-regexp "\\([Tt]icket ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)"))
+
 ;; show #if 0 / #endif etc regions in comment face - taken from
 ;; http://stackoverflow.com/questions/4549015/in-c-c-mode-in-emacs-change-face-of-code-in-if-0-endif-block-to-comment-fa
 (defun c-mode-font-lock-if0 (limit)
@@ -1324,6 +1328,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (defun apm-prog-mode-setup ()
   "Tweaks and customisations for all programming modes."
+  (bug-reference-prog-mode 1)
   ;; turn on spell checking for strings and comments
   (flyspell-prog-mode)
   ;; use drag stuff
