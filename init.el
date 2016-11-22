@@ -1247,8 +1247,8 @@ ${3:Ticket: #${4:XXXX}}")))
                                        '("~/Dropbox/Orgzly/personal.org"
                                          "~/Dropbox/Orgzly/cohda.org"))
               org-imenu-depth 4
-              org-todo-keywords '((sequence "TODO(t)" "STARTED(s)" "BLOCKED(b)" "|" "DONE(d)")
-                                  (sequence "|" "CANCELLED(c)" "DELEGATED(D)"))))
+              org-todo-keywords '((sequence "TODO(t)" "STARTED(s!)" "BLOCKED(b@)" "|" "DONE(d!)")
+                                  (sequence "|" "CANCELLED(c@)" "DELEGATED(D@)"))))
 
 (defun apm-org-agenda-file-notify (event)
   "Rebuild appointments when EVENT specifies any org agenda files change."
@@ -1284,13 +1284,16 @@ ${3:Ticket: #${4:XXXX}}")))
   :after org
   ;; assume idle after 5 minutes
   :config (progn
-            (setq org-clock-idle-time 5
+            (setq org-clock-idle-time 10
                   org-clock-heading-function #'apm-org-clock-heading
-                  org-clock-persist 'history
+                  ;; save running clock and all history when exiting emacs
+                  org-clock-persist t
                   ;; insert a CLOSED timestamp when TODOs are marked DONE
                   org-log-done 'time)
-            (unless (executable-find "xprintidle")
+            (if (executable-find "xprintidle")
+                (setq org-clock-x11idle-program-name "xprintidle")
               (alert "xprintidle not found - is it installed?" ))
+            ;; reload any saved org clock information on startup
             (org-clock-persistence-insinuate)
             ;; notify if not clocked in
             (run-with-timer 60 60 #'apm-org-notify-if-not-clocked-in)))
