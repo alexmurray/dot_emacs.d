@@ -39,8 +39,8 @@
 
 (use-package alert
   :ensure t
-  :init (when (eq system-type 'gnu/linux)
-          (setq alert-default-style 'notifications)))
+  :config (when (eq system-type 'gnu/linux)
+            (setq alert-default-style 'notifications)))
 
 ;; some useful functions for the rest of this init file
 (defun apm-camelize (s &optional delim)
@@ -418,12 +418,12 @@ code sections."
 (use-package company-irony-c-headers
   :ensure t
   :after company
-  :init (progn
-          (setq company-irony-c-headers--compiler-executable
-                (or (executable-find "clang++")
-                    (executable-find "clang++-3.5")))
-          ;; group with company-irony but beforehand so we get first pick
-          (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
+  :config (progn
+            (setq company-irony-c-headers--compiler-executable
+                  (or (executable-find "clang++")
+                      (executable-find "clang++-3.5")))
+            ;; group with company-irony but beforehand so we get first pick
+            (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
 
 (use-package company-emoji
   :ensure t
@@ -482,6 +482,7 @@ code sections."
 
 (use-package counsel
   :ensure t
+  :defines evil-ex-map
   :bind (([remap execute-extended-command] . counsel-M-x)
          ([remap find-file] . counsel-find-file)
          ([remap describe-function]        . counsel-describe-function)
@@ -496,7 +497,6 @@ code sections."
   :config
   ;; integrate with evil
   (with-eval-after-load 'evil
-
     (define-key evil-ex-map "e " 'counsel-find-files)
     (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
     (define-key evil-ex-map "ap " 'counsel-apropos)))
@@ -1114,6 +1114,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :diminish ivy-mode
   :commands (ivy-mode)
+  :defines (ivy-use-recent-buffers)
   :bind (("C-c C-r" . ivy-resume)
          ([remap switch-to-buffer] . ivy-switch-buffer))
   :init (progn
@@ -1243,12 +1244,12 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package org
   :ensure t
-  :init (setq org-agenda-files (mapcar #'expand-file-name
-                                       '("~/Dropbox/Orgzly/personal.org"
-                                         "~/Dropbox/Orgzly/cohda.org"))
-              org-imenu-depth 4
-              org-todo-keywords '((sequence "TODO(t)" "STARTED(s!)" "BLOCKED(b@)" "|" "DONE(d!)")
-                                  (sequence "|" "CANCELLED(c@)" "DELEGATED(D@)"))))
+  :config (setq org-agenda-files (mapcar #'expand-file-name
+                                         '("~/Dropbox/Orgzly/personal.org"
+                                           "~/Dropbox/Orgzly/cohda.org"))
+                org-imenu-depth 4
+                org-todo-keywords '((sequence "TODO(t)" "STARTED(s!)" "BLOCKED(b@)" "|" "DONE(d!)")
+                                    (sequence "|" "CANCELLED(c@)" "DELEGATED(D@)"))))
 
 (defun apm-org-agenda-file-notify (event)
   "Rebuild appointments when EVENT specifies any org agenda files change."
@@ -1274,12 +1275,6 @@ ${3:Ticket: #${4:XXXX}}")))
   "Create `org-clock-heading' by truncating if needed."
   (s-truncate 8 (nth 4 (org-heading-components))))
 
-(defun apm-org-notify-if-not-clocked-in ()
-  "Notify when not clocked in."
-  (interactive)
-  (unless org-clock-current-task
-    (alert "You're not clocked in!")))
-
 (use-package org-clock
   :after org
   ;; assume idle after 5 minutes
@@ -1296,7 +1291,9 @@ ${3:Ticket: #${4:XXXX}}")))
             ;; reload any saved org clock information on startup
             (org-clock-persistence-insinuate)
             ;; notify if not clocked in
-            (run-with-timer 60 60 #'apm-org-notify-if-not-clocked-in)))
+            (run-with-timer 60 60 #'(lambda ()
+                                      (unless org-clock-current-task
+                                        (alert "You're not clocked in!"))))))
 
 (use-package org-clock-convenience
   :ensure t
@@ -1359,12 +1356,13 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package projectile
   :ensure t
   :defer t
+  :defines (projectile-enable-caching)
   :diminish projectile-mode
   :bind (("C-x C-m" . projectile-compile-project)
          ("C-x C-g" . projectile-find-file))
   :init (progn
           (setq projectile-enable-caching t)
-          (projectile-global-mode))
+          (projectile-mode 1))
   :config (progn
             (add-to-list 'projectile-project-root-files "configure.ac")
             (add-to-list 'projectile-project-root-files ".clang_complete")
@@ -1375,7 +1373,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package psvn
   :ensure t
-  :init (setq svn-status-state-mark-modeline nil))
+  :config (setq svn-status-state-mark-modeline nil))
 
 (defun apm-python-mode-setup ()
   "Tweaks and customisations for `python-mode'."
@@ -1464,9 +1462,9 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package spaceline-config
   :ensure spaceline
-  :init (setq spaceline-workspace-numbers-unicode t
-              spaceline-window-numbers-unicode t)
   :config (progn
+            (setq spaceline-workspace-numbers-unicode t
+                  spaceline-window-numbers-unicode t)
             (require 'spaceline-config)
             ;; show evil state with colour change
             (setq spaceline-highlight-face-func #'spaceline-highlight-face-evil-state)
