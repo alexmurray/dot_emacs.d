@@ -1326,6 +1326,14 @@ ${3:Ticket: #${4:XXXX}}")))
   ;; only try and install when needed
   :mode ("\\.pdf\\'" . pdf-tools-install))
 
+(use-package plantuml-mode
+  :ensure t
+  :mode ("\\.uml\\'" . plantuml-mode)
+  :config (progn
+            (setq plantuml-jar-path (expand-file-name "~/plantuml.jar"))
+            (unless (file-exists-p plantuml-jar-path)
+              (alert (format "plantuml not found at %s" plantuml-jar-path)))))
+
 (defun apm-prog-mode-setup ()
   "Tweaks and customisations for all programming modes."
   (bug-reference-prog-mode 1)
