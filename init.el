@@ -253,7 +253,6 @@
 
 (use-package asn1-mode
   :ensure t
-  :load-path "vendor/"
   :mode (("\\.asn1?$" . asn1-mode)))
 
 (use-package autorevert
@@ -999,7 +998,7 @@ Otherwise call `ediff-buffers' interactively."
   :config (flycheck-package-setup))
 
 (use-package flycheck-plantuml
-  :load-path "vendor/"
+  :ensure t
   :after flycheck
   :config (flycheck-plantuml-setup))
 
