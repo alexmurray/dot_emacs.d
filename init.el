@@ -996,7 +996,12 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :after flycheck
-  :init (flycheck-package-setup))
+  :config (flycheck-package-setup))
+
+(use-package flycheck-plantuml
+  :load-path "vendor/"
+  :after flycheck
+  :config (flycheck-plantuml-setup))
 
 (use-package flycheck-pos-tip
   :ensure t
