@@ -341,6 +341,10 @@ code sections."
    nil
    '((c-mode-font-lock-if0 (0 font-lock-comment-face prepend))) 'add-to-end))
 
+(use-package cargo
+  :ensure t
+  :config (add-hook 'rust-mode-hook 'cargo-minor-mode))
+
 (use-package cc-mode
   :defer t
   :init (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
@@ -998,6 +1002,10 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (flycheck-pos-tip-mode 1))
 
+(use-package flycheck-rust
+  :ensure t
+  :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
 (use-package flyspell
   :diminish flyspell-mode
   :config (progn
@@ -1366,6 +1374,20 @@ ${3:Ticket: #${4:XXXX}}")))
   :defer t
   :init (setq python-indent-offset 4))
 
+(defun apm-racer-mode-setup ()
+  (unless (file-exists-p racer-cmd)
+    (alert "cargo install racer?"))
+  (unless (file-exists-p racer-rust-src-path)
+    (alert (format "git clone https://github.com/rust-lang/rust.git %s"
+                   (file-name-directory (directory-file-name racer-rust-src-path)))))
+  (racer-mode 1))
+
+(use-package racer
+  :ensure t
+  :config (progn
+            (setq racer-rust-src-path (expand-file-name "~/rust/src"))
+            (add-hook 'rust-mode-hook #'apm-racer-mode-setup)))
+
 (use-package rainbow-mode
   :ensure t
   :diminish rainbow-mode
@@ -1376,6 +1398,9 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package region-state
   :ensure t
   :config (region-state-mode 1))
+
+(use-package rust-mode
+  :ensure t)
 
 ;; save minibuffer history
 (use-package savehist
