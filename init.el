@@ -1025,6 +1025,14 @@ Otherwise call `ediff-buffers' interactively."
 (use-package fuzzy
   :ensure t)
 
+(use-package gdb-mi
+  :defer t
+  :init (progn
+          ;; use gdb-many-windows by default
+          (setq gdb-many-windows t)
+          ;; Non-nil means display source file containing the main routine at startup
+          (setq gdb-show-main t)))
+
 (defun apm-ggtags-setup ()
   "Setup conusel-gtags for various modes."
   (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
@@ -1060,6 +1068,10 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package goto-addr
   :config (add-hook 'prog-mode-hook #'goto-address-prog-mode))
+
+(use-package gud
+  :defer t
+  :init (add-hook 'gud-mode-hook #'gud-tooltip-mode))
 
 (use-package hungry-delete
   :ensure t
@@ -1136,18 +1148,6 @@ Otherwise call `ediff-buffers' interactively."
           (ivy-mode 1))
   :config (with-eval-after-load 'evil
             (define-key evil-ex-map "b " 'ivy-switch-buffer)))
-
-(use-package gdb-mi
-  :defer t
-  :init (progn
-          ;; use gdb-many-windows by default
-          (setq gdb-many-windows t)
-          ;; Non-nil means display source file containing the main routine at startup
-          (setq gdb-show-main t)))
-
-(use-package gud
-  :defer t
-  :init (add-hook 'gud-mode-hook #'gud-tooltip-mode))
 
 (use-package jenkins
   :ensure t
