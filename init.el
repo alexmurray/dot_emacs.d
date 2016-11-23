@@ -164,20 +164,6 @@
 
 (bind-key [remap fill-paragraph] #'endless/fill-or-unfill)
 
-;; general modes in text-mode or derived from
-(defun apm-text-mode-setup ()
-  "Setup `text-mode' buffers."
-  ;; use visual line mode to do soft word wrapping
-  (visual-line-mode 1)
-  ;; and use adaptive-wrap to 'indent' paragraphs appropriately with visual-line-mode
-  (adaptive-wrap-prefix-mode 1)
-  ;; Enable flyspell
-  (flyspell-mode 1)
-  ;; give warning if words misspelled when typing
-  (ispell-minor-mode 1))
-
-(add-hook 'text-mode-hook #'apm-text-mode-setup)
-
 ;;; Packages
 (use-package abbrev
   :diminish abbrev-mode
@@ -191,12 +177,14 @@
   :bind (("C-x o" . ace-window)))
 
 (use-package adaptive-wrap
-  :ensure t)
+  :ensure t
+  :config (add-hook 'text-mode-hook #'adaptive-wrap-prefix-mode))
 
 (use-package aggressive-indent
   :ensure t
   :defer t
-  :diminish aggressive-indent-mode)
+  :diminish aggressive-indent-mode
+  :init (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
 
 (use-package ag
   :ensure t
@@ -217,8 +205,10 @@
 (use-package anaconda-mode
   :ensure t
   :diminish (anaconda-mode . " 🐍 ")
-  ;; enable with apm-python-mode-setup below
-  :defer t)
+  :defer t
+  :init (progn
+          (add-hook 'python-mode-hook #'anaconda-mode)
+          (add-hook 'python-mode-hook #'anaconda-eldoc-mode)))
 
 (use-package ansi-color
   ;; show colours correctly in shell
@@ -261,16 +251,12 @@
 
 (defun apm-latex-mode-setup ()
   "Tweaks and customisations for LaTeX mode."
-  ;; smartparens latex support
-  (use-package smartparens-latex)
   ;; Enable source-correlate for Control-click forward/reverse search.
   (TeX-source-correlate-mode 1)
   ;; enable math mode in latex
   (LaTeX-math-mode 1)
   ;; Enable reftex
-  (turn-on-reftex)
-  ;; integrate with company
-  (company-auctex-init))
+  (turn-on-reftex))
 
 (use-package auctex
   :ensure t
@@ -299,8 +285,10 @@
   :bind ("C-x C-b" . bs-show))
 
 (use-package bug-reference
-  :config (setq bug-reference-url-format "http://projects.cohda.wireless:8000/trac/mk2/ticket/%s"
-                bug-reference-bug-regexp "\\([Tt]icket ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)"))
+  :config (progn
+            (setq bug-reference-url-format "http://projects.cohda.wireless:8000/trac/mk2/ticket/%s"
+                  bug-reference-bug-regexp "\\([Tt]icket ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
+            (add-hook 'prog-mode-hook #'bug-reference-prog-mode)))
 
 ;; show #if 0 / #endif etc regions in comment face - taken from
 ;; http://stackoverflow.com/questions/4549015/in-c-c-mode-in-emacs-change-face-of-code-in-if-0-endif-block-to-comment-fa
@@ -396,8 +384,8 @@ code sections."
 
 (use-package company-auctex
   :ensure t
-  ;; loaded in apm-latex-mode-setup
-  :defer t)
+  :defer t
+  :init (add-hook 'LaTeX-mode-hook #'company-auctex-init))
 
 (use-package company-dabbrev
   :after company
@@ -584,7 +572,8 @@ code sections."
   :ensure t
   :diminish drag-stuff-mode
   :bind (("M-<up>" . drag-stuff-up)
-         ("M-<down>" . drag-stuff-down)))
+         ("M-<down>" . drag-stuff-down))
+  :config (add-hook 'prog-mode-hook #'drag-stuff-mode))
 
 (use-package dts-mode
   :ensure t)
@@ -931,7 +920,10 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package fic-mode
   :ensure t
-  :defer t)
+  :defer t
+  :functions fic-mode
+  :init (progn
+          (add-hook 'prog-mode-hook #'fic-mode)))
 
 (use-package files
   :bind ("C-c r" . revert-buffer))
@@ -1007,7 +999,11 @@ Otherwise call `ediff-buffers' interactively."
   :config (flycheck-pos-tip-mode 1))
 
 (use-package flyspell
-  :diminish flyspell-mode)
+  :diminish flyspell-mode
+  :config (progn
+            (add-hook 'text-mode-hook #'flyspell-mode)
+            (add-hook 'prog-mode-hook #'flyspell-prog-mode)))
+
 
 (use-package flyspell-correct-ivy
   :ensure t
@@ -1053,6 +1049,9 @@ Otherwise call `ediff-buffers' interactively."
 (use-package google-this
   :ensure t
   :commands (google-this google-error))
+
+(use-package goto-addr
+  :config (add-hook 'prog-mode-hook #'goto-address-prog-mode))
 
 (use-package hungry-delete
   :ensure t
@@ -1112,7 +1111,8 @@ Otherwise call `ediff-buffers' interactively."
             ;; use gb dictionary via aspell if available
             (setq ispell-program-name "aspell"
                   ispell-dictionary "british"
-                  ispell-extra-args '("--sug-mode=ultra")))))
+                  ispell-extra-args '("--sug-mode=ultra")))
+          (add-hook 'text-mode-hook #'ispell-minor-mode)))
 
 (use-package ivy
   :ensure t
@@ -1164,18 +1164,12 @@ Otherwise call `ediff-buffers' interactively."
 (defun apm-emacs-lisp-mode-setup ()
   "Setup Emacs Lisp mode."
   (setq mode-name "el")
-  ;; use aggressive indent
-  (aggressive-indent-mode 1)
-  (fic-mode 1)
   ;; make imenu list each package for easy navigation - from
   ;; https://github.com/jwiegley/use-package/issues/80#issuecomment-46687774
   (when (string= buffer-file-name (expand-file-name "init.el" "~/dot_emacs.d"))
     (add-to-list
      'imenu-generic-expression
-     '("Packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)))
-  ;; use smartparens in strict mode for lisp
-  (with-eval-after-load 'smartparens
-    (smartparens-strict-mode 1)))
+     '("Packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2))))
 
 (use-package lisp-mode
   :config (add-hook 'emacs-lisp-mode-hook #'apm-emacs-lisp-mode-setup))
@@ -1338,24 +1332,13 @@ ${3:Ticket: #${4:XXXX}}")))
             (unless (file-exists-p plantuml-jar-path)
               (alert (format "plantuml not found at %s" plantuml-jar-path)))))
 
-(defun apm-prog-mode-setup ()
-  "Tweaks and customisations for all programming modes."
-  (bug-reference-prog-mode 1)
-  ;; turn on spell checking for strings and comments
-  (flyspell-prog-mode)
-  ;; use drag stuff
-  (drag-stuff-mode 1)
-  ;; highlight TODO etc in comments only
-  (fic-mode 1))
-
 (use-package prog-mode
   :config (progn
             (when (boundp 'prettify-symbols-unprettify-at-point)
               ;; show original text when point is over a prettified symbol
               (setq prettify-symbols-unprettify-at-point 'right-edge))
             ;; prettify symbols (turn lambda -> λ)
-            (global-prettify-symbols-mode 1)
-            (add-hook 'prog-mode-hook #'apm-prog-mode-setup)))
+            (global-prettify-symbols-mode 1)))
 
 (use-package projectile
   :ensure t
@@ -1379,15 +1362,9 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :config (setq svn-status-state-mark-modeline nil))
 
-(defun apm-python-mode-setup ()
-  "Tweaks and customisations for `python-mode'."
-  (setq python-indent-offset 4)
-  (anaconda-mode 1)
-  (anaconda-eldoc-mode 1))
-
 (use-package python
   :defer t
-  :init (add-hook 'python-mode-hook #'apm-python-mode-setup))
+  :init (setq python-indent-offset 4))
 
 (use-package rainbow-mode
   :ensure t
@@ -1420,7 +1397,9 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package simple
   ;; save whatever is in the system clipboard to the kill ring before killing
   ;; something else into the kill ring
-  :init (setq save-interprogram-paste-before-kill t))
+  :init (progn
+          (setq save-interprogram-paste-before-kill t)
+          (add-hook 'text-mode-hook #'visual-line-mode)))
 
 ;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
 (defun apm-c-mode-common-open-block (&rest ignored)
@@ -1433,9 +1412,13 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package smartparens
   :ensure t
   :diminish smartparens-mode
-  :init (smartparens-global-mode 1)
+  :init (progn
+          (smartparens-global-mode 1)
+          ;; use smartparens in strict mode for lisp
+          (add-hook 'emacs-lisp-hook #'smartparens-strict-mode))
   :config (progn
             (require 'smartparens-config)
+            (require 'smartparens-latex)
             (setq sp-base-key-bindings 'paredit)
             ;; always jump out of string when hitting end "
             (setq sp-autoskip-closing-pair 'always)
