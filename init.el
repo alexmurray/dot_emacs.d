@@ -1062,6 +1062,9 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t)
 
+(use-package gnuplot
+  :ensure t)
+
 (use-package google-this
   :ensure t
   :commands (google-this google-error))
