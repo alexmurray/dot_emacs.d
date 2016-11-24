@@ -773,15 +773,17 @@ Otherwise call `ediff-buffers' interactively."
             (evil-leader/set-key
               "SPC" 'avy-goto-word-or-subword-1
               "l" 'avy-goto-line
-              "c" 'avy-goto-char
+              "c" 'avy-goto-char-timer
               "a" 'counsel-ag
               "b" 'ivy-switch-buffer
               "df" 'yadoxygen-document-function
               "fc" 'flycheck-buffer
+              "ff" 'counsel-find-file
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
               "ge" 'google-error
               "gg" 'counsel-git-grep
+              "gl" 'counsel-git-log
               "go" 'google-this
               "gc" 'ggtags-create-tags
               "gd" 'ggtags-delete-tags
