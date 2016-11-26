@@ -1472,6 +1472,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package solarized-theme
   :ensure t
+  :disabled t
   :config (progn
             (setq x-underline-at-descent-line t)
             (setq solarized-distinct-fringe-background t)
@@ -1546,6 +1547,11 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :diminish yas-minor-mode
   :config (yas-global-mode 1))
+
+(use-package zenburn-theme
+  :ensure t
+  :config (progn
+            (load-theme 'zenburn t)))
 
 (provide 'init)
 
