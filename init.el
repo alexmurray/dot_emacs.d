@@ -1479,6 +1479,8 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (progn
             (setq x-underline-at-descent-line t)
             (setq solarized-distinct-fringe-background t)
+            (setq solarized-scale-org-headlines nil)
+            (setq solarized-use-variable-pitch nil)
             (load-theme 'solarized-light t)))
 
 (use-package spaceline-config
