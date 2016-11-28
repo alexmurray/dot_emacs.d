@@ -1291,8 +1291,6 @@ ${3:Ticket: #${4:XXXX}}")))
   ;; assume idle after 5 minutes
   :config (progn
             (setq org-clock-idle-time nil
-                  ;; automatically switch to started when clocking in
-                  org-clock-in-switch-to-state "STARTED"
                   ;; truncate clock heading in modeline
                   org-clock-heading-function #'apm-org-clock-heading
                   ;; save running clock and all history when exiting emacs
