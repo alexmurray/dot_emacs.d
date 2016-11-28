@@ -1286,6 +1286,11 @@ ${3:Ticket: #${4:XXXX}}")))
   "Create `org-clock-heading' by truncating if needed."
   (s-truncate 8 (nth 4 (org-heading-components))))
 
+(defun apm-org-clock-warn-if-not-clocked-in ()
+  "Warn if not currently clocked in."
+  (unless org-clock-current-task
+    (alert "You're not clocked in!")))
+
 (use-package org-clock
   :after org
   ;; assume idle after 5 minutes
@@ -1303,9 +1308,7 @@ ${3:Ticket: #${4:XXXX}}")))
             ;; reload any saved org clock information on startup
             (org-clock-persistence-insinuate)
             ;; notify if not clocked in
-            (run-with-timer 60 60 #'(lambda ()
-                                      (unless org-clock-current-task
-                                        (alert "You're not clocked in!"))))))
+            (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in)))
 
 (use-package org-clock-convenience
   :ensure t
