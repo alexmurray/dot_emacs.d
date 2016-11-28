@@ -1342,7 +1342,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package plantuml-mode
   :ensure t
-  :mode ("\\.uml\\'" . plantuml-mode)
+  :mode ("\\.p\\(lant\\)?uml\\'" . plantuml-mode)
   :config (progn
             (setq plantuml-jar-path (expand-file-name "~/plantuml.jar"))
             (unless (file-exists-p plantuml-jar-path)
