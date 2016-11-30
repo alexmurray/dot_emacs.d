@@ -349,6 +349,11 @@ code sections."
   :defer t
   :init (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
 
+(use-package cmake-mode
+  :ensure t
+  :mode (("CMakeLists\\.txt\\'" . cmake-mode)
+         ("\\.cmake\\'" . cmake-mode)))
+
 (use-package company
   :ensure t
   :commands global-company-mode
