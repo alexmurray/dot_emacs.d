@@ -1521,14 +1521,13 @@ ${3:Ticket: #${4:XXXX}}")))
                 uniquify-after-kill-buffer-p t
                 uniquify-ignore-buffers-re "^\\*"))
 
-(defun apm-vc-git-mode-line-string (orig-fn &rest args)
-  "Replace Git in modeline with font-awesome git icon via ORIG-FN and ARGS."
-  (let ((str (apply orig-fn args)))
-    (message str)
-    (concat ":" (substring-no-properties str 4))))
+(defun apm-pretty-vc-mode-line (file &optional backend)
+  "Replace Git in modeline with font-awesome git icon via FILE and BACKEND."
+  (setq vc-mode (replace-regexp-in-string "^ Git." ":" vc-mode))
+  backend)
 
 (use-package vc-git
-  :config  (advice-add #'vc-git-mode-line-string :around #'apm-vc-git-mode-line-string))
+  :config  (advice-add #'vc-mode-line :after #'apm-pretty-vc-mode-line))
 
 (use-package vimish-fold
   :ensure t
