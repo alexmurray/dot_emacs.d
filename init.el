@@ -744,6 +744,8 @@ Otherwise call `ediff-buffers' interactively."
                        ("C-x C-l" . evil-complete-next-line)
                        ("C-x C-p" . evil-complete-previous-line))
 
+            (define-key evil-ex-map "bd " 'kill-buffer)
+
             ;; fixup company-complete-number to be handled better with evil
             (evil-declare-change-repeat 'company-complete-number)
             (evil-mode 1)))
