@@ -1262,12 +1262,19 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package org
   :ensure t
-  :config (setq org-agenda-files (mapcar #'expand-file-name
-                                         '("~/Dropbox/Orgzly/personal.org"
-                                           "~/Dropbox/Orgzly/cohda.org"))
-                org-imenu-depth 4
-                org-todo-keywords '((sequence "TODO(t)" "STARTED(s!)" "BLOCKED(b@)" "|" "DONE(d!)")
-                                    (sequence "|" "CANCELLED(c@)" "DELEGATED(D@)"))))
+  :config (progn
+            (setq org-agenda-files (mapcar #'expand-file-name
+                                           '("~/Dropbox/Orgzly/personal.org"
+                                             "~/Dropbox/Orgzly/cohda.org"))
+                  ;; don't indent org document sections etc
+                  org-adapt-indentation nil
+                  org-imenu-depth 4
+                  org-todo-keywords '((sequence "TODO(t)" "STARTED(s!)" "BLOCKED(b@)" "|" "DONE(d!)")
+                                      (sequence "|" "CANCELLED(c@)" "DELEGATED(D@)")))
+            ;; set up org-babel integration for plantuml
+            (org-babel-do-load-languages
+             'org-babel-load-languages
+             '((plantuml .t)))))
 
 (defun apm-org-agenda-file-notify (event)
   "Rebuild appointments when EVENT specifies any org agenda files change."
@@ -1328,6 +1335,9 @@ ${3:Ticket: #${4:XXXX}}")))
             (org-notify-start)
             (org-notify-add 'default '(:time "15m" :actions -notify/window
                                              :period "2m" :duration 120))))
+(use-package ob-plantuml
+  :after plantuml-mode
+  :config (setq org-plantuml-jar-path plantuml-jar-path))
 
 (use-package paradox
   :ensure t
