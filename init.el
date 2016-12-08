@@ -733,9 +733,12 @@ Otherwise call `ediff-buffers' interactively."
                             term-mode))
               (evil-set-initial-state mode 'emacs))
 
-            ;; add vim binding for go to next misspelled word
+            ;; add vim-like bindings for some nice stuff
             (with-eval-after-load 'flyspell
-              (define-key evil-normal-state-map "]s" 'flyspell-goto-next-error))
+              (define-key evil-normal-state-map "]s" 'flyspell-goto-next-error)
+              ;; taken from spacemacs
+              (define-key evil-normal-state-map "[b" 'evil-prev-buffer)
+              (define-key evil-normal-state-map "]b" 'evil-next-buffer))
 
             ;; these should be bound automatically but apparently not so rebind
             ;; them
