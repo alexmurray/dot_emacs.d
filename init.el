@@ -1107,9 +1107,12 @@ Otherwise call `ediff-buffers' interactively."
              (not (null (condition-case nil
                             (projectile-project-root)
                           (error nil))))
-             (file-exists-p (concat (file-name-as-directory
-                                     (projectile-project-root))
-                                    ".clang_complete.in")))
+             (cl-every #'identity (mapcar #'(lambda (f)
+                                              (file-exists-p (concat
+                                                              (file-name-as-directory
+                                                               (projectile-project-root))
+                                                              f)))
+                                          '(".clang_complete.in" "Makefile"))))
     (projectile-with-default-dir (projectile-project-root)
       (shell-command "make .clang_complete"))))
 
