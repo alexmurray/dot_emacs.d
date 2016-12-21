@@ -261,6 +261,7 @@
 (use-package auctex
   :ensure t
   :defer t
+  :commands (LaTeX-math-mode TeX-source-correlate-mode)
   :mode ("\\.tex\\'" . LaTeX-mode)
   :init (progn
           (setq-default TeX-auto-save t)
@@ -347,6 +348,7 @@ code sections."
 
 (use-package cc-mode
   :defer t
+  :commands (c-toggle-auto-hungry-state)
   :init (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
 
 (use-package cmake-mode
@@ -1041,9 +1043,9 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :init (progn
           ;; use gdb-many-windows by default
-          (setq gdb-many-windows t)
+          (setq-default gdb-many-windows t)
           ;; Non-nil means display source file containing the main routine at startup
-          (setq gdb-show-main t)))
+          (setq-default gdb-show-main t)))
 
 (defun apm-ggtags-setup ()
   "Setup conusel-gtags for various modes."
@@ -1403,9 +1405,10 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package python
   :defer t
-  :init (setq python-indent-offset 4))
+  :init (setq-default python-indent-offset 4))
 
 (defun apm-racer-mode-setup ()
+  "Setup racer-mode."
   (unless (file-exists-p racer-cmd)
     (alert "cargo install racer?"))
   (unless (file-exists-p racer-rust-src-path)
