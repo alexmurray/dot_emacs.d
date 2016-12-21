@@ -502,7 +502,7 @@ code sections."
 
 (use-package counsel-projectile
   :ensure t
-  :init (counsel-projectile-on))
+  :config (counsel-projectile-on))
 
 (defun apm-coverlay-setup()
   (coverlay-mode 1))
