@@ -1318,6 +1318,8 @@ ${3:Ticket: #${4:XXXX}}")))
                   org-clock-heading-function #'apm-org-clock-heading
                   ;; save running clock and all history when exiting emacs
                   org-clock-persist t
+                  ;; resume clocking task on clock-in if the clock is open
+                  org-clock-in-resume t
                   ;; insert a CLOSED timestamp when TODOs are marked DONE
                   org-log-done 'time)
             (if (executable-find "xprintidle")
