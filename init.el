@@ -331,7 +331,9 @@ code sections."
   (with-eval-after-load 'diminish
     (diminish 'auto-fill-function))
   ;; turn on auto-newline and hungry-delete
-  (c-toggle-auto-hungry-state t)
+  (c-toggle-auto-hungry-state 1)
+  ;; turn on electric indent
+  (c-toggle-electric-state 1)
   ;; ensure fill-paragraph takes doxygen @ markers as start of new
   ;; paragraphs properly
   (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
