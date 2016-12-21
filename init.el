@@ -950,10 +950,9 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (progn
             (define-global-minor-mode global-fci-mode fci-mode
-              ;; only enable when buffer is not a special buffer (starts and
-              ;; ends with an asterisk)
-              (lambda () (if (not (string-match "^\*.*\*$" (buffer-name)))
-                             (fci-mode 1))))
+              ;; only enable for useful buffers
+              (lambda () (if (or (derived-mode-p 'prog-mode) (derived-mode-p 'text-mode))
+                        (fci-mode 1))))
             (global-fci-mode 1)
             ;; make fci play nicely with company-mode - from https://github.com/alpaker/Fill-Column-Indicator/issues/54#issuecomment-218344694
             (with-eval-after-load 'company
