@@ -291,6 +291,10 @@
                   bug-reference-bug-regexp "\\([Tt]icket ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
             (add-hook 'prog-mode-hook #'bug-reference-prog-mode)))
 
+(use-package cargo
+  :ensure t
+  :config (add-hook 'rust-mode-hook 'cargo-minor-mode))
+
 ;; show #if 0 / #endif etc regions in comment face - taken from
 ;; http://stackoverflow.com/questions/4549015/in-c-c-mode-in-emacs-change-face-of-code-in-if-0-endif-block-to-comment-fa
 (defun c-mode-font-lock-if0 (limit)
@@ -341,10 +345,6 @@ code sections."
   (font-lock-add-keywords
    nil
    '((c-mode-font-lock-if0 (0 font-lock-comment-face prepend))) 'add-to-end))
-
-(use-package cargo
-  :ensure t
-  :config (add-hook 'rust-mode-hook 'cargo-minor-mode))
 
 (use-package cc-mode
   :defer t
