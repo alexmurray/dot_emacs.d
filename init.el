@@ -535,16 +535,12 @@ code sections."
   ;; with new text automatically
   :init (delete-selection-mode 1))
 
-(defun apm-devhelp-setup ()
-  "Setup devhelp integration."
-  (require 'devhelp)
-  (local-set-key (kbd "<f6>") #'devhelp-toggle-automatic-assistant)
-  (local-set-key (kbd  "<f7>") #'devhelp-assistant-word-at-point))
-
 (use-package devhelp
   :load-path "vendor/"
-  :defer t
-  :init (add-hook 'c-mode-hook #'apm-devhelp-setup))
+  :bind (:map c-mode-map
+              ([f6] . devhelp-toggle-automatic-assistant)
+              ([f7] . devhelp-assistant-word-at-point))
+  :defer t)
 
 (use-package diff
   ;; default to unified diff
