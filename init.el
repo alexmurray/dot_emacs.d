@@ -1334,6 +1334,8 @@ ${3:Ticket: #${4:XXXX}}")))
               ("S-<down>" . org-clock-convenience-timestamp-down)))
 
 (use-package org-notify
+  :load-path "vendor/org-notify"
+  :after org
   :config (progn
             (org-notify-start)
             (org-notify-add 'default '(:time "15m" :actions -notify/window
