@@ -740,7 +740,9 @@ Otherwise call `ediff-buffers' interactively."
               (define-key evil-normal-state-map "]s" 'flyspell-goto-next-error)
               ;; taken from spacemacs
               (define-key evil-normal-state-map "[b" 'evil-prev-buffer)
-              (define-key evil-normal-state-map "]b" 'evil-next-buffer))
+              (define-key evil-normal-state-map "]b" 'evil-next-buffer)
+              (define-key evil-normal-state-map "[q" 'previous-error)
+              (define-key evil-normal-state-map "]q" 'next-error))
 
             ;; these should be bound automatically but apparently not so rebind
             ;; them
@@ -748,8 +750,6 @@ Otherwise call `ediff-buffers' interactively."
                        ("C-x C-n" . evil-complete-next-line)
                        ("C-x C-l" . evil-complete-next-line)
                        ("C-x C-p" . evil-complete-previous-line))
-
-            (define-key evil-ex-map "bd " 'kill-buffer)
 
             ;; fixup company-complete-number to be handled better with evil
             (evil-declare-change-repeat 'company-complete-number)
