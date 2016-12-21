@@ -1124,8 +1124,9 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :diminish irony-mode
   :commands (irony-mode)
-  :bind (:irony-mode-map ([remap completion-at-point] . irony-completion-at-point-async)
-                         ([remap complete-symbol] . irony-completion-at-point-async))
+  :bind (:map irony-mode-map
+              ([remap completion-at-point] . irony-completion-at-point-async)
+              ([remap complete-symbol] . irony-completion-at-point-async))
   :init (progn
           (advice-add 'irony-cdb-clang-complete :before 'apm-irony-cdb-clang-complete--auto-generate-clang-complete)
           (add-hook 'c-mode-hook 'irony-mode)
