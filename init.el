@@ -1388,6 +1388,10 @@ ${3:Ticket: #${4:XXXX}}")))
             (unless (file-exists-p plantuml-jar-path)
               (alert (format "plantuml not found at %s" plantuml-jar-path)))))
 
+(use-package powerline
+  :ensure t
+  :config (setq powerline-default-separator 'utf-8))
+
 (use-package prog-mode
   :config (progn
             (when (boundp 'prettify-symbols-unprettify-at-point)
@@ -1605,7 +1609,21 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package zenburn-theme
   :ensure t
   :config (progn
-            (load-theme 'zenburn t)))
+            (load-theme 'zenburn t)
+            ;; nicer looking modeline
+            (set-face-attribute 'mode-line nil :box '(:line-width 2 :color "gray30")
+                                :weight 'normal :foreground "#C8F7C8" :background "gray20")
+            (set-face-attribute 'mode-line-inactive nil :box '(:line-width 2 :color "gray30")
+                                :weight 'normal :foreground "gray70")
+            (set-face-attribute 'powerline-active2 nil :background "gray32")
+            (set-face-attribute 'powerline-active1 nil :background "gray32" :weight 'normal)
+            (set-face-attribute 'mode-line-buffer-id nil :foreground "#FFECBA" :weight 'bold)
+            ;; dim inactive modeline
+            (set-face-attribute 'powerline-inactive2 nil :background "gray20")
+            (set-face-attribute 'powerline-inactive1 nil :background "gray32")
+            ;; make ivy candidates stand out
+            (set-face-attribute 'ivy-minibuffer-match-face-3 nil :background "CadetBlue4")
+            (set-face-attribute 'ivy-minibuffer-match-face-2 nil :background "pink4")))
 
 (provide 'init)
 
