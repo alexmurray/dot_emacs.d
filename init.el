@@ -975,6 +975,15 @@ Otherwise call `ediff-buffers' interactively."
           (alert "checkbashisms not found - is it installed? (devscripts)"))
   :config (flycheck-checkbashisms-setup))
 
+(use-package flycheck-flawfinder
+  :load-path "vendor/flycheck-flawfinder"
+  :after flycheck-irony
+  :init (unless (executable-find "flawfinder")
+          (alert "flawfinder not found - is it installed? (flawfinder)"))
+  :config (progn
+            (add-hook 'flycheck-mode-hook #'flycheck-flawfinder-setup)
+            (flycheck-add-next-checker 'c/c++-cppcheck '(t . flawfinder))))
+
 (use-package flycheck-irony
   :ensure t
   :after flycheck
@@ -982,18 +991,18 @@ Otherwise call `ediff-buffers' interactively."
             (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
             (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck))))
 
-;; we want to make sure irony comes before us in the list of flycheck-checkers
-;; so do our cstyle setup after irony
+;; we want to make sure flawfinder comes before us in the list of flycheck-checkers
+;; so do our cstyle setup after flawfinder
 (use-package flycheck-cstyle
   :ensure t
-  :after flycheck-irony
+  :after flycheck-flawfinder
   :init (unless (executable-find "cstyle")
           (alert "cstyle not found - is it install?"))
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup)
-            ;; chain after cppcheck so we have
-            ;; irony->cppcheck->cstyle
-            (flycheck-add-next-checker 'c/c++-cppcheck '(warning . cstyle))
+            ;; chain after flawfinder so we have
+            ;; irony->cppcheck->flawfinder->cstyle
+            (flycheck-add-next-checker 'flawfinder '(t . cstyle))
             (unless (executable-find "cppcheck")
               (alert "cppcheck not found - is it installed?"))))
 
@@ -1479,8 +1488,8 @@ ${3:Ticket: #${4:XXXX}}")))
   :diminish smartparens-mode
   :init (progn
           (smartparens-global-mode 1)
-          ;; use smartparens in strict mode for lisp
-          (add-hook 'emacs-lisp-hook #'smartparens-strict-mode))
+          ;; use smartparens in strict mode for programming etc
+          (add-hook 'prog-mode-hook #'smartparens-strict-mode))
   :config (progn
             (require 'smartparens-config)
             (require 'smartparens-latex)
