@@ -1276,6 +1276,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package nlinum
   :ensure t
+  :disabled t
   :config (global-nlinum-mode 1))
 
 (use-package org
