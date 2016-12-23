@@ -785,7 +785,7 @@ Otherwise call `ediff-buffers' interactively."
               "c" 'avy-goto-char-timer
               "a" 'counsel-ag
               "b" 'ivy-switch-buffer
-              "df" 'yadoxygen-document-function
+              "df" 'doxyas-document-function
               "fc" 'flycheck-buffer
               "ff" 'counsel-find-file
               "fn" 'flycheck-next-error

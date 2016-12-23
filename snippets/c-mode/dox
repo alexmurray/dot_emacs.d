@@ -3,4 +3,4 @@
 # key: dox
 # type: command
 # --
-(yadoxygen-document-function)
+(doxyas-document-function)
