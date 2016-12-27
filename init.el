@@ -817,7 +817,7 @@ Otherwise call `ediff-buffers' interactively."
               "pd" 'counsel-projectile-find-dir
               "pf" 'counsel-projectile-find-file
               "ph" 'counsel-projectile
-              "po" 'counsel-projectile-find-other-file
+              "po" 'projectile-find-other-file
               "pp" 'counsel-projectile-switch-project
               "pr" 'projectile-recentf
               "r" 'counsel-recentf
