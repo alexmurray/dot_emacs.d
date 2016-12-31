@@ -1391,7 +1391,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package powerline
   :ensure t
-  :config (setq powerline-default-separator 'utf-8))
+  :config (setq powerline-default-separator 'arrow))
 
 (use-package prog-mode
   :config (progn
@@ -1607,7 +1607,12 @@ ${3:Ticket: #${4:XXXX}}")))
   :diminish yas-minor-mode
   :config (yas-global-mode 1))
 
+(use-package gruvbox-theme
+  :ensure t
+  :config (load-theme 'gruvbox t))
+
 (use-package zenburn-theme
+  :disabled t
   :ensure t
   :config (progn
             (load-theme 'zenburn t)
