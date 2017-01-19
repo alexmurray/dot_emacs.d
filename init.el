@@ -459,7 +459,7 @@ code sections."
 (use-package company-tracwiki
   :load-path "vendor/company-tracwiki.el"
   :defer t
-  :after company tracwiki-mode
+  :after tracwiki-mode
   :init (add-to-list 'company-backends 'company-tracwiki))
 
 (use-package company-try-hard
