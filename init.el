@@ -487,12 +487,10 @@ code sections."
          ([remap describe-function]        . counsel-describe-function)
          ([remap describe-variable]        . counsel-describe-variable)
          ([remap info-lookup-symbol]       . counsel-info-lookup-symbol)
-         ([remap completion-at-point]      . counsel-company)
          ("M-y" . counsel-yank-pop)
          ("C-x C-i" . counsel-imenu))
   :init (progn
-          (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-          (setq counsel-find-file-at-point t))
+          (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
   :config
   ;; integrate with evil
   (with-eval-after-load 'evil
