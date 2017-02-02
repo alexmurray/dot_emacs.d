@@ -974,7 +974,7 @@ Otherwise call `ediff-buffers' interactively."
   :config (flycheck-checkbashisms-setup))
 
 (use-package flycheck-flawfinder
-  :load-path "vendor/flycheck-flawfinder"
+  :ensure t
   :after flycheck-irony
   :init (unless (executable-find "flawfinder")
           (alert "flawfinder not found - is it installed? (flawfinder)"))
