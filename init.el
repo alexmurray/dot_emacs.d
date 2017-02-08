@@ -87,6 +87,10 @@
 ;; Show line column numbers in mode line
 (line-number-mode 1)
 (column-number-mode 1)
+;; don't use gtk style tooltips since are intrusive
+(setq-default x-gtk-use-system-tooltips nil)
+(tooltip-mode -1)
+(blink-cursor-mode -1)
 
 ;; prompt when trying to switch out of a dedicated window
 (setq switch-to-buffer-in-dedicated-window 'prompt)
@@ -95,14 +99,14 @@
 ;; they undo each other
 (setq scroll-preserve-screen-position 'always)
 
-(defun apm-emoji-fontset-init ()
-  "Set fontset to display emoji correctly."
+(defun apm-emoji-fontset-init (&optional frame)
+  "Set fontset to display emoji correctly for FRAME."
   (if (eq system-type 'darwin)
       ;; For NS/Cocoa
-      (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+      (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)
     ;; For Linux
     (if (font-info "Symbola")
-        (set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'prepend)
+        (set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)
       (alert "Symbola is not installed (ttf-ancient-fonts)"))))
 
 (defvar apm-preferred-font-family "Inconsolata"
@@ -114,19 +118,14 @@
 (defvar apm-preferred-font-height 117
   "Preferred font height to use.")
 
-(defun apm-graphic-frame-init ()
-  "Initialise properties specific to graphical display."
+(defun apm-graphic-frame-init (&optional frame)
+  "Initialise properties specific to graphical display for FRAME."
   (interactive)
   (when (display-graphic-p)
-    (apm-emoji-fontset-init)
+    (apm-emoji-fontset-init frame)
     (setq frame-title-format '(buffer-file-name "%f" ("%b")))
-    ;; don't use gtk style tooltips so instead can use pos-tip etc
-    (custom-set-variables
-     '(x-gtk-use-system-tooltips nil))
-    (tooltip-mode -1)
-    (blink-cursor-mode -1)
     (if (font-info apm-preferred-font-family)
-        (set-face-attribute 'default nil
+        (set-face-attribute 'default frame
                             :family apm-preferred-font-family
                             :height apm-preferred-font-height)
       (alert (format "%s font not installed (%s)"
@@ -140,6 +139,7 @@
       (alert "FontAwesome is not installed (fonts-font-awesome)."))))
 
 ;; make sure graphical properties get set on client frames
+(add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
 (add-hook 'server-visit-hook #'apm-graphic-frame-init)
 (apm-graphic-frame-init)
 
