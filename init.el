@@ -1333,6 +1333,8 @@ ${3:Ticket: #${4:XXXX}}")))
                   org-clock-persist t
                   ;; resume clocking task on clock-in if the clock is open
                   org-clock-in-resume t
+                  ;; persist clock data into Dropbox
+                  org-clock-persist-file (expand-file-name "~/Dropbox/Orgzly/org-clock-save.el")
                   ;; insert a CLOSED timestamp when TODOs are marked DONE
                   org-log-done 'time)
             (if (executable-find "xprintidle")
