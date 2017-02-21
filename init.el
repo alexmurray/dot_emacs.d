@@ -1358,6 +1358,12 @@ ${3:Ticket: #${4:XXXX}}")))
             (org-notify-start)
             (org-notify-add 'default '(:time "15m" :actions -notify/window
                                              :period "2m" :duration 120))))
+
+(use-package org-table-sticky-header
+  :ensure t
+  :after org
+  :config (add-hook 'org-mode-hook 'org-table-sticky-header-mode))
+
 (use-package ob-plantuml
   :after plantuml-mode
   :config (setq org-plantuml-jar-path plantuml-jar-path))
