@@ -502,14 +502,11 @@ code sections."
   :ensure t
   :config (counsel-projectile-on))
 
-(defun apm-coverlay-setup()
-  (coverlay-mode 1))
-
-(use-package coverlay
+(use-package cov
   :ensure t
   :defer t
-  :diminish coverlay-mode
-  :config (add-hook 'c-mode-common-hook #'apm-coverlay-setup))
+  :diminish cov-mode
+  :config (add-hook 'c-mode-common-hook #'cov-mode))
 
 (use-package crux
   :ensure t
