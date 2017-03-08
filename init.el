@@ -482,29 +482,6 @@ code sections."
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error))
 
-(use-package counsel
-  :ensure t
-  :defines evil-ex-map
-  :bind (([remap execute-extended-command] . counsel-M-x)
-         ([remap find-file] . counsel-find-file)
-         ([remap describe-function]        . counsel-describe-function)
-         ([remap describe-variable]        . counsel-describe-variable)
-         ([remap info-lookup-symbol]       . counsel-info-lookup-symbol)
-         ("M-y" . counsel-yank-pop)
-         ("C-x C-i" . counsel-imenu))
-  :init (progn
-          (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
-  :config
-  ;; integrate with evil
-  (with-eval-after-load 'evil
-    (define-key evil-ex-map "e " 'counsel-find-files)
-    (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
-    (define-key evil-ex-map "ap " 'counsel-apropos)))
-
-(use-package counsel-projectile
-  :ensure t
-  :config (counsel-projectile-on))
-
 (use-package cov
   :ensure t
   :defer t
@@ -781,24 +758,23 @@ Otherwise call `ediff-buffers' interactively."
               "SPC" 'avy-goto-word-or-subword-1
               "l" 'avy-goto-line
               "c" 'avy-goto-char-timer
-              "a" 'counsel-ag
-              "b" 'ivy-switch-buffer
+              "a" 'helm-ag
+              "b" 'helm-buffers-list
               "df" 'doxyas-document-function
               "fc" 'flycheck-buffer
-              "ff" 'counsel-find-file
+              "ff" 'helm-find-files
               "fn" 'flycheck-next-error
               "fp" 'flycheck-previous-error
               "ge" 'google-error
-              "gg" 'counsel-git-grep
-              "gl" 'counsel-git-log
+              "gg" 'helm-grep-do-git-grep
               "go" 'google-this
-              "gc" 'ggtags-create-tags
-              "gd" 'ggtags-delete-tags
-              "gr" 'ggtags-find-reference
-              "gs" 'ggtags-find-other-symbol
-              "gt" 'ggtags-find-definition
-              "gu" 'ggtags-update-tags
-              "i" 'counsel-imenu
+              "gc" 'helm-gtags-create-tags
+              "gd" 'helm-gtags-delete-tags
+              "gr" 'helm-gtags-find-rtag
+              "gs" 'helm-gtags-find-symbol
+              "gt" 'helm-gtags-find-tag
+              "gu" 'helm-gtags-update-tags
+              "i" 'helm-imenu
               "mg" 'magit-status
               "ms" 'svn-status
               "oa" 'org-agenda
@@ -809,20 +785,21 @@ Otherwise call `ediff-buffers' interactively."
               "ocg" 'org-clock-goto
               "oci" 'org-clock-in
               "oco" 'org-clock-out
+              "oo" 'helm-org-agenda-files-headings
               "ot" 'org-todo-list
-              "pb" 'counsel-projectile-switch-to-buffer
-              "pe" 'projectile-run-eshell
-              "pd" 'counsel-projectile-find-dir
-              "pf" 'counsel-projectile-find-file
-              "ph" 'counsel-projectile
-              "po" 'projectile-find-other-file
-              "pp" 'counsel-projectile-switch-project
-              "pr" 'projectile-recentf
-              "r" 'counsel-recentf
-              "s" 'swiper
-              "u" 'counsel-unicode-char
+              "pb" 'helm-projectile-switch-to-buffer
+              "pe" 'helm-projectile-switch-to-eshell
+              "pd" 'helm-projectile-find-dir
+              "pf" 'helm-projectile-find-file
+              "ph" 'helm-projectile
+              "po" 'helm-projectile-find-other-file
+              "pp" 'helm-projectile-switch-project
+              "pr" 'helm-projectile-recentf
+              "r" 'helm-recentf
+              "s" 'helm-swoop
+              "u" 'helm-unicode
               "v" 'er/expand-region
-              "x" 'counsel-M-x
+              "x" 'helm-M-x
               "zf" 'vimish-fold-avy
               "DEL" 'evil-search-highlight-persist-remove-all))
   :init (global-evil-leader-mode 1))
@@ -1029,13 +1006,6 @@ Otherwise call `ediff-buffers' interactively."
             (add-hook 'text-mode-hook #'flyspell-mode)
             (add-hook 'prog-mode-hook #'flyspell-prog-mode)))
 
-
-(use-package flyspell-correct-ivy
-  :ensure t
-  :after ivy
-  ;; use instead of ispell-word which evil binds to z=
-  :bind (([remap ispell-word] . flyspell-correct-word-generic)))
-
 (use-package flx
   :ensure t)
 
@@ -1054,22 +1024,6 @@ Otherwise call `ediff-buffers' interactively."
   "Setup conusel-gtags for various modes."
   (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
     (ggtags-mode 1)))
-
-(use-package ggtags
-  :ensure t
-  :defer t
-  :diminish (ggtags-mode ggtags-navigation-mode)
-  :init (progn
-          (unless (executable-find "global")
-            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
-          (add-hook 'c-mode-common-hook #'apm-ggtags-setup))
-  :config (with-eval-after-load 'evil
-            (evil-define-key 'visual ggtags-mode-map (kbd "C-]")
-              #'ggtags-find-tag-dwim)
-            (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
-              #'ggtags-find-tag-dwim)
-            (evil-define-key 'normal ggtags-mode-map (kbd "M-*")
-              #'pop-tag-mark)))
 
 (use-package gitconfig-mode
   :ensure t
@@ -1092,6 +1046,93 @@ Otherwise call `ediff-buffers' interactively."
 (use-package gud
   :defer t
   :init (add-hook 'gud-mode-hook #'gud-tooltip-mode))
+
+(use-package helm-flx
+  :ensure t
+  :init (helm-flx-mode 1))
+
+(use-package helm
+  :ensure t
+  :diminish helm-mode
+  :after helm-flx ; enable hlm-flx before helm
+  :defer t
+  :bind (("M-x" . helm-M-x)
+         ("M-y" . helm-show-kill-ring)
+         ("C-x b" . helm-mini)
+         ("C-x C-b" . helm-buffers-list)
+         ("C-x C-f" . helm-find-files)
+         ("C-x C-r" . helm-recentf))
+  :config (progn
+            (require 'helm-config)
+            ;; silence byte-compile warnings
+            (eval-when-compile
+              (require 'helm-command)
+              (require 'helm-files))
+            (setq helm-M-x-fuzzy-match t
+                  helm-buffers-fuzzy-matching t
+                  helm-recentf-fuzzy-match t)
+            (helm-mode 1)
+            (helm-adaptive-mode 1)
+            (define-key isearch-mode-map (kbd "M-o") 'helm-occur-from-isearch)
+            ;; integrate with evil
+            (with-eval-after-load 'evil
+              (define-key evil-ex-map "b " 'helm-mini)
+              (define-key evil-ex-map "e " 'helm-find-files)
+              (evil-ex-define-cmd "ap[ropos]" 'helm-apropos)
+              (define-key evil-ex-map "ap " 'helm-apropos))))
+
+(use-package helm-ag
+  :ensure t
+  :config (progn
+            ;; integrate with evil
+            (with-eval-after-load 'evil
+              (evil-ex-define-cmd "ag" 'helm-ag)
+              (evil-ex-define-cmd "agi[nteractive]" 'helm-do-ag)
+              (define-key evil-ex-map "ag " 'helm-ag)
+              (define-key evil-ex-map "agi " 'helm-do-ag))))
+
+(use-package helm-flyspell
+  :ensure t
+  ;; use instead of ispell-word which evil binds to z=
+  :bind (([remap ispell-word] . helm-flyspell-correct)))
+
+(use-package helm-fuzzier
+  :ensure t
+  :after helm
+  :init (helm-fuzzier-mode 1))
+
+(defun apm-helm-gtags-setup ()
+  "Setup helm-gtags for various modes."
+  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+    (helm-gtags-mode 1)))
+
+(use-package helm-gtags
+  :ensure t
+  :after helm
+  :diminish helm-gtags-mode
+  :init (progn
+          (unless (executable-find "global")
+            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
+          (with-eval-after-load 'evil
+            (evil-define-key 'visual helm-gtags-mode-map (kbd "C-]")
+              #'helm-gtags-dwim)
+            (evil-define-key 'normal helm-gtags-mode-map (kbd "C-]")
+              #'helm-gtags-dwim)
+            (evil-define-key 'normal helm-gtags-mode-map (kbd "M-*")
+              #'helm-gtags-pop-stack))
+          ;; enable helm-gtags in all c common mode buffers
+          (add-hook 'c-mode-common-hook #'apm-helm-gtags-setup)))
+
+(use-package helm-projectile
+  :ensure t
+  :config (helm-projectile-on))
+
+(use-package helm-swoop
+  :ensure t
+  :commands (helm-swoop helm-multi-swoop))
+
+(use-package helm-unicode
+  :ensure t)
 
 (use-package hungry-delete
   :ensure t
@@ -1157,21 +1198,6 @@ Otherwise call `ediff-buffers' interactively."
                   ispell-dictionary "british"
                   ispell-extra-args '("--sug-mode=ultra")))
           (add-hook 'text-mode-hook #'ispell-minor-mode)))
-
-(use-package ivy
-  :ensure t
-  :diminish ivy-mode
-  :commands (ivy-mode)
-  :defines (ivy-use-recent-buffers)
-  :bind (("C-c C-r" . ivy-resume)
-         ([remap switch-to-buffer] . ivy-switch-buffer))
-  :init (progn
-          (setq ivy-use-recent-buffers t
-                ivy-count-format ""
-                ivy-display-style 'fancy)
-          (ivy-mode 1))
-  :config (with-eval-after-load 'evil
-            (define-key evil-ex-map "b " 'ivy-switch-buffer)))
 
 (use-package jenkins
   :ensure t
@@ -1271,11 +1297,6 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :bind (([(meta shift up)] . move-text-up)
          ([(meta shift down)] . move-text-down)))
-
-(use-package nlinum
-  :ensure t
-  :disabled t
-  :config (global-nlinum-mode 1))
 
 (use-package org
   :ensure t
@@ -1422,8 +1443,8 @@ ${3:Ticket: #${4:XXXX}}")))
             (add-to-list 'projectile-project-root-files ".clang_complete")
             (add-to-list 'projectile-project-root-files ".clang_complete.in")
             (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
-            (with-eval-after-load 'ivy
-              (setq projectile-completion-system 'ivy))))
+            (with-eval-after-load 'helm
+              (setq projectile-completion-system 'helm))))
 
 (use-package psvn
   :ensure t
