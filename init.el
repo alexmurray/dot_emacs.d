@@ -1548,7 +1548,6 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package solarized-theme
   :ensure t
-  :disabled t
   :config (progn
             (setq x-underline-at-descent-line t)
             (setq solarized-distinct-fringe-background t)
@@ -1636,6 +1635,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package gruvbox-theme
   :ensure t
+  :disabled t
   :config (load-theme 'gruvbox t))
 
 (use-package zenburn-theme
