@@ -920,6 +920,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package fill-column-indicator
   :ensure t
+  :disabled t
   :config (progn
             (define-global-minor-mode global-fci-mode fci-mode
               ;; only enable for useful buffers
