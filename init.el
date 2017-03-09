@@ -606,6 +606,9 @@ Otherwise call `ediff-buffers' interactively."
   :diminish eldoc-mode
   :config (global-eldoc-mode 1))
 
+(use-package elf-mode
+  :ensure t)
+
 (use-package electric
   :init (progn
           ;; electric indent and layout modes to make more IDE like
