@@ -951,14 +951,24 @@ Otherwise call `ediff-buffers' interactively."
           (alert "checkbashisms not found - is it installed? (devscripts)"))
   :config (flycheck-checkbashisms-setup))
 
+(use-package flycheck-coverity
+  :load-path "vendor/flycheck-coverity"
+  :after flycheck-irony
+  :init (unless (executable-find "cov-run-desktop")
+          (alert "cov-run-desktop not found - is it installed?"))
+  :config (progn
+            (add-hook 'flycheck-mode-hook #'flycheck-coverity-setup)
+            (flycheck-add-next-checker 'c/c++-cppcheck '(t . coverity))))
+
 (use-package flycheck-flawfinder
   :ensure t
-  :after flycheck-irony
+  :disabled t
+  :after flycheck-cstyle
   :init (unless (executable-find "flawfinder")
           (alert "flawfinder not found - is it installed? (flawfinder)"))
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-flawfinder-setup)
-            (flycheck-add-next-checker 'c/c++-cppcheck '(t . flawfinder))))
+            (flycheck-add-next-checker 'cstyle '(t . flawfinder))))
 
 (use-package flycheck-irony
   :ensure t
@@ -967,18 +977,18 @@ Otherwise call `ediff-buffers' interactively."
             (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
             (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck))))
 
-;; we want to make sure flawfinder comes before us in the list of flycheck-checkers
-;; so do our cstyle setup after flawfinder
+;; we want to make sure coverity comes before us in the list of flycheck-checkers
+;; so do our cstyle setup after coverity
 (use-package flycheck-cstyle
   :ensure t
-  :after flycheck-flawfinder
+  :after flycheck-coverity
   :init (unless (executable-find "cstyle")
           (alert "cstyle not found - is it install?"))
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup)
-            ;; chain after flawfinder so we have
-            ;; irony->cppcheck->flawfinder->cstyle
-            (flycheck-add-next-checker 'flawfinder '(t . cstyle))
+            ;; chain after coverity so we have
+            ;; irony->cppcheck->coverity->cstyle->flawfinder
+            (flycheck-add-next-checker 'coverity '(warning . cstyle))
             (unless (executable-find "cppcheck")
               (alert "cppcheck not found - is it installed?"))))
 
