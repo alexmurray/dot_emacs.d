@@ -787,6 +787,7 @@ Otherwise call `ediff-buffers' interactively."
               "oco" 'org-clock-out
               "oo" 'helm-org-agenda-files-headings
               "ot" 'org-todo-list
+              "pa" 'helm-projectile-ag
               "pb" 'helm-projectile-switch-to-buffer
               "pe" 'helm-projectile-switch-to-eshell
               "pd" 'helm-projectile-find-dir
