@@ -762,7 +762,7 @@ Otherwise call `ediff-buffers' interactively."
               "l" 'avy-goto-line
               "c" 'avy-goto-char-timer
               "a" 'helm-ag
-              "b" 'helm-buffers-list
+              "b" 'helm-mini
               "df" 'doxyas-document-function
               "fc" 'flycheck-buffer
               "ff" 'helm-find-files
