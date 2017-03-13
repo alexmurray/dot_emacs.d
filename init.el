@@ -777,7 +777,7 @@ Otherwise call `ediff-buffers' interactively."
               "gs" 'helm-gtags-find-symbol
               "gt" 'helm-gtags-find-tag
               "gu" 'helm-gtags-update-tags
-              "i" 'helm-imenu
+              "i" 'helm-semantic-or-imenu
               "mg" 'magit-status
               "ms" 'svn-status
               "oa" 'org-agenda
@@ -801,7 +801,7 @@ Otherwise call `ediff-buffers' interactively."
               "pr" 'helm-projectile-recentf
               "r" 'helm-recentf
               "s" 'helm-swoop
-              "u" 'helm-unicode
+              "u" 'helm-ucs
               "v" 'er/expand-region
               "x" 'helm-M-x
               "zf" 'vimish-fold-avy
