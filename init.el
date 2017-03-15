@@ -1,4 +1,5 @@
 ;;; init.el --- Starting point for Alex Murray's Emacs Configuration
+;; -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;;
