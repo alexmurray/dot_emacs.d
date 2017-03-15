@@ -1191,6 +1191,9 @@ Otherwise call `ediff-buffers' interactively."
               ([remap completion-at-point] . irony-completion-at-point-async)
               ([remap complete-symbol] . irony-completion-at-point-async))
   :init (progn
+          ;; try and install if not already installed
+          (unless (irony--locate-server-executable)
+            (call-interactively #'irony-install-server))
           (advice-add 'irony-cdb-clang-complete :before 'apm-irony-cdb-clang-complete--auto-generate-clang-complete)
           (add-hook 'c-mode-hook 'irony-mode)
           (add-hook 'c++-mode-hook 'irony-mode)
