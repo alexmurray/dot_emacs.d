@@ -1330,9 +1330,8 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package markdown-mode
   :ensure t
   :defer t
-  :mode
-  (("\\.md\\'" . markdown-mode)
-   ("\\.markdown\\'" . markdown-mode))
+  :mode (("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
   :config (progn
             (unless (executable-find markdown-command)
               (apm-notify-missing-package "markdown" "markdown not found - is it installed?"))))
