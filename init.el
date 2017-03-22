@@ -43,6 +43,43 @@
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
 
+(defun apm-install-package-by-name (name)
+  "Install a package with NAME using PackageKit."
+  (interactive "sPackage to install: ")
+  (if (require 'dbus nil t)
+      (condition-case ex
+          (dbus-call-method :session
+                            "org.freedesktop.PackageKit"
+                            "/org/freedesktop/PackageKit"
+                            "org.freedesktop.PackageKit.Modify"
+                            "InstallPackageNames"
+                            0
+                            `(:array ,name)
+                            "hide-finished")
+        (alert (format "Error trying to install package %s: %s" name ex)))))
+
+(defvar apm-notify-missing-package-action-map nil
+  "Mapping between action and package name.")
+
+(defun apm-notify-missing-package-action (id key)
+  "Handle notification ID action KEY."
+  (if (string-equal key "install")
+      (apm-install-package-by-name (plist-get apm-notify-missing-package-action-map id))
+    (setq apm-notify-missing-package-action-map
+          (plist-put apm-notify-missing-package-action-map id nil))))
+
+(defun apm-notify-missing-package (name body)
+  "Notify that package with NAME is not installed with BODY and prompt to install it."
+  (if (require 'notifications nil t)
+      (let ((id (notifications-notify
+                 :title (format "Install missing package: %s" name)
+                 :body body
+                 :actions '("install" "install"
+                            "ignore" "ignore")
+                 :on-action 'apm-notify-missing-package-action)))
+        (setq apm-notify-missing-package-action-map
+              (plist-put apm-notify-missing-package-action-map id name)))))
+
 ;; some useful functions for the rest of this init file
 (defun apm-camelize (s &optional delim)
   "Convert under_score string S to CamelCase string with optional DELIM."
@@ -111,7 +148,7 @@
     ;; For Linux
     (if (font-info "Symbola")
         (set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)
-      (alert "Symbola is not installed (ttf-ancient-fonts)"))))
+      (apm-notify-missing-package "ttf-ancient-fonts" "Symbola font is required for emojis 😄"))))
 
 (defvar apm-preferred-font-family "Inconsolata"
   "Preferred font family to use.")
@@ -132,15 +169,15 @@
         (set-face-attribute 'default frame
                             :family apm-preferred-font-family
                             :height apm-preferred-font-height)
-      (alert (format "%s font not installed (%s)"
-                     apm-preferred-font-family
-                     apm-preferred-font-family-package)))
+      (apm-notify-missing-package apm-preferred-font-family-package
+                                  (format "Required for preferred font %s"
+                                          apm-preferred-font-family)))
     (if (font-info "FontAwesome")
         ;; make sure to use FontAwesome for it's range in the unicode
         ;; private use area since on Windows this doesn't happen
         ;; automagically
         (set-fontset-font "fontset-default" '(#xf000 . #xf23a) "FontAwesome")
-      (alert "FontAwesome is not installed (fonts-font-awesome)."))))
+      (apm-notify-missing-package "fonts-font-awesome" "FontAwesome is awesome."))))
 
 ;; make sure graphical properties get set on client frames
 (add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
@@ -194,7 +231,7 @@
   :ensure t
   :defer t
   :init (unless (executable-find "ag")
-          (alert "ag not found - is it installed?")))
+          (apm-notify-missing-package "silversearcher-ag" "ag not found - is it installed?")))
 
 (use-package android-mode
   :ensure t
@@ -946,14 +983,14 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :diminish flycheck-mode
   :init (unless (executable-find "shellcheck")
-          (alert "shellcheck not found - is it installed? (shellcheck)"))
+          (apm-notify-missing-package "shellcheck" "shellcheck not found - is it installed?"))
   :config (global-flycheck-mode 1))
 
 (use-package flycheck-checkbashisms
   :ensure t
   :after flycheck
   :init (unless (executable-find "checkbashisms")
-          (alert "checkbashisms not found - is it installed? (devscripts)"))
+          (apm-notify-missing-package "devscripts" "checkbashisms not found - is it installed?"))
   :config (flycheck-checkbashisms-setup))
 
 (use-package flycheck-coverity
@@ -970,7 +1007,7 @@ Otherwise call `ediff-buffers' interactively."
   :disabled t
   :after flycheck-cstyle
   :init (unless (executable-find "flawfinder")
-          (alert "flawfinder not found - is it installed? (flawfinder)"))
+          (apm-notify-missing-package "flawfinder" "flawfinder not found - is it installed?"))
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-flawfinder-setup)
             (flycheck-add-next-checker 'cstyle '(t . flawfinder))))
@@ -995,7 +1032,7 @@ Otherwise call `ediff-buffers' interactively."
             ;; irony->cppcheck->coverity->cstyle->flawfinder
             (flycheck-add-next-checker 'coverity '(warning . cstyle))
             (unless (executable-find "cppcheck")
-              (alert "cppcheck not found - is it installed?"))))
+              (apm-notify-missing-package "cppcheck" "cppcheck not found - is it installed?"))))
 
 (use-package flycheck-package
   :ensure t
@@ -1290,7 +1327,7 @@ ${3:Ticket: #${4:XXXX}}")))
    ("\\.markdown\\'" . markdown-mode))
   :config (progn
             (unless (executable-find markdown-command)
-              (alert "markdown not found - is it installed?"))))
+              (apm-notify-missing-package "markdown" "markdown not found - is it installed?"))))
 
 (defun apm-meghanada-mode-setup ()
   "Setup meghanada-mode."
@@ -1379,7 +1416,7 @@ ${3:Ticket: #${4:XXXX}}")))
                   org-log-done 'time)
             (if (executable-find "xprintidle")
                 (setq org-clock-x11idle-program-name "xprintidle")
-              (alert "xprintidle not found - is it installed?" ))
+              (apm-notify-missing-package "xprintidle" "xprintidle not found - is it installed?" ))
             ;; reload any saved org clock information on startup
             (org-clock-persistence-insinuate)
             ;; notify if not clocked in
