@@ -826,6 +826,7 @@ Otherwise call `ediff-buffers' interactively."
               "ocg" 'org-clock-goto
               "oci" 'org-clock-in
               "oco" 'org-clock-out
+              "ocu" 'org-clock-update-time-maybe
               "oo" 'helm-org-agenda-files-headings
               "ot" 'org-todo-list
               "pa" 'helm-projectile-ag
