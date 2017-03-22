@@ -396,8 +396,11 @@ code sections."
 
 (use-package cmake-mode
   :ensure t
+  :defer t
   :mode (("CMakeLists\\.txt\\'" . cmake-mode)
-         ("\\.cmake\\'" . cmake-mode)))
+         ("\\.cmake\\'" . cmake-mode))
+  :config (unless (executable-find "cmake")
+            (apm-notify-missing-package "cmake" "cmake not found - is it installed?")))
 
 (use-package company
   :ensure t
@@ -1230,6 +1233,10 @@ Otherwise call `ediff-buffers' interactively."
               ([remap completion-at-point] . irony-completion-at-point-async)
               ([remap complete-symbol] . irony-completion-at-point-async))
   :init (progn
+          (unless (executable-find "cmake")
+            (apm-notify-missing-package "cmake" "cmake required for irony"))
+          (unless (executable-find "clang")
+            (apm-notify-missing-package "clang" "clang required for irony"))
           ;; try and install if not already installed
           (unless (irony--locate-server-executable)
             (call-interactively #'irony-install-server))
