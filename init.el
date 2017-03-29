@@ -1082,11 +1082,6 @@ Otherwise call `ediff-buffers' interactively."
           ;; Non-nil means display source file containing the main routine at startup
           (setq-default gdb-show-main t)))
 
-(defun apm-ggtags-setup ()
-  "Setup conusel-gtags for various modes."
-  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-    (ggtags-mode 1)))
-
 (use-package gitconfig-mode
   :ensure t
   :defer t)
