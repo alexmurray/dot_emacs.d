@@ -807,8 +807,6 @@ Otherwise call `ediff-buffers' interactively."
               "df" 'doxyas-document-function
               "fc" 'flycheck-buffer
               "ff" 'helm-find-files
-              "fn" 'flycheck-next-error
-              "fp" 'flycheck-previous-error
               "ge" 'google-error
               "gg" 'helm-grep-do-git-grep
               "go" 'google-this
@@ -983,11 +981,18 @@ Otherwise call `ediff-buffers' interactively."
 
               (advice-add 'company-call-frontends :before #'on-off-fci-before-company))))
 
+(defun apm-flycheck-setup ()
+  "Setup flycheck."
+  (define-key evil-normal-state-map "[e" 'flycheck-previous-error)
+  (define-key evil-normal-state-map "]e" 'flycheck-next-error))
+
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode
-  :init (unless (executable-find "shellcheck")
-          (apm-notify-missing-package "shellcheck" "shellcheck not found - is it installed?"))
+  :init (progn
+          (unless (executable-find "shellcheck")
+            (apm-notify-missing-package "shellcheck" "shellcheck not found - is it installed?"))
+          (add-hook 'flycheck-mode-hook #'apm-flycheck-setup))
   :config (global-flycheck-mode 1))
 
 (use-package flycheck-checkbashisms
