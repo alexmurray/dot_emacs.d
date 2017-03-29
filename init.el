@@ -827,6 +827,7 @@ Otherwise call `ediff-buffers' interactively."
               "ocg" 'org-clock-goto
               "oci" 'org-clock-in
               "oco" 'org-clock-out
+              "ocs" 'org-mru-clock-in
               "ocu" 'org-clock-update-time-maybe
               "oo" 'helm-org-agenda-files-headings
               "ot" 'org-todo-list
@@ -1434,6 +1435,9 @@ ${3:Ticket: #${4:XXXX}}")))
   :bind (:map org-agenda-mode-map
               ("S-<up>" . org-clock-convenience-timestamp-up)
               ("S-<down>" . org-clock-convenience-timestamp-down)))
+
+(use-package org-mru-clock
+  :ensure t)
 
 (use-package org-notify
   :load-path "vendor/org-notify"
