@@ -1,10 +1,10 @@
-;; -*- lexical-binding: t -*-
 ;;; init.el --- Starting point for Alex Murray's Emacs Configuration
 
 ;;; Commentary:
 ;;
 
 ;;; Code:
+(setq lexical-binding t)
 
 ;; prefer newer non-byte compiled sources to older byte compiled ones
 (setq load-prefer-newer t)
@@ -25,6 +25,7 @@
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
 
+(require 'tls)
 (require 'gnutls)
 ;; ensure certificate validation is setup - https://glyph.twistedmatrix.com/2015/11/editor-malware.html
 (let ((trustfile (replace-regexp-in-string (rx (* (any " \t\n")) eos)
@@ -284,7 +285,7 @@
 (defun apm-appt-notify (time-to-appt time msg)
   "Notify for appointment at TIME-TO-APPT TIME MSG alert."
   (alert msg
-         :title (format "Appointment in %s minutes" time-to-appt)
+         :title (format "Appointment in %s minutes [%s]" time-to-appt time)
          :icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"))
 
 (use-package appt
@@ -1386,6 +1387,8 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (defun apm-org-clock-warn-if-not-clocked-in ()
   "Warn if not currently clocked in."
+  (eval-when-compile
+    (require 'org-clock))
   (unless org-clock-current-task
     (alert "You're not clocked in!")))
 
@@ -1505,6 +1508,8 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (defun apm-racer-mode-setup ()
   "Setup racer-mode."
+  (eval-when-compile
+    (require 'racer))
   (unless (file-exists-p racer-cmd)
     (alert "cargo install racer?"))
   (unless (file-exists-p racer-rust-src-path)
