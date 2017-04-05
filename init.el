@@ -1017,7 +1017,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :after flycheck-coverity
   :init (unless (executable-find "cstyle")
-          (alert "cstyle not found - is it install?"))
+          (alert "cstyle not found - is it installed?"))
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup)
             ;; chain after coverity so we have
