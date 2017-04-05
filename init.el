@@ -21,12 +21,25 @@
 (require 'package)
 ;; we use use-package to do this for us
 (setq package-enable-at-startup nil)
-;; use https for both melpa and gelpa if available
-(if (gnutls-available-p)
-    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                             ("melpa" . "https://melpa.org/packages/")))
-  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                           ("melpa" . "http://melpa.org/packages/"))))
+;; use https for both melpa and gelpa
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
+
+(require 'gnutls)
+;; ensure certificate validation is setup - https://glyph.twistedmatrix.com/2015/11/editor-malware.html
+(let ((trustfile (replace-regexp-in-string (rx (* (any " \t\n")) eos)
+                                           ""
+                                           (shell-command-to-string "python -m certifi"))))
+  (if (file-exists-p trustfile)
+      (if (executable-find "gnutls-cli")
+          (setq tls-program (list (format "gnutls-cli --x509cafile %s -p %%p %%h" trustfile))
+                gnutls-verify-error t
+                gnutls-trustfiles (list trustfile))
+        (apm-notify-missing-package "gnutls-bin" "gnutls-cli not found - is it installed?"))
+    (progn
+      (unless (executable-find "pip")
+        (apm-notify-missing-package "python-pip" "pip not found - is it installed?"))
+      (alert (format "certifi is not installed (%s) - 'pip install --user certifi'" trustfile)))))
 
 (package-initialize)
 
