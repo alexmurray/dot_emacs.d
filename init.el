@@ -866,37 +866,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (global-evil-matchit-mode 1))
 
-(use-package evil-multiedit
-  :ensure t
-  :config (progn
-            (bind-keys :map evil-visual-state-map
-                       ;; Highlights all matches of the selection in the buffer.
-                       ("R"   . evil-multiedit-match-all)
-                       ;; Match selected region.
-                       ("M-d" . evil-multiedit-match-and-next)
-                       ;; Same as M-d but in reverse.
-                       ("M-D" . evil-multiedit-match-and-prev))
-
-            (bind-keys :map evil-normal-state-map
-                       ;; Match the word under cursor (i.e. make it an edit region). Consecutive presses will
-                       ;; incrementally add the next unmatched match.
-                       ("M-d" . evil-multiedit-match-and-next)
-                       ;; Same as M-d but in reverse.
-                       ("M-D" . evil-multiedit-match-and-prev))
-
-            (bind-keys :map evil-multiedit-state-map
-                       ;; For moving between edit regions
-                       ("C-n" . evil-multiedit-next)
-                       ("C-p" . evil-multiedit-prev))
-
-            (bind-keys :map evil-multiedit-insert-state-map
-                       ;; For moving between edit regions
-                       ("C-n" . evil-multiedit-next)
-                       ("C-p" . evil-multiedit-prev))
-
-            ;; Ex command that allows you to invoke evil-multiedit with a regular expression, e.g.
-            (evil-ex-define-cmd "ie[dit]" 'evil-multiedit-ex-match)))
-
 (use-package evil-numbers
   :ensure t
   :bind (("C-c +" . evil-numbers/inc-at-pt)
