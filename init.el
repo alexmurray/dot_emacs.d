@@ -946,25 +946,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package files
   :bind ("C-c r" . revert-buffer))
 
-(use-package fill-column-indicator
-  :ensure t
-  :disabled t
-  :config (progn
-            (define-global-minor-mode global-fci-mode fci-mode
-              ;; only enable for useful buffers
-              (lambda () (if (or (derived-mode-p 'prog-mode) (derived-mode-p 'text-mode))
-                        (fci-mode 1))))
-            (global-fci-mode 1)
-            ;; make fci play nicely with company-mode - from https://github.com/alpaker/Fill-Column-Indicator/issues/54#issuecomment-218344694
-            (with-eval-after-load 'company
-              (defun on-off-fci-before-company(command)
-                (when (string= "show" command)
-                  (turn-off-fci-mode))
-                (when (string= "hide" command)
-                  (turn-on-fci-mode)))
-
-              (advice-add 'company-call-frontends :before #'on-off-fci-before-company))))
-
 (defun apm-flycheck-setup ()
   "Setup flycheck."
   (define-key evil-normal-state-map "[e" 'flycheck-previous-error)
@@ -1686,11 +1667,6 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :diminish yas-minor-mode
   :config (yas-global-mode 1))
-
-(use-package gruvbox-theme
-  :ensure t
-  :disabled t
-  :config (load-theme 'gruvbox t))
 
 (use-package zenburn-theme
   :disabled t
