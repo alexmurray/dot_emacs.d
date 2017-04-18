@@ -51,11 +51,16 @@
 
 (eval-when-compile
   (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
 
 (use-package alert
   :ensure t
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
+
+(use-package dbus
+  :functions dbus-call-method)
 
 (defun apm-install-package-by-name (name)
   "Install a package with NAME using PackageKit."
@@ -81,6 +86,9 @@
       (apm-install-package-by-name (plist-get apm-notify-missing-package-action-map id))
     (setq apm-notify-missing-package-action-map
           (plist-put apm-notify-missing-package-action-map id nil))))
+
+(use-package notifications
+  :functions notifications-notify)
 
 (defun apm-notify-missing-package (name body)
   "Notify that package with NAME is not installed with BODY and prompt to install it."
@@ -541,7 +549,7 @@ code sections."
   :ensure t
   :defer t
   :diminish cov-mode
-  :config (add-hook 'c-mode-common-hook #'cov-mode))
+  :init (add-hook 'c-mode-common-hook #'cov-mode))
 
 (use-package crux
   :ensure t
@@ -672,10 +680,11 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package elisp-slime-nav
   :ensure t
+  :after evil
   :diminish elisp-slime-nav-mode
   :init (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
           (add-hook hook #'elisp-slime-nav-mode))
-  :config (with-eval-after-load 'evil
+  :config (progn
             (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
               #'elisp-slime-nav-find-elisp-thing-at-point)
             (evil-define-key 'visual elisp-slime-nav-mode-map (kbd "C-]")
@@ -954,6 +963,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode
+  :commands flycheck-add-next-checker
   :init (progn
           (unless (executable-find "shellcheck")
             (apm-notify-missing-package "shellcheck" "shellcheck not found - is it installed?"))
@@ -969,6 +979,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck-coverity
   :load-path "vendor/flycheck-coverity"
+  :commands flycheck-coverity-setup
   :after flycheck-irony
   :init (unless (executable-find "cov-run-desktop")
           (alert "cov-run-desktop not found - is it installed?"))
