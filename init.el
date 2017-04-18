@@ -1213,6 +1213,8 @@ Otherwise call `ediff-buffers' interactively."
             (apm-notify-missing-package "cmake" "cmake required for irony"))
           (unless (executable-find "clang")
             (apm-notify-missing-package "clang" "clang required for irony"))
+          (unless (file-exists-p "/usr/lib/llvm-3.8/include/clang-c/Index.h")
+            (apm-notify-missing-package "libclang-dev" "libclang-dev required for irony"))
           ;; try and install if not already installed
           (unless (irony--locate-server-executable)
             (call-interactively #'irony-install-server))
