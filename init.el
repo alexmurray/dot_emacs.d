@@ -428,7 +428,9 @@ code sections."
   :ensure t
   :commands global-company-mode
   ;; Use Company for completion
-  :bind (:map company-mode-map ([remap completion-at-point] . company-complete))
+  :bind (:map company-mode-map
+              ([remap completion-at-point] . company-complete)
+              ([remap complete-symbol] . company-complete))
   :init (progn
           ;; set default lighter as nothing so in general it is not displayed
           ;; but will still be shown when completion popup is active to show the
@@ -485,9 +487,7 @@ code sections."
   :ensure t
   :after company
   :config (progn
-            (setq company-irony-c-headers--compiler-executable
-                  (or (executable-find "clang++")
-                      (executable-find "clang++-3.5")))
+            (setq company-irony-c-headers--compiler-executable (executable-find "clang++"))
             ;; group with company-irony but beforehand so we get first pick
             (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
 
@@ -1205,9 +1205,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :diminish irony-mode
   :commands (irony-mode)
-  :bind (:map irony-mode-map
-              ([remap completion-at-point] . irony-completion-at-point-async)
-              ([remap complete-symbol] . irony-completion-at-point-async))
   :init (progn
           (unless (executable-find "cmake")
             (apm-notify-missing-package "cmake" "cmake required for irony"))
@@ -1216,7 +1213,7 @@ Otherwise call `ediff-buffers' interactively."
           (unless (file-exists-p "/usr/lib/llvm-3.8/include/clang-c/Index.h")
             (apm-notify-missing-package "libclang-dev" "libclang-dev required for irony"))
           ;; try and install if not already installed
-          (unless (irony--locate-server-executable)
+          (unless (irony--find-server-executable)
             (call-interactively #'irony-install-server))
           (advice-add 'irony-cdb-clang-complete :before 'apm-irony-cdb-clang-complete--auto-generate-clang-complete)
           (add-hook 'c-mode-hook 'irony-mode)
