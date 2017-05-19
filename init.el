@@ -1361,7 +1361,8 @@ ${3:Ticket: #${4:XXXX}}")))
                   org-adapt-indentation nil
                   org-imenu-depth 4
                   org-todo-keywords '((sequence "TODO(t)" "STARTED(s!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
-                                      (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
+                                      (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)"))
+		  org-goto-interface 'outline-path-completion)
             ;; set up org-babel integration for plantuml
             (org-babel-do-load-languages
              'org-babel-load-languages
