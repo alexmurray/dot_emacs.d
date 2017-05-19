@@ -1304,6 +1304,11 @@ ${3:Ticket: #${4:XXXX}}")))
   :defer t
   :bind ("C-x g" . magit-status))
 
+(use-package magithub
+  :ensure t
+  :after magit
+  :config (magithub-feature-autoinject t))
+
 (use-package mallard-mode
   :ensure t
   :defer t)
