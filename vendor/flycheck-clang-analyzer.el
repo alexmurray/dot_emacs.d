@@ -1,0 +1,1 @@
+../../flycheck-clang-analyzer/flycheck-clang-analyzer.el

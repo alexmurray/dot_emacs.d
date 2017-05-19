@@ -977,6 +977,16 @@ Otherwise call `ediff-buffers' interactively."
           (apm-notify-missing-package "devscripts" "checkbashisms not found - is it installed?"))
   :config (flycheck-checkbashisms-setup))
 
+(use-package flycheck-clang-analyzer
+  :load-path "vendor/flycheck-clang-analyzer"
+  :commands flycheck-clang-analyzer-setup
+  :after flycheck-irony
+  :init (unless (executable-find "clang")
+          (apm-notify-missing-package "clang" "clang not found - is it installed?"))
+  :config (progn
+            (add-hook 'flycheck-mode-hook #'flycheck-clang-analyzer-setup)
+            (flycheck-add-next-checker 'c/c++-cppcheck '(t . clang-analyzer))))
+
 (use-package flycheck-coverity
   :load-path "vendor/flycheck-coverity"
   :commands flycheck-coverity-setup
@@ -985,7 +995,7 @@ Otherwise call `ediff-buffers' interactively."
           (alert "cov-run-desktop not found - is it installed?"))
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-coverity-setup)
-            (flycheck-add-next-checker 'c/c++-cppcheck '(t . coverity))))
+            (flycheck-add-next-checker 'clang-analyzer '(t . coverity))))
 
 (use-package flycheck-flawfinder
   :ensure t
@@ -1014,7 +1024,7 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup)
             ;; chain after coverity so we have
-            ;; irony->cppcheck->coverity->cstyle->flawfinder
+            ;; irony->cppcheck->clang-analyzer->coverity->cstyle->flawfinder
             (flycheck-add-next-checker 'coverity '(warning . cstyle))
             (unless (executable-find "cppcheck")
               (apm-notify-missing-package "cppcheck" "cppcheck not found - is it installed?"))))
