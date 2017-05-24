@@ -981,20 +981,21 @@ Otherwise call `ediff-buffers' interactively."
   :load-path "vendor/flycheck-clang-analyzer"
   :commands flycheck-clang-analyzer-setup
   :after flycheck-irony
-  :init (unless (executable-find "clang")
+  :init (unless (executable-find "clang-4.0")
           (apm-notify-missing-package "clang" "clang not found - is it installed?"))
   :config (progn
-            (add-hook 'flycheck-mode-hook #'flycheck-clang-analyzer-setup)
-            (flycheck-add-next-checker 'c/c++-cppcheck '(t . clang-analyzer))))
+	    (setq flycheck-clang-analyzer-executable "clang-4.0")
+	    ;; automatically sets itself up as next checker after irony
+            (flycheck-clang-analyzer-setup)))
 
 (use-package flycheck-coverity
   :load-path "vendor/flycheck-coverity"
   :commands flycheck-coverity-setup
-  :after flycheck-irony
+  :after flycheck-clang-analyzer
   :init (unless (executable-find "cov-run-desktop")
           (alert "cov-run-desktop not found - is it installed?"))
   :config (progn
-            (add-hook 'flycheck-mode-hook #'flycheck-coverity-setup)
+            (flycheck-coverity-setup)
             (flycheck-add-next-checker 'clang-analyzer '(t . coverity))))
 
 (use-package flycheck-flawfinder
