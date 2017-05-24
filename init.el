@@ -1006,14 +1006,14 @@ Otherwise call `ediff-buffers' interactively."
           (apm-notify-missing-package "flawfinder" "flawfinder not found - is it installed?"))
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-flawfinder-setup)
-            (flycheck-add-next-checker 'cstyle '(t . flawfinder))))
+            (flycheck-add-next-checker 'irony '(warning . flawfinder) t)))
 
 (use-package flycheck-irony
   :ensure t
   :after flycheck
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
-            (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck))))
+            (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck) t)))
 
 ;; we want to make sure coverity comes before us in the list of flycheck-checkers
 ;; so do our cstyle setup after coverity
@@ -1024,9 +1024,7 @@ Otherwise call `ediff-buffers' interactively."
           (alert "cstyle not found - is it installed?"))
   :config (progn
             (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup)
-            ;; chain after coverity so we have
-            ;; irony->cppcheck->clang-analyzer->coverity->cstyle->flawfinder
-            (flycheck-add-next-checker 'coverity '(warning . cstyle))
+            (flycheck-add-next-checker 'irony '(warning . cstyle) t)
             (unless (executable-find "cppcheck")
               (apm-notify-missing-package "cppcheck" "cppcheck not found - is it installed?"))))
 
