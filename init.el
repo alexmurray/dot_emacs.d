@@ -442,6 +442,7 @@ code sections."
             (setq company-idle-delay 0.5)
             (setq company-tooltip-limit 10)
             (setq company-minimum-prefix-length 2)
+            (setq company-selection-wrap-around t)
 
             ;; align annotations in tooltip
             (setq company-tooltip-align-annotations t)
