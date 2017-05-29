@@ -989,7 +989,7 @@ Otherwise call `ediff-buffers' interactively."
             (flycheck-clang-analyzer-setup)))
 
 (use-package flycheck-coverity
-  :load-path "vendor/flycheck-coverity"
+  :ensure t
   :commands flycheck-coverity-setup
   :after flycheck-clang-analyzer
   :init (unless (executable-find "cov-run-desktop")
