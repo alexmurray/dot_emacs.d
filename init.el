@@ -857,7 +857,7 @@ Otherwise call `ediff-buffers' interactively."
               "ot" 'org-todo-list
               "pa" 'helm-projectile-ag
               "pb" 'helm-projectile-switch-to-buffer
-              "pe" 'helm-projectile-switch-to-eshell
+              "pe" 'projectile-run-eshell
               "pd" 'helm-projectile-find-dir
               "pf" 'helm-projectile-find-file
               "ph" 'helm-projectile
