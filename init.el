@@ -241,7 +241,8 @@
 
 (use-package adaptive-wrap
   :ensure t
-  :config (add-hook 'text-mode-hook #'adaptive-wrap-prefix-mode))
+  :defer t
+  :init (add-hook 'text-mode-hook #'adaptive-wrap-prefix-mode))
 
 (use-package aggressive-indent
   :ensure t
@@ -257,6 +258,7 @@
 
 (use-package android-mode
   :ensure t
+  :defer t
   :commands (android-mode)
   :init (progn
           ;; change prefix so doesn't conflict with comment-region
@@ -285,6 +287,7 @@
          ("C-M-%" . anzu-query-replace)))
 
 (use-package apm-c
+  :defer t
   :load-path "lisp/"
   :commands (apm-c-mode-setup)
   :init (dolist (hook '(c-mode-hook c++-mode-hook))
@@ -349,14 +352,16 @@
   :bind ("C-x C-b" . bs-show))
 
 (use-package bug-reference
-  :config (progn
-            (setq bug-reference-url-format "http://projects.cohda.wireless:8000/trac/mk2/ticket/%s"
-                  bug-reference-bug-regexp "\\([Tt]icket ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
-            (add-hook 'prog-mode-hook #'bug-reference-prog-mode)))
+  :defer t
+  :init (progn
+	  (setq bug-reference-url-format "http://projects.cohda.wireless:8000/trac/mk2/ticket/%s"
+		bug-reference-bug-regexp "\\([Tt]icket ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
+	  (add-hook 'prog-mode-hook #'bug-reference-prog-mode)))
 
 (use-package cargo
   :ensure t
-  :config (add-hook 'rust-mode-hook 'cargo-minor-mode))
+  :defer t
+  :init (add-hook 'rust-mode-hook 'cargo-minor-mode))
 
 ;; show #if 0 / #endif etc regions in comment face - taken from
 ;; http://stackoverflow.com/questions/4549015/in-c-c-mode-in-emacs-change-face-of-code-in-if-0-endif-block-to-comment-fa
@@ -613,14 +618,15 @@ code sections."
   :defer t
   :commands (doxymacs-mode doxymacs-font-lock)
   :diminish doxymacs-mode
-  :config (add-hook 'c-mode-common-hook #'apm-doxymacs-setup))
+  :init (add-hook 'c-mode-common-hook #'apm-doxymacs-setup))
 
 (use-package drag-stuff
   :ensure t
+  :defer t
   :diminish drag-stuff-mode
   :bind (("M-<up>" . drag-stuff-up)
          ("M-<down>" . drag-stuff-down))
-  :config (add-hook 'prog-mode-hook #'drag-stuff-mode))
+  :init (add-hook 'prog-mode-hook #'drag-stuff-mode))
 
 (use-package dts-mode
   :ensure t)
@@ -681,6 +687,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package elisp-slime-nav
   :ensure t
+  :defer t
   :after evil
   :diminish elisp-slime-nav-mode
   :init (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
@@ -714,9 +721,10 @@ Otherwise call `ediff-buffers' interactively."
   (setq mode-name ""))
 
 (use-package eshell
+  :defer t
   :commands eshell
   :bind ("C-x m" . eshell)
-  :config (add-hook 'eshell-mode-hook #'apm-eshell-mode-setup))
+  :init (add-hook 'eshell-mode-hook #'apm-eshell-mode-setup))
 
 (defun makefile-tabs-are-less-evil ()
   "Disable ethan-wspace from caring about tabs in Makefile's."
@@ -950,8 +958,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :functions fic-mode
-  :init (progn
-          (add-hook 'prog-mode-hook #'fic-mode)))
+  :init (add-hook 'prog-mode-hook #'fic-mode))
 
 (use-package files
   :bind ("C-c r" . revert-buffer))
@@ -1055,9 +1062,10 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flyspell
   :diminish flyspell-mode
-  :config (progn
-            (add-hook 'text-mode-hook #'flyspell-mode)
-            (add-hook 'prog-mode-hook #'flyspell-prog-mode)))
+  :defer t
+  :init (progn
+	  (add-hook 'text-mode-hook #'flyspell-mode)
+	  (add-hook 'prog-mode-hook #'flyspell-prog-mode)))
 
 (use-package flx
   :ensure t)
@@ -1089,7 +1097,8 @@ Otherwise call `ediff-buffers' interactively."
   :commands (google-this google-error))
 
 (use-package goto-addr
-  :config (add-hook 'prog-mode-hook #'goto-address-prog-mode))
+  :defer t
+  :init (add-hook 'prog-mode-hook #'goto-address-prog-mode))
 
 (use-package gud
   :defer t
@@ -1220,6 +1229,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package irony
   :ensure t
+  :defer t
   :diminish irony-mode
   :commands (irony-mode)
   :init (progn
@@ -1286,7 +1296,8 @@ Otherwise call `ediff-buffers' interactively."
      '("Packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2))))
 
 (use-package lisp-mode
-  :config (add-hook 'emacs-lisp-mode-hook #'apm-emacs-lisp-mode-setup))
+  :defer t
+  :init (add-hook 'emacs-lisp-mode-hook #'apm-emacs-lisp-mode-setup))
 
 (defun apm-log-edit-insert-yasnippet-template ()
   "Insert the default template with Summary and Author."
@@ -1300,11 +1311,12 @@ ${2:Longer description of this change}
 ${3:Ticket: #${4:XXXX}}")))
 
 (use-package log-edit
-  :config (progn
-            (with-eval-after-load 'evil
-              (evil-set-initial-state 'log-edit-mode 'insert))
-            (add-hook 'log-edit-hook 'apm-log-edit-insert-yasnippet-template)
-            (remove-hook 'log-edit-hook 'log-edit-insert-message-template)))
+  :defer t
+  :init (progn
+	  (with-eval-after-load 'evil
+	    (evil-set-initial-state 'log-edit-mode 'insert))
+	  (add-hook 'log-edit-hook 'apm-log-edit-insert-yasnippet-template)
+	  (remove-hook 'log-edit-hook 'log-edit-insert-message-template)))
 
 (use-package magit
   :ensure t
@@ -1343,10 +1355,9 @@ ${3:Ticket: #${4:XXXX}}")))
   :init (progn
           (add-hook 'meghanada-mode-hook #'apm-meghanada-mode-setup)
           (add-hook 'java-mode-hook 'meghanada-mode))
-  :config (progn
-            (setq meghanada-use-company t
-                  meghanada-use-flycheck t
-                  meghanada-auto-start t)))
+  :config (setq meghanada-use-company t
+		meghanada-use-flycheck t
+		meghanada-auto-start t))
 
 (use-package modern-cpp-font-lock
   :ensure t
@@ -1367,7 +1378,8 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package nlinum-hl
   :after nlinum
-  :config (add-hook 'nlinum-mode-hook #'nlinum-hl-mode))
+  :defer t
+  :init (add-hook 'nlinum-mode-hook #'nlinum-hl-mode))
 
 (use-package org
   :ensure t
@@ -1460,7 +1472,8 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package org-table-sticky-header
   :ensure t
   :after org
-  :config (add-hook 'org-mode-hook 'org-table-sticky-header-mode))
+  :defer t
+  :init (add-hook 'org-mode-hook 'org-table-sticky-header-mode))
 
 (use-package ob-plantuml
   :after plantuml-mode
@@ -1547,12 +1560,14 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package racer
   :ensure t
-  :config (progn
-            (setq racer-rust-src-path (expand-file-name "~/rust/src"))
-            (add-hook 'rust-mode-hook #'apm-racer-mode-setup)))
+  :defer t
+  :init (progn
+	  (setq racer-rust-src-path (expand-file-name "~/rust/src"))
+	  (add-hook 'rust-mode-hook #'apm-racer-mode-setup)))
 
 (use-package rainbow-mode
   :ensure t
+  :defer t
   :diminish rainbow-mode
   :commands (rainbow-mode)
   :init (dolist (hook '(css-mode-hook html-mode-hook))
@@ -1586,6 +1601,7 @@ ${3:Ticket: #${4:XXXX}}")))
                       sh-indentation 2))
 
 (use-package simple
+  :defer t
   ;; save whatever is in the system clipboard to the kill ring before killing
   ;; something else into the kill ring
   :init (progn
@@ -1695,11 +1711,12 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package web-mode
   :ensure t
+  :defer t
   :commands web-mode
-  :config (progn
-            ;; use smartparens instead
-            (setq web-mode-enable-auto-pairing nil)
-            (add-hook 'web-mode-hook #'apm-web-mode-setup))
+  :init (progn
+	  ;; use smartparens instead
+	  (setq web-mode-enable-auto-pairing nil)
+	  (add-hook 'web-mode-hook #'apm-web-mode-setup))
   :mode ("\\.php\\'" . web-mode))
 
 (use-package which-func
