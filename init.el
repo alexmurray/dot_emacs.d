@@ -1016,6 +1016,11 @@ Otherwise call `ediff-buffers' interactively."
             (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
             (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck) t)))
 
+(use-package flycheck-jing
+  :load-path "vendor/flycheck-jing.el"
+  :after flycheck
+  :config (flycheck-jing-setup))
+
 ;; we want to make sure coverity comes before us in the list of flycheck-checkers
 ;; so do our cstyle setup after coverity
 (use-package flycheck-cstyle
@@ -1540,6 +1545,9 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package region-state
   :ensure t
   :config (region-state-mode 1))
+
+(use-package rnc-mode
+  :ensure t)
 
 (use-package rust-mode
   :ensure t)
