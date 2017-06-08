@@ -1006,14 +1006,14 @@ Otherwise call `ediff-buffers' interactively."
   :init (unless (executable-find "flawfinder")
           (apm-notify-missing-package "flawfinder" "flawfinder not found - is it installed?"))
   :config (progn
-            (add-hook 'flycheck-mode-hook #'flycheck-flawfinder-setup)
+            (flycheck-flawfinder-setup)
             (flycheck-add-next-checker 'irony '(warning . flawfinder) t)))
 
 (use-package flycheck-irony
   :ensure t
   :after flycheck
   :config (progn
-            (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
+            (flycheck-irony-setup)
             (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck) t)))
 
 (use-package flycheck-jing
@@ -1029,7 +1029,7 @@ Otherwise call `ediff-buffers' interactively."
   :init (unless (executable-find "cstyle")
           (alert "cstyle not found - is it installed?"))
   :config (progn
-            (add-hook 'flycheck-mode-hook #'flycheck-cstyle-setup)
+            (flycheck-cstyle-setup)
             (flycheck-add-next-checker 'irony '(warning . cstyle) t)
             (unless (executable-find "cppcheck")
               (apm-notify-missing-package "cppcheck" "cppcheck not found - is it installed?"))))
@@ -1051,7 +1051,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck-rust
   :ensure t
-  :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+  :config (flycheck-rust-setup))
 
 (use-package flyspell
   :diminish flyspell-mode
