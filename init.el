@@ -1173,7 +1173,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package helm-projectile
   :ensure t
-  :config (helm-projectile-on))
+  :config (progn
+	    (setq projectile-switch-project-action 'helm-projectile)
+	    (helm-projectile-on)))
 
 (use-package helm-swoop
   :ensure t
@@ -1471,6 +1473,9 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   ;; only try and install when needed
   :mode ("\\.pdf\\'" . pdf-tools-install))
+
+(use-package persp-projectile
+  :ensure t)
 
 (use-package plantuml-mode
   :ensure t
