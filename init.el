@@ -611,14 +611,18 @@ code sections."
   :defer t)
 
 (defun apm-doxymacs-setup()
-  (doxymacs-mode)
-  (doxymacs-font-lock))
+  (when (require 'doxymacs nil t)
+    (doxymacs-mode)
+    (doxymacs-font-lock)))
 
 (use-package doxymacs
   :defer t
   :commands (doxymacs-mode doxymacs-font-lock)
   :diminish doxymacs-mode
-  :init (add-hook 'c-mode-common-hook #'apm-doxymacs-setup))
+  :init (progn
+	  (unless (require 'doxymacs nil t)
+	    (alert "doxymacs not found - is it installed? (don't use Ubuntu package since requires Emacs 24)"))
+	  (add-hook 'c-mode-common-hook #'apm-doxymacs-setup)))
 
 (use-package drag-stuff
   :ensure t
