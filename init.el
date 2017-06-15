@@ -1235,7 +1235,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :diminish irony-mode
-  :commands (irony-mode)
+  :commands (irony-mode irony--find-server-executable irony-install-server)
   :init (progn
           (unless (executable-find "cmake")
             (apm-notify-missing-package "cmake" "cmake required for irony"))
