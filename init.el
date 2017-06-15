@@ -1373,18 +1373,6 @@ ${3:Ticket: #${4:XXXX}}")))
   :bind (([(meta shift up)] . move-text-up)
          ([(meta shift down)] . move-text-down)))
 
-(use-package nlinum
-  :ensure t
-  :defer t
-  :init (progn
-	  (add-hook 'text-mode-hook #'nlinum-mode)
-	  (add-hook 'prog-mode-hook #'nlinum-mode)))
-
-(use-package nlinum-hl
-  :after nlinum
-  :defer t
-  :init (add-hook 'nlinum-mode-hook #'nlinum-hl-mode))
-
 (use-package org
   :ensure t
   :config (progn
