@@ -37,11 +37,11 @@
           (setq tls-program (list (format "gnutls-cli --x509cafile %s -p %%p %%h" trustfile))
                 gnutls-verify-error t
                 gnutls-trustfiles (list trustfile))
-        (apm-notify-missing-package "gnutls-bin" "gnutls-cli not found - is it installed?"))
+        (error "gnutls-cli not found - is it installed?"))
     (progn
       (unless (executable-find "pip")
-        (apm-notify-missing-package "python-pip" "pip not found - is it installed?"))
-      (alert (format "certifi is not installed (%s) - 'pip install --user certifi'" trustfile)))))
+        (error "pip not found - is it installed?"))
+      (error (format "certifi is not installed (%s) - 'pip install --user certifi'" trustfile)))))
 
 (package-initialize)
 
