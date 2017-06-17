@@ -17,6 +17,23 @@
 ;; load custom but ignore error if doesn't exist
 (load custom-file t)
 
+;; Linux package management
+(require 'dbus)
+
+(defun apm-install-package-by-name (name)
+  "Install a package with NAME using PackageKit."
+  (interactive "sPackage to install: ")
+  (condition-case ex
+      (dbus-call-method :session
+                        "org.freedesktop.PackageKit"
+                        "/org/freedesktop/PackageKit"
+                        "org.freedesktop.PackageKit.Modify"
+                        "InstallPackageNames"
+                        0
+                        `(:array ,name)
+                        "hide-finished")
+    (error (format "Error trying to install package %s: %s" name ex))))
+
 ;;; Package management
 (require 'package)
 ;; we use use-package to do this for us
@@ -32,16 +49,19 @@
                   (rx (* (any " \t\n")) eos)
                   ""
                   (shell-command-to-string "python -m certifi"))))
-  (if (file-exists-p trustfile)
-      (if (executable-find "gnutls-cli")
-          (setq tls-program (list (format "gnutls-cli --x509cafile %s -p %%p %%h" trustfile))
-                gnutls-verify-error t
-                gnutls-trustfiles (list trustfile))
-        (error "gnutls-cli not found - is it installed?"))
-    (progn
-      (unless (executable-find "pip")
-        (error "pip not found - is it installed?"))
-      (error (format "certifi is not installed (%s) - 'pip install --user certifi'" trustfile)))))
+  (unless (file-exists-p trustfile)
+    (unless (executable-find "pip")
+      (apm-install-package-by-name "python-pip"))
+    (call-process "pip" nil nil nil "install" "--user" "certifi")
+    (setq trustfile (replace-regexp-in-string
+                     (rx (* (any " \t\n")) eos)
+                     ""
+                     (shell-command-to-string "python -m certifi"))))
+  (unless (executable-find "gnutls-cli")
+    (apm-install-package-by-name "gnutls-bin"))
+  (setq tls-program (list (format "gnutls-cli --x509cafile %s -p %%p %%h" trustfile))
+        gnutls-verify-error t
+        gnutls-trustfiles (list trustfile)))
 
 (package-initialize)
 
@@ -59,24 +79,6 @@
   :ensure t
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
-
-(use-package dbus
-  :functions dbus-call-method)
-
-(defun apm-install-package-by-name (name)
-  "Install a package with NAME using PackageKit."
-  (interactive "sPackage to install: ")
-  (if (require 'dbus nil t)
-      (condition-case ex
-          (dbus-call-method :session
-                            "org.freedesktop.PackageKit"
-                            "/org/freedesktop/PackageKit"
-                            "org.freedesktop.PackageKit.Modify"
-                            "InstallPackageNames"
-                            0
-                            `(:array ,name)
-                            "hide-finished")
-        (alert (format "Error trying to install package %s: %s" name ex)))))
 
 (defvar apm-notify-missing-package-action-map nil
   "Mapping between action and package name.")
