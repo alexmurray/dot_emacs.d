@@ -24,7 +24,7 @@
   "Install a package with NAME using PackageKit."
   (interactive "sPackage to install: ")
   (condition-case ex
-      (let ((xid (cdr (assoc 'window-id (frame-parameters)))))
+      (let ((xid (cdr (assoc 'outer-window-id (frame-parameters)))))
         (dbus-call-method :session
                           "org.freedesktop.PackageKit"
                           "/org/freedesktop/PackageKit"
