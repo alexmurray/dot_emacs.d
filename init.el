@@ -810,6 +810,14 @@ Otherwise call `ediff-buffers' interactively."
   :diminish evil-commentary-mode
   :config (evil-commentary-mode 1))
 
+(use-package evil-goggles
+  :ensure t
+  :diminish evil-goggles-mode
+  :config (progn
+            (setq evil-goggles-duration 0.1)
+            (evil-goggles-mode 1)
+            (evil-goggles-use-diff-faces)))
+
 (use-package evil-leader
   :ensure t
   :config (progn
