@@ -1186,6 +1186,9 @@ Otherwise call `ediff-buffers' interactively."
 (use-package helm-unicode
   :ensure t)
 
+(use-package helpful
+  :ensure t)
+
 (use-package hungry-delete
   :ensure t
   :diminish hungry-delete-mode
