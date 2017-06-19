@@ -987,7 +987,7 @@ Otherwise call `ediff-buffers' interactively."
   :commands flycheck-clang-analyzer-setup
   :after flycheck-irony
   :init (unless (executable-find "clang-4.0")
-          (pk-install-package "clang"))
+          (pk-install-package "clang-4.0"))
   :config (progn
             (setq flycheck-clang-analyzer-executable "clang-4.0")
             ;; automatically sets itself up as next checker after irony
@@ -1250,10 +1250,10 @@ Otherwise call `ediff-buffers' interactively."
   :init (progn
           (unless (executable-find "cmake")
             (pk-install-package "cmake"))
-          (unless (executable-find "clang")
-            (pk-install-package "clang"))
-          (unless (file-exists-p "/usr/lib/llvm-3.8/include/clang-c/Index.h")
-            (pk-install-package "libclang-dev"))
+          (unless (executable-find "clang-4.0")
+            (pk-install-package "clang-4.0"))
+          (unless (file-exists-p "/usr/lib/llvm-4.0/include/clang-c/Index.h")
+            (pk-install-package "libclang-4.0-dev"))
           ;; try and install if not already installed
           (unless (irony--find-server-executable)
             (call-interactively #'irony-install-server))
