@@ -20,7 +20,7 @@
 ;; Linux package management
 (require 'dbus)
 
-(defun apm-install-package-by-name (name)
+(defun pk-install-package (name)
   "Install a package with NAME using PackageKit."
   (interactive "sPackage to install: ")
   (condition-case ex
@@ -79,31 +79,6 @@
   :ensure t
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
-
-(defvar apm-notify-missing-package-action-map nil
-  "Mapping between action and package name.")
-
-(defun apm-notify-missing-package-action (id key)
-  "Handle notification ID action KEY."
-  (if (string-equal key "install")
-      (apm-install-package-by-name (plist-get apm-notify-missing-package-action-map id))
-    (setq apm-notify-missing-package-action-map
-          (plist-put apm-notify-missing-package-action-map id nil))))
-
-(use-package notifications
-  :functions notifications-notify)
-
-(defun apm-notify-missing-package (name body)
-  "Notify that package with NAME is not installed with BODY and prompt to install it."
-  (if (require 'notifications nil t)
-      (let ((id (notifications-notify
-                 :title (format "Install missing package: %s" name)
-                 :body body
-                 :actions '("install" "install"
-                            "ignore" "ignore")
-                 :on-action 'apm-notify-missing-package-action)))
-        (setq apm-notify-missing-package-action-map
-              (plist-put apm-notify-missing-package-action-map id name)))))
 
 ;; some useful functions for the rest of this init file
 (defun apm-camelize (s &optional delim)
@@ -174,9 +149,9 @@
       ;; For NS/Cocoa
       (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)
     ;; For Linux
-    (if (font-info "Symbola")
-        (set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)
-      (apm-notify-missing-package "ttf-ancient-fonts" "Symbola font is required for emojis 😄"))))
+    (unless (font-info "Symbola")
+      (pk-install-package "ttf-ancient-fonts"))
+    (set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
 
 (defvar apm-preferred-font-family "Inconsolata"
   "Preferred font family to use.")
@@ -200,12 +175,12 @@
       (apm-notify-missing-package apm-preferred-font-family-package
                                   (format "Required for preferred font %s"
                                           apm-preferred-font-family)))
-    (if (font-info "FontAwesome")
-        ;; make sure to use FontAwesome for it's range in the unicode
-        ;; private use area since on Windows this doesn't happen
-        ;; automagically
-        (set-fontset-font "fontset-default" '(#xf000 . #xf23a) "FontAwesome")
-      (apm-notify-missing-package "fonts-font-awesome" "FontAwesome is awesome."))))
+    (unless (font-info "FontAwesome")
+      (pk-install-package "fonts-font-awesome"))
+    ;; make sure to use FontAwesome for it's range in the unicode
+    ;; private use area since on Windows this doesn't happen
+    ;; automagically
+    (set-fontset-font "fontset-default" '(#xf000 . #xf23a) "FontAwesome")))
 
 ;; make sure graphical properties get set on client frames
 (add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
@@ -260,7 +235,7 @@
   :ensure t
   :defer t
   :init (unless (executable-find "ag")
-          (apm-notify-missing-package "silversearcher-ag" "ag not found - is it installed?")))
+          (pk-install-package "silversearcher-ag")))
 
 (use-package android-mode
   :ensure t
@@ -433,7 +408,7 @@ code sections."
   :mode (("CMakeLists\\.txt\\'" . cmake-mode)
          ("\\.cmake\\'" . cmake-mode))
   :config (unless (executable-find "cmake")
-            (apm-notify-missing-package "cmake" "cmake not found - is it installed?")))
+            (pk-install-package "cmake")))
 
 (use-package company
   :ensure t
@@ -984,7 +959,7 @@ Otherwise call `ediff-buffers' interactively."
   :commands flycheck-add-next-checker
   :init (progn
           (unless (executable-find "shellcheck")
-            (apm-notify-missing-package "shellcheck" "shellcheck not found - is it installed?"))
+            (pk-install-package "shellcheck"))
           (add-hook 'flycheck-mode-hook #'apm-flycheck-setup))
   :config (global-flycheck-mode 1))
 
@@ -992,7 +967,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :after flycheck
   :init (unless (executable-find "checkbashisms")
-          (apm-notify-missing-package "devscripts" "checkbashisms not found - is it installed?"))
+          (pk-install-package "devscripts"))
   :config (flycheck-checkbashisms-setup))
 
 (use-package flycheck-clang-analyzer
@@ -1000,7 +975,7 @@ Otherwise call `ediff-buffers' interactively."
   :commands flycheck-clang-analyzer-setup
   :after flycheck-irony
   :init (unless (executable-find "clang-4.0")
-          (apm-notify-missing-package "clang" "clang not found - is it installed?"))
+          (pk-install-package "clang"))
   :config (progn
             (setq flycheck-clang-analyzer-executable "clang-4.0")
             ;; automatically sets itself up as next checker after irony
@@ -1021,7 +996,7 @@ Otherwise call `ediff-buffers' interactively."
   :disabled t
   :after flycheck-cstyle
   :init (unless (executable-find "flawfinder")
-          (apm-notify-missing-package "flawfinder" "flawfinder not found - is it installed?"))
+          (pk-install-package "flawfinder"))
   :config (progn
             (flycheck-flawfinder-setup)
             (flycheck-add-next-checker 'irony '(warning . flawfinder) t)))
@@ -1049,7 +1024,7 @@ Otherwise call `ediff-buffers' interactively."
             (flycheck-cstyle-setup)
             (flycheck-add-next-checker 'irony '(warning . cstyle) t)
             (unless (executable-find "cppcheck")
-              (apm-notify-missing-package "cppcheck" "cppcheck not found - is it installed?"))))
+              (pk-install-package "cppcheck"))))
 
 (use-package flycheck-package
   :ensure t
@@ -1244,11 +1219,11 @@ Otherwise call `ediff-buffers' interactively."
   :commands (irony-mode irony--find-server-executable irony-install-server)
   :init (progn
           (unless (executable-find "cmake")
-            (apm-notify-missing-package "cmake" "cmake required for irony"))
+            (pk-install-package "cmake"))
           (unless (executable-find "clang")
-            (apm-notify-missing-package "clang" "clang required for irony"))
+            (pk-install-package "clang"))
           (unless (file-exists-p "/usr/lib/llvm-3.8/include/clang-c/Index.h")
-            (apm-notify-missing-package "libclang-dev" "libclang-dev required for irony"))
+            (pk-install-package "libclang-dev"))
           ;; try and install if not already installed
           (unless (irony--find-server-executable)
             (call-interactively #'irony-install-server))
@@ -1351,9 +1326,8 @@ ${3:Ticket: #${4:XXXX}}")))
   :defer t
   :mode (("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :config (progn
-            (unless (executable-find markdown-command)
-              (apm-notify-missing-package "markdown" "markdown not found - is it installed?"))))
+  :config (unless (executable-find markdown-command)
+            (pk-install-package "markdown")))
 
 (defun apm-meghanada-mode-setup ()
   "Setup meghanada-mode."
@@ -1442,9 +1416,9 @@ ${3:Ticket: #${4:XXXX}}")))
                   org-clock-persist-file (expand-file-name "~/Dropbox/Orgzly/org-clock-save.el")
                   ;; insert a CLOSED timestamp when TODOs are marked DONE
                   org-log-done 'time)
-            (if (executable-find "xprintidle")
-                (setq org-clock-x11idle-program-name "xprintidle")
-              (apm-notify-missing-package "xprintidle" "xprintidle not found - is it installed?" ))
+            (unless (executable-find "xprintidle")
+              (pk-install-package "xprintidle"))
+            (setq org-clock-x11idle-program-name "xprintidle")
             ;; reload any saved org clock information on startup
             (org-clock-persistence-insinuate)
             ;; notify if not clocked in
