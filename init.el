@@ -838,7 +838,8 @@ Otherwise call `ediff-buffers' interactively."
               "gc" 'helm-gtags-create-tags
               "gd" 'helm-gtags-delete-tags
               "gr" 'helm-gtags-find-rtag
-              "gs" 'helm-gtags-find-symbol
+              "gR" 'helm-gtags-resume
+              "gs" 'helm-gtags-select
               "gt" 'helm-gtags-find-tag
               "gu" 'helm-gtags-update-tags
               "i" 'helm-semantic-or-imenu
