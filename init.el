@@ -1382,6 +1382,12 @@ ${3:Ticket: #${4:XXXX}}")))
   :bind (([(meta shift up)] . move-text-up)
          ([(meta shift down)] . move-text-down)))
 
+(use-package no-littering
+  :ensure t
+  :config (with-eval-after-load 'recentf
+            (add-to-list 'recentf-exclude no-littering-var-directory)
+            (add-to-list 'recentf-exclude no-littering-etc-directory)))
+
 (use-package org
   :ensure t
   :config (progn
