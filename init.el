@@ -1074,6 +1074,23 @@ Otherwise call `ediff-buffers' interactively."
           ;; Non-nil means display source file containing the main routine at startup
           (setq-default gdb-show-main t)))
 
+(defun apm-ggtags-setup ()
+  "Setup helm-gtags for various modes."
+  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+    (ggtags-mode 1)))
+
+(use-package ggtags
+  :ensure t
+  :diminish ggtags-mode
+  :defer t
+  :init (add-hook 'c-mode-common-hook #'apm-ggtags-setup)
+  ;; defer to helm-gtags
+  :config (with-eval-after-load 'helm-gtags
+            (define-key ggtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+            (define-key ggtags-mode-map (kbd "C-x 4 .") 'helm-gtags-find-tag-other-window)
+            (define-key ggtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+            (define-key ggtags-mode-map (kbd "M-*") 'helm-gtags-pop-stack)))
+
 (use-package gitconfig-mode
   :ensure t
   :defer t)
