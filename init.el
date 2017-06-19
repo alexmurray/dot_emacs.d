@@ -1219,7 +1219,7 @@ Otherwise call `ediff-buffers' interactively."
   (with-eval-after-load 'company-irony
     (company-irony-setup-begin-commands))
   (with-eval-after-load 'irony-eldoc
-    (irony-eldoc)))
+    (irony-eldoc 1)))
 
 ;; autogenerate a .clang_complete if there is an associated .clang_complete.in
 (defun apm-autogenerate-clang-complete ()
