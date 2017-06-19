@@ -1117,7 +1117,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package helm-flx
   :ensure t
-  :init (helm-flx-mode 1))
+  :config (helm-flx-mode 1))
 
 (use-package helm
   :ensure t
@@ -1167,7 +1167,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package helm-fuzzier
   :ensure t
   :after helm
-  :init (helm-fuzzier-mode 1))
+  :config (helm-fuzzier-mode 1))
 
 (defun apm-helm-gtags-setup ()
   "Setup helm-gtags for various modes."
@@ -1484,7 +1484,8 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package ob-plantuml
   :after plantuml-mode
-  :config (setq org-plantuml-jar-path plantuml-jar-path))
+  :config (with-eval-after-load 'plantuml-mode
+            (setq org-plantuml-jar-path plantuml-jar-path)))
 
 (use-package paradox
   :ensure t
