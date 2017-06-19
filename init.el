@@ -24,14 +24,15 @@
   "Install a package with NAME using PackageKit."
   (interactive "sPackage to install: ")
   (condition-case ex
-      (dbus-call-method :session
-                        "org.freedesktop.PackageKit"
-                        "/org/freedesktop/PackageKit"
-                        "org.freedesktop.PackageKit.Modify"
-                        "InstallPackageNames"
-                        0
-                        `(:array ,name)
-                        "hide-finished")
+      (let ((xid (cdr (assoc 'window-id (frame-parameters)))))
+        (dbus-call-method :session
+                          "org.freedesktop.PackageKit"
+                          "/org/freedesktop/PackageKit"
+                          "org.freedesktop.PackageKit.Modify"
+                          "InstallPackageNames"
+                          (if xid xid 0)
+                          `(:array ,name)
+                          "show-confirm-search,hide-finished"))
     (error (format "Error trying to install package %s: %s" name ex))))
 
 ;;; Package management
