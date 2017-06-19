@@ -970,6 +970,8 @@ Otherwise call `ediff-buffers' interactively."
   :init (progn
           (unless (executable-find "shellcheck")
             (pk-install-package "shellcheck"))
+          (unless (executable-find "cppcheck")
+            (pk-install-package "cppcheck"))
           (add-hook 'flycheck-mode-hook #'apm-flycheck-setup))
   :config (global-flycheck-mode 1))
 
@@ -1032,9 +1034,7 @@ Otherwise call `ediff-buffers' interactively."
           (alert "cstyle not found - is it installed?"))
   :config (progn
             (flycheck-cstyle-setup)
-            (flycheck-add-next-checker 'irony '(warning . cstyle) t)
-            (unless (executable-find "cppcheck")
-              (pk-install-package "cppcheck"))))
+            (flycheck-add-next-checker 'irony '(warning . cstyle) t)))
 
 (use-package flycheck-package
   :ensure t
