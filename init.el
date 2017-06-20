@@ -1506,6 +1506,13 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (with-eval-after-load 'plantuml-mode
             (setq org-plantuml-jar-path plantuml-jar-path)))
 
+(use-package origami
+  :ensure t
+  :defer t
+  :diminish origami-mode
+  :functions origami-mode
+  :init (add-hook 'prog-mode-hook #'origami-mode))
+
 (use-package paradox
   :ensure t
   :commands (paradox-list-packages)
