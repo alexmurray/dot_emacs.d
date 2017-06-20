@@ -912,6 +912,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-vimish-fold
   :ensure t
+  :disabled t
   :diminish evil-vimish-fold-mode
   :config (evil-vimish-fold-mode 1))
 
