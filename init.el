@@ -1390,6 +1390,23 @@ ${3:Ticket: #${4:XXXX}}")))
             (add-to-list 'recentf-exclude no-littering-var-directory)
             (add-to-list 'recentf-exclude no-littering-etc-directory)))
 
+(use-package nxml-mode
+  ;; enable 'folding' with nxml-mode
+  :init (progn
+          (require 'hideshow)
+          (require 'sgml-mode)
+
+          (add-to-list 'hs-special-modes-alist
+                       '(nxml-mode
+                         "<!--\\|<[^/>]*[^/]>"
+                         "-->\\|</[^/>]*[^/]>"
+
+                         "<!--"
+                         sgml-skip-tag-forward
+                         nil))
+
+          (add-hook 'nxml-mode-hook 'hs-minor-mode)))
+
 (use-package org
   :ensure t
   :config (progn
