@@ -327,6 +327,11 @@
   ;; dim text when avy is active
   :config (setq avy-background t))
 
+(use-package beginend
+  :ensure t
+  :diminish beginend-global-mode
+  :config (beginend-global-mode 1))
+
 (use-package browse-kill-ring
   :ensure t)
 
