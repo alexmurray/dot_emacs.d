@@ -1709,6 +1709,9 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :commands (sudo-edit))
 
+(use-package systemd
+  :ensure t)
+
 (use-package tracwiki-mode
   :ensure t
   :defer t
