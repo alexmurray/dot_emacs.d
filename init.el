@@ -1546,8 +1546,23 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package paradox
   :ensure t
   :commands (paradox-list-packages)
-  ;; don't bother trying to integrate with github
-  :init (setq paradox-github-token nil))
+  :init (progn
+          (setq paradox-execute-asynchronously nil)
+          (require 'epa-file)
+          (require 'auth-source)
+          (if (file-exists-p "~/.authinfo.gpg")
+              (let ((authinfo-result (car (auth-source-search
+                                           :max 1
+                                           :host "github.com"
+                                           :port "paradox"
+                                           :user "paradox"
+                                           :require '(:secret)))))
+                (let ((paradox-token (plist-get authinfo-result :secret)))
+                  (setq paradox-github-token (if (functionp paradox-token)
+                                                 (funcall paradox-token)
+                                               paradox-token))))
+            (alert "No github token found in ~/.authinfo.gpg")))
+  :config (paradox-enable))
 
 (use-package paren-face
   :ensure t
