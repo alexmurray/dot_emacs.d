@@ -592,7 +592,7 @@ code sections."
   :ensure t)
 
 (use-package doxyas
-  :load-path "vendor/doxyas.el"
+  :load-path "vendor/"
   :commands doxyas-document-function
   ;; defer since is bound via evil-leader
   :defer t)
@@ -989,7 +989,7 @@ Otherwise call `ediff-buffers' interactively."
   :config (flycheck-checkbashisms-setup))
 
 (use-package flycheck-clang-analyzer
-  :load-path "vendor/flycheck-clang-analyzer"
+  :load-path "vendor/"
   :commands flycheck-clang-analyzer-setup
   :after flycheck-irony
   :init (unless (executable-find "clang-4.0")
@@ -1027,7 +1027,7 @@ Otherwise call `ediff-buffers' interactively."
             (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck) t)))
 
 (use-package flycheck-jing
-  :load-path "vendor/flycheck-jing.el"
+  :load-path "vendor/"
   :after flycheck
   :config (flycheck-jing-setup))
 
@@ -1493,7 +1493,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t)
 
 (use-package org-notify
-  :load-path "vendor/org-notify"
+  :load-path "vendor/"
   :after org
   :config (progn
             (org-notify-start)
