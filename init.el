@@ -289,6 +289,10 @@
 (use-package apropos
   :bind ("C-h a" . apropos))
 
+(use-package arxml-mode
+  :load-path "vendor/"
+  :demand t)
+
 (use-package asn1-mode
   :ensure t
   :mode (("\\.asn1?$" . asn1-mode)))
@@ -1211,6 +1215,10 @@ Otherwise call `ediff-buffers' interactively."
 (use-package helm-unicode
   :ensure t)
 
+(use-package helm-xref
+  :ensure t
+  :config (setq xref-show-xrefs-function #'helm-xref-show-xrefs))
+
 (use-package helpful
   :ensure t)
 
@@ -1776,6 +1784,12 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :diminish yas-minor-mode
   :config (yas-global-mode 1))
+
+(use-package xref
+  :config (with-eval-after-load 'evil
+            (define-key evil-visual-state-map (kbd "C-]") #'xref-find-definitions)
+            (define-key evil-normal-state-map (kbd "C-]") #'xref-find-definitions)
+            (define-key evil-normal-state-map (kbd "M-*") #'xref-pop-marker-stack)))
 
 (use-package zenburn-theme
   :disabled t
