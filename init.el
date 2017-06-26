@@ -997,7 +997,7 @@ Otherwise call `ediff-buffers' interactively."
   :config (flycheck-checkbashisms-setup))
 
 (use-package flycheck-clang-analyzer
-  :load-path "vendor/"
+  :ensure t
   :commands flycheck-clang-analyzer-setup
   :after flycheck-irony
   :init (unless (executable-find "clang-4.0")
