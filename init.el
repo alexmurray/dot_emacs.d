@@ -268,13 +268,6 @@
   :bind (("M-%" . anzu-query-replace-regexp)
          ("C-M-%" . anzu-query-replace)))
 
-(use-package apm-c
-  :defer t
-  :load-path "lisp/"
-  :commands (apm-c-mode-setup)
-  :init (dolist (hook '(c-mode-hook c++-mode-hook))
-          (add-hook hook 'apm-c-mode-setup)))
-
 (defun apm-appt-notify (time-to-appt time msg)
   "Notify for appointment at TIME-TO-APPT TIME MSG alert."
   (alert msg
@@ -411,6 +404,22 @@ code sections."
   :defer t
   :commands (c-toggle-auto-hungry-state)
   :init (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
+
+(defun apm-c-mode-setup ()
+  "Tweaks and customisations for `c-mode'."
+  (c-set-style "cohda")
+  ;; and treat linux style as safe for local variable
+  (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
+  ;; ensure fill-paragraph takes doxygen @ markers as start of new
+  ;; paragraphs properly
+  (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
+  (with-eval-after-load 'helm-dash
+    (setq-local helm-dash-docsets '("C" "C++" "GLib"))))
+
+(use-package cohda-c
+  :load-path "lisp/"
+  :init (dolist (hook '(c-mode-hook c++-mode-hook))
+          (add-hook hook 'apm-c-mode-setup)))
 
 (use-package cmake-mode
   :ensure t
@@ -569,13 +578,6 @@ code sections."
   ;; enable delete-selection mode to allow replacing selected region
   ;; with new text automatically
   :init (delete-selection-mode 1))
-
-(use-package devhelp
-  :load-path "vendor/"
-  :bind (:map c-mode-map
-              ([f6] . devhelp-toggle-automatic-assistant)
-              ([f7] . devhelp-assistant-word-at-point))
-  :defer t)
 
 (use-package diff
   ;; default to unified diff
@@ -839,6 +841,7 @@ Otherwise call `ediff-buffers' interactively."
               "c" 'avy-goto-char-timer
               "a" 'helm-ag
               "b" 'helm-mini
+              "dd" 'helm-dash-at-point
               "df" 'doxyas-document-function
               "fc" 'flycheck-buffer
               "ff" 'helm-find-files
@@ -852,6 +855,7 @@ Otherwise call `ediff-buffers' interactively."
               "gs" 'helm-gtags-select
               "gt" 'helm-gtags-find-tag
               "gu" 'helm-gtags-update-tags
+              "hd" 'helm-dash
               "i" 'helm-semantic-or-imenu
               "mg" 'magit-status
               "ms" 'svn-status
@@ -1174,6 +1178,13 @@ Otherwise call `ediff-buffers' interactively."
               (define-key evil-ex-map "ag " 'helm-ag)
               (define-key evil-ex-map "agi " 'helm-do-ag))))
 
+(use-package helm-dash
+  :ensure t
+  :after helm
+  :defer t
+  :init (unless (executable-find "sqlite3")
+          (pk-install-package "sqlite3")))
+
 (use-package helm-flyspell
   :ensure t
   ;; use instead of ispell-word which evil binds to z=
@@ -1326,7 +1337,9 @@ Otherwise call `ediff-buffers' interactively."
   (when (string= buffer-file-name (expand-file-name "init.el" "~/dot_emacs.d"))
     (add-to-list
      'imenu-generic-expression
-     '("Packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2))))
+     '("Packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)))
+  (with-eval-after-load 'helm-dash
+    (setq-local helm-dash-docsets '("Emacs Lisp"))))
 
 (use-package lisp-mode
   :defer t
