@@ -987,7 +987,11 @@ Otherwise call `ediff-buffers' interactively."
           (unless (executable-find "cppcheck")
             (pk-install-package "cppcheck"))
           (add-hook 'flycheck-mode-hook #'apm-flycheck-setup))
-  :config (global-flycheck-mode 1))
+  :config (progn
+            ;; Ubuntu 16.04 shellcheck is too old to understand this
+            ;; command-line option
+            (setq flycheck-shellcheck-follow-sources nil)
+            (global-flycheck-mode 1)))
 
 (use-package flycheck-checkbashisms
   :ensure t
