@@ -1543,26 +1543,32 @@ ${3:Ticket: #${4:XXXX}}")))
   :functions origami-mode
   :init (add-hook 'prog-mode-hook #'origami-mode))
 
+(defun apm-paradox-set-github-token (_no-fetch)
+  "Load `paradox-github-token' from authinfo."
+  (require 'epa-file)
+  (require 'auth-source)
+  (eval-when-compile
+    (require 'paradox-github))
+  (if (file-exists-p "~/.authinfo.gpg")
+      (let ((authinfo-result (car (auth-source-search
+                                   :max 1
+                                   :host "github.com"
+                                   :port "paradox"
+                                   :user "paradox"
+                                   :require '(:secret)))))
+        (let ((paradox-token (plist-get authinfo-result :secret)))
+          (setq paradox-github-token (if (functionp paradox-token)
+                                         (funcall paradox-token)
+                                       paradox-token))))
+    (alert "No github token found in ~/.authinfo.gpg")))
+
 (use-package paradox
   :ensure t
   :commands (paradox-list-packages)
-  :init (progn
-          (setq paradox-execute-asynchronously nil)
-          (require 'epa-file)
-          (require 'auth-source)
-          (if (file-exists-p "~/.authinfo.gpg")
-              (let ((authinfo-result (car (auth-source-search
-                                           :max 1
-                                           :host "github.com"
-                                           :port "paradox"
-                                           :user "paradox"
-                                           :require '(:secret)))))
-                (let ((paradox-token (plist-get authinfo-result :secret)))
-                  (setq paradox-github-token (if (functionp paradox-token)
-                                                 (funcall paradox-token)
-                                               paradox-token))))
-            (alert "No github token found in ~/.authinfo.gpg")))
-  :config (paradox-enable))
+  :init (setq paradox-execute-asynchronously nil)
+  :config (progn
+            (paradox-enable)
+            (advice-add 'paradox-list-packages :before 'apm-paradox-set-github-token)))
 
 (use-package paren-face
   :ensure t
