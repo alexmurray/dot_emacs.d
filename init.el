@@ -563,7 +563,7 @@ code sections."
          ("C-c o" . crux-open-with)))
 
 (use-package cstyle
-  :load-path "vendor/cstyle.el")
+  :load-path "vendor")
 
 (use-package cua-base
   ;; use CUA mode for rectangle selections etc but not copy/paste etc
