@@ -1379,7 +1379,10 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package magithub
   :ensure t
   :after magit
-  :config (magithub-feature-autoinject t))
+  :config (progn
+            ;; github API seems slow from AU 😃
+            (setq magithub-api-timeout 3)
+            (magithub-feature-autoinject t)))
 
 (use-package mallard-mode
   :ensure t
