@@ -1379,6 +1379,7 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package magithub
   :ensure t
   :after magit
+  :defines (magithub-api-timeout)
   :init (setq magithub-api-timeout 3)
   :config (magithub-feature-autoinject t))
 
