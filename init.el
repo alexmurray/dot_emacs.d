@@ -574,6 +574,9 @@ code sections."
   :diminish cwarn-mode
   :init (global-cwarn-mode 1))
 
+(use-package dbc-mode
+  :load-path "vendor/")
+
 (use-package delsel
   ;; enable delete-selection mode to allow replacing selected region
   ;; with new text automatically
