@@ -497,11 +497,6 @@ code sections."
             ;; group with company-irony but beforehand so we get first pick
             (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
 
-(use-package company-emoji
-  :ensure t
-  :after company
-  :init (add-to-list 'company-backends 'company-emoji))
-
 (use-package company-math
   :ensure t
   :defer t
