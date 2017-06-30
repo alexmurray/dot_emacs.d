@@ -897,6 +897,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-search-highlight-persist
   :ensure t
+  :disabled t
   :init (global-evil-search-highlight-persist 1))
 
 (use-package evil-smartparens
