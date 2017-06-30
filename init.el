@@ -326,7 +326,7 @@
 
 (use-package beginend
   :ensure t
-  :diminish beginend-global-mode
+  :diminish beginend-prog-mode
   :config (beginend-global-mode 1))
 
 (use-package browse-kill-ring
@@ -1411,6 +1411,7 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package modern-cpp-font-lock
   :ensure t
   :defer t
+  :diminish modern-c++-font-lock-mode
   :init (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
 
 (use-package move-text
