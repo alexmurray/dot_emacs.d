@@ -508,7 +508,6 @@ code sections."
 
 (use-package company-quickhelp
   :ensure t
-  :disabled t
   :init (add-hook 'company-mode-hook #'company-quickhelp-mode)
   :config (setq company-quickhelp-delay 0.1))
 
