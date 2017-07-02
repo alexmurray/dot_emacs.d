@@ -326,7 +326,7 @@
 
 (use-package beginend
   :ensure t
-  :diminish beginend-prog-mode
+  :diminish (beginend-global-mode beginend-prog-mode)
   :config (beginend-global-mode 1))
 
 (use-package browse-kill-ring
