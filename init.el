@@ -338,6 +338,8 @@
 (use-package bug-reference
   :defer t
   :init (progn
+          (eval-when-compile
+            (require 'bug-reference))
           (setq bug-reference-url-format "http://projects.cohda.wireless:8000/trac/mk2/ticket/%s"
                 bug-reference-bug-regexp "\\([Tt]icket ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
           (add-hook 'prog-mode-hook #'bug-reference-prog-mode)))
@@ -1184,6 +1186,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :after helm
   :defer t
+  :defines (helm-dash-docsets)
   :init (unless (executable-find "sqlite3")
           (pk-install-package "sqlite3")))
 
@@ -1374,8 +1377,9 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package magithub
   :ensure t
   :after magit
-  :defines (magithub-api-timeout)
-  :init (setq magithub-api-timeout 3)
+  :init (progn
+          (eval-when-compile (require 'magithub))
+          (setq magithub-api-timeout 3))
   :config (magithub-feature-autoinject t))
 
 (use-package mallard-mode
@@ -1421,9 +1425,12 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package no-littering
   :ensure t
-  :config (with-eval-after-load 'recentf
-            (add-to-list 'recentf-exclude no-littering-var-directory)
-            (add-to-list 'recentf-exclude no-littering-etc-directory)))
+  :config (progn
+            (eval-when-compile
+              (require 'recentf))
+            (with-eval-after-load 'recentf
+              (add-to-list 'recentf-exclude no-littering-var-directory)
+              (add-to-list 'recentf-exclude no-littering-etc-directory))))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
