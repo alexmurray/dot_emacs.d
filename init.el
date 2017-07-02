@@ -1247,14 +1247,6 @@ Otherwise call `ediff-buffers' interactively."
   :diminish hungry-delete-mode
   :config (global-hungry-delete-mode 1))
 
-(defun apm-irony-mode-setup ()
-  "Setup irony-mode."
-  (irony-cdb-autosetup-compile-options)
-  (with-eval-after-load 'company-irony
-    (company-irony-setup-begin-commands))
-  (with-eval-after-load 'irony-eldoc
-    (irony-eldoc 1)))
-
 ;; autogenerate a .clang_complete if there is an associated .clang_complete.in
 (defun apm-autogenerate-clang-complete ()
   "Autogenerate a .clang_complete if needed when opening a project."
@@ -1294,11 +1286,12 @@ Otherwise call `ediff-buffers' interactively."
           (advice-add 'irony-cdb-clang-complete :before 'apm-irony-cdb-clang-complete--auto-generate-clang-complete)
           (add-hook 'c-mode-hook 'irony-mode)
           (add-hook 'c++-mode-hook 'irony-mode)
-          (add-hook 'irony-mode-hook 'apm-irony-mode-setup)))
+          (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)))
 
 (use-package irony-eldoc
   :ensure t
-  :defer t)
+  :defer t
+  :init (add-hook 'irony-mode-hook #'irony-eldoc))
 
 (use-package ispell
   :defer t
