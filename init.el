@@ -41,7 +41,8 @@
 (setq package-enable-at-startup nil)
 ;; use https for both melpa and gelpa
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("org" . "http://orgmode.org/elpa/")))
 
 (require 'tls)
 (require 'gnutls)
@@ -1426,7 +1427,8 @@ ${3:Ticket: #${4:XXXX}}")))
           (add-hook 'nxml-mode-hook 'hs-minor-mode)))
 
 (use-package org
-  :ensure t
+  :ensure org-plus-contrib
+  :pin org
   :config (progn
             (setq org-agenda-files (mapcar #'expand-file-name
                                            '("~/Dropbox/Orgzly/personal.org"
@@ -1506,7 +1508,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t)
 
 (use-package org-notify
-  :load-path "vendor/"
+  :ensure org-plus-contrib
   :after org
   :config (progn
             (org-notify-start)
