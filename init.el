@@ -981,6 +981,7 @@ Otherwise call `ediff-buffers' interactively."
   :diminish flycheck-mode
   :commands flycheck-add-next-checker
   :init (progn
+          (setq-default flycheck-emacs-lisp-load-path 'inherit)
           (unless (executable-find "shellcheck")
             (pk-install-package "shellcheck"))
           (unless (executable-find "cppcheck")
