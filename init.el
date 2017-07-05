@@ -269,6 +269,9 @@
   :bind (("M-%" . anzu-query-replace-regexp)
          ("C-M-%" . anzu-query-replace)))
 
+(use-package apm-c
+  :load-path "lisp/apm-c")
+
 (defun apm-appt-notify (time-to-appt time msg)
   "Notify for appointment at TIME-TO-APPT TIME MSG alert."
   (alert msg
