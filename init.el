@@ -1359,7 +1359,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :after magit
   :init (progn
           (eval-when-compile (require 'magithub))
-          (setq magithub-api-timeout 3))
+          (setq-default magithub-api-timeout 3))
   :config (magithub-feature-autoinject t))
 
 (use-package mallard-mode
