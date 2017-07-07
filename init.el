@@ -1412,6 +1412,11 @@ ${3:Ticket: #${4:XXXX}}")))
               (add-to-list 'recentf-exclude no-littering-var-directory)
               (add-to-list 'recentf-exclude no-littering-etc-directory))))
 
+(defun apm-nxml-mode-setup ()
+  "Initialise `nxml-mode'."
+  (hs-minor-mode 1)
+  (smartparens-mode -1))
+
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
   :init (progn
@@ -1427,7 +1432,8 @@ ${3:Ticket: #${4:XXXX}}")))
                          sgml-skip-tag-forward
                          nil))
 
-          (add-hook 'nxml-mode-hook 'hs-minor-mode)))
+          (add-hook 'nxml-mode-hook #'apm-nxml-mode-setup))
+  :config (setq nxml-slash-auto-complete-flag t))
 
 (use-package org
   :ensure org-plus-contrib
