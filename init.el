@@ -439,9 +439,10 @@ code sections."
   :ensure t
   :commands global-company-mode
   ;; Use Company for completion
-  :bind (:map company-mode-map
-              ([remap completion-at-point] . company-complete)
-              ([remap complete-symbol] . company-complete))
+  :bind (("C-;" . company-complete-common)
+         :map company-mode-map
+         ([remap completion-at-point] . company-complete-common)
+         ([remap complete-symbol] . company-complete-common))
   :init (progn
           ;; set default lighter as nothing so in general it is not displayed
           ;; but will still be shown when completion popup is active to show the
@@ -449,6 +450,9 @@ code sections."
           (setq company-lighter-base "")
           (global-company-mode 1))
   :config (progn
+            ;; ensure flyspell doesn't steal our binding of C-;
+            (with-eval-after-load 'flyspell
+              (bind-key "C-;" nil flyspell-mode-map))
             ;; some better default values
             (setq company-idle-delay 0.01)
             (setq company-tooltip-limit 10)
