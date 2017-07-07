@@ -450,9 +450,9 @@ code sections."
           (global-company-mode 1))
   :config (progn
             ;; some better default values
-            (setq company-idle-delay 0.5)
+            (setq company-idle-delay 0.01)
             (setq company-tooltip-limit 10)
-            (setq company-minimum-prefix-length 2)
+            (setq company-minimum-prefix-length 1)
             (setq company-selection-wrap-around t)
 
             ;; align annotations in tooltip
