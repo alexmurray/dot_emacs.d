@@ -454,6 +454,8 @@ code sections."
           (global-company-mode 1))
   :config (progn
             ;; ensure flyspell doesn't steal our binding of C-;
+            (eval-when-compile
+              (require 'flyspell))
             (with-eval-after-load 'flyspell
               (bind-key "C-;" nil flyspell-mode-map))
             ;; some better default values
@@ -614,6 +616,7 @@ code sections."
   :defer t)
 
 (defun apm-doxymacs-setup()
+  "Setup doxymacs."
   (when (require 'doxymacs nil t)
     (doxymacs-mode)
     (doxymacs-font-lock)))
