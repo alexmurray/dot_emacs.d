@@ -1828,10 +1828,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (set-face-attribute 'mode-line-buffer-id nil :foreground "#FFECBA" :weight 'bold)
             ;; dim inactive modeline
             (set-face-attribute 'powerline-inactive2 nil :background "gray20")
-            (set-face-attribute 'powerline-inactive1 nil :background "gray32")
-            ;; make ivy candidates stand out
-            (set-face-attribute 'ivy-minibuffer-match-face-3 nil :background "CadetBlue4")
-            (set-face-attribute 'ivy-minibuffer-match-face-2 nil :background "pink4")))
+            (set-face-attribute 'powerline-inactive1 nil :background "gray32")))
 
 (provide 'init)
 
