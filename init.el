@@ -40,9 +40,10 @@
 ;; we use use-package to do this for us
 (setq package-enable-at-startup nil)
 ;; use https for both melpa and gelpa
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("org" . "http://orgmode.org/elpa/")))
+(eval-and-compile
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("melpa" . "https://melpa.org/packages/")
+                           ("org" . "http://orgmode.org/elpa/"))))
 
 (require 'tls)
 (require 'gnutls)
@@ -328,6 +329,7 @@
 
 (use-package beginend
   :ensure t
+  :commands (beginend-global-mode beginend-prog-mode)
   :diminish (beginend-global-mode beginend-prog-mode)
   :config (beginend-global-mode 1))
 
@@ -1041,6 +1043,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-jing
   :load-path "vendor/"
   :after flycheck
+  :commands (flycheck-jing-setup)
   :config (flycheck-jing-setup))
 
 ;; we want to make sure coverity comes before us in the list of flycheck-checkers
