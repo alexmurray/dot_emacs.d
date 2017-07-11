@@ -90,7 +90,7 @@
                         #'(lambda (word) (capitalize (downcase word)))
                         (split-string s (if delim delim "_"))) ""))
 
-(when (version< emacs-version "25.1")
+(when (version< emacs-version "26.0.50")
   (alert "Emacs version too old - please run 25.1 or newer"
          :severity 'high))
 
@@ -110,6 +110,9 @@
 
 (add-hook 'minibuffer-setup-hook #'apm-minibuffer-setup)
 (add-hook 'minibuffer-exit-hook #'apm-minibuffer-exit)
+
+;; relative line numbers
+(setq-default display-line-numbers 'relative)
 
 ;; enable narrow-to-region
 (put 'narrow-to-region 'disabled nil)
@@ -1599,6 +1602,8 @@ ${3:Ticket: #${4:XXXX}}")))
   :mode ("\\.pdf\\'" . pdf-tools-install))
 
 (use-package persp-projectile
+  ;; broken by emacs 26 https://github.com/nex3/perspective-el/issues/64
+  :disabled t
   :ensure t)
 
 (use-package plantuml-mode
