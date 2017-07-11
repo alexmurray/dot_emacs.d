@@ -892,8 +892,7 @@ Otherwise call `ediff-buffers' interactively."
               "u" 'helm-ucs
               "v" 'er/expand-region
               "x" 'helm-M-x
-              "zf" 'vimish-fold-avy
-              "DEL" 'evil-search-highlight-persist-remove-all))
+              "zf" 'vimish-fold-avy))
   :init (global-evil-leader-mode 1))
 
 (use-package evil-matchit
@@ -904,11 +903,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :bind (("C-c +" . evil-numbers/inc-at-pt)
          ("C-c -" . evil-numbers/dec-at-pt)))
-
-(use-package evil-search-highlight-persist
-  :ensure t
-  :disabled t
-  :init (global-evil-search-highlight-persist 1))
 
 (use-package evil-smartparens
   :ensure t
