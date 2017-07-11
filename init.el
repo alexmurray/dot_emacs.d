@@ -1776,21 +1776,10 @@ ${3:Ticket: #${4:XXXX}}")))
                 uniquify-after-kill-buffer-p t
                 uniquify-ignore-buffers-re "^\\*"))
 
-(defun apm-pretty-vc-mode-line (file &optional backend)
-  "Replace Git in modeline with font-awesome git icon via FILE and BACKEND."
-  (setq vc-mode (replace-regexp-in-string "^ Git." ":" vc-mode))
-  backend)
-
-(use-package vc-git
-  :config  (advice-add #'vc-mode-line :after #'apm-pretty-vc-mode-line))
-
 (use-package vimish-fold
   :ensure t
   :config (vimish-fold-global-mode 1))
 
-(defun apm-web-mode-setup ()
-  "Setup web mode."
-  (setq mode-name ""))
 
 (use-package web-mode
   :ensure t
@@ -1798,8 +1787,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :commands web-mode
   :init (progn
           ;; use smartparens instead
-          (setq web-mode-enable-auto-pairing nil)
-          (add-hook 'web-mode-hook #'apm-web-mode-setup))
+          (setq web-mode-enable-auto-pairing nil))
   :mode ("\\.php\\'" . web-mode))
 
 (use-package which-func
