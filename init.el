@@ -1763,6 +1763,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package unicode-fonts
   :ensure t
+  :disabled t
   :config (unicode-fonts-setup))
 
 (use-package undo-tree
