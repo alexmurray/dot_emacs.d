@@ -254,6 +254,11 @@
   :init (unless (executable-find "ag")
           (pk-install-package "silversearcher-ag")))
 
+(use-package all-the-icons
+  :ensure t
+  :config (unless (file-exists-p (expand-file-name "~/.local/share/fonts/all-the-icons.ttf"))
+            (all-the-icons-install-fonts)))
+
 (use-package android-mode
   :ensure t
   :defer t
@@ -735,15 +740,10 @@ Otherwise call `ediff-buffers' interactively."
             (add-hook 'erc-text-matched-hook 'apm-erc-alert)))
 
 
-(defun apm-eshell-mode-setup ()
-  "Initialise 'eshell-mode'."
-  (setq mode-name ""))
-
 (use-package eshell
   :defer t
   :commands eshell
-  :bind ("C-x m" . eshell)
-  :init (add-hook 'eshell-mode-hook #'apm-eshell-mode-setup))
+  :bind ("C-x m" . eshell))
 
 (defun makefile-tabs-are-less-evil ()
   "Disable ethan-wspace from caring about tabs in Makefile's."
@@ -1322,20 +1322,13 @@ Otherwise call `ediff-buffers' interactively."
                 jenkins-username "amurray"
                 jenkins-viewname "RelX"))
 
-(defun apm-js2-mode-setup ()
-  "Setup js2-mode."
-  (setq mode-name "js2"))
-
 (use-package js2-mode
   :ensure t
   :defer t
-  :init (progn
-          (setq-default js2-basic-offset 2)
-          (add-hook 'js2-mode-hook 'apm-js2-mode-setup)))
+  :init (setq-default js2-basic-offset 2))
 
 (defun apm-emacs-lisp-mode-setup ()
   "Setup Emacs Lisp mode."
-  (setq mode-name "el")
   ;; make imenu list each package for easy navigation - from
   ;; https://github.com/jwiegley/use-package/issues/80#issuecomment-46687774
   (when (string= buffer-file-name (expand-file-name "init.el" "~/dot_emacs.d"))
@@ -1767,10 +1760,16 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (progn
             (setq spaceline-workspace-numbers-unicode t
                   spaceline-window-numbers-unicode t)
-            (require 'spaceline-config)
             ;; show evil state with colour change
-            (setq spaceline-highlight-face-func #'spaceline-highlight-face-evil-state)
-            (spaceline-spacemacs-theme)))
+            (setq spaceline-highlight-face-func #'spaceline-highlight-face-evil-state)))
+
+(use-package spaceline-all-the-icons
+  :ensure t
+  :config (progn
+            (spaceline-all-the-icons--setup-anzu)
+            (spaceline-all-the-icons--setup-paradox)
+            (spaceline-all-the-icons--setup-package-updates)
+            (spaceline-all-the-icons-theme)))
 
 (use-package sudo-edit
   :ensure t
