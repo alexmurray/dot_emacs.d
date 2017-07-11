@@ -111,9 +111,6 @@
 (add-hook 'minibuffer-setup-hook #'apm-minibuffer-setup)
 (add-hook 'minibuffer-exit-hook #'apm-minibuffer-exit)
 
-;; relative line numbers
-(setq-default display-line-numbers 'relative)
-
 ;; enable narrow-to-region
 (put 'narrow-to-region 'disabled nil)
 
