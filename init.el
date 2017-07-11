@@ -1758,11 +1758,6 @@ ${3:Ticket: #${4:XXXX}}")))
            "mk2"
            "http://projects.cohda.wireless:8000/trac/mk2"))
 
-(use-package unicode-fonts
-  :ensure t
-  :disabled t
-  :config (unicode-fonts-setup))
-
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
