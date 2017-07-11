@@ -1016,12 +1016,12 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-coverity
   :ensure t
   :commands flycheck-coverity-setup
-  :after flycheck-clang-analyzer
+  :after flycheck-cstyle
   :init (unless (executable-find "cov-run-desktop")
           (alert "cov-run-desktop not found - is it installed?"))
   :config (progn
             (flycheck-coverity-setup)
-            (flycheck-add-next-checker 'clang-analyzer '(t . coverity))))
+            (flycheck-add-next-checker 'cstyle '(t . coverity))))
 
 (use-package flycheck-flawfinder
   :ensure t
@@ -1046,16 +1046,16 @@ Otherwise call `ediff-buffers' interactively."
   :commands (flycheck-jing-setup)
   :config (flycheck-jing-setup))
 
-;; we want to make sure coverity comes before us in the list of flycheck-checkers
-;; so do our cstyle setup after coverity
+;; we want to make sure clang-analyzer comes before us in the list of flycheck-checkers
+;; so do our cstyle setup after clang-analyzer
 (use-package flycheck-cstyle
   :ensure t
-  :after flycheck-coverity
+  :after flycheck-clang-analyzer
   :init (unless (executable-find "cstyle")
           (alert "cstyle not found - is it installed?"))
   :config (progn
             (flycheck-cstyle-setup)
-            (flycheck-add-next-checker 'irony '(warning . cstyle) t)))
+            (flycheck-add-next-checker 'clang-analyzer '(warning . cstyle) t)))
 
 (use-package flycheck-package
   :ensure t
