@@ -420,6 +420,8 @@ code sections."
   ;; paragraphs properly
   (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
   (with-eval-after-load 'helm-dash
+    (eval-when-compile
+      (defvar helm-dash-docsets nil))
     (setq-local helm-dash-docsets '("C" "C++" "GLib"))))
 
 (use-package cohda-c
