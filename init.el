@@ -160,16 +160,6 @@
 ;; they undo each other
 (setq scroll-preserve-screen-position 'always)
 
-(defun apm-emoji-fontset-init (&optional frame)
-  "Set fontset to display emoji correctly for FRAME."
-  (if (eq system-type 'darwin)
-      ;; For NS/Cocoa
-      (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)
-    ;; For Linux
-    (unless (font-info "Symbola")
-      (pk-install-package "ttf-ancient-fonts"))
-    (set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
-
 (defvar apm-preferred-font-family "Inconsolata"
   "Preferred font family to use.")
 
@@ -183,7 +173,6 @@
   "Initialise properties specific to graphical display for FRAME."
   (interactive)
   (when (display-graphic-p)
-    (apm-emoji-fontset-init frame)
     (setq frame-title-format '(buffer-file-name "%f" ("%b")))
     (if (font-info apm-preferred-font-family)
         (set-face-attribute 'default frame
@@ -191,13 +180,7 @@
                             :height apm-preferred-font-height)
       (apm-notify-missing-package apm-preferred-font-family-package
                                   (format "Required for preferred font %s"
-                                          apm-preferred-font-family)))
-    (unless (font-info "FontAwesome")
-      (pk-install-package "fonts-font-awesome"))
-    ;; make sure to use FontAwesome for it's range in the unicode
-    ;; private use area since on Windows this doesn't happen
-    ;; automagically
-    (set-fontset-font "fontset-default" '(#xf000 . #xf23a) "FontAwesome")))
+                                          apm-preferred-font-family)))))
 
 ;; make sure graphical properties get set on client frames
 (add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
