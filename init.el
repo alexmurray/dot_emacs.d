@@ -53,14 +53,14 @@
                   (shell-command-to-string "python -m certifi"))))
   (unless (file-exists-p trustfile)
     (unless (executable-find "pip")
-      (apm-install-package-by-name "python-pip"))
+      (pk-install-package "python-pip"))
     (call-process "pip" nil nil nil "install" "--user" "certifi")
     (setq trustfile (replace-regexp-in-string
                      (rx (* (any " \t\n")) eos)
                      ""
                      (shell-command-to-string "python -m certifi"))))
   (unless (executable-find "gnutls-cli")
-    (apm-install-package-by-name "gnutls-bin"))
+    (pk-install-package "gnutls-bin"))
   (setq tls-program (list (format "gnutls-cli --x509cafile %s -p %%p %%h" trustfile))
         gnutls-verify-error t
         gnutls-trustfiles (list trustfile)))
@@ -175,9 +175,7 @@
         (set-face-attribute 'default frame
                             :family apm-preferred-font-family
                             :height apm-preferred-font-height)
-      (apm-notify-missing-package apm-preferred-font-family-package
-                                  (format "Required for preferred font %s"
-                                          apm-preferred-font-family)))))
+      (pk-install-package apm-preferred-font-family-package))))
 
 ;; make sure graphical properties get set on client frames
 (add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
