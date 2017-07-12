@@ -1005,23 +1005,39 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-clang-analyzer
   :ensure t
   :commands flycheck-clang-analyzer-setup
-  :after flycheck-irony
+  :after flycheck-cstyle
   :init (unless (executable-find "clang-4.0")
           (pk-install-package "clang-4.0"))
   :config (progn
             (setq flycheck-clang-analyzer-executable "clang-4.0")
-            ;; automatically sets itself up as next checker after irony
-            (flycheck-clang-analyzer-setup)))
+            (flycheck-clang-analyzer-setup)
+            ;; automatically sets itself up as next checker after irony so undo
+            ;; that
+            (delete '(warning . clang-analyzer)
+                    (flycheck-checker-get 'irony 'next-checkers))
+            (flycheck-add-next-checker 'c/c++-cppcheck '(t . clang-analyzer))))
 
 (use-package flycheck-coverity
   :ensure t
   :commands flycheck-coverity-setup
-  :after flycheck-cstyle
+  :after flycheck-clang-analyzer
   :init (unless (executable-find "cov-run-desktop")
           (alert "cov-run-desktop not found - is it installed?"))
   :config (progn
             (flycheck-coverity-setup)
-            (flycheck-add-next-checker 'cstyle '(t . coverity))))
+            (flycheck-add-next-checker 'clang-analyzer '(t . coverity))))
+
+;; we want to make sure clang-analyzer comes before us in the list of flycheck-checkers
+;; so do our cstyle setup after clang-analyzer
+(use-package flycheck-cstyle
+  :ensure t
+  :after flycheck-irony
+  :init (unless (executable-find "cstyle")
+          (alert "cstyle not found - is it installed?"))
+  :config (progn
+            (flycheck-cstyle-setup)
+            (flycheck-add-next-checker 'irony '(warning . cstyle))
+            (flycheck-add-next-checker 'cstyle '(t . c/c++-cppcheck))))
 
 (use-package flycheck-flawfinder
   :ensure t
@@ -1036,26 +1052,13 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-irony
   :ensure t
   :after flycheck
-  :config (progn
-            (flycheck-irony-setup)
-            (flycheck-add-next-checker 'irony '(warning . c/c++-cppcheck) t)))
+  :config (flycheck-irony-setup))
 
 (use-package flycheck-jing
   :load-path "vendor/"
   :after flycheck
   :commands (flycheck-jing-setup)
   :config (flycheck-jing-setup))
-
-;; we want to make sure clang-analyzer comes before us in the list of flycheck-checkers
-;; so do our cstyle setup after clang-analyzer
-(use-package flycheck-cstyle
-  :ensure t
-  :after flycheck-clang-analyzer
-  :init (unless (executable-find "cstyle")
-          (alert "cstyle not found - is it installed?"))
-  :config (progn
-            (flycheck-cstyle-setup)
-            (flycheck-add-next-checker 'clang-analyzer '(warning . cstyle) t)))
 
 (use-package flycheck-package
   :ensure t
