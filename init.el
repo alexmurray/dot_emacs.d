@@ -458,7 +458,7 @@ code sections."
             (with-eval-after-load 'flyspell
               (bind-key "C-;" nil flyspell-mode-map))
             ;; some better default values
-            (setq company-idle-delay 0.01)
+            (setq company-idle-delay 0.2)
             (setq company-tooltip-limit 10)
             (setq company-minimum-prefix-length 1)
             (setq company-selection-wrap-around t)
@@ -1809,8 +1809,8 @@ ${3:Ticket: #${4:XXXX}}")))
             (define-key evil-normal-state-map (kbd "M-*") #'xref-pop-marker-stack)))
 
 (use-package zenburn-theme
-  :disabled t
   :ensure t
+  :disabled t
   :config (progn
             (load-theme 'zenburn t)
             ;; nicer looking modeline
