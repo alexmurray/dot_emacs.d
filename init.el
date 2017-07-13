@@ -1,10 +1,9 @@
-;;; init.el --- Starting point for Alex Murray's Emacs Configuration
+;;; init.el --- Starting point for Alex Murray's Emacs Configuration -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;;
 
 ;;; Code:
-(setq lexical-binding t)
 
 ;; prefer newer non-byte compiled sources to older byte compiled ones
 (setq load-prefer-newer t)
@@ -1249,8 +1248,8 @@ Otherwise call `ediff-buffers' interactively."
     (projectile-with-default-dir (projectile-project-root)
       (shell-command "make .clang_complete"))))
 
-(defun apm-irony-cdb-clang-complete--auto-generate-clang-complete (command &rest args)
-  "Try and autogenerate a .clang_complete (COMMAND ARGS are ignored)."
+(defun apm-irony-cdb-clang-complete--auto-generate-clang-complete (_command &rest _args)
+  "Try and autogenerate a .clang_complete (_COMMAND _ARGS are ignored)."
   (apm-autogenerate-clang-complete))
 
 (use-package irony
@@ -1443,8 +1442,8 @@ ${3:Ticket: #${4:XXXX}}")))
              'org-babel-load-languages
              '((plantuml .t)))))
 
-(defun apm-org-agenda-file-notify (event)
-  "Rebuild appointments when EVENT specifies any org agenda files change."
+(defun apm-org-agenda-file-notify (_event)
+  "Rebuild appointments when _EVENT specifies any org agenda files change."
   (org-agenda-to-appt t))
 
 (use-package org-agenda
