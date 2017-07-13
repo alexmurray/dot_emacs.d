@@ -494,6 +494,7 @@ code sections."
 
 (use-package company-flx
   :ensure t
+  :disabled t
   :after company
   :init (company-flx-mode 1))
 
