@@ -769,7 +769,9 @@ Otherwise call `ediff-buffers' interactively."
             ;; evil shouldn't have to know about every other mode...
             (dolist (mode '(bs-mode
                             comint-mode
+                            edebug-mode
                             eshell-mode
+                            git-commit-mode
                             git-rebase-mode
                             jenkins-mode
                             jenkins-job-view-mode
@@ -777,6 +779,7 @@ Otherwise call `ediff-buffers' interactively."
                             magit-branch-manager-mode
                             magit-popup-mode
                             magit-popup-sequence-mode
+                            magit-blame-mode
                             paradox-menu-mode
                             pcap-mode
                             pylookup-mode
