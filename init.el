@@ -901,8 +901,7 @@ Otherwise call `ediff-buffers' interactively."
               "s" 'helm-swoop
               "u" 'helm-ucs
               "v" 'er/expand-region
-              "x" 'helm-M-x
-              "zf" 'vimish-fold-avy))
+              "x" 'helm-M-x))
   :init (global-evil-leader-mode 1))
 
 (use-package evil-matchit
@@ -934,12 +933,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :bind ((:map evil-inner-text-objects-map ("b" . 'evil-textobj-anyblock-inner-block)
                :map evil-outer-text-objects-map ("b" . 'evil-textobj-anyblock-a-block))))
-
-(use-package evil-vimish-fold
-  :ensure t
-  :disabled t
-  :diminish evil-vimish-fold-mode
-  :config (evil-vimish-fold-mode 1))
 
 (use-package evil-visualstar
   :ensure t
@@ -1811,11 +1804,6 @@ ${3:Ticket: #${4:XXXX}}")))
                 uniquify-separator ":"
                 uniquify-after-kill-buffer-p t
                 uniquify-ignore-buffers-re "^\\*"))
-
-(use-package vimish-fold
-  :ensure t
-  :config (vimish-fold-global-mode 1))
-
 
 (use-package web-mode
   :ensure t
