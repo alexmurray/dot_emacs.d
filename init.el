@@ -294,6 +294,7 @@
 
 (use-package asn1-mode
   :ensure t
+  :defer t
   :mode (("\\.asn1?$" . asn1-mode)))
 
 (use-package autorevert
