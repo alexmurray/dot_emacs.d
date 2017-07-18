@@ -1745,6 +1745,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package solarized-theme
   :ensure t
+  :disabled t
   :config (progn
             (setq x-underline-at-descent-line t)
             (setq solarized-distinct-fringe-background t)
@@ -1832,7 +1833,6 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package zenburn-theme
   :ensure t
-  :disabled t
   :config (progn
             (load-theme 'zenburn t)
             ;; nicer looking modeline
