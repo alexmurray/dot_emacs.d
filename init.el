@@ -1591,9 +1591,21 @@ ${3:Ticket: #${4:XXXX}}")))
             (unless (file-exists-p plantuml-jar-path)
               (alert (format "plantuml not found at %s" plantuml-jar-path)))))
 
+;; Disable audible and visible bell in favor of flashing the mode line instead
+(defun apm-powerline-visible-bell ()
+  "A friendlier visual bell effect."
+  (invert-face 'powerline-active1)
+  (run-with-timer 0.1 nil 'invert-face 'powerline-active1)
+  (invert-face 'mode-line)
+  (run-with-timer 0.1 nil 'invert-face 'mode-line))
+
+
 (use-package powerline
   :ensure t
-  :config (setq powerline-default-separator 'arrow))
+  :config (progn
+            (setq powerline-default-separator 'arrow)
+            (setq visible-bell nil)
+            (setq ring-bell-function #'apm-powerline-visible-bell)))
 
 (use-package prog-mode
   :config (progn
