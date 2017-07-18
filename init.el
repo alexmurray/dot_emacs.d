@@ -1716,8 +1716,9 @@ ${3:Ticket: #${4:XXXX}}")))
   :diminish smartparens-mode
   :init (progn
           (smartparens-global-mode 1)
-          ;; use smartparens in strict mode for programming etc
-          (add-hook 'prog-mode-hook #'smartparens-strict-mode))
+          ;; use smartparens in strict mode for programming and ielm
+          (add-hook 'prog-mode-hook #'smartparens-strict-mode)
+          (add-hook 'ielm-mode-hook #'smartparens-strict-mode))
   :config (progn
             (require 'smartparens-config)
             (require 'smartparens-latex)
