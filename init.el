@@ -145,6 +145,9 @@
 ;; don't use gtk style tooltips since are intrusive
 (setq-default x-gtk-use-system-tooltips nil)
 (blink-cursor-mode -1)
+(setq frame-title-format
+      '((buffer-file-name "%f" (dired-directory dired-directory "%b"))))
+(setq icon-title-format frame-title-format)
 
 ;; default to maximised windows
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -169,7 +172,6 @@
   "Initialise properties specific to graphical display for FRAME."
   (interactive)
   (when (display-graphic-p)
-    (setq frame-title-format '(buffer-file-name "%f" ("%b")))
     (if (font-info apm-preferred-font-family)
         (set-face-attribute 'default frame
                             :family apm-preferred-font-family
