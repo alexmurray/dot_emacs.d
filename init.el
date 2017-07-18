@@ -603,8 +603,10 @@ code sections."
   :ensure t
   :init (progn
           (global-diff-hl-mode 1)
-          ;; highlight in unsaved buffers as well
-          (diff-hl-flydiff-mode 1)
+          ;; don't highlight in unsaved buffers since slows down too much -
+          ;; especially when using spaceline-all-the-icons - no real need since
+          ;; diff info is most useful on save
+          (diff-hl-flydiff-mode -1)
           ;; Integrate with Magit
           (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
           ;; Highlight changed files in the fringe of dired
