@@ -852,6 +852,7 @@ Otherwise call `ediff-buffers' interactively."
               "b" 'helm-mini
               "dd" 'helm-dash-at-point
               "df" 'doxyas-document-function
+              "e" 'eshell
               "fc" 'flycheck-buffer
               "ff" 'helm-find-files
               "ge" 'google-error
