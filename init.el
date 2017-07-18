@@ -1757,13 +1757,24 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure spaceline
   :config (progn
             (setq spaceline-workspace-numbers-unicode t
-                  spaceline-window-numbers-unicode t)
+                  spaceline-window-numbers-unicode t
+                  spaceline-responsive nil)
             ;; show evil state with colour change
             (setq spaceline-highlight-face-func #'spaceline-highlight-face-evil-state)))
 
 (use-package spaceline-all-the-icons
   :ensure t
   :config (progn
+            (setq spaceline-all-the-icons-icon-set-bookmark 'heart
+                  spaceline-all-the-icons-icon-set-modified 'circle
+                  spaceline-all-the-icons-icon-set-dedicated 'pin
+                  spaceline-all-the-icons-icon-set-flycheck-slim 'outline
+                  spaceline-all-the-icons-flycheck-alternate t
+                  spaceline-all-the-icons-highlight-file-name t
+                  spaceline-all-the-icons-hide-long-buffer-path t
+                  spaceline-all-the-icons-separator-type 'none)
+            (spaceline-toggle-all-the-icons-bookmark-on)
+            (spaceline-toggle-all-the-icons-dedicated-on)
             (spaceline-all-the-icons--setup-anzu)
             (spaceline-all-the-icons--setup-paradox)
             (spaceline-all-the-icons--setup-package-updates)
