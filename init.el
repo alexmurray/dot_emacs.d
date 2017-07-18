@@ -963,11 +963,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (fancy-battery-mode 1))
 
-(use-package fancy-narrow
-  :ensure t
-  :diminish fancy-narrow-mode
-  :config (fancy-narrow-mode 1))
-
 (use-package fic-mode
   :ensure t
   :defer t
@@ -1577,11 +1572,6 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   ;; only try and install when needed
   :mode ("\\.pdf\\'" . pdf-tools-install))
-
-(use-package persp-projectile
-  ;; broken by emacs 26 https://github.com/nex3/perspective-el/issues/64
-  :disabled t
-  :ensure t)
 
 (use-package plantuml-mode
   :ensure t
