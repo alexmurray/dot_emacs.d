@@ -144,7 +144,6 @@
 (column-number-mode 1)
 ;; don't use gtk style tooltips since are intrusive
 (setq-default x-gtk-use-system-tooltips nil)
-(tooltip-mode -1)
 (blink-cursor-mode -1)
 
 ;; default to maximised windows
