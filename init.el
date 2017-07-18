@@ -1157,6 +1157,7 @@ Otherwise call `ediff-buffers' interactively."
             ;; integrate with evil
             (with-eval-after-load 'evil
               (define-key evil-ex-map "b " 'helm-mini)
+              (define-key evil-ex-map "bd " 'kill-buffer)
               (define-key evil-ex-map "e " 'helm-find-files)
               (evil-ex-define-cmd "ap[ropos]" 'helm-apropos)
               (define-key evil-ex-map "ap " 'helm-apropos))))
