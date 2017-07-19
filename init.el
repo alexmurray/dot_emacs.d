@@ -1766,11 +1766,9 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq spaceline-all-the-icons-icon-set-bookmark 'heart
                   spaceline-all-the-icons-icon-set-modified 'circle
                   spaceline-all-the-icons-icon-set-dedicated 'pin
-                  spaceline-all-the-icons-icon-set-flycheck-slim 'outline
-                  spaceline-all-the-icons-flycheck-alternate t
+                  spaceline-all-the-icons-flycheck-alternate nil
                   spaceline-all-the-icons-highlight-file-name t
                   spaceline-all-the-icons-hide-long-buffer-path t
-                  spaceline-all-the-icons-projectile-p t
                   spaceline-all-the-icons-separator-type 'none)
             (spaceline-toggle-all-the-icons-bookmark-on)
             (spaceline-toggle-all-the-icons-dedicated-on)
