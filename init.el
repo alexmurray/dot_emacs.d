@@ -289,8 +289,7 @@
 
 (use-package arxml-mode
   :load-path "vendor/"
-  :defer t
-  :mode (("\\.arxml\\'" . arxml-mode)))
+  :demand t)
 
 (use-package asn1-mode
   :ensure t
