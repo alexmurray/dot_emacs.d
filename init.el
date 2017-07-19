@@ -1117,8 +1117,8 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :init (add-hook 'prog-mode-hook #'goto-address-prog-mode))
 
-(use-package gruvbox-theme
-  :ensure t)
+(use-package gruvbox-dark-medium-theme
+  :ensure gruvbox-theme)
 
 (use-package gud
   :defer t
