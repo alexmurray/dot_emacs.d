@@ -1754,7 +1754,8 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq spaceline-workspace-numbers-unicode t
                   spaceline-window-numbers-unicode t
                   spaceline-responsive nil)
-            (spaceline-compile)))
+            (spaceline-helm-mode)
+            (spaceline-info-mode)))
 
 (use-package spaceline-all-the-icons
   :ensure t
