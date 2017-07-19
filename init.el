@@ -1216,6 +1216,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package helm-projectile
   :ensure t
+  :after projectile
   :config (progn
             (setq projectile-switch-project-action 'helm-projectile)
             (helm-projectile-on)))
@@ -1609,7 +1610,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (global-prettify-symbols-mode 1)))
 
 (use-package projectile
-  :ensure t
+  :load-path "vendor/"
   :defer t
   :defines (projectile-enable-caching)
   :diminish projectile-mode
@@ -1767,9 +1768,7 @@ ${3:Ticket: #${4:XXXX}}")))
                   spaceline-all-the-icons-flycheck-alternate t
                   spaceline-all-the-icons-highlight-file-name t
                   spaceline-all-the-icons-hide-long-buffer-path t
-                  ;; disable projectile since slows down everything too much -
-                  ;; https://github.com/bbatsov/projectile/issues/1003
-                  spaceline-all-the-icons-projectile-p nil
+                  spaceline-all-the-icons-projectile-p t
                   spaceline-all-the-icons-separator-type 'none)
             (spaceline-toggle-all-the-icons-bookmark-on)
             (spaceline-toggle-all-the-icons-dedicated-on)
