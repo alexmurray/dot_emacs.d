@@ -1766,6 +1766,9 @@ ${3:Ticket: #${4:XXXX}}")))
                   spaceline-all-the-icons-flycheck-alternate t
                   spaceline-all-the-icons-highlight-file-name t
                   spaceline-all-the-icons-hide-long-buffer-path t
+                  ;; disable projectile since slows down everything too much -
+                  ;; https://github.com/bbatsov/projectile/issues/1003
+                  spaceline-all-the-icons-projectile-p nil
                   spaceline-all-the-icons-separator-type 'none)
             (spaceline-toggle-all-the-icons-bookmark-on)
             (spaceline-toggle-all-the-icons-dedicated-on)
