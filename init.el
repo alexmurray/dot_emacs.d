@@ -1166,6 +1166,11 @@ Otherwise call `ediff-buffers' interactively."
               (define-key evil-ex-map "ag " 'helm-ag)
               (define-key evil-ex-map "agi " 'helm-do-ag))))
 
+(use-package helm-company
+  :ensure t
+  :defer t
+  :bind (:map company-active-map ("C-/" . helm-company)))
+
 (use-package helm-dash
   :ensure t
   :after helm
