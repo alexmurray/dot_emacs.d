@@ -1423,11 +1423,7 @@ ${3:Ticket: #${4:XXXX}}")))
                          nil))
 
           (add-hook 'nxml-mode-hook 'hs-minor-mode))
-  :config (progn
-            (setq nxml-slash-auto-complete-flag t)
-            (with-eval-after-load 'smartparens
-              ;; don't try and complete tag end - breaks nxml completion etc
-              (sp-local-pair 'nxml-mode "<" ">" :actions '(:rem insert)))))
+  :config (setq nxml-slash-auto-complete-flag t))
 
 (use-package org
   :ensure org-plus-contrib
@@ -1730,7 +1726,9 @@ ${3:Ticket: #${4:XXXX}}")))
             ;; use smartparens to automatically indent correctly when opening
             ;; a new block
             (dolist (mode '(c-mode c++-mode java-mode))
-              (sp-local-pair mode "{" nil :post-handlers '((apm-c-mode-common-open-block "RET"))))))
+              (sp-local-pair mode "{" nil :post-handlers '((apm-c-mode-common-open-block "RET"))))
+            ;; don't try and complete tag end - breaks nxml completion etc
+            (sp-local-pair 'nxml-mode "<" ">" :actions '(:rem insert))))
 
 (use-package smex
   :ensure t
