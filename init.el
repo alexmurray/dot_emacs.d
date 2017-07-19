@@ -1593,7 +1593,7 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package powerline
   :ensure t
   :config (progn
-            (setq powerline-default-separator 'arrow)
+            (setq powerline-default-separator 'utf-8)
             (setq visible-bell nil)
             (setq ring-bell-function #'apm-powerline-visible-bell)))
 
@@ -1746,12 +1746,12 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package spaceline-config
   :ensure spaceline
+  :after powerline
   :config (progn
             (setq spaceline-workspace-numbers-unicode t
                   spaceline-window-numbers-unicode t
                   spaceline-responsive nil)
-            ;; show evil state with colour change
-            (setq spaceline-highlight-face-func #'spaceline-highlight-face-evil-state)))
+            (spaceline-compile)))
 
 (use-package spaceline-all-the-icons
   :ensure t
@@ -1767,6 +1767,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (spaceline-toggle-all-the-icons-bookmark-on)
             (spaceline-toggle-all-the-icons-dedicated-on)
             (spaceline-all-the-icons--setup-anzu)
+            (spaceline-all-the-icons--setup-git-ahead)
             (spaceline-all-the-icons--setup-paradox)
             (spaceline-all-the-icons--setup-package-updates)
             (spaceline-all-the-icons-theme)))
