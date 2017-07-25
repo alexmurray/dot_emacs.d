@@ -1612,7 +1612,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (global-prettify-symbols-mode 1)))
 
 (use-package projectile
-  :load-path "vendor/"
+  :ensure t
   :defer t
   :defines (projectile-enable-caching)
   :diminish projectile-mode
