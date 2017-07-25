@@ -1776,7 +1776,23 @@ ${3:Ticket: #${4:XXXX}}")))
             (spaceline-all-the-icons--setup-git-ahead)
             (spaceline-all-the-icons--setup-paradox)
             (spaceline-all-the-icons--setup-package-updates)
-            (spaceline-all-the-icons-theme)))
+            ;; show current clocked in task
+            (spaceline-define-segment all-the-icons-org-clock-current-task
+              "An `all-the-icons' segment to display the current org-clock task."
+              (let ((face `(:height ,(spaceline-all-the-icons--height 0.9))))
+                (propertize
+                 (concat
+                  (propertize (all-the-icons-faicon "check-circle" :v-adjust 0.1)
+                              'face `(:height ,(spaceline-all-the-icons--height 1.1) :family ,(all-the-icons-faicon-family)))
+                  (propertize (concat " " org-clock-current-task)
+                              'face face
+                              'display '(raise 0.1)))
+                 'help-echo "Go to task"
+                 'mouse-face (spaceline-all-the-icons--highlight)
+                 'local-map (make-mode-line-mouse-map 'mouse-1 #'org-clock-goto)))
+              :when (and active
+                         org-clock-current-task))
+            (spaceline-all-the-icons-theme 'all-the-icons-org-clock-current-task)))
 
 (use-package sudo-edit
   :ensure t
