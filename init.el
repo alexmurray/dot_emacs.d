@@ -1359,6 +1359,10 @@ ${3:Ticket: #${4:XXXX}}")))
           (setq-default magithub-api-timeout 3))
   :config (magithub-feature-autoinject t))
 
+(use-package make-mode
+  ;; don't show major mode name
+  :init (add-hook 'makefile-mode-hook #'(lambda () (setq mode-name nil))))
+
 (use-package mallard-mode
   :ensure t
   :defer t)
