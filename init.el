@@ -1377,7 +1377,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (defun apm-meghanada-mode-setup ()
   "Setup meghanada-mode."
-  (unless (f-exists? (meghanada--locate-server-jar))
+  (unless (file-exists-p (meghanada--locate-server-jar))
     (meghanada-install-server)))
 
 (use-package meghanada
