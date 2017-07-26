@@ -1625,6 +1625,16 @@ ${3:Ticket: #${4:XXXX}}")))
             (with-eval-after-load 'helm
               (setq projectile-completion-system 'helm))))
 
+(use-package projectile-speedbar
+  :ensure t
+  :after sr-speedbar
+  :config (progn
+            (defadvice helm-projectile-find-file (after locate-file activate)
+              (if (sr-speedbar-exist-p)
+                  (projectile-speedbar-open-current-buffer-in-tree)))
+            (defadvice speedbar-item-load (after speedbar-highlight-file activate)
+              (projectile-speedbar-open-current-buffer-in-tree))))
+
 (use-package psvn
   :ensure t
   :config (setq svn-status-state-mark-modeline nil))
@@ -1789,6 +1799,11 @@ ${3:Ticket: #${4:XXXX}}")))
               :when (and active
                          org-clock-current-task))
             (spaceline-all-the-icons-theme 'all-the-icons-org-clock-current-task)))
+
+(use-package sr-speedbar
+  :ensure t
+  :bind (("<f8>" . sr-speedbar-toggle))
+  :config (setq sr-speedbar-right-side nil))
 
 (use-package sudo-edit
   :ensure t
