@@ -866,13 +866,12 @@ Otherwise call `ediff-buffers' interactively."
               "ge" 'google-error
               "gg" 'helm-grep-do-git-grep
               "go" 'google-this
-              "gc" 'helm-gtags-create-tags
-              "gd" 'helm-gtags-delete-tags
-              "gr" 'helm-gtags-find-rtag
-              "gR" 'helm-gtags-resume
-              "gs" 'helm-gtags-select
-              "gt" 'helm-gtags-find-tag
-              "gu" 'helm-gtags-update-tags
+              "gc" 'ggtags-create-tags
+              "gd" 'ggtags-delete-tags
+              "gr" 'ggtags-find-reference
+              "gs" 'ggtags-find-tag-regexp
+              "gt" 'ggtags-find-definition
+              "gu" 'ggtags-update-tags
               "hd" 'helm-dash
               "i" 'helm-semantic-or-imenu
               "mg" 'magit-status
@@ -1100,6 +1099,25 @@ Otherwise call `ediff-buffers' interactively."
           ;; Non-nil means display source file containing the main routine at startup
           (setq-default gdb-show-main t)))
 
+(defun apm-ggtags-setup ()
+  "Setup ggtags for various modes."
+  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+    (ggtags-mode 1)))
+
+(use-package ggtags
+  :ensure t
+  :diminish ggtags-mode
+  :init (progn
+          (unless (executable-find "global")
+            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
+          (with-eval-after-load 'evil
+            (evil-define-key 'visual ggtags-mode-map (kbd "C-]")
+              #'ggtags-find-tag-dwim)
+            (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
+              #'ggtags-find-tag-dwim))
+          ;; enable ggtags in all c common mode buffers
+          (add-hook 'c-mode-common-hook #'apm-ggtags-setup)))
+
 (use-package gitconfig-mode
   :ensure t
   :defer t)
@@ -1193,28 +1211,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :after helm
   :config (helm-fuzzier-mode 1))
-
-(defun apm-helm-gtags-setup ()
-  "Setup helm-gtags for various modes."
-  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-    (helm-gtags-mode 1)))
-
-(use-package helm-gtags
-  :ensure t
-  :after helm
-  :diminish helm-gtags-mode
-  :init (progn
-          (unless (executable-find "global")
-            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
-          (with-eval-after-load 'evil
-            (evil-define-key 'visual helm-gtags-mode-map (kbd "C-]")
-              #'helm-gtags-dwim)
-            (evil-define-key 'normal helm-gtags-mode-map (kbd "C-]")
-              #'helm-gtags-dwim)
-            (evil-define-key 'normal helm-gtags-mode-map (kbd "M-*")
-              #'helm-gtags-pop-stack))
-          ;; enable helm-gtags in all c common mode buffers
-          (add-hook 'c-mode-common-hook #'apm-helm-gtags-setup)))
 
 (use-package helm-projectile
   :ensure t
