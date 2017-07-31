@@ -1771,12 +1771,12 @@ ${3:Ticket: #${4:XXXX}}")))
             (spaceline-info-mode)))
 
 (use-package spaceline-all-the-icons
-  :ensure t
+  :load-path "vendor/spaceline-all-the-icons.el/"
   :config (progn
             (setq spaceline-all-the-icons-icon-set-bookmark 'heart
                   spaceline-all-the-icons-icon-set-modified 'circle
                   spaceline-all-the-icons-icon-set-dedicated 'pin
-                  spaceline-all-the-icons-flycheck-alternate nil
+                  spaceline-all-the-icons-flycheck-alternate 'slim
                   spaceline-all-the-icons-highlight-file-name t
                   spaceline-all-the-icons-hide-long-buffer-path t
                   spaceline-all-the-icons-separator-type 'none)
@@ -1786,23 +1786,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (spaceline-all-the-icons--setup-git-ahead)
             (spaceline-all-the-icons--setup-paradox)
             (spaceline-all-the-icons--setup-package-updates)
-            ;; show current clocked in task
-            (spaceline-define-segment all-the-icons-org-clock-current-task
-              "An `all-the-icons' segment to display the current org-clock task."
-              (let ((face `(:height ,(spaceline-all-the-icons--height 0.9))))
-                (propertize
-                 (concat
-                  (propertize (all-the-icons-faicon "check-circle" :v-adjust 0.1)
-                              'face `(:height ,(spaceline-all-the-icons--height 1.1) :family ,(all-the-icons-faicon-family)))
-                  (propertize (concat " " org-clock-current-task)
-                              'face face
-                              'display '(raise 0.1)))
-                 'help-echo "Go to task"
-                 'mouse-face (spaceline-all-the-icons--highlight)
-                 'local-map (make-mode-line-mouse-map 'mouse-1 #'org-clock-goto)))
-              :when (and active
-                         org-clock-current-task))
-            (spaceline-all-the-icons-theme 'all-the-icons-org-clock-current-task)))
+            (spaceline-all-the-icons-theme)))
 
 (use-package sr-speedbar
   :ensure t
