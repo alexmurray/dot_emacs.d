@@ -163,10 +163,10 @@
 ;; they undo each other
 (setq scroll-preserve-screen-position 'always)
 
-(defvar apm-preferred-font-family "Ubuntu Mono"
+(defvar apm-preferred-font-family "Inconsolata"
   "Preferred font family to use.")
 
-(defvar apm-preferred-font-family-package "ttf-ubuntu-font-family"
+(defvar apm-preferred-font-family-package "fonts-inconsolata"
   "Package to install to get `apm-preferred-font-family'.")
 
 (defvar apm-preferred-font-height 117
