@@ -1473,11 +1473,29 @@ ${3:Ticket: #${4:XXXX}}")))
   "Create `org-clock-heading' by truncating if needed."
   (s-truncate 8 (nth 4 (org-heading-components))))
 
+(defvar apm-org-clock-notification nil)
+
+(defun apm-org-clock-warn-notification-action (id action)
+  "Handle ACTION for notification ID."
+  (pcase action
+    ("ignore" (setq apm-org-clock-notification 'ignore))
+    ("default" (progn (make-frame-visible)
+                      (org-mru-clock-in)))))
+
 (defun apm-org-clock-warn-if-not-clocked-in ()
   "Warn if not currently clocked in."
   (eval-when-compile
     (require 'org-clock))
-  (unless org-clock-current-task
+  (when (and (null org-clock-current-task)
+             (not (eq apm-org-clock-notification 'ignore)))
+    ;; show a notification but keep it persistent - don't show more than one
+    (if (require 'notifications nil t)
+        (setq apm-org-clock-notification
+              (notifications-notify :title "You're not clocked in!"
+                                    :replaces-id apm-org-clock-notification
+                                    :actions '("ignore" "Ignore"
+                                               "default" "Select one")
+                                    :on-action #'apm-org-clock-warn-notification-action)))
     (alert "You're not clocked in!")))
 
 (use-package org-clock
