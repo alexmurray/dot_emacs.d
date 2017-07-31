@@ -1056,7 +1056,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-jing
   :load-path "vendor/"
   :after flycheck
-  :commands (flycheck-jing-setup)
   :config (flycheck-jing-setup))
 
 (use-package flycheck-package
