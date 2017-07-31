@@ -1491,6 +1491,7 @@ ${3:Ticket: #${4:XXXX}}")))
     (if (require 'notifications nil t)
         (setq apm-org-clock-notification
               (notifications-notify :title "You're not clocked in!"
+                                    :body "Click to select a task or choose ignore..."
                                     :replaces-id apm-org-clock-notification
                                     :actions '("ignore" "Ignore"
                                                "default" "Select one")
