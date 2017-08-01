@@ -1474,8 +1474,8 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (defvar apm-org-clock-notification nil)
 
-(defun apm-org-clock-warn-notification-action (id action)
-  "Handle ACTION for notification ID."
+(defun apm-org-clock-warn-notification-action (_id action)
+  "For notification ID handle ACTION."
   (pcase action
     ("ignore" (setq apm-org-clock-notification 'ignore))
     ("default" (progn (make-frame-visible)
