@@ -1271,7 +1271,9 @@ Otherwise call `ediff-buffers' interactively."
           (unless (file-exists-p "/usr/lib/llvm-4.0/include/clang-c/Index.h")
             (pk-install-package "libclang-4.0-dev"))
           ;; try and install if not already installed
-          (unless (irony--find-server-executable)
+          (unless (condition-case nil
+                      (irony--find-server-executable)
+                    (error nil))
             (call-interactively #'irony-install-server))
           (advice-add 'irony-cdb-clang-complete :before 'apm-irony-cdb-clang-complete--auto-generate-clang-complete)
           (add-hook 'c-mode-hook 'irony-mode)
