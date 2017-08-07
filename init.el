@@ -1111,7 +1111,7 @@ Otherwise call `ediff-buffers' interactively."
   :diminish ggtags-mode
   :init (progn
           (unless (executable-find "global")
-            (alert "GNU Global not found - is it installed? - don't use Ubuntu package - too old!"))
+            (alert "GNU Global not found - use ppa:alexmurray/global"))
           (with-eval-after-load 'evil
             (evil-define-key 'visual ggtags-mode-map (kbd "C-]")
               #'ggtags-find-tag-dwim)
