@@ -875,6 +875,7 @@ Otherwise call `ediff-buffers' interactively."
               "hd" 'helm-dash
               "i" 'helm-semantic-or-imenu
               "mg" 'magit-status
+              "mm" 'magit-dispatch-popup
               "ms" 'svn-status
               "oa" 'org-agenda
               "ob" 'org-ido-switchb
@@ -893,7 +894,9 @@ Otherwise call `ediff-buffers' interactively."
               "pe" 'projectile-run-eshell
               "pd" 'helm-projectile-find-dir
               "pf" 'helm-projectile-find-file
+              "pg" 'helm-projectile-grep
               "ph" 'helm-projectile
+              "pk" 'projectile-kill-buffers
               "po" 'helm-projectile-find-other-file
               "pp" 'helm-projectile-switch-project
               "pr" 'helm-projectile-recentf
