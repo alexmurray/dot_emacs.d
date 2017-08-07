@@ -1503,8 +1503,7 @@ ${3:Ticket: #${4:XXXX}}")))
                                     :replaces-id apm-org-clock-notification
                                     :actions '("ignore" "Ignore"
                                                "default" "Select one")
-                                    :on-action #'apm-org-clock-warn-notification-action)))
-    (alert "You're not clocked in!")))
+                                    :on-action #'apm-org-clock-warn-notification-action)))))
 
 (use-package org-clock
   :after org
