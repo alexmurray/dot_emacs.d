@@ -1352,6 +1352,9 @@ ${3:Ticket: #${4:XXXX}}")))
   :defer t
   :bind ("C-x g" . magit-status))
 
+(use-package magit-svn
+  :ensure t)
+
 (use-package magithub
   :ensure t
   :after magit
@@ -1817,6 +1820,9 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package sudo-edit
   :ensure t
   :commands (sudo-edit))
+
+(use-package suggest
+  :ensure t)
 
 (use-package systemd
   :ensure t)
