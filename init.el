@@ -923,11 +923,6 @@ Otherwise call `ediff-buffers' interactively."
   ;; only use with strict smartparens otherwise is too annoying for normal cases
   :init (add-hook 'smartparens-strict-mode-hook #'evil-smartparens-mode))
 
-(use-package evil-space
-  :ensure t
-  :diminish evil-space-mode
-  :init (evil-space-mode 1))
-
 (use-package evil-surround
   :ensure t
   :init (global-evil-surround-mode 1))
