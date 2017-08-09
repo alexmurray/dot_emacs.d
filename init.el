@@ -1481,8 +1481,10 @@ ${3:Ticket: #${4:XXXX}}")))
   "For notification ID handle ACTION."
   (pcase action
     ("ignore" (setq apm-org-clock-notification 'ignore))
-    ("default" (progn (make-frame-visible)
-                      (org-mru-clock-in)))))
+    ("default" (progn
+                 (make-frame-visible)
+                 (select-frame-set-input-focus (selected-frame))
+                 (org-mru-clock-in)))))
 
 (defun apm-org-clock-warn-if-not-clocked-in ()
   "Warn if not currently clocked in."
