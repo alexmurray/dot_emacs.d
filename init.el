@@ -1786,7 +1786,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (progn
             (setq spaceline-workspace-numbers-unicode t
                   spaceline-window-numbers-unicode t
-                  spaceline-responsive t)
+                  spaceline-responsive nil)
             (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
             (spaceline-helm-mode)
             (spaceline-info-mode)))
