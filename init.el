@@ -1484,7 +1484,10 @@ ${3:Ticket: #${4:XXXX}}")))
     ("default" (progn
                  (make-frame-visible)
                  (select-frame-set-input-focus (selected-frame))
-                 (org-mru-clock-in)))))
+                 (org-mru-clock-in)
+                 (when apm-org-clock-notification
+                   (notifications-close-notification apm-org-clock-notification)
+                   (setq apm-org-clock-notification nil))))))
 
 (defun apm-org-clock-warn-if-not-clocked-in ()
   "Warn if not currently clocked in."
