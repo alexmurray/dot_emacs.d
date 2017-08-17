@@ -946,17 +946,6 @@ Otherwise call `ediff-buffers' interactively."
   :config (setq expand-region-contract-fast-key "V"
                 expand-region-reset-fast-key "r"))
 
-(use-package eyebrowse
-  :ensure t
-  :after evil
-  :config (progn
-            (eyebrowse-mode t)
-            ;; start a new workspace clean with just the scratch buffer
-            (setq eyebrowse-new-workspace t)
-            ;; wrap workspaces like vim
-            (setq eyebrowse-wrap-around t)
-            (eyebrowse-setup-evil-keys)))
-
 (use-package fancy-battery
   :ensure t
   :config (fancy-battery-mode 1))
