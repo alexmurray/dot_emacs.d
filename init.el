@@ -1471,6 +1471,7 @@ ${3:Ticket: #${4:XXXX}}")))
   (pcase action
     ("ignore" (setq apm-org-clock-notification 'ignore))
     ("default" (progn
+                 (raise-frame)
                  (make-frame-visible)
                  (select-frame-set-input-focus (selected-frame))
                  (org-mru-clock-in)
