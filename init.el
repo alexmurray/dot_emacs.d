@@ -1618,7 +1618,7 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package powerline
   :ensure t
   :config (progn
-            (setq powerline-default-separator 'utf-8)
+            (setq powerline-default-separator 'wave)
             (setq visible-bell nil)
             (setq ring-bell-function #'apm-powerline-visible-bell)))
 
@@ -1785,13 +1785,15 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (progn
             (setq spaceline-workspace-numbers-unicode t
                   spaceline-window-numbers-unicode t
-                  spaceline-responsive nil)
+                  spaceline-responsive t)
             (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
             (spaceline-helm-mode)
-            (spaceline-info-mode)))
+            (spaceline-info-mode)
+            (spaceline-spacemacs-theme)))
 
 (use-package spaceline-all-the-icons
   :load-path "vendor/spaceline-all-the-icons.el/"
+  :disabled t
   :config (progn
             (setq spaceline-all-the-icons-icon-set-bookmark 'heart
                   spaceline-all-the-icons-icon-set-modified 'circle
