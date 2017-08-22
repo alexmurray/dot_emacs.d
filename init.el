@@ -1768,10 +1768,6 @@ ${3:Ticket: #${4:XXXX}}")))
             ;; don't try and complete tag end - breaks nxml completion etc
             (sp-local-pair 'nxml-mode "<" ">" :actions '(:rem insert))))
 
-(use-package smex
-  :ensure t
-  :config (smex-initialize))
-
 (use-package solarized-theme
   :ensure t
   :disabled t
