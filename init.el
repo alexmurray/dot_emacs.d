@@ -1468,6 +1468,12 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (defvar apm-org-clock-notification nil)
 
+(defun apm-org-clock-clear-notification ()
+  "Clear any existing org clock notification."
+  (when apm-org-clock-notification
+    (notifications-close-notification apm-org-clock-notification)
+    (setq apm-org-clock-notification nil)))
+
 (defun apm-org-clock-warn-notification-action (_id action)
   "For notification ID handle ACTION."
   (pcase action
@@ -1477,9 +1483,7 @@ ${3:Ticket: #${4:XXXX}}")))
                  (make-frame-visible)
                  (select-frame-set-input-focus (selected-frame))
                  (org-mru-clock-in)
-                 (when apm-org-clock-notification
-                   (notifications-close-notification apm-org-clock-notification)
-                   (setq apm-org-clock-notification nil))))))
+                 (apm-org-clock-clear-notification)))))
 
 (defun apm-org-clock-warn-if-not-clocked-in ()
   "Warn if not currently clocked in."
@@ -1523,7 +1527,9 @@ ${3:Ticket: #${4:XXXX}}")))
             ;; reload any saved org clock information on startup
             (org-clock-persistence-insinuate)
             ;; notify if not clocked in
-            (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in)))
+            (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in)
+            ;; ensure when clocking in we close any existing notification
+            (add-hook 'org-clock-in-hook #'apm-org-clock-clear-notification)))
 
 (use-package org-clock-convenience
   :ensure t
