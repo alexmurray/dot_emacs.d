@@ -1789,12 +1789,10 @@ ${3:Ticket: #${4:XXXX}}")))
                   spaceline-responsive t)
             (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
             (spaceline-helm-mode)
-            (spaceline-info-mode)
-            (spaceline-spacemacs-theme)))
+            (spaceline-info-mode)))
 
 (use-package spaceline-all-the-icons
-  :load-path "vendor/spaceline-all-the-icons.el/"
-  :disabled t
+  :ensure t
   :config (progn
             (setq spaceline-all-the-icons-icon-set-bookmark 'heart
                   spaceline-all-the-icons-icon-set-modified 'circle
