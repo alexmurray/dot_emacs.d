@@ -1563,13 +1563,6 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (with-eval-after-load 'plantuml-mode
             (setq org-plantuml-jar-path plantuml-jar-path)))
 
-(use-package origami
-  :ensure t
-  :defer t
-  :diminish origami-mode
-  :functions origami-mode
-  :init (add-hook 'prog-mode-hook #'origami-mode))
-
 (defun apm-paradox-set-github-token (_no-fetch)
   "Load `paradox-github-token' from authinfo."
   (require 'epa-file)
