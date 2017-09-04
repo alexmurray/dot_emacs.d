@@ -1432,8 +1432,6 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq org-agenda-files (mapcar #'expand-file-name
                                            '("~/Dropbox/Orgzly/personal.org"
                                              "~/Dropbox/Orgzly/cohda.org"))
-                  ;; show clock summaries as fractional instead of mm:ss for time reporting
-                  org-time-clocksum-use-fractional t
                   ;; don't indent org document sections etc
                   org-adapt-indentation nil
                   org-imenu-depth 4
