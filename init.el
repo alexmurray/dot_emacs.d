@@ -1446,6 +1446,8 @@ ${3:Ticket: #${4:XXXX}}")))
   (org-agenda-to-appt t))
 
 (use-package org-agenda
+  :ensure org-plus-contrib
+  :pin org
   :config (progn
             ;; when modifying agenda files make sure to update appt
             (require 'filenotify)
