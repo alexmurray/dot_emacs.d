@@ -1503,7 +1503,7 @@ ${3:Ticket: #${4:XXXX}}")))
                                       :actions '("ignore" "Ignore"
                                                  "default" "Select one")
                                       :on-action #'apm-org-clock-warn-notification-action
-                                      :on-close #'(lambda (id reason)
+                                      :on-close #'(lambda (id _reason)
                                                     (when (= id apm-org-clock-notification)
                                                       (setq apm-org-clock-notification nil)))))))))
 
