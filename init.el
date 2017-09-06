@@ -1222,7 +1222,9 @@ Otherwise call `ediff-buffers' interactively."
   :config (setq xref-show-xrefs-function #'helm-xref-show-xrefs))
 
 (use-package helpful
-  :ensure t)
+  :ensure t
+  :bind (("C-h f" . helpful-function)
+         ("C-h k" . helpful-key)))
 
 (use-package hungry-delete
   :ensure t
