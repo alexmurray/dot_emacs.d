@@ -1346,15 +1346,9 @@ ${3:Ticket: #${4:XXXX}}")))
   :defer t
   :bind ("C-x g" . magit-status))
 
-(use-package magit-svn
-  :ensure t)
-
 (use-package magithub
   :ensure t
   :after magit
-  :init (progn
-          (eval-when-compile (require 'magithub))
-          (setq-default magithub-api-timeout 3))
   :config (magithub-feature-autoinject t))
 
 (use-package make-mode
