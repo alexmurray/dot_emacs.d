@@ -1091,7 +1091,9 @@ Otherwise call `ediff-buffers' interactively."
 (defun apm-ggtags-setup ()
   "Setup ggtags for various modes."
   (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-    (ggtags-mode 1)))
+    (ggtags-mode 1)
+    ;; disable navigation since conflicts with usual keybindings
+    (ggtags-navigation-mode -1)))
 
 (use-package ggtags
   :ensure t
