@@ -1385,6 +1385,9 @@ ${3:Ticket: #${4:XXXX}}")))
                 meghanada-use-flycheck t
                 meghanada-auto-start t))
 
+(use-package meson-mode
+  :ensure t)
+
 (use-package modern-cpp-font-lock
   :ensure t
   :defer t
