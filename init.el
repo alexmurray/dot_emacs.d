@@ -1105,7 +1105,9 @@ Otherwise call `ediff-buffers' interactively."
             (evil-define-key 'visual ggtags-mode-map (kbd "C-]")
               #'ggtags-find-tag-dwim)
             (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
-              #'ggtags-find-tag-dwim))
+              #'ggtags-find-tag-dwim)
+            (evil-define-key 'normal ggtags-mode-map (kbd "M-*")
+              #'pop-tag-mark))
           ;; enable ggtags in all c common mode buffers
           (add-hook 'c-mode-common-hook #'apm-ggtags-setup)))
 
