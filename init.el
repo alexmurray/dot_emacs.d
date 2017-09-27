@@ -713,7 +713,7 @@ Otherwise call `ediff-buffers' interactively."
               #'elisp-slime-nav-find-elisp-thing-at-point)
             (evil-define-key 'visual elisp-slime-nav-mode-map (kbd "C-]")
               #'elisp-slime-nav-find-elisp-thing-at-point)
-            (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "M-*")
+            (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-t")
               #'pop-tag-mark)))
 
 (defun apm-erc-alert (&optional match-type nick message)
@@ -1090,9 +1090,7 @@ Otherwise call `ediff-buffers' interactively."
 (defun apm-ggtags-setup ()
   "Setup ggtags for various modes."
   (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-    (ggtags-mode 1)
-    ;; disable navigation since conflicts with usual keybindings
-    (ggtags-navigation-mode -1)))
+    (ggtags-mode 1)))
 
 (use-package ggtags
   :ensure t
@@ -1100,15 +1098,18 @@ Otherwise call `ediff-buffers' interactively."
   :init (progn
           (unless (executable-find "global")
             (alert "GNU Global not found - use ppa:alexmurray/global"))
-          (with-eval-after-load 'evil
-            (evil-define-key 'visual ggtags-mode-map (kbd "C-]")
-              #'ggtags-find-tag-dwim)
-            (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
-              #'ggtags-find-tag-dwim)
-            (evil-define-key 'normal ggtags-mode-map (kbd "M-*")
-              #'pop-tag-mark))
           ;; enable ggtags in all c common mode buffers
-          (add-hook 'c-mode-common-hook #'apm-ggtags-setup)))
+          (add-hook 'c-mode-common-hook #'apm-ggtags-setup))
+  :config (progn
+            ;; use own keybindings
+            (setq ggtags-enable-navigation-keys nil)
+            (with-eval-after-load 'evil
+              (evil-define-key 'visual ggtags-mode-map (kbd "C-]")
+                #'ggtags-find-tag-dwim)
+              (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
+                #'ggtags-find-tag-dwim)
+              (evil-define-key 'normal ggtags-mode-map (kbd "C-t")
+                #'ggtags-navigation-mode-abort))))
 
 (use-package gitconfig-mode
   :ensure t
@@ -1874,7 +1875,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (with-eval-after-load 'evil
             (define-key evil-visual-state-map (kbd "C-]") #'xref-find-definitions)
             (define-key evil-normal-state-map (kbd "C-]") #'xref-find-definitions)
-            (define-key evil-normal-state-map (kbd "M-*") #'xref-pop-marker-stack)))
+            (define-key evil-normal-state-map (kbd "C-t") #'xref-pop-marker-stack)))
 
 (use-package zenburn-theme
   :ensure t
