@@ -476,11 +476,10 @@ code sections."
             (define-key company-active-map (kbd "C-p") 'company-select-previous)
             (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer)
 
-            (define-key company-active-map [tab] 'company-complete-common-or-cycle)
-            (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
-
             ;; put most often used completions at stop of list
-            (setq company-transformers '(company-sort-by-occurrence))))
+            (setq company-transformers '(company-sort-by-occurrence))
+            ;; try tab style behaviour
+            (company-tng-configure-default)))
 
 (use-package company-anaconda
   :ensure t
