@@ -865,12 +865,8 @@ Otherwise call `ediff-buffers' interactively."
               "ge" 'google-error
               "gg" 'helm-grep-do-git-grep
               "go" 'google-this
-              "gc" 'ggtags-create-tags
-              "gd" 'ggtags-delete-tags
-              "gr" 'ggtags-find-reference
-              "gs" 'ggtags-find-tag-regexp
-              "gt" 'ggtags-find-definition
-              "gu" 'ggtags-update-tags
+              "gc" 'gxref-create-db
+              "gu" 'gxref-update-db
               "hd" 'helm-dash
               "i" 'helm-semantic-or-imenu
               "mg" 'magit-status
@@ -1087,29 +1083,18 @@ Otherwise call `ediff-buffers' interactively."
           ;; Non-nil means display source file containing the main routine at startup
           (setq-default gdb-show-main t)))
 
-(defun apm-ggtags-setup ()
-  "Setup ggtags for various modes."
+(defun apm-gxref-setup ()
+  "Setup gxref for various modes."
   (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-    (ggtags-mode 1)))
+    (add-to-list 'xref-backend-functions 'gxref-xref-backend)))
 
-(use-package ggtags
+(use-package gxref
   :ensure t
-  :diminish ggtags-mode
   :init (progn
           (unless (executable-find "global")
             (alert "GNU Global not found - use ppa:alexmurray/global"))
-          ;; enable ggtags in all c common mode buffers
-          (add-hook 'c-mode-common-hook #'apm-ggtags-setup))
-  :config (progn
-            ;; use own keybindings
-            (setq ggtags-enable-navigation-keys nil)
-            (with-eval-after-load 'evil
-              (evil-define-key 'visual ggtags-mode-map (kbd "C-]")
-                #'ggtags-find-tag-dwim)
-              (evil-define-key 'normal ggtags-mode-map (kbd "C-]")
-                #'ggtags-find-tag-dwim)
-              (evil-define-key 'normal ggtags-mode-map (kbd "C-t")
-                #'ggtags-navigation-mode-abort))))
+          ;; enable gxref in all c common mode buffers
+          (add-hook 'c-mode-common-hook #'apm-gxref-setup)))
 
 (use-package gitconfig-mode
   :ensure t
