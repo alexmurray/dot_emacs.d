@@ -1849,7 +1849,12 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (which-key-mode))
 
 (use-package whitespace
-  :diminish whitespace-mode)
+  :diminish whitespace-mode
+  ;; higlight long lines
+  :init (progn
+          (setq-default whitespace-line-column 80)
+          (setq-default whitespace-style '(face lines-tail))
+          (add-hook 'prog-mode-hook #'whitespace-mode)))
 
 (use-package yasnippet
   :ensure t
