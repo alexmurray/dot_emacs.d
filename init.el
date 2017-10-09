@@ -444,7 +444,7 @@ code sections."
 
 (use-package company
   :ensure t
-  :commands global-company-mode
+  :commands (global-company-mode)
   ;; Use Company for completion
   :bind (("C-;" . company-complete-common)
          :map company-mode-map
@@ -505,11 +505,13 @@ code sections."
 
 (use-package company-irony
   :ensure t
+  :defer t
   :after company
   :init (add-to-list 'company-backends 'company-irony))
 
 (use-package company-irony-c-headers
   :ensure t
+  :defer t
   :after company
   :config (progn
             (setq company-irony-c-headers--compiler-executable (executable-find "clang++"))
@@ -527,6 +529,7 @@ code sections."
 
 (use-package company-quickhelp
   :ensure t
+  :defer t
   :init (add-hook 'company-mode-hook #'company-quickhelp-mode)
   :config (setq company-quickhelp-delay 0.1))
 
@@ -549,10 +552,11 @@ code sections."
 
 (use-package company-try-hard
   :ensure t
+  :commands (company-try-hard)
   :after company
-  :config (progn
-            (global-set-key (kbd "C-<tab>") #'company-try-hard)
-            (define-key company-active-map (kbd "C-<tab>") #'company-try-hard)))
+  :init (progn
+          (global-set-key (kbd "C-<tab>") #'company-try-hard)
+          (define-key company-active-map (kbd "C-<tab>") #'company-try-hard)))
 
 (use-package company-web
   :ensure t
