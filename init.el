@@ -1884,6 +1884,10 @@ ${3:Ticket: #${4:XXXX}}")))
             (set-face-attribute 'powerline-inactive2 nil :background "gray20")
             (set-face-attribute 'powerline-inactive1 nil :background "gray32")))
 
+(use-package zoom
+  :ensure t
+  :config (zoom-mode 1))
+
 (provide 'init)
 
 ;;; init.el ends here
