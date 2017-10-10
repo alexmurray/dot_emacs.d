@@ -1330,9 +1330,14 @@ ${3:Ticket: #${4:XXXX}}")))
           (add-hook 'log-edit-hook 'apm-log-edit-insert-yasnippet-template)
           (remove-hook 'log-edit-hook 'log-edit-insert-message-template)))
 
+(defun apm-magit-mode-setup ()
+  "Setup `magit-mode'."
+  (setq mode-name ""))
+
 (use-package magit
   :ensure t
   :defer t
+  :init (add-hook 'magit-mode-hook #'apm-magit-mode-setup)
   :bind ("C-x g" . magit-status))
 
 (use-package magithub
