@@ -607,10 +607,7 @@ code sections."
   :ensure t
   :init (progn
           (global-diff-hl-mode 1)
-          ;; don't highlight in unsaved buffers since slows down too much -
-          ;; especially when using spaceline-all-the-icons - no real need since
-          ;; diff info is most useful on save
-          (diff-hl-flydiff-mode -1)
+          (diff-hl-flydiff-mode 1)
           ;; Integrate with Magit
           (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
           ;; Highlight changed files in the fringe of dired
@@ -1616,6 +1613,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :config (progn
             (setq powerline-default-separator 'wave)
+            (setq powerline-height 24)
             (setq visible-bell nil)
             (setq ring-bell-function #'apm-powerline-visible-bell)))
 
@@ -1781,10 +1779,12 @@ ${3:Ticket: #${4:XXXX}}")))
                   spaceline-responsive t)
             (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
             (spaceline-helm-mode)
-            (spaceline-info-mode)))
+            (spaceline-info-mode)
+            (spaceline-spacemacs-theme)))
 
 (use-package spaceline-all-the-icons
   :ensure t
+  :disabled t
   :config (progn
             (setq spaceline-all-the-icons-icon-set-bookmark 'heart
                   spaceline-all-the-icons-icon-set-modified 'circle
