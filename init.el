@@ -1890,6 +1890,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package zoom
   :ensure t
+  :diminish zoom-mode
   :config (zoom-mode 1))
 
 (provide 'init)
