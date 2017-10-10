@@ -1146,7 +1146,7 @@ Otherwise call `ediff-buffers' interactively."
             ;; silence byte-compile warnings
             (eval-when-compile
               (require 'helm-command)
-              (require 'helm-files))
+              (require 'helm-for-files))
             (setq helm-M-x-fuzzy-match t
                   helm-buffers-fuzzy-matching t
                   helm-recentf-fuzzy-match t)
