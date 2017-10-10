@@ -84,7 +84,7 @@
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
 
-;; some useful functions for the rest of this init file
+;; used in some of my yasnippet snippets
 (defun apm-camelize (s &optional delim)
   "Convert under_score string S to CamelCase string with optional DELIM."
   (interactive "s")
