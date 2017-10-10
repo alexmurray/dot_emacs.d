@@ -255,7 +255,7 @@
 
 (use-package anaconda-mode
   :ensure t
-  :diminish (anaconda-mode . " 🐍 ")
+  :diminish (anaconda-mode . "  ")
   :defer t
   :init (progn
           (add-hook 'python-mode-hook #'anaconda-mode)
@@ -1297,6 +1297,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-emacs-lisp-mode-setup ()
   "Setup Emacs Lisp mode."
+  (setq mode-name "")
   ;; make imenu list each package for easy navigation - from
   ;; https://github.com/jwiegley/use-package/issues/80#issuecomment-46687774
   (when (string= buffer-file-name (expand-file-name "init.el" "~/dot_emacs.d"))
