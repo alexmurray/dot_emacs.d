@@ -870,6 +870,7 @@ Otherwise call `ediff-buffers' interactively."
               "gu" 'gxref-update-db
               "hd" 'helm-dash
               "i" 'helm-semantic-or-imenu
+              "k" 'kill-buffer
               "mg" 'magit-status
               "mm" 'magit-dispatch-popup
               "ms" 'svn-status
