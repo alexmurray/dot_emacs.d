@@ -1656,16 +1656,6 @@ ${3:Ticket: #${4:XXXX}}")))
             (with-eval-after-load 'helm
               (setq projectile-completion-system 'helm))))
 
-(use-package projectile-speedbar
-  :ensure t
-  :after sr-speedbar
-  :config (progn
-            (defadvice helm-projectile-find-file (after locate-file activate)
-              (if (sr-speedbar-exist-p)
-                  (projectile-speedbar-open-current-buffer-in-tree)))
-            (defadvice speedbar-item-load (after speedbar-highlight-file activate)
-              (projectile-speedbar-open-current-buffer-in-tree))))
-
 (use-package psvn
   :ensure t
   :config (setq svn-status-state-mark-modeline nil))
@@ -1813,11 +1803,6 @@ ${3:Ticket: #${4:XXXX}}")))
             (spaceline-all-the-icons--setup-package-updates)
             (spaceline-all-the-icons-theme)))
 
-(use-package sr-speedbar
-  :ensure t
-  :bind (("<f8>" . sr-speedbar-toggle))
-  :config (setq sr-speedbar-right-side nil))
-
 (use-package sudo-edit
   :ensure t
   :commands (sudo-edit))
@@ -1835,6 +1820,28 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (tracwiki-define-project
            "mk2"
            "http://projects.cohda.wireless:8000/trac/mk2"))
+
+(use-package treemacs
+  :ensure t
+  :bind (([f8]        . treemacs-toggle)
+         ([f9]        . treemacs-projectile-toggle)
+         ("<C-M-tab>" . treemacs-toggle)
+         ("M-0"       . treemacs-select-window)
+         ("C-c 1"     . treemacs-delete-other-windows))
+  :config (progn
+            (setq treemacs-follow-after-init t)
+            (setq treemacs-git-integration t)
+            (setq treemacs-width 25)
+            (treemacs-follow-mode 1)
+            (treemacs-filewatch-mode 1)))
+
+(use-package treemacs-evil
+  :ensure t)
+
+(use-package treemacs-projectile
+  :ensure t
+  :after treemacs
+  :config (setq treemacs-header-function #'treemacs-projectile-create-header))
 
 (use-package undo-tree
   :ensure t
