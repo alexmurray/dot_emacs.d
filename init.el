@@ -245,17 +245,17 @@
 (use-package android-mode
   :ensure t
   :defer t
+  :diminish android-mode
   :commands (android-mode)
   :init (progn
           ;; change prefix so doesn't conflict with comment-region
           (setq android-mode-sdk-dir (expand-file-name "~/android-sdk-linux/")
                 android-mode-key-prefix (kbd "C-c C-m"))
-          (add-hook 'java-mode-hook #'android-mode))
-  :diminish (android-mode . "  "))
+          (add-hook 'java-mode-hook #'android-mode)))
 
 (use-package anaconda-mode
   :ensure t
-  :diminish (anaconda-mode . "  ")
+  :diminish anaconda-mode
   :defer t
   :init (progn
           (add-hook 'python-mode-hook #'anaconda-mode)
