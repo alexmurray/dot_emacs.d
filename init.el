@@ -1117,6 +1117,7 @@ Otherwise call `ediff-buffers' interactively."
   :init (add-hook 'prog-mode-hook #'goto-address-prog-mode))
 
 (use-package gruvbox-dark-medium-theme
+  :disabled t
   :ensure gruvbox-theme)
 
 (use-package gud
@@ -1768,7 +1769,6 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package solarized-theme
   :ensure t
-  :disabled t
   :config (progn
             (setq x-underline-at-descent-line t)
             (setq solarized-distinct-fringe-background t)
