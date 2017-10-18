@@ -1307,7 +1307,7 @@ Otherwise call `ediff-buffers' interactively."
   ;; into git
   :config (setq jenkins-hostname "http://cw-jenkins/jenkins/"
                 jenkins-username "amurray"
-                jenkins-viewname "RelX"))
+                jenkins-viewname "Trunk"))
 
 (use-package js2-mode
   :ensure t
