@@ -1228,7 +1228,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package helpful
   :ensure t
-  :bind (("C-h f" . helpful-function)
+  :bind (("C-h a" . helpful-symbol)
+         ("C-h f" . helpful-callable)
+         ("C-h v" . helpful-variable)
          ("C-h k" . helpful-key)))
 
 (use-package hungry-delete
