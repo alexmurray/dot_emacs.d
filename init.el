@@ -717,6 +717,16 @@ Otherwise call `ediff-buffers' interactively."
             (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-t")
               #'pop-tag-mark)))
 
+(use-package emojify
+  :ensure t
+  :config (progn
+            ;; only show unicode emojis
+            (setq emojify-display-style 'unicode)
+            (setq emojify-emoji-styles '(unicode))
+            ;; uncover emoji when point is over them
+            (setq emojify-point-entered-behaviour 'uncover)
+            (global-emojify-mode 1)))
+
 (defun apm-erc-alert (&optional match-type nick message)
   "Show an alert when nick mentioned with MATCH-TYPE NICK and MESSAGE."
   (if (or (null match-type) (not (eq match-type 'fool)))
