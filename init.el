@@ -1306,8 +1306,7 @@ Otherwise call `ediff-buffers' interactively."
   ;; don't set jenkins-api-token here - do it in custom.el so it is not checked
   ;; into git
   :config (setq jenkins-hostname "http://cw-jenkins/jenkins/"
-                jenkins-username "amurray"
-                jenkins-viewname "Trunk"))
+                jenkins-username "amurray"))
 
 (use-package js2-mode
   :ensure t
