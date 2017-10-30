@@ -1801,25 +1801,6 @@ ${3:Ticket: #${4:XXXX}}")))
             (spaceline-info-mode)
             (spaceline-spacemacs-theme)))
 
-(use-package spaceline-all-the-icons
-  :ensure t
-  :disabled t
-  :config (progn
-            (setq spaceline-all-the-icons-icon-set-bookmark 'heart
-                  spaceline-all-the-icons-icon-set-modified 'circle
-                  spaceline-all-the-icons-icon-set-dedicated 'pin
-                  spaceline-all-the-icons-flycheck-alternate 'slim
-                  spaceline-all-the-icons-highlight-file-name t
-                  spaceline-all-the-icons-hide-long-buffer-path t
-                  spaceline-all-the-icons-separator-type 'none)
-            (spaceline-toggle-all-the-icons-bookmark-on)
-            (spaceline-toggle-all-the-icons-dedicated-on)
-            (spaceline-all-the-icons--setup-anzu)
-            (spaceline-all-the-icons--setup-git-ahead)
-            (spaceline-all-the-icons--setup-paradox)
-            (spaceline-all-the-icons--setup-package-updates)
-            (spaceline-all-the-icons-theme)))
-
 (use-package sudo-edit
   :ensure t
   :commands (sudo-edit))
