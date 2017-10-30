@@ -1553,6 +1553,11 @@ ${3:Ticket: #${4:XXXX}}")))
               ("S-<up>" . org-clock-convenience-timestamp-up)
               ("S-<down>" . org-clock-convenience-timestamp-down)))
 
+(use-package org-duration
+  :ensure org-plus-contrib
+  ;; don't show days, only total hours as maximum value
+  :config (setq org-duration-format (quote h:mm)))
+
 (use-package org-mru-clock
   :ensure t)
 
