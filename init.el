@@ -434,6 +434,10 @@ code sections."
   :init (dolist (hook '(c-mode-hook c++-mode-hook))
           (add-hook hook 'apm-c-mode-setup)))
 
+(use-package color-theme-sanityinc-tomorrow
+  :ensure t
+  :config (color-theme-sanityinc-tomorrow-night))
+
 (use-package cmake-mode
   :ensure t
   :defer t
@@ -1132,10 +1136,6 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :init (add-hook 'prog-mode-hook #'goto-address-prog-mode))
 
-(use-package gruvbox-dark-medium-theme
-  :disabled t
-  :ensure gruvbox-theme)
-
 (use-package gud
   :defer t
   :init (add-hook 'gud-mode-hook #'gud-tooltip-mode))
@@ -1776,6 +1776,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package solarized-theme
   :ensure t
+  :disabled t
   :config (progn
             (setq x-underline-at-descent-line t)
             (setq solarized-distinct-fringe-background t)
@@ -1900,23 +1901,6 @@ ${3:Ticket: #${4:XXXX}}")))
             (define-key evil-visual-state-map (kbd "C-]") #'xref-find-definitions)
             (define-key evil-normal-state-map (kbd "C-]") #'xref-find-definitions)
             (define-key evil-normal-state-map (kbd "C-t") #'xref-pop-marker-stack)))
-
-(use-package zenburn-theme
-  :ensure t
-  :disabled t
-  :config (progn
-            (load-theme 'zenburn t)
-            ;; nicer looking modeline
-            (set-face-attribute 'mode-line nil :box '(:line-width 2 :color "gray30")
-                                :weight 'normal :foreground "#C8F7C8" :background "gray20")
-            (set-face-attribute 'mode-line-inactive nil :box '(:line-width 2 :color "gray30")
-                                :weight 'normal :foreground "gray70")
-            (set-face-attribute 'powerline-active2 nil :background "gray32")
-            (set-face-attribute 'powerline-active1 nil :background "gray32" :weight 'normal)
-            (set-face-attribute 'mode-line-buffer-id nil :foreground "#FFECBA" :weight 'bold)
-            ;; dim inactive modeline
-            (set-face-attribute 'powerline-inactive2 nil :background "gray20")
-            (set-face-attribute 'powerline-inactive1 nil :background "gray32")))
 
 (use-package zoom
   :ensure t
