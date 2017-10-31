@@ -229,7 +229,7 @@
   :ensure t
   :defer t
   :diminish aggressive-indent-mode
-  :init (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
+  :config (global-aggressive-indent-mode))
 
 (use-package ag
   :ensure t
