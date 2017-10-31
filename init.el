@@ -1880,7 +1880,20 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
-  :config (yas-global-mode 1))
+  :commands (yas-next-field-or-maybe-expand yas-prev-field)
+  :config (progn
+            (yas-global-mode 1)
+            ;; can't seem to use :bind as yas-keymap is not known yet..? so use
+            ;; define-key instead
+
+            ;; unbind tab so can be used for company-tng
+            (define-key yas-keymap [(tab)]       nil)
+            (define-key yas-keymap (kbd "TAB")   nil)
+            (define-key yas-keymap [(shift tab)] nil)
+            (define-key yas-keymap [backtab]     nil)
+            ;; and instead use C-f / C-b (forward / backwards) instead
+            (define-key yas-keymap (kbd "C-f") #'yas-next-field-or-maybe-expand)
+            (define-key yas-keymap (kbd "C-b") #'yas-prev-field)))
 
 (use-package xref
   :config (with-eval-after-load 'evil
