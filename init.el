@@ -1874,7 +1874,11 @@ ${3:Ticket: #${4:XXXX}}")))
   ;; higlight long lines
   :init (progn
           (setq-default whitespace-line-column 80)
-          (setq-default whitespace-style '(face lines-tail))
+          ;; show tabs, trailing whitespace and long lines
+          (setq-default whitespace-style
+                        '(face trailing tabs tab-mark lines-tail))
+          (setq-default whitespace-display-mappings
+                        '((tab-mark ?\t [?\u279b ?\t] [?\\ ?\t])))
           (add-hook 'prog-mode-hook #'whitespace-mode)))
 
 (use-package yasnippet
