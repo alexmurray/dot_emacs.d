@@ -1381,10 +1381,6 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :defer t)
 
-(use-package mallard-snippets
-  :ensure t
-  :defer t)
-
 (use-package markdown-mode
   :ensure t
   :defer t
