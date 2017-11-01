@@ -743,10 +743,20 @@ Otherwise call `ediff-buffers' interactively."
             (add-hook 'erc-text-matched-hook 'apm-erc-alert)))
 
 
+(defun apm-eshell-mode-setup ()
+  "Initialise 'eshell-mode'."
+  (eshell-cmpl-initialize)
+  (with-eval-after-load 'helm
+    (require 'eshell)
+    (define-key eshell-mode-map [remap eshell-previous-matching-input] #'helm-eshell-history)
+    (define-key eshell-mode-map [remap eshell-next-matching-input] #'helm-eshell-history)
+    (define-key eshell-mode-map [remap eshell-pcomplete] #'helm-esh-pcomplete)))
+
 (use-package eshell
   :defer t
   :commands eshell
-  :bind ("C-x m" . eshell))
+  :bind (("C-x m" . eshell))
+  :init (add-hook 'eshell-mode-hook #'apm-eshell-mode-setup))
 
 (defun makefile-tabs-are-less-evil ()
   "Disable ethan-wspace from caring about tabs in Makefile's."
