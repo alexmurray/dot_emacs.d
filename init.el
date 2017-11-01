@@ -434,10 +434,6 @@ code sections."
   :init (dolist (hook '(c-mode-hook c++-mode-hook))
           (add-hook hook 'apm-c-mode-setup)))
 
-(use-package color-theme-sanityinc-tomorrow
-  :ensure t
-  :config (color-theme-sanityinc-tomorrow-night))
-
 (use-package cmake-mode
   :ensure t
   :defer t
@@ -1781,13 +1777,12 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package solarized-theme
   :ensure t
-  :disabled t
   :config (progn
             (setq x-underline-at-descent-line t)
             (setq solarized-distinct-fringe-background t)
             (setq solarized-scale-org-headlines nil)
             (setq solarized-use-variable-pitch nil)
-            (load-theme 'solarized-light t)))
+            (load-theme 'solarized-dark t)))
 
 (use-package spaceline-config
   :ensure spaceline
