@@ -1204,6 +1204,10 @@ Otherwise call `ediff-buffers' interactively."
   :after helm
   :config (helm-fuzzier-mode 1))
 
+(use-package helm-make
+  :ensure t
+  :bind ("C-x C-m" . helm-make-projectile))
+
 (use-package helm-projectile
   :ensure t
   :after projectile
