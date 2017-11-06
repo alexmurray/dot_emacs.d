@@ -1745,6 +1745,8 @@ ${3:Ticket: #${4:XXXX}}")))
   ;; something else into the kill ring
   :init (progn
           (setq save-interprogram-paste-before-kill t)
+          (setq visual-line-fringe-indicators
+                '(left-curly-arrow right-curly-arrow))
           (add-hook 'text-mode-hook #'visual-line-mode)))
 
 ;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
