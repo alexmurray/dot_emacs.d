@@ -507,7 +507,8 @@ code sections."
   :ensure t
   :defer t
   :after company
-  :init (add-to-list 'company-backends 'company-irony))
+  :init (add-to-list 'company-backends 'company-irony)
+  :config (setq company-irony-ignore-case 'smart))
 
 (use-package company-irony-c-headers
   :ensure t
