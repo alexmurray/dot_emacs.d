@@ -748,7 +748,6 @@ Otherwise call `ediff-buffers' interactively."
   "Initialise 'eshell-mode'."
   (eshell-cmpl-initialize)
   (with-eval-after-load 'helm
-    (require 'eshell)
     (define-key eshell-mode-map [remap eshell-previous-matching-input] #'helm-eshell-history)
     (define-key eshell-mode-map [remap eshell-next-matching-input] #'helm-eshell-history)
     (define-key eshell-mode-map [remap eshell-pcomplete] #'helm-esh-pcomplete)))
