@@ -906,16 +906,20 @@ Otherwise call `ediff-buffers' interactively."
               "ocu" 'org-clock-update-time-maybe
               "oo" 'helm-org-agenda-files-headings
               "ot" 'org-todo-list
+              "P" 'helm-projectile-switch-project
               "pa" 'helm-projectile-ag
               "pb" 'helm-projectile-switch-to-buffer
               "pe" 'projectile-run-eshell
               "pd" 'helm-projectile-find-dir
+              "pD" 'projectile-find-dir-other-window
               "pf" 'helm-projectile-find-file
+              "pF" 'projectile-find-file-other-window
               "pg" 'helm-projectile-grep
               "ph" 'helm-projectile
               "pk" 'projectile-kill-buffers
+              "pm" 'helm-make-projectile
               "po" 'helm-projectile-find-other-file
-              "pp" 'helm-projectile-switch-project
+              "pp" 'helm-projectile
               "pr" 'helm-projectile-recentf
               "r" 'helm-recentf
               "s" 'helm-swoop
@@ -1216,7 +1220,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package helm-make
   :ensure t
-  :bind ("C-x C-m" . helm-make-projectile))
+  :bind (("C-x C-m" . helm-make-projectile)))
 
 (use-package helm-projectile
   :ensure t
@@ -1665,8 +1669,6 @@ ${3:Ticket: #${4:XXXX}}")))
   :defer t
   :defines (projectile-enable-caching)
   :diminish projectile-mode
-  :bind (("C-x C-m" . projectile-compile-project)
-         ("C-x C-g" . projectile-find-file))
   :init (progn
           (setq projectile-enable-caching t)
           (projectile-mode 1))
