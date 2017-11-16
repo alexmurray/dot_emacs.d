@@ -610,7 +610,6 @@ code sections."
   :ensure t
   :init (progn
           (global-diff-hl-mode 1)
-          (diff-hl-flydiff-mode 1)
           ;; Integrate with Magit
           (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
           ;; Highlight changed files in the fringe of dired
