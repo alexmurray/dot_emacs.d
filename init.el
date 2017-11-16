@@ -573,7 +573,9 @@ code sections."
   :ensure t
   :defer t
   :diminish cov-mode
-  :init (add-hook 'c-mode-common-hook #'cov-mode))
+  :init (progn
+          (add-hook 'c-mode-common-hook #'cov-mode)
+          (make-variable-buffer-local 'cov-coverage-file-paths)))
 
 (use-package crux
   :ensure t
