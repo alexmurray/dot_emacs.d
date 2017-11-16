@@ -1897,14 +1897,14 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
-  :commands (yas-next-field-or-maybe-expand yas-prev-field)
-   :bind (:map yas-keymap
+  :commands (yas-next-field-or-maybe-expand yas-prev-field yas-expand yas-expand-snippet)
+  :bind (:map yas-keymap
               ("C-f" . yas-next-field-or-maybe-expand)
-              ("C-b" . yas-prev)
+              ("C-b" . yas-prev-field)
               ("TAB" . nil)
               ("<tab>" . nil)
               ("S-<tab>" . nil)
-              ("backtab"   .  nil)
+              ("<backtab>"  .  nil)
               :map yas-minor-mode-map
               ("<C-tab>" . yas-expand)
               ("TAB" . nil)
