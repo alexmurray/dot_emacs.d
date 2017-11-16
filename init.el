@@ -1462,7 +1462,7 @@ ${3:Ticket: #${4:XXXX}}")))
                   ;; don't indent org document sections etc
                   org-adapt-indentation nil
                   org-imenu-depth 4
-                  org-todo-keywords '((sequence "TODO(t)" "STARTED(s!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
+                  org-todo-keywords '((sequence "TODO(t)" "IN-PROGRESS(p!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
                                       (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)"))
                   org-goto-interface 'outline-path-completion)
             ;; set up org-babel integration for plantuml
