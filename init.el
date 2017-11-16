@@ -860,6 +860,9 @@ Otherwise call `ediff-buffers' interactively."
   :diminish evil-commentary-mode
   :config (evil-commentary-mode 1))
 
+(use-package evil-expat
+  :ensure t)
+
 (use-package evil-goggles
   :ensure t
   :diminish evil-goggles-mode
