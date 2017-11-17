@@ -1832,28 +1832,6 @@ ${3:Ticket: #${4:XXXX}}")))
            "mk2"
            "http://projects.cohda.wireless:8000/trac/mk2"))
 
-(use-package treemacs
-  :ensure t
-  :bind (([f8]        . treemacs-toggle)
-         ([f9]        . treemacs-projectile-toggle)
-         ("<C-M-tab>" . treemacs-toggle)
-         ("M-0"       . treemacs-select-window)
-         ("C-c 1"     . treemacs-delete-other-windows))
-  :config (progn
-            (setq treemacs-follow-after-init t)
-            (setq treemacs-git-integration t)
-            (setq treemacs-width 25)
-            (treemacs-follow-mode 1)
-            (treemacs-filewatch-mode 1)))
-
-(use-package treemacs-evil
-  :ensure t)
-
-(use-package treemacs-projectile
-  :ensure t
-  :after treemacs
-  :config (setq treemacs-header-function #'treemacs-projectile-create-header))
-
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
