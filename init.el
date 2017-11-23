@@ -961,6 +961,10 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (global-evil-visualstar-mode 1))
 
+(use-package exato
+  ;; provides x as evil object for xml tags etc
+  :ensure t)
+
 (use-package excorporate
   :ensure t
   :defer t
