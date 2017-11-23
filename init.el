@@ -1877,6 +1877,8 @@ ${3:Ticket: #${4:XXXX}}")))
   :diminish yas-minor-mode
   :commands (yas-next-field-or-maybe-expand yas-prev-field yas-expand yas-expand-snippet)
   :bind (:map yas-keymap
+              ;; Use C-tab to both expand a snippet and move through its fields
+              ("<C-tab>" . yas-next-field-or-maybe-expand)
               ("C-f" . yas-next-field-or-maybe-expand)
               ("C-b" . yas-prev-field)
               ("TAB" . nil)
