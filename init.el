@@ -423,11 +423,7 @@ code sections."
   (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
   ;; ensure fill-paragraph takes doxygen @ markers as start of new
   ;; paragraphs properly
-  (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
-  (with-eval-after-load 'helm-dash
-    (eval-when-compile
-      (defvar helm-dash-docsets nil))
-    (setq-local helm-dash-docsets '("C" "C++" "GLib"))))
+  (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
 
 (use-package cohda-c
   :load-path "lisp/"
@@ -569,6 +565,27 @@ code sections."
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error))
 
+(use-package counsel
+  :ensure t
+  :after ivy
+  :defer t
+  :bind (("M-x" . counsel-M-x)
+         ("M-y" . counsel-yank-pop)
+         ("C-x C-f" . counsel-find-file)
+         ("C-x C-r" . counsel-recentf)
+         :map company-active-map ("C-/" . counsel-company))
+  :config (with-eval-after-load 'evil
+            (define-key evil-ex-map "e " 'counsel-find-file)
+            (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
+            (define-key evil-ex-map "ap " 'counsel-apropos)))
+
+(use-package counsel-projectile
+  :ensure t
+  :after (counsel projectile)
+  :config (progn
+            (setq projectile-switch-project-action 'counsel-projectile)
+            (counsel-projectile-on)))
+
 (use-package cov
   :ensure t
   :defer t
@@ -583,7 +600,7 @@ code sections."
          ("C-c o" . crux-open-with)))
 
 (use-package cstyle
-  :load-path "vendor")
+  :load-path "vendor/")
 
 (use-package cua-base
   ;; use CUA mode for rectangle selections etc but not copy/paste etc
@@ -748,10 +765,10 @@ Otherwise call `ediff-buffers' interactively."
 (defun apm-eshell-mode-setup ()
   "Initialise 'eshell-mode'."
   (eshell-cmpl-initialize)
-  (with-eval-after-load 'helm
-    (define-key eshell-mode-map [remap eshell-previous-matching-input] #'helm-eshell-history)
-    (define-key eshell-mode-map [remap eshell-next-matching-input] #'helm-eshell-history)
-    (define-key eshell-mode-map [remap eshell-pcomplete] #'helm-esh-pcomplete)))
+  (with-eval-after-load 'counsel
+    (define-key eshell-mode-map [remap eshell-previous-matching-input] #'counsel-esh-history)
+    (define-key eshell-mode-map [remap eshell-next-matching-input] #'counsel-esh-history)
+    (define-key eshell-mode-map [remap eshell-pcomplete] #'completion-at-point)))
 
 (use-package eshell
   :defer t
@@ -827,6 +844,8 @@ Otherwise call `ediff-buffers' interactively."
               (define-key evil-normal-state-map "[q" 'previous-error)
               (define-key evil-normal-state-map "]q" 'next-error))
 
+            (define-key evil-ex-map "bd " 'kill-buffer)
+
             ;; these should be bound automatically but apparently not so rebind
             ;; them
             (bind-keys :map evil-insert-state-map
@@ -880,20 +899,18 @@ Otherwise call `ediff-buffers' interactively."
               "SPC" 'avy-goto-word-or-subword-1
               "l" 'avy-goto-line
               "c" 'avy-goto-char-timer
-              "a" 'helm-ag
-              "b" 'helm-mini
-              "dd" 'helm-dash-at-point
+              "a" 'counsel-ag
+              "b" 'ivy-switch-buffer
               "df" 'doxyas-document-function
               "e" 'eshell
               "fc" 'flycheck-buffer
-              "ff" 'helm-find-files
+              "ff" 'counsel-find-file
               "ge" 'google-error
-              "gg" 'helm-grep-do-git-grep
+              "gg" 'counsel-git-grep
               "go" 'google-this
               "gc" 'gxref-create-db
               "gu" 'gxref-update-db
-              "hd" 'helm-dash
-              "i" 'helm-semantic-or-imenu
+              "i" 'counsel-imenu
               "k" 'kill-buffer
               "mg" 'magit-status
               "mm" 'magit-dispatch-popup
@@ -908,28 +925,28 @@ Otherwise call `ediff-buffers' interactively."
               "oco" 'org-clock-out
               "ocs" 'org-mru-clock-in
               "ocu" 'org-clock-update-time-maybe
-              "oo" 'helm-org-agenda-files-headings
+              "oo" 'counsel-org-goto
               "ot" 'org-todo-list
-              "P" 'helm-projectile-switch-project
-              "pa" 'helm-projectile-ag
-              "pb" 'helm-projectile-switch-to-buffer
+              "P" 'counsel-projectile-switch-project
+              "pa" 'counsel-projectile-ag
+              "pb" 'counsel-projectile-switch-to-buffer
+              "pc" 'counsel-projectile
               "pe" 'projectile-run-eshell
-              "pd" 'helm-projectile-find-dir
+              "pd" 'counsel-projectile-find-dir
               "pD" 'projectile-find-dir-other-window
-              "pf" 'helm-projectile-find-file
+              "pf" 'counsel-projectile-find-file
               "pF" 'projectile-find-file-other-window
-              "pg" 'helm-projectile-grep
-              "ph" 'helm-projectile
+              "ph" 'counsel-projectile
               "pk" 'projectile-kill-buffers
               "pm" 'helm-make-projectile
-              "po" 'helm-projectile-find-other-file
-              "pp" 'helm-projectile
-              "pr" 'helm-projectile-recentf
-              "r" 'helm-recentf
-              "s" 'helm-swoop
-              "u" 'helm-ucs
+              "po" 'projectile-find-other-file
+              "pp" 'counsel-projectile
+              "pr" 'projectile-recentf
+              "r" 'counsel-recentf
+              "s" 'counsel-grep-or-swiper
+              "u" 'counsel-unicode-char
               "v" 'er/expand-region
-              "x" 'helm-M-x))
+              "x" 'counsel-M-x))
   :init (global-evil-leader-mode 1))
 
 (use-package evil-matchit
@@ -1158,95 +1175,18 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :init (add-hook 'gud-mode-hook #'gud-tooltip-mode))
 
-(use-package helm-flx
-  :ensure t
-  :config (helm-flx-mode 1))
-
-(use-package helm
-  :ensure t
-  :diminish helm-mode
-  :after helm-flx ; enable hlm-flx before helm
-  :defer t
-  :bind (("M-x" . helm-M-x)
-         ("M-y" . helm-show-kill-ring)
-         ("C-x b" . helm-mini)
-         ("C-x C-b" . helm-buffers-list)
-         ("C-x C-f" . helm-find-files)
-         ("C-x C-r" . helm-recentf))
-  :config (progn
-            (require 'helm-config)
-            ;; silence byte-compile warnings
-            (eval-when-compile
-              (require 'helm-command)
-              (require 'helm-for-files))
-            (setq helm-M-x-fuzzy-match t
-                  helm-buffers-fuzzy-matching t
-                  helm-recentf-fuzzy-match t)
-            (helm-mode 1)
-            (helm-adaptive-mode 1)
-            (define-key isearch-mode-map (kbd "M-o") 'helm-occur-from-isearch)
-            ;; integrate with evil
-            (with-eval-after-load 'evil
-              (define-key evil-ex-map "b " 'helm-mini)
-              (define-key evil-ex-map "bd " 'kill-buffer)
-              (define-key evil-ex-map "e " 'helm-find-files)
-              (evil-ex-define-cmd "ap[ropos]" 'helm-apropos)
-              (define-key evil-ex-map "ap " 'helm-apropos))))
-
-(use-package helm-ag
-  :ensure t
-  :config (progn
-            ;; integrate with evil
-            (with-eval-after-load 'evil
-              (evil-ex-define-cmd "ag" 'helm-ag)
-              (evil-ex-define-cmd "agi[nteractive]" 'helm-do-ag)
-              (define-key evil-ex-map "ag " 'helm-ag)
-              (define-key evil-ex-map "agi " 'helm-do-ag))))
-
-(use-package helm-company
-  :ensure t
-  :defer t
-  :bind (:map company-active-map ("C-/" . helm-company)))
-
-(use-package helm-dash
-  :ensure t
-  :after helm
-  :defer t
-  :defines (helm-dash-docsets)
-  :init (unless (executable-find "sqlite3")
-          (pk-install-package "sqlite3")))
-
-(use-package helm-flyspell
+(use-package flyspell-correct-ivy
   :ensure t
   ;; use instead of ispell-word which evil binds to z=
-  :bind (([remap ispell-word] . helm-flyspell-correct)))
+  :bind (([remap ispell-word] . flyspell-correct-ivy)
+	 :map flyspell-mode-map ("C-;" . flyspell-correct-previous-word-generic)))
 
-(use-package helm-fuzzier
-  :ensure t
-  :after helm
-  :config (helm-fuzzier-mode 1))
-
+;; we use ivy instead
 (use-package helm-make
   :ensure t
-  :bind (("C-x C-m" . helm-make-projectile)))
+  :bind (("C-x C-m" . helm-make-projectile))
+  :config (setq helm-make-completion-method 'ivy))
 
-(use-package helm-projectile
-  :ensure t
-  :after projectile
-  :config (progn
-            (setq projectile-switch-project-action 'helm-projectile)
-            (helm-projectile-on)))
-
-(use-package helm-swoop
-  :ensure t
-  :commands (helm-swoop helm-multi-swoop))
-
-(use-package helm-unicode
-  :ensure t)
-
-(use-package helm-xref
-  :ensure t
-  :config (setq xref-show-xrefs-function #'helm-xref-show-xrefs))
 
 (use-package helpful
   :ensure t
@@ -1322,6 +1262,20 @@ Otherwise call `ediff-buffers' interactively."
                   ispell-extra-args '("--sug-mode=ultra")))
           (add-hook 'text-mode-hook #'ispell-minor-mode)))
 
+(use-package ivy
+  :ensure t
+  :diminish ivy-mode
+  :defer t
+  :bind (("C-x b" . ivy-switch-buffer)
+          ("C-c C-r" . ivy-resume))
+  :config (progn
+            (setq ivy-use-virtual-buffers t)
+            (define-key isearch-mode-map (kbd "M-o") 'ivy-occur)
+            (ivy-mode 1)
+            ;; integrate with evil
+            (with-eval-after-load 'evil
+              (define-key evil-ex-map "b " 'ivy-switch-buffer))))
+
 (use-package jenkins
   :ensure t
   :commands (jenkins)
@@ -1343,9 +1297,7 @@ Otherwise call `ediff-buffers' interactively."
   (when (string= buffer-file-name (expand-file-name "init.el" "~/dot_emacs.d"))
     (add-to-list
      'imenu-generic-expression
-     '("Packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)))
-  (with-eval-after-load 'helm-dash
-    (setq-local helm-dash-docsets '("Emacs Lisp"))))
+     '("Packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2))))
 
 (use-package lisp-mode
   :defer t
@@ -1686,8 +1638,8 @@ ${3:Ticket: #${4:XXXX}}")))
             (add-to-list 'projectile-project-root-files ".clang_complete")
             (add-to-list 'projectile-project-root-files ".clang_complete.in")
             (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
-            (with-eval-after-load 'helm
-              (setq projectile-completion-system 'helm))))
+            (with-eval-after-load 'ivy
+              (setq projectile-completion-system 'ivy))))
 
 (use-package psvn
   :ensure t
@@ -1819,7 +1771,6 @@ ${3:Ticket: #${4:XXXX}}")))
                   spaceline-window-numbers-unicode t
                   spaceline-responsive t)
             (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-            (spaceline-helm-mode)
             (spaceline-info-mode)
             (spaceline-spacemacs-theme)))
 
