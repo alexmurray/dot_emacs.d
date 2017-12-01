@@ -1746,6 +1746,10 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :defer t)
 
+(use-package session-manager
+  :load-path "vendor/"
+  :config (session-manager-init "apm"))
+
 (use-package sh-script
   :init (setq-default sh-basic-offset 2
                       sh-indentation 2))
