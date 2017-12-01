@@ -1270,6 +1270,8 @@ Otherwise call `ediff-buffers' interactively."
           ("C-c C-r" . ivy-resume))
   :config (progn
             (setq ivy-use-virtual-buffers t)
+            ;; allow to select the typed in value with C-p
+            (setq ivy-use-selectable-prompt t)
             (define-key isearch-mode-map (kbd "M-o") 'ivy-occur)
             (ivy-mode 1)
             ;; integrate with evil
