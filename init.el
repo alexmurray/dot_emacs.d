@@ -1335,8 +1335,9 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package magit
   :ensure t
   :defer t
+  :bind ("C-x g" . magit-status)
   :init (add-hook 'magit-mode-hook #'apm-magit-mode-setup)
-  :bind ("C-x g" . magit-status))
+  :config (setq magit-completing-read-function 'ivy-completing-read))
 
 (use-package magithub
   :ensure t
@@ -1536,7 +1537,8 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (setq org-duration-format (quote h:mm)))
 
 (use-package org-mru-clock
-  :ensure t)
+  :ensure t
+  :config (setq org-mru-clock-completing-read #'ivy-completing-read))
 
 (use-package org-notify
   :ensure org-plus-contrib
