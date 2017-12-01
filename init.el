@@ -1267,7 +1267,7 @@ Otherwise call `ediff-buffers' interactively."
   :diminish ivy-mode
   :defer t
   :bind (("C-x b" . ivy-switch-buffer)
-          ("C-c C-r" . ivy-resume))
+         ("C-c C-r" . ivy-resume))
   :config (progn
             (setq ivy-use-virtual-buffers t)
             ;; allow to select the typed in value with C-p
