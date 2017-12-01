@@ -1278,6 +1278,10 @@ Otherwise call `ediff-buffers' interactively."
             (with-eval-after-load 'evil
               (define-key evil-ex-map "b " 'ivy-switch-buffer))))
 
+(use-package ivy-xref
+  :load-path "vendor/"
+  :config (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
+
 (use-package jenkins
   :ensure t
   :commands (jenkins)
