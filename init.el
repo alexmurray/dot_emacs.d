@@ -1179,7 +1179,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   ;; use instead of ispell-word which evil binds to z=
   :bind (([remap ispell-word] . flyspell-correct-ivy)
-	 :map flyspell-mode-map ("C-;" . flyspell-correct-previous-word-generic)))
+         :map flyspell-mode-map ("C-;" . flyspell-correct-previous-word-generic)))
 
 ;; we use ivy instead
 (use-package helm-make
