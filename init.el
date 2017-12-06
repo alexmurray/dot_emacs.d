@@ -817,6 +817,7 @@ Otherwise call `ediff-buffers' interactively."
                             comint-mode
                             edebug-mode
                             eshell-mode
+                            ivy-occur-mode
                             git-commit-mode
                             git-rebase-mode
                             jenkins-mode
