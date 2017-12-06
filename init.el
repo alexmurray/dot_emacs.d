@@ -163,11 +163,11 @@
 ;; they undo each other
 (setq scroll-preserve-screen-position 'always)
 
-(defvar apm-preferred-font-family "Inconsolata"
-  "Preferred font family to use.")
+(defvar apm-preferred-font-name "Inconsolata"
+  "Preferred font to use.")
 
-(defvar apm-preferred-font-family-package "fonts-inconsolata"
-  "Package to install to get `apm-preferred-font-family'.")
+(defvar apm-preferred-font-package "fonts-inconsolata"
+  "Package to install to get `apm-preferred-font-name'.")
 
 (defvar apm-preferred-font-height 120
   "Preferred font height to use.")
@@ -176,11 +176,11 @@
   "Initialise properties specific to graphical display for FRAME."
   (interactive)
   (when (display-graphic-p)
-    (if (font-info apm-preferred-font-family)
+    (if (font-info apm-preferred-font-name)
         (set-face-attribute 'default frame
-                            :family apm-preferred-font-family
+                            :font apm-preferred-font-name
                             :height apm-preferred-font-height)
-      (pk-install-package apm-preferred-font-family-package))))
+      (pk-install-package apm-preferred-font-package))))
 
 ;; make sure graphical properties get set on client frames
 (add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
