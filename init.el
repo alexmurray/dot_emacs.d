@@ -1179,7 +1179,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flyspell-correct-ivy
   :ensure t
   ;; use instead of ispell-word which evil binds to z=
-  :bind (([remap ispell-word] . flyspell-correct-ivy)
+  :bind (([remap ispell-word] . flyspell-correct-word-generic)
          :map flyspell-mode-map ("C-;" . flyspell-correct-previous-word-generic)))
 
 ;; we use ivy instead
