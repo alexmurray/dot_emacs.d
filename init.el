@@ -1002,12 +1002,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (fancy-battery-mode 1))
 
-(use-package fic-mode
-  :ensure t
-  :defer t
-  :functions fic-mode
-  :init (add-hook 'prog-mode-hook #'fic-mode))
-
 (use-package files
   :bind ("C-c r" . revert-buffer))
 
@@ -1195,6 +1189,12 @@ Otherwise call `ediff-buffers' interactively."
          ("C-h f" . helpful-callable)
          ("C-h v" . helpful-variable)
          ("C-h k" . helpful-key)))
+
+(use-package hl-todo
+  :ensure t
+  :defer t
+  :functions hl-todo-mode
+  :init (add-hook 'prog-mode-hook #'hl-todo-mode))
 
 (use-package hungry-delete
   :ensure t
