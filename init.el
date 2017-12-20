@@ -1120,6 +1120,12 @@ Otherwise call `ediff-buffers' interactively."
           (add-hook 'text-mode-hook #'flyspell-mode)
           (add-hook 'prog-mode-hook #'flyspell-prog-mode)))
 
+(use-package flyspell-correct-ivy
+  :ensure t
+  ;; use instead of ispell-word which evil binds to z=
+  :bind (([remap ispell-word] . flyspell-correct-word-generic)
+         :map flyspell-mode-map ("C-;" . flyspell-correct-previous-word-generic)))
+
 (use-package flx
   :ensure t)
 
@@ -1169,12 +1175,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package gud
   :defer t
   :init (add-hook 'gud-mode-hook #'gud-tooltip-mode))
-
-(use-package flyspell-correct-ivy
-  :ensure t
-  ;; use instead of ispell-word which evil binds to z=
-  :bind (([remap ispell-word] . flyspell-correct-word-generic)
-         :map flyspell-mode-map ("C-;" . flyspell-correct-previous-word-generic)))
 
 ;; we use ivy instead
 (use-package helm-make
