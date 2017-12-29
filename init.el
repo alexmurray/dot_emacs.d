@@ -584,7 +584,7 @@ code sections."
   :after (counsel projectile)
   :config (progn
             (setq projectile-switch-project-action 'counsel-projectile)
-            (counsel-projectile-on)))
+            (counsel-projectile-mode)))
 
 (use-package cov
   :ensure t
