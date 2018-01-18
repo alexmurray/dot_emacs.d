@@ -273,7 +273,7 @@
          ("C-M-%" . anzu-query-replace)))
 
 (use-package apm-c
-  :load-path "lisp/apm-c")
+  :load-path "lisp/")
 
 (defun apm-appt-notify (time-to-appt time msg)
   "Notify for appointment at TIME-TO-APPT TIME MSG alert."
@@ -564,6 +564,7 @@ code sections."
          ("C-x C-r" . counsel-recentf)
          :map company-active-map ("C-/" . counsel-company))
   :config (with-eval-after-load 'evil
+            (eval-when-compile (require 'evil))
             (define-key evil-ex-map "e " 'counsel-find-file)
             (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
             (define-key evil-ex-map "ap " 'counsel-apropos)))
@@ -754,6 +755,7 @@ Otherwise call `ediff-buffers' interactively."
   "Initialise 'eshell-mode'."
   (eshell-cmpl-initialize)
   (with-eval-after-load 'counsel
+    (eval-when-compile (require 'esh-mode))
     (define-key eshell-mode-map [remap eshell-previous-matching-input] #'counsel-esh-history)
     (define-key eshell-mode-map [remap eshell-next-matching-input] #'counsel-esh-history)
     (define-key eshell-mode-map [remap eshell-pcomplete] #'completion-at-point)))
