@@ -246,7 +246,7 @@
   :ensure t
   :defer t
   :diminish android-mode
-  :commands (android-mode)
+  :commands android-mode
   :init (progn
           ;; change prefix so doesn't conflict with comment-region
           (setq android-mode-sdk-dir (expand-file-name "~/android-sdk-linux/")
@@ -638,7 +638,6 @@ code sections."
 
 (use-package doxymacs
   :defer t
-  :commands (doxymacs-mode doxymacs-font-lock)
   :diminish doxymacs-mode
   :init (progn
           (unless (require 'doxymacs nil t)
