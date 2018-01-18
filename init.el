@@ -544,14 +544,6 @@ code sections."
   :after tracwiki-mode
   :init (add-to-list 'company-backends 'company-tracwiki))
 
-(use-package company-try-hard
-  :ensure t
-  :commands (company-try-hard)
-  :after company
-  :init (progn
-          (global-set-key (kbd "C-<tab>") #'company-try-hard)
-          (define-key company-active-map (kbd "C-<tab>") #'company-try-hard)))
-
 (use-package company-web
   :ensure t
   :defer t
