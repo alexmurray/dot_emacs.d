@@ -334,7 +334,6 @@
 
 (use-package beginend
   :ensure t
-  :commands (beginend-global-mode beginend-prog-mode)
   :diminish (beginend-global-mode beginend-prog-mode)
   :config (beginend-global-mode 1))
 
@@ -413,7 +412,6 @@ code sections."
 
 (use-package cc-mode
   :defer t
-  :commands (c-toggle-auto-hungry-state)
   :init (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
 
 (defun apm-c-mode-setup ()
@@ -440,7 +438,6 @@ code sections."
 
 (use-package company
   :ensure t
-  :commands (global-company-mode)
   ;; Use Company for completion
   :bind (("C-;" . company-complete-common)
          :map company-mode-map
@@ -479,7 +476,7 @@ code sections."
 
 (use-package company-anaconda
   :ensure t
-  :commands (company-anaconda)
+  :defer t
   :after company
   :init (add-to-list 'company-backends #'company-anaconda))
 
@@ -1036,7 +1033,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck-clang-analyzer
   :ensure t
-  :commands flycheck-clang-analyzer-setup
   :after flycheck-cstyle
   :init (unless (executable-find "clang-4.0")
           (pk-install-package "clang-4.0"))
@@ -1051,7 +1047,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck-coverity
   :ensure t
-  :commands flycheck-coverity-setup
   :after flycheck-clang-analyzer
   :init (unless (executable-find "cov-run-desktop")
           (alert "cov-run-desktop not found - is it installed?"))
@@ -1166,7 +1161,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package google-this
   :ensure t
-  :commands (google-this google-error))
+  :defer t)
 
 (use-package goto-addr
   :defer t
@@ -1680,7 +1675,6 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :defer t
   :diminish rainbow-mode
-  :commands (rainbow-mode)
   :init (dolist (hook '(css-mode-hook html-mode-hook))
           (add-hook hook #'rainbow-mode)))
 
@@ -1815,7 +1809,6 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package web-mode
   :ensure t
   :defer t
-  :commands web-mode
   :init (progn
           ;; use smartparens instead
           (setq web-mode-enable-auto-pairing nil))
