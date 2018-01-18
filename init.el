@@ -1054,8 +1054,12 @@ Otherwise call `ediff-buffers' interactively."
             (flycheck-coverity-setup)
             (flycheck-add-next-checker 'clang-analyzer '(t . coverity))))
 
-;; we want to make sure clang-analyzer comes before us in the list of flycheck-checkers
-;; so do our cstyle setup after clang-analyzer
+(use-package flycheck-color-mode-line
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'flycheck
+          (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
+
 (use-package flycheck-cstyle
   :ensure t
   :after flycheck-irony
