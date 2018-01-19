@@ -1257,8 +1257,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package ivy
   :ensure t
-  :diminish ivy-mode
   :defer t
+  :after flx
+  :diminish ivy-mode
   :bind (("C-x b" . ivy-switch-buffer)
          ("C-c C-r" . ivy-resume))
   :config (progn
@@ -1267,6 +1268,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq ivy-use-selectable-prompt t)
             (define-key isearch-mode-map (kbd "M-o") 'ivy-occur)
             (ivy-mode 1)
+            (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
             ;; integrate with evil
             (with-eval-after-load 'evil
               (define-key evil-ex-map "b " 'ivy-switch-buffer))))
