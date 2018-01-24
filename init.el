@@ -253,14 +253,6 @@
                 android-mode-key-prefix (kbd "C-c C-m"))
           (add-hook 'java-mode-hook #'android-mode)))
 
-(use-package anaconda-mode
-  :ensure t
-  :diminish anaconda-mode
-  :defer t
-  :init (progn
-          (add-hook 'python-mode-hook #'anaconda-mode)
-          (add-hook 'python-mode-hook #'anaconda-eldoc-mode)))
-
 (use-package ansi-color
   ;; show colours correctly in shell
   :config (ansi-color-for-comint-mode-on))
@@ -1327,6 +1319,33 @@ ${3:Ticket: #${4:XXXX}}")))
   "Setup `magit-mode'."
   (setq mode-name ""))
 
+(use-package lsp-mode
+  ;; don't use lsp-flycheck since there is lsp-ui now
+  :ensure t)
+
+(use-package lsp-imenu
+  :ensure lsp-mode
+  :disabled t
+  :init (add-hook 'lsp-after-open-hook #'lsp-enable-imenu))
+
+(use-package lsp-java
+  :ensure t
+  :after lsp-mode
+  :init (add-hook 'java-mode-hook #'lsp-java-enable))
+
+(use-package lsp-python
+  :ensure t
+  :after lsp-mode
+  :init (progn
+          (unless (executable-find "pyls")
+            (alert "pyls not found - pip install python-language-server"))
+          (add-hook 'python-mode-hook #'lsp-python-enable)))
+
+(use-package lsp-ui
+  :ensure t
+  :after lsp-mode
+  :init (add-hook 'lsp-mode-hook #'lsp-ui-mode))
+
 (use-package magit
   :ensure t
   :defer t
@@ -1354,20 +1373,6 @@ ${3:Ticket: #${4:XXXX}}")))
          ("\\.markdown\\'" . markdown-mode))
   :config (unless (executable-find markdown-command)
             (pk-install-package "markdown")))
-
-(defun apm-meghanada-mode-setup ()
-  "Setup meghanada-mode."
-  (unless (file-exists-p (meghanada--locate-server-jar))
-    (meghanada-install-server)))
-
-(use-package meghanada
-  :ensure t
-  :init (progn
-          (add-hook 'meghanada-mode-hook #'apm-meghanada-mode-setup)
-          (add-hook 'java-mode-hook 'meghanada-mode))
-  :config (setq meghanada-use-company t
-                meghanada-use-flycheck t
-                meghanada-auto-start t))
 
 (use-package meson-mode
   :ensure t)
