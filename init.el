@@ -560,13 +560,18 @@ code sections."
             (setq projectile-switch-project-action 'counsel-projectile)
             (counsel-projectile-mode)))
 
+(defun apm-cov-mode-setup ()
+  "Setup cov-mode."
+  (make-local-variable 'cov-coverage-file-paths))
+
 (use-package cov
   :ensure t
   :defer t
   :diminish cov-mode
   :init (progn
           (add-hook 'c-mode-common-hook #'cov-mode)
-          (make-variable-buffer-local 'cov-coverage-file-paths)))
+          (add-hook 'cov-mode-hook #'apm-cov-mode-setup)))
+
 (defvar apm-cquery-executable
   (expand-file-name "~/cquery/build/release/bin/cquery"))
 
