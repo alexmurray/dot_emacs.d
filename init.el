@@ -524,8 +524,7 @@ code sections."
 
 (use-package company-tracwiki
   :load-path "vendor/"
-  :defer t
-  :after tracwiki-mode
+  :commands company-tracwiki
   :init (add-to-list 'company-backends 'company-tracwiki))
 
 (use-package company-web
@@ -598,6 +597,7 @@ code sections."
          ("C-c o" . crux-open-with)))
 
 (use-package cstyle
+  :disabled t
   :load-path "vendor/")
 
 (use-package cua-base
@@ -818,6 +818,7 @@ Otherwise call `ediff-buffers' interactively."
                             ivy-occur-mode
                             git-commit-mode
                             git-rebase-mode
+                            helpful-mode
                             jenkins-mode
                             jenkins-job-view-mode
                             inferior-emacs-lisp-mode
@@ -1821,7 +1822,6 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
-  :commands (yas-next-field-or-maybe-expand yas-prev-field yas-expand yas-expand-snippet)
   :bind (:map yas-keymap
               ;; Use C-tab to both expand a snippet and move through its fields
               ("<C-tab>" . yas-next-field-or-maybe-expand)
