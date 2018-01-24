@@ -318,6 +318,10 @@
 
           (add-hook 'LaTeX-mode-hook #'apm-latex-mode-setup)))
 
+(use-package auth-source
+  ;; prefer encrypted auth source to non-encrypted
+  :init (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc")))
+
 (use-package avy
   :ensure t
   :defer t
