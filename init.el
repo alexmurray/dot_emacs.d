@@ -1240,7 +1240,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq ivy-use-selectable-prompt t)
             (define-key isearch-mode-map (kbd "M-o") 'ivy-occur)
             (ivy-mode 1)
-            (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+            (setq ivy-re-builders-alist '((t . ivy--regex-plus)))
             ;; integrate with evil
             (with-eval-after-load 'evil
               (define-key evil-ex-map "b " 'ivy-switch-buffer))))
