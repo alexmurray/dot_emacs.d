@@ -488,21 +488,9 @@ code sections."
   :after company
   :init (company-flx-mode 1))
 
-(use-package company-irony
+(use-package company-lsp
   :ensure t
-  :defer t
-  :after company
-  :init (add-to-list 'company-backends 'company-irony)
-  :config (setq company-irony-ignore-case 'smart))
-
-(use-package company-irony-c-headers
-  :ensure t
-  :defer t
-  :after company
-  :config (progn
-            (setq company-irony-c-headers--compiler-executable (executable-find "clang++"))
-            ;; group with company-irony but beforehand so we get first pick
-            (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
+  :init (add-to-list 'company-backends 'company-lsp))
 
 (use-package company-math
   :ensure t
@@ -575,6 +563,25 @@ code sections."
   :init (progn
           (add-hook 'c-mode-common-hook #'cov-mode)
           (make-variable-buffer-local 'cov-coverage-file-paths)))
+(defvar apm-cquery-executable
+  (expand-file-name "~/cquery/build/release/bin/cquery"))
+
+(use-package cquery
+  :ensure t
+  :defer t
+  :commands lsp-cquery-enable
+  :init (progn
+          (unless (file-exists-p apm-cquery-executable)
+            (alert (format "cquery not found at %s - see https://github.com/jacobdufault/cquery/wiki/Getting-started"
+                           apm-cquery-executable)))
+          (dolist (hook '(c-mode-hook c++-mode-hook))
+          (add-hook hook #'lsp-cquery-enable)))
+  :config (progn
+            (setq cquery-cache-dir "~/.cache/cquery")
+            ;; do both Doxygen comment (1) and normal comments (2) and use
+            ;; msgpack instead of json for more compact cache
+            (setq cquery-extra-init-params '(:index (:comments 2) :cacheFormat "msgpack"))
+            (setq cquery-executable apm-cquery-executable)))
 
 (use-package crux
   :ensure t
@@ -1047,12 +1054,12 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck-cstyle
   :ensure t
-  :after flycheck-irony
+  :after lsp-ui
   :init (unless (executable-find "cstyle")
           (alert "cstyle not found - is it installed?"))
   :config (progn
             (flycheck-cstyle-setup)
-            (flycheck-add-next-checker 'irony '(warning . cstyle))
+            (flycheck-add-next-checker 'lsp '(warning . cstyle))
             (flycheck-add-next-checker 'cstyle '(t . c/c++-cppcheck))))
 
 (use-package flycheck-flawfinder
@@ -1063,12 +1070,7 @@ Otherwise call `ediff-buffers' interactively."
           (pk-install-package "flawfinder"))
   :config (progn
             (flycheck-flawfinder-setup)
-            (flycheck-add-next-checker 'irony '(warning . flawfinder) t)))
-
-(use-package flycheck-irony
-  :ensure t
-  :after flycheck
-  :config (flycheck-irony-setup))
+            (flycheck-add-next-checker 'lsp '(warning . flawfinder) t)))
 
 (use-package flycheck-jing
   :load-path "vendor/"
@@ -1201,37 +1203,6 @@ Otherwise call `ediff-buffers' interactively."
                                           '(".clang_complete.in" "Makefile"))))
     (projectile-with-default-dir (projectile-project-root)
       (shell-command "make .clang_complete"))))
-
-(defun apm-irony-cdb-clang-complete--auto-generate-clang-complete (_command &rest _args)
-  "Try and autogenerate a .clang_complete (_COMMAND _ARGS are ignored)."
-  (apm-autogenerate-clang-complete))
-
-(use-package irony
-  :ensure t
-  :defer t
-  :diminish irony-mode
-  :commands (irony-mode irony--find-server-executable irony-install-server)
-  :init (progn
-          (unless (executable-find "cmake")
-            (pk-install-package "cmake"))
-          (unless (executable-find "clang-4.0")
-            (pk-install-package "clang-4.0"))
-          (unless (file-exists-p "/usr/lib/llvm-4.0/include/clang-c/Index.h")
-            (pk-install-package "libclang-4.0-dev"))
-          ;; try and install if not already installed
-          (unless (condition-case nil
-                      (irony--find-server-executable)
-                    (error nil))
-            (call-interactively #'irony-install-server))
-          (advice-add 'irony-cdb-clang-complete :before 'apm-irony-cdb-clang-complete--auto-generate-clang-complete)
-          (add-hook 'c-mode-hook 'irony-mode)
-          (add-hook 'c++-mode-hook 'irony-mode)
-          (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)))
-
-(use-package irony-eldoc
-  :ensure t
-  :defer t
-  :init (add-hook 'irony-mode-hook #'irony-eldoc))
 
 (use-package ispell
   :defer t
