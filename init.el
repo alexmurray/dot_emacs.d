@@ -1069,7 +1069,7 @@ Otherwise call `ediff-buffers' interactively."
           (alert "cstyle not found - is it installed?"))
   :config (progn
             (flycheck-cstyle-setup)
-            (flycheck-add-next-checker 'lsp '(warning . cstyle))
+            (flycheck-add-next-checker 'lsp-ui '(warning . cstyle))
             (flycheck-add-next-checker 'cstyle '(t . c/c++-cppcheck))))
 
 (use-package flycheck-flawfinder
