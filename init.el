@@ -1631,6 +1631,7 @@ ${3:Ticket: #${4:XXXX}}")))
           (projectile-mode 1))
   :config (progn
             (add-to-list 'projectile-project-root-files "configure.ac")
+            (add-to-list 'projectile-project-root-files ".cquery")
             (add-to-list 'projectile-project-root-files ".clang_complete")
             (add-to-list 'projectile-project-root-files ".clang_complete.in")
             (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
