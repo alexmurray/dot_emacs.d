@@ -633,6 +633,10 @@ code sections."
 (use-package diminish
   :ensure t)
 
+(use-package disaster
+  :ensure t
+  :bind ((:map c-mode-base-map ("C-c d" . disaster))))
+
 (use-package doxyas
   :load-path "vendor/"
   :commands doxyas-document-function
@@ -1836,6 +1840,17 @@ ${3:Ticket: #${4:XXXX}}")))
               ("TAB" . nil)
               ("<tab>" . nil))
   :config (yas-global-mode 1))
+
+(use-package x86-lookup
+  :ensure t
+  :init (unless (file-exists-p "~/Documents/325383-sdm-vol-2abcd.pdf")
+          (alert "Downloading Intel x86 instruction set to ~/Documents")
+          (with-demoted-errors "Error downloading x86-lookup document: %s"
+            (url-copy-file
+             "https://software.intel.com/sites/default/files/managed/a4/60/325383-sdm-vol-2abcd.pdf"
+             (expand-file-name "~/Documents/325383-sdm-vol-2abcd.pdf"))))
+  :config (setq x86-lookup-pdf "~/Documents/325383-sdm-vol-2abcd.pdf")
+  :bind ("C-h x" . x86-lookup))
 
 (use-package xref
   :config (with-eval-after-load 'evil
