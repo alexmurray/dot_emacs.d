@@ -1328,7 +1328,11 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package lsp-ui
   :ensure t
   :after lsp-mode
-  :init (add-hook 'lsp-mode-hook #'lsp-ui-mode))
+  :init (add-hook 'lsp-mode-hook #'lsp-ui-mode)
+  ;; use the original icon since was removed in
+  ;; https://github.com/emacs-lsp/lsp-ui/commit/0dff02a1d02f16ab017f2ad7cd4a9913733f48ca
+  ;; due to others not having unicode
+  :config (setq lsp-ui-sideline-code-actions-prefix (propertize "💡 " 'face '(:foreground "yellow"))))
 
 (use-package magit
   :ensure t
