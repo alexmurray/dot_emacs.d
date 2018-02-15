@@ -169,7 +169,7 @@
 (defvar apm-preferred-font-package "fonts-inconsolata"
   "Package to install to get `apm-preferred-font-name'.")
 
-(defvar apm-preferred-font-height 120
+(defvar apm-preferred-font-height 108
   "Preferred font height to use.")
 
 (defun apm-graphic-frame-init (&optional frame)
