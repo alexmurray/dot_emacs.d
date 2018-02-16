@@ -1044,10 +1044,10 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             (setq flycheck-clang-analyzer-executable "clang-4.0")
             (flycheck-clang-analyzer-setup)
-            ;; automatically sets itself up as next checker after irony so undo
-            ;; that
+            ;; automatically sets itself up as next checker after lsp-ui so undo
+            ;; that so is instead after cppcheck
             (delete '(warning . clang-analyzer)
-                    (flycheck-checker-get 'irony 'next-checkers))
+                    (flycheck-checker-get 'lsp-ui 'next-checkers))
             (flycheck-add-next-checker 'c/c++-cppcheck '(t . clang-analyzer))))
 
 (use-package flycheck-coverity
