@@ -1285,6 +1285,7 @@ Otherwise call `ediff-buffers' interactively."
   (interactive)
   (when (or (called-interactively-p 'interactive)
             (log-edit-empty-buffer-p))
+    (require 'yasnippet)
     (yas-expand-snippet "${1:Summary of this change}
 
 ${2:Longer description of this change}
