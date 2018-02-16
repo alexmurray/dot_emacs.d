@@ -1330,10 +1330,12 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :after lsp-mode
   :init (add-hook 'lsp-mode-hook #'lsp-ui-mode)
-  ;; use the original icon since was removed in
-  ;; https://github.com/emacs-lsp/lsp-ui/commit/0dff02a1d02f16ab017f2ad7cd4a9913733f48ca
-  ;; due to others not having unicode
-  :config (setq lsp-ui-sideline-code-actions-prefix (propertize "💡 " 'face '(:foreground "yellow"))))
+  :config (progn
+            ;; use the original icon since was removed in
+            ;; https://github.com/emacs-lsp/lsp-ui/commit/0dff02a1d02f16ab017f2ad7cd4a9913733f48ca
+            ;; due to others not having unicode
+            (setq lsp-ui-sideline-code-actions-prefix (propertize "💡 " 'face '(:foreground "yellow")))
+            (setq lsp-ui-sideline-show-symbol nil)))
 
 (use-package magit
   :ensure t
