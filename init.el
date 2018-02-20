@@ -1137,6 +1137,12 @@ Otherwise call `ediff-buffers' interactively."
           ;; Non-nil means display source file containing the main routine at startup
           (setq-default gdb-show-main t)))
 
+(use-package gif-screencast
+  :ensure t
+  :init (dolist (executable '("scrot" "gifsicle"))
+         (unless (executable-find executable)
+           (pk-install-package executable))))
+
 (defun apm-gxref-setup ()
   "Setup gxref for various modes."
   (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
