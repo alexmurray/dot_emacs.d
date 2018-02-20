@@ -1101,12 +1101,10 @@ Otherwise call `ediff-buffers' interactively."
   :after flycheck
   :config (flycheck-plantuml-setup))
 
-(use-package flycheck-popup-tip
-  :ensure t
+(use-package flycheck-posframe
+  :load-path "vendor/"
   :after flycheck
-  :config (progn
-            (setq flycheck-popup-tip-error-prefix "")
-            (flycheck-popup-tip-mode 1)))
+  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
 (use-package flycheck-rust
   :ensure t
