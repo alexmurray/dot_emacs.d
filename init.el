@@ -911,8 +911,6 @@ Otherwise call `ediff-buffers' interactively."
               "ge" 'google-error
               "gg" 'counsel-git-grep
               "go" 'google-this
-              "gc" 'gxref-create-db
-              "gu" 'gxref-update-db
               "i" 'counsel-imenu
               "k" 'kill-buffer
               "mg" 'magit-status
@@ -1142,19 +1140,6 @@ Otherwise call `ediff-buffers' interactively."
   :init (dolist (executable '("scrot" "gifsicle"))
          (unless (executable-find executable)
            (pk-install-package executable))))
-
-(defun apm-gxref-setup ()
-  "Setup gxref for various modes."
-  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-    (add-to-list 'xref-backend-functions 'gxref-xref-backend)))
-
-(use-package gxref
-  :ensure t
-  :init (progn
-          (unless (executable-find "global")
-            (alert "GNU Global not found - use ppa:alexmurray/global"))
-          ;; enable gxref in all c common mode buffers
-          (add-hook 'c-mode-common-hook #'apm-gxref-setup)))
 
 (use-package gitconfig-mode
   :ensure t
