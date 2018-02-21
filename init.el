@@ -1661,7 +1661,8 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :defer t
   :diminish rainbow-mode
-  :init (add-hook 'prog-mode-hook #'rainbow-mode))
+  :init (dolist (hook '(css-mode-hook html-mode-hook))
+          (add-hook hook #'rainbow-mode)))
 
 (use-package region-state
   :ensure t
