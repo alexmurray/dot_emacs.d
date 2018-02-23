@@ -69,10 +69,14 @@
 
 (package-initialize)
 
-;; Bootstrap `use-package' from melpa
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+;; Bootstrap `use-package' etc from melpa
+(dolist (package '(use-package diminish bind-key))
+  (let ((refreshed))
+    (unless (package-installed-p package)
+      (unless refreshed
+        (package-refresh-contents)
+        (setq refreshed t))
+      (package-install package))))
 
 (eval-when-compile
   (require 'use-package))
