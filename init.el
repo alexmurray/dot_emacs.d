@@ -1284,6 +1284,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package lsp-mode
   ;; don't use lsp-flycheck since there is lsp-ui now
+  :diminish lsp-mode
   :ensure t)
 
 (use-package lsp-imenu
