@@ -571,6 +571,7 @@ code sections."
 
 (use-package company-tracwiki
   :load-path "vendor/"
+  :after company
   :commands company-tracwiki
   :init (add-to-list 'company-backends 'company-tracwiki))
 
