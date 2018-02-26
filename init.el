@@ -1077,7 +1077,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck-posframe
   :load-path "vendor/"
-  :after flycheck
+  :after (flycheck posframe)
   :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
 (use-package flycheck-rust
@@ -1565,6 +1565,9 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq plantuml-jar-path (expand-file-name "~/plantuml.jar"))
             (unless (file-exists-p plantuml-jar-path)
               (alert (format "plantuml not found at %s" plantuml-jar-path)))))
+
+(use-package posframe
+  :ensure t)
 
 ;; Disable audible and visible bell in favor of flashing the mode line instead
 (defun apm-powerline-visible-bell ()
