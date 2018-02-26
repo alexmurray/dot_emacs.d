@@ -671,11 +671,11 @@ code sections."
 (use-package diff-hl
   :ensure t
   :init (progn
-          (global-diff-hl-mode 1)
           ;; Integrate with Magit
           (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
           ;; Highlight changed files in the fringe of dired
-          (add-hook 'dired-mode-hook #'diff-hl-dired-mode)))
+          (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
+  :config (global-diff-hl-mode 1))
 
 (use-package diminish
   :ensure t)
