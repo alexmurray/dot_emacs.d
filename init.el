@@ -69,19 +69,21 @@
 
 (package-initialize)
 
-;; Bootstrap `use-package' etc from melpa
-(dolist (package '(use-package diminish bind-key))
-  (let ((refreshed))
-    (unless (package-installed-p package)
-      (unless refreshed
-        (package-refresh-contents)
-        (setq refreshed t))
-      (package-install package))))
+;; Bootstrap `use-package' from melpa
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
+
+;; ensure package.el considers diminish required
+(use-package diminish
+  :ensure t)
+
+(use-package bind-key
+  :ensure t)
+
 
 ;; load early so we can ensure evil-want-integration is nil
 (use-package evil
