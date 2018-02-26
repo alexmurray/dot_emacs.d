@@ -84,6 +84,9 @@
 (use-package bind-key
   :ensure t)
 
+(defun apm-make-underscore-word-character ()
+  "Make _ a word character."
+  (modify-syntax-entry ?_ "w"))
 
 ;; load early so we can ensure evil-want-integration is nil
 (use-package evil
@@ -839,12 +842,6 @@ Otherwise call `ediff-buffers' interactively."
             ;; disable ethan-wspace caring about tabs in Makefile's
             (add-hook 'makefile-mode-hook #'makefile-tabs-are-less-evil))
   :init (global-ethan-wspace-mode 1))
-
-(defun apm-make-underscore-word-character ()
-  "Make _ a word character."
-  (modify-syntax-entry ?_ "w"))
-
-
 
 (use-package evil-collection
   :ensure t
