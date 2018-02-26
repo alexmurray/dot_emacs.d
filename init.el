@@ -636,8 +636,7 @@ code sections."
             ;; do both Doxygen comment (1) and normal comments (2) and use
             ;; msgpack instead of json for more compact cache
             (setq cquery-extra-init-params '(:index (:comments 2) :cacheFormat "msgpack"))
-            (setq cquery-executable apm-cquery-executable)
-            (setq cquery-sem-highlight-method 'font-lock)))
+            (setq cquery-executable apm-cquery-executable)))
 
 (use-package crux
   :ensure t
