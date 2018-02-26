@@ -704,14 +704,6 @@ code sections."
             (alert "doxymacs not found - is it installed? (don't use Ubuntu package since requires Emacs 24)"))
           (add-hook 'c-mode-common-hook #'apm-doxymacs-setup)))
 
-(use-package drag-stuff
-  :ensure t
-  :defer t
-  :diminish drag-stuff-mode
-  :bind (("M-<up>" . drag-stuff-up)
-         ("M-<down>" . drag-stuff-down))
-  :init (add-hook 'prog-mode-hook #'drag-stuff-mode))
-
 (use-package dts-mode
   :ensure t)
 
