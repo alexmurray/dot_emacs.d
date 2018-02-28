@@ -1603,6 +1603,7 @@ ${3:Ticket: #${4:XXXX}}")))
           (setq projectile-enable-caching t)
           (projectile-mode 1))
   :config (progn
+            (add-to-list 'projectile-project-root-files "compile_commands.json")
             (add-to-list 'projectile-project-root-files "configure.ac")
             (add-to-list 'projectile-project-root-files ".cquery")
             (add-to-list 'projectile-project-root-files ".clang_complete")
