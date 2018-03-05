@@ -1078,7 +1078,12 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-posframe
   :load-path "vendor/"
   :after (flycheck posframe)
-  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+  :config (progn
+            ;; show errors with warning face
+            (set-face-attribute 'flycheck-posframe-face nil :inherit 'warning)
+            ;; and show prefix as unicode warning symbol
+            (setq flycheck-posframe-error-prefix "\u26a0 ")
+            (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode)))
 
 (use-package flycheck-rust
   :ensure t
