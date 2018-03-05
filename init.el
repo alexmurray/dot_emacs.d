@@ -216,17 +216,17 @@
 (defvar apm-preferred-font-package "fonts-inconsolata"
   "Package to install to get `apm-preferred-font-name'.")
 
-(defvar apm-preferred-font-height 108
+(defvar apm-preferred-font-height 11
   "Preferred font height to use.")
 
-(defun apm-graphic-frame-init (&optional frame)
+(defun apm-graphic-frame-init ()
   "Initialise properties specific to graphical display for FRAME."
   (interactive)
   (when (display-graphic-p)
     (if (font-info apm-preferred-font-name)
-        (set-face-attribute 'default frame
-                            :font apm-preferred-font-name
-                            :height apm-preferred-font-height)
+        (set-frame-font (format "%s-%d"
+                                apm-preferred-font-name
+                                apm-preferred-font-height) nil t)
       (pk-install-package apm-preferred-font-package))))
 
 ;; make sure graphical properties get set on client frames
