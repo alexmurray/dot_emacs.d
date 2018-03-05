@@ -1614,7 +1614,10 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package psvn
   :ensure t
-  :config (setq svn-status-state-mark-modeline nil))
+  :config (progn
+            (setq svn-status-state-mark-modeline nil)
+            (with-eval-after-load 'evil
+               (add-to-list 'evil-emacs-state-modes 'svn-status-mode))))
 
 (use-package python
   :defer t
