@@ -1731,7 +1731,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq solarized-distinct-fringe-background t)
             (setq solarized-scale-org-headlines nil)
             (setq solarized-use-variable-pitch nil)
-            (load-theme 'solarized-dark t)))
+            (load-theme 'solarized-light t)))
 
 (use-package spaceline-config
   :ensure spaceline
