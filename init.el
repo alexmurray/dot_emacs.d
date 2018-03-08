@@ -219,7 +219,7 @@
 (defvar apm-preferred-font-height 11
   "Preferred font height to use.")
 
-(defun apm-graphic-frame-init ()
+(defun apm-graphic-frame-init (&optional frame)
   "Initialise properties specific to graphical display for FRAME."
   (interactive)
   (when (display-graphic-p)
