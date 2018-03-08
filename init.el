@@ -226,7 +226,7 @@
     (if (font-info apm-preferred-font-name)
         (set-frame-font (format "%s-%d"
                                 apm-preferred-font-name
-                                apm-preferred-font-height) nil t)
+                                apm-preferred-font-height) nil frame)
       (pk-install-package apm-preferred-font-package))))
 
 ;; make sure graphical properties get set on client frames
