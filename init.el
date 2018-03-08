@@ -631,7 +631,7 @@ code sections."
             (alert (format "cquery not found at %s - see https://github.com/jacobdufault/cquery/wiki/Getting-started"
                            apm-cquery-executable)))
           (dolist (hook '(c-mode-hook c++-mode-hook))
-          (add-hook hook #'lsp-cquery-enable)))
+            (add-hook hook #'lsp-cquery-enable)))
   :config (progn
             ;; do both Doxygen comment (1) and normal comments (2) and use
             ;; msgpack instead of json for more compact cache
@@ -1001,6 +1001,8 @@ Otherwise call `ediff-buffers' interactively."
             ;; Ubuntu 16.04 shellcheck is too old to understand this
             ;; command-line option
             (setq flycheck-shellcheck-follow-sources nil)
+            ;; use lsp-ui checker via cquery instead
+            (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
             (global-flycheck-mode 1)))
 
 (use-package flycheck-checkbashisms
