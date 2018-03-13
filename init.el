@@ -1003,6 +1003,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq flycheck-shellcheck-follow-sources nil)
             ;; use lsp-ui checker via cquery instead
             (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
+            (setq-default flycheck-display-errors-delay 0.2)
             (global-flycheck-mode 1)))
 
 (use-package flycheck-checkbashisms
