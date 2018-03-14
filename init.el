@@ -690,20 +690,6 @@ code sections."
   ;; defer since is bound via evil-leader
   :defer t)
 
-(defun apm-doxymacs-setup()
-  "Setup doxymacs."
-  (when (require 'doxymacs nil t)
-    (doxymacs-mode)
-    (doxymacs-font-lock)))
-
-(use-package doxymacs
-  :defer t
-  :diminish doxymacs-mode
-  :init (progn
-          (unless (require 'doxymacs nil t)
-            (alert "doxymacs not found - is it installed? (don't use Ubuntu package since requires Emacs 24)"))
-          (add-hook 'c-mode-common-hook #'apm-doxymacs-setup)))
-
 (use-package dts-mode
   :ensure t)
 
