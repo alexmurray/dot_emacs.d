@@ -916,6 +916,9 @@ Otherwise call `ediff-buffers' interactively."
               "x" 'counsel-M-x))
   :init (global-evil-leader-mode 1))
 
+(use-package evil-magit
+  :ensure t)
+
 (use-package evil-matchit
   :ensure t
   :config (global-evil-matchit-mode 1))
