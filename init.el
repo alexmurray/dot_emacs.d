@@ -790,6 +790,8 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-eshell-mode-setup ()
   "Initialise 'eshell-mode'."
+  (eval-when-compile
+    (require 'em-cmpl))
   (eshell-cmpl-initialize)
   (with-eval-after-load 'counsel
     (eval-when-compile (require 'esh-mode))
