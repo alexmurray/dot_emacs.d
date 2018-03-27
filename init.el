@@ -65,7 +65,9 @@
         gnutls-verify-error t
         gnutls-trustfiles (list trustfile)))
 
-(package-initialize)
+(if (version< emacs-version "27")
+    (package-initialize)
+  (setq package-quickstart t))
 
 ;; Bootstrap `use-package' from melpa
 (unless (package-installed-p 'use-package)
