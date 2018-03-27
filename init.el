@@ -38,8 +38,6 @@
 
 ;;; Package management
 (require 'package)
-;; we use use-package to do this for us
-(setq package-enable-at-startup nil)
 ;; use https for both melpa and gelpa
 (eval-and-compile
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
