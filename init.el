@@ -950,11 +950,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (global-evil-visualstar-mode 1))
 
-(use-package excorporate
-  :ensure t
-  :defer t
-  :config (setq excorporate-configuration "alex.murray@cohdawireless.com"))
-
 (use-package exec-path-from-shell
   :ensure t
   :init (when (memq window-system '(mac ns))
