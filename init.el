@@ -571,6 +571,7 @@ code sections."
 
 (use-package company-tracwiki
   :load-path "vendor/"
+  :disabled t
   :after company
   :commands company-tracwiki
   :init (add-to-list 'company-backends 'company-tracwiki))
@@ -1750,6 +1751,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package tracwiki-mode
   :ensure t
+  :disabled t
   :defer t
   :commands tracwiki
   :config (tracwiki-define-project
