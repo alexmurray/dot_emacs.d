@@ -20,8 +20,6 @@
 ;; fix recursive load *.el.gz issue with emacs-snapshot -
 ;; https://github.com/purcell/emacs.d/issues/340#issuecomment-237177032
 (setq load-file-rep-suffixes '(""))
-;; uncomment to debug package loading times
-;; (setq use-package-verbose t)
 
 ;; Linux package management
 (require 'dbus)
@@ -74,6 +72,12 @@
 ;; this is done automatically in 27 etc
 (if (version< emacs-version "27")
     (package-initialize))
+
+;; must be set before loading use-package
+(setq use-package-enable-imenu-support t)
+;; uncomment to debug package loading times
+;; (setq use-package-verbose t)
+
 
 ;; Bootstrap `use-package' from melpa
 (unless (package-installed-p 'use-package)
@@ -1196,13 +1200,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (defun apm-emacs-lisp-mode-setup ()
   "Setup Emacs Lisp mode."
-  (setq mode-name "")
-  ;; make imenu list each package for easy navigation - from
-  ;; https://github.com/jwiegley/use-package/issues/80#issuecomment-46687774
-  (when (string= buffer-file-name (expand-file-name "init.el" "~/dot_emacs.d"))
-    (add-to-list
-     'imenu-generic-expression
-     '("Packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2))))
+  (setq mode-name ""))
 
 (use-package lisp-mode
   :defer t
