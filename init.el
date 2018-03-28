@@ -43,6 +43,7 @@
 
 ;;; Package management
 (require 'package)
+
 ;; use https for both melpa and gelpa
 (eval-and-compile
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -1847,6 +1848,10 @@ ${3:Ticket: #${4:XXXX}}")))
   :disabled t
   :diminish zoom-mode
   :config (zoom-mode 1))
+
+;; start emacs server only it has not already been started
+(require 'server)
+(unless (server-running-p) (server-start))
 
 ;; set gc-cons-threshold back to original value
 (add-hook 'emacs-startup-hook #'apm-set-gc-threshold)
