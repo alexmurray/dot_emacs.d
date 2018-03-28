@@ -13,11 +13,6 @@
 ;; uncomment to debug package loading times
 ;; (setq use-package-verbose t)
 
-;; customisations
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-;; load custom but ignore error if doesn't exist
-(load custom-file t)
-
 ;; Linux package management
 (require 'dbus)
 
@@ -83,6 +78,11 @@
 
 (use-package bind-key
   :ensure t)
+
+;; customisations
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+;; load custom but ignore error if doesn't exist
+(load custom-file t)
 
 (defun apm-make-underscore-word-character ()
   "Make _ a word character."
