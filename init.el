@@ -104,12 +104,11 @@
   :ensure t
   ;; use evil-collection instead
   :init (setq evil-want-integration nil)
+  ;; make underscore a word character so movements across words
+  ;; include it - this is the same as vim - need to do it on each
+  ;; major mode change
+  :hook ((after-change-major-mode . apm-make-underscore-word-character))
   :config (progn
-            ;; make underscore a word character so movements across words
-            ;; include it - this is the same as vim - need to do it on each
-            ;; major mode change
-            (add-hook 'after-change-major-mode-hook
-                      #'apm-make-underscore-word-character)
             ;; make cursor easier to see
             (setq evil-normal-state-cursor '("#b294bb" box))
             (setq evil-insert-state-cursor '("#de935f" bar))
@@ -281,7 +280,7 @@
 (use-package adaptive-wrap
   :ensure t
   :defer t
-  :init (add-hook 'text-mode-hook #'adaptive-wrap-prefix-mode))
+  :hook ((text-mode . adaptive-wrap-prefix-mode)))
 
 (use-package aggressive-indent
   :ensure t
@@ -305,11 +304,11 @@
   :defer t
   :diminish android-mode
   :commands android-mode
+  :hook java-mode
   :init (progn
+          (setq android-mode-sdk-dir (expand-file-name "~/android-sdk-linux/"))
           ;; change prefix so doesn't conflict with comment-region
-          (setq android-mode-sdk-dir (expand-file-name "~/android-sdk-linux/")
-                android-mode-key-prefix (kbd "C-c C-m"))
-          (add-hook 'java-mode-hook #'android-mode)))
+          (setq android-mode-key-prefix (kbd "C-c C-m"))))
 
 (use-package ansi-color
   ;; show colours correctly in shell
@@ -366,15 +365,14 @@
   :defer t
   :commands (LaTeX-math-mode TeX-source-correlate-mode)
   :mode ("\\.tex\\'" . LaTeX-mode)
+  :hook ((LaTeX-mode . apm-latex-mode-setup))
   :init (progn
           (setq-default TeX-auto-save t)
           (setq-default TeX-parse-self t)
           (setq-default TeX-PDF-mode t)
           (setq-default TeX-master nil)
           (setq-default reftex-plug-into-AUCTeX t)
-          (setq-default TeX-source-correlate-start-server t)
-
-          (add-hook 'LaTeX-mode-hook #'apm-latex-mode-setup)))
+          (setq-default TeX-source-correlate-start-server t)))
 
 (use-package auth-source
   ;; prefer encrypted auth source to non-encrypted
@@ -402,18 +400,17 @@
 
 (use-package bug-reference
   :defer t
+  :hook ((prog-mode . bug-reference-prog-mode))
   :init (progn
           (eval-when-compile
             (require 'bug-reference))
           (setq bug-reference-url-format "http://projects.cohda.wireless:8000/trac/mk2/ticket/%s"
-                bug-reference-bug-regexp "\\([Tt]icket ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
-          (add-hook 'prog-mode-hook #'bug-reference-prog-mode)))
+                bug-reference-bug-regexp "\\([Tt]icket ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")))
 
 (use-package cargo
   :ensure t
   :defer t
-  :init (add-hook 'rust-mode-hook 'cargo-minor-mode))
-
+  :hook ((rust-mode . cargo-minor-mode)))
 
 ;; c-mode and other derived modes (c++, java etc) etc
 (defun apm-c-mode-common-setup ()
@@ -437,7 +434,7 @@
 
 (use-package cc-mode
   :defer t
-  :init (add-hook 'c-mode-common-hook #'apm-c-mode-common-setup))
+  :hook ((c-mode-common . apm-c-mode-common-setup)))
 
 (defun apm-c-mode-setup ()
   "Tweaks and customisations for `c-mode'."
@@ -450,8 +447,7 @@
 
 (use-package cohda-c
   :load-path "lisp/"
-  :init (dolist (hook '(c-mode-hook c++-mode-hook))
-          (add-hook hook 'apm-c-mode-setup)))
+  :hook ((c-mode c++-mode) . apm-c-mode-setup))
 
 (use-package cmake-mode
   :ensure t
@@ -508,7 +504,7 @@
 (use-package company-auctex
   :ensure t
   :defer t
-  :init (add-hook 'LaTeX-mode-hook #'company-auctex-init))
+  :hook ((LaTeX-mode . company-auctex-init)))
 
 (use-package company-dabbrev
   :after company
@@ -537,7 +533,8 @@
 (use-package company-quickhelp
   :ensure t
   :defer t
-  :init (add-hook 'company-mode-hook #'company-quickhelp-mode)
+  :after company
+  :hook ((company-mode . company-quickhelp-mode))
   :config (setq company-quickhelp-delay 0.1))
 
 (use-package company-shell
@@ -598,9 +595,8 @@
   :ensure t
   :defer t
   :diminish cov-mode
-  :init (progn
-          (add-hook 'c-mode-common-hook #'cov-mode)
-          (add-hook 'cov-mode-hook #'apm-cov-mode-setup)))
+  :hook ((c-mode-common . cov-mode)
+         (cov-mode . apm-cov-mode-setup)))
 
 (defvar apm-cquery-executable
   (expand-file-name "~/cquery/build/release/bin/cquery"))
@@ -609,12 +605,11 @@
   :ensure t
   :defer t
   :commands lsp-cquery-enable
+  :hook ((c-mode c++-mode) .  lsp-cquery-enable)
   :init (progn
           (unless (file-exists-p apm-cquery-executable)
             (alert (format "cquery not found at %s - see https://github.com/jacobdufault/cquery/wiki/Getting-started"
-                           apm-cquery-executable)))
-          (dolist (hook '(c-mode-hook c++-mode-hook))
-            (add-hook hook #'lsp-cquery-enable)))
+                           apm-cquery-executable))))
   :config (progn
             ;; do both Doxygen comment (1) and normal comments (2) and use
             ;; msgpack instead of json for more compact cache
@@ -653,11 +648,9 @@
 
 (use-package diff-hl
   :ensure t
-  :init (progn
-          ;; Integrate with Magit
-          (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-          ;; Highlight changed files in the fringe of dired
-          (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
+  ;; Integrate with Magit and highlight changed files in the fringe of dired
+  :hook ((magit-post-refresh . diff-hl-magit-post-refresh)
+         (dired-mode . diff-hl-dired-mode))
   :config (global-diff-hl-mode 1))
 
 (use-package diminish
@@ -735,8 +728,7 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :after evil
   :diminish elisp-slime-nav-mode
-  :init (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-          (add-hook hook #'elisp-slime-nav-mode))
+  :hook ((emacs-lisp-mode ielm-mode) . elisp-slime-nav-mode)
   :config (progn
             (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
               #'elisp-slime-nav-find-elisp-thing-at-point)
@@ -765,10 +757,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package erc
   :defer t
-  :config (progn
-            (setq erc-nick "alexmurray")
-            ;; notify via alert when mentioned
-            (add-hook 'erc-text-matched-hook 'apm-erc-alert)))
+  ;; notify via alert when mentioned
+  :hook ((erc-tex-matched . apm-erc-alert))
+  :config (setq erc-nick "alexmurray"))
 
 
 (defun apm-eshell-mode-setup ()
@@ -786,7 +777,7 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :commands eshell
   :bind (("C-x m" . eshell))
-  :init (add-hook 'eshell-mode-hook #'apm-eshell-mode-setup))
+  :hook ((eshell-mode . apm-eshell-mode-setup)))
 
 (defun makefile-tabs-are-less-evil ()
   "Disable ethan-wspace from caring about tabs in Makefile's."
@@ -798,12 +789,11 @@ Otherwise call `ediff-buffers' interactively."
 (use-package ethan-wspace
   :ensure t
   :diminish ethan-wspace-mode
-  :config (progn
-            ;; ethan-wspace-mode raises lots of warnings if this is enabled...
-            ;; hopefully this doesn't cause problems
-            (setq mode-require-final-newline nil)
-            ;; disable ethan-wspace caring about tabs in Makefile's
-            (add-hook 'makefile-mode-hook #'makefile-tabs-are-less-evil))
+  ;; disable ethan-wspace caring about tabs in Makefile's
+  :hook ((makefile-mode . makefile-tabs-are-less-evil))
+  ;; ethan-wspace-mode raises lots of warnings if this is enabled...
+  ;; hopefully this doesn't cause problems
+  :config  (setq mode-require-final-newline nil)
   :init (global-ethan-wspace-mode 1))
 
 (use-package evil-collection
@@ -918,7 +908,7 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :diminish evil-smartparens-mode
   ;; only use with strict smartparens otherwise is too annoying for normal cases
-  :init (add-hook 'smartparens-strict-mode-hook #'evil-smartparens-mode))
+  :hook ((smartparens-strict-mode . evil-smartparens-mode)))
 
 (use-package evil-surround
   :ensure t
@@ -959,13 +949,13 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :diminish flycheck-mode
   :commands flycheck-add-next-checker
+  :hook ((flycheck-mode . apm-flycheck-setup))
   :init (progn
           (setq-default flycheck-emacs-lisp-load-path 'inherit)
           (unless (executable-find "shellcheck")
             (pk-install-package "shellcheck"))
           (unless (executable-find "cppcheck")
-            (pk-install-package "cppcheck"))
-          (add-hook 'flycheck-mode-hook #'apm-flycheck-setup))
+            (pk-install-package "cppcheck")))
   :config (progn
             ;; Ubuntu 16.04 shellcheck is too old to understand this
             ;; command-line option
@@ -1007,9 +997,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck-color-mode-line
   :ensure t
+  :after flycheck
   :defer t
-  :init (with-eval-after-load 'flycheck
-          (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
+  :hook ((flycheck-mode . flycheck-color-mode-line-mode)))
 
 (use-package flycheck-cstyle
   :ensure t
@@ -1050,9 +1040,8 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-posframe
   :load-path "vendor/"
   :after (flycheck posframe)
-  :config (progn
-            (flycheck-posframe-configure-pretty-defaults)
-            (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode)))
+  :hook ((flycheck-mode . flycheck-posframe-mode))
+  :config (flycheck-posframe-configure-pretty-defaults))
 
 (use-package flycheck-rust
   :ensure t
@@ -1061,9 +1050,8 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flyspell
   :diminish flyspell-mode
   :defer t
-  :init (progn
-          (add-hook 'text-mode-hook #'flyspell-mode)
-          (add-hook 'prog-mode-hook #'flyspell-prog-mode)))
+  :hook ((text-mode . flyspell-mode)
+         (prog-mode . flyspell-prog-mode)))
 
 (use-package flyspell-correct-ivy
   :ensure t
@@ -1108,11 +1096,11 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package goto-addr
   :defer t
-  :init (add-hook 'prog-mode-hook #'goto-address-prog-mode))
+  :hook ((prog-mode . goto-address-prog-mode)))
 
 (use-package gud
   :defer t
-  :init (add-hook 'gud-mode-hook #'gud-tooltip-mode))
+  :hook ((gud-mode . gud-tooltip-mode)))
 
 ;; we use ivy instead
 (use-package helm-make
@@ -1132,7 +1120,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :functions hl-todo-mode
-  :init (add-hook 'prog-mode-hook #'hl-todo-mode)
+  :hook ((prog-mode . hl-todo-mode))
   :config (add-to-list 'hl-todo-keyword-faces '("@todo" . "#cc9393")))
 
 (use-package hungry-delete
@@ -1159,6 +1147,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package ispell
   :defer t
+  :hook ((text-mode . ispell-minor-mode))
   :init (progn
           ;; windows specific config
           (when (eq system-type 'windows-nt)
@@ -1168,8 +1157,7 @@ Otherwise call `ediff-buffers' interactively."
             ;; use gb dictionary via aspell if available
             (setq ispell-program-name "aspell"
                   ispell-dictionary "british"
-                  ispell-extra-args '("--sug-mode=ultra")))
-          (add-hook 'text-mode-hook #'ispell-minor-mode)))
+                  ispell-extra-args '("--sug-mode=ultra")))))
 
 (use-package ivy
   :ensure t
@@ -1218,7 +1206,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package lisp-mode
   :defer t
-  :init (add-hook 'emacs-lisp-mode-hook #'apm-emacs-lisp-mode-setup))
+  :hook ((emacs-lisp-mode . apm-emacs-lisp-mode-setup)))
 
 (defun apm-log-edit-insert-yasnippet-template ()
   "Insert the default template with Summary and Author."
@@ -1252,25 +1240,24 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package lsp-imenu
   :ensure lsp-mode
   :disabled t
-  :init (add-hook 'lsp-after-open-hook #'lsp-enable-imenu))
+  :hook ((lsp-after-open . lsp-enable-imenu)))
 
 (use-package lsp-java
   :ensure t
   :after lsp-mode
-  :init (add-hook 'java-mode-hook #'lsp-java-enable))
+  :hook ((java-mode . lsp-java-enable)))
 
 (use-package lsp-python
   :ensure t
   :after lsp-mode
-  :init (progn
-          (unless (executable-find "pyls")
-            (alert "pyls not found - pip install python-language-server"))
-          (add-hook 'python-mode-hook #'lsp-python-enable)))
+  :hook ((python-mode . lsp-python-enable))
+  :init (unless (executable-find "pyls")
+          (alert "pyls not found - pip install python-language-server")))
 
 (use-package lsp-ui
   :ensure t
   :after lsp-mode
-  :init (add-hook 'lsp-mode-hook #'lsp-ui-mode)
+  :hook ((lsp-mode . lsp-ui-mode))
   :config (progn
             ;; use the original icon since was removed in
             ;; https://github.com/emacs-lsp/lsp-ui/commit/0dff02a1d02f16ab017f2ad7cd4a9913733f48ca
@@ -1282,7 +1269,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :defer t
   :bind ("C-x g" . magit-status)
-  :init (add-hook 'magit-mode-hook #'apm-magit-mode-setup)
+  :hook ((magit-mode . apm-magit-mode-setup))
   :config (setq magit-completing-read-function 'ivy-completing-read))
 
 (use-package magithub
@@ -1313,7 +1300,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :defer t
   :diminish modern-c++-font-lock-mode
-  :init (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
+  :hook ((c++-mode . modern-c++-font-lock-mode)))
 
 (use-package move-text
   :ensure t
@@ -1434,6 +1421,8 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package org-clock
   :after org
+  ;; ensure when clocking in we close any existing notification
+  :hook ((org-clock-in . apm-org-clock-clear-notification))
   ;; assume idle after 5 minutes
   :config (progn
             (setq org-clock-idle-time nil
@@ -1453,9 +1442,7 @@ ${3:Ticket: #${4:XXXX}}")))
             ;; reload any saved org clock information on startup
             (org-clock-persistence-insinuate)
             ;; notify if not clocked in
-            (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in)
-            ;; ensure when clocking in we close any existing notification
-            (add-hook 'org-clock-in-hook #'apm-org-clock-clear-notification)))
+            (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in)))
 
 (use-package org-clock-convenience
   :ensure t
@@ -1485,7 +1472,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :after org
   :defer t
-  :init (add-hook 'org-mode-hook 'org-table-sticky-header-mode))
+  :hook ((org-mode . org-table-sticky-header-mode)))
 
 (use-package ob-plantuml
   :after plantuml-mode
@@ -1611,16 +1598,14 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package racer
   :ensure t
   :defer t
-  :init (progn
-          (setq racer-rust-src-path (expand-file-name "~/rust/src"))
-          (add-hook 'rust-mode-hook #'apm-racer-mode-setup)))
+  :hook ((rust-mode . apm-racer-mode-setup))
+  :init (setq racer-rust-src-path (expand-file-name "~/rust/src")))
 
 (use-package rainbow-mode
   :ensure t
   :defer t
   :diminish rainbow-mode
-  :init (dolist (hook '(css-mode-hook html-mode-hook))
-          (add-hook hook #'rainbow-mode)))
+  :hook (css-mode html-mode))
 
 (use-package region-state
   :ensure t
@@ -1655,13 +1640,13 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package simple
   :defer t
-  ;; save whatever is in the system clipboard to the kill ring before killing
-  ;; something else into the kill ring
+  :hook ((text-mode . visual-line-mode))
   :init (progn
+          ;; save whatever is in the system clipboard to the kill ring before
+          ;; killing something else into the kill ring
           (setq save-interprogram-paste-before-kill t)
           (setq visual-line-fringe-indicators
-                '(left-curly-arrow right-curly-arrow))
-          (add-hook 'text-mode-hook #'visual-line-mode)))
+                '(left-curly-arrow right-curly-arrow))))
 
 ;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
 (defun apm-c-mode-common-open-block (&rest ignored)
@@ -1674,11 +1659,9 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package smartparens
   :ensure t
   :diminish smartparens-mode
-  :init (progn
-          (smartparens-global-mode 1)
-          ;; use smartparens in strict mode for programming and ielm
-          (add-hook 'prog-mode-hook #'smartparens-strict-mode)
-          (add-hook 'ielm-mode-hook #'smartparens-strict-mode))
+  ;; use smartparens in strict mode for programming and ielm
+  :hook ((prog-mode ielm-mode) . smartparens-strict-mode)
+  :init (smartparens-global-mode 1)
   :config (progn
             (require 'smartparens-config)
             (require 'smartparens-latex)
@@ -1769,6 +1752,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package whitespace
   :diminish whitespace-mode
+  :hook ((prog-mode . whitespace-mode))
   ;; higlight long lines
   :init (progn
           (setq-default whitespace-line-column 80)
@@ -1776,8 +1760,7 @@ ${3:Ticket: #${4:XXXX}}")))
           (setq-default whitespace-style
                         '(face trailing tabs tab-mark lines-tail))
           (setq-default whitespace-display-mappings
-                        '((tab-mark ?\t [?\u279b ?\t] [?\\ ?\t])))
-          (add-hook 'prog-mode-hook #'whitespace-mode)))
+                        '((tab-mark ?\t [?\u279b ?\t] [?\\ ?\t])))))
 
 (use-package yasnippet
   :ensure t
