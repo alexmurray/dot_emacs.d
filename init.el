@@ -383,8 +383,11 @@
 (use-package avy
   :ensure t
   :defer t
-  ;; dim text when avy is active
-  :config (setq avy-background t))
+  :config (progn
+            ;; dim text when avy is active
+            (setq avy-background t)
+            ;; insert chars infront of target rather than over target
+            (setq avy-style 'pre)))
 
 (use-package beginend
   :ensure t
