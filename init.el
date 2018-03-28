@@ -5,8 +5,18 @@
 
 ;;; Code:
 
+(defvar gc-cons-threshold--orig gc-cons-threshold)
+(setq gc-cons-threshold (* 100 1024 1024)
+      gc-cons-percentage 0.6)
+
+(defun apm-set-gc-threshold ()
+  "Reset `gc-cons-threshold' and `gc-cons-percentage' to their default values."
+  (setq gc-cons-threshold gc-cons-threshold--orig
+        gc-cons-percentage 0.1))
+
 ;; prefer newer non-byte compiled sources to older byte compiled ones
 (setq load-prefer-newer t)
+
 ;; fix recursive load *.el.gz issue with emacs-snapshot -
 ;; https://github.com/purcell/emacs.d/issues/340#issuecomment-237177032
 (setq load-file-rep-suffixes '(""))
@@ -1837,6 +1847,9 @@ ${3:Ticket: #${4:XXXX}}")))
   :disabled t
   :diminish zoom-mode
   :config (zoom-mode 1))
+
+;; set gc-cons-threshold back to original value
+(add-hook 'emacs-startup-hook #'apm-set-gc-threshold)
 
 (provide 'init)
 
