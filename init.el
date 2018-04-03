@@ -436,9 +436,12 @@
   ;; paragraphs properly
   (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
 
-(use-package cohda-c
+(use-package apm-c
   :load-path "lisp/"
   :hook ((c-mode c++-mode) . apm-c-mode-setup))
+
+(use-package cohda-c
+  :load-path "lisp/")
 
 (use-package cmake-mode
   :ensure t
