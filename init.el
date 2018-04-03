@@ -87,10 +87,6 @@
 (eval-when-compile
   (require 'use-package))
 
-;; ensure package.el considers diminish required
-(use-package diminish
-  :ensure t)
-
 (use-package bind-key
   :ensure t)
 
@@ -271,7 +267,6 @@
 
 ;;; Packages
 (use-package abbrev
-  :diminish abbrev-mode
   :config (progn
             (setq save-abbrevs t)
             (setq-default abbrev-mode t)))
@@ -289,7 +284,6 @@
 (use-package aggressive-indent
   :ensure t
   :defer t
-  :diminish aggressive-indent-mode
   :config (global-aggressive-indent-mode))
 
 (use-package ag
@@ -306,7 +300,6 @@
 (use-package android-mode
   :ensure t
   :defer t
-  :diminish android-mode
   :commands android-mode
   :hook java-mode
   :init (progn
@@ -320,7 +313,6 @@
 
 (use-package anzu
   :ensure t
-  :diminish anzu-mode
   :init (global-anzu-mode)
   :bind (("M-%" . anzu-query-replace-regexp)
          ("C-M-%" . anzu-query-replace)))
@@ -352,7 +344,6 @@
   :mode (("\\.asn1?$" . asn1-mode)))
 
 (use-package autorevert
-  :diminish auto-revert-mode
   :init (global-auto-revert-mode 1))
 
 (defun apm-latex-mode-setup ()
@@ -393,7 +384,6 @@
 
 (use-package beginend
   :ensure t
-  :diminish (beginend-global-mode beginend-prog-mode)
   :config (beginend-global-mode 1))
 
 (use-package browse-kill-ring
@@ -420,9 +410,6 @@
 (defun apm-c-mode-common-setup ()
   "Tweaks and customisations for all modes derived from c-common-mode."
   (auto-fill-mode 1)
-  ;; diminish auto-fill in the modeline
-  (with-eval-after-load 'diminish
-    (diminish 'auto-fill-function))
   ;; turn on auto-newline and hungry-delete
   (c-toggle-auto-hungry-state 1)
   ;; turn on electric indent
@@ -598,7 +585,6 @@
 (use-package cov
   :ensure t
   :defer t
-  :diminish cov-mode
   :hook ((c-mode-common . cov-mode)
          (cov-mode . apm-cov-mode-setup)))
 
@@ -635,7 +621,6 @@
 
 ;; show suspicious c constructs automatically
 (use-package cwarn
-  :diminish cwarn-mode
   :init (global-cwarn-mode 1))
 
 (use-package dbc-mode
@@ -657,8 +642,6 @@
          (dired-mode . diff-hl-dired-mode))
   :config (global-diff-hl-mode 1))
 
-(use-package diminish
-  :ensure t)
 
 (use-package disaster
   :ensure t
@@ -715,7 +698,6 @@ Otherwise call `ediff-buffers' interactively."
                 ediff-split-window-function 'split-window-horizontally))
 
 (use-package eldoc
-  :diminish eldoc-mode
   :config (global-eldoc-mode 1))
 
 (use-package elf-mode
@@ -731,7 +713,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :after evil
-  :diminish elisp-slime-nav-mode
   :hook ((emacs-lisp-mode ielm-mode) . elisp-slime-nav-mode)
   :config (progn
             (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
@@ -792,7 +773,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package ethan-wspace
   :ensure t
-  :diminish ethan-wspace-mode
   ;; disable ethan-wspace caring about tabs in Makefile's
   :hook ((makefile-mode . makefile-tabs-are-less-evil))
   ;; ethan-wspace-mode raises lots of warnings if this is enabled...
@@ -824,7 +804,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-commentary
   :ensure t
-  :diminish evil-commentary-mode
   :config (evil-commentary-mode 1))
 
 (use-package evil-expat
@@ -832,7 +811,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-goggles
   :ensure t
-  :diminish evil-goggles-mode
   :config (progn
             (setq evil-goggles-duration 0.1)
             (evil-goggles-mode 1)
@@ -910,7 +888,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package evil-smartparens
   :ensure t
   :defer t
-  :diminish evil-smartparens-mode
   ;; only use with strict smartparens otherwise is too annoying for normal cases
   :hook ((smartparens-strict-mode . evil-smartparens-mode)))
 
@@ -951,7 +928,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck
   :ensure t
-  :diminish flycheck-mode
   :commands flycheck-add-next-checker
   :hook ((flycheck-mode . apm-flycheck-setup))
   :init (progn
@@ -1052,7 +1028,6 @@ Otherwise call `ediff-buffers' interactively."
   :config (flycheck-rust-setup))
 
 (use-package flyspell
-  :diminish flyspell-mode
   :defer t
   :hook ((text-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode)))
@@ -1129,7 +1104,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package hungry-delete
   :ensure t
-  :diminish hungry-delete-mode
   :config (global-hungry-delete-mode 1))
 
 ;; autogenerate a .clang_complete if there is an associated .clang_complete.in
@@ -1167,7 +1141,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :after flx
-  :diminish ivy-mode
   :bind (("C-x b" . ivy-switch-buffer)
          ("C-c C-r" . ivy-resume))
   :config (progn
@@ -1232,7 +1205,6 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package lsp-mode
   ;; don't use lsp-flycheck since there is lsp-ui now
-  :diminish lsp-mode
   :ensure t)
 
 (use-package lsp-imenu
@@ -1294,11 +1266,23 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package meson-mode
   :ensure t)
 
+(use-package minions
+  :ensure t
+  :init (minions-mode))
+
 (use-package modern-cpp-font-lock
   :ensure t
   :defer t
-  :diminish modern-c++-font-lock-mode
   :hook ((c++-mode . modern-c++-font-lock-mode)))
+
+(use-package moody
+  :ensure t
+  :config (progn
+            (setq x-underline-at-descent-line t)
+            (setq moody-mode-line-height 24)
+            (moody-replace-mode-line-buffer-identification)
+            (moody-replace-vc-mode)
+            (size-indication-mode)))
 
 (use-package move-text
   :ensure t
@@ -1528,23 +1512,6 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package posframe
   :ensure t)
 
-;; Disable audible and visible bell in favor of flashing the mode line instead
-(defun apm-powerline-visible-bell ()
-  "A friendlier visual bell effect."
-  (invert-face 'powerline-active1)
-  (run-with-timer 0.1 nil 'invert-face 'powerline-active1)
-  (invert-face 'mode-line)
-  (run-with-timer 0.1 nil 'invert-face 'mode-line))
-
-
-(use-package powerline
-  :ensure t
-  :config (progn
-            (setq powerline-default-separator 'wave)
-            (setq powerline-height 24)
-            (setq visible-bell nil)
-            (setq ring-bell-function #'apm-powerline-visible-bell)))
-
 (use-package prog-mode
   :config (progn
             (when (boundp 'prettify-symbols-unprettify-at-point)
@@ -1557,7 +1524,6 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :defer t
   :defines (projectile-enable-caching)
-  :diminish projectile-mode
   :init (progn
           (setq projectile-enable-caching t)
           (projectile-mode 1))
@@ -1602,7 +1568,6 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package rainbow-mode
   :ensure t
   :defer t
-  :diminish rainbow-mode
   :hook (css-mode html-mode))
 
 (use-package region-state
@@ -1656,7 +1621,6 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package smartparens
   :ensure t
-  :diminish smartparens-mode
   ;; use smartparens in strict mode for programming and ielm
   :hook ((prog-mode ielm-mode) . smartparens-strict-mode)
   :init (smartparens-global-mode 1)
@@ -1685,22 +1649,19 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package solarized-theme
   :ensure t
   :config (progn
+            ;; settings for moody package
+            (let ((line (face-attribute 'mode-line :underline)))
+              (set-face-attribute 'mode-line          nil :overline   line)
+              (set-face-attribute 'mode-line-inactive nil :overline   line)
+              (set-face-attribute 'mode-line-inactive nil :underline  line)
+              (set-face-attribute 'mode-line          nil :box        nil)
+              (set-face-attribute 'mode-line-inactive nil :box        nil)
+              (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9"))
             (setq x-underline-at-descent-line t)
             (setq solarized-distinct-fringe-background t)
             (setq solarized-scale-org-headlines nil)
             (setq solarized-use-variable-pitch nil)
             (load-theme 'solarized-light t)))
-
-(use-package spaceline-config
-  :ensure spaceline
-  :after powerline
-  :config (progn
-            (setq spaceline-workspace-numbers-unicode t
-                  spaceline-window-numbers-unicode t
-                  spaceline-responsive t)
-            (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-            (spaceline-info-mode)
-            (spaceline-spacemacs-theme)))
 
 (use-package sudo-edit
   :ensure t
@@ -1723,7 +1684,6 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package undo-tree
   :ensure t
-  :diminish undo-tree-mode
   :init (global-undo-tree-mode 1))
 
 (use-package uniquify
@@ -1745,11 +1705,9 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package which-key
   :ensure t
-  :diminish which-key-mode
   :config (which-key-mode))
 
 (use-package whitespace
-  :diminish whitespace-mode
   :hook ((prog-mode . whitespace-mode))
   ;; higlight long lines
   :init (progn
@@ -1762,7 +1720,6 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package yasnippet
   :ensure t
-  :diminish yas-minor-mode
   :bind (:map yas-keymap
               ;; Use C-tab to both expand a snippet and move through its fields
               ("<C-tab>" . yas-next-field-or-maybe-expand)
