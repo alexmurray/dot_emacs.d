@@ -1752,12 +1752,6 @@ ${3:Ticket: #${4:XXXX}}")))
             (define-key evil-normal-state-map (kbd "C-]") #'xref-find-definitions)
             (define-key evil-normal-state-map (kbd "C-t") #'xref-pop-marker-stack)))
 
-(use-package zoom
-  :ensure t
-  :disabled t
-  :diminish zoom-mode
-  :config (zoom-mode 1))
-
 ;; start emacs server only it has not already been started
 (require 'server)
 (unless (server-running-p) (server-start))
