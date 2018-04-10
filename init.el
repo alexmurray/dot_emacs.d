@@ -24,20 +24,27 @@
 ;; Linux package management
 (require 'dbus)
 
-(defun pk-install-package (name)
-  "Install a package with NAME using PackageKit."
-  (interactive "sPackage to install: ")
-  (condition-case ex
-      (let ((xid (cdr (assoc 'outer-window-id (frame-parameters)))))
-        (dbus-call-method :session
-                          "org.freedesktop.PackageKit"
-                          "/org/freedesktop/PackageKit"
-                          "org.freedesktop.PackageKit.Modify"
-                          "InstallPackageNames"
-                          (if xid xid 0)
-                          `(:array ,name)
-                          "show-confirm-search,hide-finished"))
-    (error (format "Error trying to install package %s: %s" name ex))))
+(defvar apm-system-packages-to-install nil
+  "The list of system packages to install at the end of init.")
+
+(defun apm-install-system-packages (&optional system-packages sync)
+  "Install the list of SYSTEM-PACKAGES either SYNC or not."
+  (let* ((packages (if system-packages
+                       system-packages
+                     apm-system-packages-to-install))
+         (package-names (mapconcat 'identity packages " ")))
+    (when (and packages
+               (y-or-n-p (format "Install system packages: %s? " package-names)))
+      (if sync
+          (shell-command (concat "sudo apt -y install " package-names))
+        (async-shell-command (concat "sudo apt -y install " package-names))))))
+
+(defun apm-install-system-package (package &optional immediate)
+  "Install PACKAGE optionally IMMEDIATE otherwise at end of init."
+  (if (or immediate after-init-time)
+      (apm-install-system-packages (list package) t)
+    (add-to-list 'apm-system-packages-to-install package)
+    (add-hook 'after-init-hook #'apm-install-system-packages)))
 
 ;;; Package management
 (require 'package)
@@ -56,21 +63,22 @@
                   ""
                   (shell-command-to-string "python -m certifi"))))
   (unless (file-exists-p trustfile)
-    (unless (executable-find "pip")
-      (pk-install-package "python-pip"))
-    (call-process "pip" nil nil nil "install" "--user" "certifi")
+    (unless (executable-find "pip3")
+      (apm-install-system-package "python3-pip" t))
+    (call-process "pip3" nil nil nil "install" "--user" "certifi")
     (setq trustfile (replace-regexp-in-string
                      (rx (* (any " \t\n")) eos)
                      ""
                      (shell-command-to-string "python -m certifi"))))
   (unless (executable-find "gnutls-cli")
-    (pk-install-package "gnutls-bin"))
+    (apm-install-system-package "gnutls-bin" t))
   (setq tls-program (list (format "gnutls-cli --x509cafile %s -p %%p %%h" trustfile))
         gnutls-verify-error t
         gnutls-trustfiles (list trustfile)))
 
 ;; this is done automatically in 27 etc
-(if (version< emacs-version "27")
+(if (or (version< emacs-version "27")
+        (not package--initialized))
     (package-initialize))
 
 ;; must be set before loading use-package
@@ -237,7 +245,7 @@
         (set-frame-font (format "%s-%d"
                                 apm-preferred-font-name
                                 apm-preferred-font-height) nil frame)
-      (pk-install-package apm-preferred-font-package))))
+      (apm-install-system-package apm-preferred-font-package t))))
 
 ;; make sure graphical properties get set on client frames
 (add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
@@ -290,7 +298,7 @@
   :ensure t
   :defer t
   :init (unless (executable-find "ag")
-          (pk-install-package "silversearcher-ag")))
+          (apm-install-system-package "silversearcher-ag")))
 
 (use-package all-the-icons
   :ensure t
@@ -449,7 +457,7 @@
   :mode (("CMakeLists\\.txt\\'" . cmake-mode)
          ("\\.cmake\\'" . cmake-mode))
   :config (unless (executable-find "cmake")
-            (pk-install-package "cmake")))
+            (apm-install-system-package "cmake")))
 
 (use-package company
   :ensure t
@@ -936,9 +944,9 @@ Otherwise call `ediff-buffers' interactively."
   :init (progn
           (setq-default flycheck-emacs-lisp-load-path 'inherit)
           (unless (executable-find "shellcheck")
-            (pk-install-package "shellcheck"))
+            (apm-install-system-package "shellcheck"))
           (unless (executable-find "cppcheck")
-            (pk-install-package "cppcheck")))
+            (apm-install-system-package "cppcheck")))
   :config (progn
             ;; Ubuntu 16.04 shellcheck is too old to understand this
             ;; command-line option
@@ -952,16 +960,16 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :after flycheck
   :init (unless (executable-find "checkbashisms")
-          (pk-install-package "devscripts"))
+          (apm-install-system-package "devscripts"))
   :config (flycheck-checkbashisms-setup))
 
 (use-package flycheck-clang-analyzer
   :ensure t
   :after flycheck-cstyle
-  :init (unless (executable-find "clang-4.0")
-          (pk-install-package "clang-4.0"))
+  :init (unless (executable-find "clang")
+          (apm-install-system-package "clang"))
   :config (progn
-            (setq flycheck-clang-analyzer-executable "clang-4.0")
+            (setq flycheck-clang-analyzer-executable "clang")
             (flycheck-clang-analyzer-setup)
             ;; automatically sets itself up as next checker after lsp-ui so undo
             ;; that so is instead after cppcheck
@@ -999,15 +1007,10 @@ Otherwise call `ediff-buffers' interactively."
   :disabled t
   :after flycheck-cstyle
   :init (unless (executable-find "flawfinder")
-          (pk-install-package "flawfinder"))
+          (apm-install-system-package "flawfinder"))
   :config (progn
             (flycheck-flawfinder-setup)
             (flycheck-add-next-checker 'lsp '(warning . flawfinder) t)))
-
-(use-package flycheck-jing
-  :load-path "vendor/"
-  :after flycheck
-  :config (flycheck-jing-setup))
 
 (use-package flycheck-package
   :ensure t
@@ -1059,7 +1062,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :init (dolist (executable '("scrot" "gifsicle"))
          (unless (executable-find executable)
-           (pk-install-package executable))))
+           (apm-install-system-package executable))))
 
 (use-package gitconfig-mode
   :ensure t
@@ -1264,7 +1267,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :mode (("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :config (unless (executable-find markdown-command)
-            (pk-install-package "markdown")))
+            (apm-install-system-package "markdown")))
 
 (use-package meson-mode
   :ensure t)
@@ -1422,7 +1425,7 @@ ${3:Ticket: #${4:XXXX}}")))
                   ;; insert a CLOSED timestamp when TODOs are marked DONE
                   org-log-done 'time)
             (unless (executable-find "xprintidle")
-              (pk-install-package "xprintidle"))
+              (apm-install-system-package "xprintidle"))
             (setq org-clock-x11idle-program-name "xprintidle")
             ;; reload any saved org clock information on startup
             (org-clock-persistence-insinuate)
