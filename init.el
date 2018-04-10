@@ -513,12 +513,6 @@
   ;; keep original case
   :config (setq company-dabbrev-downcase nil))
 
-(use-package company-flx
-  :ensure t
-  :disabled t
-  :after company
-  :init (company-flx-mode 1))
-
 (use-package company-lsp
   :ensure t
   :init (add-to-list 'company-backends 'company-lsp))
