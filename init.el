@@ -228,10 +228,10 @@
 ;; they undo each other
 (setq scroll-preserve-screen-position 'always)
 
-(defvar apm-preferred-font-name "Inconsolata"
+(defvar apm-preferred-font-name "Ubuntu Mono"
   "Preferred font to use.")
 
-(defvar apm-preferred-font-package "fonts-inconsolata"
+(defvar apm-preferred-font-package "fonts-ubuntu"
   "Package to install to get `apm-preferred-font-name'.")
 
 (defvar apm-preferred-font-height 11
