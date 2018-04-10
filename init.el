@@ -1018,7 +1018,7 @@ Otherwise call `ediff-buffers' interactively."
   :config (flycheck-plantuml-setup))
 
 (use-package flycheck-posframe
-  :load-path "vendor/"
+  :ensure t
   :after (flycheck posframe)
   :hook ((flycheck-mode . flycheck-posframe-mode))
   :config (flycheck-posframe-configure-pretty-defaults))
