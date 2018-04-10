@@ -1171,14 +1171,6 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :init (setq-default js2-basic-offset 2))
 
-(defun apm-emacs-lisp-mode-setup ()
-  "Setup Emacs Lisp mode."
-  (setq mode-name ""))
-
-(use-package lisp-mode
-  :defer t
-  :hook ((emacs-lisp-mode . apm-emacs-lisp-mode-setup)))
-
 (defun apm-log-edit-insert-yasnippet-template ()
   "Insert the default template with Summary and Author."
   (interactive)
