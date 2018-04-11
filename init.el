@@ -508,6 +508,11 @@
   :defer t
   :hook ((LaTeX-mode . company-auctex-init)))
 
+(use-package company-box
+  :ensure t
+  :disabled t ;; until images is in MELPA at least - https://github.com/melpa/melpa/pull/5422
+  :hook ((company-mode . company-box-mode)))
+
 (use-package company-dabbrev
   :after company
   ;; keep original case
