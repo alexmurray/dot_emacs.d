@@ -1,1 +1,0 @@
-../../spaceline-all-the-icons.el
