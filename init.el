@@ -1224,7 +1224,7 @@ ${3:Ticket: #${4:XXXX}}")))
             ;; use the original icon since was removed in
             ;; https://github.com/emacs-lsp/lsp-ui/commit/0dff02a1d02f16ab017f2ad7cd4a9913733f48ca
             ;; due to others not having unicode
-            (setq lsp-ui-sideline-code-actions-prefix "💡 ")
+            (setq lsp-ui-sideline-code-actions-prefix "ℹ ")
             (setq lsp-ui-sideline-show-symbol nil)))
 
 (use-package magit
