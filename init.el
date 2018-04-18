@@ -39,7 +39,7 @@
       (let ((default-directory "/sudo::"))
         (if sync
             (shell-command (concat "apt -y install " package-names) "*apm-install-system-packages-output*")
-          (async-shell-command (concat "apt -y install " package-names "*apm-install-system-packages-output*")))))))
+          (async-shell-command (concat "apt -y install " package-names) "*apm-install-system-packages-output*"))))))
 
 (defun apm-install-system-package (package &optional immediate)
   "Install PACKAGE optionally IMMEDIATE otherwise at end of init."
