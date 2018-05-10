@@ -1689,6 +1689,9 @@ ${3:Ticket: #${4:XXXX}}")))
            "mk2"
            "http://projects.cohda.wireless:8000/trac/mk2"))
 
+(use-package tramp
+  :config (setq-default tramp-default-method "ssh"))
+
 (use-package undo-tree
   :ensure t
   :init (global-undo-tree-mode 1))
