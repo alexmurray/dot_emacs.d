@@ -604,6 +604,23 @@
   :hook ((c-mode-common . cov-mode)
          (cov-mode . apm-cov-mode-setup)))
 
+;; autogenerate a .cquery if there is an associated .cquery.in
+(defun apm-autogenerate-cquery ()
+  "Autogenerate a .cquery if needed when opening a project."
+  (when (and (fboundp 'projectile-project-root)
+             ;; handle if not in project by returning nil
+             (not (null (condition-case nil
+                            (projectile-project-root)
+                          (error nil))))
+             (cl-every #'identity (mapcar #'(lambda (f)
+                                              (file-exists-p (concat
+                                                              (file-name-as-directory
+                                                               (projectile-project-root))
+                                                              f)))
+                                          '(".cquery.in" "Makefile"))))
+    (projectile-with-default-dir (projectile-project-root)
+      (shell-command "make .cquery"))))
+
 (defvar apm-cquery-executable
   (expand-file-name "~/cquery/build/release/bin/cquery"))
 
@@ -613,6 +630,7 @@
   :commands lsp-cquery-enable
   :hook ((c-mode c++-mode) .  lsp-cquery-enable)
   :init (progn
+          (advice-add 'lsp-cquery-enable :before #'apm-autogenerate-cquery)
           (unless (file-exists-p apm-cquery-executable)
             (alert (format "cquery not found at %s - see https://github.com/jacobdufault/cquery/wiki/Getting-started"
                            apm-cquery-executable))))
@@ -1116,23 +1134,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package hungry-delete
   :ensure t
   :config (global-hungry-delete-mode 1))
-
-;; autogenerate a .clang_complete if there is an associated .clang_complete.in
-(defun apm-autogenerate-clang-complete ()
-  "Autogenerate a .clang_complete if needed when opening a project."
-  (when (and (fboundp 'projectile-project-root)
-             ;; handle if not in project by returning nil
-             (not (null (condition-case nil
-                            (projectile-project-root)
-                          (error nil))))
-             (cl-every #'identity (mapcar #'(lambda (f)
-                                              (file-exists-p (concat
-                                                              (file-name-as-directory
-                                                               (projectile-project-root))
-                                                              f)))
-                                          '(".clang_complete.in" "Makefile"))))
-    (projectile-with-default-dir (projectile-project-root)
-      (shell-command "make .clang_complete"))))
 
 (use-package ispell
   :defer t
