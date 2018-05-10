@@ -1213,7 +1213,6 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package lsp-imenu
   :ensure lsp-mode
-  :disabled t
   :hook ((lsp-after-open . lsp-enable-imenu)))
 
 (use-package lsp-java
