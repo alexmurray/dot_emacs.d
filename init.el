@@ -518,6 +518,7 @@
 
 (use-package company-lsp
   :ensure t
+  :after company
   :init (add-to-list 'company-backends 'company-lsp))
 
 (use-package company-math
@@ -535,6 +536,13 @@
   :after company
   :hook ((company-mode . company-quickhelp-mode))
   :config (setq company-quickhelp-delay 0.1))
+
+(use-package company-reftex             ; Backends for RefTeX
+  :ensure t
+  :after company
+  :init (progn
+          (add-to-list 'company-backends 'company-reftex-labels)
+          (add-to-list 'company-backends 'company-reftex-citations)))
 
 (use-package company-shell
   :ensure t
