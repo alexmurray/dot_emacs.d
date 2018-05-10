@@ -242,17 +242,18 @@
 (defun apm-graphic-frame-init (&optional frame)
   "Initialise properties specific to graphical display for FRAME."
   (interactive)
-  (when (display-graphic-p)
+  (with-selected-frame frame
+    (remove-hook 'after-make-frame-functions #'apm-graphic-frame-init)
     (if (font-info apm-preferred-font-name)
         (set-frame-font (format "%s-%d"
                                 apm-preferred-font-name
-                                apm-preferred-font-height) nil frame)
+                                apm-preferred-font-height) nil (list frame))
       (apm-install-system-package apm-preferred-font-package t))))
 
-;; make sure graphical properties get set on client frames
-(add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
-(add-hook 'server-visit-hook #'apm-graphic-frame-init)
-(apm-graphic-frame-init)
+(if (daemonp)
+    ;; make sure graphical properties get set on client frames
+    (add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
+  (apm-graphic-frame-init (selected-frame)))
 
 ;; Use regex searches and replace by default.
 (bind-key "C-s" 'isearch-forward-regexp)
@@ -509,11 +510,6 @@
   :ensure t
   :defer t
   :hook ((LaTeX-mode . company-auctex-init)))
-
-(use-package company-box
-  :ensure t
-  :disabled t ;; until images is in MELPA at least - https://github.com/melpa/melpa/pull/5422
-  :hook ((company-mode . company-box-mode)))
 
 (use-package company-dabbrev
   :after company
@@ -1591,6 +1587,10 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package scratch
   :ensure t
   :defer t)
+
+(use-package server
+  :config (add-hook 'after-make-frame-functions
+                    #'(lambda (frame) (select-frame-set-input-focus frame)) t))
 
 (use-package session-manager
   :load-path "vendor/"
