@@ -287,7 +287,7 @@
 (use-package ag
   :ensure t
   :defer t
-  :ensure-system-package silversearcher-ag)
+  :ensure-system-package (ag . silversearcher-ag))
 
 (use-package all-the-icons
   :ensure t
@@ -963,7 +963,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-checkbashisms
   :ensure t
   :after flycheck
-  :ensure-system-package devscripts
+  :ensure-system-package (checkbashisms . devscripts)
   :config (flycheck-checkbashisms-setup))
 
 (use-package flycheck-clang-analyzer
