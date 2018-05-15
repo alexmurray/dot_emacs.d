@@ -21,32 +21,16 @@
 ;; https://github.com/purcell/emacs.d/issues/340#issuecomment-237177032
 (setq load-file-rep-suffixes '(""))
 
-;; Linux package management
+;; Linux package management to bootstrap installation
 (require 'dbus)
 
-(defvar apm-system-packages-to-install nil
-  "The list of system packages to install at the end of init.")
-
-(defun apm-install-system-packages (&optional system-packages sync)
-  "Install the list of SYSTEM-PACKAGES either SYNC or not."
-  (let* ((packages (if system-packages
-                       system-packages
-                     apm-system-packages-to-install))
-         (package-names (mapconcat 'identity packages " ")))
-    (when (and packages
-               (y-or-n-p (format "Install system packages: %s? " package-names)))
-      (message "Installing %s %ssync" package-names (if sync "" "a"))
-      (let ((default-directory "/sudo::"))
-        (if sync
-            (shell-command (concat "apt -y install " package-names) "*apm-install-system-packages-output*")
-          (async-shell-command (concat "apt -y install " package-names) "*apm-install-system-packages-output*"))))))
-
-(defun apm-install-system-package (package &optional immediate)
-  "Install PACKAGE optionally IMMEDIATE otherwise at end of init."
-  (if (or immediate after-init-time)
-      (apm-install-system-packages (list package) t)
-    (add-to-list 'apm-system-packages-to-install package)
-    (add-hook 'after-init-hook #'apm-install-system-packages)))
+(defun apm-install-system-package (package)
+  "Install PACKAGE using apt."
+  (when (and package
+             (y-or-n-p (format "Install system package: %s? " package)))
+    (message "Installing %s" package)
+    (let ((default-directory "/sudo::"))
+      (shell-command (concat "apt -y install " package) "*apm-install-system-packages-output*"))))
 
 ;;; Package management
 (require 'package)
@@ -73,7 +57,7 @@
                      ""
                      (shell-command-to-string "python -m certifi"))))
   (unless (executable-find "gnutls-cli")
-    (apm-install-system-package "gnutls-bin" t))
+    (apm-install-system-package "gnutls-bin"))
   (setq tls-program (list (format "gnutls-cli --x509cafile %s -p %%p %%h" trustfile))
         gnutls-verify-error t
         gnutls-trustfiles (list trustfile)))
@@ -98,6 +82,9 @@
   (require 'use-package))
 
 (use-package bind-key
+  :ensure t)
+
+(use-package use-package-ensure-system-package
   :ensure t)
 
 ;; customisations
@@ -248,7 +235,7 @@
         (set-frame-font (format "%s-%d"
                                 apm-preferred-font-name
                                 apm-preferred-font-height) nil (list frame))
-      (apm-install-system-package apm-preferred-font-package t))))
+      (system-packages-install apm-preferred-font-package))))
 
 (if (daemonp)
     ;; make sure graphical properties get set on client frames
@@ -300,8 +287,7 @@
 (use-package ag
   :ensure t
   :defer t
-  :init (unless (executable-find "ag")
-          (apm-install-system-package "silversearcher-ag")))
+  :ensure-system-package silversearcher-ag)
 
 (use-package all-the-icons
   :ensure t
@@ -457,10 +443,9 @@
 (use-package cmake-mode
   :ensure t
   :defer t
+  :ensure-system-package cmake
   :mode (("CMakeLists\\.txt\\'" . cmake-mode)
-         ("\\.cmake\\'" . cmake-mode))
-  :config (unless (executable-find "cmake")
-            (apm-install-system-package "cmake")))
+         ("\\.cmake\\'" . cmake-mode)))
 
 (use-package company
   :ensure t
@@ -964,12 +949,8 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :commands flycheck-add-next-checker
   :hook ((flycheck-mode . apm-flycheck-setup))
-  :init (progn
-          (setq-default flycheck-emacs-lisp-load-path 'inherit)
-          (unless (executable-find "shellcheck")
-            (apm-install-system-package "shellcheck"))
-          (unless (executable-find "cppcheck")
-            (apm-install-system-package "cppcheck")))
+  :ensure-system-package (cppcheck shellcheck)
+  :init (setq-default flycheck-emacs-lisp-load-path 'inherit)
   :config (progn
             ;; Ubuntu 16.04 shellcheck is too old to understand this
             ;; command-line option
@@ -982,15 +963,13 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flycheck-checkbashisms
   :ensure t
   :after flycheck
-  :init (unless (executable-find "checkbashisms")
-          (apm-install-system-package "devscripts"))
+  :ensure-system-package devscripts
   :config (flycheck-checkbashisms-setup))
 
 (use-package flycheck-clang-analyzer
   :ensure t
   :after flycheck-cstyle
-  :init (unless (executable-find "clang")
-          (apm-install-system-package "clang"))
+  :ensure-system-package clang
   :config (progn
             (setq flycheck-clang-analyzer-executable "clang")
             (flycheck-clang-analyzer-setup)
@@ -1029,8 +1008,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :disabled t
   :after flycheck-cstyle
-  :init (unless (executable-find "flawfinder")
-          (apm-install-system-package "flawfinder"))
+  :ensure-system-package flawfinder
   :config (progn
             (flycheck-flawfinder-setup)
             (flycheck-add-next-checker 'lsp '(warning . flawfinder) t)))
@@ -1083,9 +1061,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package gif-screencast
   :ensure t
-  :init (dolist (executable '("scrot" "gifsicle"))
-         (unless (executable-find executable)
-           (apm-install-system-package executable))))
+  :ensure-system-package (scrot gifsicle))
 
 (use-package gitconfig-mode
   :ensure t
@@ -1263,8 +1239,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :defer t
   :mode (("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :config (unless (executable-find markdown-command)
-            (apm-install-system-package "markdown")))
+  :ensure-system-package markdown)
 
 (use-package meson-mode
   :ensure t)
@@ -1409,8 +1384,9 @@ ${3:Ticket: #${4:XXXX}}")))
   ;; ensure when clocking in we close any existing notification
   :hook ((org-clock-in . apm-org-clock-clear-notification))
   ;; assume idle after 5 minutes
+  :ensure-system-package xprintidle
   :config (progn
-            (setq org-clock-idle-time nil
+            (setq org-clock-idle-time 5
                   ;; truncate clock heading in modeline
                   org-clock-heading-function #'apm-org-clock-heading
                   ;; save running clock and all history when exiting emacs
@@ -1421,8 +1397,6 @@ ${3:Ticket: #${4:XXXX}}")))
                   org-clock-persist-file (expand-file-name "~/Dropbox/Orgzly/org-clock-save.el")
                   ;; insert a CLOSED timestamp when TODOs are marked DONE
                   org-log-done 'time)
-            (unless (executable-find "xprintidle")
-              (apm-install-system-package "xprintidle"))
             (setq org-clock-x11idle-program-name "xprintidle")
             ;; reload any saved org clock information on startup
             (org-clock-persistence-insinuate)
