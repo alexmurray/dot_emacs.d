@@ -1343,9 +1343,10 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (defun apm-org-clock-clear-notification ()
   "Clear any existing org clock notification."
-  (when apm-org-clock-notification
-    (notifications-close-notification apm-org-clock-notification)
-    (setq apm-org-clock-notification nil)))
+  (when (not (or (eq apm-org-clock-notification 'ignore)
+                 (null apm-org-clock-notification)))
+    (notifications-close-notification apm-org-clock-notification))
+  (setq apm-org-clock-notification nil))
 
 (defun apm-org-clock-warn-notification-action (_id action)
   "For notification ID handle ACTION."
