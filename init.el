@@ -952,9 +952,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure-system-package (cppcheck shellcheck)
   :init (setq-default flycheck-emacs-lisp-load-path 'inherit)
   :config (progn
-            ;; Ubuntu 16.04 shellcheck is too old to understand this
-            ;; command-line option
-            (setq flycheck-shellcheck-follow-sources nil)
             ;; use lsp-ui checker via cquery instead
             (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
             (setq-default flycheck-display-errors-delay 0.2)
