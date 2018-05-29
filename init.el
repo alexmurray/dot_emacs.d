@@ -92,13 +92,13 @@
 ;; load custom but ignore error if doesn't exist
 (load custom-file t)
 
-(defun apm-make-underscore-word-character ()
-  "Make _ a word character."
-  (modify-syntax-entry ?_ "w"))
-
 ;; load early so we can ensure evil-want-integration is nil
 (use-package evil
   :ensure t
+  :preface
+  (defun apm-make-underscore-word-character ()
+    "Make _ a word character."
+    (modify-syntax-entry ?_ "w"))
   ;; use evil-collection instead
   :init (setq evil-want-integration nil)
   ;; make underscore a word character so movements across words
@@ -317,13 +317,13 @@
 (use-package apm-c
   :load-path "lisp/")
 
-(defun apm-appt-notify (time-to-appt time msg)
-  "Notify for appointment at TIME-TO-APPT TIME MSG alert."
-  (alert msg
-         :title (format "Appointment in %s minutes [%s]" time-to-appt time)
-         :icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"))
-
 (use-package appt
+  :preface
+  (defun apm-appt-notify (time-to-appt time msg)
+    "Notify for appointment at TIME-TO-APPT TIME MSG alert."
+    (alert msg
+           :title (format "Appointment in %s minutes [%s]" time-to-appt time)
+           :icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"))
   :config (progn
             (setq appt-disp-window-function #'apm-appt-notify)
             (appt-activate 1)))
@@ -343,17 +343,17 @@
 (use-package autorevert
   :init (global-auto-revert-mode 1))
 
-(defun apm-latex-mode-setup ()
-  "Tweaks and customisations for LaTeX mode."
-  ;; Enable source-correlate for Control-click forward/reverse search.
-  (TeX-source-correlate-mode 1)
-  ;; enable math mode in latex
-  (LaTeX-math-mode 1)
-  ;; Enable reftex
-  (turn-on-reftex))
-
 (use-package auctex
   :ensure t
+  :preface
+  (defun apm-latex-mode-setup ()
+    "Tweaks and customisations for LaTeX mode."
+    ;; Enable source-correlate for Control-click forward/reverse search.
+    (TeX-source-correlate-mode 1)
+    ;; enable math mode in latex
+    (LaTeX-math-mode 1)
+    ;; Enable reftex
+    (turn-on-reftex))
   :defer t
   :commands (LaTeX-math-mode TeX-source-correlate-mode)
   :mode ("\\.tex\\'" . LaTeX-mode)
@@ -367,8 +367,8 @@
           (setq-default TeX-source-correlate-start-server t)))
 
 (use-package auth-source
-  ;; prefer encrypted auth source to non-encrypted
-  :init (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc")))
+  ;; prefer synced, encrypted auth source to non-encrypted
+  :init (setq auth-sources '("~/Dropbox/.authinfo.gpg" "~/.authinfo.gpg" "~/.authinfo" "~/.netrc")))
 
 (use-package avy
   :ensure t
@@ -403,38 +403,39 @@
   :defer t
   :hook ((rust-mode . cargo-minor-mode)))
 
-;; c-mode and other derived modes (c++, java etc) etc
-(defun apm-c-mode-common-setup ()
-  "Tweaks and customisations for all modes derived from c-common-mode."
-  (auto-fill-mode 1)
-  ;; turn on auto-newline and hungry-delete
-  (c-toggle-auto-hungry-state 1)
-  ;; turn on electric indent
-  (c-toggle-electric-state 1)
-  ;; ensure fill-paragraph takes doxygen @ markers as start of new
-  ;; paragraphs properly
-  (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
-  ;; add key-bindings for smartparens hybrid sexps
-  (with-eval-after-load 'smartparens
-    (local-set-key (kbd "C-)") 'sp-slurp-hybrid-sexp)
-    (local-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
-    (local-set-key (kbd "C-<left>") 'sp-dedent-adjust-sexp)))
 
 (use-package cc-mode
   :defer t
+  :preface
+  ;; c-mode and other derived modes (c++, java etc) etc
+  (defun apm-c-mode-common-setup ()
+    "Tweaks and customisations for all modes derived from c-common-mode."
+    (auto-fill-mode 1)
+    ;; turn on auto-newline and hungry-delete
+    (c-toggle-auto-hungry-state 1)
+    ;; turn on electric indent
+    (c-toggle-electric-state 1)
+    ;; ensure fill-paragraph takes doxygen @ markers as start of new
+    ;; paragraphs properly
+    (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
+    ;; add key-bindings for smartparens hybrid sexps
+    (with-eval-after-load 'smartparens
+      (local-set-key (kbd "C-)") 'sp-slurp-hybrid-sexp)
+      (local-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
+      (local-set-key (kbd "C-<left>") 'sp-dedent-adjust-sexp)))
   :hook ((c-mode-common . apm-c-mode-common-setup)))
-
-(defun apm-c-mode-setup ()
-  "Tweaks and customisations for `c-mode'."
-  (c-set-style "cohda")
-  ;; and treat linux style as safe for local variable
-  (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
-  ;; ensure fill-paragraph takes doxygen @ markers as start of new
-  ;; paragraphs properly
-  (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
 
 (use-package apm-c
   :load-path "lisp/"
+  :preface
+  (defun apm-c-mode-setup ()
+    "Tweaks and customisations for `c-mode'."
+    (c-set-style "cohda")
+    ;; and treat linux style as safe for local variable
+    (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
+    ;; ensure fill-paragraph takes doxygen @ markers as start of new
+    ;; paragraphs properly
+    (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
   :hook ((c-mode c++-mode) . apm-c-mode-setup))
 
 (use-package cohda-c
@@ -579,38 +580,39 @@
             (setq projectile-switch-project-action 'counsel-projectile)
             (counsel-projectile-mode)))
 
-(defun apm-cov-mode-setup ()
-  "Setup cov-mode."
-  (make-local-variable 'cov-coverage-file-paths))
-
 (use-package cov
   :ensure t
+  :preface
+  (defun apm-cov-mode-setup ()
+    "Setup cov-mode."
+    (make-local-variable 'cov-coverage-file-paths))
   :defer t
   :hook ((c-mode-common . cov-mode)
          (cov-mode . apm-cov-mode-setup)))
 
-;; autogenerate a .cquery if there is an associated .cquery.in
-(defun apm-autogenerate-cquery ()
-  "Autogenerate a .cquery if needed when opening a project."
-  (when (and (fboundp 'projectile-project-root)
-             ;; handle if not in project by returning nil
-             (not (null (condition-case nil
-                            (projectile-project-root)
-                          (error nil))))
-             (cl-every #'identity (mapcar #'(lambda (f)
-                                              (file-exists-p (concat
-                                                              (file-name-as-directory
-                                                               (projectile-project-root))
-                                                              f)))
-                                          '(".cquery.in" "Makefile"))))
-    (projectile-with-default-dir (projectile-project-root)
-      (shell-command "make .cquery"))))
-
-(defvar apm-cquery-executable
-  (expand-file-name "~/cquery/build/release/bin/cquery"))
 
 (use-package cquery
   :ensure t
+  :preface
+  ;; autogenerate a .cquery if there is an associated .cquery.in
+  (defun apm-autogenerate-cquery ()
+    "Autogenerate a .cquery if needed when opening a project."
+    (when (and (fboundp 'projectile-project-root)
+               ;; handle if not in project by returning nil
+               (not (null (condition-case nil
+                              (projectile-project-root)
+                            (error nil))))
+               (cl-every #'identity (mapcar #'(lambda (f)
+                                                (file-exists-p (concat
+                                                                (file-name-as-directory
+                                                                 (projectile-project-root))
+                                                                f)))
+                                            '(".cquery.in" "Makefile"))))
+      (projectile-with-default-dir (projectile-project-root)
+        (shell-command "make .cquery"))))
+
+  (defvar apm-cquery-executable
+    (expand-file-name "~/cquery/build/release/bin/cquery"))
   :defer t
   :commands lsp-cquery-enable
   :hook ((c-mode c++-mode) .  lsp-cquery-enable)
@@ -754,18 +756,18 @@ Otherwise call `ediff-buffers' interactively."
             (setq emojify-point-entered-behaviour 'uncover)
             (global-emojify-mode 1)))
 
-(defun apm-erc-notify (nickname message)
-  "Displays a notification message for ERC for NICKNAME with MESSAGE."
-  (let* ((channel (buffer-name))
-         (nick (erc-hl-nicks-trim-irc-nick nickname))
-         (title (if (string-match-p (concat "^" nickname) channel)
-                    nick
-                  (concat nick " (" channel ")")))
-         (msg (s-trim (s-collapse-whitespace message))))
-    (alert (concat nick ": " msg) :title title)))
-
 (use-package erc
   :ensure t
+  :preface
+  (defun apm-erc-notify (nickname message)
+    "Displays a notification message for ERC for NICKNAME with MESSAGE."
+    (let* ((channel (buffer-name))
+           (nick (erc-hl-nicks-trim-irc-nick nickname))
+           (title (if (string-match-p (concat "^" nickname) channel)
+                      nick
+                    (concat nick " (" channel ")")))
+           (msg (s-trim (s-collapse-whitespace message))))
+      (alert (concat nick ": " msg) :title title)))
   ;; notify via alert when mentioned
   :hook ((ercn-notify . apm-erc-notify))
   :config (progn
@@ -788,19 +790,19 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :after erc)
 
-(defun apm-eshell-mode-setup ()
-  "Initialise 'eshell-mode'."
-  (eval-when-compile
-    (require 'em-cmpl))
-  (eshell-cmpl-initialize)
-  (with-eval-after-load 'counsel
-    (eval-when-compile (require 'esh-mode))
-    (define-key eshell-mode-map [remap eshell-previous-matching-input] #'counsel-esh-history)
-    (define-key eshell-mode-map [remap eshell-next-matching-input] #'counsel-esh-history)
-    (define-key eshell-mode-map [remap eshell-pcomplete] #'completion-at-point)))
-
 (use-package eshell
   :defer t
+  :preface
+  (defun apm-eshell-mode-setup ()
+    "Initialise 'eshell-mode'."
+    (eval-when-compile
+      (require 'em-cmpl))
+    (eshell-cmpl-initialize)
+    (with-eval-after-load 'counsel
+      (eval-when-compile (require 'esh-mode))
+      (define-key eshell-mode-map [remap eshell-previous-matching-input] #'counsel-esh-history)
+      (define-key eshell-mode-map [remap eshell-next-matching-input] #'counsel-esh-history)
+      (define-key eshell-mode-map [remap eshell-pcomplete] #'completion-at-point)))
   :commands eshell
   :bind (("C-x m" . eshell))
   :hook ((eshell-mode . apm-eshell-mode-setup)))
@@ -962,13 +964,13 @@ Otherwise call `ediff-buffers' interactively."
 (use-package files
   :bind ("C-c r" . revert-buffer))
 
-(defun apm-flycheck-setup ()
-  "Setup flycheck."
-  (define-key evil-normal-state-map "[e" 'flycheck-previous-error)
-  (define-key evil-normal-state-map "]e" 'flycheck-next-error))
-
 (use-package flycheck
   :ensure t
+  :preface
+  (defun apm-flycheck-setup ()
+    "Setup flycheck."
+    (define-key evil-normal-state-map "[e" 'flycheck-previous-error)
+    (define-key evil-normal-state-map "]e" 'flycheck-next-error))
   :commands flycheck-add-next-checker
   :hook ((flycheck-mode . apm-flycheck-setup))
   :ensure-system-package (cppcheck shellcheck)
@@ -1178,29 +1180,26 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :init (setq-default js2-basic-offset 2))
 
-(defun apm-log-edit-insert-yasnippet-template ()
-  "Insert the default template with Summary and Author."
-  (interactive)
-  (when (or (called-interactively-p 'interactive)
-            (log-edit-empty-buffer-p))
-    (require 'yasnippet)
-    (yas-expand-snippet "${1:Summary of this change}
+
+(use-package log-edit
+  :defer t
+  :preface
+  (defun apm-log-edit-insert-yasnippet-template ()
+    "Insert the default template with Summary and Author."
+    (interactive)
+    (when (or (called-interactively-p 'interactive)
+              (log-edit-empty-buffer-p))
+      (require 'yasnippet)
+      (yas-expand-snippet "${1:Summary of this change}
 
 ${2:Longer description of this change}
 
 ${3:Ticket: #${4:XXXX}}")))
-
-(use-package log-edit
-  :defer t
   :init (progn
           (with-eval-after-load 'evil
             (evil-set-initial-state 'log-edit-mode 'insert))
           (add-hook 'log-edit-hook 'apm-log-edit-insert-yasnippet-template)
           (remove-hook 'log-edit-hook 'log-edit-insert-message-template)))
-
-(defun apm-magit-mode-setup ()
-  "Setup `magit-mode'."
-  (setq mode-name ""))
 
 (use-package lsp-mode
   ;; don't use lsp-flycheck since there is lsp-ui now
@@ -1235,6 +1234,10 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package magit
   :ensure t
+  :preface
+  (defun apm-magit-mode-setup ()
+    "Setup `magit-mode'."
+    (setq mode-name ""))
   :defer t
   :bind ("C-x g" . magit-status)
   :hook ((magit-mode . apm-magit-mode-setup))
@@ -1332,13 +1335,13 @@ ${3:Ticket: #${4:XXXX}}")))
              'org-babel-load-languages
              '((plantuml .t)))))
 
-(defun apm-org-agenda-file-notify (_event)
-  "Rebuild appointments when _EVENT specifies any org agenda files change."
-  (org-agenda-to-appt t))
-
 (use-package org-agenda
   :ensure org-plus-contrib
   :pin org
+  :preface
+  (defun apm-org-agenda-file-notify (_event)
+    "Rebuild appointments when _EVENT specifies any org agenda files change."
+    (org-agenda-to-appt t))
   :config (progn
             ;; when modifying agenda files make sure to update appt
             (require 'filenotify)
@@ -1354,53 +1357,53 @@ ${3:Ticket: #${4:XXXX}}")))
                                         ("p" "Project" entry (file "~/Dropbox/Orgzly/cohda.org")
                                          "* %?"))))
 
-(defun apm-org-clock-heading ()
-  "Create `org-clock-heading' by truncating if needed."
-  (s-truncate 8 (nth 4 (org-heading-components))))
-
-(defvar apm-org-clock-notification nil)
-
-(defun apm-org-clock-clear-notification ()
-  "Clear any existing org clock notification."
-  (when (not (or (eq apm-org-clock-notification 'ignore)
-                 (null apm-org-clock-notification)))
-    (notifications-close-notification apm-org-clock-notification))
-  (setq apm-org-clock-notification nil))
-
-(defun apm-org-clock-warn-notification-action (_id action)
-  "For notification ID handle ACTION."
-  (pcase action
-    ("ignore" (setq apm-org-clock-notification 'ignore))
-    ("default" (progn
-                 (raise-frame)
-                 (make-frame-visible)
-                 (select-frame-set-input-focus (selected-frame))
-                 (org-mru-clock-in)
-                 (apm-org-clock-clear-notification)))))
-
-(defun apm-org-clock-warn-if-not-clocked-in ()
-  "Warn if not currently clocked in."
-  (eval-when-compile
-    (require 'org-clock))
-  (when (and (null org-clock-current-task)
-             (not (eq apm-org-clock-notification 'ignore)))
-    ;; show a notification but keep it persistent - don't show more than one
-    (if (require 'notifications nil t)
-        (progn
-          (when apm-org-clock-notification
-            (notifications-close-notification apm-org-clock-notification))
-          (setq apm-org-clock-notification
-                (notifications-notify :title "You're not clocked in!"
-                                      :body "Click to select a task or choose ignore..."
-                                      :actions '("ignore" "Ignore"
-                                                 "default" "Select one")
-                                      :on-action #'apm-org-clock-warn-notification-action
-                                      :on-close #'(lambda (id _reason)
-                                                    (when (= id apm-org-clock-notification)
-                                                      (setq apm-org-clock-notification nil)))))))))
-
 (use-package org-clock
   :after org
+  :preface
+  (defun apm-org-clock-heading ()
+    "Create `org-clock-heading' by truncating if needed."
+    (s-truncate 8 (nth 4 (org-heading-components))))
+
+  (defvar apm-org-clock-notification nil)
+
+  (defun apm-org-clock-clear-notification ()
+    "Clear any existing org clock notification."
+    (when (not (or (eq apm-org-clock-notification 'ignore)
+                   (null apm-org-clock-notification)))
+      (notifications-close-notification apm-org-clock-notification))
+    (setq apm-org-clock-notification nil))
+
+  (defun apm-org-clock-warn-notification-action (_id action)
+    "For notification ID handle ACTION."
+    (pcase action
+      ("ignore" (setq apm-org-clock-notification 'ignore))
+      ("default" (progn
+                   (raise-frame)
+                   (make-frame-visible)
+                   (select-frame-set-input-focus (selected-frame))
+                   (org-mru-clock-in)
+                   (apm-org-clock-clear-notification)))))
+
+  (defun apm-org-clock-warn-if-not-clocked-in ()
+    "Warn if not currently clocked in."
+    (eval-when-compile
+      (require 'org-clock))
+    (when (and (null org-clock-current-task)
+               (not (eq apm-org-clock-notification 'ignore)))
+      ;; show a notification but keep it persistent - don't show more than one
+      (if (require 'notifications nil t)
+          (progn
+            (when apm-org-clock-notification
+              (notifications-close-notification apm-org-clock-notification))
+            (setq apm-org-clock-notification
+                  (notifications-notify :title "You're not clocked in!"
+                                        :body "Click to select a task or choose ignore..."
+                                        :actions '("ignore" "Ignore"
+                                                   "default" "Select one")
+                                        :on-action #'apm-org-clock-warn-notification-action
+                                        :on-close #'(lambda (id _reason)
+                                                      (when (= id apm-org-clock-notification)
+                                                        (setq apm-org-clock-notification nil)))))))))
   ;; ensure when clocking in we close any existing notification
   :hook ((org-clock-in . apm-org-clock-clear-notification))
   ;; assume idle after 5 minutes
@@ -1458,27 +1461,27 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (with-eval-after-load 'plantuml-mode
             (setq org-plantuml-jar-path plantuml-jar-path)))
 
-(defun apm-paradox-set-github-token (_no-fetch)
-  "Load `paradox-github-token' from authinfo."
-  (require 'epa-file)
-  (require 'auth-source)
-  (eval-when-compile
-    (require 'paradox-github))
-  (if (file-exists-p "~/.authinfo.gpg")
-      (let ((authinfo-result (car (auth-source-search
-                                   :max 1
-                                   :host "github.com"
-                                   :port "paradox"
-                                   :user "paradox"
-                                   :require '(:secret)))))
-        (let ((paradox-token (plist-get authinfo-result :secret)))
-          (setq paradox-github-token (if (functionp paradox-token)
-                                         (funcall paradox-token)
-                                       paradox-token))))
-    (alert "No github token found in ~/.authinfo.gpg")))
-
 (use-package paradox
   :ensure t
+  :preface
+  (defun apm-paradox-set-github-token (_no-fetch)
+    "Load `paradox-github-token' from authinfo."
+    (require 'epa-file)
+    (require 'auth-source)
+    (eval-when-compile
+      (require 'paradox-github))
+    (if (file-exists-p "~/.authinfo.gpg")
+        (let ((authinfo-result (car (auth-source-search
+                                     :max 1
+                                     :host "github.com"
+                                     :port "paradox"
+                                     :user "paradox"
+                                     :require '(:secret)))))
+          (let ((paradox-token (plist-get authinfo-result :secret)))
+            (setq paradox-github-token (if (functionp paradox-token)
+                                           (funcall paradox-token)
+                                         paradox-token))))
+      (alert "No github token found in ~/.authinfo.gpg")))
   :commands (paradox-list-packages)
   :init (setq paradox-execute-asynchronously nil)
   :config (progn
@@ -1544,19 +1547,19 @@ ${3:Ticket: #${4:XXXX}}")))
   :defer t
   :init (setq-default python-indent-offset 4))
 
-(defun apm-racer-mode-setup ()
-  "Setup racer-mode."
-  (eval-when-compile
-    (require 'racer))
-  (unless (file-exists-p racer-cmd)
-    (alert "cargo install racer?"))
-  (unless (file-exists-p racer-rust-src-path)
-    (alert (format "git clone https://github.com/rust-lang/rust.git %s"
-                   (file-name-directory (directory-file-name racer-rust-src-path)))))
-  (racer-mode 1))
-
 (use-package racer
   :ensure t
+  :preface
+  (defun apm-racer-mode-setup ()
+    "Setup racer-mode."
+    (eval-when-compile
+      (require 'racer))
+    (unless (file-exists-p racer-cmd)
+      (alert "cargo install racer?"))
+    (unless (file-exists-p racer-rust-src-path)
+      (alert (format "git clone https://github.com/rust-lang/rust.git %s"
+                     (file-name-directory (directory-file-name racer-rust-src-path)))))
+    (racer-mode 1))
   :defer t
   :hook ((rust-mode . apm-racer-mode-setup))
   :init (setq racer-rust-src-path (expand-file-name "~/rust/src")))
@@ -1611,16 +1614,16 @@ ${3:Ticket: #${4:XXXX}}")))
           (setq visual-line-fringe-indicators
                 '(left-curly-arrow right-curly-arrow))))
 
-;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
-(defun apm-c-mode-common-open-block (&rest ignored)
-  "Open a new brace or bracket expression, with relevant newlines and indent (IGNORED is ignored)."
-  (newline)
-  (indent-according-to-mode)
-  (forward-line -1)
-  (indent-according-to-mode))
-
 (use-package smartparens
   :ensure t
+  :preface
+  ;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
+  (defun apm-c-mode-common-open-block (&rest ignored)
+    "Open a new brace or bracket expression, with relevant newlines and indent (IGNORED is ignored)."
+    (newline)
+    (indent-according-to-mode)
+    (forward-line -1)
+    (indent-according-to-mode))
   ;; use smartparens in strict mode for programming and ielm
   :hook ((prog-mode ielm-mode) . smartparens-strict-mode)
   :init (smartparens-global-mode 1)
