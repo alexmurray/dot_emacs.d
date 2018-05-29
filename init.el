@@ -645,6 +645,9 @@
 (use-package dbc-mode
   :load-path "vendor/")
 
+(use-package debian-changelog-mode
+  :ensure t)
+
 (use-package delsel
   ;; enable delete-selection mode to allow replacing selected region
   ;; with new text automatically
