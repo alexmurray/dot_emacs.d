@@ -1699,6 +1699,9 @@ ${3:Ticket: #${4:XXXX}}")))
           (setq-default whitespace-display-mappings
                         '((tab-mark ?\t [?\u279b ?\t] [?\\ ?\t])))))
 
+(use-package yaml-mode
+  :ensure t)
+
 (use-package yasnippet
   :ensure t
   :bind (:map yas-keymap
