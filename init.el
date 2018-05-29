@@ -754,20 +754,39 @@ Otherwise call `ediff-buffers' interactively."
             (setq emojify-point-entered-behaviour 'uncover)
             (global-emojify-mode 1)))
 
-(defun apm-erc-alert (&optional match-type nick message)
-  "Show an alert when nick mentioned with MATCH-TYPE NICK and MESSAGE."
-  (if (or (null match-type) (not (eq match-type 'fool)))
-      (let (alert-log-messages)
-        (alert (or message (buffer-string)) :severity 'high
-               :title (concat "ERC: " (or nick (buffer-name)))
-               :data message))))
+(defun apm-erc-notify (nickname message)
+  "Displays a notification message for ERC for NICKNAME with MESSAGE."
+  (let* ((channel (buffer-name))
+         (nick (erc-hl-nicks-trim-irc-nick nickname))
+         (title (if (string-match-p (concat "^" nickname) channel)
+                    nick
+                  (concat nick " (" channel ")")))
+         (msg (s-trim (s-collapse-whitespace message))))
+    (alert (concat nick ": " msg) :title title)))
 
 (use-package erc
-  :defer t
+  :ensure t
   ;; notify via alert when mentioned
-  :hook ((erc-tex-matched . apm-erc-alert))
-  :config (setq erc-nick "alexmurray"))
+  :hook ((ercn-notify . apm-erc-notify))
+  :config (progn
+            (setq erc-nick "alexmurray")
+            (setq erc-autojoin-channels-alist '(("freenode.net" "#ubuntu-hardened" "#emacs" "#snapcraft")))
+            (setq erc-hide-list '("JOIN" "PART" "QUIT"))
+            (setq erc-fill-function #'erc-fill-static)
+            (setq erc-fill-static-center 22)
 
+            (add-to-list 'erc-modules 'notifications)
+            (add-to-list 'erc-modules 'spelling)
+            (erc-services-mode 1)
+            (erc-update-modules)))
+
+(use-package erc-hl-nicks
+  :ensure t
+  :after erc)
+
+(use-package erc-image
+  :ensure t
+  :after erc)
 
 (defun apm-eshell-mode-setup ()
   "Initialise 'eshell-mode'."
