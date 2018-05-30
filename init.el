@@ -1664,7 +1664,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq solarized-distinct-fringe-background t)
             (setq solarized-scale-org-headlines nil)
             (setq solarized-use-variable-pitch nil)
-            (load-theme 'solarized-light t)))
+            (load-theme 'solarized-dark t)))
 
 (use-package sudo-edit
   :ensure t
