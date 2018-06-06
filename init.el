@@ -1322,6 +1322,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (progn
             (setq org-agenda-files (mapcar #'expand-file-name
                                            '("~/Dropbox/Orgzly/personal.org"
+                                             "~/Dropbox/Orgzly/projects.org"
                                              "~/Dropbox/Orgzly/cohda.org"
                                              "~/Dropbox/Orgzly/notes.org"))
                   ;; don't indent org document sections etc
