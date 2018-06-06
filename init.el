@@ -39,28 +39,7 @@
 (eval-and-compile
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                            ("melpa" . "https://melpa.org/packages/")
-                           ("org" . "http://orgmode.org/elpa/"))))
-
-(require 'tls)
-(require 'gnutls)
-;; ensure certificate validation is setup - https://glyph.twistedmatrix.com/2015/11/editor-malware.html
-(let ((trustfile (replace-regexp-in-string
-                  (rx (* (any " \t\n")) eos)
-                  ""
-                  (shell-command-to-string "python -m certifi"))))
-  (unless (file-exists-p trustfile)
-    (unless (executable-find "pip3")
-      (apm-install-system-package "python3-pip" t))
-    (call-process "pip3" nil nil nil "install" "--user" "certifi")
-    (setq trustfile (replace-regexp-in-string
-                     (rx (* (any " \t\n")) eos)
-                     ""
-                     (shell-command-to-string "python -m certifi"))))
-  (unless (executable-find "gnutls-cli")
-    (apm-install-system-package "gnutls-bin"))
-  (setq tls-program (list (format "gnutls-cli --x509cafile %s -p %%p %%h" trustfile))
-        gnutls-verify-error t
-        gnutls-trustfiles (list trustfile)))
+                           ("org" . "https://orgmode.org/elpa/"))))
 
 ;; this is done automatically in 27 etc
 (if (or (version< emacs-version "27")
