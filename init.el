@@ -515,10 +515,10 @@
   :after company
   :init (add-to-list 'company-backends 'company-shell))
 
-(use-package company-statistics
+(use-package company-prescient
   :ensure t
-  :after company
-  :config (company-statistics-mode 1))
+  :after (company prescient)
+  :config (company-prescient-mode 1))
 
 (use-package company-tracwiki
   :load-path "vendor/"
@@ -1045,9 +1045,6 @@ Otherwise call `ediff-buffers' interactively."
   :bind (([remap ispell-word] . flyspell-correct-word-generic)
          :map flyspell-mode-map ("C-;" . flyspell-correct-previous-word-generic)))
 
-(use-package flx
-  :ensure t)
-
 (use-package fuzzy
   :ensure t)
 
@@ -1128,7 +1125,6 @@ Otherwise call `ediff-buffers' interactively."
 (use-package ivy
   :ensure t
   :defer t
-  :after flx
   :bind (("C-x b" . ivy-switch-buffer)
          ("C-c C-r" . ivy-resume))
   :config (progn
@@ -1141,6 +1137,11 @@ Otherwise call `ediff-buffers' interactively."
             ;; integrate with evil
             (with-eval-after-load 'evil
               (define-key evil-ex-map "b " 'ivy-switch-buffer))))
+
+(use-package ivy-prescient
+  :ensure t
+  :after (ivy prescient)
+  :config (ivy-prescient-mode 1))
 
 (use-package ivy-xref
   :ensure t
@@ -1491,6 +1492,10 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package posframe
   :ensure t)
+
+(use-package prescient
+  :ensure t
+  :config (prescient-persist-mode 1))
 
 (use-package prog-mode
   :config (progn
