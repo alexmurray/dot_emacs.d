@@ -1542,8 +1542,12 @@ ${3:Ticket: #${4:XXXX}}")))
   :defer t)
 
 (use-package server
-  :config (add-hook 'after-make-frame-functions
-                    #'(lambda (frame) (select-frame-set-input-focus frame)) t))
+  :config (progn
+            ;; start emacs server only it has not already been started
+            (unless (server-running-p)
+              (server-start))
+            (add-hook 'after-make-frame-functions
+                    #'(lambda (frame) (select-frame-set-input-focus frame)) t)))
 
 (use-package session-manager
   :load-path "vendor/"
@@ -1709,10 +1713,6 @@ ${3:Ticket: #${4:XXXX}}")))
             (define-key evil-visual-state-map (kbd "C-]") #'xref-find-definitions)
             (define-key evil-normal-state-map (kbd "C-]") #'xref-find-definitions)
             (define-key evil-normal-state-map (kbd "C-t") #'xref-pop-marker-stack)))
-
-;; start emacs server only it has not already been started
-(require 'server)
-(unless (server-running-p) (server-start))
 
 ;; set gc-cons-threshold back to original value
 (add-hook 'emacs-startup-hook #'apm-set-gc-threshold)
