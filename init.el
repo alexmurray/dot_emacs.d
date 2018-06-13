@@ -21,17 +21,6 @@
 ;; https://github.com/purcell/emacs.d/issues/340#issuecomment-237177032
 (setq load-file-rep-suffixes '(""))
 
-;; Linux package management to bootstrap installation
-(require 'dbus)
-
-(defun apm-install-system-package (package)
-  "Install PACKAGE using apt."
-  (when (and package
-             (y-or-n-p (format "Install system package: %s? " package)))
-    (message "Installing %s" package)
-    (let ((default-directory "/sudo::"))
-      (shell-command (concat "apt -y install " package) "*apm-install-system-packages-output*"))))
-
 ;;; Package management
 (require 'package)
 
@@ -62,6 +51,10 @@
 
 (use-package bind-key
   :ensure t)
+
+(use-package system-packages
+  :ensure t
+  :config (setq system-packages-use-sudo t))
 
 (use-package use-package-ensure-system-package
   :ensure t)
