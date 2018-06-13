@@ -730,7 +730,7 @@ Otherwise call `ediff-buffers' interactively."
   ;; notify via alert when mentioned
   :hook ((ercn-notify . apm-erc-notify))
   :config (progn
-            (setq erc-nick "alexmurray")
+            (setq erc-nick "amurray")
             (setq erc-autojoin-channels-alist '(("freenode.net" "#ubuntu-hardened" "#emacs" "#snapcraft")))
             (setq erc-hide-list '("JOIN" "PART" "QUIT"))
             (setq erc-fill-function #'erc-fill-static)
