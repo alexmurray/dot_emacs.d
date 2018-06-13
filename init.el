@@ -310,9 +310,6 @@
 (use-package apropos
   :bind ("C-h a" . apropos))
 
-(use-package arxml-mode
-  :load-path "vendor/"
-  :demand t)
 
 (use-package asn1-mode
   :ensure t
@@ -419,13 +416,6 @@
 
 (use-package cohda-c
   :load-path "lisp/")
-
-(use-package cmake-mode
-  :ensure t
-  :defer t
-  :ensure-system-package cmake
-  :mode (("CMakeLists\\.txt\\'" . cmake-mode)
-         ("\\.cmake\\'" . cmake-mode)))
 
 (use-package company
   :ensure t
@@ -622,9 +612,6 @@
 ;; show suspicious c constructs automatically
 (use-package cwarn
   :init (global-cwarn-mode 1))
-
-(use-package dbc-mode
-  :load-path "vendor/")
 
 (use-package debian-changelog-mode
   :ensure t)
@@ -860,7 +847,6 @@ Otherwise call `ediff-buffers' interactively."
               "k" 'kill-buffer
               "mg" 'magit-status
               "mm" 'magit-dispatch-popup
-              "ms" 'svn-status
               "oa" 'org-agenda
               "ob" 'org-ido-switchb
               "oca" 'org-capture
@@ -1003,15 +989,6 @@ Otherwise call `ediff-buffers' interactively."
             (flycheck-cstyle-setup)
             (flycheck-add-next-checker 'lsp-ui '(warning . cstyle))
             (flycheck-add-next-checker 'cstyle '(t . c/c++-cppcheck))))
-
-(use-package flycheck-flawfinder
-  :ensure t
-  :disabled t
-  :after flycheck-cstyle
-  :ensure-system-package flawfinder
-  :config (progn
-            (flycheck-flawfinder-setup)
-            (flycheck-add-next-checker 'lsp '(warning . flawfinder) t)))
 
 (use-package flycheck-package
   :ensure t
@@ -1302,8 +1279,8 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (progn
             (setq org-agenda-files (mapcar #'expand-file-name
                                            '("~/Dropbox/Orgzly/personal.org"
-                                             "~/Dropbox/Orgzly/projects.org"
-                                             "~/Dropbox/Orgzly/cohda.org"
+                                             "~/Dropbox/Orgzly/general.org"
+                                             "~/Dropbox/Orgzly/blog.org"
                                              "~/Dropbox/Orgzly/notes.org"))
                   ;; don't indent org document sections etc
                   org-adapt-indentation nil
@@ -1404,8 +1381,9 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq org-clock-x11idle-program-name "xprintidle")
             ;; reload any saved org clock information on startup
             (org-clock-persistence-insinuate)
-            ;; notify if not clocked in
-            (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in)))
+            ;; notify if not clocked in - disable for now
+            ;; (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in)
+            ))
 
 (use-package org-clock-convenience
   :ensure t
@@ -1520,13 +1498,6 @@ ${3:Ticket: #${4:XXXX}}")))
             (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
             (with-eval-after-load 'ivy
               (setq projectile-completion-system 'ivy))))
-
-(use-package psvn
-  :ensure t
-  :config (progn
-            (setq svn-status-state-mark-modeline nil)
-            (with-eval-after-load 'evil
-               (add-to-list 'evil-emacs-state-modes 'svn-status-mode))))
 
 (use-package python
   :defer t
