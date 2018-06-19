@@ -124,8 +124,8 @@
                  apm-preferred-emacs-version)
          :severity 'high))
 
-;;; General settings etc
 
+;; minibuffer settings
 ;; automatically garbage collect when switch away from emacs
 (add-hook 'focus-out-hook 'garbage-collect)
 
@@ -140,6 +140,12 @@
 
 (add-hook 'minibuffer-setup-hook #'apm-minibuffer-setup)
 (add-hook 'minibuffer-exit-hook #'apm-minibuffer-exit)
+
+;;; General settings etc
+
+;; personalisation
+(setq user-mail-address "murray.alex@gmail.com")
+(setq user-full-name "Alex Murray")
 
 ;; enable narrow-to-region
 (put 'narrow-to-region 'disabled nil)
@@ -534,6 +540,12 @@
             (define-key evil-ex-map "e " 'counsel-find-file)
             (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
             (define-key evil-ex-map "ap " 'counsel-apropos)))
+
+(use-package counsel-notmuch
+  :ensure t
+  :after (counsel notmuch)
+  :commands counsel-notmuch
+  :config (evil-define-key 'normal notmuch-common-keymap (kbd "s") #'counsel-notmuch))
 
 (use-package counsel-projectile
   :ensure t
@@ -1248,6 +1260,15 @@ ${3:Ticket: #${4:XXXX}}")))
               (add-to-list 'recentf-exclude no-littering-var-directory)
               (add-to-list 'recentf-exclude no-littering-etc-directory))))
 
+(use-package notmuch
+  :ensure t
+  :ensure-system-package (notmuch offlineimap)
+  :config (progn
+            ;; email sending via message mode
+            (setq mail-user-agent 'message-user-agent)
+            (setq message-auto-save-directory "~/Mail/GMail/[Google Mail].Drafts/")
+            (setq notmuch-fcc-dirs '(("murray.alex@gmail.com" . "\"GMail/[Google Mail].Sent Mail\" +sent -inbox -unread")))))
+
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
   :init (progn
@@ -1601,6 +1622,14 @@ ${3:Ticket: #${4:XXXX}}")))
               (sp-local-pair mode "{" nil :post-handlers '((apm-c-mode-common-open-block "RET"))))
             ;; don't try and complete tag end - breaks nxml completion etc
             (sp-local-pair 'nxml-mode "<" ">" :actions '(:rem insert))))
+
+(use-package smtpmail
+  ;; ensure an entry in ~/.authinfo.gpg or similar like:
+  ;; machine smtp.gmail.com login murray.alex port 465 password "<password here>"
+  :config (progn
+            (setq smtpmail-stream-type 'ssl)
+            (setq smtpmail-smtp-server "smtp.gmail.com")
+            (setq smtpmail-smtp-service 465)))
 
 (use-package solarized-theme
   :ensure t
