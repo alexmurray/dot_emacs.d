@@ -742,8 +742,15 @@ Otherwise call `ediff-buffers' interactively."
   ;; notify via alert when mentioned
   :hook ((ercn-notify . apm-erc-notify))
   :config (progn
+            (eval-and-compile
+              (require 'erc-join)
+              (require 'erc-networks)
+              (require 'erc-services))
+            (add-to-list 'erc-networks-alist '(Canonical "canonical.com"))
+            (add-to-list 'erc-server-alist '("Canonical IRC" 'Canonical "irc.canonical.com" 6697))
             (setq erc-nick "amurray")
-            (setq erc-autojoin-channels-alist '(("freenode.net" "#ubuntu-hardened" "#emacs" "#snapcraft")))
+            (setq erc-autojoin-channels-alist '(("freenode.net" "#ubuntu-hardened" "#emacs")
+                                                ("canonical.com" "#security")))
             (setq erc-hide-list '("JOIN" "PART" "QUIT"))
             (setq erc-fill-function #'erc-fill-static)
             (setq erc-fill-static-center 22)
@@ -751,7 +758,9 @@ Otherwise call `ediff-buffers' interactively."
             (add-to-list 'erc-modules 'notifications)
             (add-to-list 'erc-modules 'spelling)
             (erc-services-mode 1)
-            (erc-update-modules)))
+            (erc-update-modules)
+            (erc :server "irc.freenode.net")
+            (erc-tls :server "irc.canonical.com" :port 6697)))
 
 (use-package erc-hl-nicks
   :ensure t
