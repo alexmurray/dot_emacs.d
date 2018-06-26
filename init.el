@@ -1341,6 +1341,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (progn
             (setq org-agenda-files (mapcar #'expand-file-name
                                            '("~/Dropbox/Orgzly/personal.org"
+                                             "~/Dropbox/Orgzly/canonical.org"
                                              "~/Dropbox/Orgzly/general.org"
                                              "~/Dropbox/Orgzly/blog.org"
                                              "~/Dropbox/Orgzly/notes.org"))
@@ -1372,9 +1373,9 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package org-capture
   :after org
-  :config (setq org-capture-templates '(("t" "Todo" entry (file "~/Dropbox/Orgzly/cohda.org")
+  :config (setq org-capture-templates '(("t" "Todo" entry (file "~/Dropbox/Orgzly/canonical.org")
                                          "* TODO %?")
-                                        ("p" "Project" entry (file "~/Dropbox/Orgzly/cohda.org")
+                                        ("p" "Project" entry (file "~/Dropbox/Orgzly/canonical.org")
                                          "* %?"))))
 
 (use-package org-clock
