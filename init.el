@@ -370,8 +370,8 @@
   :init (progn
           (eval-when-compile
             (require 'bug-reference))
-          (setq bug-reference-url-format "http://projects.cohda.wireless:8000/trac/mk2/ticket/%s"
-                bug-reference-bug-regexp "\\([Tt]icket ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")))
+          (setq bug-reference-url-format "https://bugs.launchpad.net/bugs/%s"
+                bug-reference-bug-regexp "\\(LP ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")))
 
 (use-package cargo
   :ensure t
@@ -405,16 +405,13 @@
   :preface
   (defun apm-c-mode-setup ()
     "Tweaks and customisations for `c-mode'."
-    (c-set-style "cohda")
+    (c-set-style "linux")
     ;; and treat linux style as safe for local variable
     (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
     ;; ensure fill-paragraph takes doxygen @ markers as start of new
     ;; paragraphs properly
     (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
   :hook ((c-mode c++-mode) . apm-c-mode-setup))
-
-(use-package cohda-c
-  :load-path "lisp/")
 
 (use-package company
   :ensure t
@@ -1666,15 +1663,6 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package systemd
   :ensure t)
-
-(use-package tracwiki-mode
-  :ensure t
-  :disabled t
-  :defer t
-  :commands tracwiki
-  :config (tracwiki-define-project
-           "mk2"
-           "http://projects.cohda.wireless:8000/trac/mk2"))
 
 (use-package tramp
   :config (setq-default tramp-default-method "ssh"))
