@@ -1272,8 +1272,8 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (progn
             ;; email sending via message mode
             (setq mail-user-agent 'message-user-agent)
-            (setq message-auto-save-directory "~/Mail/GMail/[Google Mail].Drafts/")
-            (setq notmuch-fcc-dirs '(("murray.alex@gmail.com" . "\"GMail/[Google Mail].Sent Mail\" +sent -inbox -unread")))))
+            (setq message-auto-save-directory "~/Mail/Canonical/Drafts/")
+            (setq notmuch-fcc-dirs '(("alex.murray@canonical.com" . "\"Canonical/Sent\" +sent -inbox -unread")))))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
@@ -1631,11 +1631,10 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package smtpmail
   ;; ensure an entry in ~/.authinfo.gpg or similar like:
-  ;; machine smtp.gmail.com login murray.alex port 465 password "<password here>"
+  ;; machine smtp.canonical.com login USERNAME port 587 password PASSWORD
   :config (progn
-            (setq smtpmail-stream-type 'ssl)
-            (setq smtpmail-smtp-server "smtp.gmail.com")
-            (setq smtpmail-smtp-service 465)))
+            (setq smtpmail-smtp-server "smtp.canonical.com")
+            (setq smtpmail-smtp-service 587)))
 
 (use-package solarized-theme
   :ensure t
