@@ -1472,6 +1472,10 @@ ${3:Ticket: #${4:XXXX}}")))
             (org-notify-add 'default '(:time "60m" :actions -notify/window :period "2m" :duration 600))
             (org-notify-add 'default '(:time "15m" :actions -notify/window :period "2m" :duration 120))))
 
+(use-package org-notmuch
+  :ensure org-plus-contrib
+  :after org)
+
 (use-package org-table-sticky-header
   :ensure t
   :after org
