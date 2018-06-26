@@ -741,23 +741,62 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             (eval-and-compile
               (require 'erc-join)
+              (require 'erc-log)
               (require 'erc-networks)
               (require 'erc-services))
+            ;; canonical irc
             (add-to-list 'erc-networks-alist '(Canonical "canonical.com"))
             (add-to-list 'erc-server-alist '("Canonical IRC" 'Canonical "irc.canonical.com" 6697))
             (setq erc-nick "amurray")
-            (setq erc-autojoin-channels-alist '(("freenode.net" "#ubuntu-hardened" "#emacs")
-                                                ("canonical.com" "#security")))
+            (setq erc-autojoin-channels-alist '(("freenode.net"
+                                                 "#emacs"
+                                                 "#oss-security"
+                                                 "#snappy"
+                                                 "#ubuntu-app-devel"
+                                                 "#ubuntu-ci-eng"
+                                                 "#ubuntu-devel"
+                                                 "#ubuntu-hardened"
+                                                 "#ubuntu-kernel"
+                                                 "#ubuntu-meeting"
+                                                 "#ubuntu-release"
+                                                 "#ubuntu-server")
+                                                ("oftc.net"
+                                                 "#apparmor"
+                                                 "#debian-security")
+                                                ("canonical.com"
+                                                 "#canonical"
+                                                 "#distro"
+                                                 "#security"
+                                                 "#security-private"
+                                                 "#snappy-internal"
+                                                 "#server"
+                                                 "#FIPS"
+                                                 "#is")))
             (setq erc-hide-list '("JOIN" "PART" "QUIT"))
             (setq erc-fill-function #'erc-fill-static)
             (setq erc-fill-static-center 22)
 
+            ;; use sensible buffer names with server as well
+            (setq erc-rename-buffers t)
             (add-to-list 'erc-modules 'notifications)
             (add-to-list 'erc-modules 'spelling)
-            (erc-services-mode 1)
+            (add-to-list 'erc-modules 'log)
             (erc-update-modules)
+
+            (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
+            (setq erc-log-insert-log-on-open t)
+            (setq erc-log-file-coding-system 'utf-8)
+            (setq erc-log-write-after-send t)
+            (setq erc-log-write-after-insert t)
+            (setq erc-save-buffer-on-part t)
+
+            (unless (file-exists-p erc-log-channels-directory)
+              (mkdir erc-log-channels-directory t))
+
+            ;; autoconnect at startup
             (erc :server "irc.freenode.net")
-            (erc-tls :server "irc.canonical.com" :port 6697)))
+            (erc-tls :server "irc.canonical.com" :port 6697)
+            (erc-tls :server "irc.oftc.net" :port 6697)))
 
 (use-package erc-hl-nicks
   :ensure t
@@ -765,7 +804,10 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package erc-image
   :ensure t
-  :after erc)
+  :after erc
+  :config (progn
+            (add-to-list 'erc-modules 'image)
+            (erc-update-modules)))
 
 (use-package eshell
   :defer t
