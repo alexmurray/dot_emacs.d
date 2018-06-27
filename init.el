@@ -195,13 +195,13 @@
 ;; they undo each other
 (setq scroll-preserve-screen-position 'always)
 
-(defvar apm-preferred-font-name "Ubuntu Mono"
+(defvar apm-preferred-font-name "Dejavu Sans Mono"
   "Preferred font to use.")
 
-(defvar apm-preferred-font-package "fonts-ubuntu"
+(defvar apm-preferred-font-package "fonts-dejavu-core"
   "Package to install to get `apm-preferred-font-name'.")
 
-(defvar apm-preferred-font-height 11
+(defvar apm-preferred-font-height 10
   "Preferred font height to use.")
 
 (defun apm-graphic-frame-init (&optional frame)
@@ -212,7 +212,8 @@
     (if (font-info apm-preferred-font-name)
         (set-frame-font (format "%s-%d"
                                 apm-preferred-font-name
-                                apm-preferred-font-height) nil (list frame))
+                                apm-preferred-font-height)
+                        nil (list frame))
       (system-packages-install apm-preferred-font-package))))
 
 (if (daemonp)
