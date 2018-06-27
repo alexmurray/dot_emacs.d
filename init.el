@@ -541,6 +541,7 @@
 
 (use-package counsel-notmuch
   :ensure t
+  :disabled t
   :after (counsel notmuch)
   :commands counsel-notmuch
   :config (evil-define-key 'normal notmuch-common-keymap (kbd "s") #'counsel-notmuch))
@@ -1300,6 +1301,91 @@ ${3:Ticket: #${4:XXXX}}")))
   :bind (([(meta shift up)] . move-text-up)
          ([(meta shift down)] . move-text-down)))
 
+(use-package mu4e
+  :ensure-system-package ((mu . mu4e))
+  :preface
+  (defun apm-mu4e-refile-message (msg)
+    (let ((mailing-list (mu4e-message-field msg :mailing-list))
+          (subject (mu4e-message-field msg :subject)))
+      (cond
+       ((not (null mailing-list))
+        (concat "/Lists." (mu4e-get-mailing-list-shortname mailing-list)))
+       ((string-prefix-p "[Bug " subject) "/launchpad-bugs")
+       ((string-prefix-p "[USN-" subject) "/usn")
+       ((string-prefix-p "[Merge]" subject) "/merge-requests")
+       ((mu4e-message-contact-field-matches msg :from "root@lillypilly.canonical.com")
+        "/lillypilly")
+       ((mu4e-message-contact-field-matches msg :from "root@keule.canonical.com")
+        "/keule")
+       ((mu4e-message-contact-field-matches msg :from "atpi.com")
+        "/Travel")
+       ((or (mu4e-message-contact-field-matches msg :from "rt@admin.canonical.com")
+            (mu4e-message-contact-field-matches msg :to "rt@admin.canonical.com"))
+        "/canonical-is")
+       (t "/Archive"))) )
+  :config (progn
+            (setq mail-user-agent 'mu4e-user-agent)
+            (setq mu4e-maildir "~/Maildir")
+            (setq mu4e-sent-folder   "/Sent"
+                  mu4e-drafts-folder "/Drafts"
+                  mu4e-trash-folder  "/Trash")
+            (setq mu4e-maildir-shortcuts
+                  '(("/Archive"     . ?a)
+                    ("/INBOX"       . ?i)
+                    ("/Sent"        . ?s)))
+            (setq mu4e-user-mailing-lists '(;; ubuntu
+                                            ("launchpad-announce.lists.ubuntu.com" . "launchpad-announce")
+                                            ("ubuntu-devel.lists.ubuntu.com" . "ubuntu-devel")
+                                            ("ubuntu-devel-announce.lists.ubuntu.com" . "ubuntu-devel-announce")
+                                            ("ubuntu-hardened.lists.ubuntu.com" . "ubuntu-hardened")
+                                            ("ubuntu-release.lists.ubuntu.com" . "ubuntu-release")
+
+                                            ;; canonical
+                                            ("canonical-allhands.lists.canonical.com" . "canonical-allhands")
+                                            ("canonical-announce.lists.canonical.com" . "canonical-announce")
+                                            ("canonistack-announce.lists.canonical.com" . "canonistack-announce")
+                                            ("roadmap-sprint.lists.canonical.com" . "roadmap-sprint")
+
+                                            ;; security
+                                            ("officesecurity.lists.freedesktop.org" . "Officesecurity")
+                                            ("security-ceph.com" . "security-ceph")
+                                            ("xorg-security.lists.x.org" . "xorg-security")))
+            (setq mu4e-refile-folder #'apm-mu4e-refile-message)
+            ;; only run once and ignore any autorefresh in config
+            (setq mu4e-get-mail-command "offlineimap -o -u basic")
+            (setq mu4e-update-interval 60)
+            (setq mu4e-compose-reply-to-address "alex.murray@canonical.com"
+                  user-mail-address "alex.murray@canonical.com"
+                  user-full-name  "Alex Murray")
+            (setq mu4e-compose-signature
+                  "Alex Murray\nhttps://launchpad.net/~alexmurray\n")
+
+            ;; show full conversations
+            (setq mu4e-headers-include-related t)
+
+            ;; save attachment to Downloads
+            (setq mu4e-attachment-dir "~/Downloads")
+
+            ;; attempt to show images when viewing messages
+            (setq mu4e-view-show-images t)
+
+            ;; show full addresses in message view
+            (setq mu4e-view-show-addresses t)
+
+            ;; always start mu4e in the background
+            (mu4e t)))
+
+(use-package mu4e-alert
+  :ensure t
+  :config (progn
+            (mu4e-alert-set-default-style 'notifications)
+            (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
+            (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)))
+
+(use-package mu4e-maildirs-extension
+  :ensure t
+  :config (mu4e-maildirs-extension))
+
 (use-package no-littering
   :ensure t
   :config (progn
@@ -1311,6 +1397,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package notmuch
   :ensure t
+  :disabled t
   :ensure-system-package (notmuch offlineimap)
   :config (progn
             ;; email sending via message mode
@@ -1464,6 +1551,11 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :config (setq org-mru-clock-completing-read #'ivy-completing-read))
 
+(use-package org-mu4e
+  :after (mu4e org-plus-contrib)
+  ;; store link to message if in header view, not to header query
+  :config (setq org-mu4e-link-query-in-headers-mode nil))
+
 (use-package org-notify
   :ensure org-plus-contrib
   :after org
@@ -1474,6 +1566,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (org-notify-add 'default '(:time "15m" :actions -notify/window :period "2m" :duration 120))))
 
 (use-package org-notmuch
+  :disabled t
   :ensure org-plus-contrib
   :after org)
 
