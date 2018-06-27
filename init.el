@@ -144,7 +144,6 @@
 ;;; General settings etc
 
 ;; personalisation
-(setq user-mail-address "murray.alex@gmail.com")
 (setq user-full-name "Alex Murray")
 
 ;; enable narrow-to-region
