@@ -1320,15 +1320,20 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package mu4e
   :ensure-system-package ((mu . mu4e))
   :preface
+  ;; TODO: consider using procmail...
   (defun apm-mu4e-refile-message (msg)
     (let ((mailing-list (mu4e-message-field msg :mailing-list))
           (subject (mu4e-message-field msg :subject)))
       (cond
        ((not (null mailing-list))
         (concat "/Lists." (mu4e-get-mailing-list-shortname mailing-list)))
-       ((string-prefix-p "[Bug " subject) "/launchpad-bugs")
+       ((or (string-prefix-p "[Bug " subject)
+            (mu4e-message-contact-field-matches msg :from "bugs.launchpad.net"))
+        "/launchpad-bugs")
        ((string-prefix-p "[USN-" subject) "/usn")
        ((string-prefix-p "[Merge]" subject) "/merge-requests")
+       ((mu4e-message-contact-field-matches msg :to "newsbox@idg.com")
+        "/Lists.newsbox-idg")
        ((mu4e-message-contact-field-matches msg :from "root@lillypilly.canonical.com")
         "/lillypilly")
        ((mu4e-message-contact-field-matches msg :from "root@keule.canonical.com")
@@ -1346,15 +1351,19 @@ ${3:Ticket: #${4:XXXX}}")))
                   mu4e-drafts-folder "/Drafts"
                   mu4e-trash-folder  "/Trash")
             (setq mu4e-maildir-shortcuts
-                  '(("/Archive"     . ?a)
-                    ("/INBOX"       . ?i)
-                    ("/Sent"        . ?s)))
+                  '(("/Archive"              . ?a)
+                    ("/INBOX"                . ?i)
+                    ("/Sent"                 . ?s)
+                    ("/Travel"               . ?t)
+                    ("/ubuntu-security-team" . ?u)))
+
             (setq mu4e-user-mailing-lists '(;; ubuntu
                                             ("launchpad-announce.lists.ubuntu.com" . "launchpad-announce")
                                             ("ubuntu-devel.lists.ubuntu.com" . "ubuntu-devel")
                                             ("ubuntu-devel-announce.lists.ubuntu.com" . "ubuntu-devel-announce")
                                             ("ubuntu-hardened.lists.ubuntu.com" . "ubuntu-hardened")
                                             ("ubuntu-release.lists.ubuntu.com" . "ubuntu-release")
+                                            ("ubuntu-security-announce.lists.ubuntu.com" . "ubuntu-security-announce")
 
                                             ;; canonical
                                             ("canonical-allhands.lists.canonical.com" . "canonical-allhands")
@@ -1363,14 +1372,24 @@ ${3:Ticket: #${4:XXXX}}")))
                                             ("roadmap-sprint.lists.canonical.com" . "roadmap-sprint")
 
                                             ;; security
+                                            ("bugtraq.list-id.securityfocus.com" . "bugtraq")
+                                            ("debian-security-announce.lists.debian.org" . "debian-security-announce")
+                                            ("fulldisclosure.lists.seclists.org" . "fulldisclosure")
+                                            ("kernel-hardening.lists.openwall.com" . "kernel-hardening")
                                             ("officesecurity.lists.freedesktop.org" . "Officesecurity")
+                                            ("opensuse-security-announce.opensuse.org" . "opensuse-security-announce")
+                                            ("oss-security.lists.openwall.com" . "oss-security")
+                                            ("rhsa-announce.redhat.com" . "rhsa-announce")
                                             ("security-ceph.com" . "security-ceph")
+                                            ("xen-security-issues.lists.xenproject.org" . "xen-security-issues")
                                             ("xorg-security.lists.x.org" . "xorg-security")))
+
             (setq mu4e-refile-folder #'apm-mu4e-refile-message)
             ;; only run once and ignore any autorefresh in config
             (setq mu4e-get-mail-command "offlineimap -o -u basic")
             (setq mu4e-update-interval 60)
             (setq mu4e-compose-reply-to-address "alex.murray@canonical.com"
+                  mu4e-user-mail-address-list '("alex.murray@canonical.com")
                   user-mail-address "alex.murray@canonical.com"
                   user-full-name  "Alex Murray")
             (setq mu4e-compose-signature
@@ -1378,6 +1397,13 @@ ${3:Ticket: #${4:XXXX}}")))
 
             ;; show full conversations
             (setq mu4e-headers-include-related t)
+            ;; and include the maildir in the headers
+            (setq mu4e-headers-fields '((:human-date . 12)
+                                        (:flags . 6)
+                                        (:mailing-list . 10)
+                                        (:maildir . 20)
+                                        (:from . 22)
+                                        (:subject)))
 
             ;; save attachment to Downloads
             (setq mu4e-attachment-dir "~/Downloads")
@@ -1397,10 +1423,6 @@ ${3:Ticket: #${4:XXXX}}")))
             (mu4e-alert-set-default-style 'notifications)
             (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
             (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)))
-
-(use-package mu4e-maildirs-extension
-  :ensure t
-  :config (mu4e-maildirs-extension))
 
 (use-package no-littering
   :ensure t
@@ -1566,7 +1588,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (setq org-mru-clock-completing-read #'ivy-completing-read))
 
 (use-package org-mu4e
-  :after (mu4e org-plus-contrib)
+  :after (mu4e org)
   ;; store link to message if in header view, not to header query
   :config (setq org-mu4e-link-query-in-headers-mode nil))
 
