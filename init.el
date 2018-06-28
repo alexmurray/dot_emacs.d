@@ -1318,7 +1318,7 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package mu4e
   :ensure-system-package ((mu . mu4e))
   :preface
-  ;; TODO: consider using procmail...
+  ;; TODO: consider using imapfilter
   (defun apm-mu4e-refile-message (msg)
     (let ((mailing-list (mu4e-message-field msg :mailing-list))
           (subject (mu4e-message-field msg :subject)))
@@ -1393,6 +1393,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq mu4e-compose-signature
                   "Alex Murray\nhttps://launchpad.net/~alexmurray\n")
 
+            (setq mu4e-completing-read-function 'completing-read)
             ;; show full conversations
             (setq mu4e-headers-include-related t)
             ;; and include the maildir in the headers
