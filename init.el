@@ -727,18 +727,12 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package erc
   :ensure t
-  :preface
-  (defun apm-erc-notify (nickname message)
-    "Displays a notification message for ERC for NICKNAME with MESSAGE."
-    (let* ((channel (buffer-name))
-           (nick (erc-hl-nicks-trim-irc-nick nickname))
-           (title (if (string-match-p (concat "^" nickname) channel)
-                      nick
-                    (concat nick " (" channel ")")))
-           (msg (s-trim (s-collapse-whitespace message))))
-      (alert (concat nick ": " msg) :title title)))
-  ;; notify via alert when mentioned
-  :hook ((ercn-notify . apm-erc-notify))
+  :preface (defun apm-launch-erc ()
+             (erc :server "irc.freenode.net")
+             (erc-tls :server "irc.canonical.com" :port 6697)
+             (erc-tls :server "irc.oftc.net" :port 6697))
+  ;; autoconnect at startup
+  :hook (after-init . apm-launch-erc)
   :config (progn
             (eval-and-compile
               (require 'erc-join)
@@ -779,10 +773,13 @@ Otherwise call `ediff-buffers' interactively."
 
             ;; use sensible buffer names with server as well
             (setq erc-rename-buffers t)
-            (add-to-list 'erc-modules 'notifications)
+
             (add-to-list 'erc-modules 'spelling)
             (add-to-list 'erc-modules 'log)
             (erc-update-modules)
+
+            (setq erc-pals '("ratliff" "jdstrand" "mdeslaur" "jjohansen" "ChrisCoulson" "sarnold" "sbeattie" "tyhicks" "leosilva"))
+            (setq erc-keywords '("good morning" "eod" "good night"))
 
             (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
             (setq erc-log-insert-log-on-open t)
@@ -794,10 +791,7 @@ Otherwise call `ediff-buffers' interactively."
             (unless (file-exists-p erc-log-channels-directory)
               (mkdir erc-log-channels-directory t))
 
-            ;; autoconnect at startup
-            (erc :server "irc.freenode.net")
-            (erc-tls :server "irc.canonical.com" :port 6697)
-            (erc-tls :server "irc.oftc.net" :port 6697)))
+            (erc-autojoin-mode 1)))
 
 (use-package erc-hl-nicks
   :ensure t
@@ -809,6 +803,29 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             (add-to-list 'erc-modules 'image)
             (erc-update-modules)))
+
+(use-package ercn
+  :ensure t
+  :preface
+  (defun apm-ercn-notify (nickname message)
+    "Displays a notification message for ERC for NICKNAME with MESSAGE."
+    (let* ((channel (buffer-name))
+           (nick (erc-hl-nicks-trim-irc-nick nickname))
+           (title (if (string-match-p (concat "^" nickname) channel)
+                      nick
+                    (concat nick " (" channel ")")))
+           (msg (s-trim (s-collapse-whitespace message))))
+      (alert (concat nick ": " msg) :title title)))
+  ;; notify via alert when mentioned
+  :hook ((ercn-notify . apm-ercn-notify))
+  :config (progn
+            ;; be notified when mentioned or if any keywords or pals talk in
+            ;; given channels or finally if in private chat
+            (setq ercn-notify-rules
+                       '((current-nick . all)
+                         (keyword . all)
+                         (pal . ("#security" "#security-private"))
+                         (query-buffer . all)))))
 
 (use-package eshell
   :defer t
