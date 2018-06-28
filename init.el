@@ -779,7 +779,7 @@ Otherwise call `ediff-buffers' interactively."
             (erc-update-modules)
 
             (setq erc-pals '("ratliff" "jdstrand" "mdeslaur" "jjohansen" "ChrisCoulson" "sarnold" "sbeattie" "tyhicks" "leosilva"))
-            (setq erc-keywords '("good morning" "eod" "good night"))
+            (setq erc-keywords '("[Cc][Vv][Ee]"))
 
             (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
             (setq erc-log-insert-log-on-open t)
@@ -818,14 +818,12 @@ Otherwise call `ediff-buffers' interactively."
       (alert (concat nick ": " msg) :title title)))
   ;; notify via alert when mentioned
   :hook ((ercn-notify . apm-ercn-notify))
-  :config (progn
-            ;; be notified when mentioned or if any keywords or pals talk in
-            ;; given channels or finally if in private chat
-            (setq ercn-notify-rules
-                       '((current-nick . all)
-                         (keyword . all)
-                         (pal . ("#security" "#security-private"))
-                         (query-buffer . all)))))
+  ;; be notified when mentioned or pals talk in given channels or
+  ;; finally if in private chat
+  :config (setq ercn-notify-rules
+                '((current-nick . all)
+                  (pal . ("#security" "#security-private"))
+                  (query-buffer . all))))
 
 (use-package eshell
   :defer t
