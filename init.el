@@ -829,6 +829,18 @@ Otherwise call `ediff-buffers' interactively."
                   (keyword . all)
                   (query-buffer . all))))
 
+(use-package eudc
+  :ensure-system-package (ldapsearch . ldap-utils)
+  :config (progn
+            (eval-when-compile
+              (require 'ldap))
+            (setq eudc-server-hotlist
+                  '(("ldaps://ldap.canonical.com" . ldap)))
+            (setq ldap-host-parameters-alist
+                  '(("ldaps://ldap.canonical.com"
+                     base "ou=staff,dc=canonical,dc=com"
+                     binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
+                     auth-source t)))))
 (use-package eshell
   :defer t
   :preface
