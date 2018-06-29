@@ -826,6 +826,7 @@ Otherwise call `ediff-buffers' interactively."
   :config (setq ercn-notify-rules
                 '((current-nick . all)
                   (pal . ("#security" "#security-private"))
+                  (keyword . all)
                   (query-buffer . all))))
 
 (use-package eshell
