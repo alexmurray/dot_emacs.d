@@ -830,6 +830,8 @@ Otherwise call `ediff-buffers' interactively."
                   (query-buffer . all))))
 
 (use-package eudc
+  ;; requires a line like the following in .authinfo.gpg with quotes on binddn
+  ;; machine ldaps://ldap.canonical.com binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com" password PASSWORD
   :ensure-system-package (ldapsearch . ldap-utils)
   :config (progn
             (eval-when-compile
