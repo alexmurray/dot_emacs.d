@@ -782,7 +782,7 @@ Otherwise call `ediff-buffers' interactively."
             (erc-update-modules)
 
             (setq erc-pals '("ratliff" "jdstrand" "mdeslaur" "jjohansen" "ChrisCoulson" "sarnold" "sbeattie" "tyhicks" "leosilva"))
-            (setq erc-keywords '("[Cc][Vv][Ee]"))
+            (setq erc-keywords '("[Cc][Vv][Ee]" "vulnerability" "apparmor" "seccomp" "exploit"))
 
             (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
             (setq erc-log-insert-log-on-open t)
@@ -917,6 +917,7 @@ Otherwise call `ediff-buffers' interactively."
               "go" 'google-this
               "i" 'counsel-imenu
               "k" 'kill-buffer
+              "l" 'apm-browse-lp-bug-at-point
               "mg" 'magit-status
               "mm" 'magit-dispatch-popup
               "oa" 'org-agenda
