@@ -1341,7 +1341,7 @@ ${3:Ticket: #${4:XXXX}}")))
           (subject (mu4e-message-field msg :subject)))
       (cond
        ((not (null mailing-list))
-        (concat "/Lists." (mu4e-get-mailing-list-shortname mailing-list)))
+        (concat "/Lists/" (mu4e-get-mailing-list-shortname mailing-list)))
        ((or (string-prefix-p "[Bug " subject)
             (mu4e-message-contact-field-matches msg :from "bugs.launchpad.net"))
         "/launchpad-bugs")
@@ -1400,8 +1400,10 @@ ${3:Ticket: #${4:XXXX}}")))
                                             ("xorg-security.lists.x.org" . "xorg-security")))
 
             (setq mu4e-refile-folder #'apm-mu4e-refile-message)
-            ;; only run once and ignore any autorefresh in config
-            (setq mu4e-get-mail-command "offlineimap -o -u basic")
+            (setq mu4e-get-mail-command "mbsync -a")
+            ;; needed for mbsync
+            (setq mu4e-change-filenames-when-moving t)
+
             (setq mu4e-update-interval 60)
             (setq mu4e-compose-reply-to-address "alex.murray@canonical.com"
                   mu4e-user-mail-address-list '("alex.murray@canonical.com")
