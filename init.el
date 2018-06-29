@@ -295,6 +295,9 @@
 (use-package apm-c
   :load-path "lisp/")
 
+(use-package apm-misc
+  :load-path "lisp/")
+
 (use-package appt
   :preface
   (defun apm-appt-notify (time-to-appt time msg)
