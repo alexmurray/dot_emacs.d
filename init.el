@@ -1387,6 +1387,7 @@ ${3:Ticket: #${4:XXXX}}")))
                                             ("roadmap-sprint.lists.canonical.com" . "roadmap-sprint")
 
                                             ;; security
+                                            ("security-announce.lists.apple.com" . "apple-security-announce")
                                             ("bugtraq.list-id.securityfocus.com" . "bugtraq")
                                             ("debian-security-announce.lists.debian.org" . "debian-security-announce")
                                             ("fulldisclosure.lists.seclists.org" . "fulldisclosure")
