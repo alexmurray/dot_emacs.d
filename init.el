@@ -1414,13 +1414,9 @@ ${3:Ticket: #${4:XXXX}}")))
                   "Alex Murray\nhttps://launchpad.net/~alexmurray\n")
 
             (setq mu4e-completing-read-function 'completing-read)
-            ;; show full conversations
-            (setq mu4e-headers-include-related t)
-            ;; and include the maildir in the headers
             (setq mu4e-headers-fields '((:human-date . 12)
                                         (:flags . 6)
                                         (:mailing-list . 10)
-                                        (:maildir . 20)
                                         (:from . 22)
                                         (:subject)))
 
