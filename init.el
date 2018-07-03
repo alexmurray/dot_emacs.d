@@ -935,6 +935,8 @@ Otherwise call `ediff-buffers' interactively."
               "l" 'apm-browse-lp-bug-at-point
               "mg" 'magit-status
               "mm" 'magit-dispatch-popup
+              "ms" 'mu4e-headers-search
+              "mu" 'mu4e
               "oa" 'org-agenda
               "ob" 'org-ido-switchb
               "oca" 'org-capture
