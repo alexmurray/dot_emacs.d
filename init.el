@@ -1421,6 +1421,8 @@ ${3:Ticket: #${4:XXXX}}")))
             ;; needed for mbsync
             (setq mu4e-change-filenames-when-moving t)
 
+            (setq mu4e-compose-format-flowed t)
+
             (setq mu4e-update-interval 60)
             (setq mu4e-compose-reply-to-address "alex.murray@canonical.com"
                   mu4e-user-mail-address-list '("alex.murray@canonical.com")
