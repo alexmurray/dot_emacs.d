@@ -372,12 +372,13 @@
 
 (use-package bug-reference
   :defer t
-  :hook ((prog-mode . bug-reference-prog-mode))
+  :hook ((prog-mode . bug-reference-prog-mode)
+         (erc-mode . bug-reference-mode))
   :init (progn
           (eval-when-compile
             (require 'bug-reference))
           (setq bug-reference-url-format "https://bugs.launchpad.net/bugs/%s"
-                bug-reference-bug-regexp "\\(LP ?#?:?\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")))
+                bug-reference-bug-regexp "\\([Ll][Pp][#: ]\\|#\\)\\([0-9]+\\)")))
 
 (use-package cargo
   :ensure t
