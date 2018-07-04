@@ -298,6 +298,9 @@
 (use-package apm-misc
   :load-path "lisp/")
 
+(use-package apparmor-mode
+  :load-path "vendor/")
+
 (use-package appt
   :preface
   (defun apm-appt-notify (time-to-appt time msg)
