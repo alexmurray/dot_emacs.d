@@ -373,7 +373,9 @@
 (use-package bug-reference
   :defer t
   :hook ((prog-mode . bug-reference-prog-mode)
-         (erc-mode . bug-reference-mode))
+         (erc-mode . bug-reference-mode)
+         (mu4e-view-mode . bug-reference-mode)
+         (org-mode . bug-reference-mode))
   :init (progn
           (eval-when-compile
             (require 'bug-reference))
