@@ -1899,6 +1899,22 @@ ${3:Ticket: #${4:XXXX}}")))
           (setq web-mode-enable-auto-pairing nil))
   :mode ("\\.php\\'" . web-mode))
 
+(use-package webpaste
+  :ensure t
+  :config (progn
+            (add-to-list 'webpaste-providers-alist
+                             `("pastebin.ubuntu.com"
+                                :uri "https://pastebin.ubuntu.com/"
+                                ;; poster cannot be empty string and expiry in 1 day
+                                :post-data (("poster" . ,user-full-name)
+                                            ("expiration" . "day"))
+                                :post-field "content"
+                                :post-lang-field-name "syntax"
+                                ;; should this be common-lisp perhaps?
+                                :lang-overrides ((emacs-lisp-mode . "clojure"))
+                                :success-lambda webpaste--providers-success-response-url))
+            (setq webpaste-provider-priority '("pastebin.ubuntu.com"))))
+
 (use-package which-func
   :config (which-function-mode 1))
 
