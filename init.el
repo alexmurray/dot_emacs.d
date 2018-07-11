@@ -1687,6 +1687,9 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :mode ("\\.pcapng\\'" . pcap-mode))
 
+(use-package pixel-scroll
+  :config (pixel-scroll-mode 1))
+
 (use-package pdf-tools
   :ensure t
   ;; only try and install when needed
