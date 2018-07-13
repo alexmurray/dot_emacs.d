@@ -348,8 +348,8 @@
           (setq-default TeX-source-correlate-start-server t)))
 
 (use-package auth-source
-  ;; prefer synced, encrypted auth source to non-encrypted
-  :init (setq auth-sources '("~/Dropbox/.authinfo.gpg" "~/.authinfo.gpg" "~/.authinfo" "~/.netrc")))
+  ;; prefer gnome-keyring, synced, encrypted auth source to non-encrypted
+  :init (setq auth-sources '("secrets:Login" "~/Dropbox/.authinfo.gpg" "~/.authinfo.gpg" "~/.authinfo" "~/.netrc")))
 
 (use-package avy
   :ensure t
