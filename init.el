@@ -943,6 +943,7 @@ Otherwise call `ediff-buffers' interactively."
               "i" 'counsel-imenu
               "k" 'kill-buffer
               "l" 'apm-browse-lp-bug-at-point
+              "mc" 'mu4e-compose-new
               "mg" 'magit-status
               "mm" 'magit-dispatch-popup
               "ms" 'mu4e-headers-search
@@ -1423,6 +1424,7 @@ ${3:Ticket: #${4:XXXX}}")))
             ;; needed for mbsync
             (setq mu4e-change-filenames-when-moving t)
 
+            (setq mu4e-headers-sort-direction 'ascending)
             (setq mu4e-use-fancy-chars t)
 
             (setq mu4e-update-interval 60)
