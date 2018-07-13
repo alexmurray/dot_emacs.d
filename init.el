@@ -795,7 +795,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq erc-keywords '("[Cc][Vv][Ee]" "vulnerability" "apparmor" "seccomp" "exploit"))
 
             (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
-            (setq erc-log-insert-log-on-open t)
+            (setq erc-log-insert-log-on-open nil)
             (setq erc-log-file-coding-system 'utf-8)
             (setq erc-log-write-after-send t)
             (setq erc-log-write-after-insert t)
