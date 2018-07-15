@@ -503,9 +503,7 @@ The object labels of the found items are returned as list."
             (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer)
 
             ;; put most often used completions at stop of list
-            (setq company-transformers '(company-sort-by-occurrence))
-            ;; try tab style behaviour
-            (company-tng-configure-default)))
+            (setq company-transformers '(company-sort-by-occurrence))))
 
 (use-package company-anaconda
   :ensure t
