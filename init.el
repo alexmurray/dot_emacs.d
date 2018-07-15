@@ -783,6 +783,8 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :preface (defun apm-launch-erc ()
              (erc :server "irc.freenode.net")
+             ;; requires either an entry in ~/.authinfo.gpg or a secret in Login keyring:
+             ;; $ secret-tool store --label="Canonical IRC"  host "irc.canonical.com" user amurray port 6697
              (erc-tls :server "irc.canonical.com" :port 6697)
              (erc-tls :server "irc.oftc.net" :port 6697))
   ;; autoconnect at startup
