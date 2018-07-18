@@ -465,10 +465,6 @@ The object labels of the found items are returned as list."
     (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
   :hook ((c-mode c++-mode) . apm-c-mode-setup))
 
-(use-package centered-cursor-mode
-  :ensure t
-  :config (global-centered-cursor-mode 1))
-
 (use-package company
   :ensure t
   ;; Use Company for completion
