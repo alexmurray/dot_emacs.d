@@ -798,6 +798,9 @@ Otherwise call `ediff-buffers' interactively."
             ;; canonical irc
             (add-to-list 'erc-networks-alist '(Canonical "canonical.com"))
             (add-to-list 'erc-server-alist '("Canonical IRC" 'Canonical "irc.canonical.com" 6697))
+            ;; no nickserv password
+            (add-to-list 'erc-nickserv-passwords '(Canonical (("amurray" . ""))))
+
             (setq erc-nick "amurray")
             (setq erc-autojoin-channels-alist '(("freenode.net"
                                                  "#emacs"
@@ -847,7 +850,8 @@ Otherwise call `ediff-buffers' interactively."
             (unless (file-exists-p erc-log-channels-directory)
               (mkdir erc-log-channels-directory t))
 
-            (erc-autojoin-mode 1)))
+            (erc-autojoin-mode 1)
+            (erc-services-mode 1)))
 
 (use-package erc-hl-nicks
   :ensure t
