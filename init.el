@@ -778,7 +778,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package erc
   :ensure t
   :preface (defun apm-launch-erc ()
-             (erc :server "irc.freenode.net")
+             (erc-tls :server "irc.freenode.net" :port 6697)
              ;; requires either an entry in ~/.authinfo.gpg or a secret in Login keyring:
              ;; $ secret-tool store --label="Canonical IRC"  host "irc.canonical.com" user amurray port 6697
              (erc-tls :server "irc.canonical.com" :port 6697)
