@@ -767,6 +767,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package emojify
   :ensure t
+  :ensure-system-package ("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
   :config (progn
             ;; only show unicode emojis
             (setq emojify-display-style 'unicode)
