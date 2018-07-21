@@ -54,7 +54,9 @@
 
 (use-package system-packages
   :ensure t
-  :config (setq system-packages-use-sudo t))
+  :config
+  (setq system-packages-package-manager 'apt)
+  (setq system-packages-use-sudo t))
 
 (use-package use-package-ensure-system-package
   :ensure t)
