@@ -801,30 +801,7 @@ Otherwise call `ediff-buffers' interactively."
             (add-to-list 'erc-nickserv-passwords '(Canonical (("amurray" . ""))))
 
             (setq erc-nick "amurray")
-            (setq erc-autojoin-channels-alist '(("freenode.net"
-                                                 "#emacs"
-                                                 "#oss-security"
-                                                 "#snappy"
-                                                 "#ubuntu-app-devel"
-                                                 "#ubuntu-ci-eng"
-                                                 "#ubuntu-devel"
-                                                 "#ubuntu-hardened"
-                                                 "#ubuntu-kernel"
-                                                 "#ubuntu-meeting"
-                                                 "#ubuntu-release"
-                                                 "#ubuntu-server")
-                                                ("oftc.net"
-                                                 "#apparmor"
-                                                 "#debian-security")
-                                                ("canonical.com"
-                                                 "#canonical"
-                                                 "#distro"
-                                                 "#security"
-                                                 "#security-private"
-                                                 "#snappy-internal"
-                                                 "#server"
-                                                 "#FIPS"
-                                                 "#is")))
+            (setq erc-autojoin-channels-alist nil)
             (setq erc-hide-list '("JOIN" "PART" "QUIT"))
             (setq erc-fill-function #'erc-fill-static)
             (setq erc-fill-static-center 22)
