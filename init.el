@@ -780,14 +780,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package erc
   :ensure t
-  :preface (defun apm-launch-erc ()
-             (erc-tls :server "irc.freenode.net" :port 6697)
-             ;; requires either an entry in ~/.authinfo.gpg or a secret in Login keyring:
-             ;; $ secret-tool store --label="Canonical IRC"  host "irc.canonical.com" user amurray port 6697
-             (erc-tls :server "irc.canonical.com" :port 6697)
-             (erc-tls :server "irc.oftc.net" :port 6697))
-  ;; autoconnect at startup
-  :hook (after-init . apm-launch-erc)
   :config (progn
             (eval-and-compile
               (require 'erc-join)
@@ -826,8 +818,7 @@ Otherwise call `ediff-buffers' interactively."
             (unless (file-exists-p erc-log-channels-directory)
               (mkdir erc-log-channels-directory t))
 
-            (erc-autojoin-mode 1)
-            (erc-services-mode 1)))
+            (erc-autojoin-mode 1)))
 
 (use-package erc-hl-nicks
   :ensure t
@@ -1994,6 +1985,17 @@ ${3:Ticket: #${4:XXXX}}")))
             (define-key evil-visual-state-map (kbd "C-]") #'xref-find-definitions)
             (define-key evil-normal-state-map (kbd "C-]") #'xref-find-definitions)
             (define-key evil-normal-state-map (kbd "C-t") #'xref-pop-marker-stack)))
+
+(use-package znc
+  :ensure t
+  :config (let ((slugs '(oftc freenode canonical))
+                (username "amurray")
+                (password (secrets-get-secret "Login" "ZNC")))
+            ;; need to ensure /etc/hosts points znc.secret.server to the correct hostname
+            (setq znc-servers (list (list "znc.secret.server" 7076 t
+                                         (mapcar #'(lambda (slug)
+                                                     (list slug (format "%s/%s" username slug) password)) slugs)))))
+  :hook (after-init . znc-all))
 
 ;; set gc-cons-threshold back to original value
 (add-hook 'emacs-startup-hook #'apm-set-gc-threshold)
