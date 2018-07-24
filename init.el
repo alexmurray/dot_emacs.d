@@ -467,6 +467,9 @@ The object labels of the found items are returned as list."
     (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
   :hook ((c-mode c++-mode) . apm-c-mode-setup))
 
+(use-package check-cves-mode
+  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/")
+
 (use-package company
   :ensure t
   ;; Use Company for completion
@@ -614,7 +617,6 @@ The object labels of the found items are returned as list."
   :hook ((c-mode-common . cov-mode)
          (cov-mode . apm-cov-mode-setup)))
 
-
 (use-package cquery
   :ensure t
   :preface
@@ -663,6 +665,9 @@ The object labels of the found items are returned as list."
 (use-package cua-base
   ;; use CUA mode for rectangle selections etc but not copy/paste etc
   :init (cua-selection-mode 1))
+
+(use-package cve-mode
+  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/")
 
 ;; show suspicious c constructs automatically
 (use-package cwarn
