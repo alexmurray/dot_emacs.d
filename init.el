@@ -1376,6 +1376,9 @@ ${3:Ticket: #${4:XXXX}}")))
         "/launchpad-bugs")
        ((string-prefix-p "[USN-" subject) "/usn")
        ((string-prefix-p "[Merge]" subject) "/merge-requests")
+       ((or (mu4e-message-contact-field-matches msg :to "linux-distros@vs.openwall.org")
+            (mu4e-message-contact-field-matches msg :cc "linux-distros@vs.openwall.org"))
+        "/Lists/linux-distros")
        ((mu4e-message-contact-field-matches msg :to "opensuse-security-announce@opensuse.org")
         "/Lists/opensuse-security-announce")
        ((mu4e-message-contact-field-matches msg :to "newsbox@idg.com")
@@ -1441,11 +1444,13 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq mu4e-headers-sort-direction 'ascending)
             (setq mu4e-use-fancy-chars t)
 
-            (setq mu4e-update-interval 60)
+            (setq mu4e-update-interval 120)
             (setq mu4e-compose-reply-to-address "alex.murray@canonical.com"
                   mu4e-user-mail-address-list '("alex.murray@canonical.com")
                   user-mail-address "alex.murray@canonical.com"
                   user-full-name  "Alex Murray")
+            (setq mu4e-compose-complete-ignore-address-regexp
+                  "\\(no-?reply\\|bugs.launchpad.net\\)")
             (setq mu4e-compose-signature
                   "Alex Murray\nhttps://launchpad.net/~alexmurray\n")
 
@@ -1864,6 +1869,7 @@ ${3:Ticket: #${4:XXXX}}")))
   ;; ensure an entry in ~/.authinfo.gpg or similar like:
   ;; machine smtp.canonical.com login USERNAME port 587 password PASSWORD
   :config (progn
+            (setq smtpmail-smtp-user "canonical")
             (setq smtpmail-smtp-server "smtp.canonical.com")
             (setq smtpmail-smtp-service 587)))
 
