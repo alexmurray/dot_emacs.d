@@ -2003,9 +2003,13 @@ ${3:Ticket: #${4:XXXX}}")))
                 (username "amurray")
                 (password (secrets-get-secret "Login" "ZNC")))
             ;; need to ensure /etc/hosts points znc.secret.server to the correct hostname
-            (setq znc-servers (list (list "znc.secret.server" 7076 t
-                                         (mapcar #'(lambda (slug)
-                                                     (list slug (format "%s/%s" username slug) password)) slugs)))))
+            (setq znc-servers (list
+                               (list "znc.secret.server" 7076 t
+                                     (mapcar #'(lambda (slug)
+                                                 (list slug
+                                                       (format "%s/%s" username slug)
+                                                       password))
+                                             slugs)))))
   :hook (after-init . znc-all))
 
 ;; set gc-cons-threshold back to original value
