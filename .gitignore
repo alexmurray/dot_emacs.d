@@ -12,6 +12,7 @@
 /custom.el
 /elpa
 /emojis/*
+/erc
 /eshell
 /flycheck_init.el
 /helm-adaptive-history
