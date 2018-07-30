@@ -473,7 +473,7 @@ The object labels of the found items are returned as list."
 (use-package company
   :ensure t
   ;; Use Company for completion
-  :bind (("C-;" . company-complete-common)
+  :bind (("C-<tab>" . company-complete-common)
          :map company-mode-map
          ([remap completion-at-point] . company-complete-common)
          ([remap complete-symbol] . company-complete-common))
@@ -543,7 +543,7 @@ The object labels of the found items are returned as list."
   :hook ((company-mode . company-quickhelp-mode))
   :config (setq company-quickhelp-delay 0.1))
 
-(use-package company-reftex             ; Backends for RefTeX
+(use-package company-reftex
   :ensure t
   :after company
   :init (progn
@@ -908,7 +908,9 @@ Otherwise call `ediff-buffers' interactively."
 (use-package evil-collection
   :ensure t
   :after evil
-  :config (evil-collection-init))
+  :config (progn
+            (setq evil-collection-company-use-tng nil)
+            (evil-collection-init)))
 
 (use-package evil-anzu
   :ensure t)
