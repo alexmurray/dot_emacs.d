@@ -967,6 +967,7 @@ Otherwise call `ediff-buffers' interactively."
               "mm" 'magit-dispatch-popup
               "ms" 'mu4e-headers-search
               "mu" 'mu4e
+              "mi" 'apm-mu4e-jump-to-inbox
               "oa" 'org-agenda
               "ob" 'org-ido-switchb
               "oca" 'org-capture
@@ -1398,6 +1399,10 @@ ${3:Ticket: #${4:XXXX}}")))
             (mu4e-message-contact-field-matches msg :to "rt@admin.canonical.com"))
         "/canonical-is")
        (t "/Archive"))) )
+  (defun apm-mu4e-jump-to-inbox ()
+    "jump to mu4e inbox"
+    (interactive)
+    (mu4e-headers-search "maildir:/INBOX"))
   :config (progn
             (setq mail-user-agent 'mu4e-user-agent)
             (setq mu4e-maildir "~/Maildir")
