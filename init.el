@@ -1175,7 +1175,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package goto-addr
   :defer t
-  :hook ((prog-mode . goto-address-prog-mode)))
+  :hook ((prog-mode . goto-address-prog-mode)
+         (erc-mode . goto-address-mode)
+         (text-mode . goto-address-mode)))
 
 (use-package gud
   :defer t
