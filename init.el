@@ -1479,6 +1479,9 @@ ${3:Ticket: #${4:XXXX}}")))
                   mu4e-user-mail-address-list '("alex.murray@canonical.com")
                   user-mail-address "alex.murray@canonical.com"
                   user-full-name  "Alex Murray")
+            (setq epg-user-id "alex.murray@canonical.com")
+            (setq mml-secure-openpgp-encrypt-to-self t)
+            (setq mml-secure-openpgp-sign-with-sender t)
             (setq mu4e-compose-complete-ignore-address-regexp
                   "\\(no-?reply\\|bugs.launchpad.net\\)")
             (setq mu4e-compose-signature
