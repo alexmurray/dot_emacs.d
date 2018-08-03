@@ -421,11 +421,20 @@ The object labels of the found items are returned as list."
          (erc-mode . bug-reference-mode)
          (mu4e-view-mode . bug-reference-mode)
          (org-mode . bug-reference-mode))
+  :preface (defun apm-bug-reference-url-format ()
+             (let ((prefix (match-string-no-properties 1))
+                   (id (match-string-no-properties 2)))
+               (cond ((or (string-prefix-p "lp" prefix t)
+                          (string-prefix-p "bug" prefix t))
+                      (format "https://bugs.launchpad.net/bugs/%s" id))
+                     ((string-prefix-p "CVE" prefix)
+                      (format "https://people.canonical.com/~ubuntu-security/cve/CVE-%s.html" id))
+                     (t (error (concat "Unknown bug prefix '%s'" prefix))))))
   :init (progn
           (eval-when-compile
             (require 'bug-reference))
-          (setq bug-reference-url-format "https://bugs.launchpad.net/bugs/%s"
-                bug-reference-bug-regexp "\\([Ll][Pp][#: ]\\|#\\)\\([0-9]+\\)")))
+          (setq bug-reference-url-format #'apm-bug-reference-url-format
+                bug-reference-bug-regexp "\\([Ll][Pp]:?\\|bug\\|#\\|CVE[ -]\\) ?\\([0-9-]+\\)")))
 
 (use-package cargo
   :ensure t
