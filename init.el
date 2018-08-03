@@ -1386,7 +1386,6 @@ ${3:Ticket: #${4:XXXX}}")))
          ([(meta shift down)] . move-text-down)))
 
 (use-package mu4e
-  :ensure-system-package ((mu . mu4e))
   :preface
   ;; TODO: consider using imapfilter
   (defun apm-mu4e-refile-message (msg)
