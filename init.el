@@ -1010,6 +1010,7 @@ Otherwise call `ediff-buffers' interactively."
               "s" 'counsel-grep-or-swiper
               "u" 'counsel-unicode-char
               "v" 'er/expand-region
+              "w" 'world-time-list
               "x" 'counsel-M-x))
   :init (global-evil-leader-mode 1))
 
@@ -1923,6 +1924,12 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package systemd
   :ensure t)
 
+(use-package time
+  :config (setq zoneinfo-style-world-list '(("Australia/Adelaide" "Home")
+                                            ("Europe/London" "London")
+                                            ("Canada/Eastern" "Quebec")
+                                            ("America/Los_Angeles" "Los Angeles")
+                                            ("America/Chicago" "Austin"))))
 (use-package tramp
   :config (setq-default tramp-default-method "ssh"))
 
@@ -1977,6 +1984,9 @@ ${3:Ticket: #${4:XXXX}}")))
                         '(face trailing tabs tab-mark lines-tail))
           (setq-default whitespace-display-mappings
                         '((tab-mark ?\t [?\u279b ?\t] [?\\ ?\t])))))
+
+(use-package world-time-mode
+  :ensure t)
 
 (use-package yaml-mode
   :ensure t)
