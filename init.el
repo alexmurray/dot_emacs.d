@@ -409,6 +409,10 @@ The object labels of the found items are returned as list."
   :ensure t
   :config (beginend-global-mode 1))
 
+(use-package bbdb
+  :ensure t
+  :config (bbdb-initialize 'message 'mu4e))
+
 (use-package browse-kill-ring
   :ensure t)
 
