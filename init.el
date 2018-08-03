@@ -1470,6 +1470,7 @@ ${3:Ticket: #${4:XXXX}}")))
             ;; needed for mbsync
             (setq mu4e-change-filenames-when-moving t)
 
+            (setq mu4e-compose-format-flowed t)
             (setq mu4e-headers-sort-direction 'ascending)
             (setq mu4e-use-fancy-chars t)
 
@@ -1851,7 +1852,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package simple
   :defer t
-  :hook ((text-mode . visual-line-mode))
+  :hook ((text-mode mu4e-view-mode) . visual-line-mode)
   :init (progn
           ;; save whatever is in the system clipboard to the kill ring before
           ;; killing something else into the kill ring
