@@ -772,18 +772,15 @@ Otherwise call `ediff-buffers' interactively."
           (electric-indent-mode 1)
           (electric-layout-mode 1)))
 
-(use-package elisp-slime-nav
+(use-package elisp-def
   :ensure t
   :defer t
   :after evil
-  :hook ((emacs-lisp-mode ielm-mode) . elisp-slime-nav-mode)
+  :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode)
   :config (progn
-            (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-]")
-              #'elisp-slime-nav-find-elisp-thing-at-point)
-            (evil-define-key 'visual elisp-slime-nav-mode-map (kbd "C-]")
-              #'elisp-slime-nav-find-elisp-thing-at-point)
-            (evil-define-key 'normal elisp-slime-nav-mode-map (kbd "C-t")
-              #'pop-tag-mark)))
+            (evil-define-key 'normal elisp-def-mode-map (kbd "C-]") #'elisp-def)
+            (evil-define-key 'visual elisp-def-mode-map (kbd "C-]") #'elisp-def)
+            (evil-define-key 'normal elisp-def-mode-map (kbd "C-t") #'xref-pop-marker-stack)))
 
 (use-package emojify
   :ensure t
