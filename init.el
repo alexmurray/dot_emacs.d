@@ -1476,6 +1476,7 @@ ${3:Ticket: #${4:XXXX}}")))
                   mu4e-user-mail-address-list '("alex.murray@canonical.com")
                   user-mail-address "alex.murray@canonical.com"
                   user-full-name  "Alex Murray")
+            ;; encrypt to self
             (setq epg-user-id "alex.murray@canonical.com")
             (setq mml-secure-openpgp-encrypt-to-self t)
             (setq mml-secure-openpgp-sign-with-sender t)
@@ -1483,6 +1484,10 @@ ${3:Ticket: #${4:XXXX}}")))
                   "\\(no-?reply\\|bugs.launchpad.net\\)")
             (setq mu4e-compose-signature
                   "Alex Murray\nhttps://launchpad.net/~alexmurray\n")
+
+            ;; add action to view in brower
+            (add-to-list 'mu4e-view-actions
+                         '("browser view" . mu4e-action-view-in-browser) t)
 
             (setq mu4e-completing-read-function 'completing-read)
             (setq mu4e-headers-fields '((:human-date . 12)
