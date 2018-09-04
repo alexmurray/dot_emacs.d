@@ -1668,9 +1668,8 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq org-clock-x11idle-program-name "xprintidle")
             ;; reload any saved org clock information on startup
             (org-clock-persistence-insinuate)
-            ;; notify if not clocked in - disable for now
-            ;; (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in)
-            ))
+            ;; notify if not clocked in
+            (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in)))
 
 (use-package org-clock-convenience
   :ensure t
