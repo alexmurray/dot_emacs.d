@@ -435,12 +435,14 @@ The object labels of the found items are returned as list."
                       (format "https://bugs.launchpad.net/bugs/%s" id))
                      ((string-prefix-p "CVE" prefix)
                       (format "https://people.canonical.com/~ubuntu-security/cve/CVE-%s.html" id))
+                     ((string-prefix-p "USN" prefix)
+                      (format "https://usn.ubuntu.com/%s" id))
                      (t (error (concat "Unknown bug prefix '%s'" prefix))))))
   :init (progn
           (eval-when-compile
             (require 'bug-reference))
           (setq bug-reference-url-format #'apm-bug-reference-url-format
-                bug-reference-bug-regexp "\\([Ll][Pp]:?\\|bug\\|#\\|CVE[ -]\\) ?\\([0-9-]+\\)")))
+                bug-reference-bug-regexp "\\([Ll][Pp]:?\\|bug\\|#\\|CVE[ -]\\|USN[ -]\\) ?\\([0-9-]+\\)")))
 
 (use-package cargo
   :ensure t
