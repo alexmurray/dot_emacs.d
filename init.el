@@ -1715,6 +1715,9 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (with-eval-after-load 'plantuml-mode
             (setq org-plantuml-jar-path plantuml-jar-path)))
 
+(use-package ox-hugo
+  :ensure t)
+
 (use-package paradox
   :ensure t
   :preface
