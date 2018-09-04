@@ -1596,7 +1596,9 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package org-capture
   :after org
   :config (setq org-capture-templates '(("t" "Todo" entry (file+headline "~/Dropbox/Orgzly/canonical.org" "Tasks")
-                                         "* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n"))))
+                                         "* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
+                                        ("i" "Topic" entry (file "~/Dropbox/Orgzly/canonical.org")
+                                         "* %?\n%a\n"))))
 
 (use-package org-clock
   :after org
