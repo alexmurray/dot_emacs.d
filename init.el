@@ -846,13 +846,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :after erc)
 
-(use-package erc-image
-  :ensure t
-  :after erc
-  :config (progn
-            (add-to-list 'erc-modules 'image)
-            (erc-update-modules)))
-
 (use-package ercn
   :ensure t
   :preface
