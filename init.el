@@ -668,7 +668,10 @@ The object labels of the found items are returned as list."
             ;; do both Doxygen comment (1) and normal comments (2) and use
             ;; msgpack instead of json for more compact cache
             (setq cquery-extra-init-params '(:index (:comments 2) :cacheFormat "msgpack"))
-            (setq cquery-executable apm-cquery-executable)))
+            (setq cquery-executable apm-cquery-executable)
+            ;; use consolidated cache dir so we don't pollute project trees
+            (setq cquery-cache-dir-function #'cquery-cache-dir-consolidated)
+            (setq cquery-cache-dir-consolidated-path (expand-file-name "cquery-cache.d" "~/.cache/"))))
 
 (use-package crux
   :ensure t
