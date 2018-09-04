@@ -186,6 +186,8 @@
       '((buffer-file-name "%f" (dired-directory dired-directory "%b"))))
 (setq icon-title-format frame-title-format)
 
+(set-language-environment "UTF-8")
+
 ;; default to maximised windows
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
