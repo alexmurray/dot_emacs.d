@@ -968,6 +968,8 @@ Otherwise call `ediff-buffers' interactively."
               "e" 'eshell
               "fc" 'flycheck-buffer
               "ff" 'counsel-find-file
+              "fl" 'flycheck-list-errors
+              "fv" 'flycheck-verify-setup
               "ge" 'google-error
               "gg" 'counsel-git-grep
               "go" 'google-this
