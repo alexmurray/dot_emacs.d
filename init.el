@@ -793,11 +793,14 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :ensure-system-package ("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
   :config (progn
-            ;; only show unicode emojis
-            (setq emojify-display-style 'unicode)
-            (setq emojify-emoji-styles '(unicode))
-            ;; uncover emoji when point is over them
-            (setq emojify-point-entered-behaviour 'uncover)
+            ;; display emojis using images since looks nicer
+            (setq emojify-display-style 'image)
+            ;; only replace unicode and github emojis (don't mess with ascii ones)
+            (setq emojify-emoji-styles '(unicode github))
+            ;; echo the actual underlying character to the minibuffer when
+            ;; point is over them so we don't mess with the displayed buffer
+            ;; itself
+            (setq emojify-point-entered-behaviour 'echo)
             (global-emojify-mode 1)))
 
 (use-package erc
