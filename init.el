@@ -1484,6 +1484,9 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
             (setq message-citation-line-function #'message-insert-formatted-citation-line)
 
+            ;; kill message buffer after sending rather than burying
+            (setq message-kill-buffer-on-exit t)
+
             (setq mu4e-compose-reply-to-address "alex.murray@canonical.com"
                   mu4e-user-mail-address-list '("alex.murray@canonical.com")
                   user-mail-address "alex.murray@canonical.com"
