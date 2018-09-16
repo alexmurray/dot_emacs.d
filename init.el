@@ -595,35 +595,6 @@ The object labels of the found items are returned as list."
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error))
 
-(use-package counsel
-  :ensure t
-  :after ivy
-  :defer t
-  :bind (("M-x" . counsel-M-x)
-         ("M-y" . counsel-yank-pop)
-         ("C-x C-f" . counsel-find-file)
-         ("C-x C-r" . counsel-recentf)
-         :map company-active-map ("C-/" . counsel-company))
-  :config (with-eval-after-load 'evil
-            (eval-when-compile (require 'evil))
-            (define-key evil-ex-map "e " 'counsel-find-file)
-            (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
-            (define-key evil-ex-map "ap " 'counsel-apropos)))
-
-(use-package counsel-notmuch
-  :ensure t
-  :disabled t
-  :after (counsel notmuch)
-  :commands counsel-notmuch
-  :config (evil-define-key 'normal notmuch-common-keymap (kbd "s") #'counsel-notmuch))
-
-(use-package counsel-projectile
-  :ensure t
-  :after (counsel projectile)
-  :config (progn
-            (setq projectile-switch-project-action 'counsel-projectile)
-            (counsel-projectile-mode)))
-
 (use-package cov
   :ensure t
   :preface
@@ -893,11 +864,10 @@ Otherwise call `ediff-buffers' interactively."
     (eval-when-compile
       (require 'em-cmpl))
     (eshell-cmpl-initialize)
-    (with-eval-after-load 'counsel
-      (eval-when-compile (require 'esh-mode))
-      (define-key eshell-mode-map [remap eshell-previous-matching-input] #'counsel-esh-history)
-      (define-key eshell-mode-map [remap eshell-next-matching-input] #'counsel-esh-history)
-      (define-key eshell-mode-map [remap eshell-pcomplete] #'completion-at-point)))
+    (with-eval-after-load 'helm
+      (define-key eshell-mode-map [remap eshell-previous-matching-input] #'helm-eshell-history)
+      (define-key eshell-mode-map [remap eshell-next-matching-input] #'helm-eshell-history)
+      (define-key eshell-mode-map [remap eshell-pcomplete] #'helm-esh-pcomplete)))
   :commands eshell
   :bind (("C-x m" . eshell))
   :hook ((eshell-mode . apm-eshell-mode-setup)))
@@ -965,18 +935,18 @@ Otherwise call `ediff-buffers' interactively."
               "SPC" 'avy-goto-word-or-subword-1
               "l" 'avy-goto-line
               "c" 'avy-goto-char-timer
-              "a" 'counsel-ag
-              "b" 'ivy-switch-buffer
+              "a" 'helm-ag
+              "b" 'helm-mini
               "df" 'doxyas-document-function
               "e" 'eshell
               "fc" 'flycheck-buffer
-              "ff" 'counsel-find-file
+              "ff" 'helm-find-files
               "fl" 'flycheck-list-errors
               "fv" 'flycheck-verify-setup
               "ge" 'google-error
-              "gg" 'counsel-git-grep
+              "gg" 'helm-grep-do-git-grep
               "go" 'google-this
-              "i" 'counsel-imenu
+              "i" 'helm-imenu
               "k" 'kill-buffer
               "l" 'apm-browse-lp-bug-at-point
               "mc" 'mu4e-compose-new
@@ -995,29 +965,29 @@ Otherwise call `ediff-buffers' interactively."
               "oco" 'org-clock-out
               "ocs" 'org-mru-clock-in
               "ocu" 'org-clock-update-time-maybe
-              "oo" 'counsel-org-goto
+              "oo" 'helm-org-goto
               "ot" 'org-todo-list
-              "P" 'counsel-projectile-switch-project
-              "pa" 'counsel-projectile-ag
-              "pb" 'counsel-projectile-switch-to-buffer
-              "pc" 'counsel-projectile
+              "P" 'helm-projectile-switch-project
+              "pa" 'helm-projectile-ag
+              "pb" 'helm-projectile-switch-to-buffer
+              "pc" 'helm-projectile
               "pe" 'projectile-run-eshell
-              "pd" 'counsel-projectile-find-dir
+              "pd" 'helm-projectile-find-dir
               "pD" 'projectile-find-dir-other-window
-              "pf" 'counsel-projectile-find-file
+              "pf" 'helm-projectile-find-file
               "pF" 'projectile-find-file-other-window
-              "ph" 'counsel-projectile
+              "ph" 'helm-projectile
               "pk" 'projectile-kill-buffers
               "pm" 'helm-make-projectile
               "po" 'projectile-find-other-file
-              "pp" 'counsel-projectile
+              "pp" 'helm-projectile
               "pr" 'projectile-recentf
-              "r" 'counsel-recentf
-              "s" 'counsel-grep-or-swiper
-              "u" 'counsel-unicode-char
+              "r" 'helm-recentf
+              "s" 'helm-swoop
+              "u" 'helm-ucs
               "v" 'er/expand-region
               "w" 'world-time-list
-              "x" 'counsel-M-x))
+              "x" 'helm-M-x))
   :init (global-evil-leader-mode 1))
 
 (use-package evil-magit
@@ -1155,12 +1125,6 @@ Otherwise call `ediff-buffers' interactively."
   :hook ((text-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode)))
 
-(use-package flyspell-correct-ivy
-  :ensure t
-  ;; use instead of ispell-word which evil binds to z=
-  :bind (([remap ispell-word] . flyspell-correct-word-generic)
-         :map flyspell-mode-map ("C-;" . flyspell-correct-previous-word-generic)))
-
 (use-package fuzzy
   :ensure t)
 
@@ -1201,12 +1165,71 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :hook ((gud-mode . gud-tooltip-mode)))
 
-;; we use ivy instead
+(use-package helm-flx
+  :ensure t
+  :config (helm-flx-mode 1))
+
+(use-package helm
+  :ensure t
+  :diminish helm-mode
+  :after helm-flx ; enable hlm-flx before helm
+  :defer t
+  :bind (("M-x" . helm-M-x)
+         ("M-y" . helm-show-kill-ring)
+         ("C-x b" . helm-mini)
+         ("C-x C-b" . helm-buffers-list)
+         ("C-x C-f" . helm-find-files)
+         ("C-x C-r" . helm-recentf))
+  :config (progn
+            (require 'helm-config)
+            ;; silence byte-compile warnings
+            (eval-when-compile
+              (require 'helm-command)
+              (require 'helm-for-files))
+            (setq helm-M-x-fuzzy-match t
+                  helm-buffers-fuzzy-matching t
+                  helm-recentf-fuzzy-match t)
+            (helm-mode 1)
+            (helm-adaptive-mode 1)
+            (define-key isearch-mode-map (kbd "M-o") 'helm-occur-from-isearch)
+            ;; integrate with evil
+            (with-eval-after-load 'evil
+              (define-key evil-ex-map "b " 'helm-mini)
+              (define-key evil-ex-map "bd " 'kill-buffer)
+              (define-key evil-ex-map "e " 'helm-find-files)
+              (evil-ex-define-cmd "ap[ropos]" 'helm-apropos)
+              (define-key evil-ex-map "ap " 'helm-apropos))))
+
+(use-package helm-ag
+  :ensure t
+  :config (progn
+            ;; integrate with evil
+            (with-eval-after-load 'evil
+              (evil-ex-define-cmd "ag" 'helm-ag)
+              (evil-ex-define-cmd "agi[nteractive]" 'helm-do-ag)
+              (define-key evil-ex-map "ag " 'helm-ag)
+              (define-key evil-ex-map "agi " 'helm-do-ag))))
+
+(use-package helm-company
+  :ensure t
+  :defer t
+  :bind (:map company-active-map ("C-/" . helm-company)))
+
+(use-package helm-flyspell
+  :ensure t
+  ;; use instead of ispell-word which evil binds to z=
+  :bind (([remap ispell-word] . helm-flyspell-correct)))
+
 (use-package helm-make
   :ensure t
   :bind (("C-x C-m" . helm-make-projectile))
-  :config (setq helm-make-completion-method 'ivy))
+  :config (setq helm-make-completion-method 'helm))
 
+(use-package helm-projectile
+  :ensure t
+  :after projectile
+  :config (progn
+            (setq projectile-switch-project-action 'helm)))
 
 (use-package helpful
   :ensure t
@@ -1240,30 +1263,6 @@ Otherwise call `ediff-buffers' interactively."
                   ispell-dictionary "british"
                   ispell-extra-args '("--sug-mode=ultra")))))
 
-(use-package ivy
-  :ensure t
-  :defer t
-  :bind (("C-x b" . ivy-switch-buffer)
-         ("C-c C-r" . ivy-resume))
-  :config (progn
-            (setq ivy-use-virtual-buffers t)
-            ;; allow to select the typed in value with C-p
-            (setq ivy-use-selectable-prompt t)
-            (define-key isearch-mode-map (kbd "M-o") 'ivy-occur)
-            (ivy-mode 1)
-            (setq ivy-re-builders-alist '((t . ivy--regex-plus)))
-            ;; integrate with evil
-            (with-eval-after-load 'evil
-              (define-key evil-ex-map "b " 'ivy-switch-buffer))))
-
-(use-package ivy-prescient
-  :ensure t
-  :after (ivy prescient)
-  :config (ivy-prescient-mode 1))
-
-(use-package ivy-xref
-  :ensure t
-  :init (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
 (use-package jenkins
   :ensure t
@@ -1338,8 +1337,7 @@ ${3:Ticket: #${4:XXXX}}")))
     (setq mode-name ""))
   :defer t
   :bind ("C-x g" . magit-status)
-  :hook ((magit-mode . apm-magit-mode-setup))
-  :config (setq magit-completing-read-function 'ivy-completing-read))
+  :hook ((magit-mode . apm-magit-mode-setup)))
 
 (use-package magithub
   :ensure t
@@ -1694,7 +1692,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package org-mru-clock
   :ensure t
-  :config (setq org-mru-clock-completing-read #'ivy-completing-read))
+  :config (setq org-mru-clock-completing-read #'completing-read))
 
 (use-package org-mu4e
   :after (mu4e org)
@@ -1808,8 +1806,8 @@ ${3:Ticket: #${4:XXXX}}")))
             (add-to-list 'projectile-project-root-files ".cquery")
             (add-to-list 'projectile-project-root-files ".cquery.in")
             (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
-            (with-eval-after-load 'ivy
-              (setq projectile-completion-system 'ivy))))
+            (with-eval-after-load 'helm
+              (setq projectile-completion-system 'helm))))
 
 (use-package python
   :defer t
