@@ -1421,10 +1421,25 @@ ${3:Ticket: #${4:XXXX}}")))
        ((mu4e-message-contact-field-matches msg :from "lillypilly.canonical.com")
         "/Trash")
        (t "/Archive"))) )
+
   (defun apm-mu4e-jump-to-inbox ()
     "jump to mu4e inbox"
     (interactive)
     (mu4e-headers-search "maildir:/INBOX"))
+
+  (defvar apm-mu4e-lp-highlights
+    '((error . ("Private security bug reported"))
+      (warning . ("This bug is a security vulnerability"))))
+
+  (defun apm-mu4e-rewrite-lp-bug (msg txt)
+    "Rewrite MSG TXT returning new TXT."
+    (when (or (string-match-p "^\\(R[eE]: \\)?\\[Bug " (mu4e-message-field msg :subject))
+            (mu4e-message-contact-field-matches msg :from "bugs.launchpad.net"))
+        (dolist (highlight apm-mu4e-lp-highlights)
+          (dolist (text (cdr highlight))
+            (setq txt (replace-regexp-in-string text (propertize text 'face (car highlight)) txt)))))
+    txt)
+
   :config (progn
             (setq mail-user-agent 'mu4e-user-agent)
             (setq mu4e-maildir "~/Maildir")
@@ -1498,6 +1513,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq mu4e-compose-signature
                   "Alex Murray\nhttps://launchpad.net/~alexmurray\n")
 
+            (add-to-list 'mu4e-message-body-rewrite-functions 'apm-mu4e-rewrite-lp-bug t)
             ;; add action to view in brower
             (add-to-list 'mu4e-view-actions
                          '("browser view" . mu4e-action-view-in-browser) t)
