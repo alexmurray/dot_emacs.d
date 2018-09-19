@@ -1719,6 +1719,11 @@ ${3:Ticket: #${4:XXXX}}")))
   :defer t
   :hook ((org-mode . org-table-sticky-header-mode)))
 
+(use-package org-timeline
+  :ensure t
+  :after org
+  :hook ((org-agenda-finalize . org-timeline-insert-timeline)))
+
 (use-package ob-plantuml
   :after plantuml-mode
   :config (with-eval-after-load 'plantuml-mode
