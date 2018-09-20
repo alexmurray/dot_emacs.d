@@ -1388,10 +1388,6 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package meson-mode
   :ensure t)
 
-(use-package minions
-  :ensure t
-  :init (minions-mode))
-
 (use-package modern-cpp-font-lock
   :ensure t
   :defer t
