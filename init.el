@@ -1472,7 +1472,7 @@ ${3:Ticket: #${4:XXXX}}")))
         "/canonical-is")
        ((mu4e-message-contact-field-matches msg :from "lillypilly.canonical.com")
         "/Trash")
-       (t "/Archive"))) )
+       (t "/Archive"))))
 
   (defun apm-mu4e-jump-to-inbox ()
     "jump to mu4e inbox"
