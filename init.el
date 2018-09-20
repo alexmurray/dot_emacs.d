@@ -950,6 +950,8 @@ Otherwise call `ediff-buffers' interactively."
               "k" 'kill-buffer
               "l" 'apm-browse-lp-bug-at-point
               "mc" 'mu4e-compose-new
+              "mf" 'mu4e-compose-forward
+              "mF" 'apm-mu4e-compose-forward-as-attachment
               "mg" 'magit-status
               "mm" 'magit-dispatch-popup
               "ms" 'mu4e-headers-search
@@ -1387,6 +1389,25 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package mu4e
   :preface
+
+  ;; some hacky bits so we can do an async forward as attachment
+  (defvar apm-mu4e-compose-mode-hook-orig)
+  (defvar apm-mu4e-compose-forward-as-attachment-orig)
+
+  (defun apm-mu4e-compose-forward-as-attachment-2 ()
+    (setq mu4e-compose-forward-as-attachment
+          apm-mu4e-compose-forward-as-attachment-orig)
+    (setq mu4e-compose-mode-hook
+          apm-mu4e-compose-mode-hook-orig))
+  (defun apm-mu4e-compose-forward-as-attachment ()
+    "Forward the message as an attachment."
+    (interactive)
+    (setq apm-mu4e-compose-mode-hook-orig mu4e-compose-mode-hook)
+    (setq apm-mu4e-compose-forward-as-attachment-orig mu4e-compose-forward-as-attachment)
+    (setq mu4e-compose-forward-as-attachment t)
+    (setq mu4e-compose-mode-hook '(apm-mu4e-compose-forward-as-attachment-2))
+    (mu4e-compose-forward))
+
   ;; TODO: consider using imapfilter
   (defun apm-mu4e-refile-message (msg)
     (let ((mailing-list (mu4e-message-field msg :mailing-list))
