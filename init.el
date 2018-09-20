@@ -965,7 +965,7 @@ Otherwise call `ediff-buffers' interactively."
               "oco" 'org-clock-out
               "ocs" 'org-mru-clock-in
               "ocu" 'org-clock-update-time-maybe
-              "oo" 'helm-org-goto
+              "oo" 'helm-org-in-buffer-headings
               "ot" 'org-todo-list
               "P" 'helm-projectile-switch-project
               "pa" 'helm-projectile-ag
