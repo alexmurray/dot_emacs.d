@@ -49,6 +49,9 @@
 (eval-when-compile
   (require 'use-package))
 
+(use-package diminish
+  :ensure t)
+
 (use-package bind-key
   :ensure t)
 
@@ -247,6 +250,7 @@
 
 ;;; Packages
 (use-package abbrev
+  :diminish abbrev-mode
   :config (progn
             (setq save-abbrevs t)
             (setq-default abbrev-mode t)))
@@ -264,6 +268,7 @@
 (use-package aggressive-indent
   :ensure t
   :defer t
+  :diminish aggressive-indent-mode
   :config (global-aggressive-indent-mode))
 
 (use-package ag
@@ -279,6 +284,7 @@
 (use-package android-mode
   :ensure t
   :defer t
+  :diminish android-mode
   :commands android-mode
   :hook java-mode
   :init (progn
@@ -292,6 +298,7 @@
 
 (use-package anzu
   :ensure t
+  :diminish anzu-mode global-anzu-mode
   :init (global-anzu-mode)
   :bind (("M-%" . anzu-query-replace-regexp)
          ("C-M-%" . anzu-query-replace)))
@@ -326,6 +333,7 @@
   :mode (("\\.asn1?$" . asn1-mode)))
 
 (use-package autorevert
+  :diminish auto-revert-mode
   :init (global-auto-revert-mode 1))
 
 (use-package auctex
@@ -409,6 +417,7 @@ The object labels of the found items are returned as list."
 
 (use-package beginend
   :ensure t
+  :diminish (beginend-global-mode beginend-prog-mode)
   :config (beginend-global-mode 1))
 
 (use-package bbdb
@@ -457,6 +466,9 @@ The object labels of the found items are returned as list."
   (defun apm-c-mode-common-setup ()
     "Tweaks and customisations for all modes derived from c-common-mode."
     (auto-fill-mode 1)
+    ;; diminish auto-fill in the modeline
+    (with-eval-after-load 'diminish
+      (diminish 'auto-fill-function))
     ;; turn on auto-newline and hungry-delete
     (c-toggle-auto-hungry-state 1)
     ;; turn on electric indent
@@ -597,11 +609,12 @@ The object labels of the found items are returned as list."
 
 (use-package cov
   :ensure t
+  :defer t
+  :diminish cov-mode
   :preface
   (defun apm-cov-mode-setup ()
     "Setup cov-mode."
     (make-local-variable 'cov-coverage-file-paths))
-  :defer t
   :hook ((c-mode-common . cov-mode)
          (cov-mode . apm-cov-mode-setup)))
 
@@ -662,6 +675,7 @@ The object labels of the found items are returned as list."
 
 ;; show suspicious c constructs automatically
 (use-package cwarn
+  :diminish cwarn-mode
   :init (global-cwarn-mode 1))
 
 (use-package debian-changelog-mode
@@ -682,7 +696,6 @@ The object labels of the found items are returned as list."
   :hook ((magit-post-refresh . diff-hl-magit-post-refresh)
          (dired-mode . diff-hl-dired-mode))
   :config (global-diff-hl-mode 1))
-
 
 (use-package disaster
   :ensure t
@@ -739,6 +752,7 @@ Otherwise call `ediff-buffers' interactively."
                 ediff-split-window-function 'split-window-horizontally))
 
 (use-package eldoc
+  :diminish eldoc-mode
   :config (global-eldoc-mode 1))
 
 (use-package elf-mode
@@ -753,6 +767,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package elisp-def
   :ensure t
   :defer t
+  :diminish elisp-def-mode
   :after evil
   :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode)
   :config (progn
@@ -763,6 +778,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package emojify
   :ensure t
   :ensure-system-package ("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
+  :diminish emojify-mode
   :config (progn
             ;; display emojis using images since looks nicer
             (setq emojify-display-style 'image)
@@ -881,6 +897,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package ethan-wspace
   :ensure t
+  :diminish ethan-wspace-mode
   ;; disable ethan-wspace caring about tabs in Makefile's
   :hook ((makefile-mode . makefile-tabs-are-less-evil))
   ;; ethan-wspace-mode raises lots of warnings if this is enabled...
@@ -914,6 +931,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-commentary
   :ensure t
+  :diminish evil-commentary-mode
   :config (evil-commentary-mode 1))
 
 (use-package evil-expat
@@ -921,6 +939,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-goggles
   :ensure t
+  :diminish evil-goggles-mode
   :config (progn
             (setq evil-goggles-duration 0.1)
             (evil-goggles-mode 1)
@@ -1006,12 +1025,14 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-smartparens
   :ensure t
+  :diminish evil-smartparens-mode
   :defer t
   ;; only use with strict smartparens otherwise is too annoying for normal cases
   :hook ((smartparens-strict-mode . evil-smartparens-mode)))
 
 (use-package evil-surround
   :ensure t
+  :diminish evil-surround-mode
   :init (global-evil-surround-mode 1))
 
 (use-package evil-textobj-anyblock
@@ -1042,6 +1063,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck
   :ensure t
+  :diminish flycheck-mode
   :preface
   (defun apm-flycheck-setup ()
     "Setup flycheck."
@@ -1124,6 +1146,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flyspell
   :defer t
+  :diminish flyspell-mode
   :hook ((text-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode)))
 
@@ -1249,6 +1272,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package hungry-delete
   :ensure t
+  :diminish hungry-delete-mode
   :config (global-hungry-delete-mode 1))
 
 (use-package ispell
@@ -1938,6 +1962,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package smartparens
   :ensure t
+  :diminish smartparens-mode
   :preface
   ;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
   (defun apm-c-mode-common-open-block (&rest ignored)
@@ -2017,6 +2042,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package undo-tree
   :ensure t
+  :diminish undo-tree-mode
   :init (global-undo-tree-mode 1))
 
 (use-package uniquify
@@ -2054,9 +2080,11 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package which-key
   :ensure t
+  :diminish which-key-mode
   :config (which-key-mode))
 
 (use-package whitespace
+  :diminish whitespace-mode
   :hook ((prog-mode . whitespace-mode))
   ;; higlight long lines
   :init (progn
