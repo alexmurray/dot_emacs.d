@@ -1375,6 +1375,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package moody
   :ensure t
+  :disabled t
   :config (progn
             (setq x-underline-at-descent-line t)
             (setq moody-mode-line-height 24)
@@ -1822,6 +1823,15 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package posframe
   :ensure t)
+
+(use-package powerline
+  :ensure t
+  :init (setq powerline-height 25))
+
+(use-package powerline-evil
+  :ensure t
+  :after powerline
+  :config (powerline-evil-vim-color-theme))
 
 (use-package prescient
   :ensure t
