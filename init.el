@@ -808,7 +808,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq erc-autojoin-channels-alist nil)
             (setq erc-hide-list '("JOIN" "PART" "QUIT"))
             (setq erc-fill-function #'erc-fill-static)
-            (setq erc-fill-static-center 22)
+            (setq erc-fill-static-center 18)
 
             ;; use sensible buffer names with server as well
             (setq erc-rename-buffers t)
