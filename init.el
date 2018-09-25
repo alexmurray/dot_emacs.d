@@ -1475,19 +1475,18 @@ ${3:Ticket: #${4:XXXX}}")))
   (defun apm-mu4e-jump-to-inbox ()
     "jump to mu4e inbox"
     (interactive)
-    (mu4e-headers-search "maildir:/INBOX"))
+    (mu4e-headers-search "maildir:/INBOX")
+    (switch-to-buffer "*mu4e-headers*" nil t))
 
-  (defvar apm-mu4e-lp-highlights
+  (defvar apm-mu4e-highlights
     '((error . ("Private security bug reported"))
       (warning . ("This bug is a security vulnerability"))))
 
-  (defun apm-mu4e-rewrite-lp-bug (msg txt)
+  (defun apm-mu4e-rewrite-add-highlights (msg txt)
     "Rewrite MSG TXT returning new TXT."
-    (when (or (string-match-p "^\\(R[eE]: \\)?\\[Bug " (mu4e-message-field msg :subject))
-            (mu4e-message-contact-field-matches msg :from "bugs.launchpad.net"))
-        (dolist (highlight apm-mu4e-lp-highlights)
-          (dolist (text (cdr highlight))
-            (setq txt (replace-regexp-in-string text (propertize text 'face (car highlight)) txt)))))
+    (dolist (highlight apm-mu4e-highlights)
+      (dolist (text (cdr highlight))
+        (setq txt (replace-regexp-in-string text (propertize text 'face (car highlight)) txt))))
     txt)
 
   :config (progn
@@ -1563,7 +1562,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq mu4e-compose-signature
                   "Alex Murray\nhttps://launchpad.net/~alexmurray\n")
 
-            (add-to-list 'mu4e-message-body-rewrite-functions 'apm-mu4e-rewrite-lp-bug t)
+            (add-to-list 'mu4e-message-body-rewrite-functions 'apm-mu4e-rewrite-add-highlights t)
             ;; add action to view in brower
             (add-to-list 'mu4e-view-actions
                          '("browser view" . mu4e-action-view-in-browser) t)
