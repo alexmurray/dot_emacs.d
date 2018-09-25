@@ -818,17 +818,15 @@ Otherwise call `ediff-buffers' interactively."
             (add-to-list 'erc-modules 'log)
             (erc-update-modules)
 
-            (setq erc-pals '("ratliff" "jdstrand" "mdeslaur" "jjohansen" "ChrisCoulson" "sarnold" "sbeattie" "tyhicks" "leosilva" "kees" "msalvatore" "ebarretto"))
+            (setq erc-pals '("ratliff" "jdstrand" "mdeslaur" "jjohansen" "ChrisCoulson" "sarnold" "sbeattie" "tyhicks" "leosilva" "kees" "msalvatore" "ebarretto" "JamieBennett"))
             (setq erc-keywords '("[Cc][Vv][Ee]" "vulnerability" "apparmor" "seccomp" "exploit"))
 
             ;; when joining don't bring to front
             (setq erc-join-buffer 'bury)
 
+            (setq erc-track-position-in-mode-line t)
             (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE" "333" "353"))
             (setq erc-track-exclude-server-buffer t)
-            (setq erc-track-faces-priority-list '(erc-error-face erc-current-nick-face erc-keyword-face erc-nick-msg-face erc-direct-msg-face erc-notice-face erc-prompt-face erc-pal-face))
-            (setq erc-track-priority-faces-only 'all)
-            (erc-track-enable)
 
             (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
             (setq erc-log-insert-log-on-open nil)
