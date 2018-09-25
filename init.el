@@ -417,7 +417,7 @@ The object labels of the found items are returned as list."
 
 (use-package beginend
   :ensure t
-  :diminish (beginend-global-mode beginend-prog-mode)
+  :diminish (beginend-global-mode beginend-prog-mode beginend-magit-status-mode)
   :config (beginend-global-mode 1))
 
 (use-package bbdb
@@ -1878,6 +1878,7 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package projectile
   :ensure t
   :defer t
+  :diminish projectile-mode
   :defines (projectile-enable-caching)
   :init (progn
           (setq projectile-enable-caching t)
@@ -1958,6 +1959,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package simple
   :defer t
+  :diminish visual-line-mode
   :hook ((text-mode mu4e-view-mode) . visual-line-mode)
   :init (progn
           ;; save whatever is in the system clipboard to the kill ring before
