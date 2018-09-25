@@ -417,8 +417,11 @@ The object labels of the found items are returned as list."
 
 (use-package beginend
   :ensure t
-  :diminish (beginend-global-mode beginend-prog-mode beginend-magit-status-mode)
-  :config (beginend-global-mode 1))
+  :config (progn
+            ;; beginend defines lots of different modes so diminish them all
+            (dolist (m beginend-modes)
+              (diminish (cdr m)))
+            (beginend-global-mode 1)))
 
 (use-package bbdb
   :ensure t
