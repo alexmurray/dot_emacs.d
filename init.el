@@ -1485,8 +1485,9 @@ ${3:Ticket: #${4:XXXX}}")))
     '((error . ("Private security bug reported"))
       (warning . ("This bug is a security vulnerability"))))
 
-  (defun apm-mu4e-rewrite-add-highlights (msg txt)
-    "Rewrite MSG TXT returning new TXT."
+  ;; ignore first argument (msg) for now
+  (defun apm-mu4e-rewrite-add-highlights (_ txt)
+    "Rewrite TXT returning new TXT."
     (dolist (highlight apm-mu4e-highlights)
       (dolist (text (cdr highlight))
         (setq txt (replace-regexp-in-string text (propertize text 'face (car highlight)) txt))))
