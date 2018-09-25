@@ -782,8 +782,8 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             ;; display emojis using images since looks nicer
             (setq emojify-display-style 'image)
-            ;; only replace unicode and github emojis (don't mess with ascii ones)
-            (setq emojify-emoji-styles '(unicode github))
+            ;; only replace unicode emojis (don't mess with ascii ones)
+            (setq emojify-emoji-styles '(unicode))
             ;; echo the actual underlying character to the minibuffer when
             ;; point is over them so we don't mess with the displayed buffer
             ;; itself
