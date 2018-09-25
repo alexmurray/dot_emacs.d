@@ -1856,12 +1856,9 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package powerline
   :ensure t
-  :init (setq powerline-height 25))
-
-(use-package powerline-evil
-  :ensure t
-  :after powerline
-  :config (powerline-evil-vim-color-theme))
+  :config (progn
+            (setq powerline-default-separator 'wave)
+            (setq powerline-height 25)))
 
 (use-package prescient
   :ensure t
@@ -2028,6 +2025,13 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq solarized-scale-org-headlines nil)
             (setq solarized-use-variable-pitch nil)
             (load-theme 'solarized-light t)))
+
+(use-package spaceline-config
+  :ensure spaceline
+  :config (progn
+            (spaceline-helm-mode 1)
+            (spaceline-info-mode 1)
+            (spaceline-spacemacs-theme)))
 
 (use-package sudo-edit
   :ensure t
