@@ -1013,7 +1013,7 @@ Otherwise call `ediff-buffers' interactively."
               "pr" 'projectile-recentf
               "r" 'helm-recentf
               "s" 'helm-swoop
-              "u" 'helm-ucs
+              "u" 'emojify-insert-emoji
               "v" 'er/expand-region
               "w" 'world-time-list
               "x" 'helm-M-x))
@@ -1262,7 +1262,7 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :after projectile
   :config (progn
-            (setq projectile-switch-project-action 'helm)))
+            (setq projectile-switch-project-action 'helm-projectile-find-file)))
 
 (use-package helpful
   :ensure t
