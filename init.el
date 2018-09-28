@@ -849,6 +849,8 @@ Otherwise call `ediff-buffers' interactively."
   :after erc)
 
 (use-package ercn
+  ;; this is handled by sauron now
+  :disabled t
   :ensure t
   :preface
   (defun apm-ercn-notify (nickname message)
