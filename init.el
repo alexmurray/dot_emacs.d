@@ -417,6 +417,7 @@ The object labels of the found items are returned as list."
 
 (use-package beginend
   :ensure t
+  :diminish beginend-global-mode
   :config (progn
             ;; beginend defines lots of different modes so diminish them all
             (dolist (m beginend-modes)
