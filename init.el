@@ -1948,7 +1948,12 @@ ${3:Ticket: #${4:XXXX}}")))
                                               erc-keywords))
           (add-hook 'sauron-event-block-functions #'apm-sauron-event-block-irc-user-spam)
           ;; notify via alert
-          (add-hook 'sauron-event-added-functions 'sauron-alert-el-adapter))
+          (add-hook 'sauron-event-added-functions 'sauron-alert-el-adapter)
+          ;; integrate with evil
+          (with-eval-after-load 'evil-collection
+            (evil-collection-define-key 'normal 'sauron-mode-map (kbd "c") #'sauron-clear)
+            (evil-collection-define-key 'normal 'sauron-mode-map (kbd "q") #'sauron-toggle-hide-show)
+            (evil-collection-define-key 'normal 'sauron-mode-map (kbd "<return>") #'sauron-activate-event)))
   :config (progn
             (sauron-start)
             ;; sauron is sending notifications so it shouldn't track them as well
