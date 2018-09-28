@@ -988,6 +988,7 @@ Otherwise call `ediff-buffers' interactively."
               "ms" 'mu4e-headers-search
               "mu" 'mu4e
               "mi" 'apm-mu4e-jump-to-inbox
+              "n"  'sauron-toggle-hide-show
               "oa" 'org-agenda
               "ob" 'org-ido-switchb
               "oca" 'org-capture
@@ -1926,6 +1927,32 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package rust-mode
   :ensure t)
+
+(use-package sauron
+  :ensure t
+  :after (erc org)
+  :bind (("M-o" . sauron-toggle-hide-show))
+  :preface
+  ;; filter out IRC spam
+  (defun apm-sauron-event-block-irc-user-spam (origin priority msg &optional properties)
+    (or (string-match "^*** Users" msg)))
+  :init (progn
+          (setq sauron-modules '(sauron-compilation
+                                 sauron-dbus
+                                 sauron-erc
+                                 sauron-mu4e
+                                 sauron-org))
+          ;; add myself so I get notified when mentioned
+          (setq sauron-watch-nicks (append '("amurray") erc-pals))
+          (setq sauron-watch-patterns (append sauron-watch-nicks
+                                              erc-keywords))
+          (add-hook 'sauron-event-block-functions #'apm-sauron-event-block-irc-user-spam)
+          ;; notify via alert
+          (add-hook 'sauron-event-added-functions 'sauron-alert-el-adapter))
+  :config (progn
+            (sauron-start)
+            ;; sauron is sending notifications so it shouldn't track them as well
+            (sauron-notifications-stop)))
 
 ;; save minibuffer history
 (use-package savehist
