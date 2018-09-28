@@ -1954,6 +1954,17 @@ ${3:Ticket: #${4:XXXX}}")))
             (evil-collection-define-key 'normal 'sauron-mode-map (kbd "q") #'sauron-toggle-hide-show)
             (evil-collection-define-key 'normal 'sauron-mode-map (kbd "<return>") #'sauron-activate-event)))
   :config (progn
+            ;; put sauron in a side window https://github.com/djcb/sauron/issues/59
+            (setq fit-window-to-buffer-horizontally t)
+            (setq window-resize-pixelwise t)
+
+            (setq display-buffer-alist
+                  '(("Sauron" display-buffer-in-side-window
+                     (side . top)
+                     (slot . -1)
+                     (window-height . fit-window-to-buffer)
+                     (preserve-size . (nil . t))
+                     (window-parameters . ((no-other-window . t) (no-delete-other-windows . t))))))
             (sauron-start)
             ;; sauron is sending notifications so it shouldn't track them as well
             (sauron-notifications-stop)))
