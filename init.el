@@ -964,7 +964,6 @@ Otherwise call `ediff-buffers' interactively."
                   evil-leader/in-all-states t)
             (evil-leader/set-key
               "SPC" 'avy-goto-word-or-subword-1
-              "l" 'avy-goto-line
               "c" 'avy-goto-char-timer
               "a" 'helm-ag
               "b" 'helm-mini
