@@ -1139,6 +1139,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package flycheck-cstyle
   :ensure t
+  :disabled t
   :after lsp-ui
   :init (unless (executable-find "cstyle")
           (alert "cstyle not found - is it installed?"))
@@ -1308,6 +1309,7 @@ Otherwise call `ediff-buffers' interactively."
 (use-package ispell
   :defer t
   :hook ((text-mode . ispell-minor-mode))
+  :diminish ispell-minor-mode
   :init (progn
           ;; windows specific config
           (when (eq system-type 'windows-nt)
@@ -1805,6 +1807,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :ensure t
   :after org
   :defer t
+  :diminish org-table-sticky-header-mode
   :hook ((org-mode . org-table-sticky-header-mode)))
 
 (use-package org-timeline
@@ -1869,7 +1872,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (progn
             (setq plantuml-jar-path (expand-file-name "~/plantuml.jar"))
             (unless (file-exists-p plantuml-jar-path)
-              (alert (format "plantuml not found at %s" plantuml-jar-path)))))
+              (message "plantuml not found at %s" plantuml-jar-path))))
 
 (use-package posframe
   :ensure t)
