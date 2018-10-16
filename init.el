@@ -849,8 +849,6 @@ Otherwise call `ediff-buffers' interactively."
   :after erc)
 
 (use-package ercn
-  ;; this is handled by sauron now
-  :disabled t
   :ensure t
   :preface
   (defun apm-ercn-notify (nickname message)
@@ -1928,34 +1926,6 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package rust-mode
   :ensure t)
-
-(use-package sauron
-  :ensure t
-  :after (erc org)
-  :bind (("M-o" . sauron-toggle-hide-show))
-  :preface
-  ;; filter out IRC spam
-  (defun apm-sauron-event-block-irc-user-spam (origin priority msg &optional properties)
-    (or (string-match "^*** Users" msg)))
-  :init (progn
-          (setq sauron-modules '(sauron-compilation
-                                 sauron-dbus
-                                 sauron-erc
-                                 sauron-mu4e
-                                 sauron-org))
-          ;; add myself so I get notified when mentioned
-          (setq sauron-watch-nicks (append '("amurray") erc-pals))
-          (setq sauron-watch-patterns (append sauron-watch-nicks
-                                              erc-keywords))
-          (add-hook 'sauron-event-block-functions #'apm-sauron-event-block-irc-user-spam)
-          ;; notify via alert
-          (add-hook 'sauron-event-added-functions 'sauron-alert-el-adapter)
-          ;; integrate with evil
-          (with-eval-after-load 'evil-collection
-            (evil-collection-define-key 'normal 'sauron-mode-map (kbd "c") #'sauron-clear)
-            (evil-collection-define-key 'normal 'sauron-mode-map (kbd "q") #'sauron-toggle-hide-show)
-            (evil-collection-define-key 'normal 'sauron-mode-map (kbd "<return>") #'sauron-activate-event)))
-  :config (sauron-start))
 
 ;; save minibuffer history
 (use-package savehist
