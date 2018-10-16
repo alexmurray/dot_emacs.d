@@ -1174,6 +1174,17 @@ Otherwise call `ediff-buffers' interactively."
   :hook ((text-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode)))
 
+(use-package flyspell-correct
+  :ensure t
+  ;; use instead of ispell-word which evil binds to z=
+  :commands (flyspell-correct-word-at-point)
+  :bind (([remap ispell-word] . flyspell-correct-word-at-point)))
+
+(use-package flyspell-correct-helm
+  :ensure t
+  :commands (flyspell-correct-helm)
+  :init (setq flyspell-correct-interface #'flyspell-correct-helm))
+
 (use-package fuzzy
   :ensure t)
 
@@ -1263,11 +1274,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :defer t
   :bind (:map company-active-map ("C-/" . helm-company)))
-
-(use-package helm-flyspell
-  :ensure t
-  ;; use instead of ispell-word which evil binds to z=
-  :bind (([remap ispell-word] . helm-flyspell-correct)))
 
 (use-package helm-make
   :ensure t
