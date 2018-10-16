@@ -843,7 +843,20 @@ Otherwise call `ediff-buffers' interactively."
             (unless (file-exists-p erc-log-channels-directory)
               (mkdir erc-log-channels-directory t))
 
-            (erc-autojoin-mode 1)))
+            (erc-autojoin-mode 1)
+
+            ;; ensure erc tries to reuse windows as much as possible
+            (defun apm-reuse-erc-window (buffer action)
+              (with-current-buffer buffer
+                (if (eq major-mode 'erc-mode)
+                    ;; Don't override an explicit action
+                    (not action))))
+
+            (add-to-list 'display-buffer-alist
+                         '(apm-reuse-erc-window . (display-buffer-reuse-mode-window
+                                                   (inhibit-same-window . t)
+                                                   (inhibit-switch-frame . t)
+                                                   (mode . erc-mode))))))
 
 (use-package erc-hl-nicks
   :ensure t
