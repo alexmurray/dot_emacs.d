@@ -77,7 +77,8 @@
     "Make _ a word character."
     (modify-syntax-entry ?_ "w"))
   ;; use evil-collection instead
-  :init (setq evil-want-integration nil)
+  :init (setq evil-want-integration nil
+              evil-want-keybinding nil)
   ;; make underscore a word character so movements across words
   ;; include it - this is the same as vim - need to do it on each
   ;; major mode change
