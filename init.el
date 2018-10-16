@@ -884,6 +884,10 @@ Otherwise call `ediff-buffers' interactively."
                   (keyword . all)
                   (query-buffer . all))))
 
+(use-package erc-status-sidebar
+  :ensure t
+  :after erc)
+
 (use-package eudc
   ;; requires a line like the following in .authinfo.gpg with quotes on binddn
   ;; machine ldaps://ldap.canonical.com binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com" password PASSWORD
@@ -1001,7 +1005,7 @@ Otherwise call `ediff-buffers' interactively."
               "ms" 'mu4e-headers-search
               "mu" 'mu4e
               "mi" 'apm-mu4e-jump-to-inbox
-              "n"  'sauron-toggle-hide-show
+              "n" 'erc-status-sidebar-toggle
               "oa" 'org-agenda
               "ob" 'org-ido-switchb
               "oca" 'org-capture
