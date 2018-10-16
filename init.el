@@ -1137,12 +1137,6 @@ Otherwise call `ediff-buffers' interactively."
             (flycheck-coverity-setup)
             (flycheck-add-next-checker 'clang-analyzer '(t . coverity))))
 
-(use-package flycheck-color-mode-line
-  :ensure t
-  :after flycheck
-  :defer t
-  :hook ((flycheck-mode . flycheck-color-mode-line-mode)))
-
 (use-package flycheck-cstyle
   :ensure t
   :after lsp-ui
