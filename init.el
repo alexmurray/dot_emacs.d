@@ -709,7 +709,7 @@ The object labels of the found items are returned as list."
 (use-package doxyas
   :load-path "vendor/"
   :commands doxyas-document-function
-  ;; defer since is bound via evil-leader
+  ;; defer since is bound via general
   :defer t)
 
 (use-package dts-mode
@@ -982,6 +982,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-leader
   :ensure t
+  :disabled t
   :config (progn
             (setq evil-leader/leader "<SPC>"
                   evil-leader/in-all-states t)
@@ -1007,7 +1008,7 @@ Otherwise call `ediff-buffers' interactively."
               "mF" 'apm-mu4e-compose-forward-as-attachment
               "mg" 'magit-status
               "mm" 'magit-dispatch-popup
-              "ms" 'mu4e-headers-search
+              "ms" 'helm-mu
               "mu" 'mu4e
               "mi" 'apm-mu4e-jump-to-inbox
               "n" 'erc-status-sidebar-toggle
@@ -1201,6 +1202,72 @@ Otherwise call `ediff-buffers' interactively."
           (setq-default gdb-many-windows t)
           ;; Non-nil means display source file containing the main routine at startup
           (setq-default gdb-show-main t)))
+(use-package general
+  :ensure t
+  :config (progn
+            (general-define-key
+             :prefix "SPC"
+             :states '(normal visual insert emacs)
+             :keymaps 'override
+             :non-normal-prefix "C-SPC"
+             "SPC" 'avy-goto-word-or-subword-1
+              "c" 'avy-goto-char-timer
+              "a" 'helm-ag
+              "b" 'helm-mini
+              "d" 'doxyas-document-function
+              "e" 'eshell
+              "fc" 'flycheck-buffer
+              "ff" 'helm-find-files
+              "fl" 'flycheck-list-errors
+              "fv" 'flycheck-verify-setup
+              "ge" 'google-error
+              "gg" 'helm-grep-do-git-grep
+              "go" 'google-this
+              "i" 'helm-imenu
+              "k" 'kill-buffer
+              "l" 'apm-browse-lp-bug-at-point
+              "mc" 'mu4e-compose-new
+              "mf" 'mu4e-compose-forward
+              "mF" 'apm-mu4e-compose-forward-as-attachment
+              "mg" 'magit-status
+              "mm" 'magit-dispatch-popup
+              "ms" 'helm-mu
+              "mu" 'mu4e
+              "mi" 'apm-mu4e-jump-to-inbox
+              "n" 'erc-status-sidebar-toggle
+              "oa" 'org-agenda
+              "ob" 'org-ido-switchb
+              "oca" 'org-capture
+              "occ" 'org-clock-cancel
+              "ocd" 'org-clock-display
+              "ocg" 'org-clock-goto
+              "oci" 'org-clock-in
+              "oco" 'org-clock-out
+              "ocs" 'org-mru-clock-in
+              "ocu" 'org-clock-update-time-maybe
+              "oo" 'helm-org-in-buffer-headings
+              "ot" 'org-todo-list
+              "P" 'helm-projectile-switch-project
+              "pa" 'helm-projectile-ag
+              "pb" 'helm-projectile-switch-to-buffer
+              "pc" 'helm-projectile
+              "pe" 'projectile-run-eshell
+              "pd" 'helm-projectile-find-dir
+              "pD" 'projectile-find-dir-other-window
+              "pf" 'helm-projectile-find-file
+              "pF" 'projectile-find-file-other-window
+              "ph" 'helm-projectile
+              "pk" 'projectile-kill-buffers
+              "pm" 'helm-make-projectile
+              "po" 'projectile-find-other-file
+              "pp" 'helm-projectile
+              "pr" 'projectile-recentf
+              "r" 'helm-recentf
+              "s" 'helm-swoop
+              "u" 'emojify-insert-emoji
+              "v" 'er/expand-region
+              "w" 'world-time-list
+              "x" 'helm-M-x)))
 
 (use-package gif-screencast
   :ensure t
