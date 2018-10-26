@@ -1190,8 +1190,8 @@ Otherwise call `ediff-buffers' interactively."
 (use-package flyspell-correct
   :ensure t
   ;; use instead of ispell-word which evil binds to z=
-  :commands (flyspell-correct-word-at-point)
-  :bind (([remap ispell-word] . flyspell-correct-word-at-point)))
+  :commands (flyspell-correct-at-point)
+  :bind (([remap ispell-word] . flyspell-correct-at-point)))
 
 (use-package flyspell-correct-helm
   :ensure t
