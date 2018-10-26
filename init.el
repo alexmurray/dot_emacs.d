@@ -1353,6 +1353,17 @@ Otherwise call `ediff-buffers' interactively."
   :bind (("C-x C-m" . helm-make-projectile))
   :config (setq helm-make-completion-method 'helm))
 
+(use-package helm-mu
+  :ensure t
+  :after mu4e
+  :bind (:map mu4e-headers-mode-map ("s" . helm-mu)
+              :map mu4e-view-mode-map ("s" . helm-mu)
+              :map mu4e-main-mode-map ("s" . helm-mu))
+  :config (progn
+            (evil-define-key 'normal 'mu4e-headers-mode-map (kbd "s") 'helm-mu)
+            (evil-define-key 'normal 'mu4e-view-mode-map (kbd "s") 'helm-mu)
+            (evil-define-key 'normal 'mu4e-main-mode-map (kbd "s") 'helm-mu)))
+
 (use-package helm-projectile
   :ensure t
   :after projectile
