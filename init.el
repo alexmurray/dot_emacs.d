@@ -856,7 +856,12 @@ Otherwise call `ediff-buffers' interactively."
                          '(apm-reuse-erc-window . (display-buffer-reuse-mode-window
                                                    (inhibit-same-window . t)
                                                    (inhibit-switch-frame . t)
-                                                   (mode . erc-mode))))))
+                                                   (mode . erc-mode))))
+            (with-eval-after-load 'smartparens-text
+              ;; turn off smartparens when using emoticons
+              (sp-local-pair 'erc-mode "(" nil
+                             :unless '(:add sp-text-mode-emoticon-p)
+                             :skip-match 'sp-text-mode-skip-emoticon))))
 
 (use-package erc-hl-nicks
   :ensure t
