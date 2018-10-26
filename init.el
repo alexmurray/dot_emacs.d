@@ -1605,12 +1605,13 @@ ${3:Ticket: #${4:XXXX}}")))
 
   :config (progn
             (setq mail-user-agent 'mu4e-user-agent)
-            (setq mu4e-maildir "~/Maildir")
+            (setq mu4e-maildir (expand-file-name "~/Maildir"))
             (setq mu4e-sent-folder   "/Sent"
                   mu4e-drafts-folder "/Drafts"
                   mu4e-trash-folder  "/Trash")
             (setq mu4e-maildir-shortcuts
                   '(("/Archive"              . ?a)
+                    ("/Drafts"               . ?d)
                     ("/INBOX"                . ?i)
                     ("/Sent"                 . ?s)
                     ("/Travel"               . ?t)
