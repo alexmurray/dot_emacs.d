@@ -869,16 +869,21 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package ercn
   :ensure t
+  :after erc-hl-nicks
   :preface
   (defun apm-ercn-notify (nickname message)
     "Displays a notification message for ERC for NICKNAME with MESSAGE."
-    (let* ((channel (buffer-name))
-           (nick (erc-hl-nicks-trim-irc-nick nickname))
-           (title (if (string-match-p (concat "^" nickname) channel)
-                      nick
-                    (concat nick " (" channel ")")))
-           (msg (s-trim (s-collapse-whitespace message))))
-      (alert (concat nick ": " msg) :title title)))
+    (let ((nick (erc-hl-nicks-trim-irc-nick nickname))
+          (mention (string-match-p erc-nick message))
+          (privmsg (string-match-p (concat "^" nickname) (buffer-name)))
+          (msg (s-trim (s-collapse-whitespace message)))
+          (channel (buffer-name)))
+      (alert (concat nick ": " msg)
+             :severity (if (or mention privmsg) 'high 'normal)
+             :title (if privmsg nick (concat nick " (" channel ")"))
+             :icon "applications-chat"
+             :category 'erc
+             :id (intern channel))))
   ;; notify via alert when mentioned
   :hook ((ercn-notify . apm-ercn-notify))
   ;; be notified when mentioned or pals talk in given channels or
