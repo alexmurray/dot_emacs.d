@@ -812,7 +812,6 @@ Otherwise call `ediff-buffers' interactively."
 
             (setq erc-nick "amurray")
             (setq erc-autojoin-channels-alist nil)
-            (setq erc-hide-list '("JOIN" "PART" "QUIT"))
             (setq erc-fill-function #'erc-fill-static)
             (setq erc-fill-static-center 18)
 
@@ -830,8 +829,10 @@ Otherwise call `ediff-buffers' interactively."
             (setq erc-join-buffer 'bury)
 
             (setq erc-track-position-in-mode-line t)
-            (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE" "333" "353"))
+            (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"))
             (setq erc-track-exclude-server-buffer t)
+
+            (setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK" "MODE"))
 
             (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
             (setq erc-log-insert-log-on-open nil)
