@@ -2228,6 +2228,7 @@ ${3:Ticket: #${4:XXXX}}")))
 
 (use-package yasnippet
   :ensure t
+  :diminish (yas-global-mode yas-minor-mode)
   :bind (:map yas-keymap
               ;; Use C-tab to both expand a snippet and move through its fields
               ("<C-tab>" . yas-next-field-or-maybe-expand)
