@@ -1667,7 +1667,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq mu4e-headers-sort-direction 'ascending)
             (setq mu4e-use-fancy-chars t)
 
-            (setq mu4e-update-interval 120)
+            (setq mu4e-update-interval 300)
             ;; cite with better formatting
             (setq message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
             (setq message-citation-line-function #'message-insert-formatted-citation-line)
