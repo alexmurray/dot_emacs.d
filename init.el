@@ -687,6 +687,12 @@ The object labels of the found items are returned as list."
 (use-package debian-changelog-mode
   :ensure t)
 
+(use-package debian-el
+  :ensure t)
+
+(use-package dpkg-dev-el
+  :ensure t)
+
 (use-package delsel
   ;; enable delete-selection mode to allow replacing selected region
   ;; with new text automatically
