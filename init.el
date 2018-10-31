@@ -1549,6 +1549,7 @@ ${3:Ticket: #${4:XXXX}}")))
           apm-mu4e-compose-forward-as-attachment-orig)
     (setq mu4e-compose-mode-hook
           apm-mu4e-compose-mode-hook-orig))
+
   (defun apm-mu4e-compose-forward-as-attachment ()
     "Forward the message as an attachment."
     (interactive)
@@ -1557,6 +1558,8 @@ ${3:Ticket: #${4:XXXX}}")))
     (setq mu4e-compose-forward-as-attachment t)
     (setq mu4e-compose-mode-hook '(apm-mu4e-compose-forward-as-attachment-2))
     (mu4e-compose-forward))
+
+  (evil-define-key 'normal mu4e-view-mode-map (kbd "c F") #'apm-mu4e-compose-forward-as-attachment)
 
   ;; TODO: consider using imapfilter
   (defun apm-mu4e-refile-message (msg)
