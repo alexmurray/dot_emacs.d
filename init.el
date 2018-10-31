@@ -78,7 +78,8 @@
     (modify-syntax-entry ?_ "w"))
   ;; use evil-collection instead
   :init (setq evil-want-integration nil
-              evil-want-keybinding nil)
+              evil-want-keybinding nil
+              evil-want-C-u-scroll t)
   ;; make underscore a word character so movements across words
   ;; include it - this is the same as vim - need to do it on each
   ;; major mode change
@@ -1006,7 +1007,8 @@ Otherwise call `ediff-buffers' interactively."
               "ge" 'google-error
               "gg" 'helm-grep-do-git-grep
               "go" 'google-this
-              "i" 'helm-imenu
+              "ie" 'emojify-insert-emoji
+              "ii" 'helm-imenu
               "k" 'kill-buffer
               "l" 'apm-browse-lp-bug-at-point
               "mc" 'mu4e-compose-new
@@ -1047,7 +1049,7 @@ Otherwise call `ediff-buffers' interactively."
               "pr" 'projectile-recentf
               "r" 'helm-recentf
               "s" 'helm-swoop
-              "u" 'emojify-insert-emoji
+              "u" 'universal-argument
               "v" 'er/expand-region
               "w" 'world-time-list
               "x" 'helm-M-x))
