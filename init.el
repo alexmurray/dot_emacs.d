@@ -1692,7 +1692,7 @@ ${3:Ticket: #${4:XXXX}}")))
                                         (:subject)))
 
             ;; save attachment to Downloads
-            (setq mu4e-attachment-dir "~/Downloads")
+            (setq mu4e-attachment-dir (expand-file-name "~/Downloads"))
 
             ;; attempt to show images when viewing messages
             (setq mu4e-view-show-images t)
@@ -1726,7 +1726,7 @@ ${3:Ticket: #${4:XXXX}}")))
   :config (progn
             ;; email sending via message mode
             (setq mail-user-agent 'message-user-agent)
-            (setq message-auto-save-directory "~/Mail/Canonical/Drafts/")
+            (setq message-auto-save-directory (expand-file-name "~/Mail/Canonical/Drafts/"))
             (setq notmuch-fcc-dirs '(("alex.murray@canonical.com" . "\"Canonical/Sent\" +sent -inbox -unread")))))
 
 (use-package nxml-mode
