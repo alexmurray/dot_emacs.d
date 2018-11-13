@@ -1404,9 +1404,10 @@ Otherwise call `ediff-buffers' interactively."
 (use-package hl-todo
   :ensure t
   :defer t
-  :functions hl-todo-mode
-  :hook ((prog-mode . hl-todo-mode))
-  :config (add-to-list 'hl-todo-keyword-faces '("@todo" . "#cc9393")))
+  :functions global-hl-todo-mode
+  :config (progn
+            (add-to-list 'hl-todo-keyword-faces '("@todo" . "#cc9393"))
+            (global-hl-todo-mode)))
 
 (use-package hungry-delete
   :ensure t
