@@ -1241,6 +1241,7 @@ Otherwise call `ediff-buffers' interactively."
               "ge" 'google-error
               "gg" 'helm-grep-do-git-grep
               "go" 'google-this
+              "gt" 'google-translate-smooth-translate
               "i" 'helm-imenu
               "k" 'kill-buffer
               "l" 'apm-browse-lp-bug-at-point
@@ -1305,6 +1306,11 @@ Otherwise call `ediff-buffers' interactively."
 (use-package google-this
   :ensure t
   :defer t)
+
+(use-package google-translate-smooth-translate
+  :ensure google-translate
+  :defer t
+  :init (setq google-translate-listen-program (executable-find "totem")))
 
 (use-package goto-addr
   :defer t
