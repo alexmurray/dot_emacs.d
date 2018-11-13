@@ -898,7 +898,7 @@ Otherwise call `ediff-buffers' interactively."
   ;; finally if in private chat
   :config (setq ercn-notify-rules
                 '((current-nick . all)
-                  (pal . ("#security" "#security-private"))
+                  (pal . ("#security" "#security-private" "#ubuntu-hardened"))
                   (keyword . all)
                   (query-buffer . all))))
 
