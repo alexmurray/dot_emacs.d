@@ -1625,6 +1625,25 @@ ${3:Ticket: #${4:XXXX}}")))
         (setq txt (replace-regexp-in-string text (propertize text 'face (car highlight)) txt))))
     txt)
 
+  ;; redefine this mu4e function so we preserve non-breaking spaces -
+  ;; https://github.com/djcb/mu/issues/1339
+  (defun mu4e-message-outlook-cleanup (msg txt)
+    "Remove some crap from the remaining string; it seems
+   esp. outlook lies about its encoding (ie., it says
+   'iso-8859-1' but really it's 'windows-1252'), thus giving us
+   these funky chars. here, we either remove them, or replace
+   with 'what-was-meant' (heuristically)."
+    (with-temp-buffer
+      (insert body)
+      (goto-char (point-min))
+      (while (re-search-forward "[ ]" nil t)
+        (replace-match
+         (cond
+          ((string= (match-string 0) "") "'")
+          ((string= (match-string 0) " ") " ")
+          (t ""))))
+      (buffer-string)))
+
   :config (progn
             (setq mail-user-agent 'mu4e-user-agent)
             (setq mu4e-maildir (expand-file-name "~/Maildir"))
@@ -1700,6 +1719,7 @@ ${3:Ticket: #${4:XXXX}}")))
                   "Alex Murray\nhttps://launchpad.net/~alexmurray\n")
 
             (add-to-list 'mu4e-message-body-rewrite-functions 'apm-mu4e-rewrite-add-highlights t)
+
             ;; add action to view in brower
             (add-to-list 'mu4e-view-actions
                          '("browser view" . mu4e-action-view-in-browser) t)
