@@ -403,10 +403,10 @@ The object labels of the found items are returned as list."
        result)))))
 
 (use-package auth-source
-  ;; prefer gnome-keyring, synced, encrypted auth source to non-encrypted
+  ;; prefer gnome-keyring via Login keyring, encrypted auth source to non-encrypted
   :init (progn
           (require 'secrets)
-          (setq auth-sources '("secrets:Login" "~/Dropbox/.authinfo.gpg" "~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))))
+          (setq auth-sources '("secrets:Login" "~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))))
 
 (use-package avy
   :ensure t
@@ -814,6 +814,9 @@ Otherwise call `ediff-buffers' interactively."
             ;; canonical irc
             (add-to-list 'erc-networks-alist '(Canonical "canonical.com"))
             (add-to-list 'erc-server-alist '("Canonical IRC" 'Canonical "irc.canonical.com" 6697))
+            ;; store password as using secret-tool:
+            ;; secret-tool store --label='Canonical IRC' host irc.canonical.com port 6697 user amurray
+            ;; then enter PASSWORD
             ;; no nickserv password
             (add-to-list 'erc-nickserv-passwords '(Canonical (("amurray" . ""))))
 
@@ -907,8 +910,9 @@ Otherwise call `ediff-buffers' interactively."
   :after erc)
 
 (use-package eudc
-  ;; requires a line like the following in .authinfo.gpg with quotes on binddn
-  ;; machine ldaps://ldap.canonical.com binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com" password PASSWORD
+  ;; Store password using secret-tool as follows:
+  ;; secret-tool store --label='Canonical LDAP' host ldaps://ldap.canonical.com
+  ;; then enter PASSWORD
   :ensure-system-package (ldapsearch . ldap-utils)
   :config (progn
             (eval-when-compile
@@ -2157,8 +2161,9 @@ ${3:Ticket: #${4:XXXX}}")))
             (sp-local-pair 'nxml-mode "<" ">" :actions '(:rem insert))))
 
 (use-package smtpmail
-  ;; ensure an entry in ~/.authinfo.gpg or similar like:
-  ;; machine smtp.canonical.com login USERNAME port 587 password PASSWORD
+  ;; store password using secret-tool as follows:
+  ;; secret-tool store --label='Canonical SMTP' host smtp.canonical.com port 587 user canonical
+  ;; then enter PASSWORD
   :config (progn
             (setq smtpmail-smtp-user "canonical")
             (setq smtpmail-smtp-server "smtp.canonical.com")
