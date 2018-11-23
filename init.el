@@ -1590,8 +1590,7 @@ ${3:Ticket: #${4:XXXX}}")))
                     ("/Drafts"               . ?d)
                     ("/INBOX"                . ?i)
                     ("/Sent"                 . ?s)
-                    ("/Travel"               . ?t)
-                    ("/ubuntu-security-team" . ?u)))
+                    ("/Travel"               . ?t)))
 
             (setq mu4e-user-mailing-lists '(;; ubuntu
                                             ("launchpad-announce.lists.ubuntu.com" . "launchpad-announce")
