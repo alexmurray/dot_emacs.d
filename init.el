@@ -1156,6 +1156,7 @@ Otherwise call `ediff-buffers' interactively."
           (setq-default gdb-many-windows t)
           ;; Non-nil means display source file containing the main routine at startup
           (setq-default gdb-show-main t)))
+
 (use-package general
   :ensure t
   :config (progn
@@ -1632,6 +1633,7 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq mu4e-use-fancy-chars t)
 
             (setq mu4e-update-interval 300)
+
             ;; cite with better formatting
             (setq message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
             (setq message-citation-line-function #'message-insert-formatted-citation-line)
