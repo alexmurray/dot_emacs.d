@@ -1352,8 +1352,6 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package ispell
   :defer t
-  :hook ((text-mode . ispell-minor-mode))
-  :diminish ispell-minor-mode
   :init (progn
           ;; windows specific config
           (when (eq system-type 'windows-nt)
