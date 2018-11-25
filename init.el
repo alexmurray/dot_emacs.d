@@ -1997,15 +1997,15 @@ ${3:Ticket: #${4:XXXX}}")))
     "Setup racer-mode."
     (eval-when-compile
       (require 'racer))
+    (unless (executable-find "cargo")
+      (alert "Please install rust: https://www.rust-lang.org/en-US/install.html"))
     (unless (file-exists-p racer-cmd)
-      (alert "cargo install racer?"))
+      (alert "rustup toolchain add nightly && cargo +nightly install racer"))
     (unless (file-exists-p racer-rust-src-path)
-      (alert (format "git clone https://github.com/rust-lang/rust.git %s"
-                     (file-name-directory (directory-file-name racer-rust-src-path)))))
+      (alert "rustup component add rust-src"))
     (racer-mode 1))
   :defer t
-  :hook ((rust-mode . apm-racer-mode-setup))
-  :init (setq racer-rust-src-path (expand-file-name "~/rust/src")))
+  :hook ((rust-mode . apm-racer-mode-setup)))
 
 (use-package rainbow-mode
   :ensure t
