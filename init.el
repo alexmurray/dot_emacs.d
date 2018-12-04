@@ -941,6 +941,13 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :after erc)
 
+(use-package erc-track-score
+  :ensure t
+  :after erc
+  :config (progn
+            (erc-track-score-mode 1)
+            (setq erc-track-showcount t)))
+
 (use-package eudc
   ;; Store password using secret-tool as follows:
   ;; secret-tool store --label='Canonical LDAP' host ldaps://ldap.canonical.com
