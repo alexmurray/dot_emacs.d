@@ -1370,6 +1370,16 @@ Otherwise call `ediff-buffers' interactively."
   :config (progn
             (setq projectile-switch-project-action 'helm-projectile-find-file)))
 
+(use-package helm-swoop
+  :ensure t
+  :config (with-eval-after-load 'erc
+            (defun apm-helm-multi-swoop-erc-mentions ()
+              "Use helm-swoop to view mentions in erc."
+              (interactive)
+              (let ((nicks (if (listp erc-nick) erc-nick (list erc-nick))))
+                (helm-multi-swoop-by-mode 'erc-mode
+                                          (concat "<.*> " (regexp-opt nicks)))))))
+
 (use-package helpful
   :ensure t
   :bind (("C-h a" . helpful-symbol)
