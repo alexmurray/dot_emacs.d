@@ -844,8 +844,8 @@ Otherwise call `ediff-buffers' interactively."
             (add-to-list 'erc-modules 'log)
             (erc-update-modules)
 
-            (setq erc-pals '("ratliff" "jdstrand" "mdeslaur" "jjohansen" "ChrisCoulson" "sarnold" "sbeattie" "tyhicks" "leosilva" "kees" "msalvatore" "ebarretto" "JamieBennett"))
-            (setq erc-keywords '("[Cc][Vv][Ee]" "vulnerability" "apparmor" "seccomp" "exploit"))
+            (setq erc-pals '("JamieBennett" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "tyhicks" "ratliff" "kees"))
+            (setq erc-keywords '("[Cc][Vv][Ee]" "vulnerability" "apparmor" "seccomp" "exploit" "security"))
 
             ;; when joining don't bring to front
             (setq erc-join-buffer 'bury)
