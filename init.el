@@ -851,10 +851,23 @@ Otherwise call `ediff-buffers' interactively."
             (setq erc-join-buffer 'bury)
 
             (setq erc-track-position-in-mode-line t)
-            (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"))
+            (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
+                                            ;; channel mode (324), creation
+                                            ;; time (329), topic (332), topic
+                                            ;; who time (333), names (353), no
+                                            ;; chan modes (477)
+                                            "324" "329" "332" "333" "353" "477"))
             (setq erc-track-exclude-server-buffer t)
 
-            (setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK" "MODE"))
+            ;; only hide join / part / quit for those who are idle for more
+            ;; than 10 hours (ie are using a bouncer)
+            (setq erc-lurker-hide-list '("JOIN" "PART" "QUIT" "NICK"))
+            (setq erc-lurker-threshold-time (* 10 60 60))
+
+            ;; hide channel mode (324), creation time (329), topic (332), topic
+            ;; who time (333), names (353) - see
+            ;; https://www.alien.net.au/irc/irc2numerics.html
+            (setq erc-hide-list '("324" "329" "332" "333" "353"))
 
             (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
             (setq erc-log-insert-log-on-open nil)
