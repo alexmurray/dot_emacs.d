@@ -817,10 +817,21 @@ Otherwise call `ediff-buffers' interactively."
             ;; store password as using secret-tool:
             ;; secret-tool store --label='Canonical IRC' host irc.canonical.com port 6697 user amurray
             ;; then enter PASSWORD
-            ;; no nickserv password
-            (add-to-list 'erc-nickserv-passwords '(Canonical (("amurray" . ""))))
-
             (setq erc-nick "amurray")
+            (setq erc-prompt-for-nickserv-password nil)
+            ;; no nickserv password for Canonical
+            (setq erc-nickserv-passwords `((Canonical ((,erc-nick . "")))))
+
+            ;; freenode irc
+            (let* ((pass (auth-source-pick-first-password :host "irc.freenode.net" :user erc-nick)))
+              (if (null pass)
+                  ;; secret-tool store --label='Freenode IRC' host irc.freenode.net user amurray
+                  ;; then enter password
+                  (alert (format "Please store irc.freenode.net nickserv password in secret store for %s" erc-nick))
+                (add-to-list 'erc-nickserv-passwords `(freenode ((,erc-nick . ,pass))))))
+
+            (setq erc-autojoin-timing 'ident)
+
             (setq erc-autojoin-channels-alist nil)
             (setq erc-fill-function #'erc-fill-static)
             (setq erc-fill-static-center 18)
@@ -828,6 +839,7 @@ Otherwise call `ediff-buffers' interactively."
             ;; use sensible buffer names with server as well
             (setq erc-rename-buffers t)
 
+            (add-to-list 'erc-modules 'services)
             (add-to-list 'erc-modules 'spelling)
             (add-to-list 'erc-modules 'log)
             (erc-update-modules)
