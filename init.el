@@ -839,9 +839,10 @@ Otherwise call `ediff-buffers' interactively."
             ;; use sensible buffer names with server as well
             (setq erc-rename-buffers t)
 
+            (add-to-list 'erc-modules 'log)
+            (add-to-list 'erc-modules 'scrolltobottom)
             (add-to-list 'erc-modules 'services)
             (add-to-list 'erc-modules 'spelling)
-            (add-to-list 'erc-modules 'log)
             (erc-update-modules)
 
             (setq erc-pals '("JamieBennett" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "tyhicks" "ratliff" "kees"))
