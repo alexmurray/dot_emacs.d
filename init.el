@@ -1979,12 +1979,6 @@ ${3:Ticket: #${4:XXXX}}")))
 (use-package posframe
   :ensure t)
 
-(use-package powerline
-  :ensure t
-  :config (progn
-            (setq powerline-default-separator 'wave)
-            (setq powerline-height 25)))
-
 (use-package prescient
   :ensure t
   :config (prescient-persist-mode 1))
@@ -2151,12 +2145,6 @@ ${3:Ticket: #${4:XXXX}}")))
             (setq solarized-scale-org-headlines nil)
             (setq solarized-use-variable-pitch nil)
             (load-theme 'solarized-light t)))
-
-(use-package spaceline-config
-  :ensure spaceline
-  :config (progn
-            (spaceline-info-mode 1)
-            (spaceline-spacemacs-theme)))
 
 (use-package sudo-edit
   :ensure t
