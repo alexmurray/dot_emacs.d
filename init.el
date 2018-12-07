@@ -928,7 +928,10 @@ Otherwise call `ediff-buffers' interactively."
               ;; turn off smartparens when using emoticons
               (sp-local-pair 'erc-mode "(" nil
                              :unless '(:add sp-text-mode-emoticon-p)
-                             :skip-match 'sp-text-mode-skip-emoticon))))
+                             :skip-match 'sp-text-mode-skip-emoticon))
+            ;; start erc buffers in normal mode for evil
+            (with-eval-after-load 'evil
+              (evil-set-initial-state 'erc-mode 'normal))))
 
 (use-package erc-hl-nicks
   :ensure t
