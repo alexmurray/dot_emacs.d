@@ -1356,11 +1356,9 @@ Otherwise call `ediff-buffers' interactively."
 (use-package ispell
   :defer t
   :init (progn
-          ;; windows specific config
-          (when (eq system-type 'windows-nt)
-            (add-to-list 'exec-path "C:/Program Files (x86)/Aspell/bin/"))
           ;; use aspell if can be found
-          (when (executable-find "aspell")
+          (if (null (executable-find "aspell"))
+              (system-packages-install "aspell")
             ;; use gb dictionary via aspell if available
             (setq ispell-program-name "aspell"
                   ispell-dictionary "british"
