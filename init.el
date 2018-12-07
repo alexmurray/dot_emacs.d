@@ -617,14 +617,18 @@ The object labels of the found items are returned as list."
   :ensure t
   :after ivy
   :defer t
+  :diminish counsel-mode
   :config (counsel-mode 1)
   :bind (("C-x C-r" . counsel-recentf)
          :map company-active-map ("C-/" . counsel-company))
-  :config (with-eval-after-load 'evil
-            (eval-when-compile (require 'evil))
-            (define-key evil-ex-map "e " 'counsel-find-file)
-            (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
-            (define-key evil-ex-map "ap " 'counsel-apropos)))
+  :config (progn
+            ;; required so we can use counsel-yank-pop in the minibuffer itself
+            (setq enable-recursive-minibuffers t)
+            (with-eval-after-load 'evil
+              (eval-when-compile (require 'evil))
+              (define-key evil-ex-map "e " 'counsel-find-file)
+              (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
+              (define-key evil-ex-map "ap " 'counsel-apropos))))
 
 (use-package counsel-notmuch
   :ensure t
