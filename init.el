@@ -507,17 +507,13 @@ The object labels of the found items are returned as list."
 
 (use-package company
   :ensure t
+  :diminish company-mode
   ;; Use Company for completion
   :bind (("C-<tab>" . company-complete-common)
          :map company-mode-map
          ([remap completion-at-point] . company-complete-common)
          ([remap complete-symbol] . company-complete-common))
-  :init (progn
-          ;; set default lighter as nothing so in general it is not displayed
-          ;; but will still be shown when completion popup is active to show the
-          ;; backend which is in use
-          (setq company-lighter-base "")
-          (global-company-mode 1))
+  :init (global-company-mode 1)
   :config (progn
             ;; ensure flyspell doesn't steal our binding of C-;
             (eval-when-compile
