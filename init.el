@@ -840,6 +840,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq erc-rename-buffers t)
 
             (add-to-list 'erc-modules 'log)
+            (add-to-list 'erc-modules 'match)
             (add-to-list 'erc-modules 'scrolltobottom)
             (add-to-list 'erc-modules 'services)
             (add-to-list 'erc-modules 'spelling)
@@ -852,6 +853,8 @@ Otherwise call `ediff-buffers' interactively."
             (setq erc-join-buffer 'bury)
 
             (setq erc-track-position-in-mode-line t)
+            ;; choose most important buffer first
+            (setq erc-track-switch-direction 'importance)
             (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
                                             ;; channel mode (324), creation
                                             ;; time (329), topic (332), topic
