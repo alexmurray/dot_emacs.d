@@ -1407,26 +1407,6 @@ Otherwise call `ediff-buffers' interactively."
   :init (setq-default js2-basic-offset 2))
 
 
-(use-package log-edit
-  :defer t
-  :preface
-  (defun apm-log-edit-insert-yasnippet-template ()
-    "Insert the default template with Summary and Author."
-    (interactive)
-    (when (or (called-interactively-p 'interactive)
-              (log-edit-empty-buffer-p))
-      (require 'yasnippet)
-      (yas-expand-snippet "${1:Summary of this change}
-
-${2:Longer description of this change}
-
-${3:Ticket: #${4:XXXX}}")))
-  :init (progn
-          (with-eval-after-load 'evil
-            (evil-set-initial-state 'log-edit-mode 'insert))
-          (add-hook 'log-edit-hook 'apm-log-edit-insert-yasnippet-template)
-          (remove-hook 'log-edit-hook 'log-edit-insert-message-template)))
-
 (use-package lsp-mode
   ;; don't use lsp-flycheck since there is lsp-ui now
   :ensure t)
