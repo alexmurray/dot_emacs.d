@@ -1379,6 +1379,11 @@ Otherwise call `ediff-buffers' interactively."
             (with-eval-after-load 'evil
               (define-key evil-ex-map "b " 'ivy-switch-buffer))))
 
+(use-package ivy-rich
+  :ensure t
+  :after ivy
+  :config (ivy-rich-mode 1))
+
 (use-package ivy-prescient
   :ensure t
   :after (ivy prescient)
