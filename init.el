@@ -457,7 +457,7 @@ The object labels of the found items are returned as list."
           (eval-when-compile
             (require 'bug-reference))
           (setq bug-reference-url-format #'apm-bug-reference-url-format
-                bug-reference-bug-regexp "\\([Ll][Pp]:?\\|bug\\|#\\|CVE[ -]\\|USN[ -]\\) ?\\([0-9-]+\\)")))
+                bug-reference-bug-regexp "\\([Ll][Pp]:?\\|bug\\|#\\|CVE[ -]\\|USN[ -]\\) ?\\([0-9][0-9-]*\\)")))
 
 (use-package cargo
   :ensure t
