@@ -617,10 +617,8 @@ The object labels of the found items are returned as list."
   :ensure t
   :after ivy
   :defer t
-  :bind (("M-x" . counsel-M-x)
-         ("M-y" . counsel-yank-pop)
-         ("C-x C-f" . counsel-find-file)
-         ("C-x C-r" . counsel-recentf)
+  :config (counsel-mode 1)
+  :bind (("C-x C-r" . counsel-recentf)
          :map company-active-map ("C-/" . counsel-company))
   :config (with-eval-after-load 'evil
             (eval-when-compile (require 'evil))
