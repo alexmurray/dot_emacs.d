@@ -180,7 +180,6 @@
 (scroll-bar-mode 0)
 (when (fboundp 'horizontal-scroll-bar-mode)
   (horizontal-scroll-bar-mode 0))
-(display-time-mode 1)
 ;; Show line column numbers in mode line
 (line-number-mode 1)
 (column-number-mode 1)
@@ -879,7 +878,8 @@ Otherwise call `ediff-buffers' interactively."
             ;; when joining don't bring to front
             (setq erc-join-buffer 'bury)
 
-            (setq erc-track-position-in-mode-line t)
+            ;; this is the default but set anyway just in-case
+            (setq erc-track-position-in-mode-line 'before-modes)
             ;; choose most important buffer first
             (setq erc-track-switch-direction 'importance)
             (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
@@ -1117,10 +1117,6 @@ Otherwise call `ediff-buffers' interactively."
   :ensure t
   :config (setq expand-region-contract-fast-key "V"
                 expand-region-reset-fast-key "r"))
-
-(use-package fancy-battery
-  :ensure t
-  :config (fancy-battery-mode 1))
 
 (use-package files
   :bind ("C-c r" . revert-buffer))
