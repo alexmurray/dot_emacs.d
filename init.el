@@ -2208,14 +2208,11 @@ Otherwise call `ediff-buffers' interactively."
 (use-package whitespace
   :diminish whitespace-mode
   :hook ((prog-mode . whitespace-mode))
-  ;; higlight long lines
+  ;; highlight long lines
   :init (progn
           (setq-default whitespace-line-column 80)
-          ;; show tabs, trailing whitespace and long lines
-          (setq-default whitespace-style
-                        '(face trailing tabs tab-mark lines-tail))
-          (setq-default whitespace-display-mappings
-                        '((tab-mark ?\t [?\u279b ?\t] [?\\ ?\t])))))
+          ;; show trailing whitespace and long lines
+          (setq-default whitespace-style '(face trailing lines-tail))))
 
 (use-package world-time-mode
   :ensure t)
