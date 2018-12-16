@@ -69,49 +69,6 @@
 ;; load custom but ignore error if doesn't exist
 (load custom-file t)
 
-;; load early so we can ensure evil-want-integration is nil
-(use-package evil
-  :ensure t
-  :preface
-  (defun apm-make-underscore-word-character ()
-    "Make _ a word character."
-    (modify-syntax-entry ?_ "w"))
-  ;; use evil-collection instead
-  :init (setq evil-want-integration nil
-              evil-want-keybinding nil
-              evil-want-C-u-scroll t)
-  ;; make underscore a word character so movements across words
-  ;; include it - this is the same as vim - need to do it on each
-  ;; major mode change
-  :hook ((after-change-major-mode . apm-make-underscore-word-character))
-  :config (progn
-            ;; make cursor easier to see
-            (setq evil-normal-state-cursor '("#b294bb" box))
-            (setq evil-insert-state-cursor '("#de935f" bar))
-            (setq evil-emacs-state-cursor '("#cc6666" box))
-
-            ;; add vim-like bindings for some nice stuff
-            (with-eval-after-load 'flyspell
-              (define-key evil-normal-state-map "]s" 'flyspell-goto-next-error)
-              ;; taken from spacemacs
-              (define-key evil-normal-state-map "[b" 'evil-prev-buffer)
-              (define-key evil-normal-state-map "]b" 'evil-next-buffer)
-              (define-key evil-normal-state-map "[q" 'previous-error)
-              (define-key evil-normal-state-map "]q" 'next-error))
-
-            (define-key evil-ex-map "bd " 'kill-buffer)
-
-            ;; these should be bound automatically but apparently not so rebind
-            ;; them
-            (bind-keys :map evil-insert-state-map
-                       ("C-x C-n" . evil-complete-next-line)
-                       ("C-x C-l" . evil-complete-next-line)
-                       ("C-x C-p" . evil-complete-previous-line))
-
-            ;; fixup company-complete-number to be handled better with evil
-            (evil-declare-change-repeat 'company-complete-number)
-            (evil-mode 1)))
-
 (use-package alert
   :ensure t
   :config (when (eq system-type 'gnu/linux)
@@ -131,6 +88,9 @@
                  apm-preferred-emacs-version)
          :severity 'high))
 
+
+(setq evil-want-integration nil)
+(setq evil-want-keybinding nil)
 
 ;; minibuffer settings
 ;; automatically garbage collect when switch away from emacs
@@ -641,10 +601,9 @@ The object labels of the found items are returned as list."
 
 (use-package counsel
   :ensure t
-  :after ivy
-  :defer t
+  :after ivy evil
   :diminish counsel-mode
-  :config (counsel-mode 1)
+  :init (counsel-mode 1)
   :bind (("C-x C-r" . counsel-recentf)
          :map company-active-map ("C-/" . counsel-company))
   :config (progn
@@ -1062,6 +1021,48 @@ Otherwise call `ediff-buffers' interactively."
   :config  (setq mode-require-final-newline nil)
   :init (global-ethan-wspace-mode 1))
 
+(use-package evil
+  :ensure t
+  :preface
+  (defun apm-make-underscore-word-character ()
+    "Make _ a word character."
+    (modify-syntax-entry ?_ "w"))
+  ;; use evil-collection instead
+  :init (setq evil-want-integration nil
+              evil-want-keybinding nil
+              evil-want-C-u-scroll t)
+  ;; make underscore a word character so movements across words
+  ;; include it - this is the same as vim - need to do it on each
+  ;; major mode change
+  :hook ((after-change-major-mode . apm-make-underscore-word-character))
+  :config (progn
+            ;; make cursor easier to see
+            (setq evil-normal-state-cursor '("#b294bb" box))
+            (setq evil-insert-state-cursor '("#de935f" bar))
+            (setq evil-emacs-state-cursor '("#cc6666" box))
+
+            ;; add vim-like bindings for some nice stuff
+            (with-eval-after-load 'flyspell
+              (define-key evil-normal-state-map "]s" 'flyspell-goto-next-error)
+              ;; taken from spacemacs
+              (define-key evil-normal-state-map "[b" 'evil-prev-buffer)
+              (define-key evil-normal-state-map "]b" 'evil-next-buffer)
+              (define-key evil-normal-state-map "[q" 'previous-error)
+              (define-key evil-normal-state-map "]q" 'next-error))
+
+            (define-key evil-ex-map "bd " 'kill-buffer)
+
+            ;; these should be bound automatically but apparently not so rebind
+            ;; them
+            (bind-keys :map evil-insert-state-map
+                       ("C-x C-n" . evil-complete-next-line)
+                       ("C-x C-l" . evil-complete-next-line)
+                       ("C-x C-p" . evil-complete-previous-line))
+
+            ;; fixup company-complete-number to be handled better with evil
+            (evil-declare-change-repeat 'company-complete-number)
+            (evil-mode 1)))
+
 (use-package evil-collection
   :ensure t
   :after evil
@@ -1398,12 +1399,12 @@ Otherwise call `ediff-buffers' interactively."
   :diminish ivy-mode
   :bind (("C-x b" . ivy-switch-buffer)
          ("C-c C-r" . ivy-resume))
+  :init (ivy-mode 1)
   :config (progn
             (setq ivy-use-virtual-buffers t)
             ;; allow to select the typed in value with C-p
             (setq ivy-use-selectable-prompt t)
             (define-key isearch-mode-map (kbd "M-o") 'ivy-occur)
-            (ivy-mode 1)
             (setq ivy-re-builders-alist '((t . ivy--regex-plus)))
             ;; integrate with evil
             (with-eval-after-load 'evil
