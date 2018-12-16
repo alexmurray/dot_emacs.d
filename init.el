@@ -264,9 +264,6 @@
   :bind (("M-%" . anzu-query-replace-regexp)
          ("C-M-%" . anzu-query-replace)))
 
-(use-package apm-c
-  :load-path "lisp/")
-
 (use-package apm-misc
   :load-path "lisp/")
 
@@ -614,13 +611,6 @@ The object labels of the found items are returned as list."
               (define-key evil-ex-map "e " 'counsel-find-file)
               (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
               (define-key evil-ex-map "ap " 'counsel-apropos))))
-
-(use-package counsel-notmuch
-  :ensure t
-  :disabled t
-  :after (counsel notmuch)
-  :commands counsel-notmuch
-  :config (evil-define-key 'normal notmuch-common-keymap (kbd "s") #'counsel-notmuch))
 
 (use-package counsel-projectile
   :ensure t
