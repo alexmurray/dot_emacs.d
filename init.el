@@ -1542,6 +1542,15 @@ Otherwise call `ediff-buffers' interactively."
     (let ((mailing-list (mu4e-message-field msg :mailing-list))
           (subject (mu4e-message-field msg :subject)))
       (cond
+       ((and (not (null mailing-list))
+             (or (string-match-p "unsubscribe notification$" subject)
+                 (string-match-p "^.* post from .* requires approval" subject)
+                 (string-match-p "uncaught bounce notification" subject)))
+        "/Trash")
+       ((string-match-p "^\\[.* Wiki\\] Update of" subject)
+        "/Trash")
+       ((string-match-p "^\\[Build #[0-9]+]" subject)
+        "/Trash")
        ((not (null mailing-list))
         (concat "/Lists/" (mu4e-get-mailing-list-shortname mailing-list)))
        ((string-match-p "^\\(R[eE]: \\)?Manual review requested for version" subject)
@@ -1549,7 +1558,8 @@ Otherwise call `ediff-buffers' interactively."
        ((or (string-match-p "^\\(R[eE]: \\)?\\[Bug " subject)
             (mu4e-message-contact-field-matches msg :from "bugs.launchpad.net"))
         "/launchpad-bugs")
-       ((string-match-p "^\\(R[eE]: \\)?\\[Merge\\]" subject) "/merge-requests")
+       ((string-match-p "^\\(R[eE]: \\)?\\[Merge\\]" subject)
+        "/merge-requests")
        ((or (mu4e-message-contact-field-matches msg :to "distros@vs.openwall.org")
             (mu4e-message-contact-field-matches msg :cc "distros@vs.openwall.org")
             (mu4e-message-contact-field-matches msg :to "linux-distros@vs.openwall.org")
@@ -1559,6 +1569,8 @@ Otherwise call `ediff-buffers' interactively."
         "/Lists/opensuse-security-announce")
        ((mu4e-message-contact-field-matches msg :to "newsbox@idg.com")
         "/Lists/newsbox-idg")
+       ((string-match-p "^Cron .* ~/bin/scripts-diff.sh$" subject)
+        "/Trash")
        ((mu4e-message-contact-field-matches msg :from "root@lillypilly.canonical.com")
         "/lillypilly")
        ((mu4e-message-contact-field-matches msg :from "root@keule.canonical.com")
@@ -1682,8 +1694,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq mml-secure-openpgp-sign-with-sender t)
             (setq mu4e-compose-complete-ignore-address-regexp
                   "\\(no-?reply\\|bugs.launchpad.net\\|lillypilly.canonical.com\\)")
-            (setq mu4e-compose-signature
-                  "Alex Murray\nhttps://launchpad.net/~alexmurray\n")
+            (setq mu4e-compose-signature nil)
 
             (add-to-list 'mu4e-message-body-rewrite-functions 'apm-mu4e-rewrite-add-highlights t)
 
