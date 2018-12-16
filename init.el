@@ -491,15 +491,46 @@ The object labels of the found items are returned as list."
 (use-package apm-c
   :load-path "lisp/"
   :preface
+  ;; from https://www.kernel.org/doc/html/v4.10/process/coding-style.html
+  (defun c-lineup-arglist-tabs-only (ignored)
+    "Line up argument lists by tabs, not spaces"
+    (let* ((anchor (c-langelem-pos c-syntactic-element))
+           (column (c-langelem-2nd-pos c-syntactic-element))
+           (offset (- (1+ column) anchor))
+           (steps (floor offset c-basic-offset)))
+      (* (max steps 1) c-basic-offset)))
   (defun apm-c-mode-setup ()
     "Tweaks and customisations for `c-mode'."
-    (c-set-style "linux")
-    ;; and treat linux style as safe for local variable
-    (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
+    (let ((filename (buffer-file-name)))
+      (if (and filename (string-match-p (expand-file-name "~/apparmor-kernel") filename))
+          ;; upstream linux kernel style actually uses tabs... urgh
+          (progn
+            (setq indent-tabs-mode t)
+            (setq c-basic-offset 8)
+            (c-set-style "linux-tabs-only")
+            ;; silence byte compiler
+            (eval-when-compile
+              (require 'ethan-wspace))
+            (with-eval-after-load 'ethan-wspace
+              (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors))))
+        ;; default to normal linux style
+        (c-set-style "linux")))
+    ;; always show trailing whitespace
+    (setq show-trailing-whitespace t)
     ;; ensure fill-paragraph takes doxygen @ markers as start of new
     ;; paragraphs properly
     (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
-  :hook ((c-mode c++-mode) . apm-c-mode-setup))
+  :hook ((c-mode c++-mode) . apm-c-mode-setup)
+  ;; Add upstream kernel style which uses actual tabs
+  :config (progn
+            (c-add-style "linux-tabs-only"
+                         '("linux" (c-offsets-alist
+                                    (arglist-cont-nonempty
+                                     c-lineup-gcc-asm-reg
+                                     c-lineup-arglist-tabs-only))))
+            ;; treat linux styles as safe for local variable
+            (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
+            (add-to-list 'safe-local-variable-values '(c-indentation-style . linux-tabs-only))))
 
 (use-package check-cves-mode
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/")
