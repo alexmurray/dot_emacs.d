@@ -1739,6 +1739,10 @@ Otherwise call `ediff-buffers' interactively."
               (add-to-list 'recentf-exclude no-littering-var-directory)
               (add-to-list 'recentf-exclude no-littering-etc-directory))))
 
+(use-package nord-theme
+  :ensure t
+  :config (load-theme 'nord t))
+
 (use-package notmuch
   :ensure t
   :disabled t
@@ -2139,6 +2143,7 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package solarized-theme
   :ensure t
+  :disabled t
   :config (progn
             ;; settings for moody package
             (let ((line (face-attribute 'mode-line :underline)))
