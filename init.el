@@ -2260,6 +2260,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package znc
   :ensure t
+  :preface (defun apm-znc-all ()
+             (when (y-or-n-p "Connect to IRC? ")
+               (znc-all)))
   :config (let ((slugs '(oftc freenode canonical))
                 (username "amurray")
                 (password (secrets-get-secret "Login" "ZNC")))
@@ -2271,7 +2274,7 @@ Otherwise call `ediff-buffers' interactively."
                                                        (format "%s/%s" username slug)
                                                        password))
                                              slugs)))))
-  :hook (after-init . znc-all))
+  :hook (after-init . apm-znc-all))
 
 ;; set gc-cons-threshold back to original value
 (add-hook 'emacs-startup-hook #'apm-set-gc-threshold)
