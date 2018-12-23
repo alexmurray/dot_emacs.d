@@ -1875,6 +1875,9 @@ Otherwise call `ediff-buffers' interactively."
   ;; don't show days, only total hours as maximum value
   :config (setq org-duration-format (quote h:mm)))
 
+(use-package orgit
+  :ensure t)
+
 (use-package org-mru-clock
   :ensure t
   :config (setq org-mru-clock-completing-read #'ivy-completing-read))
