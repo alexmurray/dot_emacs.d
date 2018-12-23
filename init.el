@@ -1285,7 +1285,9 @@ Otherwise call `ediff-buffers' interactively."
               "pp" 'counsel-projectile
               "pr" 'projectile-recentf
               "r" 'counsel-recentf
-              "s" 'counsel-grep-or-swiper
+              "sm" 'swiper-all
+              "sm" 'swiper-multi
+              "ss" 'counsel-grep-or-swiper
               ;; emojify-insert-emoji ?
               "u" 'counsel-unicode-char
               "v" 'er/expand-region
