@@ -120,8 +120,8 @@
 (setq-default indent-tabs-mode nil)
 
 ;; set a reasonable fill and comment column
-(setq-default fill-column 79)
-(setq-default comment-column 78)
+(setq-default fill-column 72)
+(setq-default comment-column 72)
 
 ;; just use y or n not yes or no
 (defalias 'yes-or-no-p 'y-or-n-p)
