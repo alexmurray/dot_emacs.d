@@ -679,6 +679,11 @@ The object labels of the found items are returned as list."
 (use-package debian-el
   :ensure t)
 
+(use-package doom-modeline
+  :ensure t
+  :defer t
+  :hook (after-init . doom-modeline-init))
+
 (use-package dpkg-dev-el
   :ensure t)
 
