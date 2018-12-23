@@ -492,10 +492,6 @@ The object labels of the found items are returned as list."
 (use-package check-cves-mode
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/")
 
-(use-package color-theme-sanityinc-tomorrow
-  :ensure t
-  :config (load-theme 'sanityinc-tomorrow-eighties t))
-
 (use-package company
   :ensure t
   :diminish company-mode
@@ -678,6 +674,13 @@ The object labels of the found items are returned as list."
 
 (use-package debian-el
   :ensure t)
+
+(use-package doom-themes
+  :ensure t
+  :config (progn
+            (load-theme 'doom-one t)
+            (doom-themes-visual-bell-config)
+            (doom-themes-org-config)))
 
 (use-package doom-modeline
   :ensure t
