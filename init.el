@@ -492,6 +492,10 @@ The object labels of the found items are returned as list."
 (use-package check-cves-mode
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/")
 
+(use-package color-theme-sanityinc-tomorrow
+  :ensure t
+  :config (load-theme 'sanityinc-tomorrow-eighties t))
+
 (use-package company
   :ensure t
   :diminish company-mode
@@ -1719,10 +1723,6 @@ Otherwise call `ediff-buffers' interactively."
             (with-eval-after-load 'recentf
               (add-to-list 'recentf-exclude no-littering-var-directory)
               (add-to-list 'recentf-exclude no-littering-etc-directory))))
-
-(use-package nord-theme
-  :ensure t
-  :config (load-theme 'nord t))
 
 (use-package notmuch
   :ensure t
