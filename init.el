@@ -1043,10 +1043,9 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package evil-collection
   :ensure t
+  :preface (setq evil-collection-company-use-tng nil)
   :after evil
-  :config (progn
-            (setq evil-collection-company-use-tng nil)
-            (evil-collection-init)))
+  :config (evil-collection-init))
 
 (use-package evil-anzu
   :ensure t)
