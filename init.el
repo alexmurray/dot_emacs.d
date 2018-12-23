@@ -1414,8 +1414,8 @@ Otherwise call `ediff-buffers' interactively."
 
 
 (use-package lsp-mode
-  ;; don't use lsp-flycheck since there is lsp-ui now
-  :ensure t)
+  :ensure t
+  :hook ((prog-mode . lsp)))
 
 (use-package lsp-imenu
   :ensure lsp-mode
