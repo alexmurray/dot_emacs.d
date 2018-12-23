@@ -633,37 +633,16 @@ The object labels of the found items are returned as list."
 (use-package cquery
   :ensure t
   :preface
-  ;; autogenerate a .cquery if there is an associated .cquery.in
-  (defun apm-autogenerate-cquery ()
-    "Autogenerate a .cquery if needed when opening a project."
-    (when (and (fboundp 'projectile-project-root)
-               ;; handle if not in project by returning nil
-               (not (null (condition-case nil
-                              (projectile-project-root)
-                            (error nil))))
-               (cl-every #'identity (mapcar #'(lambda (f)
-                                                (file-exists-p (concat
-                                                                (file-name-as-directory
-                                                                 (projectile-project-root))
-                                                                f)))
-                                            '(".cquery.in" "Makefile"))))
-      (projectile-with-default-dir (projectile-project-root)
-        (shell-command "make .cquery"))))
 
   (defvar apm-cquery-executable
     (expand-file-name "~/cquery/build/release/bin/cquery"))
-  :defer t
-  :commands lsp-cquery-enable
-  :hook ((c-mode c++-mode) .  lsp-cquery-enable)
-  :init (progn
-          (advice-add 'lsp-cquery-enable :before #'apm-autogenerate-cquery)
-          (unless (file-exists-p apm-cquery-executable)
-            (alert (format "cquery not found at %s - see https://github.com/jacobdufault/cquery/wiki/Getting-started"
-                           apm-cquery-executable))))
+
+  :init (unless (file-exists-p apm-cquery-executable)
+          (alert (format "cquery not found at %s - see https://github.com/jacobdufault/cquery/wiki/Getting-started"
+                         apm-cquery-executable)))
   :config (progn
             ;; do both Doxygen comment (1) and normal comments (2) and use
             ;; msgpack instead of json for more compact cache
-            (setq cquery-extra-init-params '(:index (:comments 2) :cacheFormat "msgpack"))
             (setq cquery-executable apm-cquery-executable)
             ;; use consolidated cache dir so we don't pollute project trees
             (setq cquery-cache-dir-function #'cquery-cache-dir-consolidated)
