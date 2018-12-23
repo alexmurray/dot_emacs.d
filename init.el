@@ -1451,22 +1451,14 @@ Otherwise call `ediff-buffers' interactively."
 (use-package magit
   :ensure t
   :preface
-  (defun apm-magit-mode-setup ()
-    "Setup `magit-mode'."
-    (setq mode-name ""))
   :defer t
   :bind ("C-x g" . magit-status)
-  :hook ((magit-mode . apm-magit-mode-setup))
   :config (setq magit-completing-read-function 'ivy-completing-read))
 
 (use-package magithub
   :ensure t
   :after magit
   :config (magithub-feature-autoinject t))
-
-(use-package make-mode
-  ;; don't show major mode name
-  :init (add-hook 'makefile-mode-hook #'(lambda () (setq mode-name nil))))
 
 (use-package mallard-mode
   :ensure t
