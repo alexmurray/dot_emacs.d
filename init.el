@@ -89,9 +89,6 @@
          :severity 'high))
 
 
-(setq evil-want-integration nil)
-(setq evil-want-keybinding nil)
-
 ;; minibuffer settings
 ;; automatically garbage collect when switch away from emacs
 (add-hook 'focus-out-hook 'garbage-collect)
@@ -1005,9 +1002,9 @@ Otherwise call `ediff-buffers' interactively."
     "Make _ a word character."
     (modify-syntax-entry ?_ "w"))
   ;; use evil-collection instead
-  :init (setq evil-want-integration nil
-              evil-want-keybinding nil
-              evil-want-C-u-scroll t)
+  :preface (setq evil-want-integration nil
+                 evil-want-keybinding nil
+                 evil-want-C-u-scroll t)
   ;; make underscore a word character so movements across words
   ;; include it - this is the same as vim - need to do it on each
   ;; major mode change
