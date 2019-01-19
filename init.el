@@ -849,8 +849,8 @@ Otherwise call `ediff-buffers' interactively."
             ;; when joining don't bring to front
             (setq erc-join-buffer 'bury)
 
-            ;; this is the default but set anyway just in-case
-            (setq erc-track-position-in-mode-line 'before-modes)
+            ;; add to global-mode-string for doom-modeline to show
+            (setq erc-track-position-in-mode-line t)
             ;; choose most important buffer first
             (setq erc-track-switch-direction 'importance)
             (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
