@@ -362,7 +362,7 @@ The object labels of the found items are returned as list."
   ;; prefer gnome-keyring via Login keyring, encrypted auth source to non-encrypted
   :init (progn
           (require 'secrets)
-          (setq auth-sources '("secrets:Login" "~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))))
+          (setq auth-sources '("~/.authinfo" "secrets:Login" "~/.netrc"))))
 
 (use-package avy
   :ensure t
@@ -1930,7 +1930,7 @@ Otherwise call `ediff-buffers' interactively."
     (require 'auth-source)
     (eval-when-compile
       (require 'paradox-github))
-    (if (file-exists-p "~/.authinfo.gpg")
+    (if (file-exists-p "~/.authinfo")
         (let ((authinfo-result (car (auth-source-search
                                      :max 1
                                      :host "github.com"
@@ -1941,7 +1941,7 @@ Otherwise call `ediff-buffers' interactively."
             (setq paradox-github-token (if (functionp paradox-token)
                                            (funcall paradox-token)
                                          paradox-token))))
-      (alert "No github token found in ~/.authinfo.gpg")))
+      (alert "No github token found in ~/.authinfo")))
   :commands (paradox-list-packages)
   :init (setq paradox-execute-asynchronously nil)
   :config (progn
