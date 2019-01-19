@@ -808,12 +808,8 @@ Otherwise call `ediff-buffers' interactively."
               (require 'erc-match)
               (require 'erc-networks)
               (require 'erc-services))
-            ;; canonical irc
+            ;; canonical irc - we use this via znc-erc below
             (add-to-list 'erc-networks-alist '(Canonical "canonical.com"))
-            (add-to-list 'erc-server-alist '("Canonical IRC" 'Canonical "irc.canonical.com" 6697))
-            ;; store password as using secret-tool:
-            ;; secret-tool store --label='Canonical IRC' host irc.canonical.com port 6697 user amurray
-            ;; then enter PASSWORD
             (setq erc-nick "amurray")
             (setq erc-prompt-for-nickserv-password nil)
             ;; no nickserv password for Canonical
@@ -2257,21 +2253,37 @@ Otherwise call `ediff-buffers' interactively."
 
 (use-package znc
   :ensure t
-  :preface (defun apm-znc-all ()
-             (when (y-or-n-p "Connect to IRC? ")
-               (znc-all)))
-  :config (let ((slugs '(oftc freenode canonical))
-                (username "amurray")
-                (password (secrets-get-secret "Login" "ZNC")))
-            ;; need to ensure /etc/hosts points znc.secret.server to the correct hostname
-            (setq znc-servers (list
-                               (list "znc.secret.server" 7076 t
-                                     (mapcar #'(lambda (slug)
-                                                 (list slug
-                                                       (format "%s/%s" username slug)
-                                                       password))
-                                             slugs)))))
-  :hook (after-init . apm-znc-all))
+  :preface (progn
+             (defvar apm-znc-slugs '(oftc freenode canonical))
+
+             (defun apm-znc-all (&optional _)
+               "Smarter `znc-all'."
+               ;; make sure we don't get called a second time automatically
+               (dolist (hook '(after-make-frame-functions after-init-hook))
+                 (remove-hook hook #'apm-znc-all))
+               (dolist (slug apm-znc-slugs)
+                 (when (y-or-n-p (format "Connect to IRC on %s? " slug))
+                   (znc-erc slug)))))
+  :config (progn
+            (let* ((server "znc.secret.server")
+                   (username "amurray")
+                   (port 7076)
+                   (password (auth-source-pick-first-password :user username :port (format "%d" port))))
+              (unless (url-gateway-nslookup-host server)
+                (alert "Please correctly define znc.secret.server in /etc/hosts"))
+              (unless password
+                ;; secret-tool store --label=ZNC user amurray port 7076
+                (alert "Please store ZNC password in keyring via secret-tool"))
+              ;; need to ensure /etc/hosts points znc.secret.server to the correct hostname
+              (setq znc-servers (list
+                                 (list server port t
+                                       (mapcar #'(lambda (slug)
+                                                   (list slug
+                                                         (format "%s/%s" username slug)
+                                                         password))
+                                               apm-znc-slugs)))))
+            (let ((hook (if (daemonp) 'after-make-frame-functions 'after-init-hook)))
+              (add-hook hook #'apm-znc-all))))
 
 ;; set gc-cons-threshold back to original value
 (add-hook 'emacs-startup-hook #'apm-set-gc-threshold)
