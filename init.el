@@ -1067,10 +1067,6 @@ Otherwise call `ediff-buffers' interactively."
           (define-key evil-motion-state-map "L" 'evil-forward-arg)
           (define-key evil-motion-state-map "H" 'evil-backward-arg)))
 
-(use-package evil-better-visual-line
-  :ensure t
-  :config (evil-better-visual-line-on))
-
 (use-package evil-commentary
   :ensure t
   :diminish evil-commentary-mode
