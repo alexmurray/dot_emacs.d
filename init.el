@@ -1471,16 +1471,6 @@ Otherwise call `ediff-buffers' interactively."
   :defer t
   :hook ((c++-mode . modern-c++-font-lock-mode)))
 
-(use-package moody
-  :ensure t
-  :disabled t
-  :config (progn
-            (setq x-underline-at-descent-line t)
-            (setq moody-mode-line-height 24)
-            (moody-replace-mode-line-buffer-identification)
-            (moody-replace-vc-mode)
-            (size-indication-mode)))
-
 (use-package move-text
   :ensure t
   :bind (([(meta shift up)] . move-text-up)
@@ -1718,16 +1708,6 @@ Otherwise call `ediff-buffers' interactively."
               (add-to-list 'recentf-exclude no-littering-var-directory)
               (add-to-list 'recentf-exclude no-littering-etc-directory))))
 
-(use-package notmuch
-  :ensure t
-  :disabled t
-  :ensure-system-package (notmuch offlineimap)
-  :config (progn
-            ;; email sending via message mode
-            (setq mail-user-agent 'message-user-agent)
-            (setq message-auto-save-directory (expand-file-name "~/Mail/Canonical/Drafts/"))
-            (setq notmuch-fcc-dirs '(("alex.murray@canonical.com" . "\"Canonical/Sent\" +sent -inbox -unread")))))
-
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
   :init (progn
@@ -1889,11 +1869,6 @@ Otherwise call `ediff-buffers' interactively."
             (org-notify-add 'default '(:time "24h" :actions -notify/window :duration 600))
             (org-notify-add 'default '(:time "60m" :actions -notify/window :period "2m" :duration 600))
             (org-notify-add 'default '(:time "15m" :actions -notify/window :period "2m" :duration 120))))
-
-(use-package org-notmuch
-  :disabled t
-  :ensure org-plus-contrib
-  :after org)
 
 (use-package org-table-sticky-header
   :ensure t
