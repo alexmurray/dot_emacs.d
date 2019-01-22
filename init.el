@@ -1668,6 +1668,7 @@ Otherwise call `ediff-buffers' interactively."
                                         (:flags . 6)
                                         (:mailing-list . 10)
                                         (:from . 22)
+                                        (:size . 8)
                                         (:subject)))
 
             ;; save attachment to Downloads
