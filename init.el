@@ -1730,6 +1730,10 @@ Otherwise call `ediff-buffers' interactively."
   :ensure org-plus-contrib
   :pin org
   :config (progn
+            ;; ensure TAB is bound to org-cycle in normal mode - this seems to break magit?
+            (with-eval-after-load 'evil
+              (evil-define-key 'normal outline-mode-map (kbd "<tab>") #'org-cycle)
+              (evil-define-key 'normal outline-mode-map (kbd "TAB") #'org-cycle))
             (setq org-agenda-files (mapcar #'expand-file-name
                                            '("~/Dropbox/Orgzly/personal.org"
                                              "~/Dropbox/Orgzly/canonical.org"
