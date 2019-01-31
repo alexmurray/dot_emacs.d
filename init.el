@@ -1725,8 +1725,7 @@ The object labels of the found items are returned as list."
                   org-adapt-indentation nil
                   org-imenu-depth 4
                   org-todo-keywords '((sequence "TODO(t)" "IN-PROGRESS(p!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
-                                      (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)"))
-                  org-goto-interface 'outline-path-completion)
+                                      (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
             ;; set up org-babel integration for plantuml
             (org-babel-do-load-languages
              'org-babel-load-languages
