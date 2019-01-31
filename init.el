@@ -696,8 +696,8 @@ The object labels of the found items are returned as list."
 
 (use-package doom-modeline
   :ensure t
-  :defer t
-  :hook (after-init . doom-modeline-mode))
+  :after mu4e-alert doom-themes
+  :config (doom-modeline-mode 1))
 
 (use-package dpkg-dev-el
   :ensure t)
@@ -2216,6 +2216,7 @@ The object labels of the found items are returned as list."
   (defvar apm-znc-password (auth-source-pick-first-password
                             :user apm-znc-username
                             :port (format "%d" apm-znc-port)))
+
   (defun apm-znc-generate-server (slug)
     "Generate a ZNC server entry for SLUG."
     (list slug
@@ -2235,6 +2236,7 @@ The object labels of the found items are returned as list."
     (dolist (slug apm-znc-slugs)
       (when (y-or-n-p (format "Connect to IRC on %s? " slug))
         (znc-erc slug))))
+
   :config
   (unless (url-gateway-nslookup-host apm-znc-server)
     ;; need to ensure /etc/hosts points znc.secret.server to
