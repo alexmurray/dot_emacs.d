@@ -2209,6 +2209,22 @@ The object labels of the found items are returned as list."
   :ensure t
   :preface (progn
              (defvar apm-znc-slugs '(oftc freenode canonical))
+             (defvar apm-znc-server "znc.secret.server")
+             (defvar apm-znc-username "amurray")
+             (defvar apm-znc-port 7076)
+             (defvar apm-znc-password (auth-source-pick-first-password
+                                       :user apm-znc-username
+                                       :port (format "%d" apm-znc-port)))
+             (defun apm-znc-generate-server (slug)
+               "Generate a ZNC server entry for SLUG."
+               (list slug
+                     (format "%s/%s" apm-znc-username slug)
+                     apm-znc-password))
+
+             (defvar apm-znc-servers (list
+                                      (list apm-znc-server apm-znc-port t
+                                            (mapcar #'apm-znc-generate-server
+                                                    apm-znc-slugs))))
 
              (defun apm-znc-all (&optional _)
                "Smarter `znc-all'."
@@ -2219,23 +2235,14 @@ The object labels of the found items are returned as list."
                  (when (y-or-n-p (format "Connect to IRC on %s? " slug))
                    (znc-erc slug)))))
   :config (progn
-            (let* ((server "znc.secret.server")
-                   (username "amurray")
-                   (port 7076)
-                   (password (auth-source-pick-first-password :user username :port (format "%d" port))))
-              (unless (url-gateway-nslookup-host server)
-                (alert "Please correctly define znc.secret.server in /etc/hosts"))
-              (unless password
-                ;; secret-tool store --label=ZNC user amurray port 7076
-                (alert "Please store ZNC password in keyring via secret-tool"))
-              ;; need to ensure /etc/hosts points znc.secret.server to the correct hostname
-              (setq znc-servers (list
-                                 (list server port t
-                                       (mapcar #'(lambda (slug)
-                                                   (list slug
-                                                         (format "%s/%s" username slug)
-                                                         password))
-                                               apm-znc-slugs)))))
+            (unless (url-gateway-nslookup-host apm-znc-server)
+              ;; need to ensure /etc/hosts points znc.secret.server to
+              ;; the correct hostname
+              (alert "Please correctly define znc.secret.server in /etc/hosts"))
+            (unless apm-znc-password
+              ;; secret-tool store --label=ZNC user amurray port 7076
+              (alert "Please store ZNC password in keyring via secret-tool"))
+            (setq znc-servers apm-znc-servers)
             (let ((hook (if (daemonp) 'after-make-frame-functions 'after-init-hook)))
               (add-hook hook #'apm-znc-all))))
 
