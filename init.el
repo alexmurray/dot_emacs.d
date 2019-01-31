@@ -140,13 +140,22 @@
 ;; Show line column numbers in mode line
 (line-number-mode 1)
 (column-number-mode 1)
+;; Show buffer size in mode line
+(size-indication-mode 1)
 ;; don't use gtk style tooltips since are intrusive
-(setq-default x-gtk-use-system-tooltips nil)
+(when (boundp 'x-gtk-use-system-tooltips)
+  (setq x-gtk-use-system-tooltips nil))
 (blink-cursor-mode -1)
 (setq frame-title-format
       '((buffer-file-name "%f" (dired-directory dired-directory "%b"))))
 (setq icon-title-format frame-title-format)
-
+;; Mouse & Smooth Scroll
+;; Scroll one line at a time (less "jumpy" than defaults)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq mouse-wheel-progressive-speed nil)
+(setq scroll-step 1
+      scroll-margin 0
+      scroll-conservatively 100000)
 (set-language-environment "UTF-8")
 
 ;; default to maximised windows
@@ -1892,9 +1901,6 @@ The object labels of the found items are returned as list."
 (use-package pcap-mode
   :ensure t
   :mode ("\\.pcapng\\'" . pcap-mode))
-
-(use-package pixel-scroll
-  :config (pixel-scroll-mode 1))
 
 (use-package pdf-tools
   :ensure t
