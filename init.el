@@ -690,7 +690,8 @@ The object labels of the found items are returned as list."
   :ensure t
   :config (progn
             (load-theme 'doom-one t)
-            (doom-themes-visual-bell-config)
+            ;; doesn't play nicely with erc - all erc modelines are red!
+            ;; (doom-themes-visual-bell-config)
             (doom-themes-org-config)))
 
 (use-package doom-modeline
