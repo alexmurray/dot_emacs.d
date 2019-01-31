@@ -606,10 +606,17 @@ The object labels of the found items are returned as list."
   :diminish counsel-mode
   :init (counsel-mode 1)
   :bind (("C-x C-r" . counsel-recentf)
+         ("M-y" . counsel-yank-pop)
+         ("C-h f" . counsel-describe-function)
+         ("C-h v" . counsel-describe-variable)
          :map company-active-map ("C-/" . counsel-company))
   :config (progn
             ;; required so we can use counsel-yank-pop in the minibuffer itself
             (setq enable-recursive-minibuffers t)
+            (setq counsel-yank-pop-preselect-last t)
+            (with-eval-after-load 'helpful
+              (setq counsel-describe-function-function #'helpful-callable)
+              (setq counsel-describe-variable-function #'helpful-variable))
             (with-eval-after-load 'evil
               (eval-when-compile (require 'evil))
               (define-key evil-ex-map "e " 'counsel-find-file)
@@ -1310,8 +1317,6 @@ The object labels of the found items are returned as list."
 (use-package helpful
   :ensure t
   :bind (("C-h a" . helpful-symbol)
-         ("C-h f" . helpful-callable)
-         ("C-h v" . helpful-variable)
          ("C-h k" . helpful-key)))
 
 (use-package hl-todo
