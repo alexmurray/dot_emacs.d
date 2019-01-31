@@ -1654,14 +1654,14 @@ The object labels of the found items are returned as list."
 
   ;; redefine this mu4e function so we preserve non-breaking spaces -
   ;; https://github.com/djcb/mu/issues/1339
-  (defun mu4e-message-outlook-cleanup (_msg _txt)
+  (defun mu4e-message-outlook-cleanup (_ txt)
     "Remove some crap from the remaining string; it seems
    esp. outlook lies about its encoding (ie., it says
    'iso-8859-1' but really it's 'windows-1252'), thus giving us
    these funky chars. here, we either remove them, or replace
    with 'what-was-meant' (heuristically)."
     (with-temp-buffer
-      (insert body)
+      (insert txt)
       (goto-char (point-min))
       (while (re-search-forward "[ ]" nil t)
         (replace-match
