@@ -17,10 +17,6 @@
 ;; prefer newer non-byte compiled sources to older byte compiled ones
 (setq load-prefer-newer t)
 
-;; fix recursive load *.el.gz issue with emacs-snapshot -
-;; https://github.com/purcell/emacs.d/issues/340#issuecomment-237177032
-(setq load-file-rep-suffixes '(""))
-
 ;;; Package management
 (require 'package)
 
