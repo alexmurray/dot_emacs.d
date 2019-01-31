@@ -1209,8 +1209,8 @@ The object labels of the found items are returned as list."
              :states '(normal visual insert emacs)
              :keymaps 'override
              :non-normal-prefix "C-SPC"
-              "SPC" 'avy-goto-word-or-subword-1
-              "c" 'avy-goto-char-timer
+              "SPC" 'evil-avy-goto-word-or-subword-1
+              "c" 'evil-avy-goto-char-timer
               "a" 'counsel-ag
               "b" 'ivy-switch-buffer
               "df" 'doxyas-document-function
@@ -1270,7 +1270,9 @@ The object labels of the found items are returned as list."
               "u" 'counsel-unicode-char
               "v" 'er/expand-region
               "w" 'world-time-list
-              "x" 'counsel-M-x)))
+              "x" 'counsel-M-x
+              "y" 'counsel-yank-pop)))
+
 
 (use-package gif-screencast
   :ensure t
