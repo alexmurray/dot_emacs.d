@@ -31,6 +31,7 @@
         (not package--initialized))
     (package-initialize))
 
+(defvar use-package-enable-imenu-support t)
 ;; must be set before loading use-package
 (setq use-package-enable-imenu-support t)
 ;; uncomment to debug package loading times
@@ -42,7 +43,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(eval-when-compile
+(eval-and-compile
   (require 'use-package))
 
 (use-package diminish
@@ -450,6 +451,7 @@ The object labels of the found items are returned as list."
 (use-package apm-c
   :load-path "lisp/"
   :preface
+  (defvar c-syntactic-element)
   ;; from https://www.kernel.org/doc/html/v4.10/process/coding-style.html
   (defun c-lineup-arglist-tabs-only (ignored)
     "Line up argument lists by tabs, not spaces"
@@ -1285,7 +1287,10 @@ The object labels of the found items are returned as list."
 (use-package google-translate-smooth-translate
   :ensure google-translate
   :defer t
-  :init (setq google-translate-listen-program (executable-find "totem")))
+  :init (progn
+            (eval-when-compile
+              (require 'google-translate))
+            (setq google-translate-listen-program (executable-find "totem"))))
 
 (use-package goto-addr
   :defer t
@@ -1641,7 +1646,7 @@ The object labels of the found items are returned as list."
 
             ;; redefine this mu4e function so we preserve non-breaking spaces -
             ;; https://github.com/djcb/mu/issues/1339
-            (defun mu4e-message-outlook-cleanup (msg txt)
+            (defun mu4e-message-outlook-cleanup (_msg _txt)
               "Remove some crap from the remaining string; it seems
    esp. outlook lies about its encoding (ie., it says
    'iso-8859-1' but really it's 'windows-1252'), thus giving us
