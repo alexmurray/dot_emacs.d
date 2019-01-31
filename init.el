@@ -215,9 +215,9 @@
 ;;; Packages
 (use-package abbrev
   :diminish abbrev-mode
-  :config (progn
-            (setq save-abbrevs t)
-            (setq-default abbrev-mode t)))
+  :config
+  (setq save-abbrevs t)
+  (setq-default abbrev-mode t))
 
 (use-package ace-window
   :ensure t
@@ -251,10 +251,10 @@
   :diminish android-mode
   :commands android-mode
   :hook java-mode
-  :init (progn
-          (setq android-mode-sdk-dir (expand-file-name "~/android-sdk-linux/"))
-          ;; change prefix so doesn't conflict with comment-region
-          (setq android-mode-key-prefix (kbd "C-c C-m"))))
+  :init
+  (setq android-mode-sdk-dir (expand-file-name "~/android-sdk-linux/"))
+  ;; change prefix so doesn't conflict with comment-region
+  (setq android-mode-key-prefix (kbd "C-c C-m")))
 
 (use-package ansi-color
   ;; show colours correctly in shell
@@ -280,9 +280,9 @@
     (alert msg
            :title (format "Appointment in %s minutes [%s]" time-to-appt time)
            :icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"))
-  :config (progn
-            (setq appt-disp-window-function #'apm-appt-notify)
-            (appt-activate 1)))
+  :config
+  (setq appt-disp-window-function #'apm-appt-notify)
+  (appt-activate 1))
 
 (use-package apropos
   :bind ("C-h a" . apropos))
@@ -312,13 +312,13 @@
   :commands (LaTeX-math-mode TeX-source-correlate-mode)
   :mode ("\\.tex\\'" . LaTeX-mode)
   :hook ((LaTeX-mode . apm-latex-mode-setup))
-  :init (progn
-          (setq-default TeX-auto-save t)
-          (setq-default TeX-parse-self t)
-          (setq-default TeX-PDF-mode t)
-          (setq-default TeX-master nil)
-          (setq-default reftex-plug-into-AUCTeX t)
-          (setq-default TeX-source-correlate-start-server t)))
+  :init
+  (setq-default TeX-auto-save t)
+  (setq-default TeX-parse-self t)
+  (setq-default TeX-PDF-mode t)
+  (setq-default TeX-master nil)
+  (setq-default reftex-plug-into-AUCTeX t)
+  (setq-default TeX-source-correlate-start-server t))
 
 (use-package secrets
   ;; patch bug in secrets - https://haukerehfeld.de/notes/2018-06-emacs-secrets-dbus-bug/
@@ -363,27 +363,27 @@ The object labels of the found items are returned as list."
 
 (use-package auth-source
   ;; prefer gnome-keyring via Login keyring, encrypted auth source to non-encrypted
-  :init (progn
-          (require 'secrets)
-          (setq auth-sources '("~/.authinfo" "secrets:Login" "~/.netrc"))))
+  :init
+  (require 'secrets)
+  (setq auth-sources '("~/.authinfo" "secrets:Login" "~/.netrc")))
 
 (use-package avy
   :ensure t
   :defer t
-  :config (progn
-            ;; dim text when avy is active
-            (setq avy-background t)
-            ;; insert chars infront of target rather than over target
-            (setq avy-style 'pre)))
+  :config
+  ;; dim text when avy is active
+  (setq avy-background t)
+  ;; insert chars infront of target rather than over target
+  (setq avy-style 'pre))
 
 (use-package beginend
   :ensure t
   :diminish beginend-global-mode
-  :config (progn
-            ;; beginend defines lots of different modes so diminish them all
-            (dolist (m beginend-modes)
-              (diminish (cdr m)))
-            (beginend-global-mode 1)))
+  :config
+  ;; beginend defines lots of different modes so diminish them all
+  (dolist (m beginend-modes)
+    (diminish (cdr m)))
+  (beginend-global-mode 1))
 
 (use-package bbdb
   :ensure t
@@ -412,11 +412,11 @@ The object labels of the found items are returned as list."
                      ((string-prefix-p "USN" prefix)
                       (format "https://usn.ubuntu.com/%s" id))
                      (t (error (concat "Unknown bug prefix '%s'" prefix))))))
-  :init (progn
-          (eval-when-compile
-            (require 'bug-reference))
-          (setq bug-reference-url-format #'apm-bug-reference-url-format
-                bug-reference-bug-regexp "\\([Ll][Pp]:?\\|bug\\|#\\|CVE[ -]\\|USN[ -]\\) ?\\([0-9][0-9-]*\\)")))
+  :init
+  (eval-when-compile
+    (require 'bug-reference))
+  (setq bug-reference-url-format #'apm-bug-reference-url-format
+        bug-reference-bug-regexp "\\([Ll][Pp]:?\\|bug\\|#\\|CVE[ -]\\|USN[ -]\\) ?\\([0-9][0-9-]*\\)"))
 
 (use-package cargo
   :ensure t
@@ -483,15 +483,15 @@ The object labels of the found items are returned as list."
     (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
   :hook ((c-mode c++-mode) . apm-c-mode-setup)
   ;; Add upstream kernel style which uses actual tabs
-  :config (progn
-            (c-add-style "linux-tabs-only"
-                         '("linux" (c-offsets-alist
-                                    (arglist-cont-nonempty
-                                     c-lineup-gcc-asm-reg
-                                     c-lineup-arglist-tabs-only))))
-            ;; treat linux styles as safe for local variable
-            (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
-            (add-to-list 'safe-local-variable-values '(c-indentation-style . linux-tabs-only))))
+  :config
+  (c-add-style "linux-tabs-only"
+               '("linux" (c-offsets-alist
+                          (arglist-cont-nonempty
+                           c-lineup-gcc-asm-reg
+                           c-lineup-arglist-tabs-only))))
+  ;; treat linux styles as safe for local variable
+  (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
+  (add-to-list 'safe-local-variable-values '(c-indentation-style . linux-tabs-only)))
 
 (use-package check-cves-mode
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/")
@@ -505,28 +505,28 @@ The object labels of the found items are returned as list."
          ([remap completion-at-point] . company-complete-common)
          ([remap complete-symbol] . company-complete-common))
   :init (global-company-mode 1)
-  :config (progn
-            ;; ensure flyspell doesn't steal our binding of C-;
-            (eval-when-compile
-              (require 'flyspell))
-            (with-eval-after-load 'flyspell
-              (bind-key "C-;" nil flyspell-mode-map))
-            ;; some better default values
-            (setq company-idle-delay 0.2)
-            (setq company-tooltip-limit 10)
-            (setq company-minimum-prefix-length 1)
-            (setq company-selection-wrap-around t)
+  :config
+  ;; ensure flyspell doesn't steal our binding of C-;
+  (eval-when-compile
+    (require 'flyspell))
+  (with-eval-after-load 'flyspell
+    (bind-key "C-;" nil flyspell-mode-map))
+  ;; some better default values
+  (setq company-idle-delay 0.2)
+  (setq company-tooltip-limit 10)
+  (setq company-minimum-prefix-length 1)
+  (setq company-selection-wrap-around t)
 
-            ;; align annotations in tooltip
-            (setq company-tooltip-align-annotations t)
+  ;; align annotations in tooltip
+  (setq company-tooltip-align-annotations t)
 
-            ;; nicer keybindings
-            (define-key company-active-map (kbd "C-n") 'company-select-next)
-            (define-key company-active-map (kbd "C-p") 'company-select-previous)
-            (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer)
+  ;; nicer keybindings
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous)
+  (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer)
 
-            ;; put most often used completions at stop of list
-            (setq company-transformers '(company-sort-by-occurrence))))
+  ;; put most often used completions at stop of list
+  (setq company-transformers '(company-sort-by-occurrence)))
 
 (use-package company-anaconda
   :ensure t
@@ -554,9 +554,9 @@ The object labels of the found items are returned as list."
   :defer t
   :after company
   ;; Add backend for math characters
-  :init (progn
-          (add-to-list 'company-backends 'company-math-symbols-unicode)
-          (add-to-list 'company-backends 'company-math-symbols-latex)))
+  :init
+  (add-to-list 'company-backends 'company-math-symbols-unicode)
+  (add-to-list 'company-backends 'company-math-symbols-latex))
 
 (use-package company-quickhelp
   :ensure t
@@ -568,9 +568,9 @@ The object labels of the found items are returned as list."
 (use-package company-reftex
   :ensure t
   :after company
-  :init (progn
-          (add-to-list 'company-backends 'company-reftex-labels)
-          (add-to-list 'company-backends 'company-reftex-citations)))
+  :init
+  (add-to-list 'company-backends 'company-reftex-labels)
+  (add-to-list 'company-backends 'company-reftex-citations))
 
 (use-package company-shell
   :ensure t
@@ -610,25 +610,25 @@ The object labels of the found items are returned as list."
          ("C-h f" . counsel-describe-function)
          ("C-h v" . counsel-describe-variable)
          :map company-active-map ("C-/" . counsel-company))
-  :config (progn
-            ;; required so we can use counsel-yank-pop in the minibuffer itself
-            (setq enable-recursive-minibuffers t)
-            (setq counsel-yank-pop-preselect-last t)
-            (with-eval-after-load 'helpful
-              (setq counsel-describe-function-function #'helpful-callable)
-              (setq counsel-describe-variable-function #'helpful-variable))
-            (with-eval-after-load 'evil
-              (eval-when-compile (require 'evil))
-              (define-key evil-ex-map "e " 'counsel-find-file)
-              (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
-              (define-key evil-ex-map "ap " 'counsel-apropos))))
+  :config
+  ;; required so we can use counsel-yank-pop in the minibuffer itself
+  (setq enable-recursive-minibuffers t)
+  (setq counsel-yank-pop-preselect-last t)
+  (with-eval-after-load 'helpful
+    (setq counsel-describe-function-function #'helpful-callable)
+    (setq counsel-describe-variable-function #'helpful-variable))
+  (with-eval-after-load 'evil
+    (eval-when-compile (require 'evil))
+    (define-key evil-ex-map "e " 'counsel-find-file)
+    (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
+    (define-key evil-ex-map "ap " 'counsel-apropos)))
 
 (use-package counsel-projectile
   :ensure t
   :after (counsel projectile)
-  :config (progn
-            (setq projectile-switch-project-action 'counsel-projectile)
-            (counsel-projectile-mode)))
+  :config
+  (setq projectile-switch-project-action 'counsel-projectile)
+  (counsel-projectile-mode))
 
 (use-package cov
   :ensure t
@@ -651,13 +651,13 @@ The object labels of the found items are returned as list."
   :init (unless (file-exists-p apm-cquery-executable)
           (alert (format "cquery not found at %s - see https://github.com/jacobdufault/cquery/wiki/Getting-started"
                          apm-cquery-executable)))
-  :config (progn
-            ;; do both Doxygen comment (1) and normal comments (2) and use
-            ;; msgpack instead of json for more compact cache
-            (setq cquery-executable apm-cquery-executable)
-            ;; use consolidated cache dir so we don't pollute project trees
-            (setq cquery-cache-dir-function #'cquery-cache-dir-consolidated)
-            (setq cquery-cache-dir-consolidated-path (expand-file-name "cquery-cache.d" "~/.cache/"))))
+  :config
+  ;; do both Doxygen comment (1) and normal comments (2) and use
+  ;; msgpack instead of json for more compact cache
+  (setq cquery-executable apm-cquery-executable)
+  ;; use consolidated cache dir so we don't pollute project trees
+  (setq cquery-cache-dir-function #'cquery-cache-dir-consolidated)
+  (setq cquery-cache-dir-consolidated-path (expand-file-name "cquery-cache.d" "~/.cache/")))
 
 (use-package crux
   :ensure t
@@ -688,11 +688,11 @@ The object labels of the found items are returned as list."
 
 (use-package doom-themes
   :ensure t
-  :config (progn
-            (load-theme 'doom-one t)
-            ;; doesn't play nicely with erc - all erc modelines are red!
-            ;; (doom-themes-visual-bell-config)
-            (doom-themes-org-config)))
+  :config
+  (load-theme 'doom-one t)
+  ;; doesn't play nicely with erc - all erc modelines are red!
+  ;; (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
 
 (use-package doom-modeline
   :ensure t
@@ -744,10 +744,10 @@ The object labels of the found items are returned as list."
   :ensure t)
 
 (use-package electric
-  :init (progn
-          ;; electric indent and layout modes to make more IDE like
-          (electric-indent-mode 1)
-          (electric-layout-mode 1)))
+  :init
+  ;; electric indent and layout modes to make more IDE like
+  (electric-indent-mode 1)
+  (electric-layout-mode 1))
 
 (use-package elisp-def
   :ensure t
@@ -755,126 +755,126 @@ The object labels of the found items are returned as list."
   :diminish elisp-def-mode
   :after evil
   :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode)
-  :config (progn
-            (evil-define-key 'normal elisp-def-mode-map (kbd "C-]") #'elisp-def)
-            (evil-define-key 'visual elisp-def-mode-map (kbd "C-]") #'elisp-def)
-            (evil-define-key 'normal elisp-def-mode-map (kbd "C-t") #'xref-pop-marker-stack)))
+  :config
+  (evil-define-key 'normal elisp-def-mode-map (kbd "C-]") #'elisp-def)
+  (evil-define-key 'visual elisp-def-mode-map (kbd "C-]") #'elisp-def)
+  (evil-define-key 'normal elisp-def-mode-map (kbd "C-t") #'xref-pop-marker-stack))
 
 (use-package emojify
   :ensure t
   :ensure-system-package ("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
   :diminish emojify-mode
-  :config (progn
-            ;; display emojis using images since looks nicer
-            (setq emojify-display-style 'image)
-            ;; only replace unicode emojis (don't mess with ascii ones)
-            (setq emojify-emoji-styles '(unicode))
-            ;; echo the actual underlying character to the minibuffer when
-            ;; point is over them so we don't mess with the displayed buffer
-            ;; itself
-            (setq emojify-point-entered-behaviour 'echo)
-            (global-emojify-mode 1)))
+  :config
+  ;; display emojis using images since looks nicer
+  (setq emojify-display-style 'image)
+  ;; only replace unicode emojis (don't mess with ascii ones)
+  (setq emojify-emoji-styles '(unicode))
+  ;; echo the actual underlying character to the minibuffer when
+  ;; point is over them so we don't mess with the displayed buffer
+  ;; itself
+  (setq emojify-point-entered-behaviour 'echo)
+  (global-emojify-mode 1))
 
 (use-package erc
   :ensure t
-  :config (progn
-            (eval-and-compile
-              (require 'erc-join)
-              (require 'erc-log)
-              (require 'erc-match)
-              (require 'erc-networks)
-              (require 'erc-services))
-            ;; canonical irc - we use this via znc-erc below
-            (add-to-list 'erc-networks-alist '(Canonical "canonical.com"))
-            (setq erc-nick "amurray")
-            (setq erc-prompt-for-nickserv-password nil)
-            ;; no nickserv password for Canonical
-            (setq erc-nickserv-passwords `((Canonical ((,erc-nick . "")))))
+  :config
+  (eval-and-compile
+    (require 'erc-join)
+    (require 'erc-log)
+    (require 'erc-match)
+    (require 'erc-networks)
+    (require 'erc-services))
+  ;; canonical irc - we use this via znc-erc below
+  (add-to-list 'erc-networks-alist '(Canonical "canonical.com"))
+  (setq erc-nick "amurray")
+  (setq erc-prompt-for-nickserv-password nil)
+  ;; no nickserv password for Canonical
+  (setq erc-nickserv-passwords `((Canonical ((,erc-nick . "")))))
 
-            ;; freenode irc
-            (let* ((pass (auth-source-pick-first-password :host "irc.freenode.net" :user erc-nick)))
-              (if (null pass)
-                  ;; secret-tool store --label='Freenode IRC' host irc.freenode.net user amurray
-                  ;; then enter password
-                  (alert (format "Please store irc.freenode.net nickserv password in secret store for %s" erc-nick))
-                (add-to-list 'erc-nickserv-passwords `(freenode ((,erc-nick . ,pass))))))
+  ;; freenode irc
+  (let* ((pass (auth-source-pick-first-password :host "irc.freenode.net" :user erc-nick)))
+    (if (null pass)
+        ;; secret-tool store --label='Freenode IRC' host irc.freenode.net user amurray
+        ;; then enter password
+        (alert (format "Please store irc.freenode.net nickserv password in secret store for %s" erc-nick))
+      (add-to-list 'erc-nickserv-passwords `(freenode ((,erc-nick . ,pass))))))
 
-            (setq erc-autojoin-timing 'ident)
+  (setq erc-autojoin-timing 'ident)
 
-            (setq erc-autojoin-channels-alist nil)
-            (setq erc-fill-function #'erc-fill-static)
-            (setq erc-fill-static-center 18)
+  (setq erc-autojoin-channels-alist nil)
+  (setq erc-fill-function #'erc-fill-static)
+  (setq erc-fill-static-center 18)
 
-            ;; use sensible buffer names with server as well
-            (setq erc-rename-buffers t)
+  ;; use sensible buffer names with server as well
+  (setq erc-rename-buffers t)
 
-            (add-to-list 'erc-modules 'log)
-            (add-to-list 'erc-modules 'match)
-            (add-to-list 'erc-modules 'scrolltobottom)
-            (add-to-list 'erc-modules 'services)
-            (add-to-list 'erc-modules 'spelling)
-            (erc-update-modules)
+  (add-to-list 'erc-modules 'log)
+  (add-to-list 'erc-modules 'match)
+  (add-to-list 'erc-modules 'scrolltobottom)
+  (add-to-list 'erc-modules 'services)
+  (add-to-list 'erc-modules 'spelling)
+  (erc-update-modules)
 
-            (setq erc-pals '("JamieBennett" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "tyhicks" "ratliff" "kees"))
-            (setq erc-keywords '("[Cc][Vv][Ee]" "vulnerability" "apparmor" "seccomp" "exploit" "security"))
+  (setq erc-pals '("JamieBennett" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "tyhicks" "ratliff" "kees"))
+  (setq erc-keywords '("[Cc][Vv][Ee]" "vulnerability" "apparmor" "seccomp" "exploit" "security"))
 
-            ;; when joining don't bring to front
-            (setq erc-join-buffer 'bury)
+  ;; when joining don't bring to front
+  (setq erc-join-buffer 'bury)
 
-            ;; add to global-mode-string for doom-modeline to show
-            (setq erc-track-position-in-mode-line t)
-            ;; choose most important buffer first
-            (setq erc-track-switch-direction 'importance)
-            (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
-                                            ;; channel mode (324), creation
-                                            ;; time (329), topic (332), topic
-                                            ;; who time (333), names (353), no
-                                            ;; chan modes (477)
-                                            "324" "329" "332" "333" "353" "477"))
-            (setq erc-track-exclude-server-buffer t)
+  ;; add to global-mode-string for doom-modeline to show
+  (setq erc-track-position-in-mode-line t)
+  ;; choose most important buffer first
+  (setq erc-track-switch-direction 'importance)
+  (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
+                                  ;; channel mode (324), creation
+                                  ;; time (329), topic (332), topic
+                                  ;; who time (333), names (353), no
+                                  ;; chan modes (477)
+                                  "324" "329" "332" "333" "353" "477"))
+  (setq erc-track-exclude-server-buffer t)
 
-            ;; only hide join / part / quit for those who are idle for more
-            ;; than 10 hours (ie are using a bouncer)
-            (setq erc-lurker-hide-list '("JOIN" "PART" "QUIT" "NICK"))
-            (setq erc-lurker-threshold-time (* 10 60 60))
+  ;; only hide join / part / quit for those who are idle for more
+  ;; than 10 hours (ie are using a bouncer)
+  (setq erc-lurker-hide-list '("JOIN" "PART" "QUIT" "NICK"))
+  (setq erc-lurker-threshold-time (* 10 60 60))
 
-            ;; hide channel mode (324), creation time (329), topic (332), topic
-            ;; who time (333), names (353) - see
-            ;; https://www.alien.net.au/irc/irc2numerics.html
-            (setq erc-hide-list '("324" "329" "332" "333" "353"))
+  ;; hide channel mode (324), creation time (329), topic (332), topic
+  ;; who time (333), names (353) - see
+  ;; https://www.alien.net.au/irc/irc2numerics.html
+  (setq erc-hide-list '("324" "329" "332" "333" "353"))
 
-            (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
-            (setq erc-log-insert-log-on-open nil)
-            (setq erc-log-file-coding-system 'utf-8)
-            (setq erc-log-write-after-send t)
-            (setq erc-log-write-after-insert t)
-            (setq erc-save-buffer-on-part t)
+  (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
+  (setq erc-log-insert-log-on-open nil)
+  (setq erc-log-file-coding-system 'utf-8)
+  (setq erc-log-write-after-send t)
+  (setq erc-log-write-after-insert t)
+  (setq erc-save-buffer-on-part t)
 
-            (unless (file-exists-p erc-log-channels-directory)
-              (mkdir erc-log-channels-directory t))
+  (unless (file-exists-p erc-log-channels-directory)
+    (mkdir erc-log-channels-directory t))
 
-            (erc-autojoin-mode 1)
+  (erc-autojoin-mode 1)
 
-            ;; ensure erc tries to reuse windows as much as possible
-            (defun apm-reuse-erc-window (buffer action)
-              (with-current-buffer buffer
-                (if (eq major-mode 'erc-mode)
-                    ;; Don't override an explicit action
-                    (not action))))
+  ;; ensure erc tries to reuse windows as much as possible
+  (defun apm-reuse-erc-window (buffer action)
+    (with-current-buffer buffer
+      (if (eq major-mode 'erc-mode)
+          ;; Don't override an explicit action
+          (not action))))
 
-            (add-to-list 'display-buffer-alist
-                         '(apm-reuse-erc-window . (display-buffer-reuse-mode-window
-                                                   (inhibit-same-window . t)
-                                                   (inhibit-switch-frame . t)
-                                                   (mode . erc-mode))))
-            (with-eval-after-load 'smartparens-text
-              ;; turn off smartparens when using emoticons
-              (sp-local-pair 'erc-mode "(" nil
-                             :unless '(:add sp-text-mode-emoticon-p)
-                             :skip-match 'sp-text-mode-skip-emoticon))
-            ;; start erc buffers in normal mode for evil
-            (with-eval-after-load 'evil
-              (evil-set-initial-state 'erc-mode 'normal))))
+  (add-to-list 'display-buffer-alist
+               '(apm-reuse-erc-window . (display-buffer-reuse-mode-window
+                                         (inhibit-same-window . t)
+                                         (inhibit-switch-frame . t)
+                                         (mode . erc-mode))))
+  (with-eval-after-load 'smartparens-text
+    ;; turn off smartparens when using emoticons
+    (sp-local-pair 'erc-mode "(" nil
+                   :unless '(:add sp-text-mode-emoticon-p)
+                   :skip-match 'sp-text-mode-skip-emoticon))
+  ;; start erc buffers in normal mode for evil
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'erc-mode 'normal)))
 
 (use-package erc-hl-nicks
   :ensure t
@@ -883,9 +883,9 @@ The object labels of the found items are returned as list."
 (use-package erc-image
   :ensure t
   :after erc
-  :config (progn
-            (add-to-list 'erc-modules 'image)
-            (erc-update-modules)))
+  :config
+  (add-to-list 'erc-modules 'image)
+  (erc-update-modules))
 
 (use-package ercn
   :ensure t
@@ -921,25 +921,25 @@ The object labels of the found items are returned as list."
 (use-package erc-track-score
   :ensure t
   :after erc
-  :config (progn
-            (erc-track-score-mode 1)
-            (setq erc-track-showcount t)))
+  :config
+  (erc-track-score-mode 1)
+  (setq erc-track-showcount t))
 
 (use-package eudc
   ;; Store password using secret-tool as follows:
   ;; secret-tool store --label='Canonical LDAP' host ldaps://ldap.canonical.com
   ;; then enter PASSWORD
   :ensure-system-package (ldapsearch . ldap-utils)
-  :config (progn
-            (eval-when-compile
-              (require 'ldap))
-            (setq eudc-server-hotlist
-                  '(("ldaps://ldap.canonical.com" . ldap)))
-            (setq ldap-host-parameters-alist
-                  '(("ldaps://ldap.canonical.com"
-                     base "ou=staff,dc=canonical,dc=com"
-                     binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
-                     auth-source t)))))
+  :config
+  (eval-when-compile
+    (require 'ldap))
+  (setq eudc-server-hotlist
+        '(("ldaps://ldap.canonical.com" . ldap)))
+  (setq ldap-host-parameters-alist
+        '(("ldaps://ldap.canonical.com"
+           base "ou=staff,dc=canonical,dc=com"
+           binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
+           auth-source t))))
 (use-package eshell
   :defer t
   :preface
@@ -988,33 +988,33 @@ The object labels of the found items are returned as list."
   ;; include it - this is the same as vim - need to do it on each
   ;; major mode change
   :hook ((after-change-major-mode . apm-make-underscore-word-character))
-  :config (progn
-            ;; make cursor easier to see
-            (setq evil-normal-state-cursor '("#b294bb" box))
-            (setq evil-insert-state-cursor '("#de935f" bar))
-            (setq evil-emacs-state-cursor '("#cc6666" box))
+  :config
+  ;; make cursor easier to see
+  (setq evil-normal-state-cursor '("#b294bb" box))
+  (setq evil-insert-state-cursor '("#de935f" bar))
+  (setq evil-emacs-state-cursor '("#cc6666" box))
 
-            ;; add vim-like bindings for some nice stuff
-            (with-eval-after-load 'flyspell
-              (define-key evil-normal-state-map "]s" 'flyspell-goto-next-error)
-              ;; taken from spacemacs
-              (define-key evil-normal-state-map "[b" 'evil-prev-buffer)
-              (define-key evil-normal-state-map "]b" 'evil-next-buffer)
-              (define-key evil-normal-state-map "[q" 'previous-error)
-              (define-key evil-normal-state-map "]q" 'next-error))
+  ;; add vim-like bindings for some nice stuff
+  (with-eval-after-load 'flyspell
+    (define-key evil-normal-state-map "]s" 'flyspell-goto-next-error)
+    ;; taken from spacemacs
+    (define-key evil-normal-state-map "[b" 'evil-prev-buffer)
+    (define-key evil-normal-state-map "]b" 'evil-next-buffer)
+    (define-key evil-normal-state-map "[q" 'previous-error)
+    (define-key evil-normal-state-map "]q" 'next-error))
 
-            (define-key evil-ex-map "bd " 'kill-buffer)
+  (define-key evil-ex-map "bd " 'kill-buffer)
 
-            ;; these should be bound automatically but apparently not so rebind
-            ;; them
-            (bind-keys :map evil-insert-state-map
-                       ("C-x C-n" . evil-complete-next-line)
-                       ("C-x C-l" . evil-complete-next-line)
-                       ("C-x C-p" . evil-complete-previous-line))
+  ;; these should be bound automatically but apparently not so rebind
+  ;; them
+  (bind-keys :map evil-insert-state-map
+             ("C-x C-n" . evil-complete-next-line)
+             ("C-x C-l" . evil-complete-next-line)
+             ("C-x C-p" . evil-complete-previous-line))
 
-            ;; fixup company-complete-number to be handled better with evil
-            (evil-declare-change-repeat 'company-complete-number)
-            (evil-mode 1)))
+  ;; fixup company-complete-number to be handled better with evil
+  (evil-declare-change-repeat 'company-complete-number)
+  (evil-mode 1))
 
 (use-package evil-collection
   :ensure t
@@ -1028,16 +1028,16 @@ The object labels of the found items are returned as list."
 (use-package evil-args
   :ensure t
   :defer t
-  :init (progn
-          ;; bind evil-args text objects
-          (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
-          (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
+  :init
+  ;; bind evil-args text objects
+  (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
+  (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
 
-          ;; bind evil-forward/backward-args
-          (define-key evil-normal-state-map "L" 'evil-forward-arg)
-          (define-key evil-normal-state-map "H" 'evil-backward-arg)
-          (define-key evil-motion-state-map "L" 'evil-forward-arg)
-          (define-key evil-motion-state-map "H" 'evil-backward-arg)))
+  ;; bind evil-forward/backward-args
+  (define-key evil-normal-state-map "L" 'evil-forward-arg)
+  (define-key evil-normal-state-map "H" 'evil-backward-arg)
+  (define-key evil-motion-state-map "L" 'evil-forward-arg)
+  (define-key evil-motion-state-map "H" 'evil-backward-arg))
 
 (use-package evil-commentary
   :ensure t
@@ -1050,10 +1050,10 @@ The object labels of the found items are returned as list."
 (use-package evil-goggles
   :ensure t
   :diminish evil-goggles-mode
-  :config (progn
-            (setq evil-goggles-duration 0.1)
-            (evil-goggles-mode 1)
-            (evil-goggles-use-diff-faces)))
+  :config
+  (setq evil-goggles-duration 0.1)
+  (evil-goggles-mode 1)
+  (evil-goggles-use-diff-faces))
 
 (use-package evil-magit
   :ensure t)
@@ -1113,11 +1113,11 @@ The object labels of the found items are returned as list."
   :hook ((flycheck-mode . apm-flycheck-setup))
   :ensure-system-package (cppcheck shellcheck)
   :init (setq-default flycheck-emacs-lisp-load-path 'inherit)
-  :config (progn
-            ;; use lsp-ui checker via cquery instead
-            (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
-            (setq-default flycheck-display-errors-delay 0.2)
-            (global-flycheck-mode 1)))
+  :config
+  ;; use lsp-ui checker via cquery instead
+  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
+  (setq-default flycheck-display-errors-delay 0.2)
+  (global-flycheck-mode 1))
 
 (use-package flycheck-checkbashisms
   :ensure t
@@ -1129,23 +1129,23 @@ The object labels of the found items are returned as list."
   :ensure t
   :after flycheck-cstyle
   :ensure-system-package clang
-  :config (progn
-            (setq flycheck-clang-analyzer-executable "clang")
-            (flycheck-clang-analyzer-setup)
-            ;; automatically sets itself up as next checker after lsp-ui so undo
-            ;; that so is instead after cppcheck
-            (delete '(warning . clang-analyzer)
-                    (flycheck-checker-get 'lsp-ui 'next-checkers))
-            (flycheck-add-next-checker 'c/c++-cppcheck '(t . clang-analyzer))))
+  :config
+  (setq flycheck-clang-analyzer-executable "clang")
+  (flycheck-clang-analyzer-setup)
+  ;; automatically sets itself up as next checker after lsp-ui so undo
+  ;; that so is instead after cppcheck
+  (delete '(warning . clang-analyzer)
+          (flycheck-checker-get 'lsp-ui 'next-checkers))
+  (flycheck-add-next-checker 'c/c++-cppcheck '(t . clang-analyzer)))
 
 (use-package flycheck-coverity
   :ensure t
   :after flycheck-clang-analyzer
   :init (unless (executable-find "cov-run-desktop")
           (alert "cov-run-desktop not found - is it installed?"))
-  :config (progn
-            (flycheck-coverity-setup)
-            (flycheck-add-next-checker 'clang-analyzer '(t . coverity))))
+  :config
+  (flycheck-coverity-setup)
+  (flycheck-add-next-checker 'clang-analyzer '(t . coverity)))
 
 (use-package flycheck-cstyle
   :ensure t
@@ -1153,10 +1153,10 @@ The object labels of the found items are returned as list."
   :after lsp-ui
   :init (unless (executable-find "cstyle")
           (alert "cstyle not found - is it installed?"))
-  :config (progn
-            (flycheck-cstyle-setup)
-            (flycheck-add-next-checker 'lsp-ui '(warning . cstyle))
-            (flycheck-add-next-checker 'cstyle '(t . c/c++-cppcheck))))
+  :config
+  (flycheck-cstyle-setup)
+  (flycheck-add-next-checker 'lsp-ui '(warning . cstyle))
+  (flycheck-add-next-checker 'cstyle '(t . c/c++-cppcheck)))
 
 (use-package flycheck-package
   :ensure t
@@ -1196,83 +1196,83 @@ The object labels of the found items are returned as list."
 
 (use-package gdb-mi
   :defer t
-  :init (progn
-          ;; use gdb-many-windows by default
-          (setq-default gdb-many-windows t)
-          ;; Non-nil means display source file containing the main routine at startup
-          (setq-default gdb-show-main t)))
+  :init
+  ;; use gdb-many-windows by default
+  (setq-default gdb-many-windows t)
+  ;; Non-nil means display source file containing the main routine at startup
+  (setq-default gdb-show-main t))
 
 (use-package general
   :ensure t
-  :config (progn
-            (general-define-key
-             :prefix "SPC"
-             :states '(normal visual insert emacs)
-             :keymaps 'override
-             :non-normal-prefix "C-SPC"
-              "SPC" 'evil-avy-goto-word-or-subword-1
-              "c" 'evil-avy-goto-char-timer
-              "a" 'counsel-ag
-              "b" 'ivy-switch-buffer
-              "df" 'doxyas-document-function
-              "e" 'eshell
-              "fc" 'flycheck-buffer
-              "ff" 'counsel-find-file
-              "fl" 'flycheck-list-errors
-              "fv" 'flycheck-verify-setup
-              "ge" 'google-error
-              "gg" 'counsel-git-grep
-              "go" 'google-this
-              "gt" 'google-translate-smooth-translate
-              "i" 'counsel-imenu
-              "k" 'kill-buffer
-              "l" 'apm-browse-lp-bug-at-point
-              "mc" 'mu4e-compose-new
-              "mf" 'mu4e-compose-forward
-              "mF" 'apm-mu4e-compose-forward-as-attachment
-              "mg" 'magit-status
-              "mm" 'magit-dispatch-popup
-              "ms" 'mu4e-headers-search
-              "mu" 'mu4e
-              "mi" 'apm-mu4e-jump-to-inbox
-              "n" 'erc-status-sidebar-toggle
-              "oa" 'org-agenda
-              "ob" 'org-ido-switchb
-              "oca" 'org-capture
-              "occ" 'org-clock-cancel
-              "ocd" 'org-clock-display
-              "ocg" 'org-clock-goto
-              "oci" 'org-clock-in
-              "oco" 'org-clock-out
-              "ocs" 'org-mru-clock-in
-              "ocu" 'org-clock-update-time-maybe
-              "oo" 'counsel-org-goto
-              "ot" 'org-todo-list
-              "P" 'counsel-projectile-switch-project
-              "pa" 'counsel-projectile-ag
-              "pb" 'counsel-projectile-switch-to-buffer
-              "pc" 'counsel-projectile
-              "pe" 'projectile-run-eshell
-              "pd" 'counsel-projectile-find-dir
-              "pD" 'projectile-find-dir-other-window
-              "pf" 'counsel-projectile-find-file
-              "pF" 'projectile-find-file-other-window
-              "ph" 'counsel-projectile
-              "pk" 'projectile-kill-buffers
-              "pm" 'helm-make-projectile
-              "po" 'projectile-find-other-file
-              "pp" 'counsel-projectile
-              "pr" 'projectile-recentf
-              "r" 'counsel-recentf
-              "sm" 'swiper-all
-              "sm" 'swiper-multi
-              "ss" 'counsel-grep-or-swiper
-              ;; emojify-insert-emoji ?
-              "u" 'counsel-unicode-char
-              "v" 'er/expand-region
-              "w" 'world-time-list
-              "x" 'counsel-M-x
-              "y" 'counsel-yank-pop)))
+  :config
+  (general-define-key
+   :prefix "SPC"
+   :states '(normal visual insert emacs)
+   :keymaps 'override
+   :non-normal-prefix "C-SPC"
+   "SPC" 'evil-avy-goto-word-or-subword-1
+   "c" 'evil-avy-goto-char-timer
+   "a" 'counsel-ag
+   "b" 'ivy-switch-buffer
+   "df" 'doxyas-document-function
+   "e" 'eshell
+   "fc" 'flycheck-buffer
+   "ff" 'counsel-find-file
+   "fl" 'flycheck-list-errors
+   "fv" 'flycheck-verify-setup
+   "ge" 'google-error
+   "gg" 'counsel-git-grep
+   "go" 'google-this
+   "gt" 'google-translate-smooth-translate
+   "i" 'counsel-imenu
+   "k" 'kill-buffer
+   "l" 'apm-browse-lp-bug-at-point
+   "mc" 'mu4e-compose-new
+   "mf" 'mu4e-compose-forward
+   "mF" 'apm-mu4e-compose-forward-as-attachment
+   "mg" 'magit-status
+   "mm" 'magit-dispatch-popup
+   "ms" 'mu4e-headers-search
+   "mu" 'mu4e
+   "mi" 'apm-mu4e-jump-to-inbox
+   "n" 'erc-status-sidebar-toggle
+   "oa" 'org-agenda
+   "ob" 'org-ido-switchb
+   "oca" 'org-capture
+   "occ" 'org-clock-cancel
+   "ocd" 'org-clock-display
+   "ocg" 'org-clock-goto
+   "oci" 'org-clock-in
+   "oco" 'org-clock-out
+   "ocs" 'org-mru-clock-in
+   "ocu" 'org-clock-update-time-maybe
+   "oo" 'counsel-org-goto
+   "ot" 'org-todo-list
+   "P" 'counsel-projectile-switch-project
+   "pa" 'counsel-projectile-ag
+   "pb" 'counsel-projectile-switch-to-buffer
+   "pc" 'counsel-projectile
+   "pe" 'projectile-run-eshell
+   "pd" 'counsel-projectile-find-dir
+   "pD" 'projectile-find-dir-other-window
+   "pf" 'counsel-projectile-find-file
+   "pF" 'projectile-find-file-other-window
+   "ph" 'counsel-projectile
+   "pk" 'projectile-kill-buffers
+   "pm" 'helm-make-projectile
+   "po" 'projectile-find-other-file
+   "pp" 'counsel-projectile
+   "pr" 'projectile-recentf
+   "r" 'counsel-recentf
+   "sm" 'swiper-all
+   "sm" 'swiper-multi
+   "ss" 'counsel-grep-or-swiper
+   ;; emojify-insert-emoji ?
+   "u" 'counsel-unicode-char
+   "v" 'er/expand-region
+   "w" 'world-time-list
+   "x" 'counsel-M-x
+   "y" 'counsel-yank-pop))
 
 
 (use-package gif-screencast
@@ -1297,10 +1297,10 @@ The object labels of the found items are returned as list."
 (use-package google-translate-smooth-translate
   :ensure google-translate
   :defer t
-  :init (progn
-            (eval-when-compile
-              (require 'google-translate))
-            (setq google-translate-listen-program (executable-find "totem"))))
+  :init
+  (eval-when-compile
+    (require 'google-translate))
+  (setq google-translate-listen-program (executable-find "totem")))
 
 (use-package goto-addr
   :defer t
@@ -1326,9 +1326,9 @@ The object labels of the found items are returned as list."
   :ensure t
   :defer t
   :functions global-hl-todo-mode
-  :config (progn
-            (add-to-list 'hl-todo-keyword-faces '("@todo" . "#cc9393"))
-            (global-hl-todo-mode)))
+  :config
+  (add-to-list 'hl-todo-keyword-faces '("@todo" . "#cc9393"))
+  (global-hl-todo-mode))
 
 (use-package hungry-delete
   :ensure t
@@ -1337,14 +1337,14 @@ The object labels of the found items are returned as list."
 
 (use-package ispell
   :defer t
-  :init (progn
-          ;; use aspell if can be found
-          (if (null (executable-find "aspell"))
-              (system-packages-install "aspell")
-            ;; use gb dictionary via aspell if available
-            (setq ispell-program-name "aspell"
-                  ispell-dictionary "british"
-                  ispell-extra-args '("--sug-mode=ultra")))))
+  :init
+  ;; use aspell if can be found
+  (if (null (executable-find "aspell"))
+      (system-packages-install "aspell")
+    ;; use gb dictionary via aspell if available
+    (setq ispell-program-name "aspell"
+          ispell-dictionary "british"
+          ispell-extra-args '("--sug-mode=ultra"))))
 
 (use-package ivy
   :ensure t
@@ -1353,15 +1353,15 @@ The object labels of the found items are returned as list."
   :bind (("C-x b" . ivy-switch-buffer)
          ("C-c C-r" . ivy-resume))
   :init (ivy-mode 1)
-  :config (progn
-            (setq ivy-use-virtual-buffers t)
-            ;; allow to select the typed in value with C-p
-            (setq ivy-use-selectable-prompt t)
-            (define-key isearch-mode-map (kbd "M-o") 'ivy-occur)
-            (setq ivy-re-builders-alist '((t . ivy--regex-plus)))
-            ;; integrate with evil
-            (with-eval-after-load 'evil
-              (define-key evil-ex-map "b " 'ivy-switch-buffer))))
+  :config
+  (setq ivy-use-virtual-buffers t)
+  ;; allow to select the typed in value with C-p
+  (setq ivy-use-selectable-prompt t)
+  (define-key isearch-mode-map (kbd "M-o") 'ivy-occur)
+  (setq ivy-re-builders-alist '((t . ivy--regex-plus)))
+  ;; integrate with evil
+  (with-eval-after-load 'evil
+    (define-key evil-ex-map "b " 'ivy-switch-buffer)))
 
 (use-package ivy-rich
   :ensure t
@@ -1415,12 +1415,12 @@ The object labels of the found items are returned as list."
   :ensure t
   :after lsp-mode
   :hook ((lsp-mode . lsp-ui-mode))
-  :config (progn
-            ;; use the original icon since was removed in
-            ;; https://github.com/emacs-lsp/lsp-ui/commit/0dff02a1d02f16ab017f2ad7cd4a9913733f48ca
-            ;; due to others not having unicode
-            (setq lsp-ui-sideline-code-actions-prefix "ℹ ")
-            (setq lsp-ui-sideline-show-symbol nil)))
+  :config
+  ;; use the original icon since was removed in
+  ;; https://github.com/emacs-lsp/lsp-ui/commit/0dff02a1d02f16ab017f2ad7cd4a9913733f48ca
+  ;; due to others not having unicode
+  (setq lsp-ui-sideline-code-actions-prefix "ℹ ")
+  (setq lsp-ui-sideline-show-symbol nil))
 
 (use-package magit
   :ensure t
@@ -1554,183 +1554,182 @@ The object labels of the found items are returned as list."
         (setq txt (replace-regexp-in-string text (propertize text 'face (car highlight)) txt))))
     txt)
 
-  :config (progn
-            (setq mail-user-agent 'mu4e-user-agent)
-            (setq mu4e-maildir (expand-file-name "~/Maildir"))
-            (setq mu4e-sent-folder   "/Sent"
-                  mu4e-drafts-folder "/Drafts"
-                  mu4e-trash-folder  "/Trash")
-            (setq mu4e-maildir-shortcuts
-                  '(("/Archive"              . ?a)
-                    ("/Drafts"               . ?d)
-                    ("/INBOX"                . ?i)
-                    ("/Sent"                 . ?s)
-                    ("/Travel"               . ?t)))
+  :config
+  (setq mail-user-agent 'mu4e-user-agent)
+  (setq mu4e-maildir (expand-file-name "~/Maildir"))
+  (setq mu4e-sent-folder   "/Sent"
+        mu4e-drafts-folder "/Drafts"
+        mu4e-trash-folder  "/Trash")
+  (setq mu4e-maildir-shortcuts
+        '(("/Archive"              . ?a)
+          ("/Drafts"               . ?d)
+          ("/INBOX"                . ?i)
+          ("/Sent"                 . ?s)
+          ("/Travel"               . ?t)))
 
-            (setq mu4e-user-mailing-lists '(;; ubuntu
-                                            ("launchpad-announce.lists.ubuntu.com" . "launchpad-announce")
-                                            ("ubuntu-devel.lists.ubuntu.com" . "ubuntu-devel")
-                                            ("ubuntu-devel-announce.lists.ubuntu.com" . "ubuntu-devel-announce")
-                                            ("ubuntu-hardened.lists.ubuntu.com" . "ubuntu-hardened")
-                                            ("ubuntu-release.lists.ubuntu.com" . "ubuntu-release")
-                                            ("ubuntu-security-announce.lists.ubuntu.com" . "ubuntu-security-announce")
+  (setq mu4e-user-mailing-lists '(;; ubuntu
+                                  ("launchpad-announce.lists.ubuntu.com" . "launchpad-announce")
+                                  ("ubuntu-devel.lists.ubuntu.com" . "ubuntu-devel")
+                                  ("ubuntu-devel-announce.lists.ubuntu.com" . "ubuntu-devel-announce")
+                                  ("ubuntu-hardened.lists.ubuntu.com" . "ubuntu-hardened")
+                                  ("ubuntu-release.lists.ubuntu.com" . "ubuntu-release")
+                                  ("ubuntu-security-announce.lists.ubuntu.com" . "ubuntu-security-announce")
 
-                                            ;; canonical
-                                            ("canonical-allhands.lists.canonical.com" . "canonical-allhands")
-                                            ("canonical-announce.lists.canonical.com" . "canonical-announce")
-                                            ("canonistack-announce.lists.canonical.com" . "canonistack-announce")
-                                            ("canonical-snapcraft.lists.canonical.com" . "canonical-snapcraft")
-                                            ("roadmap-sprint.lists.canonical.com" . "roadmap-sprint")
-                                            ("ue-leads.lists.canonical.com" . "ue-leads")
+                                  ;; canonical
+                                  ("canonical-allhands.lists.canonical.com" . "canonical-allhands")
+                                  ("canonical-announce.lists.canonical.com" . "canonical-announce")
+                                  ("canonistack-announce.lists.canonical.com" . "canonistack-announce")
+                                  ("canonical-snapcraft.lists.canonical.com" . "canonical-snapcraft")
+                                  ("roadmap-sprint.lists.canonical.com" . "roadmap-sprint")
+                                  ("ue-leads.lists.canonical.com" . "ue-leads")
 
-                                            ;; security
-                                            ("security-announce.lists.apple.com" . "apple-security-announce")
-                                            ("bugtraq.list-id.securityfocus.com" . "bugtraq")
-                                            ("debian-security-announce.lists.debian.org" . "debian-security-announce")
-                                            ("fulldisclosure.lists.seclists.org" . "fulldisclosure")
-                                            ("kernel-hardening.lists.openwall.com" . "kernel-hardening")
-                                            ("officesecurity.lists.freedesktop.org" . "Officesecurity")
-                                            ("opensuse-security-announce.opensuse.org" . "opensuse-security-announce")
-                                            ("oss-security.lists.openwall.com" . "oss-security")
-                                            ("rhsa-announce.redhat.com" . "rhsa-announce")
-                                            ("security-ceph.com" . "security-ceph")
-                                            ("xen-security-issues.lists.xenproject.org" . "xen-security-issues")
-                                            ("xorg-security.lists.x.org" . "xorg-security")))
+                                  ;; security
+                                  ("security-announce.lists.apple.com" . "apple-security-announce")
+                                  ("bugtraq.list-id.securityfocus.com" . "bugtraq")
+                                  ("debian-security-announce.lists.debian.org" . "debian-security-announce")
+                                  ("fulldisclosure.lists.seclists.org" . "fulldisclosure")
+                                  ("kernel-hardening.lists.openwall.com" . "kernel-hardening")
+                                  ("officesecurity.lists.freedesktop.org" . "Officesecurity")
+                                  ("opensuse-security-announce.opensuse.org" . "opensuse-security-announce")
+                                  ("oss-security.lists.openwall.com" . "oss-security")
+                                  ("rhsa-announce.redhat.com" . "rhsa-announce")
+                                  ("security-ceph.com" . "security-ceph")
+                                  ("xen-security-issues.lists.xenproject.org" . "xen-security-issues")
+                                  ("xorg-security.lists.x.org" . "xorg-security")))
 
-            (setq mu4e-refile-folder #'apm-mu4e-refile-message)
-            (setq mu4e-get-mail-command "mbsync -a")
-            ;; needed for mbsync
-            (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-refile-folder #'apm-mu4e-refile-message)
+  (setq mu4e-get-mail-command "mbsync -a")
+  ;; needed for mbsync
+  (setq mu4e-change-filenames-when-moving t)
 
-            (setq mu4e-compose-format-flowed t)
-            (setq mu4e-headers-sort-direction 'ascending)
-            (setq mu4e-use-fancy-chars t)
+  (setq mu4e-compose-format-flowed t)
+  (setq mu4e-headers-sort-direction 'ascending)
+  (setq mu4e-use-fancy-chars t)
 
-            (setq mu4e-update-interval 300)
+  (setq mu4e-update-interval 300)
 
-            ;; cite with better formatting
-            (setq message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
-            (setq message-citation-line-function #'message-insert-formatted-citation-line)
+  ;; cite with better formatting
+  (setq message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
+  (setq message-citation-line-function #'message-insert-formatted-citation-line)
 
-            ;; kill message buffer after sending rather than burying
-            (setq message-kill-buffer-on-exit t)
+  ;; kill message buffer after sending rather than burying
+  (setq message-kill-buffer-on-exit t)
 
-            (setq mu4e-compose-reply-to-address "alex.murray@canonical.com"
-                  mu4e-user-mail-address-list '("alex.murray@canonical.com")
-                  user-mail-address "alex.murray@canonical.com"
-                  user-full-name  "Alex Murray")
-            ;; encrypt to self
-            (setq epg-user-id "alex.murray@canonical.com")
-            (setq mml-secure-openpgp-encrypt-to-self t)
-            (setq mml-secure-openpgp-sign-with-sender t)
-            (setq mu4e-compose-complete-ignore-address-regexp
-                  "\\(no-?reply\\|bugs.launchpad.net\\|lillypilly.canonical.com\\)")
-            (setq mu4e-compose-signature nil)
+  (setq mu4e-compose-reply-to-address "alex.murray@canonical.com"
+        mu4e-user-mail-address-list '("alex.murray@canonical.com")
+        user-mail-address "alex.murray@canonical.com"
+        user-full-name  "Alex Murray")
+  ;; encrypt to self
+  (setq epg-user-id "alex.murray@canonical.com")
+  (setq mml-secure-openpgp-encrypt-to-self t)
+  (setq mml-secure-openpgp-sign-with-sender t)
+  (setq mu4e-compose-complete-ignore-address-regexp
+        "\\(no-?reply\\|bugs.launchpad.net\\|lillypilly.canonical.com\\)")
+  (setq mu4e-compose-signature nil)
 
-            (add-to-list 'mu4e-message-body-rewrite-functions 'apm-mu4e-rewrite-add-highlights t)
+  (add-to-list 'mu4e-message-body-rewrite-functions 'apm-mu4e-rewrite-add-highlights t)
 
-            ;; add action to view in brower
-            (add-to-list 'mu4e-view-actions
-                         '("browser view" . mu4e-action-view-in-browser) t)
+  ;; add action to view in brower
+  (add-to-list 'mu4e-view-actions
+               '("browser view" . mu4e-action-view-in-browser) t)
 
-            (setq mu4e-split-view 'vertical)
-            (setq mu4e-headers-visible-columns 120)
-            (setq mu4e-completing-read-function 'completing-read)
-            (setq mu4e-headers-fields '((:human-date . 12)
-                                        (:flags . 6)
-                                        (:mailing-list . 10)
-                                        (:from . 22)
-                                        (:size . 8)
-                                        (:subject)))
+  (setq mu4e-split-view 'vertical)
+  (setq mu4e-headers-visible-columns 120)
+  (setq mu4e-completing-read-function 'completing-read)
+  (setq mu4e-headers-fields '((:human-date . 12)
+                              (:flags . 6)
+                              (:mailing-list . 10)
+                              (:from . 22)
+                              (:size . 8)
+                              (:subject)))
 
-            ;; save attachment to Downloads
-            (setq mu4e-attachment-dir (expand-file-name "~/Downloads"))
+  ;; save attachment to Downloads
+  (setq mu4e-attachment-dir (expand-file-name "~/Downloads"))
 
-            ;; attempt to show images when viewing messages
-            (setq mu4e-view-show-images t)
+  ;; attempt to show images when viewing messages
+  (setq mu4e-view-show-images t)
 
-            ;; show full addresses in message view
-            (setq mu4e-view-show-addresses t)
+  ;; show full addresses in message view
+  (setq mu4e-view-show-addresses t)
 
-            ;; redefine this mu4e function so we preserve non-breaking spaces -
-            ;; https://github.com/djcb/mu/issues/1339
-            (defun mu4e-message-outlook-cleanup (_msg _txt)
-              "Remove some crap from the remaining string; it seems
+  ;; redefine this mu4e function so we preserve non-breaking spaces -
+  ;; https://github.com/djcb/mu/issues/1339
+  (defun mu4e-message-outlook-cleanup (_msg _txt)
+    "Remove some crap from the remaining string; it seems
    esp. outlook lies about its encoding (ie., it says
    'iso-8859-1' but really it's 'windows-1252'), thus giving us
    these funky chars. here, we either remove them, or replace
    with 'what-was-meant' (heuristically)."
-              (with-temp-buffer
-                (insert body)
-                (goto-char (point-min))
-                (while (re-search-forward "[ ]" nil t)
-                  (replace-match
-                   (cond
-                    ((string= (match-string 0) "") "'")
-                    ((string= (match-string 0) " ") " ")
-                    (t ""))))
-                (buffer-string)))
+    (with-temp-buffer
+      (insert body)
+      (goto-char (point-min))
+      (while (re-search-forward "[ ]" nil t)
+        (replace-match
+         (cond
+          ((string= (match-string 0) "") "'")
+          ((string= (match-string 0) " ") " ")
+          (t ""))))
+      (buffer-string)))
 
-            ;; always start mu4e in the background
-            (mu4e t)))
+  ;; always start mu4e in the background
+  (mu4e t))
 
 (use-package mu4e-alert
   :ensure t
-  :config (progn
-            (mu4e-alert-set-default-style 'notifications)
-            (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
-            (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)))
+  :hook ((after-init . mu4e-alert-enable-notifications)
+         (after-init . mu4e-alert-enable-mode-line-display))
+  :config (mu4e-alert-set-default-style 'notifications))
 
 (use-package no-littering
   :ensure t
-  :config (progn
-            (eval-when-compile
-              (require 'recentf))
-            (with-eval-after-load 'recentf
-              (add-to-list 'recentf-exclude no-littering-var-directory)
-              (add-to-list 'recentf-exclude no-littering-etc-directory))))
+  :config
+  (eval-when-compile
+    (require 'recentf))
+  (with-eval-after-load 'recentf
+    (add-to-list 'recentf-exclude no-littering-var-directory)
+    (add-to-list 'recentf-exclude no-littering-etc-directory)))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
-  :init (progn
-          (require 'hideshow)
-          (require 'sgml-mode)
+  :init
+  (require 'hideshow)
+  (require 'sgml-mode)
 
-          (add-to-list 'hs-special-modes-alist
-                       '(nxml-mode
-                         "<!--\\|<[^/>]*[^/]>"
-                         "-->\\|</[^/>]*[^/]>"
+  (add-to-list 'hs-special-modes-alist
+               '(nxml-mode
+                 "<!--\\|<[^/>]*[^/]>"
+                 "-->\\|</[^/>]*[^/]>"
 
-                         "<!--"
-                         sgml-skip-tag-forward
-                         nil))
+                 "<!--"
+                 sgml-skip-tag-forward
+                 nil))
 
-          (add-hook 'nxml-mode-hook 'hs-minor-mode))
+  (add-hook 'nxml-mode-hook 'hs-minor-mode)
   :config (setq nxml-slash-auto-complete-flag t))
 
 (use-package org
   :ensure org-plus-contrib
   :pin org
-  :config (progn
-            ;; ensure TAB is bound to org-cycle in normal mode - this seems to break magit?
-            (with-eval-after-load 'evil
-              (evil-define-key 'normal outline-mode-map (kbd "<tab>") #'org-cycle)
-              (evil-define-key 'normal outline-mode-map (kbd "TAB") #'org-cycle))
-            (setq org-agenda-files (mapcar #'expand-file-name
-                                           '("~/Dropbox/Orgzly/personal.org"
-                                             "~/Dropbox/Orgzly/canonical.org"
-                                             "~/Dropbox/Orgzly/general.org"
-                                             "~/Dropbox/Orgzly/blog.org"
-                                             "~/Dropbox/Orgzly/notes.org"))
-                  ;; don't indent org document sections etc
-                  org-adapt-indentation nil
-                  org-imenu-depth 4
-                  org-todo-keywords '((sequence "TODO(t)" "IN-PROGRESS(p!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
-                                      (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
-            ;; set up org-babel integration for plantuml
-            (org-babel-do-load-languages
-             'org-babel-load-languages
-             '((plantuml .t)))))
+  :config
+  ;; ensure TAB is bound to org-cycle in normal mode - this seems to break magit?
+  (with-eval-after-load 'evil
+    (evil-define-key 'normal outline-mode-map (kbd "<tab>") #'org-cycle)
+    (evil-define-key 'normal outline-mode-map (kbd "TAB") #'org-cycle))
+  (setq org-agenda-files (mapcar #'expand-file-name
+                                 '("~/Dropbox/Orgzly/personal.org"
+                                   "~/Dropbox/Orgzly/canonical.org"
+                                   "~/Dropbox/Orgzly/general.org"
+                                   "~/Dropbox/Orgzly/blog.org"
+                                   "~/Dropbox/Orgzly/notes.org"))
+        ;; don't indent org document sections etc
+        org-adapt-indentation nil
+        org-imenu-depth 4
+        org-todo-keywords '((sequence "TODO(t)" "IN-PROGRESS(p!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
+                            (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
+  ;; set up org-babel integration for plantuml
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((plantuml .t))))
 
 (use-package org-agenda
   :ensure org-plus-contrib
@@ -1739,13 +1738,13 @@ The object labels of the found items are returned as list."
   (defun apm-org-agenda-file-notify (_event)
     "Rebuild appointments when _EVENT specifies any org agenda files change."
     (org-agenda-to-appt t))
-  :config (progn
-            ;; when modifying agenda files make sure to update appt
-            (require 'filenotify)
-            (dolist (file org-agenda-files)
-              (file-notify-add-watch file '(change) #'apm-org-agenda-file-notify))
-            ;; rebuild appointments now
-            (org-agenda-to-appt t)))
+  :config
+  ;; when modifying agenda files make sure to update appt
+  (require 'filenotify)
+  (dolist (file org-agenda-files)
+    (file-notify-add-watch file '(change) #'apm-org-agenda-file-notify))
+  ;; rebuild appointments now
+  (org-agenda-to-appt t))
 
 (use-package org-capture
   :after org
@@ -1767,6 +1766,7 @@ The object labels of the found items are returned as list."
     "Clear any existing org clock notification."
     (when (not (or (eq apm-org-clock-notification 'ignore)
                    (null apm-org-clock-notification)))
+      (message "closing notification %S" apm-org-clock-notification)
       (notifications-close-notification apm-org-clock-notification))
     (setq apm-org-clock-notification nil))
 
@@ -1805,23 +1805,23 @@ The object labels of the found items are returned as list."
   :hook ((org-clock-in . apm-org-clock-clear-notification))
   ;; assume idle after 5 minutes
   :ensure-system-package xprintidle
-  :config (progn
-            (setq org-clock-idle-time 5
-                  ;; truncate clock heading in modeline
-                  org-clock-heading-function #'apm-org-clock-heading
-                  ;; save running clock and all history when exiting emacs
-                  org-clock-persist t
-                  ;; resume clocking task on clock-in if the clock is open
-                  org-clock-in-resume t
-                  ;; persist clock data into Dropbox
-                  org-clock-persist-file (expand-file-name "~/Dropbox/Orgzly/org-clock-save.el")
-                  ;; insert a CLOSED timestamp when TODOs are marked DONE
-                  org-log-done 'time)
-            (setq org-clock-x11idle-program-name "xprintidle")
-            ;; reload any saved org clock information on startup
-            (org-clock-persistence-insinuate)
-            ;; notify if not clocked in
-            (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in)))
+  :config
+  (setq org-clock-idle-time 5
+        ;; truncate clock heading in modeline
+        org-clock-heading-function #'apm-org-clock-heading
+        ;; save running clock and all history when exiting emacs
+        org-clock-persist t
+        ;; resume clocking task on clock-in if the clock is open
+        org-clock-in-resume t
+        ;; persist clock data into Dropbox
+        org-clock-persist-file (expand-file-name "~/Dropbox/Orgzly/org-clock-save.el")
+        ;; insert a CLOSED timestamp when TODOs are marked DONE
+        org-log-done 'time)
+  (setq org-clock-x11idle-program-name "xprintidle")
+  ;; reload any saved org clock information on startup
+  (org-clock-persistence-insinuate)
+  ;; notify if not clocked in
+  (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in))
 
 (use-package org-clock-convenience
   :ensure t
@@ -1849,11 +1849,11 @@ The object labels of the found items are returned as list."
 (use-package org-notify
   :ensure org-plus-contrib
   :after org
-  :config (progn
-            (org-notify-start)
-            (org-notify-add 'default '(:time "24h" :actions -notify/window :duration 600))
-            (org-notify-add 'default '(:time "60m" :actions -notify/window :period "2m" :duration 600))
-            (org-notify-add 'default '(:time "15m" :actions -notify/window :period "2m" :duration 120))))
+  :config
+  (org-notify-start)
+  (org-notify-add 'default '(:time "24h" :actions -notify/window :duration 600))
+  (org-notify-add 'default '(:time "60m" :actions -notify/window :period "2m" :duration 600))
+  (org-notify-add 'default '(:time "15m" :actions -notify/window :period "2m" :duration 120)))
 
 (use-package org-table-sticky-header
   :ensure t
@@ -1898,9 +1898,9 @@ The object labels of the found items are returned as list."
       (alert "No github token found in ~/.authinfo")))
   :commands (paradox-list-packages)
   :init (setq paradox-execute-asynchronously nil)
-  :config (progn
-            (paradox-enable)
-            (advice-add 'paradox-list-packages :before 'apm-paradox-set-github-token)))
+  :config
+  (paradox-enable)
+  (advice-add 'paradox-list-packages :before 'apm-paradox-set-github-token))
 
 (use-package paren-face
   :ensure t
@@ -1918,10 +1918,10 @@ The object labels of the found items are returned as list."
 (use-package plantuml-mode
   :ensure t
   :mode ("\\.p\\(lant\\)?uml\\'" . plantuml-mode)
-  :config (progn
-            (setq plantuml-jar-path (expand-file-name "~/plantuml.jar"))
-            (unless (file-exists-p plantuml-jar-path)
-              (message "plantuml not found at %s" plantuml-jar-path))))
+  :config
+  (setq plantuml-jar-path (expand-file-name "~/plantuml.jar"))
+  (unless (file-exists-p plantuml-jar-path)
+    (message "plantuml not found at %s" plantuml-jar-path)))
 
 (use-package posframe
   :ensure t)
@@ -1931,29 +1931,29 @@ The object labels of the found items are returned as list."
   :config (prescient-persist-mode 1))
 
 (use-package prog-mode
-  :config (progn
-            (when (boundp 'prettify-symbols-unprettify-at-point)
-              ;; show original text when point is over a prettified symbol
-              (setq prettify-symbols-unprettify-at-point 'right-edge))
-            ;; prettify symbols (turn lambda -> λ)
-            (global-prettify-symbols-mode 1)))
+  :config
+  (when (boundp 'prettify-symbols-unprettify-at-point)
+    ;; show original text when point is over a prettified symbol
+    (setq prettify-symbols-unprettify-at-point 'right-edge))
+  ;; prettify symbols (turn lambda -> λ)
+  (global-prettify-symbols-mode 1))
 
 (use-package projectile
   :ensure t
   :defer t
   :diminish projectile-mode
   :defines (projectile-enable-caching)
-  :init (progn
-          (setq projectile-enable-caching t)
-          (projectile-mode 1))
-  :config (progn
-            (add-to-list 'projectile-project-root-files "compile_commands.json")
-            (add-to-list 'projectile-project-root-files "configure.ac")
-            (add-to-list 'projectile-project-root-files ".cquery")
-            (add-to-list 'projectile-project-root-files ".cquery.in")
-            (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
-            (with-eval-after-load 'ivy
-              (setq projectile-completion-system 'ivy))))
+  :init
+  (setq projectile-enable-caching t)
+  (projectile-mode 1)
+  :config
+  (add-to-list 'projectile-project-root-files "compile_commands.json")
+  (add-to-list 'projectile-project-root-files "configure.ac")
+  (add-to-list 'projectile-project-root-files ".cquery")
+  (add-to-list 'projectile-project-root-files ".cquery.in")
+  (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
+  (with-eval-after-load 'ivy
+    (setq projectile-completion-system 'ivy)))
 
 (use-package python
   :defer t
@@ -1996,21 +1996,21 @@ The object labels of the found items are returned as list."
   :init (savehist-mode 1))
 
 (use-package saveplace
-  :config (progn
-            (setq-default save-place t)
-            (setq save-place-file (expand-file-name ".places" user-emacs-directory))))
+  :config
+  (setq-default save-place t)
+  (setq save-place-file (expand-file-name ".places" user-emacs-directory)))
 
 (use-package scratch
   :ensure t
   :defer t)
 
 (use-package server
-  :config (progn
-            ;; start emacs server only it has not already been started
-            (unless (server-running-p)
-              (server-start))
-            (add-hook 'after-make-frame-functions
-                    #'(lambda (frame) (select-frame-set-input-focus frame)) t)))
+  :config
+  ;; start emacs server only it has not already been started
+  (unless (server-running-p)
+    (server-start))
+  (add-hook 'after-make-frame-functions
+            #'(lambda (frame) (select-frame-set-input-focus frame)) t))
 
 (use-package session-manager
   :load-path "vendor/"
@@ -2024,12 +2024,12 @@ The object labels of the found items are returned as list."
   :defer t
   :diminish visual-line-mode
   :hook ((text-mode mu4e-view-mode) . visual-line-mode)
-  :init (progn
-          ;; save whatever is in the system clipboard to the kill ring before
-          ;; killing something else into the kill ring
-          (setq save-interprogram-paste-before-kill t)
-          (setq visual-line-fringe-indicators
-                '(left-curly-arrow right-curly-arrow))))
+  :init
+  ;; save whatever is in the system clipboard to the kill ring before
+  ;; killing something else into the kill ring
+  (setq save-interprogram-paste-before-kill t)
+  (setq visual-line-fringe-indicators
+        '(left-curly-arrow right-curly-arrow)))
 
 (use-package smartparens
   :ensure t
@@ -2045,54 +2045,54 @@ The object labels of the found items are returned as list."
   ;; use smartparens in strict mode for programming and ielm
   :hook ((prog-mode ielm-mode) . smartparens-strict-mode)
   :init (smartparens-global-mode 1)
-  :config (progn
-            (require 'smartparens-config)
-            (require 'smartparens-latex)
-            (setq sp-base-key-bindings 'paredit)
-            ;; always jump out of string when hitting end "
-            (setq sp-autoskip-closing-pair 'always)
-            (setq sp-hybrid-kill-entire-symbol nil)
-            (sp-use-paredit-bindings)
+  :config
+  (require 'smartparens-config)
+  (require 'smartparens-latex)
+  (setq sp-base-key-bindings 'paredit)
+  ;; always jump out of string when hitting end "
+  (setq sp-autoskip-closing-pair 'always)
+  (setq sp-hybrid-kill-entire-symbol nil)
+  (sp-use-paredit-bindings)
 
-            ;; highlights matching pairs
-            (show-smartparens-global-mode 1)
+  ;; highlights matching pairs
+  (show-smartparens-global-mode 1)
 
-            ;; disable pairing of ' in minibuffer
-            (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
+  ;; disable pairing of ' in minibuffer
+  (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
 
-            ;; use smartparens to automatically indent correctly when opening
-            ;; a new block
-            (dolist (mode '(c-mode c++-mode java-mode))
-              (sp-local-pair mode "{" nil :post-handlers '((apm-c-mode-common-open-block "RET"))))
-            ;; don't try and complete tag end - breaks nxml completion etc
-            (sp-local-pair 'nxml-mode "<" ">" :actions '(:rem insert))))
+  ;; use smartparens to automatically indent correctly when opening
+  ;; a new block
+  (dolist (mode '(c-mode c++-mode java-mode))
+    (sp-local-pair mode "{" nil :post-handlers '((apm-c-mode-common-open-block "RET"))))
+  ;; don't try and complete tag end - breaks nxml completion etc
+  (sp-local-pair 'nxml-mode "<" ">" :actions '(:rem insert)))
 
 (use-package smtpmail
   ;; store password using secret-tool as follows:
   ;; secret-tool store --label='Canonical SMTP' host smtp.canonical.com port 587 user canonical
   ;; then enter PASSWORD
-  :config (progn
-            (setq smtpmail-smtp-user "canonical")
-            (setq smtpmail-smtp-server "smtp.canonical.com")
-            (setq smtpmail-smtp-service 587)))
+  :config
+  (setq smtpmail-smtp-user "canonical")
+  (setq smtpmail-smtp-server "smtp.canonical.com")
+  (setq smtpmail-smtp-service 587))
 
 (use-package solarized-theme
   :ensure t
   :disabled t
-  :config (progn
-            ;; settings for moody package
-            (let ((line (face-attribute 'mode-line :underline)))
-              (set-face-attribute 'mode-line          nil :overline   line)
-              (set-face-attribute 'mode-line-inactive nil :overline   line)
-              (set-face-attribute 'mode-line-inactive nil :underline  line)
-              (set-face-attribute 'mode-line          nil :box        nil)
-              (set-face-attribute 'mode-line-inactive nil :box        nil)
-              (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9"))
-            (setq x-underline-at-descent-line t)
-            (setq solarized-distinct-fringe-background t)
-            (setq solarized-scale-org-headlines nil)
-            (setq solarized-use-variable-pitch nil)
-            (load-theme 'solarized-light t)))
+  :config
+  ;; settings for moody package
+  (let ((line (face-attribute 'mode-line :underline)))
+    (set-face-attribute 'mode-line          nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :underline  line)
+    (set-face-attribute 'mode-line          nil :box        nil)
+    (set-face-attribute 'mode-line-inactive nil :box        nil)
+    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9"))
+  (setq x-underline-at-descent-line t)
+  (setq solarized-distinct-fringe-background t)
+  (setq solarized-scale-org-headlines nil)
+  (setq solarized-use-variable-pitch nil)
+  (load-theme 'solarized-light t))
 
 (use-package sudo-edit
   :ensure t
@@ -2127,26 +2127,26 @@ The object labels of the found items are returned as list."
 (use-package web-mode
   :ensure t
   :defer t
-  :init (progn
-          ;; use smartparens instead
-          (setq web-mode-enable-auto-pairing nil))
+  :init
+  ;; use smartparens instead
+  (setq web-mode-enable-auto-pairing nil)
   :mode ("\\.php\\'" . web-mode))
 
 (use-package webpaste
   :ensure t
-  :config (progn
-            (add-to-list 'webpaste-providers-alist
-                             `("pastebin.ubuntu.com"
-                                :uri "https://pastebin.ubuntu.com/"
-                                ;; poster cannot be empty string and expiry in 1 day
-                                :post-data (("poster" . ,user-full-name)
-                                            ("expiration" . "day"))
-                                :post-field "content"
-                                :post-lang-field-name "syntax"
-                                ;; should this be common-lisp perhaps?
-                                :lang-overrides ((emacs-lisp-mode . "clojure"))
-                                :success-lambda webpaste--providers-success-response-url))
-            (setq webpaste-provider-priority '("pastebin.ubuntu.com"))))
+  :config
+  (add-to-list 'webpaste-providers-alist
+               `("pastebin.ubuntu.com"
+                 :uri "https://pastebin.ubuntu.com/"
+                 ;; poster cannot be empty string and expiry in 1 day
+                 :post-data (("poster" . ,user-full-name)
+                             ("expiration" . "day"))
+                 :post-field "content"
+                 :post-lang-field-name "syntax"
+                 ;; should this be common-lisp perhaps?
+                 :lang-overrides ((emacs-lisp-mode . "clojure"))
+                 :success-lambda webpaste--providers-success-response-url))
+  (setq webpaste-provider-priority '("pastebin.ubuntu.com")))
 
 (use-package which-func
   :config (which-function-mode 1))
@@ -2160,10 +2160,10 @@ The object labels of the found items are returned as list."
   :diminish whitespace-mode
   :hook ((prog-mode . whitespace-mode))
   ;; highlight long lines
-  :init (progn
-          (setq-default whitespace-line-column 80)
-          ;; show trailing whitespace and long lines
-          (setq-default whitespace-style '(face trailing lines-tail))))
+  :init
+  (setq-default whitespace-line-column 80)
+  ;; show trailing whitespace and long lines
+  (setq-default whitespace-style '(face trailing lines-tail)))
 
 (use-package world-time-mode
   :ensure t)
@@ -2208,44 +2208,44 @@ The object labels of the found items are returned as list."
 
 (use-package znc
   :ensure t
-  :preface (progn
-             (defvar apm-znc-slugs '(oftc freenode canonical))
-             (defvar apm-znc-server "znc.secret.server")
-             (defvar apm-znc-username "amurray")
-             (defvar apm-znc-port 7076)
-             (defvar apm-znc-password (auth-source-pick-first-password
-                                       :user apm-znc-username
-                                       :port (format "%d" apm-znc-port)))
-             (defun apm-znc-generate-server (slug)
-               "Generate a ZNC server entry for SLUG."
-               (list slug
-                     (format "%s/%s" apm-znc-username slug)
-                     apm-znc-password))
+  :preface
+  (defvar apm-znc-slugs '(oftc freenode canonical))
+  (defvar apm-znc-server "znc.secret.server")
+  (defvar apm-znc-username "amurray")
+  (defvar apm-znc-port 7076)
+  (defvar apm-znc-password (auth-source-pick-first-password
+                            :user apm-znc-username
+                            :port (format "%d" apm-znc-port)))
+  (defun apm-znc-generate-server (slug)
+    "Generate a ZNC server entry for SLUG."
+    (list slug
+          (format "%s/%s" apm-znc-username slug)
+          apm-znc-password))
 
-             (defvar apm-znc-servers (list
-                                      (list apm-znc-server apm-znc-port t
-                                            (mapcar #'apm-znc-generate-server
-                                                    apm-znc-slugs))))
+  (defvar apm-znc-servers (list
+                           (list apm-znc-server apm-znc-port t
+                                 (mapcar #'apm-znc-generate-server
+                                         apm-znc-slugs))))
 
-             (defun apm-znc-all (&optional _)
-               "Smarter `znc-all'."
-               ;; make sure we don't get called a second time automatically
-               (dolist (hook '(after-make-frame-functions after-init-hook))
-                 (remove-hook hook #'apm-znc-all))
-               (dolist (slug apm-znc-slugs)
-                 (when (y-or-n-p (format "Connect to IRC on %s? " slug))
-                   (znc-erc slug)))))
-  :config (progn
-            (unless (url-gateway-nslookup-host apm-znc-server)
-              ;; need to ensure /etc/hosts points znc.secret.server to
-              ;; the correct hostname
-              (alert "Please correctly define znc.secret.server in /etc/hosts"))
-            (unless apm-znc-password
-              ;; secret-tool store --label=ZNC user amurray port 7076
-              (alert "Please store ZNC password in keyring via secret-tool"))
-            (setq znc-servers apm-znc-servers)
-            (let ((hook (if (daemonp) 'after-make-frame-functions 'after-init-hook)))
-              (add-hook hook #'apm-znc-all))))
+  (defun apm-znc-all (&optional _)
+    "Smarter `znc-all'."
+    ;; make sure we don't get called a second time automatically
+    (dolist (hook '(after-make-frame-functions after-init-hook))
+      (remove-hook hook #'apm-znc-all))
+    (dolist (slug apm-znc-slugs)
+      (when (y-or-n-p (format "Connect to IRC on %s? " slug))
+        (znc-erc slug))))
+  :config
+  (unless (url-gateway-nslookup-host apm-znc-server)
+    ;; need to ensure /etc/hosts points znc.secret.server to
+    ;; the correct hostname
+    (alert "Please correctly define znc.secret.server in /etc/hosts"))
+  (unless apm-znc-password
+    ;; secret-tool store --label=ZNC user amurray port 7076
+    (alert "Please store ZNC password in keyring via secret-tool"))
+  (setq znc-servers apm-znc-servers)
+  (let ((hook (if (daemonp) 'after-make-frame-functions 'after-init-hook)))
+    (add-hook hook #'apm-znc-all)))
 
 ;; set gc-cons-threshold back to original value
 (add-hook 'emacs-startup-hook #'apm-set-gc-threshold)
