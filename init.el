@@ -1237,7 +1237,6 @@ The object labels of the found items are returned as list."
    "mm" 'magit-dispatch-popup
    "ms" 'mu4e-headers-search
    "mu" 'mu4e
-   "mi" 'apm-mu4e-jump-to-inbox
    "n" 'erc-status-sidebar-toggle
    "oa" 'org-agenda
    "ob" 'org-ido-switchb
@@ -1538,12 +1537,6 @@ The object labels of the found items are returned as list."
                  mu4e-user-mail-address-list)
         mu4e-sent-folder)
        (t "/Archive"))))
-
-  (defun apm-mu4e-jump-to-inbox ()
-    "jump to mu4e inbox"
-    (interactive)
-    (mu4e-headers-search "maildir:/INBOX")
-    (switch-to-buffer "*mu4e-headers*" nil t))
 
   (defvar apm-mu4e-highlights
     '((error . ("Private security bug reported"))
