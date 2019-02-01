@@ -1211,12 +1211,13 @@ The object labels of the found items are returned as list."
    :keymaps 'override
    :non-normal-prefix "C-SPC"
    "SPC" 'evil-avy-goto-word-or-subword-1
-   "c" 'evil-avy-goto-char-timer
    "a" 'counsel-ag
    "b" 'ivy-switch-buffer
+   "c" 'evil-avy-goto-char-timer
    "df" 'doxyas-document-function
    "e" 'eshell
-   "fc" 'flycheck-buffer
+   "fb" 'flycheck-buffer
+   "fc" 'apm-find-uct-cve-at-point
    "ff" 'counsel-find-file
    "fl" 'flycheck-list-errors
    "fv" 'flycheck-verify-setup
