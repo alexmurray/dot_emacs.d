@@ -2218,13 +2218,17 @@ The object labels of the found items are returned as list."
                                  (mapcar #'apm-znc-generate-server
                                          apm-znc-slugs))))
 
-  (defun apm-znc-all (&optional _)
+  (defun apm-znc-all (&optional disconnect)
     "Smarter `znc-all'."
     ;; make sure we don't get called a second time automatically
     (dolist (hook '(after-make-frame-functions after-init-hook))
       (remove-hook hook #'apm-znc-all))
     (dolist (slug apm-znc-slugs)
-      (when (y-or-n-p (format "Connect to IRC on %s? " slug))
+      (when (y-or-n-p (format "%s IRC on %s? "
+                              (if disconnect "Disconnect from" "Connect to")
+                              slug))
+        (if disconnect
+            (znc-discard slug))
         (znc-erc slug))))
 
   :config
