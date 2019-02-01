@@ -899,7 +899,7 @@ The object labels of the found items are returned as list."
           (msg (s-trim (s-collapse-whitespace message)))
           (channel (buffer-name)))
       (alert (concat nick ": " msg)
-             :severity (if (or mention privmsg) 'high 'normal)
+             :severity (if (or mention privmsg) 'high 'low)
              :title (if privmsg nick (concat nick " (" channel ")"))
              :icon "applications-chat"
              :category 'erc
