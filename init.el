@@ -1752,10 +1752,6 @@ The object labels of the found items are returned as list."
 (use-package org-clock
   :after org
   :preface
-  (defun apm-org-clock-heading ()
-    "Create `org-clock-heading' by truncating if needed."
-    (s-truncate 8 (nth 4 (org-heading-components))))
-
   (defvar apm-org-clock-notification nil)
 
   (defun apm-org-clock-clear-notification ()
@@ -1803,8 +1799,6 @@ The object labels of the found items are returned as list."
   :ensure-system-package xprintidle
   :config
   (setq org-clock-idle-time 5
-        ;; truncate clock heading in modeline
-        org-clock-heading-function #'apm-org-clock-heading
         ;; save running clock and all history when exiting emacs
         org-clock-persist t
         ;; resume clocking task on clock-in if the clock is open
