@@ -1272,7 +1272,7 @@ The object labels of the found items are returned as list."
    ;; emojify-insert-emoji ?
    "u" 'counsel-unicode-char
    "v" 'er/expand-region
-   "w" 'world-time-list
+   "w" 'display-time-world
    "x" 'counsel-M-x
    "y" 'counsel-yank-pop))
 
@@ -2096,10 +2096,13 @@ The object labels of the found items are returned as list."
 
 (use-package time
   :config (setq zoneinfo-style-world-list '(("Australia/Adelaide" "Home")
-                                            ("Europe/London" "London")
-                                            ("Canada/Eastern" "Quebec")
-                                            ("America/Los_Angeles" "Los Angeles")
-                                            ("America/Chicago" "Austin"))))
+                                            ("Europe/London" "Chris")
+                                            ("Brazil/Recife" "Leo")
+                                            ("Brazil/East" "Eduardo, Paulo")
+                                            ("Canada/Eastern" "Marc, Mike, Vineetha")
+                                            ("America/Chicago" "Jamie, Joy, Tyler")
+                                            ("America/Denver" "Joe")
+                                            ("America/Los_Angeles" "John, Seth, Steve"))))
 (use-package tramp
   :config (setq-default tramp-default-method "ssh"))
 
