@@ -1232,6 +1232,8 @@ The object labels of the found items are returned as list."
    "mf" 'mu4e-compose-forward
    "mF" 'apm-mu4e-compose-forward-as-attachment
    "mg" 'magit-status
+   "mj" 'mu4e~headers-jump-to-maildir
+   "ml" 'mu4e-jump-to-list
    "mm" 'magit-dispatch-popup
    "ms" 'mu4e-headers-search
    "mu" 'mu4e
