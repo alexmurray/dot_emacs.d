@@ -2105,6 +2105,7 @@ The object labels of the found items are returned as list."
 
 (use-package time
   :config (setq zoneinfo-style-world-list '(("Australia/Adelaide" "Home")
+                                            ("UTC" "UTC")
                                             ("Europe/London" "Chris")
                                             ("Brazil/Recife" "Leo")
                                             ("Brazil/East" "Eduardo, Paulo")
