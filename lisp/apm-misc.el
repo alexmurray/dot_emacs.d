@@ -12,13 +12,27 @@
     (when id
       (browse-url (concat base-uri id)))))
 
+(defvar apm-cve-regex "\\(CVE-[0-9]\\{4\\}-[0-9]+\\)")
+
+(defun apm-cve-at-point ()
+  "Return the CVE at point or nil if none found."
+  (let ((cve (thing-at-point 'symbol t)))
+    (when (or (null cve) (not (string-match apm-cve-regex cve)))
+      (save-excursion
+        (let ((end (save-excursion (forward-line) (point))))
+          (backward-word)
+          (if (re-search-forward apm-cve-regex end t)
+              (setq cve (substring-no-properties (match-string 1)))
+            (setq cve nil)))))
+    cve))
+
 (defun apm-find-uct-cve-at-point ()
   "Open the CVE file in UCT at point."
   (interactive)
   (let ((uct-path (expand-file-name "~/ubuntu/git/ubuntu-cve-tracker/"))
         (dirs '("active" "retired" "ignored"))
-        (cve (substring-no-properties (thing-at-point 'symbol))))
-    (when (and cve (string-match "\\(CVE-[0-9]\\{4\\}-[0-9]+\\)" cve))
+        (cve (apm-cve-at-point)))
+    (when (and cve (string-match apm-cve-regex cve))
       (let ((cve-file (car (cl-remove-if #'null
                                          (mapcar #'(lambda (dir)
                                                      (let ((file (format "%s/%s/%s" uct-path dir cve)))
