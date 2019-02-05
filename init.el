@@ -777,6 +777,14 @@ The object labels of the found items are returned as list."
 
 (use-package erc
   :ensure t
+  :preface
+  (eval-when-compile
+    (require 'erc-log))
+  (defun apm-erc-find-logfile ()
+    "Find and open the current `erc-mode` buffers logfile."
+    (interactive)
+    (when (and (eq major-mode 'erc-mode) erc-log-mode)
+      (find-file-other-window (erc-current-logfile))))
   :config
   (eval-and-compile
     (require 'erc-join)
@@ -1218,6 +1226,7 @@ The object labels of the found items are returned as list."
    "e" 'eshell
    "fb" 'flycheck-buffer
    "fc" 'apm-find-uct-cve-at-point
+   "fe" 'apm-erc-find-logfile
    "ff" 'counsel-find-file
    "fl" 'flycheck-list-errors
    "fv" 'flycheck-verify-setup
