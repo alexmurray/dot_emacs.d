@@ -823,7 +823,7 @@ The object labels of the found items are returned as list."
   (add-to-list 'erc-modules 'spelling)
   (erc-update-modules)
 
-  (setq erc-pals '("JamieBennett" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "tyhicks" "ratliff" "kees"))
+  (setq erc-pals '("Beret" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "tyhicks" "ratliff" "kees"))
   (setq erc-keywords '("[Cc][Vv][Ee]" "vulnerability" "apparmor" "seccomp" "exploit" "security"))
 
   ;; when joining don't bring to front
