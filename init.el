@@ -930,6 +930,12 @@ The object labels of the found items are returned as list."
   :ensure t
   :after erc)
 
+(use-package erc-tweet
+  :ensure t
+  :after erc
+  :config (add-to-list 'erc-modules 'tweet)
+  (erc-update-modules))
+
 (use-package erc-track-score
   :ensure t
   :after erc
