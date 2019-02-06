@@ -1737,6 +1737,7 @@ The object labels of the found items are returned as list."
         org-imenu-depth 4
         org-todo-keywords '((sequence "TODO(t)" "IN-PROGRESS(p!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
                             (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
+  (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
   ;; set up org-babel integration for plantuml
   (org-babel-do-load-languages
    'org-babel-load-languages
