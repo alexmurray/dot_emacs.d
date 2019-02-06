@@ -943,6 +943,20 @@ The object labels of the found items are returned as list."
   (erc-track-score-mode 1)
   (setq erc-track-showcount t))
 
+(use-package erc-view-log
+  :ensure t
+  :config (add-to-list 'auto-mode-alist
+                       `(,(format "%s/.*\\.[log|txt]"
+                                  (regexp-quote
+                                   (expand-file-name
+                                    erc-log-channels-directory))) . erc-view-log-mode)))
+
+(use-package erc-youtube
+  :ensure t
+  :after erc
+  :config (add-to-list 'erc-modules 'youtube)
+  (erc-update-modules))
+
 (use-package eudc
   ;; Store password using secret-tool as follows:
   ;; secret-tool store --label='Canonical LDAP' host ldaps://ldap.canonical.com
