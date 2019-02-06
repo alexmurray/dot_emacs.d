@@ -1490,6 +1490,9 @@ The object labels of the found items are returned as list."
   :defer t
   :hook ((c++-mode . modern-c++-font-lock-mode)))
 
+(use-package moinmoin-mode
+  :load-path "vendor/")
+
 (use-package move-text
   :ensure t
   :bind (([(meta shift up)] . move-text-up)
