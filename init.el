@@ -1814,14 +1814,16 @@ The object labels of the found items are returned as list."
   :ensure-system-package xprintidle
   :config
   (setq org-clock-idle-time 5
+        ;; include the current clocked in task in clock reports
+        org-clock-report-include-clocking-task t
         ;; save running clock and all history when exiting emacs
         org-clock-persist t
         ;; resume clocking task on clock-in if the clock is open
         org-clock-in-resume t
         ;; persist clock data into Dropbox
         org-clock-persist-file (expand-file-name "~/Dropbox/Orgzly/org-clock-save.el")
-        ;; insert a CLOSED timestamp when TODOs are marked DONE
-        org-log-done 'time)
+        ;; insert a note when TODOs are marked DONE
+        org-log-done 'note)
   (setq org-clock-x11idle-program-name "xprintidle")
   ;; reload any saved org clock information on startup
   (org-clock-persistence-insinuate)
