@@ -630,6 +630,10 @@ The object labels of the found items are returned as list."
   (setq projectile-switch-project-action 'counsel-projectile)
   (counsel-projectile-mode))
 
+(use-package counsel-world-clock
+  :ensure t
+  :after counsel)
+
 (use-package cov
   :ensure t
   :defer t
