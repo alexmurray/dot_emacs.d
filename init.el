@@ -947,11 +947,13 @@ The object labels of the found items are returned as list."
     (require 'ldap))
   (setq eudc-server-hotlist
         '(("ldaps://ldap.canonical.com" . ldap)))
+  (setq eudc-inline-expansion-servers 'hotlist)
   (setq ldap-host-parameters-alist
         '(("ldaps://ldap.canonical.com"
            base "ou=staff,dc=canonical,dc=com"
            binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
            auth-source t))))
+
 (use-package eshell
   :defer t
   :preface
