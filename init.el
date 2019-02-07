@@ -71,6 +71,20 @@
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
 
+;; load themes early so looks nicer
+(use-package doom-themes
+  :ensure t
+  :config
+  (load-theme 'doom-one t)
+  ;; doesn't play nicely with erc - all erc modelines are red!
+  ;; (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
+
+(use-package doom-modeline
+  :ensure t
+  :after mu4e-alert doom-themes
+  :config (doom-modeline-mode 1))
+
 ;; used in some of my yasnippet snippets
 (defun apm-camelize (s &optional delim)
   "Convert under_score string S to CamelCase string with optional DELIM."
@@ -690,18 +704,7 @@ The object labels of the found items are returned as list."
 (use-package debian-el
   :ensure t)
 
-(use-package doom-themes
-  :ensure t
-  :config
-  (load-theme 'doom-one t)
-  ;; doesn't play nicely with erc - all erc modelines are red!
-  ;; (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
 
-(use-package doom-modeline
-  :ensure t
-  :after mu4e-alert doom-themes
-  :config (doom-modeline-mode 1))
 
 (use-package dpkg-dev-el
   :ensure t)
