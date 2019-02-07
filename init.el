@@ -508,7 +508,8 @@ The object labels of the found items are returned as list."
   (add-to-list 'safe-local-variable-values '(c-indentation-style . linux-tabs-only)))
 
 (use-package check-cves-mode
-  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/")
+  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
+  :mode ("check-cves\\..*\\'" . check-cves-mode))
 
 (use-package company
   :ensure t
