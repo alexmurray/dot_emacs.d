@@ -82,8 +82,10 @@
 
 (use-package doom-modeline
   :ensure t
-  :after mu4e-alert doom-themes
-  :config (doom-modeline-mode 1))
+  :hook (after-init . doom-modeline-mode)
+  :config
+  (setq doom-modeline-height 26)
+  (setq doom-modeline-major-mode-color-icon t))
 
 ;; used in some of my yasnippet snippets
 (defun apm-camelize (s &optional delim)
