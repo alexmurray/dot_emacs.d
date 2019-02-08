@@ -923,11 +923,9 @@ The object labels of the found items are returned as list."
              :id (intern channel))))
   ;; notify via alert when mentioned
   :hook ((ercn-notify . apm-ercn-notify))
-  ;; be notified when mentioned or pals talk in given channels or
-  ;; finally if in private chat
+  ;; be notified when mentioned in given channels or if in private chat
   :config (setq ercn-notify-rules
                 '((current-nick . all)
-                  (pal . ("#security" "#security-private" "#ubuntu-hardened"))
                   (keyword . all)
                   (query-buffer . all))))
 
