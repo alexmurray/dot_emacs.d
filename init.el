@@ -1308,8 +1308,7 @@ The object labels of the found items are returned as list."
    "sm" 'swiper-all
    "sm" 'swiper-multi
    "ss" 'counsel-grep-or-swiper
-   ;; emojify-insert-emoji ?
-   "u" 'counsel-unicode-char
+   "u" 'emojify-insert-emoji
    "v" 'er/expand-region
    "w" 'display-time-world
    "x" 'counsel-M-x
