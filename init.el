@@ -1102,6 +1102,16 @@ The object labels of the found items are returned as list."
   :bind (("C-c +" . evil-numbers/inc-at-pt)
          ("C-c -" . evil-numbers/dec-at-pt)))
 
+(use-package evil-org
+  :ensure t
+  :after evil org
+  :hook ((org-mode . evil-org-mode)
+         (evil-org-mode . evil-org-set-key-theme)))
+
+(use-package evil-org-agenda
+  :ensure evil-org
+  :config (evil-org-agenda-set-keys))
+
 (use-package evil-smartparens
   :ensure t
   :diminish evil-smartparens-mode
