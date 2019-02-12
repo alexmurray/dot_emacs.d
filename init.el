@@ -1486,6 +1486,16 @@ The object labels of the found items are returned as list."
 (use-package meson-mode
   :ensure t)
 
+(use-package mml-sec
+  :config
+  (defun apm-mml-secure-find-usable-key-prompt-for-missing-key (context name usage &optional justone)
+    (when (y-or-n-p (format "No %s key for %s; do you want to manually choose one? "
+                            usage name))
+      (mml-secure-select-keys context name
+                              (epa-select-keys context
+                                               (format "Choose a key for %s " name)) usage)))
+  (advice-add 'mml-secure-find-usable-keys :after-until #'apm-mml-secure-find-usable-key-prompt-for-missing-key))
+
 (use-package modern-cpp-font-lock
   :ensure t
   :defer t
