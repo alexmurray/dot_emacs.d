@@ -2040,7 +2040,7 @@ The object labels of the found items are returned as list."
 (use-package rainbow-mode
   :ensure t
   :defer t
-  :hook (css-mode html-mode))
+  :hook ((css-mode html-mode) . rainbow-mode))
 
 (use-package region-state
   :ensure t
