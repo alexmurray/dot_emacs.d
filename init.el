@@ -1370,6 +1370,13 @@ The object labels of the found items are returned as list."
   :bind (("C-h a" . helpful-symbol)
          ("C-h k" . helpful-key)))
 
+(use-package hideshow
+  ;; use hs-minor-mode in programming and mail composing - TODO - get it
+  ;; working during mail viewing as well to be able to hide quoted bits
+  ;; - something like:
+  ;; :config (add-to-list 'hs-special-modes-alist '(mu4e-view-mode "^>" "^[^^]"))
+  :hook ((prog-mode message-mode) . hs-minor-mode))
+
 (use-package hl-todo
   :ensure t
   :defer t
