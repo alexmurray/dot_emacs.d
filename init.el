@@ -1501,9 +1501,11 @@ The object labels of the found items are returned as list."
   (defun apm-mml-secure-find-usable-key-prompt-for-missing-key (context name usage &optional justone)
     (when (y-or-n-p (format "No %s key for %s; do you want to manually choose one? "
                             usage name))
-      (mml-secure-select-keys context name
-                              (epa-select-keys context
-                                               (format "Choose a key for %s " name)) usage)))
+      (let ((keys (epa-select-keys context
+                                   (format "Choose a key for %s " name))))
+        (if (and justone (> (length keys) 0))
+            (mml-secure-select-keys context name keys usage)
+          keys))))
   (advice-add 'mml-secure-find-usable-keys :after-until #'apm-mml-secure-find-usable-key-prompt-for-missing-key))
 
 (use-package modern-cpp-font-lock
