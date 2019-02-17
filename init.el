@@ -5,6 +5,11 @@
 
 ;;; Code:
 
+;; do this early so evil-collection doesn't complain - use defcar over setq to avoid byte compiler
+(defvar evil-want-integration nil)
+(defvar evil-want-keybinding nil)
+(defvar evil-want-C-u-scroll t)
+
 (defvar gc-cons-threshold--orig gc-cons-threshold)
 (setq gc-cons-threshold (* 100 1024 1024)
       gc-cons-percentage 0.6)
