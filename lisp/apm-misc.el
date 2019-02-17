@@ -30,7 +30,7 @@
   "Open the CVE file in UCT at point."
   (interactive)
   (let ((uct-path (expand-file-name "~/ubuntu/git/ubuntu-cve-tracker/"))
-        (dirs '("active" "retired" "ignored"))
+        (dirs '("active" "retired" "ignored" "embargoed"))
         (cve (apm-cve-at-point)))
     (when (and cve (string-match apm-cve-regex cve))
       (let ((cve-file (car (cl-remove-if #'null
