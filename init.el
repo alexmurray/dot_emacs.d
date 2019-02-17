@@ -1261,6 +1261,8 @@ The object labels of the found items are returned as list."
    :keymaps 'override
    :non-normal-prefix "C-SPC"
    "SPC" 'evil-avy-goto-word-or-subword-1
+   "+" 'text-scale-increase
+   "-" 'text-scale-decrease
    "a" 'counsel-ag
    "b" 'ivy-switch-buffer
    "c" 'evil-avy-goto-char-timer
