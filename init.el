@@ -1820,7 +1820,7 @@ The object labels of the found items are returned as list."
 
 (use-package org-capture
   :after org
-  :config (setq org-capture-templates '(("t" "Todo" entry (file+headline "~/Dropbox/Orgzly/canonical.org" "Tasks")
+  :config (setq org-capture-templates '(("t" "todo" entry (file+headline "~/Dropbox/Orgzly/canonical.org" "Tasks")
                                          "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
                                         ("i" "Topic" entry (file "~/Dropbox/Orgzly/canonical.org")
                                          "* %?\n%a\n"))))
