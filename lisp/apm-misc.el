@@ -26,12 +26,11 @@
             (setq cve nil)))))
     cve))
 
-(defun apm-find-uct-cve-at-point ()
-  "Open the CVE file in UCT at point."
-  (interactive)
+(defun apm-find-uct-cve (&optional cve)
+  "Open the specified CVE file in UCT (or if no CVE use the one at point)."
+  (interactive (list (or (apm-cve-at-point) (read-string "CVE: "))))
   (let ((uct-path (expand-file-name "~/ubuntu/git/ubuntu-cve-tracker/"))
-        (dirs '("active" "retired" "ignored" "embargoed"))
-        (cve (apm-cve-at-point)))
+        (dirs '("active" "retired" "ignored" "embargoed")))
     (when (and cve (string-match apm-cve-regex cve))
       (let ((cve-file (car (cl-remove-if #'null
                                          (mapcar #'(lambda (dir)

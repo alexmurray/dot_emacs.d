@@ -1269,7 +1269,7 @@ The object labels of the found items are returned as list."
    "df" 'doxyas-document-function
    "e" 'eshell
    "fb" 'flycheck-buffer
-   "fc" 'apm-find-uct-cve-at-point
+   "fc" 'apm-find-uct-cve
    "fe" 'apm-erc-find-logfile
    "ff" 'counsel-find-file
    "fl" 'flycheck-list-errors
