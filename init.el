@@ -1858,8 +1858,7 @@ The object labels of the found items are returned as list."
       ;; show a notification but keep it persistent - don't show more than one
       (if (require 'notifications nil t)
           (progn
-            (when apm-org-clock-notification
-              (notifications-close-notification apm-org-clock-notification))
+            (apm-org-clock-clear-notification)
             (setq apm-org-clock-notification
                   (notifications-notify :title "You're not clocked in!"
                                         :body "Click to select a task or choose ignore..."
