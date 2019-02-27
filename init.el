@@ -1294,6 +1294,7 @@ The object labels of the found items are returned as list."
    "mm" 'magit-dispatch-popup
    "ms" 'mu4e-headers-search
    "mu" 'mu4e
+   "mU" 'mu4e-update-mail-and-index
    "n" 'erc-status-sidebar-toggle
    "oa" 'org-agenda
    "ob" 'org-ido-switchb
