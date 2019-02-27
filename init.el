@@ -1455,6 +1455,8 @@ The object labels of the found items are returned as list."
   :defer t
   :init (setq-default js2-basic-offset 2))
 
+(use-package json-mode
+  :ensure t)
 
 (use-package lsp-mode
   :ensure t
