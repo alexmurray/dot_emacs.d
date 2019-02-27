@@ -2178,15 +2178,27 @@ The object labels of the found items are returned as list."
   :ensure t)
 
 (use-package time
-  :config (setq zoneinfo-style-world-list '(("Australia/Adelaide" "Home")
-                                            ("UTC" "UTC")
-                                            ("Europe/London" "Chris")
-                                            ("Brazil/Recife" "Leo")
-                                            ("Brazil/East" "Eduardo, Paulo")
-                                            ("Canada/Eastern" "Marc, Mike, Vineetha")
-                                            ("America/Chicago" "Jamie, Joy, Tyler")
-                                            ("America/Denver" "Joe")
-                                            ("America/Los_Angeles" "John, Seth, Steve"))))
+  :after erc-hl-nicks
+  :config (let ((team '(("Australia/Adelaide" . ("amurray"))
+                        ("Europe/London" . ("ChrisCoulson"))
+                        ("Brazil/Recife" . ("leosilva"))
+                        ("Brazil/Sao_Paulo" . ("ebarretto" "pfsmorigo"))
+                        ("US/Eastern" . ("msalvatore" "vineetha1"))
+                        ("Canada/Eastern" . ("mdeslaur"))
+                        ("US/Central" . ("jdstrand" "jmbl" "tyhicks"))
+                        ("US/Mountain" . ("joe"))
+                        ("US/Pacific" . ("jjohansen" "sarnold" "sbeattie")))))
+            (setq zoneinfo-style-world-list
+                  ;; make nicks stand out
+                  (mapcar #'(lambda (member)
+                              (list (car member)
+                                    (mapconcat #'(lambda (nick)
+                                                   (propertize nick
+                                                               'face
+                                                               (erc-hl-nicks-make-face nick)))
+                                               (cdr member)
+                                               ", ")))
+                          team))))
 (use-package tramp
   :config (setq-default tramp-default-method "ssh"))
 
