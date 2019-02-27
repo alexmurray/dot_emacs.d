@@ -712,7 +712,8 @@ The object labels of the found items are returned as list."
 (use-package debian-el
   :ensure t)
 
-
+(use-package disk-usage
+  :ensure t)
 
 (use-package dpkg-dev-el
   :ensure t)
@@ -1267,6 +1268,8 @@ The object labels of the found items are returned as list."
    "b" 'ivy-switch-buffer
    "c" 'evil-avy-goto-char-timer
    "df" 'doxyas-document-function
+   "dh" 'disk-usage-here
+   "du" 'disk-usage
    "e" 'eshell
    "fb" 'flycheck-buffer
    "fc" 'apm-find-uct-cve
