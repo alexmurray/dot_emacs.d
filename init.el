@@ -688,6 +688,9 @@ The object labels of the found items are returned as list."
   (setq cquery-cache-dir-function #'cquery-cache-dir-consolidated)
   (setq cquery-cache-dir-consolidated-path (expand-file-name "cquery-cache.d" "~/.cache/")))
 
+(use-package crontab-mode
+  :ensure t)
+
 (use-package crux
   :ensure t
   :bind (([remap move-beginning-of-line] . crux-move-beginning-of-line)
@@ -1371,6 +1374,10 @@ The object labels of the found items are returned as list."
   :hook ((prog-mode . goto-address-prog-mode)
          (erc-mode . goto-address-mode)
          (text-mode . goto-address-mode)))
+
+(use-package goto-line-preview
+  :ensure t
+  :config (global-set-key [remap goto-line] 'goto-line-preview))
 
 (use-package gud
   :defer t
