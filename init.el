@@ -649,7 +649,10 @@ The object labels of the found items are returned as list."
   :ensure t
   :after (counsel projectile)
   :config
-  (setq projectile-switch-project-action 'counsel-projectile)
+  ;; open project in vc after switching
+  (counsel-projectile-modify-action
+ 'counsel-projectile-switch-project-action
+ '((default counsel-projectile-switch-project-action-vc)))
   (counsel-projectile-mode))
 
 (use-package counsel-world-clock
@@ -2025,6 +2028,8 @@ The object labels of the found items are returned as list."
   (add-to-list 'projectile-project-root-files ".cquery")
   (add-to-list 'projectile-project-root-files ".cquery.in")
   (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
+  (with-eval-after-load 'magit
+    (setq projectile-switch-project-action #'magit-status))
   (with-eval-after-load 'ivy
     (setq projectile-completion-system 'ivy)))
 
