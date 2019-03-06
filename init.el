@@ -2214,7 +2214,12 @@ The object labels of the found items are returned as list."
                                                                (erc-hl-nicks-make-face nick)))
                                                (cdr member)
                                                ", ")))
-                          team))))
+                          team)))
+  (setq display-time-default-load-average nil)
+  (setq display-time-use-mail-icon t)
+  (setq display-time-day-and-date t)
+  (display-time))
+
 (use-package tramp
   :config (setq-default tramp-default-method "ssh"))
 
