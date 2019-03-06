@@ -1280,7 +1280,7 @@ The object labels of the found items are returned as list."
    "ff" 'counsel-find-file
    "fl" 'flycheck-list-errors
    "fv" 'flycheck-verify-setup
-   "ge" 'google-error
+   "ge" 'google-this-error
    "gg" 'counsel-git-grep
    "go" 'google-this
    "gt" 'google-translate-smooth-translate
@@ -1309,7 +1309,9 @@ The object labels of the found items are returned as list."
    "oco" 'org-clock-out
    "ocs" 'org-mru-clock-in
    "ocu" 'org-clock-update-time-maybe
+   "og" 'counsel-org-goto-all
    "oo" 'counsel-org-goto
+   "osl" 'org-store-link
    "ot" 'org-todo-list
    "P" 'counsel-projectile-switch-project
    "pa" 'counsel-projectile-ag
