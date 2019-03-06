@@ -1853,9 +1853,8 @@ The object labels of the found items are returned as list."
 
   (defun apm-org-clock-clear-notification ()
     "Clear any existing org clock notification."
-    (when (not (or (eq apm-org-clock-notification 'ignore)
-                   (null apm-org-clock-notification)))
-      (message "closing notification %S" apm-org-clock-notification)
+    (when (not (or (null apm-org-clock-notification)
+                   (eq apm-org-clock-notification 'ignore)))
       (notifications-close-notification apm-org-clock-notification))
     (setq apm-org-clock-notification nil))
 
