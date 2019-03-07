@@ -854,6 +854,7 @@ The object labels of the found items are returned as list."
 
   ;; add to global-mode-string for doom-modeline to show
   (setq erc-track-position-in-mode-line t)
+  (setq erc-track-switch-direction 'importance)
   (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
                                   ;; channel mode (324), creation
                                   ;; time (329), topic (332), topic
@@ -862,6 +863,14 @@ The object labels of the found items are returned as list."
                                   "324" "329" "332" "333" "353" "477"))
   (setq erc-track-exclude-server-buffer t)
   (setq erc-track-showcount t)
+  (setq erc-track-faces-priority-list
+        '(erc-query-buffer-face
+          erc-current-nick-face
+          erc-keyword-face
+          erc-pal-face
+          erc-default-face))
+
+  (setq erc-track-priority-faces-only 'all)
 
   ;; only hide join / part / quit for those who are idle for more
   ;; than 10 hours (ie are using a bouncer)
