@@ -975,6 +975,7 @@ The object labels of the found items are returned as list."
 
 (use-package erc-track-score
   :ensure t
+  :disabled t
   :after erc
   :config (erc-track-score-mode 1))
 
