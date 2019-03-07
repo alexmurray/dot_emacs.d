@@ -1482,7 +1482,7 @@ The object labels of the found items are returned as list."
   :after (ivy posframe)
   :config
   (setq ivy-posframe-width (frame-width))
-  (setq ivy-posframe-hide-minibuffer t)
+  (setq ivy-posframe-hide-minibuffer nil)
   (setq ivy-posframe-parameters
         '((left-fringe . 10)
           (right-fringe . 10)))
