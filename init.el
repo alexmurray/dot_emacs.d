@@ -1178,6 +1178,10 @@ The object labels of the found items are returned as list."
   :config (setq expand-region-contract-fast-key "V"
                 expand-region-reset-fast-key "r"))
 
+(use-package fancy-battery
+  :ensure t
+  :config (fancy-battery-mode 1))
+
 (use-package files
   :bind ("C-c r" . revert-buffer))
 
