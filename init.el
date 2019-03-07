@@ -179,6 +179,7 @@
 
 ;; default to maximised windows
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+(toggle-frame-maximized)
 
 ;; prompt when trying to switch out of a dedicated window
 (setq switch-to-buffer-in-dedicated-window 'prompt)
