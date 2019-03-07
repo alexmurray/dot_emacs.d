@@ -87,7 +87,8 @@
 
 (use-package doom-modeline
   :ensure t
-  :hook (after-init . doom-modeline-mode)
+  ;; ensure we start as early as possible
+  :init (doom-modeline-mode 1)
   :config
   (setq doom-modeline-height 26)
   (setq doom-modeline-major-mode-color-icon t))
