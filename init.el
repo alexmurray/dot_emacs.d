@@ -1472,6 +1472,18 @@ The object labels of the found items are returned as list."
   :after ivy
   :config (ivy-rich-mode 1))
 
+(use-package ivy-posframe
+  :ensure t
+  :after (ivy posframe)
+  :config
+  (setq ivy-posframe-width (frame-width))
+  (setq ivy-posframe-hide-minibuffer t)
+  (setq ivy-posframe-parameters
+        '((left-fringe . 10)
+          (right-fringe . 10)))
+  (setq ivy-display-function #'ivy-posframe-display-at-frame-bottom-left)
+  (ivy-posframe-enable))
+
 (use-package ivy-prescient
   :ensure t
   :after (ivy prescient)
