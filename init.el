@@ -1527,13 +1527,6 @@ The object labels of the found items are returned as list."
   :after lsp-mode
   :hook ((java-mode . lsp-java-enable)))
 
-(use-package lsp-python
-  :ensure t
-  :after lsp-mode
-  :hook ((python-mode . lsp-python-enable))
-  :init (unless (executable-find "pyls")
-          (alert "pyls not found - pip install python-language-server")))
-
 (use-package lsp-ui
   :ensure t
   :after lsp-mode
