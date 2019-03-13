@@ -2035,6 +2035,9 @@ The object labels of the found items are returned as list."
 (use-package tramp
   :config (setq-default tramp-default-method "ssh"))
 
+(use-package uct
+  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/")
+
 (use-package undo-propose
   :ensure t
   :bind (("C-x u" . undo-propose)))
