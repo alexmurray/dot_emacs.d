@@ -174,6 +174,8 @@
 ;; ensure scrolling forwards / backwards preserves original location such that
 ;; they undo each other
 (setq scroll-preserve-screen-position 'always)
+(global-set-key (kbd "M-n") (kbd "C-1 C-v"))
+(global-set-key (kbd "M-p") (kbd "M-1 M-v"))
 
 (defvar apm-preferred-font-name "Dejavu Sans Mono"
   "Preferred font to use.")
