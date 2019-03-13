@@ -1655,6 +1655,8 @@ The object labels of the found items are returned as list."
 
 (use-package org-clock
   :after org
+  :bind (("C-c C-o C-g" . org-clock-goto)
+         ("C-c C-o C-o" . org-clock-out))
   :preface
   (defvar apm-org-clock-notification nil)
 
@@ -2004,6 +2006,7 @@ The object labels of the found items are returned as list."
 
 (use-package time
   :after erc-hl-nicks
+  :bind ((("C-c C-w" . display-time-world)))
   :config (let ((team '(("Australia/Adelaide" . ("amurray"))
                         ("Europe/London" . ("ChrisCoulson"))
                         ("Brazil/Recife" . ("leosilva"))
