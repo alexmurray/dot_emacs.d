@@ -85,14 +85,6 @@
   ;; (doom-themes-visual-bell-config)
   (doom-themes-org-config))
 
-(use-package doom-modeline
-  :ensure t
-  ;; ensure we start as early as possible
-  :init (doom-modeline-mode 1)
-  :config
-  (setq doom-modeline-height 26)
-  (setq doom-modeline-major-mode-color-icon t))
-
 ;; used in some of my yasnippet snippets
 (defun apm-camelize (s &optional delim)
   "Convert under_score string S to CamelCase string with optional DELIM."
@@ -722,6 +714,14 @@ The object labels of the found items are returned as list."
 
 (use-package disk-usage
   :ensure t)
+
+(use-package doom-modeline
+  :ensure t
+  :after fancy-battery
+  :config
+  (setq doom-modeline-height 26)
+  (setq doom-modeline-major-mode-color-icon t)
+  (doom-modeline-mode 1))
 
 (use-package dpkg-dev-el
   :ensure t)
