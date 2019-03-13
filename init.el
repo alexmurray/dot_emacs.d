@@ -1312,7 +1312,8 @@ The object labels of the found items are returned as list."
   :ensure t
   :preface
   :defer t
-  :bind ("C-x g" . magit-status)
+  :bind (("C-x g" . magit-status)
+         ("C-x M-g" . magit-dispatch))
   :config (setq magit-completing-read-function 'ivy-completing-read))
 
 (use-package magithub
@@ -1827,6 +1828,7 @@ The object labels of the found items are returned as list."
 (use-package projectile
   :ensure t
   :defer t
+  :bind (:map projectile-mode-map ("C-c p" . projectile-command-map))
   :diminish projectile-mode
   :defines (projectile-enable-caching)
   :init
