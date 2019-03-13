@@ -1258,7 +1258,7 @@ The object labels of the found items are returned as list."
   :after (ivy posframe)
   :config
   (setq ivy-posframe-parameters
-        `((min-width . 70)
+        `((min-width . 150)
           (min-height . ,ivy-height)
           (internal-border-width . 10)))
   (setq ivy-display-function #'ivy-posframe-display-at-frame-center)
