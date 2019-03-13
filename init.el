@@ -2085,6 +2085,13 @@ The object labels of the found items are returned as list."
   ;; show trailing whitespace and long lines
   (setq-default whitespace-style '(face trailing lines-tail)))
 
+(use-package windmove
+  :ensure t
+  :config
+  (windmove-default-keybindings 'shift)
+  ;; wrap around at edges
+  (setq windmove-wrap-around t))
+
 (use-package world-time-mode
   :ensure t)
 
