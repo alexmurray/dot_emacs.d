@@ -2157,16 +2157,12 @@ The object labels of the found items are returned as list."
 
   (defun apm-znc-all (&optional disconnect)
     "Smarter `znc-all'."
+    (interactive)
     ;; make sure we don't get called a second time automatically
     (dolist (hook '(after-make-frame-functions after-init-hook))
       (remove-hook hook #'apm-znc-all))
-    (dolist (slug apm-znc-slugs)
-      (when (y-or-n-p (format "%s IRC on %s? "
-                              (if disconnect "Disconnect from" "Connect to")
-                              slug))
-        (if disconnect
-            (znc-discard slug))
-        (znc-erc slug))))
+    (when (y-or-n-p "Connect to IRC? ")
+      (znc-all disconnect)))
 
   :config
   (unless (url-gateway-nslookup-host apm-znc-server)
