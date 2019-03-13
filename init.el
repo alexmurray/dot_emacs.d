@@ -1610,6 +1610,9 @@ The object labels of the found items are returned as list."
 (use-package org
   :ensure org-plus-contrib
   :pin org
+  :bind (("C-c a" . org-agenda)
+         ("C-c c" . org-capture)
+         ("C-c l" . org-store-link))
   :config
   (setq org-agenda-files (mapcar #'expand-file-name
                                  '("~/Dropbox/Orgzly/personal.org"
