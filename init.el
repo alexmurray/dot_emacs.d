@@ -2032,10 +2032,9 @@ The object labels of the found items are returned as list."
 (use-package tramp
   :config (setq-default tramp-default-method "ssh"))
 
-(use-package undo-tree
+(use-package undo-propose
   :ensure t
-  :diminish undo-tree-mode
-  :init (global-undo-tree-mode 1))
+  :bind (("C-x u" . undo-propose)))
 
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'post-forward
