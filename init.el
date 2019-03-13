@@ -1182,7 +1182,6 @@ The object labels of the found items are returned as list."
 
 (use-package helm-make
   :ensure t
-  :bind (("C-x C-m" . helm-make-projectile))
   :config (setq helm-make-completion-method 'ivy))
 
 (use-package helpful
@@ -1356,6 +1355,7 @@ The object labels of the found items are returned as list."
          ([(meta shift down)] . move-text-down)))
 
 (use-package mu4e
+  :bind (("C-x C-m" . mu4e))
   :preface
 
   ;; some hacky bits so we can do an async forward as attachment
@@ -1719,6 +1719,7 @@ The object labels of the found items are returned as list."
 
 (use-package org-mru-clock
   :ensure t
+  :bind (("C-c C-o C-s" . org-mru-clock-in))
   :config (setq org-mru-clock-completing-read #'ivy-completing-read))
 
 (use-package org-mu4e
@@ -2037,6 +2038,8 @@ The object labels of the found items are returned as list."
 
 (use-package webpaste
   :ensure t
+  :bind (("C-c C-p C-b" . webpaste-paste-buffer)
+         ("C-c C-p C-r" . webpaste-paste-region))
   :config
   (add-to-list 'webpaste-providers-alist
                `("pastebin.ubuntu.com"
