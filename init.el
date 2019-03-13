@@ -1220,6 +1220,9 @@ The object labels of the found items are returned as list."
   :diminish hungry-delete-mode
   :config (global-hungry-delete-mode 1))
 
+(use-package imenu
+  :bind (("M-i" . imenu)))
+
 (use-package ispell
   :defer t
   :init
