@@ -1246,12 +1246,11 @@ The object labels of the found items are returned as list."
   :ensure t
   :after (ivy posframe)
   :config
-  (setq ivy-posframe-width (frame-width))
-  (setq ivy-posframe-hide-minibuffer nil)
   (setq ivy-posframe-parameters
-        '((left-fringe . 10)
-          (right-fringe . 10)))
-  (setq ivy-display-function #'ivy-posframe-display-at-frame-bottom-left)
+        `((min-width . 70)
+          (min-height . ,ivy-height)
+          (internal-border-width . 10)))
+  (setq ivy-display-function #'ivy-posframe-display-at-frame-center)
   (ivy-posframe-enable))
 
 (use-package ivy-prescient
