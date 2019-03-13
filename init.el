@@ -255,6 +255,15 @@
   :config (unless (file-exists-p (expand-file-name "~/.local/share/fonts/all-the-icons.ttf"))
             (all-the-icons-install-fonts)))
 
+(use-package all-the-icons-ivy
+  :ensure t
+  :after (all-the-icons ivy)
+  :custom (all-the-icons-ivy-buffer-commands '(ivy-switch-buffer-other-window))
+  :config
+  (add-to-list 'all-the-icons-ivy-file-commands 'counsel-dired-jump)
+  (add-to-list 'all-the-icons-ivy-file-commands 'counsel-find-library)
+  (all-the-icons-ivy-setup))
+
 (use-package android-mode
   :ensure t
   :defer t
