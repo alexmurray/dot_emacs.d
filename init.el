@@ -1196,9 +1196,6 @@ The object labels of the found items are returned as list."
   ;; :config (add-to-list 'hs-special-modes-alist '(mu4e-view-mode "^>" "^[^^]"))
   :hook ((prog-mode message-mode) . hs-minor-mode))
 
-(use-package hl-line
-  :config (global-hl-line-mode 1))
-
 (use-package hl-todo
   :ensure t
   :defer t
