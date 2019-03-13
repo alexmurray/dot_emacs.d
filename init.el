@@ -5,11 +5,6 @@
 
 ;;; Code:
 
-;; do this early so evil-collection doesn't complain - use defcar over setq to avoid byte compiler
-(defvar evil-want-integration nil)
-(defvar evil-want-keybinding nil)
-(defvar evil-want-C-u-scroll t)
-
 (defvar gc-cons-threshold--orig gc-cons-threshold)
 (setq gc-cons-threshold (* 100 1024 1024)
       gc-cons-percentage 0.6)
@@ -618,7 +613,7 @@ The object labels of the found items are returned as list."
 
 (use-package counsel
   :ensure t
-  :after ivy evil
+  :after ivy
   :diminish counsel-mode
   :init (counsel-mode 1)
   :bind (("C-x C-r" . counsel-recentf)
@@ -632,12 +627,7 @@ The object labels of the found items are returned as list."
   (setq counsel-yank-pop-preselect-last t)
   (with-eval-after-load 'helpful
     (setq counsel-describe-function-function #'helpful-callable)
-    (setq counsel-describe-variable-function #'helpful-variable))
-  (with-eval-after-load 'evil
-    (eval-when-compile (require 'evil))
-    (define-key evil-ex-map "e " 'counsel-find-file)
-    (evil-ex-define-cmd "ap[ropos]" 'counsel-apropos)
-    (define-key evil-ex-map "ap " 'counsel-apropos)))
+    (setq counsel-describe-variable-function #'helpful-variable)))
 
 (use-package counsel-projectile
   :ensure t
@@ -777,12 +767,7 @@ The object labels of the found items are returned as list."
   :ensure t
   :defer t
   :diminish elisp-def-mode
-  :after evil
-  :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode)
-  :config
-  (evil-define-key 'normal elisp-def-mode-map (kbd "C-]") #'elisp-def)
-  (evil-define-key 'visual elisp-def-mode-map (kbd "C-]") #'elisp-def)
-  (evil-define-key 'normal elisp-def-mode-map (kbd "C-t") #'xref-pop-marker-stack))
+  :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode))
 
 (use-package emojify
   :ensure t
@@ -911,10 +896,7 @@ The object labels of the found items are returned as list."
     ;; turn off smartparens when using emoticons
     (sp-local-pair 'erc-mode "(" nil
                    :unless '(:add sp-text-mode-emoticon-p)
-                   :skip-match 'sp-text-mode-skip-emoticon))
-  ;; start erc buffers in normal mode for evil
-  (with-eval-after-load 'evil
-    (evil-set-initial-state 'erc-mode 'normal)))
+                   :skip-match 'sp-text-mode-skip-emoticon)))
 
 (use-package erc-hl-nicks
   :ensure t
@@ -1045,130 +1027,6 @@ The object labels of the found items are returned as list."
   :config  (setq mode-require-final-newline nil)
   :init (global-ethan-wspace-mode 1))
 
-(use-package evil
-  :ensure t
-  :preface
-  (defun apm-make-underscore-word-character ()
-    "Make _ a word character."
-    (modify-syntax-entry ?_ "w"))
-  ;; use evil-collection instead
-  :preface (setq evil-want-integration nil
-                 evil-want-keybinding nil
-                 evil-want-C-u-scroll t)
-  ;; make underscore a word character so movements across words
-  ;; include it - this is the same as vim - need to do it on each
-  ;; major mode change
-  :hook ((after-change-major-mode . apm-make-underscore-word-character))
-  :config
-  ;; make cursor easier to see
-  (setq evil-normal-state-cursor '("#b294bb" box))
-  (setq evil-insert-state-cursor '("#de935f" bar))
-  (setq evil-emacs-state-cursor '("#cc6666" box))
-
-  ;; add vim-like bindings for some nice stuff
-  (with-eval-after-load 'flyspell
-    (define-key evil-normal-state-map "]s" 'flyspell-goto-next-error)
-    ;; taken from spacemacs
-    (define-key evil-normal-state-map "[b" 'evil-prev-buffer)
-    (define-key evil-normal-state-map "]b" 'evil-next-buffer)
-    (define-key evil-normal-state-map "[q" 'previous-error)
-    (define-key evil-normal-state-map "]q" 'next-error))
-
-  (define-key evil-ex-map "bd " 'kill-buffer)
-
-  ;; these should be bound automatically but apparently not so rebind
-  ;; them
-  (bind-keys :map evil-insert-state-map
-             ("C-x C-n" . evil-complete-next-line)
-             ("C-x C-l" . evil-complete-next-line)
-             ("C-x C-p" . evil-complete-previous-line))
-
-  ;; fixup company-complete-number to be handled better with evil
-  (evil-declare-change-repeat 'company-complete-number)
-  (evil-mode 1))
-
-(use-package evil-collection
-  :ensure t
-  :preface (setq evil-collection-company-use-tng nil)
-  :after evil
-  :config (evil-collection-init))
-
-(use-package evil-anzu
-  :ensure t)
-
-(use-package evil-args
-  :ensure t
-  :defer t
-  :init
-  ;; bind evil-args text objects
-  (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
-  (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
-
-  ;; bind evil-forward/backward-args
-  (define-key evil-normal-state-map "L" 'evil-forward-arg)
-  (define-key evil-normal-state-map "H" 'evil-backward-arg)
-  (define-key evil-motion-state-map "L" 'evil-forward-arg)
-  (define-key evil-motion-state-map "H" 'evil-backward-arg))
-
-(use-package evil-commentary
-  :ensure t
-  :diminish evil-commentary-mode
-  :config (evil-commentary-mode 1))
-
-(use-package evil-expat
-  :ensure t)
-
-(use-package evil-goggles
-  :ensure t
-  :diminish evil-goggles-mode
-  :config
-  (setq evil-goggles-duration 0.1)
-  (evil-goggles-mode 1)
-  (evil-goggles-use-diff-faces))
-
-(use-package evil-magit
-  :ensure t)
-
-(use-package evil-matchit
-  :ensure t
-  :config (global-evil-matchit-mode 1))
-
-(use-package evil-numbers
-  :ensure t
-  :bind (("C-c +" . evil-numbers/inc-at-pt)
-         ("C-c -" . evil-numbers/dec-at-pt)))
-
-(use-package evil-org
-  :ensure t
-  :after evil org
-  :hook ((org-mode . evil-org-mode)
-         (evil-org-mode . evil-org-set-key-theme)))
-
-(use-package evil-org-agenda
-  :ensure evil-org
-  :config (evil-org-agenda-set-keys))
-
-(use-package evil-smartparens
-  :ensure t
-  :diminish evil-smartparens-mode
-  :defer t
-  ;; only use with strict smartparens otherwise is too annoying for normal cases
-  :hook ((smartparens-strict-mode . evil-smartparens-mode)))
-
-(use-package evil-surround
-  :ensure t
-  :diminish evil-surround-mode
-  :init (global-evil-surround-mode 1))
-
-(use-package evil-textobj-anyblock
-  :ensure t
-  :bind ((:map evil-inner-text-objects-map ("b" . 'evil-textobj-anyblock-inner-block)
-               :map evil-outer-text-objects-map ("b" . 'evil-textobj-anyblock-a-block))))
-
-(use-package evil-visualstar
-  :ensure t
-  :config (global-evil-visualstar-mode 1))
-
 (use-package exec-path-from-shell
   :ensure t
   :init (when (memq window-system '(mac ns))
@@ -1189,13 +1047,7 @@ The object labels of the found items are returned as list."
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode
-  :preface
-  (defun apm-flycheck-setup ()
-    "Setup flycheck."
-    (define-key evil-normal-state-map "[e" 'flycheck-previous-error)
-    (define-key evil-normal-state-map "]e" 'flycheck-next-error))
   :commands flycheck-add-next-checker
-  :hook ((flycheck-mode . apm-flycheck-setup))
   :ensure-system-package (cppcheck shellcheck)
   :init (setq-default flycheck-emacs-lisp-load-path 'inherit)
   :config
@@ -1272,7 +1124,7 @@ The object labels of the found items are returned as list."
 
 (use-package flyspell-correct-ivy
   :ensure t
-  ;; use instead of ispell-word which evil binds to z=
+  ;; use instead of ispell-word
   :bind (([remap ispell-word] . flyspell-correct-word-generic)
          :map flyspell-mode-map ("C-;" . flyspell-correct-previous-word-generic)))
 
@@ -1286,89 +1138,6 @@ The object labels of the found items are returned as list."
   (setq-default gdb-many-windows t)
   ;; Non-nil means display source file containing the main routine at startup
   (setq-default gdb-show-main t))
-
-(use-package general
-  :ensure t
-  :config
-  (general-define-key
-   :prefix "SPC"
-   :states '(normal visual insert emacs)
-   :keymaps 'override
-   :non-normal-prefix "C-SPC"
-   "SPC" 'evil-avy-goto-word-or-subword-1
-   "+" 'text-scale-increase
-   "-" 'text-scale-decrease
-   "a" 'counsel-ag
-   "b" 'ivy-switch-buffer
-   "c" 'evil-avy-goto-char-timer
-   "df" 'doxyas-document-function
-   "dh" 'disk-usage-here
-   "du" 'disk-usage
-   "e" 'eshell
-   "fb" 'flycheck-buffer
-   "fc" 'apm-find-uct-cve
-   "fe" 'apm-erc-find-logfile
-   "ff" 'counsel-find-file
-   "fl" 'flycheck-list-errors
-   "fv" 'flycheck-verify-setup
-   "ge" 'google-this-error
-   "gg" 'counsel-git-grep
-   "go" 'google-this
-   "gt" 'google-translate-smooth-translate
-   "i" 'counsel-imenu
-   "k" 'kill-buffer
-   "l" 'apm-browse-lp-bug-at-point
-   "mc" 'mu4e-compose-new
-   "mf" 'mu4e-compose-forward
-   "mF" 'apm-mu4e-compose-forward-as-attachment
-   "mg" 'magit-status
-   "mb" 'mu4e-headers-search-bookmark
-   "mj" 'mu4e~headers-jump-to-maildir
-   "ml" 'mu4e-jump-to-list
-   "mm" 'magit-dispatch-popup
-   "ms" 'mu4e-headers-search
-   "mu" 'mu4e
-   "mU" 'mu4e-update-mail-and-index
-   "n" 'erc-status-sidebar-toggle
-   "oa" 'org-agenda
-   "ob" 'org-ido-switchb
-   "oca" 'org-capture
-   "occ" 'org-clock-cancel
-   "ocd" 'org-clock-display
-   "ocg" 'org-clock-goto
-   "oci" 'org-clock-in
-   "oco" 'org-clock-out
-   "ocs" 'org-mru-clock-in
-   "ocu" 'org-clock-update-time-maybe
-   "og" 'counsel-org-goto-all
-   "oo" 'counsel-org-goto
-   "osl" 'org-store-link
-   "ot" 'org-todo-list
-   "P" 'counsel-projectile-switch-project
-   "pa" 'counsel-projectile-ag
-   "pb" 'counsel-projectile-switch-to-buffer
-   "pc" 'counsel-projectile
-   "pe" 'projectile-run-eshell
-   "pd" 'counsel-projectile-find-dir
-   "pD" 'projectile-find-dir-other-window
-   "pf" 'counsel-projectile-find-file
-   "pF" 'projectile-find-file-other-window
-   "ph" 'counsel-projectile
-   "pk" 'projectile-kill-buffers
-   "pm" 'helm-make-projectile
-   "po" 'projectile-find-other-file
-   "pp" 'counsel-projectile
-   "pr" 'projectile-recentf
-   "r" 'counsel-recentf
-   "sm" 'swiper-all
-   "sm" 'swiper-multi
-   "ss" 'counsel-grep-or-swiper
-   "u" 'emojify-insert-emoji
-   "v" 'er/expand-region
-   "w" 'display-time-world
-   "x" 'counsel-M-x
-   "y" 'counsel-yank-pop))
-
 
 (use-package gif-screencast
   :ensure t
@@ -1467,10 +1236,7 @@ The object labels of the found items are returned as list."
   ;; allow to select the typed in value with C-p
   (setq ivy-use-selectable-prompt t)
   (define-key isearch-mode-map (kbd "M-o") 'ivy-occur)
-  (setq ivy-re-builders-alist '((t . ivy--regex-plus)))
-  ;; integrate with evil
-  (with-eval-after-load 'evil
-    (define-key evil-ex-map "b " 'ivy-switch-buffer)))
+  (setq ivy-re-builders-alist '((t . ivy--regex-plus))))
 
 (use-package ivy-rich
   :ensure t
@@ -1610,8 +1376,6 @@ The object labels of the found items are returned as list."
     (setq mu4e-compose-forward-as-attachment t)
     (setq mu4e-compose-mode-hook '(apm-mu4e-compose-forward-as-attachment-2))
     (mu4e-compose-forward))
-
-  (evil-define-key 'normal mu4e-view-mode-map (kbd "c F") #'apm-mu4e-compose-forward-as-attachment)
 
   ;; TODO: consider using imapfilter
   (defun apm-mu4e-refile-message (msg)
@@ -1836,10 +1600,6 @@ The object labels of the found items are returned as list."
   :ensure org-plus-contrib
   :pin org
   :config
-  ;; ensure TAB is bound to org-cycle in normal mode - this seems to break magit?
-  (with-eval-after-load 'evil
-    (evil-define-key 'normal outline-mode-map (kbd "<tab>") #'org-cycle)
-    (evil-define-key 'normal outline-mode-map (kbd "TAB") #'org-cycle))
   (setq org-agenda-files (mapcar #'expand-file-name
                                  '("~/Dropbox/Orgzly/personal.org"
                                    "~/Dropbox/Orgzly/canonical.org"
@@ -2342,12 +2102,6 @@ The object labels of the found items are returned as list."
              (expand-file-name "~/Documents/325383-sdm-vol-2abcd.pdf"))))
   :config (setq x86-lookup-pdf "~/Documents/325383-sdm-vol-2abcd.pdf")
   :bind ("C-h x" . x86-lookup))
-
-(use-package xref
-  :config (with-eval-after-load 'evil
-            (define-key evil-visual-state-map (kbd "C-]") #'xref-find-definitions)
-            (define-key evil-normal-state-map (kbd "C-]") #'xref-find-definitions)
-            (define-key evil-normal-state-map (kbd "C-t") #'xref-pop-marker-stack)))
 
 (use-package znc
   :ensure t
