@@ -390,7 +390,7 @@ The object labels of the found items are returned as list."
 
 (use-package avy
   :ensure t
-  :defer t
+  :bind (("C-c SPC" . avy-goto-word-or-subword-1))
   :config
   ;; dim text when avy is active
   (setq avy-background t)
