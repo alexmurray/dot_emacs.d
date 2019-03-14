@@ -686,11 +686,6 @@ The object labels of the found items are returned as list."
 (use-package crontab-mode
   :ensure t)
 
-(use-package crux
-  :ensure t
-  :bind (([remap move-beginning-of-line] . crux-move-beginning-of-line)
-         ("C-c o" . crux-open-with)))
-
 (use-package cstyle
   :disabled t
   :load-path "vendor/")
