@@ -1956,11 +1956,11 @@ The object labels of the found items are returned as list."
   :config
   (require 'smartparens-config)
   (require 'smartparens-latex)
-  (setq sp-base-key-bindings 'paredit)
+  (setq sp-base-key-bindings 'smartparens)
   ;; always jump out of string when hitting end "
   (setq sp-autoskip-closing-pair 'always)
   (setq sp-hybrid-kill-entire-symbol nil)
-  (sp-use-paredit-bindings)
+  (sp-use-smartparens-bindings)
 
   ;; highlights matching pairs
   (show-smartparens-global-mode 1)
