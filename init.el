@@ -2094,11 +2094,9 @@ The object labels of the found items are returned as list."
 (use-package whitespace
   :diminish whitespace-mode
   :hook ((prog-mode . whitespace-mode))
-  ;; highlight long lines
   :init
-  (setq-default whitespace-line-column 80)
-  ;; show trailing whitespace and long lines
-  (setq-default whitespace-style '(face trailing lines-tail)))
+  ;; show trailing whitespace
+  (setq-default whitespace-style '(face trailing)))
 
 (use-package windmove
   :ensure t
