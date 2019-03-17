@@ -1349,7 +1349,7 @@ The object labels of the found items are returned as list."
   :ensure t)
 
 (use-package mml-sec
-  :config
+  :preface
   (defun apm-mml-secure-find-usable-key-prompt-for-missing-key (context name usage &optional justone)
     (when (y-or-n-p (format "No %s key for %s; do you want to manually choose one? "
                             usage name))
@@ -1358,6 +1358,7 @@ The object labels of the found items are returned as list."
         (if (and justone (> (length keys) 0))
             (mml-secure-select-keys context name keys usage)
           keys))))
+  :config
   (advice-add 'mml-secure-find-usable-keys :after-until #'apm-mml-secure-find-usable-key-prompt-for-missing-key))
 
 (use-package modern-cpp-font-lock
