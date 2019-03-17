@@ -1932,7 +1932,6 @@ The object labels of the found items are returned as list."
 (use-package simple
   :defer t
   :diminish visual-line-mode
-  :hook ((text-mode mu4e-view-mode) . visual-line-mode)
   :init
   ;; save whatever is in the system clipboard to the kill ring before
   ;; killing something else into the kill ring
