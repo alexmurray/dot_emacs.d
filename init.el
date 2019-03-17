@@ -1374,7 +1374,7 @@ The object labels of the found items are returned as list."
          ([(meta shift down)] . move-text-down)))
 
 (use-package mu4e
-  :bind (("C-x C-m" . mu4e))
+  :bind (("C-c m" . mu4e))
   :preface
 
   ;; some hacky bits so we can do an async forward as attachment
@@ -1663,8 +1663,9 @@ The object labels of the found items are returned as list."
 
 (use-package org-clock
   :after org
-  :bind (("C-c C-o C-g" . org-clock-goto)
-         ("C-c C-o C-o" . org-clock-out))
+  :bind (("C-c g" . org-clock-goto)
+         ("C-c i" . org-clock-in)
+         ("C-c o" . org-clock-out))
   :preface
   (defvar apm-org-clock-notification nil)
 
@@ -1743,7 +1744,7 @@ The object labels of the found items are returned as list."
 
 (use-package org-mru-clock
   :ensure t
-  :bind (("C-c C-o C-s" . org-mru-clock-in))
+  :bind (("C-c s" . org-mru-clock-in))
   :config (setq org-mru-clock-completing-read #'ivy-completing-read))
 
 (use-package org-mu4e
@@ -2014,7 +2015,7 @@ The object labels of the found items are returned as list."
 
 (use-package time
   :after erc-hl-nicks
-  :bind ((("C-c C-w" . display-time-world)))
+  :bind ((("C-c w" . display-time-world)))
   :config (let ((team '(("Australia/Adelaide" . ("amurray"))
                         ("Europe/London" . ("ChrisCoulson"))
                         ("Brazil/Recife" . ("leosilva"))
@@ -2044,7 +2045,8 @@ The object labels of the found items are returned as list."
   :config (setq-default tramp-default-method "ssh"))
 
 (use-package uct
-  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/")
+  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
+  :bind (("C-c u" . uct)))
 
 (use-package undo-propose
   :ensure t
