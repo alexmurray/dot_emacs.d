@@ -1269,7 +1269,7 @@ The object labels of the found items are returned as list."
         `((min-width . 150)
           (min-height . ,ivy-height)
           (internal-border-width . 10)))
-  (setq ivy-display-function #'ivy-posframe-display-at-frame-center)
+  (setf (alist-get t ivy-display-functions-alist) 'ivy-posframe-display-at-frame-center)
   (ivy-posframe-enable))
 
 (use-package ivy-prescient
