@@ -795,11 +795,24 @@ The object labels of the found items are returned as list."
   :preface
   (eval-when-compile
     (require 'erc-log))
+
   (defun apm-erc-find-logfile ()
     "Find and open the current `erc-mode` buffers logfile."
     (interactive)
     (when (and (eq major-mode 'erc-mode) erc-log-mode)
       (find-file-other-window (erc-current-logfile))))
+
+  (defun apm-occur-mentions-in-erc ()
+    "Find mentions of `erc-nick' in all erc buffers"
+    (interactive)
+    (let ((erc-buffers nil))
+      (dolist (buffer (buffer-list))
+        (with-current-buffer buffer
+          (when (and (eq major-mode 'erc-mode)
+                     (not (erc-server-buffer-p)))
+            (push buffer erc-buffers))))
+      (multi-occur erc-buffers (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)"))))
+
   :config
   (eval-and-compile
     (require 'erc-join)
