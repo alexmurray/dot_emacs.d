@@ -289,7 +289,9 @@
          ("C-M-%" . anzu-query-replace)))
 
 (use-package apm-misc
-  :load-path "lisp/")
+  :load-path "lisp/"
+  :bind (("C-c f c" . apm-find-uct-cve)
+         ("C-c b l" . apm-browse-lp-bug-at-point)))
 
 (use-package apparmor-mode
   :load-path "vendor/")
@@ -813,6 +815,8 @@ The object labels of the found items are returned as list."
             (push buffer erc-buffers))))
       (multi-occur erc-buffers (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)"))))
 
+  :bind (("C-c f e" . apm-erc-find-logfile)
+         ("M-s e" . apm-occur-mentions-in-erc))
   :config
   (eval-and-compile
     (require 'erc-join)
@@ -1053,6 +1057,7 @@ The object labels of the found items are returned as list."
 
 (use-package expand-region
   :ensure t
+  :bind (("C-c v" . er/expand-region))
   :config (setq expand-region-contract-fast-key "V"
                 expand-region-reset-fast-key "r"))
 
