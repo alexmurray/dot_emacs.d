@@ -1152,6 +1152,10 @@ The object labels of the found items are returned as list."
   :bind (([remap ispell-word] . flyspell-correct-word-generic)
          :map flyspell-mode-map ("C-;" . flyspell-correct-previous-word-generic)))
 
+(use-package forge
+  :ensure t
+  :after magit)
+
 (use-package fuzzy
   :ensure t)
 
@@ -1333,11 +1337,6 @@ The object labels of the found items are returned as list."
   :bind (("C-x g" . magit-status)
          ("C-x M-g" . magit-dispatch))
   :config (setq magit-completing-read-function 'ivy-completing-read))
-
-(use-package magithub
-  :ensure t
-  :after magit
-  :config (magithub-feature-autoinject t))
 
 (use-package mallard-mode
   :ensure t
