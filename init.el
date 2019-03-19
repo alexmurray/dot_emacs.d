@@ -633,6 +633,7 @@ The object labels of the found items are returned as list."
          ("M-y" . counsel-yank-pop)
          ("C-h f" . counsel-describe-function)
          ("C-h v" . counsel-describe-variable)
+         ("C-c S" . counsel-grep-or-swiper)
          :map company-active-map ("C-/" . counsel-company))
   :config
   ;; required so we can use counsel-yank-pop in the minibuffer itself
