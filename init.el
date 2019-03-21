@@ -937,31 +937,18 @@ The object labels of the found items are returned as list."
   :ensure t
   :after erc-hl-nicks
   :preface
-  ;; keep one notifications per channel buffer
-  (defvar apm-ercn-notifications nil)
   (defun apm-ercn-notify (nickname message)
-    "Displays a notification message for ERC for NICKNAME with MESSAGE."
+    "Displays an alert for ERC for NICKNAME with MESSAGE."
     (let* ((nick (erc-hl-nicks-trim-irc-nick nickname))
            (mention (string-match-p erc-nick message))
            (privmsg (string-match-p (concat "^" nickname) (buffer-name)))
            (msg (s-trim (s-collapse-whitespace message)))
-           (channel (buffer-name))
-           (id (cdr (assoc-string channel apm-ercn-notifications))))
-      (add-to-list 'apm-ercn-notifications
-                   (cons channel
-                         (notifications-notify
-                          :title (if privmsg nick (concat nick " (" channel ")"))
-                          :body (concat nick ": " msg)
-                          :app-icon "applications-chat"
-                          :replaces-id id
-                          :severity (if (or mention privmsg) 'critical 'low)
-                          :timeout 0
-                          :actions '("default" "Show")
-                          :on-action #'(lambda (id _action)
-                                         (switch-to-buffer (get-buffer channel))
-                                         (rassq-delete-all id apm-ercn-notifications))
-                          :on-close #'(lambda (id _reason)
-                                        (rassq-delete-all id apm-ercn-notifications)))))))
+           (channel (buffer-name)))
+      (alert (concat nick ": " msg)
+             :severity (if (or mention privmsg) 'critical 'normal)
+             :title (if privmsg nick (concat nick " (" channel ")"))
+             :icon "applications-chat"
+             :buffer (current-buffer))))
   ;; notify via alert when mentioned
   :hook ((ercn-notify . apm-ercn-notify))
   ;; be notified when mentioned in given channels or if in private chat
