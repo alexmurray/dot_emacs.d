@@ -1745,6 +1745,19 @@ The object labels of the found items are returned as list."
   (org-notify-add 'default '(:time "60m" :actions -notify/window :period "2m" :duration 600))
   (org-notify-add 'default '(:time "15m" :actions -notify/window :period "2m" :duration 120)))
 
+(use-package org-protocol
+  :ensure org-plus-contrib
+  :init (let ((handler (shell-command-to-string "xdg-mime query default x-scheme-handler/org-protocol")))
+          (unless (string-match "^emacsclient.*.desktop" handler)
+            ;; ensure an emacsclient26.desktop file exists in
+            ;; ~/.local/share/applications and that it has a MimeType
+            ;; entry of x-scheme-handler/org-protocol;
+
+            ;; then run the following to set it as the default handler:
+            ;; xdg-mime default emacsclient26.desktop \
+            ;; x-scheme-handler/org-protocol
+            (alert "Please configure emacsclient as handler for org-protocol"))))
+
 (use-package org-table-sticky-header
   :ensure t
   :after org
