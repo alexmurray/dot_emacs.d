@@ -1605,12 +1605,11 @@ The object labels of the found items are returned as list."
          ("C-c c" . org-capture)
          ("C-c l" . org-store-link))
   :config
-  (setq org-agenda-files (mapcar #'expand-file-name
-                                 '("~/Dropbox/Orgzly/personal.org"
-                                   "~/Dropbox/Orgzly/canonical.org"
-                                   "~/Dropbox/Orgzly/general.org"
-                                   "~/Dropbox/Orgzly/blog.org"
-                                   "~/Dropbox/Orgzly/notes.org"))
+  (setq org-directory (expand-file-name "~/Dropbox/Orgzly/")
+        org-agenda-files (mapcar #'(lambda (f)
+                                     (expand-file-name f org-directory))
+                                 '("personal.org" "canonical.org"
+                                   "general.org" "blog.org" "notes.org"))
         ;; don't indent org document sections etc
         org-adapt-indentation nil
         org-imenu-depth 4
@@ -1639,10 +1638,14 @@ The object labels of the found items are returned as list."
 
 (use-package org-capture
   :after org
-  :config (setq org-capture-templates '(("t" "todo" entry (file+headline "~/Dropbox/Orgzly/canonical.org" "Tasks")
+  :config (setq org-capture-templates '(("t" "todo" entry (file+headline ,(concat org-directory "canonical.org") "Tasks")
                                          "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
-                                        ("i" "Topic" entry (file "~/Dropbox/Orgzly/canonical.org")
-                                         "* %?\n%a\n"))))
+                                        ("i" "Topic" entry (file ,(concat org-directory "canonical.org"))
+                                         "* %?\n%a\n")
+                                        ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+                                         "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+                                        ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+                                         "* %? [[%:link][%:description]] \nCaptured On: %U"))))
 
 (use-package org-clock
   :after org
@@ -1702,7 +1705,7 @@ The object labels of the found items are returned as list."
         ;; resume clocking task on clock-in if the clock is open
         org-clock-in-resume t
         ;; persist clock data into Dropbox
-        org-clock-persist-file (expand-file-name "~/Dropbox/Orgzly/org-clock-save.el")
+        org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
         ;; insert a note when TODOs are marked DONE
         org-log-done 'note)
   (setq org-clock-x11idle-program-name "xprintidle")
@@ -1756,6 +1759,9 @@ The object labels of the found items are returned as list."
             ;; then run the following to set it as the default handler:
             ;; xdg-mime default emacsclient26.desktop \
             ;; x-scheme-handler/org-protocol
+
+            ;; also see the following
+            ;; https://github.com/sprig/org-capture-extension#under-linux
             (alert "Please configure emacsclient as handler for org-protocol"))))
 
 (use-package org-table-sticky-header
