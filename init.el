@@ -1638,13 +1638,13 @@ The object labels of the found items are returned as list."
 
 (use-package org-capture
   :after org
-  :config (setq org-capture-templates '(("t" "todo" entry (file+headline ,(concat org-directory "canonical.org") "Tasks")
+  :config (setq org-capture-templates `(("t" "todo" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Tasks")
                                          "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
-                                        ("i" "Topic" entry (file ,(concat org-directory "canonical.org"))
+                                        ("i" "Topic" entry (file ,(expand-file-name "canonical.org" org-directory))
                                          "* %?\n%a\n")
-                                        ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+                                        ("p" "Protocol" entry (file+headline ,(expand-file-name "notes.org") "Inbox" org-directory)
                                          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-                                        ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+                                        ("L" "Protocol Link" entry (file+headline ,(expand-file-name "notes.org") "Inbox" org-directory)
                                          "* %? [[%:link][%:description]] \nCaptured On: %U"))))
 
 (use-package org-clock
