@@ -2014,13 +2014,17 @@ The object labels of the found items are returned as list."
   :bind ((("C-c w" . display-time-world)))
   :config (let ((team '(("Australia/Adelaide" . ("amurray"))
                         ("Europe/London" . ("ChrisCoulson"))
-                        ("Brazil/Recife" . ("leosilva"))
-                        ("Brazil/Sao_Paulo" . ("ebarretto" "pfsmorigo"))
+                        ("Brazil/East" . ("leosilva"))
+                        ("Brazil/East" . ("ebarretto" "pfsmorigo"))
                         ("US/Eastern" . ("msalvatore" "vineetha1"))
                         ("Canada/Eastern" . ("mdeslaur"))
                         ("US/Central" . ("jdstrand" "jmbl" "tyhicks"))
                         ("US/Mountain" . ("joe"))
                         ("US/Pacific" . ("jjohansen" "sarnold" "sbeattie")))))
+            ;; validate team
+            (dolist (member team)
+              (unless (file-exists-p (expand-file-name (car member) "/usr/share/zoneinfo"))
+                (user-error "TZ %s does not exist!" (car member))))
             (setq zoneinfo-style-world-list
                   ;; make nicks stand out
                   (mapcar #'(lambda (member)
