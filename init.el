@@ -568,6 +568,10 @@ The object labels of the found items are returned as list."
   ;; keep original case
   :config (setq company-dabbrev-downcase nil))
 
+(use-package company-gnome-shell
+  :load-path "vendor/company-gnome-shell/"
+  :after (company gnome-shell-mode))
+
 (use-package company-lsp
   :ensure t
   :after company
@@ -1154,6 +1158,9 @@ The object labels of the found items are returned as list."
 (use-package gitignore-mode
   :ensure t
   :defer t)
+
+(use-package gnome-shell-mode
+  :load-path "vendor/gnome-shell-mode/")
 
 (use-package gnuplot
   :ensure t)
