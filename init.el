@@ -961,12 +961,6 @@ The object labels of the found items are returned as list."
   :ensure t
   :after erc)
 
-(use-package erc-tweet
-  :ensure t
-  :after erc
-  :config (add-to-list 'erc-modules 'tweet)
-  (erc-update-modules))
-
 (use-package erc-track-score
   :ensure t
   :disabled t
@@ -980,12 +974,6 @@ The object labels of the found items are returned as list."
                                   (regexp-quote
                                    (expand-file-name
                                     erc-log-channels-directory))) . erc-view-log-mode)))
-
-(use-package erc-youtube
-  :ensure t
-  :after erc
-  :config (add-to-list 'erc-modules 'youtube)
-  (erc-update-modules))
 
 (use-package eudc
   ;; Store password using secret-tool as follows:
