@@ -1736,6 +1736,7 @@ The object labels of the found items are returned as list."
   :ensure org-plus-contrib
   :after org
   :config
+  (setq org-notify-audible nil)
   (org-notify-start)
   (org-notify-add 'default '(:time "24h" :actions -notify/window :duration 600))
   (org-notify-add 'default '(:time "60m" :actions -notify/window :period "2m" :duration 600))
