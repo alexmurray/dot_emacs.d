@@ -2115,7 +2115,7 @@ The object labels of the found items are returned as list."
   :hook ((prog-mode . whitespace-mode))
   :init
   ;; show trailing whitespace
-  (setq-default whitespace-style '(face trailing)))
+  (setq-default whitespace-style '(face lines-tail empty trailing tab space-before-tab space-after-tab)))
 
 (use-package windmove
   :ensure t
