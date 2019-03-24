@@ -290,8 +290,7 @@
 
 (use-package apm-misc
   :load-path "lisp/"
-  :bind (("C-c f c" . apm-find-uct-cve)
-         ("C-c b l" . apm-browse-lp-bug-at-point)))
+  :bind (("C-c b l" . apm-browse-lp-bug-at-point)))
 
 (use-package apparmor-mode
   :load-path "vendor/")
@@ -2064,7 +2063,9 @@ The object labels of the found items are returned as list."
 
 (use-package uct
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
-  :bind (("C-c u" . uct)))
+  :defer nil
+  :bind (("C-c u" . uct)
+         ("C-c f c" . uct-find-cve)))
 
 (use-package undo-propose
   :ensure t
