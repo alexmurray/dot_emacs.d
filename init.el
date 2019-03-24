@@ -1536,7 +1536,7 @@ The object labels of the found items are returned as list."
                '("browser view" . mu4e-action-view-in-browser) t)
 
   (setq mu4e-split-view 'vertical)
-  (setq mu4e-headers-visible-columns 120)
+  (setq mu4e-headers-visible-columns 116)
   (setq mu4e-completing-read-function 'completing-read)
   (setq mu4e-headers-fields '((:human-date . 12)
                               (:flags . 6)
