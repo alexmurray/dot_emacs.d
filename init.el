@@ -1504,7 +1504,8 @@ The object labels of the found items are returned as list."
   ;; needed for mbsync
   (setq mu4e-change-filenames-when-moving t)
 
-  (setq mu4e-compose-format-flowed t)
+  ;; ensure this is off
+  (setq mu4e-compose-format-flowed nil)
   (setq mu4e-headers-sort-direction 'ascending)
   (setq mu4e-use-fancy-chars t)
 
