@@ -863,7 +863,7 @@ The object labels of the found items are returned as list."
   (add-to-list 'erc-modules 'spelling)
   (erc-update-modules)
 
-  (setq erc-pals '("Beret" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "tyhicks" "ratliff" "kees"))
+  (setq erc-pals '("Beret" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "markmorlino" "tyhicks" "ratliff" "kees"))
   (setq erc-keywords '("[Cc][Vv][Ee]" "vulnerability" "apparmor" "seccomp" "exploit" "security"))
 
   ;; when joining don't bring to front
@@ -2033,7 +2033,7 @@ The object labels of the found items are returned as list."
                         ("Europe/London" . ("ChrisCoulson"))
                         ("Brazil/East" . ("leosilva"))
                         ("Brazil/East" . ("ebarretto" "pfsmorigo"))
-                        ("US/Eastern" . ("msalvatore" "vineetha1"))
+                        ("US/Eastern" . ("markmorlino" "msalvatore" "vineetha1"))
                         ("Canada/Eastern" . ("mdeslaur"))
                         ("US/Central" . ("jdstrand" "jmbl" "tyhicks"))
                         ("US/Mountain" . ("joe"))
