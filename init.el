@@ -1882,6 +1882,9 @@ The object labels of the found items are returned as list."
   :defer t
   :init (setq-default python-indent-offset 4))
 
+(use-package quilt
+  :ensure t)
+
 (use-package racer
   :ensure t
   :preface
