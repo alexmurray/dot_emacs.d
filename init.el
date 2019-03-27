@@ -234,7 +234,8 @@
 (use-package ace-window
   :ensure t
   :defer t
-  :bind (("C-x o" . ace-window)))
+  :bind (("C-x o" . ace-window))
+  :config (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 (use-package adaptive-wrap
   :ensure t
@@ -1616,7 +1617,7 @@ The object labels of the found items are returned as list."
          ("C-c c" . org-capture)
          ("C-c l" . org-store-link))
   :config
-  (setq org-directory (expand-file-name "~/Dropbox/Orgzly/")
+  (setq org-directory (expand-file-name "~/org-files/")
         org-agenda-files (mapcar #'(lambda (f)
                                      (expand-file-name f org-directory))
                                  '("personal.org" "canonical.org"
@@ -1715,7 +1716,7 @@ The object labels of the found items are returned as list."
         org-clock-persist t
         ;; resume clocking task on clock-in if the clock is open
         org-clock-in-resume t
-        ;; persist clock data into Dropbox
+        ;; persist clock data into org-directory
         org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
         ;; insert a note when TODOs are marked DONE
         org-log-done 'note)
