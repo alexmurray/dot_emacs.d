@@ -916,13 +916,12 @@ The object labels of the found items are returned as list."
                                   "324" "329" "332" "333" "353" "477"))
   (setq erc-track-exclude-server-buffer t)
   (setq erc-track-showcount t)
+  ;; see erc-hl-nicks below where we add pals to this list too
   (setq erc-track-faces-priority-list
         '(erc-query-buffer-face
           erc-current-nick-face
           erc-keyword-face
-          erc-pal-face
-          erc-default-face))
-
+          erc-pal-face))
   (setq erc-track-priority-faces-only 'all)
 
   ;; only hide join / part / quit for those who are idle for more
@@ -967,7 +966,14 @@ The object labels of the found items are returned as list."
 
 (use-package erc-hl-nicks
   :ensure t
-  :after erc)
+  :after erc
+  ;; erc-match will highlight pals with erc-pal-face so override that
+  ;; for pretty colors
+  :config
+  (delete "erc-pal-face" erc-hl-nicks-skip-faces)
+  ;; ensure pals faces exist and are in the list of faces to track
+  (dolist (pal erc-pals)
+    (add-to-list 'erc-track-faces-priority-list (erc-hl-nicks-make-face pal) t)))
 
 (use-package erc-image
   :ensure t
