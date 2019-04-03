@@ -973,7 +973,10 @@ The object labels of the found items are returned as list."
   (delete "erc-pal-face" erc-hl-nicks-skip-faces)
   ;; ensure pals faces exist and are in the list of faces to track
   (dolist (pal erc-pals)
-    (add-to-list 'erc-track-faces-priority-list (erc-hl-nicks-make-face pal) t)))
+    (add-to-list 'erc-track-faces-priority-list
+                 ;; this needs to be a list of all the faces which pals
+                 ;; will have since they have multiple ones
+                 `(,(erc-hl-nicks-make-face pal) erc-nick-default-face erc-pal-face) t)))
 
 (use-package erc-image
   :ensure t
