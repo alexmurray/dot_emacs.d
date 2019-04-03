@@ -2203,6 +2203,7 @@ The object labels of the found items are returned as list."
     (when (y-or-n-p "Connect to IRC? ")
       (znc-all disconnect)))
 
+  :hook ((after-init . apm-znc-all))
   :config
   (unless (url-gateway-nslookup-host apm-znc-server)
     ;; need to ensure /etc/hosts points znc.secret.server to
@@ -2211,9 +2212,7 @@ The object labels of the found items are returned as list."
   (unless apm-znc-password
     ;; secret-tool store --label=ZNC user amurray port 7076
     (alert "Please store ZNC password in keyring via secret-tool"))
-  (setq znc-servers apm-znc-servers)
-  (let ((hook (if (daemonp) 'after-make-frame-functions 'after-init-hook)))
-    (add-hook hook #'apm-znc-all)))
+  (setq znc-servers apm-znc-servers))
 
 ;; set gc-cons-threshold back to original value
 (add-hook 'emacs-startup-hook #'apm-set-gc-threshold)
