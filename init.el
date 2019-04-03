@@ -1088,7 +1088,7 @@ The object labels of the found items are returned as list."
 
 (use-package flycheck-clang-analyzer
   :ensure t
-  :after flycheck-cstyle
+  :after flycheck
   :ensure-system-package clang
   :config
   (setq flycheck-clang-analyzer-executable "clang")
@@ -1102,6 +1102,7 @@ The object labels of the found items are returned as list."
 (use-package flycheck-coverity
   :ensure t
   :after flycheck-clang-analyzer
+  :disabled t
   :init (unless (executable-find "cov-run-desktop")
           (alert "cov-run-desktop not found - is it installed?"))
   :config
