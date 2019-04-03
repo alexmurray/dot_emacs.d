@@ -1277,16 +1277,6 @@ The object labels of the found items are returned as list."
   :after ivy
   :config (ivy-rich-mode 1))
 
-(use-package ivy-posframe
-  :ensure t
-  :after (ivy posframe)
-  :config
-  (setq ivy-posframe-parameters
-        `((min-width . 150)
-          (min-height . ,ivy-height)))
-  (setf (alist-get t ivy-display-functions-alist) 'ivy-posframe-display-at-frame-center)
-  (ivy-posframe-enable))
-
 (use-package ivy-prescient
   :ensure t
   :after (ivy prescient)
