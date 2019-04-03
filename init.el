@@ -1321,12 +1321,11 @@ The object labels of the found items are returned as list."
   :ensure t
   :after lsp-mode
   :hook ((lsp-mode . lsp-ui-mode))
-  :config
-  ;; use the original icon since was removed in
-  ;; https://github.com/emacs-lsp/lsp-ui/commit/0dff02a1d02f16ab017f2ad7cd4a9913733f48ca
-  ;; due to others not having unicode
-  (setq lsp-ui-sideline-code-actions-prefix "ℹ ")
-  (setq lsp-ui-sideline-show-symbol nil))
+  :config (setq lsp-ui-sideline-enable nil
+                lsp-ui-doc-enable t
+                lsp-ui-doc-use-childframe t
+                lsp-ui-doc-position 'top
+                lsp-ui-doc-include-signature t))
 
 (use-package magit
   :ensure t
