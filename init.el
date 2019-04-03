@@ -861,6 +861,7 @@ The object labels of the found items are returned as list."
          ("M-s e" . apm-occur-mentions-in-erc))
   :config
   (eval-and-compile
+    (require 'erc-desktop-notifications)
     (require 'erc-join)
     (require 'erc-log)
     (require 'erc-match)
@@ -892,6 +893,7 @@ The object labels of the found items are returned as list."
 
   (add-to-list 'erc-modules 'log)
   (add-to-list 'erc-modules 'match)
+  (add-to-list 'erc-modules 'notifications)
   (add-to-list 'erc-modules 'scrolltobottom)
   (add-to-list 'erc-modules 'services)
   (add-to-list 'erc-modules 'spelling)
@@ -973,30 +975,6 @@ The object labels of the found items are returned as list."
   :config
   (add-to-list 'erc-modules 'image)
   (erc-update-modules))
-
-(use-package ercn
-  :ensure t
-  :after erc-hl-nicks
-  :preface
-  (defun apm-ercn-notify (nickname message)
-    "Displays an alert for ERC for NICKNAME with MESSAGE."
-    (let* ((nick (erc-hl-nicks-trim-irc-nick nickname))
-           (mention (string-match-p erc-nick message))
-           (privmsg (string-match-p (concat "^" nickname) (buffer-name)))
-           (msg (s-trim (s-collapse-whitespace message)))
-           (channel (buffer-name)))
-      (alert (concat nick ": " msg)
-             :severity (if (or mention privmsg) 'critical 'normal)
-             :title (if privmsg nick (concat nick " (" channel ")"))
-             :icon "applications-chat"
-             :buffer (current-buffer))))
-  ;; notify via alert when mentioned
-  :hook ((ercn-notify . apm-ercn-notify))
-  ;; be notified when mentioned in given channels or if in private chat
-  :config (setq ercn-notify-rules
-                '((current-nick . all)
-                  (keyword . all)
-                  (query-buffer . all))))
 
 (use-package erc-status-sidebar
   :ensure t
