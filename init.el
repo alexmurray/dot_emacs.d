@@ -168,6 +168,9 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (toggle-frame-maximized)
 
+;; set preferred font
+(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
+
 ;; prompt when trying to switch out of a dedicated window
 (setq switch-to-buffer-in-dedicated-window 'prompt)
 
@@ -176,32 +179,6 @@
 (setq scroll-preserve-screen-position 'always)
 (global-set-key (kbd "M-n") (kbd "C-1 C-v"))
 (global-set-key (kbd "M-p") (kbd "M-1 M-v"))
-
-(defvar apm-preferred-font-name "Dejavu Sans Mono"
-  "Preferred font to use.")
-
-(defvar apm-preferred-font-package "fonts-dejavu-core"
-  "Package to install to get `apm-preferred-font-name'.")
-
-(defvar apm-preferred-font-height 10
-  "Preferred font height to use.")
-
-(defun apm-graphic-frame-init (&optional frame)
-  "Initialise properties specific to graphical display for FRAME."
-  (interactive)
-  (with-selected-frame frame
-    (remove-hook 'after-make-frame-functions #'apm-graphic-frame-init)
-    (if (font-info apm-preferred-font-name)
-        (set-frame-font (format "%s-%d"
-                                apm-preferred-font-name
-                                apm-preferred-font-height)
-                        nil (list frame))
-      (system-packages-install apm-preferred-font-package))))
-
-(if (daemonp)
-    ;; make sure graphical properties get set on client frames
-    (add-hook 'after-make-frame-functions #'apm-graphic-frame-init)
-  (apm-graphic-frame-init (selected-frame)))
 
 ;; Use regex searches and replace by default.
 (bind-key "C-s" 'isearch-forward-regexp)
