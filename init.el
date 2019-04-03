@@ -76,8 +76,7 @@
   :ensure t
   :config
   (load-theme 'doom-one t)
-  ;; doesn't play nicely with erc - all erc modelines are red!
-  ;; (doom-themes-visual-bell-config)
+  (doom-themes-visual-bell-config)
   (doom-themes-org-config))
 
 ;; used in some of my yasnippet snippets
