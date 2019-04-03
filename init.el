@@ -1304,7 +1304,8 @@ The object labels of the found items are returned as list."
 
 (use-package lsp-mode
   :ensure t
-  :hook ((prog-mode . lsp)))
+  :hook ((prog-mode . lsp))
+  :config (setq lsp-prefer-flymake nil))
 
 (use-package lsp-imenu
   :ensure lsp-mode
