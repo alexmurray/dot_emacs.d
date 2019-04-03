@@ -684,8 +684,8 @@ The object labels of the found items are returned as list."
   :config
   ;; open project in vc after switching
   (counsel-projectile-modify-action
- 'counsel-projectile-switch-project-action
- '((default counsel-projectile-switch-project-action-vc)))
+   'counsel-projectile-switch-project-action
+   '((default counsel-projectile-switch-project-action-vc)))
   (counsel-projectile-mode))
 
 (use-package counsel-world-clock
