@@ -593,7 +593,7 @@ The object labels of the found items are returned as list."
                 (Event . ,(all-the-icons-faicon "bolt" :height 0.9 :v-adjust -0.06 :face 'all-the-icons-orange))
                 (Operator . ,(all-the-icons-material "control_point" :height 0.9 :v-adjust -0.2))
                 (TypeParameter . ,(all-the-icons-faicon "arrows" :height 0.9 :v-adjust -0.06))
-                (Template . ,(all-the-icons-material "format_align_center" :height 0.9 :v-adjust -0.2))))))))
+                (Template . ,(all-the-icons-material "format_align_center" :height 0.9 :v-adjust -0.2))))))
 
 (use-package company-dabbrev
   :after company
