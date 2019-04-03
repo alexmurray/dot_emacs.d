@@ -841,16 +841,21 @@ The object labels of the found items are returned as list."
     (when (and (eq major-mode 'erc-mode) erc-log-mode)
       (find-file-other-window (erc-current-logfile))))
 
-  (defun apm-occur-mentions-in-erc ()
-    "Find mentions of `erc-nick' in all erc buffers"
-    (interactive)
+  (defun apm-occur-in-erc (regexp)
+    "Find matches of REGEXP in all erc buffers"
+    (interactive "sRegexp: ")
     (let ((erc-buffers nil))
       (dolist (buffer (buffer-list))
         (with-current-buffer buffer
           (when (and (eq major-mode 'erc-mode)
                      (not (erc-server-buffer-p)))
             (push buffer erc-buffers))))
-      (multi-occur erc-buffers (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)"))))
+      (multi-occur erc-buffers regexp)))
+
+  (defun apm-occur-mentions-in-erc ()
+    "Find mentions of `erc-nick' in all erc buffers"
+    (interactive)
+    (apm-occur-in-erc (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)")))
 
   :bind (("C-c f e" . apm-erc-find-logfile)
          ("M-s e" . apm-occur-mentions-in-erc))
