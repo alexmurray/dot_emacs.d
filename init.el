@@ -1548,7 +1548,7 @@ The object labels of the found items are returned as list."
                '("browser view" . mu4e-action-view-in-browser) t)
 
   (setq mu4e-split-view 'vertical)
-  (setq mu4e-headers-visible-columns 116)
+  (setq mu4e-headers-visible-columns 120)
   (setq mu4e-completing-read-function 'completing-read)
   (setq mu4e-headers-fields '((:human-date . 12)
                               (:flags . 6)
@@ -1565,25 +1565,6 @@ The object labels of the found items are returned as list."
 
   ;; show full addresses in message view
   (setq mu4e-view-show-addresses t)
-
-  ;; redefine this mu4e function so we preserve non-breaking spaces -
-  ;; https://github.com/djcb/mu/issues/1339
-  (defun mu4e-message-outlook-cleanup (_ txt)
-    "Remove some crap from the remaining string; it seems
-   esp. outlook lies about its encoding (ie., it says
-   'iso-8859-1' but really it's 'windows-1252'), thus giving us
-   these funky chars. here, we either remove them, or replace
-   with 'what-was-meant' (heuristically)."
-    (with-temp-buffer
-      (insert txt)
-      (goto-char (point-min))
-      (while (re-search-forward "[ ]" nil t)
-        (replace-match
-         (cond
-          ((string= (match-string 0) "") "'")
-          ((string= (match-string 0) " ") " ")
-          (t ""))))
-      (buffer-string)))
 
   ;; always start mu4e in the background
   (mu4e t))
