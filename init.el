@@ -179,14 +179,6 @@
 (global-set-key (kbd "M-n") (kbd "C-1 C-v"))
 (global-set-key (kbd "M-p") (kbd "M-1 M-v"))
 
-;; Use regex searches and replace by default.
-(bind-key "C-s" 'isearch-forward-regexp)
-(bind-key "C-r" 'isearch-backward-regexp)
-(bind-key "M-%" 'query-replace-regexp)
-(bind-key "C-M-s" 'isearch-forward)
-(bind-key "C-M-r" 'isearch-backward)
-(bind-key "C-M-%" 'query-replace)
-
 ;; from http://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html
 (defun endless/fill-or-unfill ()
   "Like `fill-paragraph', but unfill if used twice."
@@ -2018,6 +2010,11 @@ The object labels of the found items are returned as list."
 
 (use-package suggest
   :ensure t)
+
+(use-package swiper
+  :ensure t
+  :bind (("C-s" . swiper-isearch)
+         ("C-r" . swiper-isearch)))
 
 (use-package systemd
   :ensure t)
