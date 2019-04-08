@@ -662,7 +662,8 @@ The object labels of the found items are returned as list."
          ("C-h v" . counsel-describe-variable)
          ("C-c S" . counsel-grep-or-swiper)
          ("M-s s" . counsel-grep-or-swiper)
-         :map company-active-map ("C-/" . counsel-company))
+         :map company-active-map ("C-/" . counsel-company)
+         :map org-mode-map ("M-i" . counsel-org-goto))
   :config
   ;; required so we can use counsel-yank-pop in the minibuffer itself
   (setq enable-recursive-minibuffers t)
