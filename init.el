@@ -1035,14 +1035,16 @@ This will replace the last notification sent with this function."
   :config
   (eval-when-compile
     (require 'ldap))
+  (setq eudc-server "ldaps://ldap.canonical.com")
   (setq eudc-server-hotlist
         '(("ldaps://ldap.canonical.com" . ldap)))
   (setq eudc-inline-expansion-servers 'hotlist)
   (setq ldap-host-parameters-alist
-        '(("ldaps://ldap.canonical.com"
+        `(("ldaps://ldap.canonical.com"
            base "ou=staff,dc=canonical,dc=com"
            binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
-           auth-source t))))
+           auth-source t)))
+    (setq ldap-default-host "ldaps://ldap.canonical.com"))
 
 (use-package eshell
   :defer t
