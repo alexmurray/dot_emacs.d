@@ -653,7 +653,7 @@ The object labels of the found items are returned as list."
 
 (use-package counsel
   :ensure t
-  :after ivy
+  :after ivy org
   :diminish counsel-mode
   :init (counsel-mode 1)
   :bind (("C-x C-r" . counsel-recentf)
@@ -662,8 +662,8 @@ The object labels of the found items are returned as list."
          ("C-h v" . counsel-describe-variable)
          ("C-c S" . counsel-grep-or-swiper)
          ("M-s s" . counsel-grep-or-swiper)
-         :map company-active-map ("C-/" . counsel-company)
-         :map org-mode-map ("M-i" . counsel-org-goto))
+         :map outline-mode-map ("M-i" . counsel-outline)
+         :map company-active-map ("C-/" . counsel-company))
   :config
   ;; required so we can use counsel-yank-pop in the minibuffer itself
   (setq enable-recursive-minibuffers t)
