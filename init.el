@@ -854,12 +854,14 @@ The object labels of the found items are returned as list."
          ("M-s e" . apm-occur-mentions-in-erc))
   :config
   (eval-and-compile
+    (require 'erc-button)
     (require 'erc-desktop-notifications)
     (require 'erc-join)
     (require 'erc-log)
     (require 'erc-match)
     (require 'erc-networks)
-    (require 'erc-services))
+    (require 'erc-services)
+    (require 'erc-track))
   ;; canonical irc - we use this via znc-erc below
   (add-to-list 'erc-networks-alist '(Canonical "canonical.com"))
   (setq erc-nick "amurray")
@@ -884,6 +886,7 @@ The object labels of the found items are returned as list."
   ;; use sensible buffer names with server as well
   (setq erc-rename-buffers t)
 
+  (add-to-list 'erc-modules 'button)
   (add-to-list 'erc-modules 'log)
   (add-to-list 'erc-modules 'match)
   (add-to-list 'erc-modules 'notifications)
@@ -916,6 +919,10 @@ The object labels of the found items are returned as list."
           erc-keyword-face
           erc-pal-face))
   (setq erc-track-priority-faces-only 'all)
+
+  (add-to-list 'erc-nick-popup-alist
+               '("Directory" .
+                 (eudc-display-records (eudc-query  `((mozillaNickName . ,nick))))))
 
   ;; only hide join / part / quit for those who are idle for more
   ;; than 10 hours (ie are using a bouncer)
@@ -966,10 +973,13 @@ The object labels of the found items are returned as list."
   (delete "erc-pal-face" erc-hl-nicks-skip-faces)
   ;; ensure pals faces exist and are in the list of faces to track
   (dolist (pal erc-pals)
+    ;; this needs to be a list of all the faces which pals will have
+    ;; since they have multiple ones - sometimes seems to include
+    ;; erc-nick-default-face but sometimes not..?
     (add-to-list 'erc-track-faces-priority-list
-                 ;; this needs to be a list of all the faces which pals
-                 ;; will have since they have multiple ones
-                 `(,(erc-hl-nicks-make-face pal) erc-nick-default-face erc-pal-face) t)))
+                 `(,(erc-hl-nicks-make-face pal) erc-nick-default-face erc-pal-face) t)
+    (add-to-list 'erc-track-faces-priority-list
+                 `(,(erc-hl-nicks-make-face pal) erc-pal-face) t)))
 
 (use-package erc-image
   :ensure t
