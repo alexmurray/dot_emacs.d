@@ -358,10 +358,6 @@ The object labels of the found items are returned as list."
   ;; insert chars infront of target rather than over target
   (setq avy-style 'pre))
 
-(use-package beacon
-  :ensure t
-  :config (beacon-mode 1))
-
 (use-package beginend
   :ensure t
   :diminish beginend-global-mode
