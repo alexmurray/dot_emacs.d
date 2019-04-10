@@ -71,13 +71,16 @@
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
 
-;; load themes early so looks nicer
 (use-package doom-themes
   :ensure t
+  :defer t)
+
+(use-package circadian
+  :ensure t
   :config
-  (load-theme 'doom-one t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
+  (setq circadian-themes '(("7:00" . doom-solarized-light)
+                           ("18:00" . doom-one)))
+  (circadian-setup))
 
 ;; used in some of my yasnippet snippets
 (defun apm-camelize (s &optional delim)
