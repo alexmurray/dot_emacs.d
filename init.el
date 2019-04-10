@@ -405,7 +405,6 @@ The object labels of the found items are returned as list."
   :defer t
   :hook ((rust-mode . cargo-minor-mode)))
 
-
 (use-package cc-mode
   :defer t
   :preface
@@ -428,13 +427,10 @@ The object labels of the found items are returned as list."
       (local-set-key (kbd "C-)") 'sp-slurp-hybrid-sexp)
       (local-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
       (local-set-key (kbd "C-<left>") 'sp-dedent-adjust-sexp)))
-  :hook ((c-mode-common . apm-c-mode-common-setup)))
-
-(use-package apm-c
-  :load-path "lisp/"
-  :preface
+  :hook ((c-mode-common . apm-c-mode-common-setup))
+  :config
+  ;; from https://www.kernel.org/doc/html/v5.0/process/coding-style.html
   (defvar c-syntactic-element)
-  ;; from https://www.kernel.org/doc/html/v4.10/process/coding-style.html
   (defun c-lineup-arglist-tabs-only (ignored)
     "Line up argument lists by tabs, not spaces"
     (let* ((anchor (c-langelem-pos c-syntactic-element))
@@ -442,6 +438,16 @@ The object labels of the found items are returned as list."
            (offset (- (1+ column) anchor))
            (steps (floor offset c-basic-offset)))
       (* (max steps 1) c-basic-offset)))
+  ;; Add upstream kernel style which uses actual tabs
+  (c-add-style "linux-tabs-only"
+               '("linux" (c-offsets-alist
+                          (arglist-cont-nonempty
+                           c-lineup-gcc-asm-reg
+                           c-lineup-arglist-tabs-only)))))
+
+(use-package apm-c
+  :load-path "lisp/"
+  :preface
   (defun apm-c-mode-setup ()
     "Tweaks and customisations for `c-mode'."
     (let ((filename (buffer-file-name)))
@@ -464,13 +470,7 @@ The object labels of the found items are returned as list."
     ;; paragraphs properly
     (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
   :hook ((c-mode c++-mode) . apm-c-mode-setup)
-  ;; Add upstream kernel style which uses actual tabs
   :config
-  (c-add-style "linux-tabs-only"
-               '("linux" (c-offsets-alist
-                          (arglist-cont-nonempty
-                           c-lineup-gcc-asm-reg
-                           c-lineup-arglist-tabs-only))))
   ;; treat linux styles as safe for local variable
   (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
   (add-to-list 'safe-local-variable-values '(c-indentation-style . linux-tabs-only)))
