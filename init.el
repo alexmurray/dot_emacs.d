@@ -898,13 +898,6 @@ This will replace the last notification sent with this function."
                                   "324" "329" "332" "333" "353" "477"))
   (setq erc-track-exclude-server-buffer t)
   (setq erc-track-showcount t)
-  ;; see erc-hl-nicks below where we add pals to this list too
-  (setq erc-track-faces-priority-list
-        '(erc-query-buffer-face
-          erc-current-nick-face
-          erc-keyword-face
-          erc-pal-face))
-  (setq erc-track-priority-faces-only 'all)
 
   (add-to-list 'erc-nick-popup-alist
                ;; defined down in eudc use-package
@@ -955,17 +948,7 @@ This will replace the last notification sent with this function."
   :after erc
   ;; erc-match will highlight pals with erc-pal-face so override that
   ;; for pretty colors
-  :config
-  (delete "erc-pal-face" erc-hl-nicks-skip-faces)
-  ;; ensure pals faces exist and are in the list of faces to track
-  (dolist (pal erc-pals)
-    ;; this needs to be a list of all the faces which pals will have
-    ;; since they have multiple ones - sometimes seems to include
-    ;; erc-nick-default-face but sometimes not..?
-    (add-to-list 'erc-track-faces-priority-list
-                 `(,(erc-hl-nicks-make-face pal) erc-nick-default-face erc-pal-face) t)
-    (add-to-list 'erc-track-faces-priority-list
-                 `(,(erc-hl-nicks-make-face pal) erc-pal-face) t)))
+  :config (delete "erc-pal-face" erc-hl-nicks-skip-faces))
 
 (use-package erc-image
   :ensure t
