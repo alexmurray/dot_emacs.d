@@ -120,9 +120,6 @@
 ;; remove message from initial scratch buffer
 (setq initial-scratch-message nil)
 
-;; Make Tab complete if the line is indented
-(setq tab-always-indent 'complete)
-
 ;; disable menu, tool and scroll-bars, show time
 (menu-bar-mode 0)
 (tool-bar-mode 0)
