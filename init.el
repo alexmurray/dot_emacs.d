@@ -148,6 +148,10 @@
 (setq scroll-step 1
       scroll-margin 0
       scroll-conservatively 100000)
+
+;; make emacs less laggy
+(setq inhibit-compacting-font-caches t)
+
 (set-language-environment "UTF-8")
 
 ;; default to maximised windows
