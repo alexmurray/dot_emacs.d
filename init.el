@@ -610,13 +610,6 @@ The object labels of the found items are returned as list."
   :after (company prescient)
   :config (company-prescient-mode 1))
 
-(use-package company-tracwiki
-  :load-path "vendor/"
-  :disabled t
-  :after company
-  :commands company-tracwiki
-  :init (add-to-list 'company-backends 'company-tracwiki))
-
 (use-package company-web
   :ensure t
   :defer t
