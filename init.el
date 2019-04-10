@@ -97,22 +97,6 @@
          :severity 'high))
 
 
-;; minibuffer settings
-;; automatically garbage collect when switch away from emacs
-(add-hook 'focus-out-hook 'garbage-collect)
-
-;; set high gc limit for minibuffer so doesn't slowdown on helm etc
-(defun apm-minibuffer-setup ()
-  "Setup minibuffer."
-  (setq gc-cons-threshold most-positive-fixnum))
-
-(defun apm-minibuffer-exit ()
-  "Undo minibuffer setup."
-  (setq gc-cons-threshold (* 64 1024 1024)))
-
-(add-hook 'minibuffer-setup-hook #'apm-minibuffer-setup)
-(add-hook 'minibuffer-exit-hook #'apm-minibuffer-exit)
-
 ;;; General settings etc
 
 ;; personalisation
