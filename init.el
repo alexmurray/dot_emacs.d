@@ -592,13 +592,6 @@ The object labels of the found items are returned as list."
   (add-to-list 'company-backends 'company-math-symbols-unicode)
   (add-to-list 'company-backends 'company-math-symbols-latex))
 
-(use-package company-quickhelp
-  :ensure t
-  :defer t
-  :after company
-  :hook ((company-mode . company-quickhelp-mode))
-  :config (setq company-quickhelp-delay 0.1))
-
 (use-package company-reftex
   :ensure t
   :after company
