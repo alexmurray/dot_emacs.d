@@ -728,10 +728,6 @@ The object labels of the found items are returned as list."
   ;; with new text automatically
   :init (delete-selection-mode 1))
 
-(use-package diff
-  ;; default to unified diff
-  :config (setq diff-switches "-u"))
-
 (use-package diff-hl
   :ensure t
   ;; Integrate with Magit and highlight changed files in the fringe of dired
