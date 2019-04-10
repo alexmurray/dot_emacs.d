@@ -942,8 +942,8 @@ This will replace the last notification sent with this function."
   (setq erc-track-priority-faces-only 'all)
 
   (add-to-list 'erc-nick-popup-alist
-               '("Directory" .
-                 (eudc-display-records (eudc-query  `((mozillaNickName . ,nick))))))
+               ;; defined down in eudc use-package
+               '("Directory" . (apm-eudc-lookup-nick nick)))
 
   ;; only hide join / part / quit for those who are idle for more
   ;; than 10 hours (ie are using a bouncer)
@@ -1044,7 +1044,13 @@ This will replace the last notification sent with this function."
            base "ou=staff,dc=canonical,dc=com"
            binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
            auth-source t)))
-    (setq ldap-default-host "ldaps://ldap.canonical.com"))
+  (setq ldap-default-host "ldaps://ldap.canonical.com")
+
+  (defun apm-eudc-lookup-nick (&optional nick)
+    (interactive (list (if (eq major-mode 'erc-mode)
+                           (completing-read "Nick: " (erc-get-channel-nickname-list))
+                         (read-string "Nick: "))))
+    (eudc-display-records (eudc-query  `((mozillaNickName . ,nick))))))
 
 (use-package eshell
   :defer t
