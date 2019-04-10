@@ -978,12 +978,6 @@ This will replace the last notification sent with this function."
   :ensure t
   :after erc)
 
-(use-package erc-track-score
-  :ensure t
-  :disabled t
-  :after erc
-  :config (erc-track-score-mode 1))
-
 (use-package erc-view-log
   :ensure t
   :config (add-to-list 'auto-mode-alist
