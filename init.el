@@ -489,11 +489,7 @@ The object labels of the found items are returned as list."
          ([remap complete-symbol] . company-complete-common))
   :init (global-company-mode 1)
   :config
-  ;; ensure flyspell doesn't steal our binding of C-;
-  (eval-when-compile
-    (require 'flyspell))
-  (with-eval-after-load 'flyspell
-    (bind-key "C-;" nil flyspell-mode-map))
+  (setq tab-always-indent 'complete)
   ;; some better default values
   (setq company-idle-delay 0.2)
   (setq company-tooltip-limit 10)
