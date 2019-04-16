@@ -1135,7 +1135,7 @@ This will replace the last notification sent with this function."
   :ensure t
   ;; use instead of ispell-word
   :bind (([remap ispell-word] . flyspell-correct-word-generic)
-         :map flyspell-mode-map ("C-;" . flyspell-correct-previous-word-generic)))
+         :map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
 
 (use-package forge
   :ensure t
