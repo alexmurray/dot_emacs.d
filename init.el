@@ -990,6 +990,10 @@ This will replace the last notification sent with this function."
            auth-source t)))
   (setq ldap-default-host "ldaps://ldap.canonical.com")
 
+  (defun apm-eudc-lookup-email (&optional email)
+    (interactive (list (read-string "Email address: ")))
+    (eudc-display-records (eudc-query  `((email . ,email)))))
+
   (defun apm-eudc-lookup-nick (&optional nick)
     (interactive (list (if (eq major-mode 'erc-mode)
                            (completing-read "Nick: " (erc-get-channel-nickname-list))
