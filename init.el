@@ -215,6 +215,10 @@
   :config (unless (file-exists-p (expand-file-name "~/.local/share/fonts/all-the-icons.ttf"))
             (all-the-icons-install-fonts)))
 
+(use-package all-the-icons-dired
+  :ensure t
+  :hook ((dired-mode . all-the-icons-dired-mode)))
+
 (use-package all-the-icons-ivy
   :ensure t
   :after (all-the-icons ivy)
