@@ -49,6 +49,12 @@
 (use-package diminish
   :ensure t)
 
+(use-package deadgrep
+  :ensure t
+  :bind ("<f5>" . deadgrep)
+  :config (unless (executable-find "ripgrep")
+            (alert "Please install ripgrep...")))
+
 (use-package bind-key
   :ensure t)
 
