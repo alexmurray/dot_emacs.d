@@ -79,14 +79,9 @@
 
 (use-package doom-themes
   :ensure t
-  :defer t)
-
-(use-package circadian
-  :ensure t
   :config
-  (setq circadian-themes '(("7:00" . doom-solarized-light)
-                           ("18:00" . doom-one)))
-  (circadian-setup))
+  (doom-themes-org-config)
+  (load-theme 'doom-one t))
 
 ;; used in some of my yasnippet snippets
 (defun apm-camelize (s &optional delim)
