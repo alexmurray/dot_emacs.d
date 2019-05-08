@@ -205,11 +205,6 @@
   :diminish aggressive-indent-mode
   :config (global-aggressive-indent-mode))
 
-(use-package ag
-  :ensure t
-  :defer t
-  :ensure-system-package (ag . silversearcher-ag))
-
 (use-package all-the-icons
   :ensure t
   :config (unless (file-exists-p (expand-file-name "~/.local/share/fonts/all-the-icons.ttf"))
@@ -1269,14 +1264,6 @@ This will replace the last notification sent with this function."
 (use-package ivy-xref
   :ensure t
   :init (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
-
-(use-package jenkins
-  :ensure t
-  :commands (jenkins)
-  ;; don't set jenkins-api-token here - do it in custom.el so it is not checked
-  ;; into git
-  :config (setq jenkins-hostname "http://cw-jenkins/jenkins/"
-                jenkins-username "amurray"))
 
 (use-package js2-mode
   :ensure t
