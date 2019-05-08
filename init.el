@@ -877,9 +877,9 @@ This will replace the last notification sent with this function."
                                     :on-action (lambda (&rest _)
                                                  (pop-to-buffer channel)))))))
 
-  (setq erc-pals '("Beret" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "markmorlino" "tyhicks" "ratliff" "kees"))
+  (setq erc-pals '("Beret" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "markmorlino" "tyhicks" "ratliff" "kees"))
 
-  (setq erc-keywords '("[Cc][Vv][Ee]" "vulnerability" "apparmor" "seccomp" "exploit" "security"))
+  (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm"))
 
   ;; when joining don't bring to front
   (setq erc-join-buffer 'bury)
@@ -921,6 +921,8 @@ This will replace the last notification sent with this function."
     (mkdir erc-log-channels-directory t))
 
   (erc-autojoin-mode 1)
+
+  (erc-spelling-mode 1)
 
   ;; ensure erc tries to reuse windows as much as possible
   (defun apm-reuse-erc-window (buffer action)
