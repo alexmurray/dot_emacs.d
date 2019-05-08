@@ -828,16 +828,16 @@ The object labels of the found items are returned as list."
   (add-to-list 'erc-networks-alist '(Canonical "canonical.com"))
   (setq erc-nick "amurray")
   (setq erc-prompt-for-nickserv-password nil)
-  ;; no nickserv password for Canonical
-  (setq erc-nickserv-passwords `((Canonical ((,erc-nick . "")))))
-
-  ;; freenode irc
-  (let* ((pass (auth-source-pick-first-password :host "irc.freenode.net" :user erc-nick)))
+  ;; nickserv password for Canonical and freenode
+  (dolist (network '((Canonical . "irc.canonical.com")
+                     (freenode . "irc.freenode.net")))
+    (let* ((pass (auth-source-pick-first-password :host (cdr network) :user erc-nick :login "NickServ")))
     (if (null pass)
-        ;; secret-tool store --label='Freenode IRC' host irc.freenode.net user amurray
+        ;; secret-tool store --label='(car network) IRC' host (cdr network) user amurray login NickServ
         ;; then enter password
-        (alert (format "Please store irc.freenode.net nickserv password in secret store for %s" erc-nick))
-      (add-to-list 'erc-nickserv-passwords `(freenode ((,erc-nick . ,pass))))))
+        (alert (format "Please store %s nickserv password in secret store for %s"
+                       (cdr network) erc-nick))
+      (add-to-list 'erc-nickserv-passwords `(,(car network) ((,erc-nick . ,pass)))))))
 
   (setq erc-autojoin-timing 'ident)
 
