@@ -1381,6 +1381,8 @@ This will replace the last notification sent with this function."
                  (string-match-p "Bounce action notification" subject)
                  (string-match-p "moderator request(s) waiting" subject)))
         mu4e-trash-folder)
+       ((mu4e-message-contact-field-matches msg :from "bounce@websense.com")
+        mu4e-trash-folder)
        ((mu4e-message-contact-field-matches msg :from "do-not-reply@trello.com")
         mu4e-trash-folder)
        ((string-match-p "^\\[.* Wiki\\] Update of" subject)
@@ -1497,6 +1499,9 @@ This will replace the last notification sent with this function."
   (setq mu4e-compose-format-flowed nil)
   (setq mu4e-headers-sort-direction 'ascending)
   (setq mu4e-use-fancy-chars t)
+  ;; show all since often get duplicates via multiple mailing lists so want
+  ;; to be able to see them all in general
+  (setq mu4e-headers-skip-duplicates nil)
 
   (setq mu4e-update-interval 300)
 
@@ -1541,6 +1546,9 @@ This will replace the last notification sent with this function."
   ;; attempt to show images when viewing messages
   (setq mu4e-view-show-images t)
 
+  ;; allows to see attached patches etc more easily inline
+  (setq mu4e-view-use-gnus t)
+
   ;; show full addresses in message view
   (setq mu4e-view-show-addresses t)
 
@@ -1552,6 +1560,11 @@ This will replace the last notification sent with this function."
   :hook ((after-init . mu4e-alert-enable-notifications)
          (after-init . mu4e-alert-enable-mode-line-display))
   :config (mu4e-alert-set-default-style 'notifications))
+
+(use-package mu4e-patch
+  :load-path "vendor/"
+  :after mu4e
+  :hook (mu4e-view-mode . mu4e-patch-highlight))
 
 (use-package no-littering
   :ensure t
