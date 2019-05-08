@@ -1891,7 +1891,10 @@ This will replace the last notification sent with this function."
 
 ;; save minibuffer history
 (use-package savehist
-  :init (savehist-mode 1))
+  :init (savehist-mode 1)
+  ;; I wonder if this is causing large CPU usage like
+  ;; https://github.com/syl20bnr/spacemacs/issues/9409
+  :disabled t)
 
 (use-package saveplace
   :config
