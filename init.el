@@ -1626,9 +1626,9 @@ This will replace the last notification sent with this function."
                                          "* %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
                                         ("i" "Topic" entry (file ,(expand-file-name "canonical.org" org-directory))
                                          "* %?\n%a\n")
-                                        ("p" "Protocol" entry (file+headline ,(expand-file-name "notes.org") "Inbox" org-directory)
+                                        ("p" "Protocol" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Inbox")
                                          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-                                        ("L" "Protocol Link" entry (file+headline ,(expand-file-name "notes.org") "Inbox" org-directory)
+                                        ("L" "Protocol Link" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Inbox")
                                          "* %? [[%:link][%:description]] \nCaptured On: %U"))))
 
 (use-package org-clock
