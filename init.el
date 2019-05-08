@@ -1083,7 +1083,6 @@ This will replace the last notification sent with this function."
 (use-package flycheck-coverity
   :ensure t
   :after flycheck-clang-analyzer
-  :disabled t
   :init (unless (executable-find "cov-run-desktop")
           (alert "cov-run-desktop not found - is it installed?"))
   :config
