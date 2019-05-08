@@ -1597,6 +1597,7 @@ This will replace the last notification sent with this function."
         org-todo-keywords '((sequence "TODO(t)" "IN-PROGRESS(p!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
                             (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
+  (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s"))
   ;; set up org-babel integration for plantuml
   (org-babel-do-load-languages
    'org-babel-load-languages
