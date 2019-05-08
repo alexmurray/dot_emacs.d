@@ -53,7 +53,7 @@
   :ensure t
   :bind ("<f5>" . deadgrep)
   :config (unless (executable-find "ripgrep")
-            (alert "Please install ripgrep...")))
+            (alert "Please install ripgrep snap...")))
 
 (use-package bind-key
   :ensure t)
@@ -2035,7 +2035,7 @@ This will replace the last notification sent with this function."
                         ("Canada/Eastern" . ("mdeslaur"))
                         ("US/Central" . ("jdstrand" "jmbl" "tyhicks"))
                         ("US/Mountain" . ("joe"))
-                        ("US/Pacific" . ("jjohansen" "sarnold" "sbeattie")))))
+                        ("US/Pacific" . ("jj" "sarnold" "sbeattie")))))
             ;; validate team
             (dolist (member team)
               (unless (file-exists-p (expand-file-name (car member) "/usr/share/zoneinfo"))
