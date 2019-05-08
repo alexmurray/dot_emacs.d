@@ -91,7 +91,7 @@
                         #'(lambda (word) (capitalize (downcase word)))
                         (split-string s (if delim delim "_"))) ""))
 
-(defvar apm-preferred-emacs-version "26.1")
+(defvar apm-preferred-emacs-version "26.2")
 (when (version< emacs-version apm-preferred-emacs-version)
   (alert (format "Emacs version too old - please run %s or newer"
                  apm-preferred-emacs-version)
