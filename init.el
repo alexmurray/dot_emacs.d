@@ -1639,7 +1639,7 @@ This will replace the last notification sent with this function."
   :config (setq org-capture-templates `(("t" "todo" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Tasks")
                                          "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
                                         ("m" "meeting" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Meetings")
-                                         "* %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
+                                         "* %?\n%(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
                                         ("i" "Topic" entry (file ,(expand-file-name "canonical.org" org-directory))
                                          "* %?\n%a\n")
                                         ("p" "Protocol" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Inbox")
