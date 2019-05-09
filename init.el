@@ -773,6 +773,7 @@ The object labels of the found items are returned as list."
   :ensure t
   :ensure-system-package ("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
   :diminish emojify-mode
+  :bind (("C-c e" . emojify-insert-emoji))
   :config
   ;; display emojis using images since looks nicer
   (setq emojify-display-style 'image)
