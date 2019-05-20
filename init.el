@@ -2078,6 +2078,7 @@ This will replace the last notification sent with this function."
   (setq display-time-default-load-average nil)
   (setq display-time-use-mail-icon t)
   (setq display-time-day-and-date t)
+  (setq display-time-24hr-format t)
   (display-time))
 
 (use-package tramp
