@@ -1848,7 +1848,8 @@ This will replace the last notification sent with this function."
     (message "plantuml not found at %s" plantuml-jar-path)))
 
 (use-package posframe
-  :ensure t)
+  :ensure t
+  :config (setq posframe-mouse-banish nil))
 
 (use-package prescient
   :ensure t
