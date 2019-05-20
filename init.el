@@ -1164,6 +1164,9 @@ This will replace the last notification sent with this function."
 (use-package gnome-shell-mode
   :load-path "vendor/gnome-shell-mode/")
 
+(use-package gnu-elpa-keyring-update
+  :ensure t)
+
 (use-package gnuplot
   :ensure t)
 
