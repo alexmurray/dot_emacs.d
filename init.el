@@ -1839,6 +1839,11 @@ This will replace the last notification sent with this function."
   ;; only try and install when needed
   :mode ("\\.pdf\\'" . pdf-tools-install))
 
+(use-package pdf-view-restore
+  :ensure t
+  :after pdf-tools
+  :config
+  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
 (use-package plantuml-mode
   :ensure t
   :mode ("\\.p\\(lant\\)?uml\\'" . plantuml-mode)
