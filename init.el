@@ -1306,9 +1306,8 @@ This will replace the last notification sent with this function."
   :load-path "vendor/"
   :after lsp
   :init
-  (unless (equal 0 (and (executable-find "npm")
-                        (shell-command "npm list -g yaml-language-server")))
-    (alert "Please install npm and lsp-language-server"))
+  (unless (executable-find "yaml-language-server")
+    (alert "Please install the yaml-language-server snap"))
   :config
   (add-hook 'yaml-mode-hook #'lsp))
 
