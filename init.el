@@ -1243,18 +1243,12 @@ This will replace the last notification sent with this function."
   (setq ivy-use-virtual-buffers t)
   ;; allow to select the typed in value with C-p
   (setq ivy-use-selectable-prompt t)
-  (define-key isearch-mode-map (kbd "M-o") 'ivy-occur)
-  (setq ivy-re-builders-alist '((t . ivy--regex-plus))))
+  (define-key isearch-mode-map (kbd "M-o") 'ivy-occur))
 
 (use-package ivy-rich
   :ensure t
   :after ivy
   :config (ivy-rich-mode 1))
-
-(use-package ivy-prescient
-  :ensure t
-  :after (ivy prescient)
-  :config (ivy-prescient-mode 1))
 
 (use-package ivy-xref
   :ensure t
