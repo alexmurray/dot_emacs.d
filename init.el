@@ -663,23 +663,10 @@ The object labels of the found items are returned as list."
   :hook ((c-mode-common . cov-mode)
          (cov-mode . apm-cov-mode-setup)))
 
-(use-package cquery
+(use-package ccls
   :ensure t
-  :preface
-
-  (defvar apm-cquery-executable
-    (expand-file-name "~/cquery/build/release/bin/cquery"))
-
-  :init (unless (file-exists-p apm-cquery-executable)
-          (alert (format "cquery not found at %s - see https://github.com/jacobdufault/cquery/wiki/Getting-started"
-                         apm-cquery-executable)))
-  :config
-  ;; do both Doxygen comment (1) and normal comments (2) and use
-  ;; msgpack instead of json for more compact cache
-  (setq cquery-executable apm-cquery-executable)
-  ;; use consolidated cache dir so we don't pollute project trees
-  (setq cquery-cache-dir-function #'cquery-cache-dir-consolidated)
-  (setq cquery-cache-dir-consolidated-path (expand-file-name "cquery-cache.d" "~/.cache/")))
+  :init (unless (executable-find "ccls")
+          (alert (format "Please install the ccls snap"))))
 
 (use-package crontab-mode
   :ensure t)
