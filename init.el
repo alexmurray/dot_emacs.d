@@ -2088,6 +2088,10 @@ This will replace the last notification sent with this function."
                 uniquify-after-kill-buffer-p t
                 uniquify-ignore-buffers-re "^\\*"))
 
+(use-package usn
+  :load-path "~/ubuntu/git/usn-tool/"
+  :bind (("C-c f u" . usn-show-at-point)))
+
 (use-package web-mode
   :ensure t
   :defer t
