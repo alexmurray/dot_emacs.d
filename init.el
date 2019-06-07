@@ -1265,6 +1265,12 @@ This will replace the last notification sent with this function."
 (use-package json-mode
   :ensure t)
 
+(use-package lp
+  :load-path "/snap/gitlptools/current"
+  :after magit
+  :init (unless (executable-find "git-lp-open")
+          (alert "Please install the gitlptools snap")))
+
 (use-package lsp-mode
   :ensure t
   ;; wants yasnippet by default and complains if not already available
