@@ -1559,8 +1559,9 @@ This will replace the last notification sent with this function."
   ;; attempt to show images when viewing messages
   (setq mu4e-view-show-images t)
 
-  ;; allows to see attached patches etc more easily inline
-  (setq mu4e-view-use-gnus t)
+  ;; allows to see attached patches etc more easily inline but usual mu4e
+  ;; display is a bit cleaner IMO - switch off for now
+  (setq mu4e-view-use-gnus nil)
 
   ;; show full addresses in message view
   (setq mu4e-view-show-addresses t)
