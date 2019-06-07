@@ -1160,6 +1160,9 @@ This will replace the last notification sent with this function."
 (use-package gnuplot
   :ensure t)
 
+(use-package go-mode
+  :ensure t)
+
 (use-package google-this
   :ensure t
   :defer t)
