@@ -2031,8 +2031,7 @@ This will replace the last notification sent with this function."
 
 (use-package swiper
   :ensure t
-  :bind (("C-s" . swiper-isearch)
-         ("C-r" . swiper-isearch)))
+  :bind (:map isearch-mode-map ("M-i" . swiper-from-isearch)))
 
 (use-package systemd
   :ensure t)
