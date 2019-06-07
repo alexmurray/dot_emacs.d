@@ -868,7 +868,7 @@ This will replace the last notification sent with this function."
                                     :on-action (lambda (&rest _)
                                                  (pop-to-buffer channel)))))))
 
-  (setq erc-pals '("Beret" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "markmorlino" "tyhicks" "ratliff" "kees"))
+  (setq erc-pals '("Beret" "joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "markmorlino" "emitorino" "danielwang" "tyhicks" "ratliff" "kees"))
 
   (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm"))
 
@@ -2042,13 +2042,12 @@ This will replace the last notification sent with this function."
   :bind ((("C-c w" . display-time-world)))
   :config (let ((team '(("Australia/Adelaide" . ("amurray"))
                         ("Europe/London" . ("ChrisCoulson"))
-                        ("Brazil/East" . ("leosilva"))
-                        ("Brazil/East" . ("ebarretto" "pfsmorigo"))
+                        ("Brazil/East" . ("ebarretto" "emitorino" "leosilva" "pfsmorigo"))
                         ("US/Eastern" . ("markmorlino" "msalvatore" "vineetha1"))
                         ("Canada/Eastern" . ("mdeslaur"))
                         ("US/Central" . ("jdstrand" "jmbl" "tyhicks"))
                         ("US/Mountain" . ("joe"))
-                        ("US/Pacific" . ("jj" "sarnold" "sbeattie")))))
+                        ("US/Pacific" . ("danielwang" "jj" "sarnold" "sbeattie")))))
             ;; validate team
             (dolist (member team)
               (unless (file-exists-p (expand-file-name (car member) "/usr/share/zoneinfo"))
