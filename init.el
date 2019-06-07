@@ -1264,6 +1264,8 @@ This will replace the last notification sent with this function."
 
 (use-package lsp-mode
   :ensure t
+  ;; wants yasnippet by default and complains if not already available
+  :after yasnippet
   :hook ((prog-mode . lsp))
   :config (setq lsp-prefer-flymake nil))
 
@@ -2143,6 +2145,7 @@ This will replace the last notification sent with this function."
 (use-package yasnippet
   :ensure t
   :diminish (yas-global-mode yas-minor-mode)
+  :defer nil
   :bind (:map yas-keymap
               ;; Use C-tab to both expand a snippet and move through its fields
               ("<C-tab>" . yas-next-field-or-maybe-expand)
