@@ -188,6 +188,7 @@
 
 (use-package ace-window
   :ensure t
+  :after avy
   :defer t
   :bind (("C-x o" . ace-window))
   :config (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
