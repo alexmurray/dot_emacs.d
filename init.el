@@ -571,7 +571,12 @@ The object labels of the found items are returned as list."
 
 (use-package company-gnome-shell
   :load-path "vendor/company-gnome-shell/"
-  :after (company gnome-shell-mode))
+  :after (company gnome-shell-mode)
+  ;; don't do this - company-gnome-shell breaks company completion in other
+  ;; modes...
+  ;; :config (with-eval-after-load 'company
+  ;;           (add-to-list 'company-backends 'company-gnome-shell))
+  )
 
 (use-package company-lsp
   :ensure t
