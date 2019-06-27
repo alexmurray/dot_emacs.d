@@ -1792,7 +1792,11 @@ This will replace the last notification sent with this function."
 (use-package org-mru-clock
   :ensure t
   :bind (("C-c s" . org-mru-clock-in))
-  :config (setq org-mru-clock-completing-read #'ivy-completing-read))
+  :config
+  (setq org-mru-clock-completing-read #'ivy-completing-read)
+  ;; don't filter any from list (by default only includes todo's)
+  (setq org-mru-clock-predicate nil)
+  (setq org-mru-clock-how-many 50))
 
 (use-package org-mu4e
   :after (mu4e org)
