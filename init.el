@@ -820,6 +820,7 @@ The object labels of the found items are returned as list."
         (user-error "No URLs listed in channel topic"))))
 
   :bind (("C-c f e" . apm-erc-find-logfile)
+         ("C-c b e" . apm-erc-browse-url-from-channel-topic)
          ("M-s e" . apm-occur-mentions-in-erc))
   :config
   (eval-and-compile
