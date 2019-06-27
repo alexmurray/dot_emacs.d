@@ -1186,6 +1186,27 @@ This will replace the last notification sent with this function."
 (use-package gnuplot
   :ensure t)
 
+(use-package gnus
+  ;; add custom highlighting to gnus for launchpad security bugs
+  :preface
+  (defvar apm-gnus-highlights
+    '((error . ("Private security bug reported"))
+      (warning . ("This bug is a security vulnerability"))))
+
+  (defun apm-gnus-part-display-hook ()
+    (dolist (highlight apm-gnus-highlights)
+      (save-excursion
+        (goto-char (point-min))
+        (dolist (text (cdr highlight))
+          (replace-regexp text (propertize text 'face (car highlight))
+                          nil (point-min) (point-max))))))
+  :hook ((gnus-part-display . apm-gnus-part-display-hook))
+  :config
+  ;; don't fill long lines as breaks tables in emails
+  (setq gnus-treat-fill-long-lines nil)
+  ;; gnus smileys look lame (TODO - hack in some emojify support?)
+  (setq gnus-treat-display-smileys nil))
+
 (use-package go-mode
   :ensure t)
 
@@ -1474,18 +1495,6 @@ This will replace the last notification sent with this function."
         mu4e-sent-folder)
        (t "/Archive"))))
 
-  (defvar apm-mu4e-highlights
-    '((error . ("Private security bug reported"))
-      (warning . ("This bug is a security vulnerability"))))
-
-  ;; ignore first argument (msg) for now
-  (defun apm-mu4e-rewrite-add-highlights (_ txt)
-    "Rewrite TXT returning new TXT."
-    (dolist (highlight apm-mu4e-highlights)
-      (dolist (text (cdr highlight))
-        (setq txt (replace-regexp-in-string text (propertize text 'face (car highlight)) txt))))
-    txt)
-
   :config
   (setq mail-user-agent 'mu4e-user-agent)
   (setq mu4e-maildir (expand-file-name "~/Maildir"))
@@ -1563,11 +1572,14 @@ This will replace the last notification sent with this function."
         "\\(no-?reply\\|bugs.launchpad.net\\|lillypilly.canonical.com\\)")
   (setq mu4e-compose-signature nil)
 
-  (add-to-list 'mu4e-message-body-rewrite-functions 'apm-mu4e-rewrite-add-highlights t)
-
   ;; add action to view in brower
   (add-to-list 'mu4e-view-actions
                '("browser view" . mu4e-action-view-in-browser) t)
+
+  (setq mu4e-html2text-command 'mu4e-shr2text)
+  ;; html colors in shr usually look bad especially with a dark theme
+  (with-eval-after-load 'shr
+    (setq shr-use-colors nil))
 
   (setq mu4e-split-view 'vertical)
   (setq mu4e-headers-visible-columns 120)
@@ -1585,9 +1597,9 @@ This will replace the last notification sent with this function."
   ;; attempt to show images when viewing messages
   (setq mu4e-view-show-images t)
 
-  ;; allows to see attached patches etc more easily inline but usual mu4e
-  ;; display is a bit cleaner IMO - switch off for now
-  (setq mu4e-view-use-gnus nil)
+  ;; allows to see attached patches etc more easily inline and also inline
+  ;; PGP
+  (setq mu4e-view-use-gnus t)
 
   ;; show full addresses in message view
   (setq mu4e-view-show-addresses t)
