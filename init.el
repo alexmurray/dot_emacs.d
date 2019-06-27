@@ -1425,6 +1425,13 @@ This will replace the last notification sent with this function."
     (setq mu4e-compose-mode-hook '(apm-mu4e-compose-forward-as-attachment-2))
     (mu4e-compose-forward))
 
+  (defvar apm-mu4e-spammers '("bounce@websense.com"
+                              "duke.abbaddon@gmail.com"
+                              "redmine@mantykora.net"
+                              "jshaymac@gmail.com"
+                              "jira@clockworkers.atlassian.net"
+                              "advisories@auraredeye.zendesk.com"))
+
   ;; TODO: consider using imapfilter
   (defun apm-mu4e-refile-message (msg)
     (let ((mailing-list (mu4e-message-field msg :mailing-list))
@@ -1437,15 +1444,14 @@ This will replace the last notification sent with this function."
                  (string-match-p "Bounce action notification" subject)
                  (string-match-p "moderator request(s) waiting" subject)))
         mu4e-trash-folder)
-       ((or (mu4e-message-contact-field-matches msg :from "bounce@websense.com")
-            (mu4e-message-contact-field-matches msg :from "duke.abbaddon@gmail.com")
-            (mu4e-message-contact-field-matches msg :from "redmine@mantykora.net")
-            (mu4e-message-contact-field-matches msg :from "jshaymac@gmail.com")
-            (mu4e-message-contact-field-matches msg :from "jira@clockworkers.atlassian.net"))
-        mu4e-trash-folder)
+       ((cl-some #'(lambda (e) (mu4e-message-contact-field-matches msg :from e)) apm-mu4e-spammers)
+        "/Spam")
+       ((string-match-p "m1-en0on.jp" (cdar (mu4e-message-field msg :from)))
+        "/Spam")
        ((mu4e-message-contact-field-matches msg :from "do-not-reply@trello.com")
         mu4e-trash-folder)
-       ((string-match-p "^\\[.* Wiki\\] Update of" subject)
+       ((or (string-match-p "^\\[.* Wiki\\] Update of" subject)
+            (string-match-p "We just published a new Production deploy for ubuntusecuritypodcast" subject))
         mu4e-trash-folder)
        ((string-match-p "^\\[Build #[0-9]+]" subject)
         mu4e-trash-folder)
