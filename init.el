@@ -805,6 +805,20 @@ The object labels of the found items are returned as list."
     (interactive)
     (apm-occur-in-erc (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)")))
 
+  (defun apm-erc-browse-url-from-channel-topic ()
+    "Find urls in erc-channel-topic and offer to visit via `browse-url'."
+    (interactive)
+    (let ((topic erc-channel-topic)
+          (urls nil))
+      (with-temp-buffer
+        (insert topic)
+        (goto-char (point-min))
+        (while (re-search-forward "https?://" nil t)
+          (push (thing-at-point 'url t) urls)))
+      (if urls
+          (browse-url (completing-read "URL: " urls))
+        (user-error "No URLs listed in channel topic"))))
+
   :bind (("C-c f e" . apm-erc-find-logfile)
          ("M-s e" . apm-occur-mentions-in-erc))
   :config
