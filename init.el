@@ -1295,6 +1295,10 @@ This will replace the last notification sent with this function."
   (setq ivy-use-selectable-prompt t)
   (define-key isearch-mode-map (kbd "M-o") 'ivy-occur))
 
+(use-package ivy-prescient
+  :ensure t
+  :config (ivy-prescient-mode 1))
+
 (use-package ivy-rich
   :ensure t
   :after ivy
