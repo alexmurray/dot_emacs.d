@@ -1516,7 +1516,8 @@ This will replace the last notification sent with this function."
           ("/Drafts"               . ?d)
           ("/INBOX"                . ?i)
           ("/Sent"                 . ?s)
-          ("/Travel"               . ?t)))
+          ("/Spam"                 . ?j)
+          ("/Trash"                . ?t)))
 
   (setq mu4e-user-mailing-lists '(;; ubuntu
                                   ("launchpad-announce.lists.ubuntu.com" . "launchpad-announce")
