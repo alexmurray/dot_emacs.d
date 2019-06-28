@@ -819,7 +819,8 @@ The object labels of the found items are returned as list."
           (browse-url (completing-read "URL: " urls))
         (user-error "No URLs listed in channel topic"))))
 
-  (defvar apm-erc-pals-greeting-regex "^[Gg]ood morning!?$")
+  (defvar apm-erc-pals-greeting-regex
+    "^\\([Gg]ood morning\\|[Hh]\\(i\\|ey\\) \\(all\\|everyone\\|folks\\)\\)!?$")
 
   (defun apm-erc-pals-greeting-on-match (match-type nickuserhost msg)
     (when (and (eq match-type 'pal)
