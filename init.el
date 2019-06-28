@@ -781,7 +781,8 @@ The object labels of the found items are returned as list."
   :ensure t
   :preface
   (eval-when-compile
-    (require 'erc-log))
+    (require 'erc-log)
+    (require 'erc-match))
 
   (defun apm-erc-find-logfile ()
     "Find and open the current `erc-mode` buffers logfile."
@@ -827,6 +828,15 @@ The object labels of the found items are returned as list."
                (string-match-p apm-erc-pals-greeting-regex msg))
       (let ((nick (car (erc-parse-user nickuserhost))))
         (erc-send-message (format "hi %s" nick)))))
+
+  (defun erc-cmd-GOODMORNING (&rest ignore)
+    "Say good morning to all pals who are in the current channel."
+    (erc-send-message (concat "good morning "
+                              (mapconcat #'identity
+                                         (seq-intersection
+                                          erc-pals
+                                          (erc-get-channel-nickname-list))
+                                " "))))
 
   :bind (("C-c f e" . apm-erc-find-logfile)
          ("C-c b e" . apm-erc-browse-url-from-channel-topic)
