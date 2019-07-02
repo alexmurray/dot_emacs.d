@@ -1440,8 +1440,7 @@ This will replace the last notification sent with this function."
     (setq mu4e-compose-mode-hook '(apm-mu4e-compose-forward-as-attachment-2))
     (mu4e-compose-forward))
 
-  (defvar apm-mu4e-spammers '("bounce@websense.com"
-                              "duke.abbaddon@gmail.com"
+  (defvar apm-mu4e-spammers '("duke.abbaddon@gmail.com"
                               "redmine@mantykora.net"
                               "jshaymac@gmail.com"
                               "jira@clockworkers.atlassian.net"
@@ -1463,7 +1462,8 @@ This will replace the last notification sent with this function."
         "/Spam")
        ((string-match-p "m1-en0on.jp" (cdar (mu4e-message-field msg :from)))
         "/Spam")
-       ((mu4e-message-contact-field-matches msg :from "do-not-reply@trello.com")
+       ((or (mu4e-message-contact-field-matches msg :from "do-not-reply@trello.com")
+            (mu4e-message-contact-field-matches msg :from "bounce@websense.com"))
         mu4e-trash-folder)
        ((or (string-match-p "^\\[.* Wiki\\] Update of" subject)
             (string-match-p "We just published a new Production deploy for ubuntusecuritypodcast" subject))
