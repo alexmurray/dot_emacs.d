@@ -823,15 +823,21 @@ The object labels of the found items are returned as list."
   (defvar apm-erc-pals-greeting-regex
     "^\\([Gg]ood morning\\|[Hh]\\(i\\|ey\\) \\(all\\|everyone\\|folks\\)\\)!?$")
 
+  (defvar apm-erc-greetings '("hi" "hey" "g'day" "howdy" "greetings"))
+
   (defun apm-erc-pals-greeting-on-match (match-type nickuserhost msg)
     (when (and (eq match-type 'pal)
                (string-match-p apm-erc-pals-greeting-regex msg))
-      (let ((nick (car (erc-parse-user nickuserhost))))
-        (erc-send-message (format "hi %s" nick)))))
+      (erc-send-message (concat
+                         (nth (random (length apm-erc-greetings))
+                              apm-erc-greetings)
+                         " "
+                         (car (erc-parse-user nickuserhost))))))
 
-  (defun erc-cmd-GOODMORNING (&rest ignore)
+  (defun erc-cmd-GOODMORNING (&rest _ignore)
     "Say good morning to all pals who are in the current channel."
-    (erc-send-message (concat "good morning "
+    (erc-send-message (concat (nth (random (length apm-erc-greetings))
+                                   apm-erc-greetings)
                               (mapconcat #'identity
                                          (seq-intersection
                                           erc-pals
