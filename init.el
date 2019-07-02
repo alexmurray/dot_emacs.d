@@ -2157,6 +2157,7 @@ This will replace the last notification sent with this function."
   (display-time))
 
 (use-package tramp
+  :ensure t
   :config (setq-default tramp-default-method "ssh"))
 
 (use-package uct
