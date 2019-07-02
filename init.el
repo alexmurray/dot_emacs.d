@@ -1516,6 +1516,20 @@ This will replace the last notification sent with this function."
         mu4e-sent-folder)
        (t "/Archive"))))
 
+  ;; taken from https://groups.google.com/d/msg/mu-discuss/HNOxET4DkUY/RNiwEGECAQAJ
+  (defun mu4e~view-gnus-inject-maildir (msg)
+    (save-excursion
+      (save-restriction
+        (let ((inhibit-read-only t))
+          (article-goto-body)
+          (forward-line -1)
+          (narrow-to-region (point) (point))
+          (insert "Maildir: " (mu4e-message-field msg :maildir) "\n")
+          (let ((gnus-treatment-function-alist
+                 '((gnus-treat-highlight-headers
+                    gnus-article-highlight-headers))))
+            (ignore-errors (gnus-treat-article 'head)))))))
+
   :config
   (setq mail-user-agent 'mu4e-user-agent)
   (setq mu4e-maildir (expand-file-name "~/Maildir"))
@@ -1622,6 +1636,9 @@ This will replace the last notification sent with this function."
   ;; allows to see attached patches etc more easily inline and also inline
   ;; PGP
   (setq mu4e-view-use-gnus t)
+  ;; add maildir as a header
+  (add-function :after (symbol-function 'mu4e~view-gnus)
+                #'mu4e~view-gnus-inject-maildir)
 
   ;; show full addresses in message view
   (setq mu4e-view-show-addresses t)
