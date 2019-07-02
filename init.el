@@ -1505,7 +1505,7 @@ This will replace the last notification sent with this function."
         mu4e-trash-folder)
        ((or (mu4e-message-contact-field-matches msg :from "lillypilly.canonical.com")
             (and (mu4e-message-contact-field-matches msg :from "noreply@canonical.com")
-                 (string-match-p "contains outdated Ubuntu packages" subject))
+                 (string-match-p "\\(contains outdated Ubuntu packages\\|built from outdated Ubuntu kernel\\)" subject))
             (and (mu4e-message-contact-field-matches msg :from "noreply@launchpad.net")
                  (string-match-p "^\\[.*\\] .* build of .* in ubuntu .*$" subject)))
         mu4e-trash-folder)
