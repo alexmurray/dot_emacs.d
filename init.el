@@ -381,7 +381,7 @@ The object labels of the found items are returned as list."
          (org-mode . bug-reference-mode))
   :preface (defun apm-bug-reference-url-format ()
              (let ((prefix (match-string-no-properties 1))
-                   (id (match-string-no-properties 2)))
+                   (id (match-string-no-properties 3)))
                (cond ((or (string-prefix-p "lp" prefix t)
                           (string-prefix-p "bug" prefix t))
                       (format "https://bugs.launchpad.net/bugs/%s" id))
@@ -394,7 +394,7 @@ The object labels of the found items are returned as list."
   (eval-when-compile
     (require 'bug-reference))
   (setq bug-reference-url-format #'apm-bug-reference-url-format
-        bug-reference-bug-regexp "\\<\\([Ll][Pp]:?\\|bug\\|#\\|CVE[ -]\\|USN[ -]\\) ?\\([0-9][0-9-]*\\)\\>"))
+        bug-reference-bug-regexp "\\<\\(\\([Ll][Pp]:?\\|bug\\) #?\\|CVE[ -]\\|USN[ -]\\)\\([0-9][0-9-]*\\)\\>"))
 
 (use-package cargo
   :ensure t
