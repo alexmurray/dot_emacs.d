@@ -200,8 +200,14 @@
 
 (use-package all-the-icons
   :ensure t
-  :config (unless (file-exists-p (expand-file-name "~/.local/share/fonts/all-the-icons.ttf"))
-            (all-the-icons-install-fonts)))
+  :config
+  (unless (file-exists-p (expand-file-name "~/.local/share/fonts/all-the-icons.ttf"))
+            (all-the-icons-install-fonts))
+  ;; fixup erc-mode face to not be invalid -
+  ;; https://github.com/domtronn/all-the-icons.el/pull/150
+  (setq all-the-icons-mode-icon-alist
+        (delete '(erc-mode all-the-icons-faicon "commenting-o" :height 1.0 :v-adjust 0.0 :face all-the-icons-white) all-the-icons-mode-icon-alist))
+  (add-to-list 'all-the-icons-mode-icon-alist '(erc-mode all-the-icons-faicon "commenting-o" :height 1.0 :v-adjust 0.0)))
 
 (use-package all-the-icons-dired
   :ensure t
