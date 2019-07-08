@@ -860,9 +860,9 @@ The object labels of the found items are returned as list."
                      (freenode . "irc.freenode.net")))
     (let* ((pass (auth-source-pick-first-password :host (cdr network) :user erc-nick :login "NickServ")))
     (if (null pass)
-        ;; secret-tool store --label='(car network) IRC' host (cdr network) user amurray login NickServ
+        ;; secret-tool store --label='(car network) IRC NickServ' host (cdr network) user amurray login NickServ
         ;; then enter password
-        (alert (format "Please store %s nickserv password in secret store for %s"
+        (alert (format "Please store %s NickServ password in secret store for %s"
                        (cdr network) erc-nick))
       (add-to-list 'erc-nickserv-passwords `(,(car network) ((,erc-nick . ,pass)))))))
 
