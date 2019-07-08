@@ -49,12 +49,6 @@
 (use-package diminish
   :ensure t)
 
-(use-package deadgrep
-  :ensure t
-  :bind ("<f5>" . deadgrep)
-  :config (unless (executable-find "ripgrep")
-            (alert "Please install ripgrep snap...")))
-
 (use-package bind-key
   :ensure t)
 
@@ -690,6 +684,12 @@ The object labels of the found items are returned as list."
 (use-package cwarn
   :diminish cwarn-mode
   :init (global-cwarn-mode 1))
+
+(use-package deadgrep
+  :ensure t
+  :bind ("<f5>" . deadgrep)
+  :config (unless (executable-find "ripgrep")
+            (alert "Please install ripgrep snap...")))
 
 (use-package debian-changelog-mode
   :ensure t)
