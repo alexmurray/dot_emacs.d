@@ -157,7 +157,7 @@
 (toggle-frame-maximized)
 
 ;; set preferred font
-(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
+(add-to-list 'default-frame-alist '(font . "Hack-10"))
 
 ;; prompt when trying to switch out of a dedicated window
 (setq switch-to-buffer-in-dedicated-window 'prompt)
