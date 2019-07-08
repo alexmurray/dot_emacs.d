@@ -826,19 +826,7 @@ The object labels of the found items are returned as list."
           (browse-url (completing-read "URL: " urls))
         (user-error "No URLs listed in channel topic"))))
 
-  (defvar apm-erc-pals-greeting-regex
-    "^\\([Gg]ood morning\\|[Hh]\\(i\\|ey\\) \\(all\\|everyone\\|folks\\)\\)!?$")
-
   (defvar apm-erc-greetings '("hi" "hey" "g'day" "howdy" "greetings"))
-
-  (defun apm-erc-pals-greeting-on-match (match-type nickuserhost msg)
-    (when (and (eq match-type 'pal)
-               (string-match-p apm-erc-pals-greeting-regex msg))
-      (erc-send-message (concat
-                         (nth (random (length apm-erc-greetings))
-                              apm-erc-greetings)
-                         " "
-                         (car (erc-parse-user nickuserhost))))))
 
   (defun erc-cmd-GOODMORNING (&rest _ignore)
     "Say good morning to all pals who are in the current channel."
@@ -917,7 +905,6 @@ This will replace the last notification sent with this function."
                                                  (pop-to-buffer channel)))))))
 
   (setq erc-pals '("joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "markmorlino" "emitorino" "danielwang" "deafpool"))
-  (add-hook 'erc-text-matched-hook #'apm-erc-pals-greeting-on-match)
 
   (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm"))
 
