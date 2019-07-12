@@ -1069,6 +1069,13 @@ This will replace the last notification sent with this function."
   :config (setq expand-region-contract-fast-key "V"
                 expand-region-reset-fast-key "r"))
 
+(use-package eyebrowse
+  :ensure t
+  :config
+  (eyebrowse-mode 1)
+  ;; binds to M-1 M-2 etc to easily switch
+  (eyebrowse-setup-opinionated-keys))
+
 (use-package fancy-battery
   :ensure t
   :config (fancy-battery-mode 1))
