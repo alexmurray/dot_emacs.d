@@ -1522,15 +1522,22 @@ This will replace the last notification sent with this function."
         mu4e-sent-folder)
        (t "/Archive"))))
 
+  (defvar mu4e~view-gnus-extra-headers '(("Maildir" . :maildir)
+                                         ("List" . :mailing-list)))
+
   ;; taken from https://groups.google.com/d/msg/mu-discuss/HNOxET4DkUY/RNiwEGECAQAJ
-  (defun mu4e~view-gnus-inject-maildir (msg)
+  (defun mu4e~view-gnus-inject-extra-headers (msg)
     (save-excursion
       (save-restriction
         (let ((inhibit-read-only t))
           (article-goto-body)
           (forward-line -1)
           (narrow-to-region (point) (point))
-          (insert "Maildir: " (mu4e-message-field msg :maildir) "\n")
+          (dolist (hdr mu4e~view-gnus-extra-headers)
+            (let ((name (car hdr))
+                  (value (mu4e-message-field msg (cdr hdr))))
+              (when value
+                (insert name ": " value "\n"))))
           (let ((gnus-treatment-function-alist
                  '((gnus-treat-highlight-headers
                     gnus-article-highlight-headers))))
@@ -1653,7 +1660,7 @@ This will replace the last notification sent with this function."
   (setq mu4e-view-use-gnus t)
   ;; add maildir as a header
   (add-function :after (symbol-function 'mu4e~view-gnus)
-                #'mu4e~view-gnus-inject-maildir)
+                #'mu4e~view-gnus-inject-extra-headers)
 
   ;; show full addresses in message view
   (setq mu4e-view-show-addresses t)
