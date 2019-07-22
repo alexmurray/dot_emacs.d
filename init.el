@@ -798,7 +798,13 @@ The object labels of the found items are returned as list."
 
   (defun apm-occur-in-erc (regexp)
     "Find matches of REGEXP in all erc buffers"
-    (interactive "sRegexp: ")
+    (interactive
+     (list
+      (if (region-active-p)
+          (buffer-substring (region-beginning) (region-end))
+        (if current-prefix-arg
+            (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)")
+          (read-string "Regexp: ")))))
     (let ((erc-buffers nil))
       (dolist (buffer (buffer-list))
         (with-current-buffer buffer
@@ -806,11 +812,6 @@ The object labels of the found items are returned as list."
                      (not (erc-server-buffer-p)))
             (push buffer erc-buffers))))
       (multi-occur erc-buffers regexp)))
-
-  (defun apm-occur-mentions-in-erc ()
-    "Find mentions of `erc-nick' in all erc buffers"
-    (interactive)
-    (apm-occur-in-erc (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)")))
 
   (defun apm-erc-browse-url-from-channel-topic ()
     "Find urls in erc-channel-topic and offer to visit via `browse-url'."
@@ -840,7 +841,7 @@ The object labels of the found items are returned as list."
 
   :bind (("C-c f e" . apm-erc-find-logfile)
          ("C-c b e" . apm-erc-browse-url-from-channel-topic)
-         ("M-s e" . apm-occur-mentions-in-erc))
+         ("M-s e" . apm-occur-in-erc))
   :config
   (eval-and-compile
     (require 'erc-button)
