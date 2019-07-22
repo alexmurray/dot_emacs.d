@@ -1204,22 +1204,14 @@ This will replace the last notification sent with this function."
 (use-package gnuplot
   :ensure t)
 
-(use-package gnus
-  ;; add custom highlighting to gnus for launchpad security bugs
-  :preface
-  (defvar apm-gnus-highlights
-    '((error . ("Private security bug reported"))
-      (warning . ("This bug is a security vulnerability"))))
-
-  (defun apm-gnus-part-display-hook ()
-    (dolist (highlight apm-gnus-highlights)
-      (save-excursion
-        (goto-char (point-min))
-        (dolist (text (cdr highlight))
-          (replace-regexp text (propertize text 'face (car highlight))
-                          nil (point-min) (point-max))))))
-  :hook ((gnus-part-display . apm-gnus-part-display-hook))
+(use-package gnus-art
+  :ensure gnus
   :config
+  ;; add custom highlighting to gnus for launchpad security bugs
+  (add-to-list 'gnus-emphasis-alist
+               (list "\\(Private security bug reported\\)" 1 1 'error))
+  (add-to-list 'gnus-emphasis-alist
+               (list "\\(This bug is a security vulnerability\\)" 1 1 'warning))
   ;; don't fill long lines as breaks tables in emails
   (setq gnus-treat-fill-long-lines nil)
   ;; gnus smileys look lame (TODO - hack in some emojify support?)
