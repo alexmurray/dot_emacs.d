@@ -626,12 +626,16 @@ The object labels of the found items are returned as list."
   :after ivy org
   :diminish counsel-mode
   :init (counsel-mode 1)
-  :bind (("C-x C-r" . counsel-recentf)
+  :bind (("C-x b" . counsel-switch-buffer)
+         ("C-x 4 b" . counsel-switch-buffer-other-window)
+         ("C-x C-r" . counsel-recentf)
          ("M-y" . counsel-yank-pop)
          ("C-h f" . counsel-describe-function)
          ("C-h v" . counsel-describe-variable)
          ("C-c S" . counsel-grep-or-swiper)
          ("M-s s" . counsel-grep-or-swiper)
+         ("C-c R" . counsel-grep-or-swiper-backward)
+         ("M-s r" . counsel-grep-or-swiper-backward)
          :map outline-mode-map ("M-i" . counsel-outline)
          :map company-active-map ("C-/" . counsel-company))
   :config
@@ -1296,8 +1300,7 @@ This will replace the last notification sent with this function."
   :ensure t
   :defer t
   :diminish ivy-mode
-  :bind (("C-x b" . ivy-switch-buffer)
-         ("C-c C-r" . ivy-resume))
+  :bind (("C-c C-r" . ivy-resume))
   :init (ivy-mode 1)
   :config
   (setq ivy-use-virtual-buffers t)
@@ -2136,7 +2139,9 @@ This will replace the last notification sent with this function."
 
 (use-package swiper
   :ensure t
-  :bind (:map isearch-mode-map ("M-i" . swiper-from-isearch)))
+  :bind (("C-s" . swiper-isearch)
+         ("C-r" . swiper-isearch-backward)
+         :map isearch-mode-map ("M-i" . swiper-from-isearch)))
 
 (use-package systemd
   :ensure t)
