@@ -1018,15 +1018,27 @@ This will replace the last notification sent with this function."
            binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
            auth-source t)))
   (setq ldap-default-host "ldaps://ldap.canonical.com")
-
+  ;; better display of custom canonical ldap attributes
+  (add-to-list 'eudc-user-attribute-names-alist
+               '(mozillanickname . "IRC Nick"))
+  (add-to-list 'eudc-user-attribute-names-alist
+               '(mozillacustom1 . "Team"))
+  (add-to-list 'eudc-user-attribute-names-alist
+               '(mozillacustom3 . "Timezone Name"))
+  (add-to-list 'eudc-user-attribute-names-alist
+               '(mozillacustom4 . "UTC Offset"))
   (defun apm-eudc-lookup-email (&optional email)
     (interactive (list (read-string "Email address: ")))
     (eudc-display-records (eudc-query  `((email . ,email)))))
 
   (defun apm-eudc-lookup-nick (&optional nick)
-    (interactive (list (if (eq major-mode 'erc-mode)
-                           (completing-read "Nick: " (erc-get-channel-nickname-list))
-                         (read-string "Nick: "))))
+    (interactive
+     (list
+      (let ((initial (word-at-point)))
+        (if (eq major-mode 'erc-mode)
+            (completing-read "Nick: "(erc-get-channel-nickname-list)
+                             nil nil initial)
+          (read-string "Nick: " initial)))))
     (eudc-display-records (eudc-query  `((mozillaNickName . ,nick))))))
 
 (use-package eshell
