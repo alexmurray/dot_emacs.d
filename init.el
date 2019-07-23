@@ -1458,7 +1458,8 @@ This will replace the last notification sent with this function."
                               "redmine@mantykora.net"
                               "jshaymac@gmail.com"
                               "jira@clockworkers.atlassian.net"
-                              "advisories@auraredeye.zendesk.com"))
+                              "advisories@auraredeye.zendesk.com"
+                              "gohr@mail.continue.de"))
 
   ;; TODO: consider using imapfilter
   (defun apm-mu4e-refile-message (msg)
