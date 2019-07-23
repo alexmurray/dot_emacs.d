@@ -800,15 +800,18 @@ The object labels of the found items are returned as list."
     (when (and (eq major-mode 'erc-mode) erc-log-mode)
       (find-file-other-window (erc-current-logfile))))
 
-  (defun apm-occur-in-erc (regexp)
+  (defun apm-occur-in-erc (&optional regexp)
     "Find matches of REGEXP in all erc buffers"
     (interactive
      (list
-      (if (region-active-p)
-          (buffer-substring (region-beginning) (region-end))
-        (if current-prefix-arg
-            (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)")
-          (read-string "Regexp: ")))))
+      (let ((regex (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)")))
+        (read-string "Regexp: "
+                     (cond ((region-active-p)
+                            (buffer-substring (region-beginning) (region-end)))
+                           (current-prefix-arg
+                            regex)
+                           (t
+                            (word-at-point)))))))
     (let ((erc-buffers nil))
       (dolist (buffer (buffer-list))
         (with-current-buffer buffer
