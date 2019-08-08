@@ -905,10 +905,12 @@ This will replace the last notification sent with this function."
                                     :title (format "%s in %s"
                                                    (xml-escape-string nick)
                                                    channel)
-                                    :body (xml-escape-string msg)
+                                    :body (replace-regexp-in-string "\n" " "
+                                                                    (string-trim (xml-escape-string msg)))
                                     :replaces-id erc-notifications-last-notification
                                     :app-icon erc-notifications-icon
                                     :actions '("default" "Switch to buffer")
+                                    :urgency 'critical
                                     :on-action (lambda (&rest _)
                                                  (pop-to-buffer channel)))))))
 
