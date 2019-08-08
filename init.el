@@ -1708,8 +1708,8 @@ This will replace the last notification sent with this function."
   (with-eval-after-load 'shr
     (setq shr-use-colors nil))
 
-  (setq mu4e-split-view 'vertical)
-  (setq mu4e-headers-visible-columns 120)
+  (setq mu4e-split-view 'horizontal)
+  (setq mu4e-headers-visible-lines 15)
   (setq mu4e-completing-read-function 'completing-read)
   (setq mu4e-headers-fields '((:human-date . 12)
                               (:flags . 6)
