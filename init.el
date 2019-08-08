@@ -2223,6 +2223,18 @@ This will replace the last notification sent with this function."
 (use-package systemd
   :ensure t)
 
+(use-package telega
+  :ensure t
+  :bind (("C-c t" . telega))
+  :config
+  (setq telega-use-notifications t)
+  (if (not (file-exists-p "/usr/local/lib/libtdcore.a"))
+      (alert "Please compile and install libtd for telegram support")
+    ;; ensure library can be found
+    (setenv "LD_LIBRARY_PATH" (concat (getenv "LD_LIBRARY_PATH") ":/usr/local/lib"))
+    ;; automatically connect on startup
+    (telega 1)))
+
 (use-package time
   :after erc-hl-nicks
   :bind ((("C-c w" . display-time-world)))
