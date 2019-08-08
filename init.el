@@ -2227,7 +2227,7 @@ This will replace the last notification sent with this function."
                         ("Europe/London" . ("ChrisCoulson"))
                         ("Brazil/East" . ("ebarretto" "emitorino" "leosilva" "pfsmorigo"))
                         ("US/Eastern" . ("markmorlino" "msalvatore" "vineetha1"))
-                        ("Canada/Eastern" . ("mdeslaur"))
+                        ("Canada/Eastern" . ("Avital" "mdeslaur"))
                         ("US/Central" . ("jdstrand" "jmbl" "tyhicks"))
                         ("US/Mountain" . ("joe"))
                         ("US/Pacific" . ("danielwang" "jj" "sarnold" "sbeattie")))))
