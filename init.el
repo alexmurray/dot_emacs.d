@@ -1059,9 +1059,11 @@ This will replace the last notification sent with this function."
   (defun apm-eudc-lookup-nick (&optional nick)
     (interactive
      (list
-      (let ((initial (word-at-point)))
+      ;; some buffers are read-only in which case `word-at-point' returns a
+      ;; read-only string so need to remove properties
+      (let ((initial (substring-no-properties (or (word-at-point) ""))))
         (if (eq major-mode 'erc-mode)
-            (completing-read "Nick: "(erc-get-channel-nickname-list)
+            (completing-read "Nick: " (erc-get-channel-nickname-list)
                              nil nil initial)
           (read-string "Nick: " initial)))))
     (eudc-display-records (eudc-query  `((mozillaNickName . ,nick))))))
