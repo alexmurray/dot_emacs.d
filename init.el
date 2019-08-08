@@ -1444,7 +1444,37 @@ This will replace the last notification sent with this function."
             (mml-secure-select-keys context name keys usage)
           keys))))
   :config
-  (advice-add 'mml-secure-find-usable-keys :after-until #'apm-mml-secure-find-usable-key-prompt-for-missing-key))
+  (advice-add 'mml-secure-find-usable-keys :after-until #'apm-mml-secure-find-usable-key-prompt-for-missing-key)
+  (setq mml-secure-key-preferences '((OpenPGP
+                                      (sign)
+                                      (encrypt
+                                       ;; encrypt to multiple recipients -
+                                       ;; from
+                                       ;; https://wiki.ubuntu.com/SecurityTeam/Contacts
+                                       ("security@ubuntu.com"
+                                        "88E9530BCBDDC200517B5EB0F498D2D9DE7DAD9C" ;amurray
+                                        "776FCD6573E7712AC111E3B0FBD3F310B1C9C4C1" ;joe
+                                        "4C20C06B5D8BDE688854D28A51DBDC58CC559573" ;jdstrand
+                                        "A6063BB5602309A43C8EBBD42F099E8D005E81F4" ;sbeattie
+                                        "50C4A0DDCF31E452CEB19B516569D855A744BE93" ;mdeslaur
+                                        "EDC4830FBD39AB6AC51047FB052F367018D5C3D8" ;jj
+                                        "CE1D6FE48F85F246C77C3516AD3F818B34FA35B7" ;tyhicks
+                                        "415010F1BA23C8C720DFB1F5F32172599D8D2E97" ;sarnold
+                                        "44DFFFE4C1A008E83229E205611FBDECD5946E0F" ;ChrisCoulson
+                                        "7FE79B445728C8EA0042839E45BCE75B840B1F69" ;leosilva
+                                        "C196DEF7A9097968763884D1772835433D285D7D" ;msalvatore
+                                        "0ADCB2CFA6B3532E80641CD2906788EB31A737FF" ;ebarretto
+                                        "410774CCB1C9851EB8BFECADA179EB5276C81B4C" ;jmbl
+                                        "3E2CC11CC9ED7154183B9615C2A82596AE602046" ;vineetha1
+                                        "9027444394FA0EEB52BDE0B26D4A7990BDE2CC66" ;pfsmorigo
+                                        "08AA09489F9DC266D9046E05A897FD7E8600E018" ;markmorlino
+                                        "C8726381716BC3D27B868575CB8F16FBD3A64F82" ;emitorino
+                                        "42A9C900D39880C887385AAC7C1082C269B4B95C" ;danielwang
+                                        "9673BF778F45A143CAF5FC32B46763D063A1DBEC" ;Avital)
+                                        ("tyhicks@canonical.com" "CE1D6FE48F85F246C77C3516AD3F818B34FA35B7")))
+ (CMS
+  (sign)
+  (encrypt)))))
 
 (use-package modern-cpp-font-lock
   :ensure t
