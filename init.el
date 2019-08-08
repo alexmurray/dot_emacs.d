@@ -1392,6 +1392,8 @@ This will replace the last notification sent with this function."
   :ensure t
   :after lsp-mode
   :hook ((lsp-mode . lsp-ui-mode))
+  :bind (:map lsp-ui-mode-map (([remap xref-find-definitions] . lsp-find-definition)
+                               ([remap xref-find-references] . lsp-find-references)))
   :config (setq lsp-ui-sideline-enable nil
                 lsp-ui-doc-enable t
                 lsp-ui-doc-use-childframe t
