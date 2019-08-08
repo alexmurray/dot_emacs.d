@@ -1744,6 +1744,9 @@ This will replace the last notification sent with this function."
          (after-init . mu4e-alert-enable-mode-line-display))
   :config (mu4e-alert-set-default-style 'notifications))
 
+(use-package mu4e-jump-to-list
+  :ensure t)
+
 (use-package mu4e-patch
   :load-path "vendor/"
   :after mu4e
