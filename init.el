@@ -1010,7 +1010,8 @@ This will replace the last notification sent with this function."
   :ensure-system-package (ldapsearch . ldap-utils)
   :config
   (eval-when-compile
-    (require 'ldap))
+    (require 'ldap)
+    (require 'eudc))
   (setq eudc-server "ldaps://ldap.canonical.com")
   (setq eudc-server-hotlist
         '(("ldaps://ldap.canonical.com" . ldap)))
@@ -1030,6 +1031,27 @@ This will replace the last notification sent with this function."
                '(mozillacustom3 . "Timezone Name"))
   (add-to-list 'eudc-user-attribute-names-alist
                '(mozillacustom4 . "UTC Offset"))
+  ;; add support for querying up the hierarchy via manager
+  (defvar apm-eudc-bob-query-keymap
+    (let ((map (make-sparse-keymap)))
+      (define-key map [return] 'apm-eudc-query-at-point)
+      map))
+  (set-keymap-parent apm-eudc-bob-query-keymap eudc-bob-generic-keymap)
+  (add-to-list 'eudc-attribute-display-method-alist '("manager" . apm-eudc-display-query))
+  (defun apm-eudc-query-at-point ()
+    (interactive)
+    (let ((id (eudc-bob-get-overlay-prop 'query)))
+      (unless id (error "No query here"))
+      (let ((name))
+        (save-match-data
+          (if (not (and (string-match "cn=\\([^,]*\\)" id)
+                        (setq name (match-string 1 id))))
+              (error "Failed to extract cn from id %s" id)
+            (eudc-display-records (eudc-query `((cn . ,name)))))))))
+  (defun apm-eudc-display-query (query)
+    "Display QUERY as an interactive element."
+    (eudc-bob-make-button query apm-eudc-bob-query-keymap nil (list 'query query)))
+
   (defun apm-eudc-lookup-email (&optional email)
     (interactive (list (read-string "Email address: ")))
     (eudc-display-records (eudc-query  `((email . ,email)))))
