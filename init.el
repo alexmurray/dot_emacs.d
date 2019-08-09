@@ -1013,7 +1013,10 @@ This will replace the last notification sent with this function."
   :config
   (eval-when-compile
     (require 'ldap)
-    (require 'eudc))
+    (ignore-errors
+      ;; does not actually provide eudc-bob but this is enough to get it to
+      ;; load
+      (require 'eudc-bob)))
   (setq eudc-server "ldaps://ldap.canonical.com")
   (setq eudc-server-hotlist
         '(("ldaps://ldap.canonical.com" . ldap)))
