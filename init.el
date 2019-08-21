@@ -1844,7 +1844,7 @@ This will replace the last notification sent with this function."
   :after org
   :bind (("C-c g" . org-clock-goto)
          ("C-c i" . org-pomodoro)
-         ("C-c o" . org-pomodoro))
+         ("C-c o" . org-clock-out))
   :preface
   ;; assume idle after 5 minutes
   :ensure-system-package xprintidle
