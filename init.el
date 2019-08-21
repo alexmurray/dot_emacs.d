@@ -1013,11 +1013,7 @@ This will replace the last notification sent with this function."
   :ensure-system-package (ldapsearch . ldap-utils)
   :config
   (eval-when-compile
-    (require 'ldap)
-    (ignore-errors
-      ;; does not actually provide eudc-bob but this is enough to get it to
-      ;; load
-      (require 'eudc-bob)))
+    (require 'ldap))
   (setq eudc-server "ldaps://ldap.canonical.com")
   (setq eudc-server-hotlist
         '(("ldaps://ldap.canonical.com" . ldap)))
@@ -1037,6 +1033,8 @@ This will replace the last notification sent with this function."
                '(mozillacustom3 . "Timezone Name"))
   (add-to-list 'eudc-user-attribute-names-alist
                '(mozillacustom4 . "UTC Offset"))
+  ;; keep byte-compiler happy
+  (defvar eudc-bob-generic-keymap nil)
   ;; add support for querying up the hierarchy via manager
   (defvar apm-eudc-bob-query-keymap
     (let ((map (make-sparse-keymap)))
