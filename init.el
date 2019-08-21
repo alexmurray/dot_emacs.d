@@ -202,7 +202,7 @@
   :ensure t
   :config
   (unless (file-exists-p (expand-file-name "~/.local/share/fonts/all-the-icons.ttf"))
-            (all-the-icons-install-fonts))
+    (all-the-icons-install-fonts))
   ;; fixup erc-mode face to not be invalid -
   ;; https://github.com/domtronn/all-the-icons.el/pull/150
   (setq all-the-icons-mode-icon-alist
@@ -302,42 +302,42 @@
   ;; patch bug in secrets - https://haukerehfeld.de/notes/2018-06-emacs-secrets-dbus-bug/
   :config
   (defun secrets-search-items (collection &rest attributes)
-  "Search items in COLLECTION with ATTRIBUTES.
+    "Search items in COLLECTION with ATTRIBUTES.
 ATTRIBUTES are key-value pairs.  The keys are keyword symbols,
 starting with a colon.  Example:
 
   (secrets-search-items \"Tramp collection\" :user \"joe\")
 
 The object labels of the found items are returned as list."
-  (let ((collection-path (secrets-unlock-collection collection))
-    result props)
-    (unless (secrets-empty-path collection-path)
-      ;; Create attributes list.
-      (while (consp (cdr attributes))
-    (unless (keywordp (car attributes))
-      (error 'wrong-type-argument (car attributes)))
-        (unless (stringp (cadr attributes))
-          (error 'wrong-type-argument (cadr attributes)))
-    (setq props (append
-             props
-             (list :dict-entry
-                   ;; HACK fixed so that dict entries are conses
-                   (list
-                    (substring (symbol-name (car attributes)) 1)
-                    (cadr attributes))))
-          attributes (cddr attributes)))
-      ;; Search.  The result is a list of object paths.
-      (setq result
-        (dbus-call-method
-         :session secrets-service collection-path
-         secrets-interface-collection "SearchItems"
-         (if props
-         (cons :array props)
-           '(:array :signature "{ss}"))))
-      ;; Return the found items.
-      (mapcar
-       (lambda (item-path) (secrets-get-item-property item-path "Label"))
-       result)))))
+    (let ((collection-path (secrets-unlock-collection collection))
+          result props)
+      (unless (secrets-empty-path collection-path)
+        ;; Create attributes list.
+        (while (consp (cdr attributes))
+          (unless (keywordp (car attributes))
+            (error 'wrong-type-argument (car attributes)))
+          (unless (stringp (cadr attributes))
+            (error 'wrong-type-argument (cadr attributes)))
+          (setq props (append
+                       props
+                       (list :dict-entry
+                             ;; HACK fixed so that dict entries are conses
+                             (list
+                              (substring (symbol-name (car attributes)) 1)
+                              (cadr attributes))))
+                attributes (cddr attributes)))
+        ;; Search.  The result is a list of object paths.
+        (setq result
+              (dbus-call-method
+               :session secrets-service collection-path
+               secrets-interface-collection "SearchItems"
+               (if props
+                   (cons :array props)
+                 '(:array :signature "{ss}"))))
+        ;; Return the found items.
+        (mapcar
+         (lambda (item-path) (secrets-get-item-property item-path "Label"))
+         result)))))
 
 (use-package auth-source
   ;; prefer gnome-keyring via Login keyring, encrypted auth source to non-encrypted
@@ -840,11 +840,12 @@ The object labels of the found items are returned as list."
     "Say good morning to all pals who are in the current channel."
     (erc-send-message (concat (nth (random (length apm-erc-greetings))
                                    apm-erc-greetings)
+                              " "
                               (mapconcat #'identity
                                          (seq-intersection
                                           erc-pals
                                           (erc-get-channel-nickname-list))
-                                " "))))
+                                         " "))))
 
   :bind (("C-c f e" . apm-erc-find-logfile)
          ("C-c b e" . apm-erc-browse-url-from-channel-topic)
@@ -867,12 +868,12 @@ The object labels of the found items are returned as list."
   (dolist (network '((Canonical . "irc.canonical.com")
                      (freenode . "irc.freenode.net")))
     (let* ((pass (auth-source-pick-first-password :host (cdr network) :user erc-nick :login "NickServ")))
-    (if (null pass)
-        ;; secret-tool store --label='(car network) IRC NickServ' host (cdr network) user amurray login NickServ
-        ;; then enter password
-        (alert (format "Please store %s NickServ password in secret store for %s"
-                       (cdr network) erc-nick))
-      (add-to-list 'erc-nickserv-passwords `(,(car network) ((,erc-nick . ,pass)))))))
+      (if (null pass)
+          ;; secret-tool store --label='(car network) IRC NickServ' host (cdr network) user amurray login NickServ
+          ;; then enter password
+          (alert (format "Please store %s NickServ password in secret store for %s"
+                         (cdr network) erc-nick))
+        (add-to-list 'erc-nickserv-passwords `(,(car network) ((,erc-nick . ,pass)))))))
 
   (setq erc-autojoin-timing 'ident)
 
@@ -1475,11 +1476,11 @@ This will replace the last notification sent with this function."
                                         "08AA09489F9DC266D9046E05A897FD7E8600E018" ;markmorlino
                                         "C8726381716BC3D27B868575CB8F16FBD3A64F82" ;emitorino
                                         "42A9C900D39880C887385AAC7C1082C269B4B95C" ;danielwang
-                                        "9673BF778F45A143CAF5FC32B46763D063A1DBEC" ;Avital)
-                                        ("tyhicks@canonical.com" "CE1D6FE48F85F246C77C3516AD3F818B34FA35B7")))
- (CMS
-  (sign)
-  (encrypt)))))
+                                        "9673BF778F45A143CAF5FC32B46763D063A1DBEC")  ;Avital
+                                       ("tyhicks@canonical.com" "CE1D6FE48F85F246C77C3516AD3F818B34FA35B7")))
+                                     (CMS
+                                      (sign)
+                                      (encrypt)))))
 
 (use-package modern-cpp-font-lock
   :ensure t
@@ -1592,8 +1593,8 @@ This will replace the last notification sent with this function."
         mu4e-trash-folder)
        ;; messages sent by me go to the sent folder
        ((cl-find-if (lambda (addr)
-                   (mu4e-message-contact-field-matches msg :from addr))
-                 mu4e-user-mail-address-list)
+                      (mu4e-message-contact-field-matches msg :from addr))
+                    mu4e-user-mail-address-list)
         mu4e-sent-folder)
        (t "/Archive"))))
 
