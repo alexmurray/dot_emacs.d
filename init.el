@@ -1840,50 +1840,9 @@ This will replace the last notification sent with this function."
 (use-package org-clock
   :after org
   :bind (("C-c g" . org-clock-goto)
-         ("C-c i" . org-clock-in)
-         ("C-c o" . org-clock-out))
+         ("C-c i" . org-pomodoro)
+         ("C-c o" . org-pomodoro))
   :preface
-  (defvar apm-org-clock-notification nil)
-
-  (defun apm-org-clock-clear-notification ()
-    "Clear any existing org clock notification."
-    (when (not (or (null apm-org-clock-notification)
-                   (eq apm-org-clock-notification 'ignore)))
-      (notifications-close-notification apm-org-clock-notification))
-    (setq apm-org-clock-notification nil))
-
-  (defun apm-org-clock-warn-notification-action (_id action)
-    "For notification ID handle ACTION."
-    (pcase action
-      ("ignore" (setq apm-org-clock-notification 'ignore))
-      ("default" (progn
-                   (raise-frame)
-                   (make-frame-visible)
-                   (select-frame-set-input-focus (selected-frame))
-                   (org-mru-clock-in)
-                   (apm-org-clock-clear-notification)))))
-
-  (defun apm-org-clock-warn-if-not-clocked-in ()
-    "Warn if not currently clocked in."
-    (eval-when-compile
-      (require 'org-clock))
-    (when (and (null org-clock-current-task)
-               (not (eq apm-org-clock-notification 'ignore)))
-      ;; show a notification but keep it persistent - don't show more than one
-      (if (require 'notifications nil t)
-          (progn
-            (apm-org-clock-clear-notification)
-            (setq apm-org-clock-notification
-                  (notifications-notify :title "You're not clocked in!"
-                                        :body "Click to select a task or choose ignore..."
-                                        :actions '("ignore" "Ignore"
-                                                   "default" "Select one")
-                                        :on-action #'apm-org-clock-warn-notification-action
-                                        :on-close #'(lambda (id _reason)
-                                                      (when (= id apm-org-clock-notification)
-                                                        (setq apm-org-clock-notification nil)))))))))
-  ;; ensure when clocking in we close any existing notification
-  :hook ((org-clock-in . apm-org-clock-clear-notification))
   ;; assume idle after 5 minutes
   :ensure-system-package xprintidle
   :config
@@ -1900,9 +1859,7 @@ This will replace the last notification sent with this function."
         org-log-done 'note)
   (setq org-clock-x11idle-program-name "xprintidle")
   ;; reload any saved org clock information on startup
-  (org-clock-persistence-insinuate)
-  ;; notify if not clocked in
-  (run-with-timer 60 60 #'apm-org-clock-warn-if-not-clocked-in))
+  (org-clock-persistence-insinuate))
 
 (use-package org-clock-convenience
   :ensure t
@@ -1920,15 +1877,6 @@ This will replace the last notification sent with this function."
   ;; work-around org-link-store-props not being defined
   :config (defalias 'org-link-store-props #'org-store-link-props))
 
-(use-package org-mru-clock
-  :ensure t
-  :bind (("C-c s" . org-mru-clock-in))
-  :config
-  (setq org-mru-clock-completing-read #'ivy-completing-read)
-  ;; don't filter any from list (by default only includes todo's)
-  (setq org-mru-clock-predicate nil)
-  (setq org-mru-clock-how-many 50))
-
 (use-package org-mu4e
   :after (mu4e org)
   ;; store link to message if in header view, not to header query
@@ -1943,6 +1891,10 @@ This will replace the last notification sent with this function."
   (org-notify-add 'default '(:time "24h" :actions -notify/window :duration 600))
   (org-notify-add 'default '(:time "60m" :actions -notify/window :period "2m" :duration 600))
   (org-notify-add 'default '(:time "15m" :actions -notify/window :period "2m" :duration 120)))
+
+(use-package org-pomodoro
+  :ensure t
+  :bind (("C-c s" . org-pomodoro)))
 
 (use-package org-protocol
   :ensure org-plus-contrib
