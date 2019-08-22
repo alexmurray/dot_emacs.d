@@ -1845,7 +1845,7 @@ This will replace the last notification sent with this function."
   :after org
   :bind (("C-c g" . org-clock-goto)
          ("C-c i" . org-pomodoro)
-         ("C-c o" . org-clock-out))
+         ("C-c o" . org-pomodoro))
   :preface
   ;; assume idle after 5 minutes
   :ensure-system-package xprintidle
@@ -1898,7 +1898,13 @@ This will replace the last notification sent with this function."
 
 (use-package org-pomodoro
   :ensure t
-  :bind (("C-c s" . org-pomodoro)))
+  :bind (("C-c s" . org-pomodoro))
+  :config
+  ;; clock time during breaks
+  (setq org-pomodoro-clock-break t)
+  (setq org-pomodoro-play-sounds nil)
+  (setq org-pomodoro-keep-killed-pomodoro-time t)
+  (setq org-pomodoro-ask-upon-killing nil))
 
 (use-package org-protocol
   :ensure org-plus-contrib
