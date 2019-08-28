@@ -2211,7 +2211,7 @@ This will replace the last notification sent with this function."
 
 (use-package time
   :after erc-hl-nicks
-  :bind ((("C-c w" . display-time-world)))
+  :bind ((("C-c z" . display-time-world)))
   :config (let ((team '(("Australia/Adelaide" . ("amurray"))
                         ("Europe/London" . ("ChrisCoulson"))
                         ("Brazil/East" . ("ebarretto" "emitorino" "leosilva" "pfsmorigo"))
@@ -2316,6 +2316,12 @@ This will replace the last notification sent with this function."
 
 (use-package world-time-mode
   :ensure t)
+
+(use-package wttrin
+  :ensure t
+  :bind (("C-c w" . wttrin))
+  :config (setq wttrin-default-cities '("Adelaide")))
+
 
 (use-package yaml-mode
   :ensure t)
