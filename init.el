@@ -1905,7 +1905,7 @@ This will replace the last notification sent with this function."
   (setq org-pomodoro-clock-break t)
   (setq org-pomodoro-play-sounds nil)
   (setq org-pomodoro-keep-killed-pomodoro-time t)
-  (setq org-pomodoro-ask-upon-killing nil)
+  (setq org-pomodoro-ask-upon-killing t)
   ;; ensure alerts from org-pomodoro get shown via dbus notifications and
   ;; are persistent
   (add-to-list 'alert-user-configuration '(((:category . "org-pomodoro"))
