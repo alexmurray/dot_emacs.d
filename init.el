@@ -912,6 +912,7 @@ This will replace the last notification sent with this function."
                                     :app-icon erc-notifications-icon
                                     :actions '("default" "Switch to buffer")
                                     :urgency 'critical
+                                    :persistent t
                                     :on-action (lambda (&rest _)
                                                  (pop-to-buffer channel)))))))
 
