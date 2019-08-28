@@ -273,7 +273,7 @@
 
 (use-package autorevert
   :diminish auto-revert-mode
-  :init (global-auto-revert-mode 1))
+  :config (global-auto-revert-mode 1))
 
 (use-package auctex
   :ensure t
