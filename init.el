@@ -1725,7 +1725,7 @@ This will replace the last notification sent with this function."
   (setq mu4e-completing-read-function 'completing-read)
   (setq mu4e-headers-fields '((:human-date . 12)
                               (:flags . 6)
-                              (:mailing-list . 10)
+                              (:mailing-list . 20)
                               (:from . 22)
                               (:size . 8)
                               (:subject)))
