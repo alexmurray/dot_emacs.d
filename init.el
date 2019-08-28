@@ -779,8 +779,8 @@ The object labels of the found items are returned as list."
   :config
   ;; display emojis using images since looks nicer
   (setq emojify-display-style 'image)
-  ;; only replace unicode emojis (don't mess with ascii ones)
-  (setq emojify-emoji-styles '(unicode))
+  ;; only replace unicode and github :slight_smile: style emojis (don't mess with ascii ones)
+  (setq emojify-emoji-styles '(unicode github))
   ;; echo the actual underlying character to the minibuffer when
   ;; point is over them so we don't mess with the displayed buffer
   ;; itself
