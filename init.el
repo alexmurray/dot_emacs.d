@@ -701,9 +701,6 @@ The object labels of the found items are returned as list."
   :config (unless (executable-find "ripgrep")
             (alert "Please install ripgrep snap...")))
 
-(use-package debian-changelog-mode
-  :ensure t)
-
 (use-package debian-el
   :ensure t)
 
