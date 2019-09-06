@@ -1990,6 +1990,7 @@ This will replace the last notification sent with this function."
   :after pdf-tools
   :config
   (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
+
 (use-package plantuml-mode
   :ensure t
   :mode ("\\.p\\(lant\\)?uml\\'" . plantuml-mode)
