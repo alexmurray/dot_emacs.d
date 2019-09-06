@@ -417,12 +417,7 @@ The object labels of the found items are returned as list."
     (c-toggle-electric-state 1)
     ;; ensure fill-paragraph takes doxygen @ markers as start of new
     ;; paragraphs properly
-    (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f")
-    ;; add key-bindings for smartparens hybrid sexps
-    (with-eval-after-load 'smartparens
-      (local-set-key (kbd "C-)") 'sp-slurp-hybrid-sexp)
-      (local-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
-      (local-set-key (kbd "C-<left>") 'sp-dedent-adjust-sexp)))
+    (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
   :hook ((c-mode-common . apm-c-mode-common-setup))
   :config
   ;; from https://www.kernel.org/doc/html/v5.0/process/coding-style.html
@@ -758,9 +753,10 @@ The object labels of the found items are returned as list."
 
 (use-package electric
   :init
-  ;; electric indent and layout modes to make more IDE like
+  ;; electric indent, layout and pair modes to make more IDE like
   (electric-indent-mode 1)
-  (electric-layout-mode 1))
+  (electric-layout-mode 1)
+  (electric-pair-mode 1))
 
 (use-package elisp-def
   :ensure t
@@ -971,12 +967,7 @@ This will replace the last notification sent with this function."
                '(apm-reuse-erc-window . (display-buffer-reuse-mode-window
                                          (inhibit-same-window . t)
                                          (inhibit-switch-frame . t)
-                                         (mode . erc-mode))))
-  (with-eval-after-load 'smartparens-text
-    ;; turn off smartparens when using emoticons
-    (sp-local-pair 'erc-mode "(" nil
-                   :unless '(:add sp-text-mode-emoticon-p)
-                   :skip-match 'sp-text-mode-skip-emoticon)))
+                                         (mode . erc-mode)))))
 
 (use-package erc-hl-nicks
   :ensure t
@@ -1972,6 +1963,10 @@ This will replace the last notification sent with this function."
   (paradox-enable)
   (advice-add 'paradox-list-packages :before 'apm-paradox-set-github-token))
 
+(use-package paredit
+  :ensure t
+  :hook ((emacs-lisp-mode . enable-paredit-mode)))
+
 (use-package paren-face
   :ensure t
   :config (global-paren-face-mode 1))
@@ -2115,42 +2110,6 @@ This will replace the last notification sent with this function."
   (setq visual-line-fringe-indicators
         '(left-curly-arrow right-curly-arrow)))
 
-(use-package smartparens
-  :ensure t
-  :diminish smartparens-mode
-  :preface
-  ;; taken from https://github.com/Fuco1/smartparens/issues/80#issuecomment-18910312
-  (defun apm-c-mode-common-open-block (&rest ignored)
-    "Open a new brace or bracket expression, with relevant newlines and indent (IGNORED is ignored)."
-    (newline)
-    (indent-according-to-mode)
-    (forward-line -1)
-    (indent-according-to-mode))
-  ;; use smartparens in strict mode for programming and ielm
-  :hook ((prog-mode ielm-mode) . smartparens-strict-mode)
-  :init (smartparens-global-mode 1)
-  :config
-  (require 'smartparens-config)
-  (require 'smartparens-latex)
-  (setq sp-base-key-bindings 'smartparens)
-  ;; always jump out of string when hitting end "
-  (setq sp-autoskip-closing-pair 'always)
-  (setq sp-hybrid-kill-entire-symbol nil)
-  (sp-use-smartparens-bindings)
-
-  ;; highlights matching pairs
-  (show-smartparens-global-mode 1)
-
-  ;; disable pairing of ' in minibuffer
-  (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-
-  ;; use smartparens to automatically indent correctly when opening
-  ;; a new block
-  (dolist (mode '(c-mode c++-mode java-mode))
-    (sp-local-pair mode "{" nil :post-handlers '((apm-c-mode-common-open-block "RET"))))
-  ;; don't try and complete tag end - breaks nxml completion etc
-  (sp-local-pair 'nxml-mode "<" ">" :actions '(:rem insert)))
-
 (use-package smtpmail
   ;; store password using secret-tool as follows:
   ;; secret-tool store --label='Canonical SMTP' host smtp.canonical.com port 587 user canonical
@@ -2266,8 +2225,6 @@ This will replace the last notification sent with this function."
   :ensure t
   :defer t
   :init
-  ;; use smartparens instead
-  (setq web-mode-enable-auto-pairing nil)
   :mode ("\\.php\\'" . web-mode))
 
 (use-package webpaste
