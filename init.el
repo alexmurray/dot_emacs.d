@@ -2272,10 +2272,9 @@ This will replace the last notification sent with this function."
   :ensure t)
 
 (use-package wttrin
-  :ensure t
+  :load-path "~/emacs-wttrin/"
   :bind (("C-c w" . wttrin))
   :config (setq wttrin-default-cities '("Adelaide")))
-
 
 (use-package yaml-mode
   :ensure t)
