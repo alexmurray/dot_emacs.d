@@ -1992,6 +1992,8 @@ This will replace the last notification sent with this function."
 
 (use-package paredit
   :ensure t
+  ;; don't steal occur prefix
+  :bind (:map paredit-mode-map ("M-s" . nil))
   :hook ((emacs-lisp-mode . enable-paredit-mode)))
 
 (use-package paren-face
