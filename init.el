@@ -1031,6 +1031,8 @@ This will replace the last notification sent with this function."
       map))
   (set-keymap-parent apm-eudc-bob-query-keymap eudc-bob-generic-keymap)
   (add-to-list 'eudc-attribute-display-method-alist '("manager" . apm-eudc-display-query))
+  (add-to-list 'eudc-attribute-display-method-alist '("utc offset" . apm-eudc-display-utc-offset))
+  (add-to-list 'eudc-attribute-display-method-alist '("timezone name" . apm-eudc-display-timezone))
   (defun apm-eudc-query-at-point ()
     (interactive)
     (let ((id (eudc-bob-get-overlay-prop 'query)))
@@ -1041,12 +1043,32 @@ This will replace the last notification sent with this function."
                         (setq name (match-string 1 id))))
               (error "Failed to extract cn from id %s" id)
             (eudc-display-records (eudc-query `((cn . ,name)))))))))
+
+  (defun apm-eudc-display-timezone (timezone)
+    "Display TIMEZONE with current local time."
+      (insert (concat timezone
+                      " ["
+                      (current-time-string nil timezone)
+                      "]")))
+
+  (defun apm-eudc-display-utc-offset (offset)
+    "Display OFFSET with current local time."
+    (let ((hours (string-to-number (substring offset 0 3)))
+          (mins (string-to-number (substring offset 3))))
+      (insert (concat offset
+                      " ["
+                      (current-time-string
+                       (time-add (current-time) (* (+ (* hours 60) mins) 60)) t)
+                      "]"))))
+
   (defun apm-eudc-display-query (query)
     "Display QUERY as an interactive element."
     (eudc-bob-make-button query apm-eudc-bob-query-keymap nil (list 'query query)))
 
   (defun apm-eudc-lookup-email (&optional email)
-    (interactive (list (read-string "Email address: ")))
+    (interactive (list
+                  (let ((initial (substring-no-properties (or (thing-at-point 'email) ""))))
+                    (read-string "Email address: " initial))))
     (eudc-display-records (eudc-query  `((email . ,email)))))
 
   (defun apm-eudc-lookup-nick (&optional nick)
