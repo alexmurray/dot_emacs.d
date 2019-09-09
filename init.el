@@ -1217,8 +1217,16 @@ This will replace the last notification sent with this function."
 (use-package flyspell
   :defer t
   :diminish flyspell-mode
+  :preface
+  (defun apm-flyspell-ignore-http-and-https ()
+    "Ignore flyspell checking anything that looks like a URL."
+    (save-excursion
+      (not (thing-at-point 'url))))
   :hook ((text-mode . flyspell-mode)
-         (prog-mode . flyspell-prog-mode)))
+         (prog-mode . flyspell-prog-mode))
+  :init
+  (put 'text-mode 'flyspell-mode-predicate 'apm-flyspell-ignore-http-and-https)
+  (put 'cve-mode 'flyspell-mode-predicate 'apm-flyspell-ignore-http-and-https))
 
 (use-package flyspell-correct-ivy
   :ensure t
