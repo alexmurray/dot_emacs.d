@@ -1012,7 +1012,11 @@ This will replace the last notification sent with this function."
 
 (use-package erc-view-log
   :ensure t
-  :config (add-to-list 'auto-mode-alist
+  :config
+  ;; colorise nicks better
+  (with-eval-after-load 'erc-hl-nicks
+    (setq erc-view-log-nickname-face-function #'erc-hl-nicks-make-face))
+  (add-to-list 'auto-mode-alist
                        `(,(format "%s/.*\\.[log|txt]"
                                   (regexp-quote
                                    (expand-file-name
