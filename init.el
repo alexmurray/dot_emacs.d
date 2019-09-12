@@ -2284,6 +2284,7 @@ This will replace the last notification sent with this function."
 
 (use-package usn
   :load-path "~/ubuntu/git/usn-tool/"
+  :commands (usn-compose-from-draft)
   :bind (("C-c f u" . usn-show-at-point)))
 
 (use-package web-mode
