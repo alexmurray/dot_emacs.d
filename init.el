@@ -769,14 +769,15 @@ The object labels of the found items are returned as list."
   :ensure-system-package ("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
   :diminish emojify-mode
   :bind (("C-c e" . emojify-insert-emoji))
+  :defer nil
   :config
   ;; display emojis using images since looks nicer
   (setq emojify-display-style 'image)
-  ;; only replace unicode and github :slight_smile: style emojis (don't mess with ascii ones)
+  ;; only replace unicode and github :slight_smile: style emojis (don't
+  ;; mess with ascii ones)
   (setq emojify-emoji-styles '(unicode github))
-  ;; echo the actual underlying character to the minibuffer when
-  ;; point is over them so we don't mess with the displayed buffer
-  ;; itself
+  ;; echo the actual underlying character to the minibuffer when point is
+  ;; over them so we don't mess with the displayed buffer itself
   (setq emojify-point-entered-behaviour 'echo)
   (global-emojify-mode 1))
 
