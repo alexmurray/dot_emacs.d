@@ -788,6 +788,17 @@ The object labels of the found items are returned as list."
     (require 'erc-log)
     (require 'erc-match))
 
+  ;; face to show in header line when disconnected
+  (defface apm-erc-header-line-disconnected
+    '((t (:foreground "black" :background "indianred")))
+    "Face to use when ERC has been disconnected.")
+
+  (defun apm-erc-update-header-line-show-disconnected ()
+    "Use a different face in the header-line when disconnected."
+    (erc-with-server-buffer
+      (unless (erc-server-process-alive)
+        'apm-erc-header-line-disconnected)))
+
   (defun apm-erc-find-logfile ()
     "Find and open the current `erc-mode` buffers logfile."
     (interactive)
@@ -956,6 +967,10 @@ This will replace the last notification sent with this function."
   (erc-autojoin-mode 1)
 
   (erc-spelling-mode 1)
+
+  ;; change header line face when disconnected
+  (setq erc-header-line-face-method
+        #'apm-erc-update-header-line-show-disconnected)
 
   ;; ensure erc tries to reuse windows as much as possible
   (defun apm-reuse-erc-window (buffer action)
