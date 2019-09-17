@@ -1178,11 +1178,11 @@ This will replace the last notification sent with this function."
   :commands flycheck-add-next-checker
   :ensure-system-package (cppcheck shellcheck)
   :init (setq-default flycheck-emacs-lisp-load-path 'inherit)
+  :hook ((prog-mode . flycheck-mode))
   :config
   ;; use lsp-ui checker via cquery instead
   (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
-  (setq-default flycheck-display-errors-delay 0.2)
-  (global-flycheck-mode 1))
+  (setq-default flycheck-display-errors-delay 0.2))
 
 (use-package flycheck-checkbashisms
   :ensure t
