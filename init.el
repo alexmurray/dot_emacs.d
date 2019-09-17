@@ -921,6 +921,9 @@ This will replace the last notification sent with this function."
                                     :on-action (lambda (&rest _)
                                                  (pop-to-buffer channel)))))))
 
+  ;; format nicknames to show if user has voice(+), owner (~), admin (&),
+  ;; operator (@)
+  (setq erc-format-nick-function 'erc-format-@nick)
   (setq erc-pals '("joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "markmorlino" "emitorino" "danielwang" "deafpool"))
 
   (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm"))
