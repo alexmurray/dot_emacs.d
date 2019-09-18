@@ -2225,10 +2225,9 @@ This will replace the last notification sent with this function."
   :ensure t
   :bind (("C-c t" . telega))
   :config
-  (telega-mode-line-mode 1)
   (telega-notifications-mode 1)
   (if (not (file-exists-p "/usr/local/lib/libtdcore.a"))
-      (alert "Please compile and install libtd for telegram support")
+      (alert "Pleasie compile and install libtd for telegram support")
     ;; ensure library can be found
     (setenv "LD_LIBRARY_PATH" (concat (getenv "LD_LIBRARY_PATH") ":/usr/local/lib"))
     ;; automatically connect on startup
