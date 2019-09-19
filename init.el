@@ -1310,7 +1310,7 @@ This will replace the last notification sent with this function."
                (list "\\(This bug is a security vulnerability\\)" 1 1 'warning))
   ;; don't fill long lines as breaks tables in emails
   (setq gnus-treat-fill-long-lines nil)
-  ;; gnus smileys look lame (TODO - hack in some emojify support?)
+  ;; gnus smileys look lame
   (setq gnus-treat-display-smileys nil))
 
 (use-package go-mode
@@ -2353,20 +2353,6 @@ This will replace the last notification sent with this function."
 (use-package yasnippet
   :ensure t
   :diminish (yas-global-mode yas-minor-mode)
-  :defer nil
-  :bind (:map yas-keymap
-              ;; Use C-tab to both expand a snippet and move through its fields
-              ("<C-tab>" . yas-next-field-or-maybe-expand)
-              ("C-f" . yas-next-field-or-maybe-expand)
-              ("C-b" . yas-prev-field)
-              ("TAB" . nil)
-              ("<tab>" . nil)
-              ("S-<tab>" . nil)
-              ("<backtab>"  .  nil)
-              :map yas-minor-mode-map
-              ("<C-tab>" . yas-expand)
-              ("TAB" . nil)
-              ("<tab>" . nil))
   :config (yas-global-mode 1))
 
 (use-package x86-lookup
