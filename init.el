@@ -2034,6 +2034,12 @@ This will replace the last notification sent with this function."
   :bind (:map paredit-mode-map ("M-s" . nil))
   :hook ((emacs-lisp-mode . enable-paredit-mode)))
 
+(use-package paren
+  :defer t
+  :commands show-paren-mode
+  :config
+  (show-paren-mode 1))
+
 (use-package paren-face
   :ensure t
   :config (global-paren-face-mode 1))
