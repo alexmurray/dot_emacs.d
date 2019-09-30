@@ -911,8 +911,10 @@ This will replace the last notification sent with this function."
                                     :title (format "%s in %s"
                                                    (xml-escape-string nick)
                                                    channel)
-                                    :body (replace-regexp-in-string "\n" " "
-                                                                    (string-trim (xml-escape-string msg)))
+                                    ;; don't keep multiple spaces
+                                    :body (replace-regexp-in-string " +" " "
+                                                                    (replace-regexp-in-string "\n" " "
+                                                                                              (string-trim (xml-escape-string msg))))
                                     :replaces-id erc-notifications-last-notification
                                     :app-icon erc-notifications-icon
                                     :actions '("default" "Switch to buffer")
