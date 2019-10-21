@@ -1059,6 +1059,8 @@ This will replace the last notification sent with this function."
                '(mozillacustom3 . "Timezone Name"))
   (add-to-list 'eudc-user-attribute-names-alist
                '(mozillacustom4 . "UTC Offset"))
+  (add-to-list 'eudc-user-attribute-names-alist
+               '(launchpadid . "Launchpad ID"))
   ;; keep byte-compiler happy
   (defvar eudc-bob-generic-keymap nil)
   ;; add support for querying up the hierarchy via manager
@@ -1070,6 +1072,7 @@ This will replace the last notification sent with this function."
   (add-to-list 'eudc-attribute-display-method-alist '("manager" . apm-eudc-display-query))
   (add-to-list 'eudc-attribute-display-method-alist '("utc offset" . apm-eudc-display-utc-offset))
   (add-to-list 'eudc-attribute-display-method-alist '("timezone name" . apm-eudc-display-timezone))
+  (add-to-list 'eudc-attribute-display-method-alist '("launchpad id" . apm-eudc-display-launchpadid))
   (defun apm-eudc-query-at-point ()
     (interactive)
     (let ((id (eudc-bob-get-overlay-prop 'query)))
@@ -1097,6 +1100,10 @@ This will replace the last notification sent with this function."
                       (current-time-string
                        (time-add (current-time) (* (+ (* hours 60) mins) 60)) t)
                       "]"))))
+
+  (defun apm-eudc-display-launchpadid (id)
+    "Display ID as a clickable URL."
+      (eudc-display-url (concat "https://launchpad.net/~" id)))
 
   (defun apm-eudc-display-query (query)
     "Display QUERY as an interactive element."
