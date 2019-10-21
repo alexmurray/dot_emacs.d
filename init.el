@@ -110,6 +110,10 @@
 ;; just use y or n not yes or no
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;; don't try and use dialog boxes
+(setq use-dialog-box nil)
+(setq use-file-dialog nil)
+
 ;; inhibit startup message and splash screen
 (setq inhibit-startup-message t)
 ;; remove message from initial scratch buffer
