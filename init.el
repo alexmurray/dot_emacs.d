@@ -1829,7 +1829,10 @@ This will replace the last notification sent with this function."
 (use-package mu4e-patch
   :load-path "vendor/"
   :after mu4e
-  :hook (mu4e-view-mode . mu4e-patch-highlight))
+  :hook (mu4e-view-mode . mu4e-patch-highlight)
+  :config
+  (set-face-attribute 'mu4e-patch-commit-message nil :foreground "black")
+  (set-face-attribute 'mu4e-patch-diff-stat-file nil :foreground "orange"))
 
 (use-package no-littering
   :ensure t
