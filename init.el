@@ -2254,6 +2254,10 @@ This will replace the last notification sent with this function."
     ;; automatically connect on startup
     (telega 1)))
 
+(use-package text-mode
+  ;; enable auto-fill-mode in all text-mode and derived buffers
+  :config (toggle-text-mode-auto-fill))
+
 (use-package time
   :after erc-hl-nicks
   :bind ((("C-c z" . display-time-world)))
