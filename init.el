@@ -687,7 +687,8 @@ The object labels of the found items are returned as list."
   :init (cua-selection-mode 1))
 
 (use-package cve-mode
-  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/")
+  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
+  :hook ((cve-mode . flycheck-mode)))
 
 ;; show suspicious c constructs automatically
 (use-package cwarn
