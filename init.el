@@ -2324,6 +2324,21 @@ This will replace the last notification sent with this function."
   :init
   :mode ("\\.php\\'" . web-mode))
 
+(use-package vdiff
+  :ensure t
+  :bind (:map vdiff-mode-map ("C-c" . vdiff-mode-prefix-map)))
+
+(use-package vdiff-magit
+  :ensure t
+  :bind (:map magit-mode-map
+              ("e" . vdiff-magit-dwim)
+              ("E" . vdiff-magit))
+  :config
+  (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
+  (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
+  (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
+  (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit))
+
 (use-package webpaste
   :ensure t
   :bind (("C-c C-p C-b" . webpaste-paste-buffer)
