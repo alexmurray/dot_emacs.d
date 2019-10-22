@@ -1567,7 +1567,7 @@ This will replace the last notification sent with this function."
          ([(meta shift down)] . move-text-down)))
 
 (use-package mu4e
-  :load-path "/snap/mu/current/share/emacs/site-lisp/mu4e/"
+  :load-path "/snap/maildir-utils/current/share/emacs/site-lisp/mu4e/"
   :bind (("C-c m" . mu4e))
   :preface
 
