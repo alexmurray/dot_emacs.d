@@ -2322,7 +2322,6 @@ This will replace the last notification sent with this function."
 (use-package web-mode
   :ensure t
   :defer t
-  :init
   :mode ("\\.php\\'" . web-mode))
 
 (use-package vdiff
