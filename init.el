@@ -2336,7 +2336,7 @@ This will replace the last notification sent with this function."
 
 (use-package vdiff
   :ensure t
-  :bind (:map vdiff-mode-map ("C-c" . vdiff-mode-prefix-map)))
+  :config (define-key vdiff-mode-map (kbd "C-c") vdiff-mode-prefix-map))
 
 (use-package vdiff-magit
   :ensure t
