@@ -812,10 +812,14 @@ The object labels of the found items are returned as list."
       (find-file-other-window (erc-current-logfile))))
 
   (defun apm-occur-in-erc (&optional regexp)
-    "Find matches of REGEXP in all erc buffers"
+    "Find matches of REGEXP in all erc buffers.
+With a prefix argument, will default to looking for all
+`erc-keywords' and mentions of `erc-nick'."
     (interactive
      (list
-      (let ((regex (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)")))
+      (let ((regex  (concat "\\(" (regexp-opt erc-keywords) "\\|"
+                            (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)")
+                            "\\)")))
         (read-string "Regexp: "
                      (cond ((region-active-p)
                             (buffer-substring (region-beginning) (region-end)))
