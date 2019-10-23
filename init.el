@@ -1118,7 +1118,11 @@ This will replace the last notification sent with this function."
 
   (defun apm-eudc-lookup-email (&optional email)
     (interactive (list
-                  (let ((initial (substring-no-properties (or (thing-at-point 'email) ""))))
+                  (let ((initial
+                         ;; remove any opening / closing angle brackets if
+                         ;; present
+                         (replace-regexp-in-string "[<>]" ""
+                                                   (substring-no-properties (or (thing-at-point 'email) "")))))
                     (read-string "Email address: " initial))))
     (eudc-display-records (eudc-query  `((email . ,email)))))
 
