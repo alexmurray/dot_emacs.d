@@ -2349,6 +2349,10 @@ This will replace the last notification sent with this function."
   (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
   (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit))
 
+(use-package vimrc-mode
+  :ensure t
+  :mode (("\\.vim\\(rc\\)?\\'" . vimrc-mode)))
+
 (use-package webpaste
   :ensure t
   :bind (("C-c C-p C-b" . webpaste-paste-buffer)
