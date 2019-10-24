@@ -894,8 +894,7 @@ With a prefix argument, will default to looking for all
   (setq erc-autojoin-channels-alist nil)
   (setq erc-fill-function #'erc-fill-static)
   (setq erc-fill-static-center 18)
-  ;; this fits an entire line on a maximised window
-  (setq erc-fill-column 165)
+  (setq erc-fill-column 80)
 
   ;; use sensible buffer names with server as well
   (setq erc-rename-buffers t)
