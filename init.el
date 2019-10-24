@@ -2380,8 +2380,7 @@ This will replace the last notification sent with this function."
   :hook ((prog-mode . whitespace-mode))
   :init
   ;; show trailing whitespace
-  (setq-default whitespace-style '(face lines-tail tabs trailing))
-  (setq-default whitespace-line-column 80))
+  (setq-default whitespace-style '(face tabs trailing)))
 
 (use-package windmove
   :ensure t
