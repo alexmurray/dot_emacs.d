@@ -633,7 +633,6 @@ The object labels of the found items are returned as list."
          ("C-h v" . counsel-describe-variable)
          ("C-c S" . counsel-grep-or-swiper)
          ("M-s s" . counsel-grep-or-swiper)
-         ("M-s o" . swiper-isearch-thing-at-point)
          ("C-c R" . counsel-grep-or-swiper-backward)
          ("M-s r" . counsel-grep-or-swiper-backward)
          :map outline-mode-map ("M-i" . counsel-outline)
@@ -2251,6 +2250,8 @@ This will replace the last notification sent with this function."
   :ensure t
   :bind (("C-s" . swiper-isearch)
          ("C-r" . swiper-isearch-backward)
+         ("M-s o" . swiper-isearch-thing-at-point)
+         ("M-s ." . swiper-isearch-thing-at-point)
          :map isearch-mode-map ("M-i" . swiper-from-isearch)))
 
 (use-package systemd
