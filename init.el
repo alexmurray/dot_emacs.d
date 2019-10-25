@@ -1634,6 +1634,8 @@ This will replace the last notification sent with this function."
        ((or (string-match-p "^\\(R[eE]: \\)?\\[Bug " subject)
             (mu4e-message-contact-field-matches msg :from "bugs.launchpad.net"))
         "/launchpad-bugs")
+       ((mu4e-message-contact-field-matches msg :from "bugs.debian.org")
+        "/debian-bugs")
        ((string-match-p "^\\(R[eE]: \\)?\\[Merge\\]" subject)
         "/merge-requests")
        ((or (mu4e-message-contact-field-matches msg :to "distros@vs.openwall.org")
