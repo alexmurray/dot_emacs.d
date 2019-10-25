@@ -813,12 +813,13 @@ With a prefix argument, will default to looking for all
                             (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)")
                             "\\)")))
         (read-string "Regexp: "
-                     (cond ((region-active-p)
-                            (buffer-substring (region-beginning) (region-end)))
-                           (current-prefix-arg
-                            regex)
-                           (t
-                            (word-at-point)))))))
+                     (substring-no-properties
+                      (cond ((region-active-p)
+                             (buffer-substring (region-beginning) (region-end)))
+                            (current-prefix-arg
+                             regex)
+                            (t
+                             (word-at-point))))))))
     (let ((erc-buffers nil))
       (dolist (buffer (buffer-list))
         (with-current-buffer buffer
