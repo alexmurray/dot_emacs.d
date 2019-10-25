@@ -624,8 +624,6 @@ The object labels of the found items are returned as list."
          ("C-x 4 b" . counsel-switch-buffer-other-window)
          ("C-x C-r" . counsel-recentf)
          ("M-y" . counsel-yank-pop)
-         ("C-h f" . counsel-describe-function)
-         ("C-h v" . counsel-describe-variable)
          ("C-c S" . counsel-grep-or-swiper)
          ("M-s s" . counsel-grep-or-swiper)
          ("C-c R" . counsel-grep-or-swiper-backward)
@@ -1371,7 +1369,9 @@ This will replace the last notification sent with this function."
 (use-package helpful
   :ensure t
   :bind (("C-h a" . helpful-symbol)
-         ("C-h k" . helpful-key)))
+         ("C-h f" . helpful-callable)
+         ("C-h k" . helpful-key)
+         ("C-h v" . helpful-variable)))
 
 (use-package hideshow
   ;; use hs-minor-mode in programming and mail composing - TODO - get it
