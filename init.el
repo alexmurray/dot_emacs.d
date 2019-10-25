@@ -1331,10 +1331,6 @@ This will replace the last notification sent with this function."
 (use-package go-mode
   :ensure t)
 
-(use-package google-this
-  :ensure t
-  :defer t)
-
 (use-package google-translate-smooth-translate
   :ensure google-translate
   :defer t
