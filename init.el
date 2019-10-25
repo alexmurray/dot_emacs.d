@@ -1802,11 +1802,6 @@ This will replace the last notification sent with this function."
   ;; allows to see attached patches etc more easily inline and also inline
   ;; PGP
   (setq mu4e-view-use-gnus t)
-  ;; ensure gnus prefers plain-text over html where available -
-  ;; https://www.gnu.org/software/emacs/manual/html_node/gnus/FAQ-4_002d6.html#FAQ-4_002d6
-  (with-eval-after-load 'mm-decode
-    (add-to-list 'mm-discouraged-alternatives "text/html")
-    (add-to-list 'mm-discouraged-alternatives "text/richtext"))
 
   ;; add maildir as a header
   (add-function :after (symbol-function 'mu4e~view-gnus)
