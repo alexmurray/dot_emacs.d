@@ -624,6 +624,7 @@ The object labels of the found items are returned as list."
          ("C-x 4 b" . counsel-switch-buffer-other-window)
          ("C-x C-r" . counsel-recentf)
          ("M-y" . counsel-yank-pop)
+         ("C-c b" . counsel-search)
          ("C-c S" . counsel-grep-or-swiper)
          ("M-s s" . counsel-grep-or-swiper)
          ("C-c R" . counsel-grep-or-swiper-backward)
@@ -634,6 +635,8 @@ The object labels of the found items are returned as list."
   ;; required so we can use counsel-yank-pop in the minibuffer itself
   (setq enable-recursive-minibuffers t)
   (setq counsel-yank-pop-preselect-last t)
+  ;; use google for searching
+  (setq counsel-search-engine 'google)
   (with-eval-after-load 'helpful
     (setq counsel-describe-function-function #'helpful-callable)
     (setq counsel-describe-variable-function #'helpful-variable)))
