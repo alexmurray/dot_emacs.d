@@ -705,7 +705,6 @@ The object labels of the found items are returned as list."
 
 (use-package doom-modeline
   :ensure t
-  :after fancy-battery
   :config
   (setq doom-modeline-height 26)
   (setq doom-modeline-major-mode-color-icon t)
@@ -1184,10 +1183,6 @@ This will replace the last notification sent with this function."
   (eyebrowse-mode 1)
   ;; binds to M-1 M-2 etc to easily switch
   (eyebrowse-setup-opinionated-keys))
-
-(use-package fancy-battery
-  :ensure t
-  :config (fancy-battery-mode 1))
 
 (use-package files
   :bind ("C-c r" . revert-buffer))
