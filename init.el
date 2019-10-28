@@ -1315,19 +1315,6 @@ This will replace the last notification sent with this function."
 (use-package gnuplot
   :ensure t)
 
-(use-package gnus-art
-  :ensure gnus
-  :config
-  ;; add custom highlighting to gnus for launchpad security bugs
-  (add-to-list 'gnus-emphasis-alist
-               (list "\\(Private security bug reported\\)" 1 1 'error))
-  (add-to-list 'gnus-emphasis-alist
-               (list "\\(This bug is a security vulnerability\\)" 1 1 'warning))
-  ;; don't fill long lines as breaks tables in emails
-  (setq gnus-treat-fill-long-lines nil)
-  ;; gnus smileys look lame
-  (setq gnus-treat-display-smileys nil))
-
 (use-package go-mode
   :ensure t)
 
@@ -1675,27 +1662,6 @@ This will replace the last notification sent with this function."
         mu4e-sent-folder)
        (t "/Archive"))))
 
-  (defvar mu4e~view-gnus-extra-headers '(("Maildir" . :maildir)
-                                         ("List" . :mailing-list)))
-
-  ;; taken from https://groups.google.com/d/msg/mu-discuss/HNOxET4DkUY/RNiwEGECAQAJ
-  (defun mu4e~view-gnus-inject-extra-headers (msg)
-    (save-excursion
-      (save-restriction
-        (let ((inhibit-read-only t))
-          (article-goto-body)
-          (forward-line -1)
-          (narrow-to-region (point) (point))
-          (dolist (hdr mu4e~view-gnus-extra-headers)
-            (let ((name (car hdr))
-                  (value (mu4e-message-field msg (cdr hdr))))
-              (when value
-                (insert name ": " value "\n"))))
-          (let ((gnus-treatment-function-alist
-                 '((gnus-treat-highlight-headers
-                    gnus-article-highlight-headers))))
-            (ignore-errors (gnus-treat-article 'head)))))))
-
   :config
   (setq mail-user-agent 'mu4e-user-agent)
   (setq mu4e-maildir (expand-file-name "~/Maildir"))
@@ -1799,13 +1765,8 @@ This will replace the last notification sent with this function."
   ;; attempt to show images when viewing messages
   (setq mu4e-view-show-images t)
 
-  ;; allows to see attached patches etc more easily inline and also inline
-  ;; PGP
-  (setq mu4e-view-use-gnus t)
-
-  ;; add maildir as a header
-  (add-function :after (symbol-function 'mu4e~view-gnus)
-                #'mu4e~view-gnus-inject-extra-headers)
+  ;; use mu's own viewer since then we only decrypt once ;)
+  (setq mu4e-view-use-gnus nil)
 
   ;; show full addresses in message view
   (setq mu4e-view-show-addresses t)
