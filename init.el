@@ -858,7 +858,6 @@ With a prefix argument, will default to looking for all
                                          " "))))
 
   :bind (("C-c f e" . apm-erc-find-logfile)
-         ("C-c b e" . apm-erc-browse-url-from-channel-topic)
          ("M-s e" . apm-occur-in-erc))
   :config
   (eval-and-compile
