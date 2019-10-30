@@ -932,7 +932,7 @@ This will replace the last notification sent with this function."
   ;; format nicknames to show if user has voice(+), owner (~), admin (&),
   ;; operator (@)
   (setq erc-format-nick-function 'erc-format-@nick)
-  (setq erc-pals '("joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "markmorlino" "emitorino" "danielwang" "deafpool"))
+  (setq erc-pals '("joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "markmorlino" "emitorino" "deafpool" "Avital" "dan" "sid"))
 
   (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm"))
 
@@ -1531,7 +1531,6 @@ This will replace the last notification sent with this function."
                                         "9027444394FA0EEB52BDE0B26D4A7990BDE2CC66" ;pfsmorigo
                                         "08AA09489F9DC266D9046E05A897FD7E8600E018" ;markmorlino
                                         "C8726381716BC3D27B868575CB8F16FBD3A64F82" ;emitorino
-                                        "42A9C900D39880C887385AAC7C1082C269B4B95C" ;danielwang
                                         "9673BF778F45A143CAF5FC32B46763D063A1DBEC")  ;Avital
                                        ("tyhicks@canonical.com" "CE1D6FE48F85F246C77C3516AD3F818B34FA35B7")))
                                      (CMS
@@ -2227,11 +2226,11 @@ This will replace the last notification sent with this function."
   :config (let ((team '(("Australia/Adelaide" . ("amurray"))
                         ("Europe/London" . ("ChrisCoulson"))
                         ("Brazil/East" . ("ebarretto" "emitorino" "leosilva" "pfsmorigo"))
-                        ("US/Eastern" . ("markmorlino" "msalvatore" "vineetha1"))
+                        ("US/Eastern" . ("dan" "markmorlino" "msalvatore" "sid" "vineetha1"))
                         ("Canada/Eastern" . ("Avital" "mdeslaur"))
                         ("US/Central" . ("jdstrand" "jmbl" "tyhicks"))
                         ("US/Mountain" . ("joe"))
-                        ("US/Pacific" . ("danielwang" "jj" "sarnold" "sbeattie")))))
+                        ("US/Pacific" . ("jj" "sarnold" "sbeattie")))))
             ;; validate team
             (dolist (member team)
               (unless (file-exists-p (expand-file-name (car member) "/usr/share/zoneinfo"))
