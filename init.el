@@ -1873,8 +1873,8 @@ This will replace the last notification sent with this function."
 (use-package org-clock
   :after org
   :bind (("C-c g" . org-clock-goto)
-         ("C-c i" . org-pomodoro)
-         ("C-c o" . org-pomodoro))
+         ("C-c i" . org-clock-in)
+         ("C-c o" . org-clock-out))
   :preface
   ;; assume idle after 5 minutes
   :ensure-system-package xprintidle
@@ -1910,6 +1910,14 @@ This will replace the last notification sent with this function."
   ;; work-around org-link-store-props not being defined
   :config (defalias 'org-link-store-props #'org-store-link-props))
 
+(use-package org-mru-clock
+  :ensure t
+  :bind (("C-c s" . org-mru-clock-in))
+  :config
+  (setq org-mru-clock-completing-read #'ivy-completing-read)
+  (setq org-mru-clock-keep-formatting t)
+  (setq org-mru-clock-how-many 50))
+
 (use-package org-mu4e
   :after (mu4e org)
   ;; store link to message if in header view, not to header query
@@ -1924,21 +1932,6 @@ This will replace the last notification sent with this function."
   (org-notify-add 'default '(:time "24h" :actions -notify/window :duration 600))
   (org-notify-add 'default '(:time "60m" :actions -notify/window :period "2m" :duration 600))
   (org-notify-add 'default '(:time "15m" :actions -notify/window :period "2m" :duration 120)))
-
-(use-package org-pomodoro
-  :ensure t
-  :bind (("C-c s" . org-pomodoro))
-  :config
-  ;; clock time during breaks
-  (setq org-pomodoro-clock-break t)
-  (setq org-pomodoro-play-sounds nil)
-  (setq org-pomodoro-keep-killed-pomodoro-time t)
-  (setq org-pomodoro-ask-upon-killing t)
-  ;; ensure alerts from org-pomodoro get shown via dbus notifications and
-  ;; are persistent
-  (add-to-list 'alert-user-configuration '(((:category . "org-pomodoro"))
-                                           notifications
-                                           ((:persistent t)))))
 
 (use-package org-protocol
   :ensure org-plus-contrib
