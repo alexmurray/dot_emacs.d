@@ -2109,6 +2109,15 @@ This will replace the last notification sent with this function."
 (use-package rust-mode
   :ensure t)
 
+(use-package sauron
+  :ensure t
+  :config
+  ;; all the important notifications (erc, mu4e etc) are already handled by
+  ;; sauron so no need to duplicate these to the sauron buffer
+  (delete 'sauron-notifications sauron-modules)
+  (setq sauron-hide-mode-line t)
+  (sauron-start))
+
 ;; save minibuffer history
 (use-package savehist
   :init (savehist-mode 1)
