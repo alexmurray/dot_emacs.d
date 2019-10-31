@@ -694,7 +694,7 @@ The object labels of the found items are returned as list."
 (use-package deadgrep
   :ensure t
   :bind ("<f5>" . deadgrep)
-  :config (unless (executable-find "ripgrep")
+  :config (unless (executable-find "rg")
             (alert "Please install ripgrep snap...")))
 
 (use-package debian-el
