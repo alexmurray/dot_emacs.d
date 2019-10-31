@@ -1007,7 +1007,8 @@ This will replace the last notification sent with this function."
   :after erc
   ;; erc-match will highlight pals with erc-pal-face so override that
   ;; for pretty colors
-  :config (delete "erc-pal-face" erc-hl-nicks-skip-faces))
+  :config (setq erc-hl-nicks-skip-faces
+                (delete "erc-pal-face" erc-hl-nicks-skip-faces)))
 
 (use-package erc-image
   :ensure t
