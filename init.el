@@ -2113,9 +2113,8 @@ This will replace the last notification sent with this function."
 (use-package sauron
   :ensure t
   :config
-  ;; all the important notifications (erc, mu4e etc) are already handled by
-  ;; sauron so no need to duplicate these to the sauron buffer
-  (delete 'sauron-notifications sauron-modules)
+  ;; just use sauron for erc for now
+  (setq sauron-modules '(sauron-erc))
   (setq sauron-hide-mode-line t)
   (sauron-start))
 
