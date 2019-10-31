@@ -1396,7 +1396,10 @@ This will replace the last notification sent with this function."
   :ensure t
   :defer t
   :diminish ivy-mode
-  :bind (("C-c C-r" . ivy-resume))
+  :bind (("C-c C-r" . ivy-resume)
+         ;; C-c C-r is shadowed in org-mode and others so also bind f6 for
+         ;; convenience
+         ("<f6>" . ivy-resume))
   :init (ivy-mode 1)
   :config
   (setq ivy-use-virtual-buffers t)
