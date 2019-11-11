@@ -2118,15 +2118,12 @@ This will replace the last notification sent with this function."
 
 (use-package sauron
   :ensure t
+  :hook ((after-init . sauron-start))
   :config
   ;; just use sauron for erc for now
   (setq sauron-modules '(sauron-erc))
-  ;; notify on pals coming/going
-  (with-eval-after-load 'erc-match
-    (setq sauron-watch-nicks erc-pals))
   (setq sauron-max-line-length 120)
-  (setq sauron-hide-mode-line t)
-  (sauron-start))
+  (setq sauron-hide-mode-line t))
 
 ;; save minibuffer history
 (use-package savehist
