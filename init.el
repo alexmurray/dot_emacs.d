@@ -1445,6 +1445,9 @@ This will replace the last notification sent with this function."
   :ensure lsp-mode
   :hook ((lsp-after-open . lsp-enable-imenu)))
 
+(use-package lsp-ivy
+  :ensure t)
+
 (use-package lsp-java
   :ensure t
   :after lsp-mode
