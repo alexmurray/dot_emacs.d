@@ -656,15 +656,10 @@ The object labels of the found items are returned as list."
   :after counsel)
 
 (use-package cov
-  :ensure t
+  :load-path "vendor/"
   :defer t
   :diminish cov-mode
-  :preface
-  (defun apm-cov-mode-setup ()
-    "Setup cov-mode."
-    (make-local-variable 'cov-coverage-file-paths))
-  :hook ((c-mode-common . cov-mode)
-         (cov-mode . apm-cov-mode-setup)))
+  :hook ((prog-mode . cov-mode)))
 
 (use-package ccls
   :ensure t
