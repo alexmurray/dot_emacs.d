@@ -947,7 +947,11 @@ This will replace the last notification sent with this function."
   ;; minimal distraction - only track on nick mentions
   (setq erc-format-query-as-channel-p t)
   (setq erc-track-priority-faces-only 'all)
-  (setq erc-track-faces-priority-list '(erc-error-face
+  (setq erc-track-faces-priority-list `(erc-error-face
+                                        ;; since we use erc-hl-nicks need
+                                        ;; to add this as well since both
+                                        ;; get used
+                                        (,(erc-hl-nicks-make-face erc-nick) erc-current-nick-face)
                                         erc-current-nick-face
                                         erc-keyword-face
                                         erc-nick-msg-face
