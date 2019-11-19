@@ -346,7 +346,7 @@ The object labels of the found items are returned as list."
 
 (use-package avy
   :ensure t
-  :bind (("C-c SPC" . avy-goto-word-or-subword-1))
+  :bind (("C-c SPC" . avy-goto-char-timer))
   :config
   ;; dim text when avy is active
   (setq avy-background t)
