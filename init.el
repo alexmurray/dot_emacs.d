@@ -780,10 +780,15 @@ The object labels of the found items are returned as list."
     (require 'erc-log)
     (require 'erc-match))
 
+(defgroup apm-erc nil
+  "apm's erc customisations."
+  :group 'erc)
+
   ;; face to show in header line when disconnected
   (defface apm-erc-header-line-disconnected
     '((t (:foreground "black" :background "indianred")))
-    "Face to use when ERC has been disconnected.")
+    "Face to use when ERC has been disconnected."
+    :group 'apm-erc)
 
   (defun apm-erc-update-header-line-show-disconnected ()
     "Use a different face in the header-line when disconnected."
