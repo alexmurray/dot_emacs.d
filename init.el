@@ -928,7 +928,7 @@ This will replace the last notification sent with this function."
   (setq erc-format-nick-function 'erc-format-@nick)
   (setq erc-pals '("joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "markmorlino" "emitorino" "deafpool" "Avital" "dan" "sid"))
 
-  (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm"))
+  (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security[^-]" "esm"))
 
   ;; when joining don't bring to front
   (setq erc-join-buffer 'bury)
