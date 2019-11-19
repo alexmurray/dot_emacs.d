@@ -14,7 +14,9 @@
 /emojis/*
 /erc
 /eshell
+/eudc-options
 /flycheck_init.el
+/forge-database.sqlite
 /helm-adaptive-history
 /history
 /ido.last
@@ -31,6 +33,8 @@
 /smex-items
 /srecode-map.el
 /tramp
+/transient/
+/tutorial/
 /type-break
 /url
 /var/
