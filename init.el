@@ -155,7 +155,7 @@
 (toggle-frame-maximized)
 
 ;; set preferred font
-(add-to-list 'default-frame-alist '(font . "Hack-10"))
+(add-to-list 'default-frame-alist '(font . "Ubuntu Mono Regular-11"))
 
 ;; prompt when trying to switch out of a dedicated window
 (setq switch-to-buffer-in-dedicated-window 'prompt)
