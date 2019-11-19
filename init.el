@@ -2219,16 +2219,15 @@ This will replace the last notification sent with this function."
   :ensure t)
 
 (use-package telega
-  :ensure t
+  :init (unless (executable-find "telega-server")
+          (alert (format "Please install the telega snap")))
+  :load-path "/snap/telega/current/share/emacs/site-lisp/telega/"
   :bind (("C-c t" . telega))
+  ;; automatically connect on startup
+  :hook ((after-init . telega))
   :config
-  (telega-notifications-mode 1)
-  (if (not (file-exists-p "/usr/local/lib/libtdcore.a"))
-      (alert "Pleasie compile and install libtd for telegram support")
-    ;; ensure library can be found
-    (setenv "LD_LIBRARY_PATH" (concat (getenv "LD_LIBRARY_PATH") ":/usr/local/lib"))
-    ;; automatically connect on startup
-    (telega 1)))
+  (telega-mode-line-mode 1)
+  (telega-notifications-mode 1))
 
 (use-package text-mode
   ;; enable auto-fill-mode in all text-mode and derived buffers
