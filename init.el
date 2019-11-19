@@ -933,8 +933,6 @@ This will replace the last notification sent with this function."
   ;; when joining don't bring to front
   (setq erc-join-buffer 'bury)
 
-  ;; add to global-mode-string for doom-modeline to show
-  (setq erc-track-position-in-mode-line t)
   (setq erc-track-switch-direction 'importance)
   (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
                                   ;; channel mode (324), creation
@@ -944,6 +942,17 @@ This will replace the last notification sent with this function."
                                   "324" "329" "332" "333" "353" "477"))
   (setq erc-track-exclude-server-buffer t)
   (setq erc-track-showcount t)
+  ;; minimal distraction - only track on nick mentions
+  (setq erc-format-query-as-channel-p t)
+  (setq erc-track-priority-faces-only 'all)
+  (setq erc-track-faces-priority-list '(erc-error-face
+                                        erc-current-nick-face
+                                        erc-keyword-face
+                                        erc-nick-msg-face
+                                        erc-direct-msg-face
+                                        erc-dangerous-host-face
+                                        erc-notice-face
+                                        erc-prompt-face))
 
   (add-to-list 'erc-nick-popup-alist
                ;; defined down in eudc use-package
