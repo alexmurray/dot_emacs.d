@@ -1181,12 +1181,6 @@ This will replace the last notification sent with this function."
   :init (when (memq window-system '(mac ns))
           (exec-path-from-shell-initialize)))
 
-(use-package expand-region
-  :ensure t
-  :bind (("C-c v" . er/expand-region))
-  :config (setq expand-region-contract-fast-key "V"
-                expand-region-reset-fast-key "r"))
-
 (use-package eyebrowse
   :ensure t
   :config
@@ -2299,6 +2293,11 @@ This will replace the last notification sent with this function."
   :load-path "~/ubuntu/git/usn-tool/"
   :commands (usn-compose-from-draft)
   :bind (("C-c f u" . usn-show-at-point)))
+
+(use-package uvt
+  :load-path "~/ubuntu/git/ubuntu-qa-tools/vm-tools/"
+  :defer nil
+  :bind (("C-c v" . uvt)))
 
 (use-package web-mode
   :ensure t
