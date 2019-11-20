@@ -2223,12 +2223,18 @@ This will replace the last notification sent with this function."
   :ensure t)
 
 (use-package telega
+  :preface
+  (defun apm-start-telega-minimised ()
+    "Start telega without popping to root buffer."
+    (interactive)
+    (let ((current-prefix-arg '(4)))
+      (telega 1)))
   :init (unless (executable-find "telega-server")
           (alert (format "Please install the telega snap")))
   :load-path "/snap/telega/current/share/emacs/site-lisp/telega/"
   :bind (("C-c t" . telega))
   ;; automatically connect on startup
-  :hook ((after-init . telega))
+  :hook ((after-init . apm-start-telega-minimised))
   :config
   (telega-mode-line-mode 1)
   (telega-notifications-mode 1))
