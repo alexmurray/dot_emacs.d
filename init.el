@@ -46,6 +46,9 @@
 (eval-and-compile
   (require 'use-package))
 
+(use-package use-package-ensure-system-package
+  :ensure t)
+
 (use-package diminish
   :ensure t)
 
@@ -56,6 +59,7 @@
   :ensure t
   :config
   (setq system-packages-package-manager 'apt)
+  (setq system-packages-noconfirm t)
   (setq system-packages-use-sudo t))
 
 ;; customisations
