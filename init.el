@@ -58,9 +58,6 @@
   (setq system-packages-package-manager 'apt)
   (setq system-packages-use-sudo t))
 
-(use-package use-package-ensure-system-package
-  :ensure t)
-
 ;; customisations
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 ;; load custom but ignore error if doesn't exist
