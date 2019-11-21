@@ -2298,7 +2298,6 @@ This will replace the last notification sent with this function."
 
 (use-package uvt
   :load-path "~/ubuntu/git/ubuntu-qa-tools/vm-tools/"
-  :defer nil
   :bind (("C-c v" . uvt)))
 
 (use-package web-mode
