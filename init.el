@@ -360,6 +360,11 @@ The object labels of the found items are returned as list."
   :ensure t
   :config (bbdb-initialize 'message 'mu4e))
 
+(use-package blacken
+  :ensure t
+  :ensure-system-package black
+  :hook ((python-mode . blacken-minor-mode)))
+
 (use-package browse-kill-ring
   :ensure t)
 
