@@ -363,7 +363,7 @@ The object labels of the found items are returned as list."
 (use-package blacken
   :ensure t
   :ensure-system-package black
-  :hook ((python-mode . blacken-minor-mode)))
+  :hook ((python-mode . blacken-mode)))
 
 (use-package browse-kill-ring
   :ensure t)
