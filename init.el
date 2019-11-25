@@ -2437,6 +2437,13 @@ This will replace the last notification sent with this function."
     (alert "Please store ZNC password in keyring via secret-tool"))
   (setq znc-servers apm-znc-servers))
 
+(use-package ztree
+  :ensure t
+  :bind (("C-x C-d" . ztree-dir))
+  :config
+  (setq ztree-draw-unicode-lines t)
+  (setq ztree-show-number-of-children t))
+
 ;; set gc-cons-threshold back to original value
 (add-hook 'emacs-startup-hook #'apm-set-gc-threshold)
 
