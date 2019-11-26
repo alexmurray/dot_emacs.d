@@ -702,6 +702,9 @@ The object labels of the found items are returned as list."
 (use-package disk-usage
   :ensure t)
 
+(use-package display-fill-column-indicator
+  :config (global-display-fill-column-indicator-mode 1))
+
 (use-package doom-modeline
   :ensure t
   :config
