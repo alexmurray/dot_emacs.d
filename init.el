@@ -1432,7 +1432,10 @@ This will replace the last notification sent with this function."
 
 (use-package ivy-xref
   :ensure t
-  :init (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
+  :init
+  (when (>= emacs-major-version 27)
+    (setq xref-show-definitions-function #'ivy-xref-show-defs))
+  (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
 (use-package js2-mode
   :ensure t
