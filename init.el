@@ -953,23 +953,14 @@ This will replace the last notification sent with this function."
                                   ;; who time (333), names (353), no
                                   ;; chan modes (477)
                                   "324" "329" "332" "333" "353" "477"))
+
   (setq erc-track-exclude-server-buffer t)
   (setq erc-track-showcount t)
-  ;; minimal distraction - only track on nick mentions
-  (setq erc-format-query-as-channel-p t)
-  (setq erc-track-priority-faces-only 'all)
-  (setq erc-track-faces-priority-list `(erc-error-face
-                                        ;; since we use erc-hl-nicks need
-                                        ;; to add this as well since both
-                                        ;; get used
-                                        (,(erc-hl-nicks-make-face erc-nick) erc-current-nick-face)
-                                        erc-current-nick-face
-                                        erc-keyword-face
-                                        erc-nick-msg-face
-                                        erc-direct-msg-face
-                                        erc-dangerous-host-face
-                                        erc-notice-face
-                                        erc-prompt-face))
+  (setq erc-track-priority-faces-only nil)
+  ;; ensure our nick highlighted with erc-hl-nicks gets picked up by
+  ;; erc-track
+  (add-to-list 'erc-track-faces-priority-list
+               `(,(erc-hl-nicks-make-face erc-nick) erc-current-nick-face))
 
   (add-to-list 'erc-nick-popup-alist
                ;; defined down in eudc use-package
