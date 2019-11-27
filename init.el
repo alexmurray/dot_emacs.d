@@ -703,7 +703,8 @@ The object labels of the found items are returned as list."
   :ensure t)
 
 (use-package display-fill-column-indicator
-  :config (global-display-fill-column-indicator-mode 1))
+  :hook ((prog-mode . display-fill-column-indicator-mode)
+         (text-mode . display-fill-column-indicator-mode)))
 
 (use-package doom-modeline
   :ensure t
