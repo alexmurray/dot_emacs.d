@@ -1810,27 +1810,6 @@ This will replace the last notification sent with this function."
   (set-face-attribute 'mu4e-patch-commit-message nil :foreground "black")
   (set-face-attribute 'mu4e-patch-diff-stat-file nil :foreground "orange"))
 
-(use-package network-stream
-  :config
-  (with-eval-after-load 'network-stream
-    (defun network-stream-certificate (host service parameters)
-      (let ((spec (plist-get parameters :client-certificate)))
-        (cond
-         ((listp spec)
-          ;; Either nil or a list with a key/certificate pair.
-          spec)
-         ((eq spec t)
-          (let* ((auth-info
-                  (car (auth-source-search :max 1
-                                           :host host
-                                           :port (if (numberp service)
-                                                     (number-to-string service)
-                                                   service))))
-                 (key (plist-get auth-info :key))
-                 (cert (plist-get auth-info :cert)))
-            (and key cert (file-readable-p key) (file-readable-p cert)
-                 (list key cert)))))))))
-
 (use-package no-littering
   :ensure t
   :config
