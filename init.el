@@ -2150,15 +2150,6 @@ This will replace the last notification sent with this function."
 (use-package rust-mode
   :ensure t)
 
-(use-package sauron
-  :ensure t
-  :hook ((after-init . sauron-start))
-  :config
-  ;; just use sauron for erc for now
-  (setq sauron-modules '(sauron-erc))
-  (setq sauron-max-line-length 120)
-  (setq sauron-hide-mode-line t))
-
 ;; save minibuffer history
 (use-package savehist
   :init (savehist-mode 1)
