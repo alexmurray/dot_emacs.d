@@ -880,7 +880,8 @@ With a prefix argument, will default to looking for all
     (require 'erc-track))
   ;; canonical irc - we use this via znc-erc below
   (add-to-list 'erc-networks-alist '(Canonical "canonical.com"))
-  (setq erc-nick "amurray")
+  (setq erc-user-full-name user-full-name)
+  (setq erc-nick user-login-name)
   (setq erc-prompt-for-nickserv-password nil)
   ;; nickserv password for Canonical and freenode
   (dolist (network '((Canonical . "irc.canonical.com")
