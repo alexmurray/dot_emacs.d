@@ -875,6 +875,7 @@ With a prefix argument, will default to looking for all
     (require 'erc-log)
     (require 'erc-match)
     (require 'erc-networks)
+    (require 'erc-notify)
     (require 'erc-services)
     (require 'erc-track))
   ;; canonical irc - we use this via znc-erc below
@@ -939,7 +940,8 @@ This will replace the last notification sent with this function."
   ;; format nicknames to show if user has voice(+), owner (~), admin (&),
   ;; operator (@)
   (setq erc-format-nick-function 'erc-format-@nick)
-  (setq erc-pals '("joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "markmorlino" "emitorino" "deafpool" "Avital" "dan" "sid"))
+  (setq erc-pals '("joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "morlino" "emitorino" "deafpool" "Avital" "dan" "sid"))
+  (setq erc-notify-list erc-pals)
 
   (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security[^-]" "esm"))
 
