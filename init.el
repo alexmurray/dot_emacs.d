@@ -635,6 +635,7 @@ The object labels of the found items are returned as list."
          ("M-s r" . counsel-grep-or-swiper-backward)
          :map outline-mode-map ("M-i" . counsel-outline)
          :map company-active-map ("C-/" . counsel-company))
+  :defer nil
   :config
   ;; required so we can use counsel-yank-pop in the minibuffer itself
   (setq enable-recursive-minibuffers t)
