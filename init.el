@@ -2275,8 +2275,9 @@ This will replace the last notification sent with this function."
 (use-package uct
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
   :defer nil
-  :bind (("C-c u" . uct)
-         ("C-c f c" . uct-find-cve)))
+  :bind (("C-c u u" . uct)
+         ("C-c f c" . uct-find-cve)
+         ("C-c u k" . uct-kernel-signoff-at-point)))
 
 (use-package undo-propose
   :ensure t
