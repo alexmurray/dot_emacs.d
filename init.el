@@ -2232,6 +2232,7 @@ This will replace the last notification sent with this function."
   ;; automatically connect on startup
   :hook ((after-init . apm-start-telega-minimised))
   :config
+  (setq telega-use-images t)
   (telega-mode-line-mode 1)
   (telega-notifications-mode 1))
 
