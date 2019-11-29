@@ -1418,6 +1418,7 @@ This will replace the last notification sent with this function."
 
 (use-package ivy-prescient
   :ensure t
+  :after counsel
   :config (ivy-prescient-mode 1))
 
 (use-package ivy-rich
