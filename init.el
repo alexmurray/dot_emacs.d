@@ -2039,7 +2039,7 @@ This will replace the last notification sent with this function."
   :mode ("\\.pcapng\\'" . pcap-mode))
 
 (use-package pdf-tools
-  :ensure t
+  :load-path "/snap/pdf-tools/current/usr/share/emacs/site-lisp/pdf-tools"
   ;; only try and install when needed
   :mode ("\\.pdf\\'" . pdf-tools-install))
 
