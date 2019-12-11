@@ -1800,6 +1800,15 @@ This will replace the last notification sent with this function."
   ;; add action to view in brower
   (add-to-list 'mu4e-view-actions
                '("browser view" . mu4e-action-view-in-browser) t)
+  ;; since we use the firefox snap, it has a private /tmp so use somewhere
+  ;; common (home) to work-around this...
+  (defun apm-mu4e-action-view-in-browser (orig-fun &rest args)
+    (let ((temporary-file-directory (expand-file-name "~/tmp")))
+      (unless (file-exists-p temporary-file-directory)
+        (make-directory temporary-file-directory))
+      (apply orig-fun args)))
+
+  (advice-add 'mu4e-action-view-in-browser :around #'apm-mu4e-action-view-in-browser)
 
   (setq mu4e-html2text-command 'mu4e-shr2text)
   ;; html colors in shr usually look bad especially with a dark theme
