@@ -1825,6 +1825,8 @@ This will replace the last notification sent with this function."
   ;; allows to see attached patches etc more easily inline and also inline
   ;; PGP
   (setq mu4e-view-use-gnus t)
+  ;; let gnus do decryption
+  (setq mu4e-decryption-policy nil)
 
   ;; add maildir as a header
   (add-function :after (symbol-function 'mu4e~view-gnus)
