@@ -2383,6 +2383,9 @@ This will replace the last notification sent with this function."
   :ensure t
   :mode (("\\.vim\\(rc\\)?\\'" . vimrc-mode)))
 
+(use-package vterm
+  :load-path "/snap/emacs-vterm/current/usr/share/emacs/site-lisp/emacs-vterm/")
+
 (use-package webpaste
   :ensure t
   :bind (("C-c C-p C-b" . webpaste-paste-buffer)
