@@ -1167,6 +1167,13 @@ This will replace the last notification sent with this function."
   :bind (("C-x m" . eshell))
   :hook ((eshell-mode . apm-eshell-mode-setup)))
 
+(use-package eterm-256color
+  :ensure t
+  :hook ((term-mode . eterm-256color-mode))
+  :init (unless (file-exists-p "~/.terminfo/e/eterm-color")
+          (make-directory "~/.terminfo/e/" t)
+          (shell-command "tic /snap/emacs/current/usr/share/emacs/27.0.50/etc/e/eterm-color.ti")))
+
 (defun makefile-tabs-are-less-evil ()
   "Disable ethan-wspace from caring about tabs in Makefile's."
   ;; silence byte-compilation warnings
