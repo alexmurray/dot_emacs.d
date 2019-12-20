@@ -367,8 +367,7 @@ The object labels of the found items are returned as list."
 (use-package blacken
   :ensure t
   :init (unless (executable-find "black")
-          (alert "Please install the black snap"))
-  :hook ((python-mode . blacken-mode)))
+          (alert "Please install the black snap")))
 
 (use-package browse-kill-ring
   :ensure t)
