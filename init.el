@@ -1987,9 +1987,7 @@ This will replace the last notification sent with this function."
   :config (setq org-duration-format (quote h:mm)))
 
 (use-package orgit
-  :ensure t
-  ;; work-around org-link-store-props not being defined
-  :config (defalias 'org-link-store-props #'org-store-link-props))
+  :ensure t)
 
 (use-package org-mru-clock
   :ensure t
