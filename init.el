@@ -1438,6 +1438,32 @@ This will replace the last notification sent with this function."
   (setq ivy-use-selectable-prompt t)
   (define-key isearch-mode-map (kbd "M-o") 'ivy-occur))
 
+(use-package ivy-posframe
+  :ensure t
+  :config
+  ;; taken from
+  ;; https://www.reddit.com/r/emacs/comments/efwlib/shoutout_to_ivyposframe/fc305tz/
+  (setf (alist-get t ivy-posframe-display-functions-alist)
+        'ivy-posframe-display-at-frame-bottom-left)
+  (setf (alist-get 'ivy-completion-in-region ivy-posframe-display-functions-alist)
+        'ivy-posframe-display-at-point)
+  (setq ivy-posframe-parameters '((left-fringe . 0)
+                                  (right-fringe . 0)
+                                  (internal-border-width . 1)))
+  (setq ivy-height 10)
+  (setq ivy-posframe-height ivy-height)
+  (setq ivy-posframe-size-function
+        (defun ivy-posframe-get-size+ ()
+          (if (eq ivy--display-function
+                  'ivy-posframe-display-at-point)
+              (list
+               :min-height ivy-posframe-height
+               :min-width 80)
+            (list
+             :min-height ivy-posframe-height
+             :min-width (+ 2 (frame-width))))))
+  (ivy-posframe-mode 1))
+
 (use-package ivy-prescient
   :ensure t
   :after counsel
