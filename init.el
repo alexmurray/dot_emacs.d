@@ -1344,7 +1344,9 @@ This will replace the last notification sent with this function."
   ;; don't fill long lines as breaks tables in emails
   (setq gnus-treat-fill-long-lines nil)
   ;; gnus smileys look lame
-  (setq gnus-treat-display-smileys nil))
+  (setq gnus-treat-display-smileys nil)
+  ;; disable image loading
+  (setq gnus-inhibit-images t))
 
 (use-package go-mode
   :ensure t)
