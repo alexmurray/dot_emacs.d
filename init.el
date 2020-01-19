@@ -1936,7 +1936,7 @@ This will replace the last notification sent with this function."
         org-agenda-files (mapcar #'(lambda (f)
                                      (expand-file-name f org-directory))
                                  '("personal.org" "canonical.org"
-                                   "general.org" "blog.org" "notes.org"))
+                                   "blog.org" "notes.org"))
         ;; don't indent org document sections etc
         org-adapt-indentation nil
         org-imenu-depth 4
