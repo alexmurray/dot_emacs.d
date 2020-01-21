@@ -701,6 +701,9 @@ The object labels of the found items are returned as list."
 (use-package debian-el
   :ensure t)
 
+(use-package debbugs
+  :ensure t)
+
 (use-package disk-usage
   :ensure t)
 
