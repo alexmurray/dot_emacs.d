@@ -1477,7 +1477,9 @@ This will replace the last notification sent with this function."
 (use-package ivy-rich
   :ensure t
   :after ivy
-  :config (ivy-rich-mode 1))
+  :config
+  (ivy-rich-mode 1)
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 
 (use-package ivy-xref
   :ensure t
