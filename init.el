@@ -1365,7 +1365,6 @@ This will replace the last notification sent with this function."
 (use-package goto-addr
   :defer t
   :hook ((prog-mode . goto-address-prog-mode)
-         (erc-mode . goto-address-mode)
          (text-mode . goto-address-mode)))
 
 (use-package goto-line-preview
