@@ -1445,6 +1445,7 @@ This will replace the last notification sent with this function."
 
 (use-package ivy-posframe
   :ensure t
+  :disabled t
   :config
   ;; taken from
   ;; https://www.reddit.com/r/emacs/comments/efwlib/shoutout_to_ivyposframe/fc305tz/
