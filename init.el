@@ -5,15 +5,6 @@
 
 ;;; Code:
 
-(defvar gc-cons-threshold--orig gc-cons-threshold)
-(setq gc-cons-threshold (* 100 1024 1024)
-      gc-cons-percentage 0.6)
-
-(defun apm-set-gc-threshold ()
-  "Reset `gc-cons-threshold' and `gc-cons-percentage' to their default values."
-  (setq gc-cons-threshold gc-cons-threshold--orig
-        gc-cons-percentage 0.1))
-
 ;; prefer newer non-byte compiled sources to older byte compiled ones
 (setq load-prefer-newer t)
 
@@ -2537,9 +2528,6 @@ This will replace the last notification sent with this function."
   :config
   (setq ztree-draw-unicode-lines t)
   (setq ztree-show-number-of-children t))
-
-;; set gc-cons-threshold back to original value
-(add-hook 'emacs-startup-hook #'apm-set-gc-threshold)
 
 (provide 'init)
 
