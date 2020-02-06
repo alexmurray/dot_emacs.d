@@ -67,7 +67,7 @@
   :ensure t
   :config
   (doom-themes-org-config)
-  (load-theme 'doom-solarized-light t))
+  (load-theme 'doom-one-light t))
 
 ;; used in some of my yasnippet snippets
 (defun apm-camelize (s &optional delim)
