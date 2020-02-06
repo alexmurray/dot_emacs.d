@@ -2343,9 +2343,10 @@ With a prefix argument, will default to looking for all
          ("C-c f c" . uct-find-cve)
          ("C-c u k" . uct-kernel-signoff-at-point)))
 
-(use-package undo-propose
+(use-package undo-tree
   :ensure t
-  :bind (("C-x u" . undo-propose)))
+  :diminish undo-tree-mode
+  :config (global-undo-tree-mode 1))
 
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'post-forward
