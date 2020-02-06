@@ -909,31 +909,6 @@ With a prefix argument, will default to looking for all
   (add-to-list 'erc-modules 'spelling)
   (erc-update-modules)
 
-  ;; redefine this so we can quickly get to buffers from the
-  ;; notification -
-  ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2019-04/msg00156.html
-  (defun erc-notifications-notify (nick msg)
-    "Notify that NICK send some MSG.
-This will replace the last notification sent with this function."
-    (dbus-ignore-errors
-      (setq erc-notifications-last-notification
-            (let ((channel (current-buffer)))
-              (notifications-notify :bus erc-notifications-bus
-                                    :title (format "%s in %s"
-                                                   (xml-escape-string nick)
-                                                   channel)
-                                    ;; don't keep multiple spaces
-                                    :body (replace-regexp-in-string " +" " "
-                                                                    (replace-regexp-in-string "\n" " "
-                                                                                              (string-trim (xml-escape-string msg))))
-                                    :replaces-id erc-notifications-last-notification
-                                    :app-icon erc-notifications-icon
-                                    :actions '("default" "Switch to buffer")
-                                    :urgency 'critical
-                                    :persistent t
-                                    :on-action (lambda (&rest _)
-                                                 (pop-to-buffer channel)))))))
-
   ;; format nicknames to show if user has voice(+), owner (~), admin (&),
   ;; operator (@)
   (setq erc-format-nick-function 'erc-format-@nick)
