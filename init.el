@@ -931,6 +931,9 @@ With a prefix argument, will default to looking for all
   (setq erc-track-exclude-server-buffer t)
   (setq erc-track-showcount t)
   (setq erc-track-priority-faces-only nil)
+  ;; paper over performance issues with doom-modeline
+  ;; https://github.com/seagle0128/doom-modeline/issues/297
+  (setq erc-track-shorten-function nil)
   ;; ensure our nick highlighted with erc-hl-nicks gets picked up by
   ;; erc-track
   (add-to-list 'erc-track-faces-priority-list
