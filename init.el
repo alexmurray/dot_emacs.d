@@ -67,7 +67,7 @@
   :ensure t
   :config
   (doom-themes-org-config)
-  (load-theme 'doom-one-light t))
+  (load-theme 'doom-one t))
 
 ;; used in some of my yasnippet snippets
 (defun apm-camelize (s &optional delim)
@@ -335,7 +335,7 @@ The object labels of the found items are returned as list."
 
 (use-package avy
   :ensure t
-  :bind (("C-c SPC" . avy-goto-char-timer))
+  :bind (("C-'" . avy-goto-char-timer))
   :config
   ;; dim text when avy is active
   (setq avy-background t)
