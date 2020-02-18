@@ -37,6 +37,17 @@
 (eval-and-compile
   (require 'use-package))
 
+;; load no-littering as soon as possible during init so it can hook as many
+;; paths as possible
+(use-package no-littering
+  :ensure t
+  :config
+  (eval-when-compile
+    (require 'recentf))
+  (with-eval-after-load 'recentf
+    (add-to-list 'recentf-exclude no-littering-var-directory)
+    (add-to-list 'recentf-exclude no-littering-etc-directory)))
+
 (use-package use-package-ensure-system-package
   :ensure t)
 
@@ -1871,17 +1882,8 @@ With a prefix argument, will default to looking for all
   :after mu4e
   :hook (mu4e-view-mode . mu4e-patch-highlight)
   :config
-  (set-face-attribute 'mu4e-patch-commit-message nil :foreground "black")
+  (set-face-attribute 'mu4e-patch-commit-message nil :foreground "default")
   (set-face-attribute 'mu4e-patch-diff-stat-file nil :foreground "orange"))
-
-(use-package no-littering
-  :ensure t
-  :config
-  (eval-when-compile
-    (require 'recentf))
-  (with-eval-after-load 'recentf
-    (add-to-list 'recentf-exclude no-littering-var-directory)
-    (add-to-list 'recentf-exclude no-littering-etc-directory)))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
