@@ -665,7 +665,9 @@ The object labels of the found items are returned as list."
   :load-path "vendor/"
   :defer t
   :diminish cov-mode
-  :hook ((prog-mode . cov-mode)))
+  :hook ((prog-mode . cov-mode))
+  :init (use-package elquery
+          :ensure t))
 
 (use-package ccls
   :ensure t
@@ -2291,8 +2293,11 @@ With a prefix argument, will default to looking for all
     (interactive)
     (let ((current-prefix-arg '(4)))
       (telega 1)))
-  :init (unless (executable-find "telega-server")
-          (alert (format "Please install the telega snap")))
+  :init
+  (unless (executable-find "telega-server")
+    (alert (format "Please install the telega snap")))
+  (use-package visual-fill-column
+    :ensure t)
   :load-path "/snap/telega/current/share/emacs/site-lisp/telega/"
   :bind (("C-c t" . telega))
   ;; automatically connect on startup
