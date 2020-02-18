@@ -1528,6 +1528,9 @@ With a prefix argument, will default to looking for all
          ("C-x M-g" . magit-dispatch))
   :config (setq magit-completing-read-function 'ivy-completing-read))
 
+(use-package magit-patch-changelog
+  :ensure t)
+
 (use-package magit-popup
   ;; whilst magit doesn't need this anymore, other packages do and magit
   ;; doesn't provide it anymore so explicitly add it
