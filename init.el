@@ -1353,10 +1353,6 @@ With a prefix argument, will default to looking for all
   :ensure t
   :config (global-set-key [remap goto-line] 'goto-line-preview))
 
-(use-package grip-mode
-  :ensure t
-  :hook ((markdown-mode . grip-mode)))
-
 (use-package gud
   :defer t
   :hook ((gud-mode . gud-tooltip-mode)))
