@@ -1071,6 +1071,7 @@ With a prefix argument, will default to looking for all
   (add-to-list 'eudc-attribute-display-method-alist '("utc offset" . apm-eudc-display-utc-offset))
   (add-to-list 'eudc-attribute-display-method-alist '("timezone name" . apm-eudc-display-timezone))
   (add-to-list 'eudc-attribute-display-method-alist '("launchpad id" . apm-eudc-display-launchpadid))
+  (add-to-list 'eudc-attribute-display-method-alist '("irc nick" . apm-eudc-display-nick))
   (defun apm-eudc-query-at-point ()
     (interactive)
     (let ((id (eudc-bob-get-overlay-prop 'query)))
@@ -1101,7 +1102,13 @@ With a prefix argument, will default to looking for all
 
   (defun apm-eudc-display-launchpadid (id)
     "Display ID as a clickable URL."
-      (eudc-display-url (concat "https://launchpad.net/~" id)))
+    (eudc-display-url (concat "https://launchpad.net/~" id)))
+
+  (defun apm-eudc-display-nick (nick)
+    "Display NICK as using colors from erc-hl-nicks."
+    (insert (propertize nick
+                        'face
+                        (erc-hl-nicks-make-face nick))))
 
   (defun apm-eudc-display-query (query)
     "Display QUERY as an interactive element."
