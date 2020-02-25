@@ -669,11 +669,6 @@ The object labels of the found items are returned as list."
   :init (use-package elquery
           :ensure t))
 
-(use-package ccls
-  :ensure t
-  :init (unless (executable-find "ccls")
-          (alert (format "Please install the ccls snap"))))
-
 (use-package crontab-mode
   :ensure t)
 
