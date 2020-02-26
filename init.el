@@ -1002,17 +1002,6 @@ With a prefix argument, will default to looking for all
   :config (setq erc-hl-nicks-skip-faces
                 (delete "erc-pal-face" erc-hl-nicks-skip-faces)))
 
-(use-package erc-image
-  :ensure t
-  :after erc
-  :config
-  (add-to-list 'erc-modules 'image)
-  (erc-update-modules))
-
-(use-package erc-status-sidebar
-  :ensure t
-  :after erc)
-
 (use-package erc-view-log
   :ensure t
   :config
