@@ -1828,10 +1828,6 @@ With a prefix argument, will default to looking for all
   ;; let gnus do decryption
   (setq mu4e-decryption-policy nil)
 
-  ;; add maildir as a header
-  (add-function :after (symbol-function 'mu4e~view-gnus)
-                #'mu4e~view-gnus-inject-extra-headers)
-
   ;; show full addresses in message view
   (setq mu4e-view-show-addresses t)
 
