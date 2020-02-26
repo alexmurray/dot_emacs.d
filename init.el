@@ -1245,7 +1245,7 @@ With a prefix argument, will default to looking for all
 
 (use-package flycheck-relint
   :ensure t
-  :after flycheck
+  :after (flycheck flycheck-package)
   :config (flycheck-relint-setup))
 
 (use-package flycheck-rust
