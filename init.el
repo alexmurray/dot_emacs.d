@@ -1754,7 +1754,7 @@ With a prefix argument, will default to looking for all
 
   ;; ensure this is off
   (setq mu4e-compose-format-flowed nil)
-  (setq mu4e-headers-sort-direction 'ascending)
+  (setq mu4e-headers-sort-direction 'descending)
   (setq mu4e-use-fancy-chars t)
   ;; show all since often get duplicates via multiple mailing lists so want
   ;; to be able to see them all in general
