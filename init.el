@@ -2203,6 +2203,11 @@ With a prefix argument, will default to looking for all
   (setq visual-line-fringe-indicators
         '(left-curly-arrow right-curly-arrow)))
 
+;; use smex since counsel-M-x will use it to provide better fuzzy matching
+;; if it is installed
+(use-package smex
+  :ensure t)
+
 (use-package smtpmail
   ;; store password using secret-tool as follows:
   ;; secret-tool store --label='Canonical SMTP' host smtp.canonical.com port 587 user canonical
