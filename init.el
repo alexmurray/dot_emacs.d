@@ -907,7 +907,6 @@ With a prefix argument, will default to looking for all
   (add-to-list 'erc-modules 'log)
   (add-to-list 'erc-modules 'match)
   (add-to-list 'erc-modules 'notifications)
-  (add-to-list 'erc-modules 'scrolltobottom)
   (add-to-list 'erc-modules 'services)
   (add-to-list 'erc-modules 'spelling)
   (erc-update-modules)
