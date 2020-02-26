@@ -605,11 +605,6 @@ The object labels of the found items are returned as list."
   :after company
   :init (add-to-list 'company-backends 'company-shell))
 
-(use-package company-prescient
-  :ensure t
-  :after (company prescient)
-  :config (company-prescient-mode 1))
-
 (use-package company-web
   :ensure t
   :defer t
@@ -1441,11 +1436,6 @@ With a prefix argument, will default to looking for all
              :min-width (+ 2 (frame-width))))))
   (ivy-posframe-mode 1))
 
-(use-package ivy-prescient
-  :ensure t
-  :after counsel
-  :config (ivy-prescient-mode 1))
-
 (use-package ivy-rich
   :ensure t
   :after ivy
@@ -2126,10 +2116,6 @@ With a prefix argument, will default to looking for all
 (use-package posframe
   :ensure t
   :config (setq posframe-mouse-banish nil))
-
-(use-package prescient
-  :ensure t
-  :config (prescient-persist-mode 1))
 
 (use-package prog-mode
   :config
