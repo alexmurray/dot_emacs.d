@@ -1240,7 +1240,6 @@ With a prefix argument, will default to looking for all
 
 (use-package flycheck-package
   :ensure t
-  :defer t
   :after flycheck
   :config (flycheck-package-setup))
 
@@ -1254,6 +1253,11 @@ With a prefix argument, will default to looking for all
   :after (flycheck posframe)
   :hook ((flycheck-mode . flycheck-posframe-mode))
   :config (flycheck-posframe-configure-pretty-defaults))
+
+(use-package flycheck-relint
+  :ensure t
+  :after flycheck
+  :config (flycheck-relint-setup))
 
 (use-package flycheck-rust
   :ensure t
