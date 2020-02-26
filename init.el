@@ -1979,6 +1979,8 @@ With a prefix argument, will default to looking for all
 (use-package org-notify
   :ensure org-plus-contrib
   :after org
+  ;; has issues with causing too many slowdowns etc so try disabling for now
+  :disabled t
   :config
   (setq org-notify-audible nil)
   (org-notify-start)
