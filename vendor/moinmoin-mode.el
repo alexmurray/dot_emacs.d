@@ -1,1 +1,1 @@
-../../moinmoin-mode/moinmoin-mode.el
+../../git/moinmoin-mode/moinmoin-mode.el

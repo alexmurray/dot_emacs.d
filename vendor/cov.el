@@ -1,1 +1,1 @@
-/home/amurray/cov/cov.el
+../../git/cov/cov.el

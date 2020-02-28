@@ -1,1 +1,1 @@
-../../apparmor-mode/apparmor-mode.el
+../../git/apparmor-mode/apparmor-mode.el
