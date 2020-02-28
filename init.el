@@ -714,7 +714,9 @@ The object labels of the found items are returned as list."
   (doom-modeline-mode 1))
 
 (use-package dpkg-dev-el
-  :ensure t)
+  :ensure t
+  :after flyspell
+  :hook (debian-changelog-mode . flyspell-mode))
 
 (use-package delsel
   ;; enable delete-selection mode to allow replacing selected region
