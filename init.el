@@ -569,15 +569,6 @@ The object labels of the found items are returned as list."
   ;; keep original case
   :config (setq company-dabbrev-downcase nil))
 
-(use-package company-gnome-shell
-  :load-path "vendor/company-gnome-shell/"
-  :after (company gnome-shell-mode)
-  ;; don't do this - company-gnome-shell breaks company completion in other
-  ;; modes...
-  ;; :config (with-eval-after-load 'company
-  ;;           (add-to-list 'company-backends 'company-gnome-shell))
-  )
-
 (use-package company-lsp
   :ensure t
   :after company
@@ -1292,9 +1283,6 @@ With a prefix argument, will default to looking for all
 (use-package gitignore-mode
   :ensure t
   :defer t)
-
-(use-package gnome-shell-mode
-  :load-path "vendor/gnome-shell-mode/")
 
 (use-package gnu-elpa-keyring-update
   :ensure t)
