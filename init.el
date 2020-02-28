@@ -658,10 +658,6 @@ The object labels of the found items are returned as list."
 (use-package crontab-mode
   :ensure t)
 
-(use-package cstyle
-  :disabled t
-  :load-path "vendor/")
-
 (use-package cua-base
   ;; use CUA mode for rectangle selections etc but not copy/paste etc
   :init (cua-selection-mode 1))
@@ -724,12 +720,6 @@ The object labels of the found items are returned as list."
 (use-package disaster
   :ensure t
   :bind ((:map c-mode-base-map ("C-c d" . disaster))))
-
-(use-package doxyas
-  :load-path "vendor/"
-  :commands doxyas-document-function
-  ;; defer since is bound via general
-  :defer t)
 
 (use-package dts-mode
   :ensure t)
