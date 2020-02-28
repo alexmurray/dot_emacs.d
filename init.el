@@ -1798,8 +1798,6 @@ With a prefix argument, will default to looking for all
   ;; allows to see attached patches etc more easily inline and also inline
   ;; PGP
   (setq mu4e-view-use-gnus t)
-  ;; let gnus do decryption
-  (setq mu4e-decryption-policy nil)
 
   ;; show full addresses in message view
   (setq mu4e-view-show-addresses t)
