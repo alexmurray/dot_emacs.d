@@ -1780,9 +1780,11 @@ With a prefix argument, will default to looking for all
   (advice-add 'mu4e-action-view-in-browser :around #'apm-mu4e-action-view-in-browser)
 
   (setq mu4e-html2text-command 'mu4e-shr2text)
-  ;; html colors in shr usually look bad especially with a dark theme
   (with-eval-after-load 'shr
-    (setq shr-use-colors nil))
+    ;; html colors in shr usually look bad especially with a dark theme
+    (setq shr-use-colors nil)
+    ;; also fonts don't normally layout well
+    (setq shr-use-fonts nil))
 
   (setq mu4e-split-view 'horizontal)
   (setq mu4e-headers-visible-lines 15)
