@@ -252,11 +252,16 @@
 
 (use-package appt
   :preface
-  (defun apm-appt-notify (time-to-appt time msg)
-    "Notify for appointment at TIME-TO-APPT TIME MSG alert."
-    (alert msg
-           :title (format "Appointment in %s minutes [%s]" time-to-appt time)
-           :icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"))
+  (defun apm-appt-notify (min-to-appt new-time msg)
+    "Notify for appointment at MIN-TO-APPT for NEW-TIME with MSG."
+    ;; the arguments may be lists or not so always use them as lists
+    (unless (listp min-to-appt)
+      (setq min-to-appt (list min-to-appt)))
+    (unless (listp msg)
+      (setq msg (list msg)))
+    (alert (string-join msg "\n")
+           :title (format "Appointment(s) in %s minutes" (string-join min-to-appt ", "))
+           :icon "/usr/share/icons/HighContrast/32x32/status/appointment-soon.png"))
   :config
   (setq appt-disp-window-function #'apm-appt-notify)
   (appt-activate 1))
