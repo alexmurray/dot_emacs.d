@@ -690,6 +690,9 @@ The object labels of the found items are returned as list."
 (use-package debbugs
   :ensure t)
 
+(use-package diff-mode
+  :mode (("\\.debdiff\\'" . diff-mode)))
+
 (use-package disk-usage
   :ensure t)
 
