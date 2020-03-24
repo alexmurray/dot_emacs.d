@@ -761,14 +761,13 @@ The object labels of the found items are returned as list."
   :ensure t
   :ensure-system-package ("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
   :diminish emojify-mode
-  :bind (("C-c e" . emojify-insert-emoji))
   :defer nil
   :config
   ;; display emojis using images since looks nicer
   (setq emojify-display-style 'image)
-  ;; only replace unicode and github :slight_smile: style emojis (don't
-  ;; mess with ascii ones)
-  (setq emojify-emoji-styles '(unicode github))
+  ;; only replace unicode emojis (don't mess with ascii or github ones
+  ;; since I don't use / want them)
+  (setq emojify-emoji-styles '(unicode))
   ;; echo the actual underlying character to the minibuffer when point is
   ;; over them so we don't mess with the displayed buffer itself
   (setq emojify-point-entered-behaviour 'echo)
@@ -1379,6 +1378,10 @@ With a prefix argument, will default to looking for all
   (setq ivy-use-selectable-prompt t)
   (define-key isearch-mode-map (kbd "M-o") 'ivy-occur))
 
+(use-package ivy-emoji
+  :ensure t
+   :bind (("C-c e" . ivy-emoji)))
+
 (use-package ivy-posframe
   :ensure t
   :disabled t
@@ -1426,6 +1429,9 @@ With a prefix argument, will default to looking for all
   :init (setq-default js2-basic-offset 2))
 
 (use-package json-mode
+  :ensure t)
+
+(use-package lxd-tramp
   :ensure t)
 
 (use-package lp
