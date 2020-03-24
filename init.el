@@ -1887,11 +1887,11 @@ With a prefix argument, will default to looking for all
 (use-package org-capture
   :after org
   :config (setq org-capture-templates `(("t" "todo" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Tasks")
-                                         "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
+                                         "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n- %a\n")
                                         ("m" "meeting" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Meetings")
-                                         "* %?\n%(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")
+                                         "* %?\n%(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n- %a\n")
                                         ("i" "Topic" entry (file ,(expand-file-name "canonical.org" org-directory))
-                                         "* %?\n%a\n")
+                                         "* %?\n- %a\n")
                                         ("p" "Protocol" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Inbox")
                                          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
                                         ("L" "Protocol Link" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Inbox")
