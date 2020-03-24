@@ -1207,17 +1207,6 @@ With a prefix argument, will default to looking for all
   (flycheck-coverity-setup)
   (flycheck-add-next-checker 'clang-analyzer '(t . coverity)))
 
-(use-package flycheck-cstyle
-  :ensure t
-  :disabled t
-  :after lsp-ui
-  :init (unless (executable-find "cstyle")
-          (alert "cstyle not found - is it installed?"))
-  :config
-  (flycheck-cstyle-setup)
-  (flycheck-add-next-checker 'lsp-ui '(warning . cstyle))
-  (flycheck-add-next-checker 'cstyle '(t . c/c++-cppcheck)))
-
 (use-package flycheck-package
   :ensure t
   :after flycheck
