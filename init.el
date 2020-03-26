@@ -1365,7 +1365,7 @@ With a prefix argument, will default to looking for all
 (use-package ivy-emoji
   :ensure t
   :bind (("C-c e" . ivy-emoji))
-  :ensure-system-package fonts-noto-color-emoji
+  :ensure-system-package ("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf" . fonts-noto-color-emoji)
   ;; use Noto Color Emoji for emoji's
   :config (set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
 
