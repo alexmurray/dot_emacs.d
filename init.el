@@ -1851,7 +1851,8 @@ With a prefix argument, will default to looking for all
         org-adapt-indentation nil
         org-imenu-depth 4
         org-todo-keywords '((sequence "TODO(t)" "IN-PROGRESS(p!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
-                            (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
+                            (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)"))
+        org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
   (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s"))
   ;; set up org-babel integration for plantuml
