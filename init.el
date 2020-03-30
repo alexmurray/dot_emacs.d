@@ -1582,6 +1582,13 @@ With a prefix argument, will default to looking for all
     (setq mu4e-compose-mode-hook '(apm-mu4e-compose-forward-as-attachment-2))
     (mu4e-compose-forward))
 
+  (defun apm-mu4e-contact-process (contact)
+    (if (string-match
+         "\\(no-?reply\\|bugs.launchpad.net\\|lillypilly.canonical.com\\)"
+         contact)
+        nil
+      contact))
+
   (defvar apm-mu4e-spammers '("duke.abbaddon@gmail.com"
                               "redmine@mantykora.net"
                               "jshaymac@gmail.com"
@@ -1667,15 +1674,12 @@ With a prefix argument, will default to looking for all
                  (string-match-p "^\\[.*\\] .* build of .* in ubuntu .*$" subject)))
         mu4e-trash-folder)
        ;; messages sent by me go to the sent folder
-       ((cl-find-if (lambda (addr)
-                      (mu4e-message-contact-field-matches msg :from addr))
-                    mu4e-user-mail-address-list)
+       ((mu4e-message-contact-field-matches msg :from user-mail-address)
         mu4e-sent-folder)
        (t "/Archive"))))
 
   :config
   (setq mail-user-agent 'mu4e-user-agent)
-  (setq mu4e-maildir (expand-file-name "~/Maildir"))
   (setq mu4e-sent-folder   "/Sent"
         mu4e-drafts-folder "/Drafts"
         mu4e-trash-folder  "/Trash")
@@ -1740,16 +1744,15 @@ With a prefix argument, will default to looking for all
   (setq message-kill-buffer-on-exit t)
 
   (setq mu4e-compose-reply-to-address "alex.murray@canonical.com"
-        mu4e-user-mail-address-list '("alex.murray@canonical.com")
         user-mail-address "alex.murray@canonical.com"
         user-full-name  "Alex Murray")
   ;; encrypt to self
   (setq epg-user-id "alex.murray@canonical.com")
   (setq mml-secure-openpgp-encrypt-to-self t)
   (setq mml-secure-openpgp-sign-with-sender t)
-  (setq mu4e-compose-complete-ignore-address-regexp
-        "\\(no-?reply\\|bugs.launchpad.net\\|lillypilly.canonical.com\\)")
   (setq mu4e-compose-signature nil)
+
+  (setq mu4e-contact-process-function #'apm-mu4e-contact-process)
 
   ;; add action to view in brower
   (add-to-list 'mu4e-view-actions
