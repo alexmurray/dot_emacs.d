@@ -1218,6 +1218,8 @@ With a prefix argument, will default to looking for all
 (use-package flyspell
   :defer t
   :diminish flyspell-mode
+  ;; improve performance by making flyspell less chatty
+  :config (setq flyspell-issue-message-flag nil)
   :hook ((text-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode)))
 
@@ -1338,14 +1340,12 @@ With a prefix argument, will default to looking for all
 
 (use-package ispell
   :defer t
+  :ensure-system-package aspell
   :init
-  ;; use aspell if can be found
-  (if (null (executable-find "aspell"))
-      (system-packages-install "aspell")
-    ;; use gb dictionary via aspell if available
-    (setq ispell-program-name "aspell"
-          ispell-dictionary "british"
-          ispell-extra-args '("--sug-mode=ultra"))))
+  ;; use australian dictionary via aspell if available
+  (setq ispell-program-name "aspell"
+        ispell-dictionary "australian"
+        ispell-extra-args '("--sug-mode=ultra")))
 
 (use-package ivy
   :ensure t
