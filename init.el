@@ -1779,7 +1779,7 @@ With a prefix argument, will default to looking for all
   (setq mu4e-completing-read-function 'completing-read)
   (setq mu4e-headers-fields '((:human-date . 12)
                               (:flags . 6)
-                              (:mailing-list . 20)
+                              (:mailing-list . 15)
                               (:from . 22)
                               (:size . 8)
                               (:subject)))
