@@ -757,6 +757,23 @@ The object labels of the found items are returned as list."
   :diminish elisp-def-mode
   :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode))
 
+(use-package emojify
+  :ensure t
+  :ensure-system-package ("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
+  :diminish emojify-mode
+  :defer nil
+  :bind (("C-c e" . emojify-insert-emoji))
+  :config
+  ;; display emojis using images since looks nicer
+  (setq emojify-display-style 'image)
+  ;; only replace unicode emojis (don't mess with ascii or github ones
+  ;; since I don't use / want them)
+  (setq emojify-emoji-styles '(unicode))
+  ;; echo the actual underlying character to the minibuffer when point is
+  ;; over them so we don't mess with the displayed buffer itself
+  (setq emojify-point-entered-behaviour 'echo)
+  (global-emojify-mode 1))
+
 (use-package erc
   :ensure t
   :preface
@@ -1364,13 +1381,6 @@ With a prefix argument, will default to looking for all
   ;; allow to select the typed in value with C-p
   (setq ivy-use-selectable-prompt t)
   (define-key isearch-mode-map (kbd "M-o") 'ivy-occur))
-
-(use-package ivy-emoji
-  :ensure t
-  :bind (("C-c e" . ivy-emoji))
-  :ensure-system-package ("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf" . fonts-noto-color-emoji)
-  ;; use Noto Color Emoji for emoji's
-  :config (set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
 
 (use-package ivy-posframe
   :ensure t
