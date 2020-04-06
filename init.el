@@ -451,7 +451,7 @@ The object labels of the found items are returned as list."
   (defun apm-c-mode-setup ()
     "Tweaks and customisations for `c-mode'."
     (let ((filename (buffer-file-name)))
-      (if (and filename (string-match-p (expand-file-name "~/apparmor-kernel") filename))
+      (if (and filename (string-match-p (expand-file-name "~/git/apparmor-kernel") filename))
           ;; upstream linux kernel style actually uses tabs... urgh
           (progn
             (setq indent-tabs-mode t)
@@ -929,6 +929,9 @@ With a prefix argument, will default to looking for all
   ;; who time (333), names (353) - see
   ;; https://www.alien.net.au/irc/irc2numerics.html
   (setq erc-hide-list '("324" "329" "332" "333" "353"))
+
+  ;; ignore KGB bot instances from oftc
+  (setq erc-ignore-list '("KGB-[0-9]!kgb@kgb-[0-9].bot.oftc.net"))
 
   (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
   (setq erc-log-insert-log-on-open nil)
@@ -1495,6 +1498,9 @@ With a prefix argument, will default to looking for all
   :mode (("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :ensure-system-package markdown)
+
+(use-package mb-depth
+  :config (minibuffer-depth-indicate-mode 1))
 
 (use-package meson-mode
   :ensure t)
