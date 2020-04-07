@@ -147,6 +147,7 @@
 (setq scroll-step 1
       scroll-margin 0
       scroll-conservatively 100000)
+(setq fast-but-imprecise-scrolling t)
 
 ;; make emacs less laggy
 (setq inhibit-compacting-font-caches t)
