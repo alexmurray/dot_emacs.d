@@ -1875,6 +1875,11 @@ With a prefix argument, will default to looking for all
    'org-babel-load-languages
    '((plantuml .t))))
 
+;; add support for man: links in org documents
+(use-package ol-man
+  :ensure org-plus-contrib
+  :pin org)
+
 (use-package org-agenda
   :ensure org-plus-contrib
   :pin org
