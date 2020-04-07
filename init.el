@@ -1867,8 +1867,7 @@ With a prefix argument, will default to looking for all
         org-adapt-indentation nil
         org-imenu-depth 4
         org-todo-keywords '((sequence "TODO(t)" "IN-PROGRESS(p!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
-                            (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)"))
-        org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
+                            (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
   (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s"))
   ;; set up org-babel integration for plantuml
@@ -1888,6 +1887,7 @@ With a prefix argument, will default to looking for all
   (require 'filenotify)
   (dolist (file org-agenda-files)
     (file-notify-add-watch file '(change) #'apm-org-agenda-file-notify))
+  (setq org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
   ;; rebuild appointments now
   (org-agenda-to-appt t))
 
