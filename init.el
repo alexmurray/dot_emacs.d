@@ -1006,24 +1006,25 @@ With a prefix argument, will default to looking for all
                                    (expand-file-name
                                     erc-log-channels-directory))) . erc-view-log-mode)))
 
-(use-package eudc
+(use-package ldap
+  :ensure-system-package (ldapsearch . ldap-utils)
+  :config
   ;; Store password using secret-tool as follows:
   ;; secret-tool store --label='Canonical LDAP' host ldaps://ldap.canonical.com
   ;; then enter PASSWORD
-  :ensure-system-package (ldapsearch . ldap-utils)
-  :config
-  (eval-when-compile
-    (require 'ldap))
-  (setq eudc-server "ldaps://ldap.canonical.com")
-  (setq eudc-server-hotlist
-        '(("ldaps://ldap.canonical.com" . ldap)))
-  (setq eudc-inline-expansion-servers 'hotlist)
   (setq ldap-host-parameters-alist
         `(("ldaps://ldap.canonical.com"
            base "ou=staff,dc=canonical,dc=com"
            binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
            auth-source t)))
-  (setq ldap-default-host "ldaps://ldap.canonical.com")
+  (setq ldap-default-host "ldaps://ldap.canonical.com"))
+
+(use-package eudc
+  :after ldap
+  :config
+  (eval-when-compile
+    (require 'ldap))
+  (eudc-set-server ldap-default-host 'ldap)
   ;; better display of custom canonical ldap attributes
   (add-to-list 'eudc-user-attribute-names-alist
                '(mozillanickname . "IRC Nick"))
@@ -1043,6 +1044,7 @@ With a prefix argument, will default to looking for all
       (define-key map [return] 'apm-eudc-query-at-point)
       map))
   (set-keymap-parent apm-eudc-bob-query-keymap eudc-bob-generic-keymap)
+  (add-to-list 'eudc-attribute-display-method-alist '("jpegphoto" . eudc-display-jpeg-inline))
   (add-to-list 'eudc-attribute-display-method-alist '("manager" . apm-eudc-display-query))
   (add-to-list 'eudc-attribute-display-method-alist '("utc offset" . apm-eudc-display-utc-offset))
   (add-to-list 'eudc-attribute-display-method-alist '("timezone name" . apm-eudc-display-timezone))
