@@ -1248,7 +1248,7 @@ With a prefix argument, will default to looking for all
 (use-package flyspell-correct-ivy
   :ensure t
   ;; use instead of ispell-word
-  :bind (([remap ispell-word] . flyspell-correct-word-generic)
+  :bind (([remap ispell-word] . flyspell-correct-wrapper)
          :map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
 
 (use-package forge
