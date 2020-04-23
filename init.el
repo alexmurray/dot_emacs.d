@@ -1690,9 +1690,6 @@ With a prefix argument, will default to looking for all
             (and (mu4e-message-contact-field-matches msg :from "noreply@launchpad.net")
                  (string-match-p "^\\[.*\\] .* build of .* in ubuntu .*$" subject)))
         mu4e-trash-folder)
-       ;; messages sent by me go to the sent folder
-       ((mu4e-message-contact-field-matches msg :from user-mail-address)
-        mu4e-sent-folder)
        (t "/Archive"))))
 
   :config
