@@ -983,6 +983,11 @@ With a prefix argument, will default to looking for all
                                          (inhibit-switch-frame . t)
                                          (mode . erc-mode)))))
 
+(use-package erc-goodies
+  :ensure erc
+  ;; ensure this is set
+  :config (setq erc-interpret-controls-p t))
+
 (use-package erc-hl-nicks
   :ensure t
   :after erc
