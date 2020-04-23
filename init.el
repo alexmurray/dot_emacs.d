@@ -1519,6 +1519,9 @@ With a prefix argument, will default to looking for all
   ;; use standard completion UI for message completion
   :config (setq message-expand-name-standard-ui t))
 
+(use-package message-attachment-reminder
+  :load-path "vendor/")
+
 (use-package mml-sec
   :preface
   (defun apm-mml-secure-find-usable-key-prompt-for-missing-key (context name usage &optional justone)
