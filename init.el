@@ -704,9 +704,6 @@ The object labels of the found items are returned as list."
 (use-package doom-modeline
   :ensure t
   :config
-  (setq doom-modeline-height 26)
-  (setq doom-modeline-major-mode-color-icon t)
-  (setq doom-modeline-buffer-encoding nil)
   (doom-modeline-mode 1))
 
 (use-package dpkg-dev-el
