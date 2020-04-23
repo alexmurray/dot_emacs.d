@@ -945,9 +945,6 @@ With a prefix argument, will default to looking for all
   ;; https://www.alien.net.au/irc/irc2numerics.html
   (setq erc-hide-list '("324" "329" "332" "333" "353"))
 
-  ;; ignore KGB bot instances from oftc
-  (setq erc-ignore-list '("KGB-[0-9]!kgb@kgb-[0-9].bot.oftc.net"))
-
   (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
   (setq erc-log-insert-log-on-open nil)
   (setq erc-log-file-coding-system 'utf-8)
