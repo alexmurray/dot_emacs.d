@@ -1820,6 +1820,10 @@ With a prefix argument, will default to looking for all
   ;; always start mu4e in the background
   (mu4e t))
 
+(use-package mu4e-icalendar
+  :ensure mu4e
+  :config (mu4e-icalendar-setup))
+
 (use-package mu4e-alert
   :ensure t
   ;; don't enable notifications for email to improve productivity
