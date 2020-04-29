@@ -470,7 +470,7 @@ The object labels of the found items are returned as list."
     ;; ensure fill-paragraph takes doxygen @ markers as start of new
     ;; paragraphs properly
     (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
-  :hook ((c-mode c++-mode) . apm-c-mode-setup)
+  :hook (((c-mode c++-mode) . apm-c-mode-setup))
   :config
   ;; treat linux styles as safe for local variable
   (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
