@@ -1426,6 +1426,9 @@ With a prefix argument, will default to looking for all
     (setq xref-show-definitions-function #'ivy-xref-show-defs))
   (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
+(use-package keypression
+  :ensure t)
+
 (use-package js2-mode
   :ensure t
   :defer t
