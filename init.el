@@ -1653,6 +1653,10 @@ With a prefix argument, will default to looking for all
         mu4e-trash-folder)
        ((not (null mailing-list))
         (concat "/Lists/" (mu4e-get-mailing-list-shortname mailing-list)))
+       ;; store emails about outdated dependencies should get trashed
+       ((and (mu4e-message-contact-field-matches msg :from "Snap Store")
+             (string-match-p "\\(built from outdated Ubuntu kernel\\|contains outdated Ubuntu packages\\)" subject))
+        mu4e-trash-folder)
        ((or (mu4e-message-contact-field-matches msg :from "Snap Store")
             (string-match-p "^\\(R[eE]: \\)?Manual review \\(for .* version .* requested\\|requested for version\\)" subject)
             (string-match-p "^Package declaration update: " subject)
