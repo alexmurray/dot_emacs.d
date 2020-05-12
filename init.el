@@ -257,8 +257,8 @@
 
 (use-package appt
   :preface
-  (defun apm-appt-notify (min-to-appt new-time msg)
-    "Notify for appointment at MIN-TO-APPT for NEW-TIME with MSG."
+  (defun apm-appt-notify (min-to-appt _new-time msg)
+    "Notify for appointment at MIN-TO-APPT for _NEW-TIME with MSG."
     ;; the arguments may be lists or not so always use them as lists
     (unless (listp min-to-appt)
       (setq min-to-appt (list min-to-appt)))
@@ -1456,8 +1456,7 @@ With a prefix argument, will default to looking for all
   :after yasnippet
   :init (unless (executable-find "pyls")
           (alert "Please install the python-language-server python module via pip"))
-  :hook ((prog-mode . lsp))
-  :config (setq lsp-prefer-flymake nil))
+  :hook ((prog-mode . lsp)))
 
 (use-package lsp-imenu
   :ensure lsp-mode
@@ -1825,12 +1824,11 @@ With a prefix argument, will default to looking for all
   ;; show full addresses in message view
   (setq mu4e-view-show-addresses t)
 
+  (require 'mu4e-icalendar)
+  (mu4e-icalendar-setup)
+
   ;; always start mu4e in the background
   (mu4e t))
-
-(use-package mu4e-icalendar
-  :ensure mu4e
-  :config (mu4e-icalendar-setup))
 
 (use-package mu4e-alert
   :ensure t
@@ -1978,7 +1976,7 @@ With a prefix argument, will default to looking for all
 (use-package org-mu4e
   :after (mu4e org)
   ;; store link to message if in header view, not to header query
-  :config (setq org-mu4e-link-query-in-headers-mode nil))
+  :config (setq mu4e-org-link-query-in-headers-mode nil))
 
 (use-package org-notify
   :ensure org-plus-contrib
@@ -2420,7 +2418,7 @@ With a prefix argument, will default to looking for all
   :ensure t)
 
 (use-package wttrin
-  :load-path "~/emacs-wttrin/"
+  :load-path "~/git/emacs-wttrin/"
   :bind (("C-c w" . wttrin))
   :config
   (setq wttrin-api-version 2)
