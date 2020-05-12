@@ -95,7 +95,11 @@
          :severity 'high))
 
 
-;;; General settings etc
+;;; General settings etc from C source so no package to associate settings
+;;; with...
+
+;; use pipes for subprocess communication
+(setq process-connection-type nil)
 
 ;; personalisation
 (setq user-full-name "Alex Murray")
