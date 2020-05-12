@@ -1283,6 +1283,9 @@ With a prefix argument, will default to looking for all
   :ensure t
   :defer t)
 
+(use-package gnu-elpa
+  :ensure t)
+
 (use-package gnu-elpa-keyring-update
   :ensure t)
 
@@ -1529,7 +1532,7 @@ With a prefix argument, will default to looking for all
   :config (setq message-expand-name-standard-ui t))
 
 (use-package message-attachment-reminder
-  :load-path "vendor/")
+  :ensure t)
 
 (use-package mml-sec
   :preface
@@ -1912,7 +1915,7 @@ With a prefix argument, will default to looking for all
 
 (use-package org-capture
   :after org
-  :config (setq org-capture-templates `(("t" "todo" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Tasks")
+  :config (setq org-capture-templates `(("T" "todo" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Tasks")
                                          "** TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n- %a\n")
                                         ("d" "snap-store-discussion" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Forum store request discussions")
                                          "*** TODO %?\n- %a\n")
@@ -1932,7 +1935,8 @@ With a prefix argument, will default to looking for all
   :bind (("C-c g" . org-clock-goto)
          ("C-c i" . org-clock-in)
          ("C-c o" . org-clock-out))
-  :preface
+  ;; ensure we always run org-clock-persistence-insinuate below
+  :defer nil
   ;; assume idle after 5 minutes
   :ensure-system-package xprintidle
   :config
@@ -2277,7 +2281,6 @@ With a prefix argument, will default to looking for all
   :hook ((after-init . apm-start-telega-minimised))
   :config
   (setq telega-use-images t)
-  (telega-mode-line-mode 1)
   (telega-notifications-mode 1))
 
 (use-package text-mode
