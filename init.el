@@ -707,16 +707,8 @@ The object labels of the found items are returned as list."
 
 (use-package doom-modeline
   :ensure t
-  :preface (with-eval-after-load 'erc-track
-             (defun apm-doom-modeline-irc-stylize (name)
-               (let ((face (alist-get (get-buffer name)
-                                      erc-modified-channels-alist)))
-                 (if face
-                     (propertize name :face face)
-                   nam))))
   :config
-  (doom-modeline-mode 1)
-  (setq doom-modeline-irc-stylize #'apm-doom-modeline-irc-stylize))
+  (doom-modeline-mode 1))
 
 (use-package dpkg-dev-el
   :ensure t
