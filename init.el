@@ -632,7 +632,7 @@ The object labels of the found items are returned as list."
          ("M-s r" . counsel-grep-or-swiper-backward)
          :map outline-mode-map ("M-i" . counsel-outline)
          :map company-active-map ("C-/" . counsel-company))
-  :defer nil
+  :demand t
   :config
   ;; required so we can use counsel-yank-pop in the minibuffer itself
   (setq enable-recursive-minibuffers t)
@@ -763,7 +763,7 @@ The object labels of the found items are returned as list."
   :ensure t
   :ensure-system-package ("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
   :diminish emojify-mode
-  :defer nil
+  :demand t
   :bind (("C-c e" . emojify-insert-emoji))
   :config
   ;; display emojis using images since looks nicer
@@ -1936,7 +1936,7 @@ With a prefix argument, will default to looking for all
          ("C-c i" . org-clock-in)
          ("C-c o" . org-clock-out))
   ;; ensure we always run org-clock-persistence-insinuate below
-  :defer nil
+  :demand t
   ;; assume idle after 5 minutes
   :ensure-system-package xprintidle
   :config
@@ -2325,7 +2325,7 @@ With a prefix argument, will default to looking for all
 
 (use-package uct
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
-  :defer nil
+  :demand t
   :bind (("C-c u u" . uct)
          ("C-c f c" . uct-find-cve)
          ("C-c u k" . uct-kernel-signoff-at-point)))
