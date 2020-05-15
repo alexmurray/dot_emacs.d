@@ -1620,6 +1620,7 @@ With a prefix argument, will default to looking for all
 
   (defvar apm-mu4e-spammers '("duke.abbaddon@gmail.com"
                               "redmine@mantykora.net"
+                              "jira@nine.ch"
                               "jshaymac@gmail.com"
                               "jira@clockworkers.atlassian.net"
                               "advisories@auraredeye.zendesk.com"
