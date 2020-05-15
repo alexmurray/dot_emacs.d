@@ -1836,8 +1836,8 @@ With a prefix argument, will default to looking for all
 
 (use-package mu4e-alert
   :ensure t
-  ;; don't enable notifications for email to improve productivity
-  :hook ((after-init . mu4e-alert-enable-mode-line-display))
+  :hook ((after-init . mu4e-alert-enable-mode-line-display)
+         (after-init . mu4e-alert-enable-notifications))
   :config (mu4e-alert-set-default-style 'notifications))
 
 (use-package mu4e-jump-to-list
