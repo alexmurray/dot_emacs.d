@@ -461,12 +461,7 @@ The object labels of the found items are returned as list."
           (progn
             (setq indent-tabs-mode t)
             (setq c-basic-offset 8)
-            (c-set-style "linux-tabs-only")
-            ;; silence byte compiler
-            (eval-when-compile
-              (require 'ethan-wspace))
-            (with-eval-after-load 'ethan-wspace
-              (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors))))
+            (c-set-style "linux-tabs-only"))
         ;; default to normal linux style
         (c-set-style "linux")))
     ;; always show trailing whitespace
@@ -1144,23 +1139,6 @@ With a prefix argument, will default to looking for all
   :init (unless (file-exists-p "~/.terminfo/e/eterm-color")
           (make-directory "~/.terminfo/e/" t)
           (shell-command "tic /snap/emacs/current/usr/share/emacs/27.0.50/etc/e/eterm-color.ti")))
-
-(defun makefile-tabs-are-less-evil ()
-  "Disable ethan-wspace from caring about tabs in Makefile's."
-  ;; silence byte-compilation warnings
-  (eval-when-compile
-    (require 'ethan-wspace))
-  (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))
-
-(use-package ethan-wspace
-  :ensure t
-  :diminish ethan-wspace-mode
-  ;; disable ethan-wspace caring about tabs in Makefile's
-  :hook ((makefile-mode . makefile-tabs-are-less-evil))
-  ;; ethan-wspace-mode raises lots of warnings if this is enabled...
-  ;; hopefully this doesn't cause problems
-  :config  (setq mode-require-final-newline nil)
-  :init (global-ethan-wspace-mode 1))
 
 (use-package exec-path-from-shell
   :ensure t
@@ -2406,10 +2384,8 @@ With a prefix argument, will default to looking for all
 
 (use-package whitespace
   :diminish whitespace-mode
-  :hook ((prog-mode . whitespace-mode))
-  :init
-  ;; show trailing whitespace
-  (setq-default whitespace-style '(face tabs trailing)))
+  :hook ((prog-mode . whitespace-mode)
+         (before-save . whitespace-cleanup)))
 
 (use-package windmove
   :ensure t
