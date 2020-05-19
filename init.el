@@ -702,6 +702,8 @@ The object labels of the found items are returned as list."
 
 (use-package doom-modeline
   :ensure t
+  :custom
+  (doom-modeline-mu4e t)
   :config
   (doom-modeline-mode 1))
 
