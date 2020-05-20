@@ -1351,12 +1351,10 @@ With a prefix argument, will default to looking for all
 
 (use-package ispell
   :defer t
-  :ensure-system-package aspell
-  :init
-  ;; use australian dictionary via aspell if available
-  (setq ispell-program-name "aspell"
-        ispell-dictionary "australian"
-        ispell-extra-args '("--sug-mode=ultra")))
+  :ensure-system-package hunspell
+  :custom
+  (ispell-program-name "hunspell")
+  (ispell-dictionary "en_AU"))
 
 (use-package ivy
   :ensure t
