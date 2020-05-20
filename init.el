@@ -1264,6 +1264,7 @@ With a prefix argument, will default to looking for all
   :defer t)
 
 (use-package gnu-elpa
+  :defer t
   :ensure t)
 
 (use-package gnu-elpa-keyring-update
