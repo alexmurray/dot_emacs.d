@@ -1895,11 +1895,11 @@ With a prefix argument, will default to looking for all
 
 (use-package org-capture
   :after org
-  :config (setq org-capture-templates `(("T" "todo" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Tasks")
+  :config (setq org-capture-templates `(("t" "todo" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Tasks")
                                          "** TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n- %a\n")
-                                        ("d" "snap-store-discussion" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Forum store request discussions")
+                                        ("D" "snap-store-discussion" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Forum store request discussions")
                                          "*** TODO %?\n- %a\n")
-                                        ("t" "snap-store-tallied-processed" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Forum store requests processed/tallied")
+                                        ("T" "snap-store-tallied-processed" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Forum store requests processed/tallied")
                                          "*** TODO %?\n- %a\n")
                                         ("m" "meeting" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Meetings")
                                          "* %?\n%(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n- %a\n")
