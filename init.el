@@ -2358,7 +2358,9 @@ With a prefix argument, will default to looking for all
   :ensure t
   :bind (("C-c C-p C-b" . webpaste-paste-buffer)
          ("C-c C-p C-r" . webpaste-paste-region))
+  :demand t
   :config
+  (setq webpaste-paste-confirmation t)
   (add-to-list 'webpaste-providers-alist
                `("pastebin.ubuntu.com"
                  :uri "https://pastebin.ubuntu.com/"
