@@ -2385,7 +2385,7 @@ With a prefix argument, will default to looking for all
   :hook ((prog-mode . whitespace-mode)
          (before-save . whitespace-cleanup))
   :init (setq-default whitespace-style
-                      '(face tabs tab-mark lines-tail trailing)))
+                      '(face tabs tab-mark trailing)))
 
 (use-package windmove
   :ensure t
