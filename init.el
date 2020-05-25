@@ -274,7 +274,6 @@
 (use-package apropos
   :bind ("C-h a" . apropos))
 
-
 (use-package asn1-mode
   :ensure t
   :defer t
