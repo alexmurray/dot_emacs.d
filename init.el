@@ -486,7 +486,8 @@ The object labels of the found items are returned as list."
   :bind (("C-<tab>" . company-complete-common)
          :map company-mode-map
          ([remap completion-at-point] . company-complete-common)
-         ([remap complete-symbol] . company-complete-common))
+         ([remap complete-symbol] . company-complete-common)
+         ([remap indent-for-tab-command] . company-indent-or-complete-common))
   :init (global-company-mode 1)
   :config
   (setq tab-always-indent 'complete)
