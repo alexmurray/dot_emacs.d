@@ -574,11 +574,6 @@ The object labels of the found items are returned as list."
   ;; keep original case
   :config (setq company-dabbrev-downcase nil))
 
-(use-package company-lsp
-  :ensure t
-  :after company
-  :init (add-to-list 'company-backends 'company-lsp))
-
 (use-package company-math
   :ensure t
   :defer t
