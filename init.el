@@ -1410,6 +1410,9 @@ With a prefix argument, will default to looking for all
 (use-package keypression
   :ensure t)
 
+(use-package journalctl-mode
+  :load-path "vendor/")
+
 (use-package js2-mode
   :ensure t
   :defer t
