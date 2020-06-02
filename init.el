@@ -2205,6 +2205,9 @@ With a prefix argument, will default to looking for all
   (setq smtpmail-smtp-server "smtp.canonical.com")
   (setq smtpmail-smtp-service 587))
 
+(use-package so-long
+  :config (global-so-long-mode 1))
+
 (use-package solarized-theme
   :ensure t
   :disabled t
