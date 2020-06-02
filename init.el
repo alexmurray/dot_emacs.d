@@ -2382,8 +2382,7 @@ With a prefix argument, will default to looking for all
 
 (use-package whitespace
   :diminish whitespace-mode
-  :hook ((prog-mode . whitespace-mode)
-         (before-save . whitespace-cleanup))
+  :hook ((prog-mode . whitespace-mode))
   :init (setq-default whitespace-style
                       '(face tabs tab-mark trailing)))
 
