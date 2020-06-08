@@ -982,7 +982,8 @@ With a prefix argument, will default to looking for all
 
 (use-package erc-goodies
   :ensure erc
-  ;; ensure this is set
+  ;; ensure this is set and we don't inadvertently unset it
+  :bind (:map erc-mode-map ("C-c C-c" . nil))
   :config (setq erc-interpret-controls-p t))
 
 (use-package erc-hl-nicks
