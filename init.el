@@ -1412,7 +1412,7 @@ With a prefix argument, will default to looking for all
   :ensure t)
 
 (use-package journalctl-mode
-  :load-path "vendor/")
+  :ensure t)
 
 (use-package js2-mode
   :ensure t
