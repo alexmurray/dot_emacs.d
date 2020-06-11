@@ -2185,6 +2185,7 @@ With a prefix argument, will default to looking for all
 (use-package simple
   :defer t
   :diminish visual-line-mode
+  :hook ((mu4e-view-mode . visual-line-mode))
   :init
   ;; save whatever is in the system clipboard to the kill ring before
   ;; killing something else into the kill ring
