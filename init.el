@@ -1869,6 +1869,8 @@ With a prefix argument, will default to looking for all
         org-imenu-depth 4
         org-todo-keywords '((sequence "TODO(t)" "IN-PROGRESS(p!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
                             (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
+  ;; allow to refile to anywhere
+  (setq org-refile-targets '((nil :maxlevel . 10)))
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
   (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s"))
   ;; set up org-babel integration for plantuml
