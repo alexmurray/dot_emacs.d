@@ -1203,6 +1203,9 @@ With a prefix argument, will default to looking for all
   :after flycheck
   :config (flycheck-plantuml-setup))
 
+(use-package flycheck-pod
+  :load-path "vendor/")
+
 (use-package flycheck-posframe
   :ensure t
   :after (flycheck posframe)
@@ -2078,6 +2081,10 @@ With a prefix argument, will default to looking for all
   (setq plantuml-jar-path (expand-file-name "~/plantuml.jar"))
   (unless (file-exists-p plantuml-jar-path)
     (message "plantuml not found at %s" plantuml-jar-path)))
+
+(use-package pod-mode
+  :load-path "vendor/"
+  :mode ("\\.pod$" . pod-mode))
 
 (use-package posframe
   :ensure t
