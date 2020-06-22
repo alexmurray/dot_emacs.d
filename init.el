@@ -1145,6 +1145,7 @@ With a prefix argument, will default to looking for all
 
 (use-package eyebrowse
   :ensure t
+  :custom (eyebrowse-keymap-prefix (kbd "C-c w"))
   :config
   (eyebrowse-mode 1)
   ;; binds to M-1 M-2 etc to easily switch
@@ -1855,7 +1856,8 @@ With a prefix argument, will default to looking for all
   :pin org
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture)
-         ("C-c l" . org-store-link))
+         ("C-c l" . org-store-link)
+         ("C-c C-w" . org-refile))
   :config
   (setq org-directory (expand-file-name "~/org-files/")
         org-agenda-files (mapcar #'(lambda (f)
@@ -2410,7 +2412,7 @@ With a prefix argument, will default to looking for all
 
 (use-package wttrin
   :load-path "~/git/emacs-wttrin/"
-  :bind (("C-c w" . wttrin))
+  :bind (("C-c f f" . wttrin))
   :config
   (setq wttrin-api-version 2)
   (setq wttrin-default-cities '("Adelaide")))
