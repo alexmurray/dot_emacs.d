@@ -868,9 +868,10 @@ With a prefix argument, will default to looking for all
   (setq erc-user-full-name user-full-name)
   (setq erc-nick user-login-name)
   (setq erc-prompt-for-nickserv-password nil)
-  ;; nickserv password for Canonical and freenode
+  ;; nickserv password for Canonical, freenode and OFTC
   (dolist (network '((Canonical . "irc.canonical.com")
-                     (freenode . "irc.freenode.net")))
+                     (freenode . "irc.freenode.net")
+                     (OFTC . "irc.oftc.net")))
     (let* ((pass (auth-source-pick-first-password :host (cdr network) :user erc-nick :login "NickServ")))
       (if (null pass)
           ;; secret-tool store --label='(car network) IRC NickServ' host (cdr network) user amurray login NickServ
