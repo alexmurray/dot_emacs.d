@@ -2442,7 +2442,7 @@ With a prefix argument, will default to looking for all
 (use-package znc
   :ensure t
   :preface
-  (defvar apm-znc-slugs '(oftc freenode canonical))
+  (defvar apm-znc-slugs '(freenode canonical))
   (defvar apm-znc-server "znc.secret.server")
   (defvar apm-znc-username "amurray")
   (defvar apm-znc-port 7076)
