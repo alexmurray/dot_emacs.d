@@ -870,8 +870,7 @@ With a prefix argument, will default to looking for all
   (setq erc-prompt-for-nickserv-password nil)
   ;; nickserv password for Canonical, freenode and OFTC
   (dolist (network '((Canonical . "irc.canonical.com")
-                     (freenode . "irc.freenode.net")
-                     (OFTC . "irc.oftc.net")))
+                     (freenode . "irc.freenode.net")))
     (let* ((pass (auth-source-pick-first-password :host (cdr network) :user erc-nick :login "NickServ")))
       (if (null pass)
           ;; secret-tool store --label='(car network) IRC NickServ' host (cdr network) user amurray login NickServ
@@ -2442,7 +2441,7 @@ With a prefix argument, will default to looking for all
 (use-package znc
   :ensure t
   :preface
-  (defvar apm-znc-slugs '(freenode canonical))
+  (defvar apm-znc-slugs '(canonical freenode oftc))
   (defvar apm-znc-server "znc.secret.server")
   (defvar apm-znc-username "amurray")
   (defvar apm-znc-port 7076)
