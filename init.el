@@ -25,9 +25,6 @@
 (defvar use-package-enable-imenu-support t)
 ;; must be set before loading use-package
 (setq use-package-enable-imenu-support t)
-;; uncomment to debug package loading times
-;; (setq use-package-verbose t)
-
 
 ;; Bootstrap `use-package' from melpa
 (unless (package-installed-p 'use-package)
@@ -36,6 +33,11 @@
 
 (eval-and-compile
   (require 'use-package))
+
+;; uncomment to debug package loading times
+;; (setq use-package-verbose t)
+;; compute stats to see what is taking so long on init
+;; (setq use-package-compute-statistics t)
 
 ;; load no-littering as soon as possible during init so it can hook as many
 ;; paths as possible
