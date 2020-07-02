@@ -881,12 +881,13 @@ With a prefix argument, will default to looking for all
           (erc-message "PRIVMSG"
                        (format "mattermost login chat.canonical.com canonical %s token=%s" nick password))))))
   (add-hook 'erc-after-connect #'apm-erc-connect-to-mattermost)
-  (defadvice pcomplete-erc-nicks (around apm-pcomplete-erc-nicks activate)
+  (defun apm-pcomplete-erc-nicks (orig-fun &rest args)
     ;; when connected to matterircd prepend an @ to each nick
-    (let ((nicks ad-do-it))
-      (if (eq 'matterircd (erc-current-network))
+    (let ((nicks (apply orig-fun args)))
+      (if (eq 'matterircd (erc-network))
           (mapcar #'(lambda (nick) (concat "@" nick)) nicks)
         nicks)))
+  (advice-add #'pcomplete-erc-nicks :around #'apm-pcomplete-erc-nicks)
   (setq erc-user-full-name user-full-name)
   (setq erc-nick (list user-login-name "alexmurray"))
   (setq erc-prompt-for-nickserv-password nil)
