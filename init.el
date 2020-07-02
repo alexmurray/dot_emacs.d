@@ -799,6 +799,12 @@ The object labels of the found items are returned as list."
     (when (and (eq major-mode 'erc-mode) erc-log-mode)
       (find-file-other-window (erc-current-logfile))))
 
+  (defun apm-erc-nicks ()
+    "Returns the list of possible nicks from `erc-nick'."
+    (if (listp erc-nick)
+        erc-nick
+      (list erc-nick)))
+
   (defun apm-occur-in-erc (&optional regexp)
     "Find matches of REGEXP in all erc buffers.
 With a prefix argument, will default to looking for all
@@ -806,7 +812,7 @@ With a prefix argument, will default to looking for all
     (interactive
      (list
       (let ((regex  (concat "\\(" (regexp-opt erc-keywords) "\\|"
-                            (concat "\\(^\\|[^<]\\)" erc-nick "\\([^>]\\|$\\)")
+                            (concat "\\(^\\|[^<]\\)" (regexp-opt (apm-erc-nicks)) "\\([^>]\\|$\\)")
                             "\\)")))
         (read-string "Regexp: "
                      (substring-no-properties
@@ -865,21 +871,34 @@ With a prefix argument, will default to looking for all
     (require 'erc-notify)
     (require 'erc-services)
     (require 'erc-track))
-  ;; canonical irc - we use this via znc-erc below
-  (add-to-list 'erc-networks-alist '(Canonical "canonical.com"))
+  ;; matterircd
+  (add-to-list 'erc-networks-alist '(matterircd "matterircd.*"))
+  (defun apm-erc-connect-to-mattermost (server nick)
+    "Try login to mattermost on SERVER with NICK."
+    (when (string-match "matterircd" server)
+      (let ((password (auth-source-pick-first-password :host "matterircd" :user nick)))
+        (if (null password)
+            (alert (format "Please store matterircd token in secret store with :host matterircd and :user %s" nick))
+          (erc-message "PRIVMSG"
+                       (format "mattermost login chat.canonical.com canonical %s token=%s" nick password))))))
+  (add-hook 'erc-after-connect #'apm-erc-connect-to-mattermost)
+  (defadvice pcomplete-erc-nicks (around apm-pcomplete-erc-nicks activate)
+    ;; when connected to matterircd prepend an @ to each nick
+    (let ((nicks ad-do-it))
+      (if (eq 'matterircd (erc-current-network))
+          (mapcar #'(lambda (nick) (concat "@" nick)) nicks)
+        nicks)))
   (setq erc-user-full-name user-full-name)
-  (setq erc-nick user-login-name)
+  (setq erc-nick (list user-login-name "alexmurray"))
   (setq erc-prompt-for-nickserv-password nil)
-  ;; nickserv password for Canonical, freenode and OFTC
-  (dolist (network '((Canonical . "irc.canonical.com")
-                     (freenode . "irc.freenode.net")))
-    (let* ((pass (auth-source-pick-first-password :host (cdr network) :user erc-nick :login "NickServ")))
-      (if (null pass)
-          ;; secret-tool store --label='(car network) IRC NickServ' host (cdr network) user amurray login NickServ
-          ;; then enter password
-          (alert (format "Please store %s NickServ password in secret store for %s"
-                         (cdr network) erc-nick))
-        (add-to-list 'erc-nickserv-passwords `(,(car network) ((,erc-nick . ,pass)))))))
+  ;; nickserv password for freenode
+  (dolist (network '((freenode . "irc.freenode.net")))
+    (let ((login (auth-source-user-and-password (cdr network))))
+      (if (null login)
+          ;; secret-tool store --label='(car network) IRC NickServ' host
+          ;; (cdr network) user USER then enter password
+          (alert (format "Please store %s NickServ password in secret store" (cdr network)))
+        (add-to-list 'erc-nickserv-passwords `(,(car network) ((,(car login) . ,(cadr login))))))))
 
   (setq erc-autojoin-timing 'ident)
 
@@ -927,8 +946,9 @@ With a prefix argument, will default to looking for all
   (setq erc-track-shorten-function nil)
   ;; ensure our nick highlighted with erc-hl-nicks gets picked up by
   ;; erc-track
-  (add-to-list 'erc-track-faces-priority-list
-               `(,(erc-hl-nicks-make-face erc-nick) erc-current-nick-face))
+  (dolist (nick (apm-erc-nicks))
+    (add-to-list 'erc-track-faces-priority-list
+                 `(,(erc-hl-nicks-make-face nick) erc-current-nick-face)))
 
   (add-to-list 'erc-nick-popup-alist
                ;; defined down in eudc use-package
@@ -980,7 +1000,9 @@ With a prefix argument, will default to looking for all
                '(apm-reuse-erc-window . (display-buffer-reuse-mode-window
                                          (inhibit-same-window . t)
                                          (inhibit-switch-frame . t)
-                                         (mode . erc-mode)))))
+                                         (mode . erc-mode))))
+  ;; automatically connect to matterircd on localhost
+  (erc :server "localhost" :port "6667" :nick "alexmurray"))
 
 (use-package erc-goodies
   :ensure erc
@@ -2443,7 +2465,7 @@ With a prefix argument, will default to looking for all
 (use-package znc
   :ensure t
   :preface
-  (defvar apm-znc-slugs '(canonical freenode oftc))
+  (defvar apm-znc-slugs '(freenode oftc))
   (defvar apm-znc-server "znc.secret.server")
   (defvar apm-znc-username "amurray")
   (defvar apm-znc-port 7076)
