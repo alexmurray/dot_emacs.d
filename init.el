@@ -762,9 +762,8 @@ The object labels of the found items are returned as list."
   :config
   ;; display emojis using images since looks nicer
   (setq emojify-display-style 'image)
-  ;; only replace unicode emojis (don't mess with ascii or github ones
-  ;; since I don't use / want them)
-  (setq emojify-emoji-styles '(unicode))
+  ;; replace github and unicode emojis (github ones are used in mattermost)
+  (setq emojify-emoji-styles '(github unicode))
   ;; echo the actual underlying character to the minibuffer when point is
   ;; over them so we don't mess with the displayed buffer itself
   (setq emojify-point-entered-behaviour 'echo)
