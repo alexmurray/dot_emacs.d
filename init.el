@@ -942,8 +942,10 @@ With a prefix argument, will default to looking for all
 
   (add-to-list 'erc-nick-popup-alist
                ;; defined down in eudc use-package
-               '("Directory" . (apm-eudc-lookup-nick nick)))
-
+               '("Directory (lp)" . (apm-eudc-lookup-launchpadid nick)))
+  (add-to-list 'erc-nick-popup-alist
+               ;; defined down in eudc use-package
+               '("Directory (irc)" . (apm-eudc-lookup-nick nick)))
   ;; only hide join / part / quit for those who are idle for more
   ;; than 10 hours (ie are using a bouncer)
   (setq erc-lurker-hide-list '("JOIN" "PART" "QUIT" "NICK"))
@@ -1132,6 +1134,18 @@ With a prefix argument, will default to looking for all
                              nil nil initial)
           (read-string "Nick: " initial)))))
     (eudc-display-records (eudc-query  `((mozillaNickName . ,nick))))))
+
+  (defun apm-eudc-lookup-launchpadid (&optional id)
+    (interactive
+     (list
+      ;; some buffers are read-only in which case `word-at-point' returns a
+      ;; read-only string so need to remove properties
+      (let ((initial (substring-no-properties (or (word-at-point) ""))))
+        (if (eq major-mode 'erc-mode)
+            (completing-read "Id: " (erc-get-channel-nickname-list)
+                             nil nil initial)
+          (read-string "Id: " initial)))))
+    (eudc-display-records (eudc-query  `((launchpadid . ,id)))))
 
 (use-package eshell
   :defer t
