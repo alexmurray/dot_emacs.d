@@ -635,16 +635,6 @@ The object labels of the found items are returned as list."
     (setq counsel-describe-function-function #'helpful-callable)
     (setq counsel-describe-variable-function #'helpful-variable)))
 
-(use-package counsel-projectile
-  :ensure t
-  :after (counsel projectile)
-  :config
-  ;; open project in vc after switching
-  (counsel-projectile-modify-action
-   'counsel-projectile-switch-project-action
-   '((default counsel-projectile-switch-project-action-vc)))
-  (counsel-projectile-mode))
-
 (use-package counsel-world-clock
   :ensure t
   :after counsel)
@@ -2126,25 +2116,15 @@ With a prefix argument, will default to looking for all
   ;; prettify symbols (turn lambda -> λ)
   (global-prettify-symbols-mode 1))
 
-(use-package projectile
+(use-package project
   :ensure t
   :defer t
-  :bind (:map projectile-mode-map ("C-c p" . projectile-command-map))
-  :diminish projectile-mode
-  :defines (projectile-enable-caching)
-  :init
-  (setq projectile-enable-caching t)
-  (projectile-mode 1)
-  :config
-  (add-to-list 'projectile-project-root-files "compile_commands.json")
-  (add-to-list 'projectile-project-root-files "configure.ac")
-  (add-to-list 'projectile-project-root-files ".cquery")
-  (add-to-list 'projectile-project-root-files ".cquery.in")
-  (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
-  (with-eval-after-load 'magit
-    (setq projectile-switch-project-action #'magit-status))
-  (with-eval-after-load 'ivy
-    (setq projectile-completion-system 'ivy)))
+  :bind (("C-c p c" . project-compile))
+         ("C-c p d" . project-dired)
+         ("C-c p e" . project-eshell)
+         ("C-c p f" . project-find-file)
+         ("C-c p p" . project-switch-project)
+         ("C-c p v" . project-vc))
 
 (use-package python
   :defer t
