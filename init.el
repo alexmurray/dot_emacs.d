@@ -990,9 +990,7 @@ With a prefix argument, will default to looking for all
                '(apm-reuse-erc-window . (display-buffer-reuse-mode-window
                                          (inhibit-same-window . t)
                                          (inhibit-switch-frame . t)
-                                         (mode . erc-mode))))
-  ;; automatically connect to matterircd on localhost
-  (erc :server "localhost" :port "6667" :nick "alexmurray"))
+                                         (mode . erc-mode)))))
 
 (use-package erc-goodies
   :ensure erc
@@ -2471,16 +2469,18 @@ With a prefix argument, will default to looking for all
                                  (mapcar #'apm-znc-generate-server
                                          apm-znc-slugs))))
 
-  (defun apm-znc-all (&optional disconnect)
+  (defun apm-prompt-to-connect-to-irc (&optional disconnect)
     "Smarter `znc-all'."
     (interactive)
     ;; make sure we don't get called a second time automatically
     (dolist (hook '(after-make-frame-functions after-init-hook))
       (remove-hook hook #'apm-znc-all))
     (when (y-or-n-p "Connect to IRC? ")
-      (znc-all disconnect)))
+      (znc-all disconnect)
+      ;; connect to matterircd on localhost
+      (erc :server "localhost" :port "6667" :nick "alexmurray")))
 
-  :hook ((after-init . apm-znc-all))
+  :hook ((after-init . apm-prompt-to-connect-to-irc))
   :config
   (unless (url-gateway-nslookup-host apm-znc-server)
     ;; need to ensure /etc/hosts points znc.secret.server to
