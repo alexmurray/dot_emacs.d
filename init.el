@@ -1930,20 +1930,17 @@ With a prefix argument, will default to looking for all
 
 (use-package org-capture
   :after org
-  :config (setq org-capture-templates `(("t" "todo" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Tasks")
-                                         "** TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n- %a\n")
-                                        ("D" "snap-store-discussion" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Forum store request discussions")
-                                         "*** TODO %?\n- %a\n" :clock-in t :clock-keep t)
-                                        ("T" "snap-store-tallied-processed" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Forum store requests processed/tallied")
-                                         "*** TODO %?\n- %a\n" :clock-in t :clock-keep t)
-                                        ("m" "meeting" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Meetings")
-                                         "* %?\n%(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n- %a\n")
-                                        ("i" "Topic" entry (file ,(expand-file-name "canonical.org" org-directory))
-                                         "* %?\n- %a\n")
-                                        ("p" "Protocol" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Inbox")
-                                         "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-                                        ("L" "Protocol Link" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Inbox")
-                                         "* %? [[%:link][%:description]] \nCaptured On: %U"))))
+  :config (setq org-capture-templates
+                `(("t" "todo" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Tasks")
+                   "** TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n- %a\n")
+                  ("m" "meeting" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Meetings")
+                   "* %?\n%(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n- %a\n")
+                  ("R" "snap-store-review" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Manual reviews")
+                   "*** TODO %?\n- %a\n" :clock-in t :clock-keep t)
+                  ("D" "snap-store-discussion" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Forum store request discussions")
+                   "*** TODO %?\n- %a\n" :clock-in t :clock-keep t)
+                  ("T" "snap-store-tallied-processed" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Forum store requests processed/tallied")
+                   "*** TODO %?\n- %a\n" :clock-in t :clock-keep t))))
 
 (use-package org-clock
   :after org
