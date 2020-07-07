@@ -1228,11 +1228,6 @@ With a prefix argument, will default to looking for all
   :after flycheck
   :config (flycheck-package-setup))
 
-(use-package flycheck-plantuml
-  :ensure t
-  :after flycheck
-  :config (flycheck-plantuml-setup))
-
 (use-package flycheck-pod
   :load-path "vendor/")
 
@@ -1901,11 +1896,7 @@ With a prefix argument, will default to looking for all
   ;; allow to refile to anywhere
   (setq org-refile-targets '((nil :maxlevel . 4)))
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
-  (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s"))
-  ;; set up org-babel integration for plantuml
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((plantuml .t))))
+  (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s")))
 
 ;; add support for man: links in org documents
 (use-package ol-man
@@ -2034,11 +2025,6 @@ With a prefix argument, will default to looking for all
   :after org
   :hook ((org-agenda-finalize . org-timeline-insert-timeline)))
 
-(use-package ob-plantuml
-  :after plantuml-mode
-  :config (with-eval-after-load 'plantuml-mode
-            (setq org-plantuml-jar-path plantuml-jar-path)))
-
 (use-package ox-hugo
   :ensure t)
 
@@ -2103,14 +2089,6 @@ With a prefix argument, will default to looking for all
   :after pdf-tools
   :config
   (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
-
-(use-package plantuml-mode
-  :ensure t
-  :mode ("\\.p\\(lant\\)?uml\\'" . plantuml-mode)
-  :config
-  (setq plantuml-jar-path (expand-file-name "~/plantuml.jar"))
-  (unless (file-exists-p plantuml-jar-path)
-    (message "plantuml not found at %s" plantuml-jar-path)))
 
 (use-package pod-mode
   :load-path "vendor/"
