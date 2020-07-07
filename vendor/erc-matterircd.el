@@ -1,0 +1,1 @@
+../../git/erc-matterircd/erc-matterircd.el

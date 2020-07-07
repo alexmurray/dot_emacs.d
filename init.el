@@ -860,24 +860,7 @@ With a prefix argument, will default to looking for all
     (require 'erc-notify)
     (require 'erc-services)
     (require 'erc-track))
-  ;; matterircd
-  (add-to-list 'erc-networks-alist '(matterircd "matterircd.*"))
-  (defun apm-erc-connect-to-mattermost (server nick)
-    "Try login to mattermost on SERVER with NICK."
-    (when (string-match "matterircd" server)
-      (let ((password (auth-source-pick-first-password :host "matterircd" :user nick)))
-        (if (null password)
-            (alert (format "Please store matterircd token in secret store with :host matterircd and :user %s" nick))
-          (erc-message "PRIVMSG"
-                       (format "mattermost login chat.canonical.com canonical %s token=%s" nick password))))))
-  (add-hook 'erc-after-connect #'apm-erc-connect-to-mattermost)
-  (defun apm-pcomplete-erc-nicks (orig-fun &rest args)
-    ;; when connected to matterircd prepend an @ to each nick
-    (let ((nicks (apply orig-fun args)))
-      (if (eq 'matterircd (erc-network))
-          (mapcar #'(lambda (nick) (concat "@" nick)) nicks)
-        nicks)))
-  (advice-add #'pcomplete-erc-nicks :around #'apm-pcomplete-erc-nicks)
+
   (setq erc-user-full-name user-full-name)
   (setq erc-nick (list user-login-name "alexmurray"))
   (setq erc-prompt-for-nickserv-password nil)
@@ -1013,6 +996,19 @@ With a prefix argument, will default to looking for all
   :after erc
   :config
   (add-to-list 'erc-modules 'image)
+  (erc-update-modules))
+
+(use-package erc-matterircd
+  :load-path "vendor/"
+  :after erc
+  :config
+  (setq erc-matterircd-server "chat.canonical.com")
+  (setq erc-matterircd-team "canonical")
+  (let ((token (auth-source-pick-first-password :host "matterircd")))
+    (if (null token)
+        (alert (format "Please store matterircd token in secret store with :host matterircd and :user %s" nick))
+      (setq erc-matterircd-password (concat "token=" token))))
+  (add-to-list 'erc-modules 'matterircd)
   (erc-update-modules))
 
 (use-package erc-view-log
