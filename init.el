@@ -146,14 +146,6 @@
 (setq frame-title-format
       '((buffer-file-name "%f" (dired-directory dired-directory "%b"))))
 (setq icon-title-format frame-title-format)
-;; Mouse & Smooth Scroll
-;; Scroll one line at a time (less "jumpy" than defaults)
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-(setq mouse-wheel-progressive-speed nil)
-(setq scroll-step 1
-      scroll-margin 0
-      scroll-conservatively 100000)
-(setq fast-but-imprecise-scrolling t)
 
 ;; make emacs less laggy
 (setq inhibit-compacting-font-caches t)
@@ -1856,6 +1848,19 @@ With a prefix argument, will default to looking for all
   :config
   (set-face-attribute 'mu4e-patch-commit-message nil :foreground "default")
   (set-face-attribute 'mu4e-patch-diff-stat-file nil :foreground "orange"))
+
+(use-package mwheel
+  :config
+  ;; Scroll one line at a time (less "jumpy" than defaults)
+  (setq mouse-wheel-scroll-amount '(1
+                                    ((shift) . 5)
+                                    ((control))))
+  (setq mouse-wheel-progressive-speed nil)
+  (setq scroll-step 1
+        scroll-margin 0
+        scroll-conservatively 100000)
+  (setq fast-but-imprecise-scrolling t))
+
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
