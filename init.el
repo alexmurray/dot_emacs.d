@@ -2318,6 +2318,9 @@ With a prefix argument, will default to looking for all
          ("C-c f c" . uct-find-cve)
          ("C-c u k" . uct-kernel-signoff-at-point)))
 
+(use-package udev-mode
+  :ensure t)
+
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
