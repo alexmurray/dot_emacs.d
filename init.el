@@ -2411,6 +2411,12 @@ With a prefix argument, will default to looking for all
   ;; wrap around at edges
   (setq windmove-wrap-around t))
 
+(use-package windswap
+  :ensure t
+  :after windmove
+  :config
+  (windswap-default-keybindings 'shift 'control))
+
 (use-package world-time-mode
   :ensure t)
 
