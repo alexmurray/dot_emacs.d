@@ -2446,6 +2446,9 @@ With a prefix argument, will default to looking for all
   :config (setq x86-lookup-pdf "~/Documents/325383-sdm-vol-2abcd.pdf")
   :bind ("C-h x" . x86-lookup))
 
+(use-package xref
+  :ensure t)
+
 (use-package znc
   :ensure t
   :preface
