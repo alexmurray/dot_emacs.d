@@ -2114,12 +2114,13 @@ With a prefix argument, will default to looking for all
 (use-package project
   :ensure t
   :defer t
-  :bind (("C-c p c" . project-compile))
+  :bind (("C-c p c" . project-compile)
          ("C-c p d" . project-dired)
          ("C-c p e" . project-eshell)
          ("C-c p f" . project-find-file)
          ("C-c p p" . project-switch-project)
          ("C-c p v" . project-vc))
+  :config (add-to-list 'project-switch-commands '(?m "Magit" magit-status)))
 
 (use-package python
   :defer t
