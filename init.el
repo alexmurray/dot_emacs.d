@@ -2397,7 +2397,10 @@ With a prefix argument, will default to looking for all
   :diminish whitespace-mode
   :init (setq-default whitespace-style
                       '(face tabs tab-mark trailing))
-  :config (global-whitespace-mode 1))
+  :config
+  ;; whitespace-mode is not useful for erc buffers
+  (setq whitespace-global-modes '(not erc-mode))
+  (global-whitespace-mode 1))
 
 (use-package windmove
   :ensure t
