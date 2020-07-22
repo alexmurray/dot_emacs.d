@@ -2403,17 +2403,11 @@ With a prefix argument, will default to looking for all
   (global-whitespace-mode 1))
 
 (use-package windmove
-  :ensure t
   :config
   (windmove-default-keybindings 'shift)
+  (windmove-swap-states-default-keybindings '(shift control))
   ;; wrap around at edges
   (setq windmove-wrap-around t))
-
-(use-package windswap
-  :ensure t
-  :after windmove
-  :config
-  (windswap-default-keybindings 'shift 'control))
 
 (use-package world-time-mode
   :ensure t)
