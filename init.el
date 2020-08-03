@@ -1611,7 +1611,7 @@ With a prefix argument, will default to looking for all
 
   (defun apm-mu4e-contact-process (contact)
     (if (string-match
-         "\\(no-?reply\\|bugs.launchpad.net\\|lillypilly.canonical.com\\)"
+         "\\(no-?reply\\|bugs.launchpad.net\\|lillypilly.canonical.com\\|docs.google.com\\|gapps.canonical.com\\)"
          contact)
         nil
       contact))
@@ -1622,7 +1622,8 @@ With a prefix argument, will default to looking for all
                               "jshaymac@gmail.com"
                               "jira@clockworkers.atlassian.net"
                               "advisories@auraredeye.zendesk.com"
-                              "gohr@mail.continue.de"))
+                              "gohr@mail.continue.de"
+                              "m1-en0on.jp"))
 
   ;; TODO: consider using imapfilter
   (defun apm-mu4e-refile-message (msg)
@@ -1638,7 +1639,9 @@ With a prefix argument, will default to looking for all
         mu4e-trash-folder)
        ((cl-some #'(lambda (e) (mu4e-message-contact-field-matches msg :from e)) apm-mu4e-spammers)
         "/Spam")
-       ((string-match-p "m1-en0on.jp" (cdar (mu4e-message-field msg :from)))
+       ((or (string-match-p "^\\[For Your Eyes Only\\].*" subject)
+            (string-match-p "^\\[Limited Time Offer\\].*" subject)
+            (string-match-p "no deposit" subject))
         "/Spam")
        ((or (mu4e-message-contact-field-matches msg :from "do-not-reply@trello.com")
             (mu4e-message-contact-field-matches msg :from "bounce@websense.com")
