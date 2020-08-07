@@ -1457,7 +1457,8 @@ With a prefix argument, will default to looking for all
   :after yasnippet
   :init (unless (executable-find "pyls")
           (alert "Please install the python-language-server python module via pip"))
-  :hook ((prog-mode . lsp)))
+  :hook ((prog-mode . lsp))
+  :custom (lsp-headerline-breadcrumb-enable t))
 
 (use-package lsp-imenu
   :ensure lsp-mode
@@ -2387,9 +2388,6 @@ With a prefix argument, will default to looking for all
                  :lang-overrides ((emacs-lisp-mode . "clojure"))
                  :success-lambda webpaste--providers-success-response-url))
   (setq webpaste-provider-priority '("pastebin.ubuntu.com")))
-
-(use-package which-func
-  :config (which-function-mode 1))
 
 (use-package which-key
   :ensure t
