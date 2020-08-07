@@ -1534,8 +1534,9 @@ With a prefix argument, will default to looking for all
   :ensure t)
 
 (use-package mml-sec
-  :preface
-  (defun apm-mml-secure-find-usable-key-prompt-for-missing-key (context name usage &optional justone)
+  :config
+  (define-advice mml-secure-find-usable-keys
+      (:after-until (context name usage &optional justone) prompt-for-missing-key)
     (when (y-or-n-p (format "No %s key for %s; do you want to manually choose one? "
                             usage name))
       (let ((keys (epa-select-keys context
@@ -1543,8 +1544,6 @@ With a prefix argument, will default to looking for all
         (if (and justone (> (length keys) 0))
             (mml-secure-select-keys context name keys usage)
           keys))))
-  :config
-  (advice-add 'mml-secure-find-usable-keys :after-until #'apm-mml-secure-find-usable-key-prompt-for-missing-key)
   (setq mml-secure-key-preferences '((OpenPGP
                                       (sign)
                                       (encrypt
@@ -1792,13 +1791,11 @@ With a prefix argument, will default to looking for all
                '("browser view" . mu4e-action-view-in-browser) t)
   ;; since we use the firefox snap, it has a private /tmp so use somewhere
   ;; common (home) to work-around this...
-  (defun apm-mu4e-action-view-in-browser (orig-fun &rest args)
+  (define-advice mu4e-action-view-in-browser (:around (orig-fun &rest args) per-user-tmp)
     (let ((temporary-file-directory (expand-file-name "~/tmp")))
       (unless (file-exists-p temporary-file-directory)
         (make-directory temporary-file-directory))
       (apply orig-fun args)))
-
-  (advice-add 'mu4e-action-view-in-browser :around #'apm-mu4e-action-view-in-browser)
 
   (setq mu4e-html2text-command 'mu4e-shr2text)
   (with-eval-after-load 'shr
@@ -2039,8 +2036,10 @@ With a prefix argument, will default to looking for all
 
 (use-package paradox
   :ensure t
-  :preface
-  (defun apm-paradox-set-github-token (_no-fetch)
+  :commands (paradox-list-packages)
+  :init (setq paradox-execute-asynchronously nil)
+  :config
+  (define-advice paradox-list-packages (:before (_no-fetch) set-github-token)
     "Load `paradox-github-token' from authinfo."
     (require 'epa-file)
     (require 'auth-source)
@@ -2058,11 +2057,7 @@ With a prefix argument, will default to looking for all
                                            (funcall paradox-token)
                                          paradox-token))))
       (alert "No github token found in ~/.authinfo")))
-  :commands (paradox-list-packages)
-  :init (setq paradox-execute-asynchronously nil)
-  :config
-  (paradox-enable)
-  (advice-add 'paradox-list-packages :before 'apm-paradox-set-github-token))
+  (paradox-enable))
 
 (use-package paredit
   :ensure t
