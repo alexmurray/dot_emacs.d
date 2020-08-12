@@ -1463,7 +1463,9 @@ With a prefix argument, will default to looking for all
   :init (unless (executable-find "pyls")
           (alert "Please install the python-language-server python module via pip"))
   :hook ((prog-mode . lsp))
-  :custom (lsp-headerline-breadcrumb-enable t))
+  :custom
+  (lsp-headerline-breadcrumb-enable t)
+  (lsp-eldoc-enable-hover nil))
 
 (use-package lsp-imenu
   :ensure lsp-mode
