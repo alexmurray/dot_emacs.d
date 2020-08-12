@@ -1164,6 +1164,9 @@ With a prefix argument, will default to looking for all
           (make-directory "~/.terminfo/e/" t)
           (shell-command "tic /snap/emacs/current/usr/share/emacs/27.0.50/etc/e/eterm-color.ti")))
 
+(use-package executable
+  :hook ((after-save . executable-make-buffer-file-executable-if-script-p)))
+
 (use-package exec-path-from-shell
   :ensure t
   :init (when (memq window-system '(mac ns))
