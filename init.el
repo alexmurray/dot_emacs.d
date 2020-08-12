@@ -2277,6 +2277,8 @@ With a prefix argument, will default to looking for all
     (alert (format "Please install the telega snap")))
   (use-package visual-fill-column
     :ensure t)
+  (use-package rainbow-identifiers
+    :ensure t)
   :load-path "/snap/telega/current/share/emacs/site-lisp/telega/"
   :bind (("C-c t" . telega))
   ;; automatically connect on startup
