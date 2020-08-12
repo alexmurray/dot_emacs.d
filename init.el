@@ -1312,14 +1312,6 @@ With a prefix argument, will default to looking for all
 (use-package go-mode
   :ensure t)
 
-(use-package google-translate-smooth-translate
-  :ensure google-translate
-  :defer t
-  :init
-  (eval-when-compile
-    (require 'google-translate))
-  (setq google-translate-listen-program (executable-find "totem")))
-
 (use-package goto-addr
   :defer t
   :hook ((prog-mode . goto-address-prog-mode)
