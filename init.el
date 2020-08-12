@@ -763,9 +763,9 @@ The object labels of the found items are returned as list."
     (require 'erc-log)
     (require 'erc-match))
 
-(defgroup apm-erc nil
-  "apm's erc customisations."
-  :group 'erc)
+  (defgroup apm-erc nil
+    "apm's erc customisations."
+    :group 'erc)
 
   ;; face to show in header line when disconnected
   (defface apm-erc-header-line-disconnected
@@ -831,21 +831,9 @@ With a prefix argument, will default to looking for all
           (browse-url (completing-read "URL: " urls))
         (user-error "No URLs listed in channel topic"))))
 
-  (defvar apm-erc-greetings '("hi" "hey" "g'day" "howdy" "greetings"))
-
-  (defun erc-cmd-GOODMORNING (&rest _ignore)
-    "Say good morning to all pals who are in the current channel."
-    (erc-send-message (concat (nth (random (length apm-erc-greetings))
-                                   apm-erc-greetings)
-                              " "
-                              (mapconcat #'identity
-                                         (seq-intersection
-                                          erc-pals
-                                          (erc-get-channel-nickname-list))
-                                         " "))))
-
-  :bind (("C-c f e" . apm-erc-find-logfile)
-         ("M-s e" . apm-occur-in-erc))
+  :bind (:map erc-mode-map
+              ("C-c f e" . apm-erc-find-logfile)
+              ("M-s e" . apm-occur-in-erc))
   :config
   (eval-and-compile
     (require 'erc-button)
@@ -972,7 +960,106 @@ With a prefix argument, will default to looking for all
                '(apm-reuse-erc-window . (display-buffer-reuse-mode-window
                                          (inhibit-same-window . t)
                                          (inhibit-switch-frame . t)
-                                         (mode . erc-mode)))))
+                                         (mode . erc-mode))))
+
+  ;; taken from upstream to fix buffer naming to be unique -
+  ;; https://lists.gnu.org/archive/html/emacs-devel/2020-08/msg00273.html
+  (defun erc-autojoin-channels (server nick)
+    "Autojoin channels in `erc-autojoin-channels-alist'."
+    (if (eq erc-autojoin-timing 'ident)
+        ;; Prepare the delayed autojoin timer, in case ident doesn't
+        ;; happen within the allotted time limit:
+        (when (> erc-autojoin-delay 0)
+	  (setq erc--autojoin-timer
+	        (run-with-timer erc-autojoin-delay nil
+			        'erc-autojoin-channels-delayed
+			        server nick (current-buffer))))
+      ;; `erc-autojoin-timing' is `connect':
+      (dolist (l erc-autojoin-channels-alist)
+        (when (string-match (car l) server)
+	  (let ((server (or erc-session-server erc-server-announced-name)))
+	    (dolist (chan (cdr l))
+	      (let ((buffer (erc-get-buffer chan)))
+	        ;; Only auto-join the channels that we aren't already in
+	        ;; using a different nick.
+	        (when (or (not buffer)
+			  ;; If the same channel is joined on another
+			  ;; server the best-effort is to just join
+			  (not (string-match (car l)
+					     (process-name erc-server-process)))
+			  (not (with-current-buffer buffer
+			         (erc-server-process-alive))))
+		  (erc-server-join-channel server chan))))))))
+    ;; Return nil to avoid stomping on any other hook funcs.
+    nil)
+  (defun erc-generate-new-buffer-name (server port target)
+    "Create a new buffer name based on the arguments."
+    (when (numberp port) (setq port (number-to-string port)))
+    (let* ((buf-name (or target
+                         (let ((name (concat server ":" port)))
+                           (when (> (length name) 1)
+                             name))
+                         ;; This fallback should in fact never happen.
+                         "*erc-server-buffer*"))
+           (full-buf-name (concat buf-name "/" server))
+           (dup-buf-name (buffer-name (car (erc-channel-list nil))))
+           buffer-name)
+      ;; Reuse existing buffers, but not if the buffer is a connected server
+      ;; buffer and not if its associated with a different server than the
+      ;; current ERC buffer.
+      ;; If buf-name is taken by a different connection (or by something !erc)
+      ;; then see if "buf-name/server" meets the same criteria.
+      (if (and dup-buf-name (string-match-p (concat buf-name "/") dup-buf-name))
+          (setq buffer-name full-buf-name) ; ERC buffer with full name already exists.
+        (dolist (candidate (list buf-name full-buf-name))
+          (if (and (not buffer-name)
+                   erc-reuse-buffers
+                   (or (not (get-buffer candidate))
+                       ;; Looking for a server buffer, so there's no target.
+                       (and (not target)
+                            (with-current-buffer (get-buffer candidate)
+                              (and (erc-server-buffer-p)
+                                   (not (erc-server-process-alive)))))
+                       ;; Channel buffer; check that it's from the right server.
+                       (and target
+                            (with-current-buffer (get-buffer candidate)
+                              (and (string= erc-session-server server)
+                                   (erc-port-equal erc-session-port port))))))
+              (setq buffer-name candidate)
+            (when (and (not buffer-name) (get-buffer buf-name) erc-reuse-buffers)
+              ;; A new buffer will be created with the name buf-name/server, rename
+              ;; the existing name-duplicated buffer with the same format as well.
+              (with-current-buffer (get-buffer buf-name)
+                (when (derived-mode-p 'erc-mode) ; ensure it's an erc buffer
+                  (rename-buffer
+                   (concat buf-name "/" (or erc-session-server erc-server-announced-name)))))))))
+      ;; If buffer-name is unset, neither candidate worked out for us,
+      ;; fallback to the old <N> uniquification method:
+      (or buffer-name (generate-new-buffer-name full-buf-name))))
+  (defun erc-cmd-JOIN (channel &optional key)
+    "Join the channel given in CHANNEL, optionally with KEY.
+If CHANNEL is specified as \"-invite\", join the channel to which you
+were most recently invited.  See also `invitation'."
+    (let (chnl)
+      (if (string= (upcase channel) "-INVITE")
+          (if erc-invitation
+              (setq chnl erc-invitation)
+            (erc-display-message nil 'error (current-buffer) 'no-invitation))
+        (setq chnl (erc-ensure-channel-name channel)))
+      (when chnl
+        ;; Prevent double joining of same channel on same server.
+        (let ((joined-channels
+               (mapcar #'(lambda (chanbuf)
+                           (with-current-buffer chanbuf (erc-default-target)))
+                       (erc-channel-list erc-server-process))))
+          (if (erc-member-ignore-case chnl joined-channels)
+              (switch-to-buffer (car (erc-member-ignore-case chnl
+                                                             joined-channels)))
+	    (let ((server (with-current-buffer (process-buffer erc-server-process)
+			    (or erc-session-server erc-server-announced-name))))
+	      (erc-server-join-channel server chnl key))))))
+    t)
+  )
 
 (use-package erc-goodies
   :ensure erc
