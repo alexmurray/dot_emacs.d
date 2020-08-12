@@ -669,6 +669,11 @@ The object labels of the found items are returned as list."
 (use-package debbugs
   :ensure t)
 
+(use-package define-word
+  :ensure t
+  :bind (("C-c d" . define-word-at-point)
+         ("C-c D" . define-word)))
+
 (use-package diff-mode
   :mode (("\\.debdiff\\'" . diff-mode)))
 
@@ -2112,12 +2117,17 @@ With a prefix argument, will default to looking for all
 
 (use-package project
   :ensure t
-  :defer t
+  :pin gnu
   :config (add-to-list 'project-switch-commands '(?m "Magit" magit-status)))
 
 (use-package python
   :defer t
   :init (setq-default python-indent-offset 4))
+
+(use-package python-pytest
+  :ensure t
+  :bind (:map python-mode-map ("C-x t" . python-pytest-dispatch))
+  :config (setq python-pytest-executable "pytest-3"))
 
 (use-package quilt
   :ensure t)
@@ -2231,6 +2241,9 @@ With a prefix argument, will default to looking for all
   (setq solarized-scale-org-headlines nil)
   (setq solarized-use-variable-pitch nil)
   (load-theme 'solarized-light t))
+
+(use-package strace-mode
+  :ensure t)
 
 (use-package sudo-edit
   :ensure t
