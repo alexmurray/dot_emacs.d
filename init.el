@@ -1278,7 +1278,7 @@ were most recently invited.  See also `invitation'."
   :init (setq-default flycheck-emacs-lisp-load-path 'inherit)
   :hook ((prog-mode . flycheck-mode))
   :config
-  ;; use lsp-ui checker via cquery instead
+  ;; use lsp checker via cquery instead
   (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
   (setq-default flycheck-display-errors-delay 0.2))
 
@@ -1295,10 +1295,11 @@ were most recently invited.  See also `invitation'."
   :config
   (setq flycheck-clang-analyzer-executable "clang")
   (flycheck-clang-analyzer-setup)
-  ;; automatically sets itself up as next checker after lsp-ui so undo
+  ;; automatically sets itself up as next checker after lsp so undo
   ;; that so is instead after cppcheck
-  (delete '(warning . clang-analyzer)
-          (flycheck-checker-get 'lsp-ui 'next-checkers))
+  (ignore-errors
+    (delete '(warning . clang-analyzer)
+            (flycheck-checker-get 'lsp 'next-checkers)))
   (flycheck-add-next-checker 'c/c++-cppcheck '(t . clang-analyzer)))
 
 (use-package flycheck-coverity
