@@ -1574,15 +1574,6 @@ were most recently invited.  See also `invitation'."
                 lsp-ui-doc-position 'top
                 lsp-ui-doc-include-signature t))
 
-(use-package lsp-yaml
-  :load-path "vendor/"
-  :after lsp
-  :init
-  (unless (executable-find "yaml-language-server")
-    (alert "Please install the yaml-language-server snap"))
-  :config
-  (add-hook 'yaml-mode-hook #'lsp))
-
 (use-package magit
   :ensure t
   :preface
