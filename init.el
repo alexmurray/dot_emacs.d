@@ -2362,6 +2362,9 @@ With a prefix argument, will default to looking for all
   :ensure t
   :mode (("\\.vim\\(rc\\)?\\'" . vimrc-mode)))
 
+(use-package vterm
+  :load-path "/snap/emacs-vterm/current/")
+
 (use-package webpaste
   :ensure t
   :bind (("C-c C-p C-b" . webpaste-paste-buffer)
