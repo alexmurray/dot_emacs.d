@@ -1142,7 +1142,6 @@ With a prefix argument, will default to looking for all
       (define-key eshell-mode-map [remap eshell-next-matching-input] #'counsel-esh-history)
       (define-key eshell-mode-map [remap eshell-pcomplete] #'completion-at-point)))
   :commands eshell
-  :bind (("C-x m" . eshell))
   :hook ((eshell-mode . apm-eshell-mode-setup)))
 
 (use-package eterm-256color
@@ -2357,7 +2356,8 @@ With a prefix argument, will default to looking for all
   :mode (("\\.vim\\(rc\\)?\\'" . vimrc-mode)))
 
 (use-package vterm
-  :load-path "/snap/emacs-vterm/current/")
+  :load-path "/snap/emacs-vterm/current/"
+  :bind (("C-x m" . vterm)))
 
 (use-package webpaste
   :ensure t
