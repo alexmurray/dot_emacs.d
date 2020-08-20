@@ -2390,7 +2390,7 @@ With a prefix argument, will default to looking for all
                       '(face tabs tab-mark trailing))
   :config
   ;; whitespace-mode is not useful for erc or magit-log buffers
-  (setq whitespace-global-modes '(not erc-mode magit-log-mode))
+  (setq whitespace-global-modes '(not erc-mode magit-log-mode vterm-mode))
   (global-whitespace-mode 1))
 
 (use-package windmove
