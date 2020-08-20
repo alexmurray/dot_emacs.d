@@ -2080,12 +2080,6 @@ With a prefix argument, will default to looking for all
   :load-path "vendor/"
   :mode ("\\.pod$" . pod-mode))
 
-(use-package poke-line
-  :ensure t
-  :config
-  (poke-line-mode 1)
-  (poke-line-set-pokemon "psyduck"))
-
 (use-package posframe
   :ensure t
   :config (setq posframe-mouse-banish nil))
