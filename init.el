@@ -994,7 +994,7 @@ With a prefix argument, will default to looking for all
   (erc-update-modules))
 
 (use-package erc-matterircd
-  :load-path "vendor/"
+  :ensure t
   :after erc
   :config
   (setq erc-matterircd-server "chat.canonical.com")
@@ -1004,6 +1004,12 @@ With a prefix argument, will default to looking for all
         (alert (format "Please store matterircd token in secret store with :host matterircd and :user %s" nick))
       (setq erc-matterircd-password (concat "token=" token))))
   (add-to-list 'erc-modules 'matterircd)
+  (erc-update-modules))
+
+(use-package erc-scrolltoplace
+  :ensure t
+  :config
+  (add-to-list 'erc-modules 'scrolltoplace)
   (erc-update-modules))
 
 (use-package erc-view-log
