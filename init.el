@@ -144,7 +144,7 @@
   (setq x-gtk-use-system-tooltips nil))
 (blink-cursor-mode -1)
 (setq frame-title-format
-      '((buffer-file-name "%f" (dired-directory dired-directory "%b"))))
+      '(multiple-frames "%b" ("%b - GNU Emacs")))
 (setq icon-title-format frame-title-format)
 
 ;; make emacs less laggy
