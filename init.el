@@ -1548,6 +1548,8 @@ With a prefix argument, will default to looking for all
             (string-match-p "Store upload \\(scan \\)?failed for.*$" subject)
             (string-match-p "Store authorization failed for.*$" subject))
         "/snap-store")
+       ((string-match-p "^\\[Bug [0-9]+\\] \\(R[eE]: \\)?.*linux.*proposed tracker$" subject)
+        mu4e-trash-folder)
        ((or (string-match-p "^\\(R[eE]: \\)?\\[Bug " subject)
             (mu4e-message-contact-field-matches msg :from "bugs.launchpad.net"))
         "/launchpad-bugs")
