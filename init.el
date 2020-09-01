@@ -2004,6 +2004,7 @@ With a prefix argument, will default to looking for all
   (add-to-list 'projectile-project-root-files ".cquery")
   (add-to-list 'projectile-project-root-files ".cquery.in")
   (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
+  (setq projectile-completion-system 'default)
   (with-eval-after-load 'magit
     (setq projectile-switch-project-action #'magit-status)))
 
