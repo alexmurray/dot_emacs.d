@@ -868,9 +868,10 @@ With a prefix argument, will default to looking for all
   (setq erc-track-shorten-function nil)
   ;; ensure our nick highlighted with erc-hl-nicks gets picked up by
   ;; erc-track
-  (dolist (nick (apm-erc-nicks))
-    (add-to-list 'erc-track-faces-priority-list
-                 `(,(erc-hl-nicks-make-face nick) erc-current-nick-face)))
+  (with-eval-after-load 'erc-hl-nicks
+    (dolist (nick (apm-erc-nicks))
+      (add-to-list 'erc-track-faces-priority-list
+                   `(,(erc-hl-nicks-make-face nick) erc-current-nick-face))))
 
   (add-to-list 'erc-nick-popup-alist
                ;; defined down in eudc use-package
