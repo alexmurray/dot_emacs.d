@@ -2227,6 +2227,11 @@ With a prefix argument, will default to looking for all
   :diminish undo-tree-mode
   :config (global-undo-tree-mode 1))
 
+(use-package unicode-fonts
+   :ensure t
+   :config
+   (unicode-fonts-setup))
+
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'post-forward
                 uniquify-separator ":"
