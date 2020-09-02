@@ -961,12 +961,6 @@ With a prefix argument, will default to looking for all
   (add-to-list 'erc-modules 'matterircd)
   (erc-update-modules))
 
-(use-package erc-scrolltoplace
-  :ensure t
-  :config
-  (add-to-list 'erc-modules 'scrolltoplace)
-  (erc-update-modules))
-
 (use-package erc-view-log
   :ensure t
   :config
