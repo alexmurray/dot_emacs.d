@@ -2185,17 +2185,18 @@ With a prefix argument, will default to looking for all
             (dolist (member team)
               (unless (file-exists-p (expand-file-name (car member) "/usr/share/zoneinfo"))
                 (user-error "TZ %s does not exist!" (car member))))
+            (require 'erc-hl-nicks)
             (setq zoneinfo-style-world-list
-                  ;; make nicks stand out
-                  (mapcar #'(lambda (member)
-                              (list (car member)
-                                    (mapconcat #'(lambda (nick)
-                                                   (propertize nick
-                                                               'face
-                                                               (erc-hl-nicks-make-face nick)))
-                                               (cdr member)
-                                               ", ")))
-                          team)))
+                    ;; make nicks stand out
+                    (mapcar #'(lambda (member)
+                                (list (car member)
+                                      (mapconcat #'(lambda (nick)
+                                                     (propertize nick
+                                                                 'face
+                                                                 (erc-hl-nicks-make-face nick)))
+                                                 (cdr member)
+                                                 ", ")))
+                            team)))
   (setq display-time-default-load-average nil)
   (setq display-time-use-mail-icon t)
   (setq display-time-day-and-date t)
