@@ -79,6 +79,8 @@
 (use-package doom-themes
   :ensure t
   :config
+  ;; better keyword lightlighting
+  (add-to-list 'doom-themes-base-faces '(erc-keyword-face :background green))
   (doom-themes-org-config)
   (load-theme 'doom-one-light t))
 
