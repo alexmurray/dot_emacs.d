@@ -299,7 +299,7 @@
 
 (use-package avy
   :ensure t
-  :bind (("C-'" . avy-goto-char-timer))
+  :bind (("C-\\" . avy-goto-char-timer))
   :config
   ;; dim text when avy is active
   (setq avy-background t)
