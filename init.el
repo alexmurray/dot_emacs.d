@@ -291,47 +291,6 @@
   (setq-default reftex-plug-into-AUCTeX t)
   (setq-default TeX-source-correlate-start-server t))
 
-(use-package secrets
-  ;; patch bug in secrets - https://haukerehfeld.de/notes/2018-06-emacs-secrets-dbus-bug/
-  :config
-  (defun secrets-search-items (collection &rest attributes)
-    "Search items in COLLECTION with ATTRIBUTES.
-ATTRIBUTES are key-value pairs.  The keys are keyword symbols,
-starting with a colon.  Example:
-
-  (secrets-search-items \"Tramp collection\" :user \"joe\")
-
-The object labels of the found items are returned as list."
-    (let ((collection-path (secrets-unlock-collection collection))
-          result props)
-      (unless (secrets-empty-path collection-path)
-        ;; Create attributes list.
-        (while (consp (cdr attributes))
-          (unless (keywordp (car attributes))
-            (error 'wrong-type-argument (car attributes)))
-          (unless (stringp (cadr attributes))
-            (error 'wrong-type-argument (cadr attributes)))
-          (setq props (append
-                       props
-                       (list :dict-entry
-                             ;; HACK fixed so that dict entries are conses
-                             (list
-                              (substring (symbol-name (car attributes)) 1)
-                              (cadr attributes))))
-                attributes (cddr attributes)))
-        ;; Search.  The result is a list of object paths.
-        (setq result
-              (dbus-call-method
-               :session secrets-service collection-path
-               secrets-interface-collection "SearchItems"
-               (if props
-                   (cons :array props)
-                 '(:array :signature "{ss}"))))
-        ;; Return the found items.
-        (mapcar
-         (lambda (item-path) (secrets-get-item-property item-path "Label"))
-         result)))))
-
 (use-package auth-source
   ;; prefer gnome-keyring via Login keyring, encrypted auth source to non-encrypted
   :init
