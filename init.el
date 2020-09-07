@@ -1282,10 +1282,12 @@ With a prefix argument, will default to looking for all
 
 (use-package ispell
   :defer t
-  :ensure-system-package hunspell
+  :ensure-system-package aspell
   :custom
-  (ispell-program-name "hunspell")
-  (ispell-dictionary "en_AU"))
+  (ispell-program-name "aspell")
+  (ispell-dictionary "australian")
+  (ispell-extra-args '("--sug-mode=ultra"))
+  (ispell-silently-savep t))
 
 (use-package keypression
   :ensure t)
