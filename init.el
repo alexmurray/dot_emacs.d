@@ -327,7 +327,8 @@
           (alert "Please install the black snap")))
 
 (use-package browse-kill-ring
-  :ensure t)
+  :ensure t
+  :config (browse-kill-ring-default-keybindings))
 
 (use-package bs
   :bind ("C-x C-b" . bs-show))
