@@ -154,8 +154,10 @@
 
 (set-language-environment "UTF-8")
 
-;; default to maximised windows
+;; default to maximised windows with DejaVu Sans Mono-10 for unicode fonts
+;; goodness
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
 (toggle-frame-maximized)
 
 ;; prompt when trying to switch out of a dedicated window
@@ -668,7 +670,6 @@
 
 (use-package emojify
   :ensure t
-  :ensure-system-package ("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
   :diminish emojify-mode
   :demand t
   :bind (("C-c e" . emojify-insert-emoji))
@@ -2207,6 +2208,8 @@ With a prefix argument, will default to looking for all
 
 (use-package unicode-fonts
    :ensure t
+   :ensure-system-package (("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
+                           ("/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf" . fonts-noto-core))
    :config
    (unicode-fonts-setup))
 
