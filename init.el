@@ -1514,9 +1514,10 @@ With a prefix argument, will default to looking for all
         mu4e-trash-folder)
        ((not (null mailing-list))
         (concat "/Lists/" (mu4e-get-mailing-list-shortname mailing-list)))
-       ;; store emails about outdated dependencies should get trashed
+       ;; store emails about outdated dependencies or reviews should get
+       ;; trashed
        ((and (mu4e-message-contact-field-matches msg :from "Snap Store")
-             (string-match-p "\\(built from outdated Ubuntu kernel\\|contains outdated Ubuntu packages\\)" subject))
+             (string-match-p "\\(built from outdated Ubuntu kernel\\|contains outdated Ubuntu packages\\|^Manual review requested for version\\|^Manual review for .* version .* requested$\\)" subject))
         mu4e-trash-folder)
        ((or (mu4e-message-contact-field-matches msg :from "Snap Store")
             (string-match-p "^\\(R[eE]: \\)?Manual review \\(for .* version .* requested\\|requested for version\\)" subject)
@@ -1525,7 +1526,7 @@ With a prefix argument, will default to looking for all
             (string-match-p "Store authorization failed for.*$" subject))
         "/snap-store")
        ((or (string-match-p "^\\[Bug [0-9]+\\] \\(R[eE]: \\)?.*linux.*proposed tracker$" subject)
-            (string-match-p "^\\[Bug [0-9]+\\] \\(\\(R[eE]:\\|\\[NEW\\]\\) \\)?request of \\(copy\\|publish\\|delete\\)_package" subject))
+            (string-match-p "^\\[Bug [0-9]+\\] \\(\\(R[eE]:\\|\\[NEW\\]\\) \\)?request of \\(create_\\(production_suite\\|project\\)\\|\\(copy\\|publish\\|delete\\)_package\\)" subject))
         mu4e-trash-folder)
        ((or (string-match-p "^\\(R[eE]: \\)?\\[Bug " subject)
             (mu4e-message-contact-field-matches msg :from "bugs.launchpad.net"))
