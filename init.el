@@ -2042,12 +2042,7 @@ With a prefix argument, will default to looking for all
   :ensure t
   ;; don't steal occur prefix
   :bind (:map paredit-mode-map ("M-s" . nil))
-  :commands (enable-paredit-mode)
   :hook ((emacs-lisp-mode . enable-paredit-mode)))
-
-(use-package paredit-everywhere
-  :ensure t
-  :hook ((prog-mode . paredit-everywhere-mode)))
 
 (use-package paren
   :defer t
