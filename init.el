@@ -145,6 +145,7 @@
 (when (boundp 'x-gtk-use-system-tooltips)
   (setq x-gtk-use-system-tooltips nil))
 (blink-cursor-mode -1)
+;; adopt the default from emacs-28
 (setq frame-title-format
       '(multiple-frames "%b" ("%b - GNU Emacs")))
 (setq icon-title-format frame-title-format)
