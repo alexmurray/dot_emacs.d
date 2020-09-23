@@ -104,6 +104,9 @@
 
 ;; use pipes for subprocess communication
 (setq process-connection-type nil)
+;; performance increases as per https://emacs-lsp.github.io/lsp-mode/page/performance/
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 ;; personalisation
 (setq user-full-name "Alex Murray")
