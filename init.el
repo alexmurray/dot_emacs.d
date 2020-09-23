@@ -2272,15 +2272,13 @@ With a prefix argument, will default to looking for all
   (telega-notifications-mode 1))
 
 (use-package time
-  :after erc-hl-nicks
-  :bind ((("C-c z" . display-time-world)))
+  :bind ((("C-c z" . world-clock)))
   :config (let ((team '(("Australia/Adelaide" . ("amurray"))
                         ("Europe/London" . ("ChrisCoulson"))
                         ("Brazil/East" . ("ebarretto" "emitorino" "leosilva" "pfsmorigo"))
-                        ("US/Eastern" . ("dan" "markmorlino" "msalvatore" "sid" "vineetha1"))
+                        ("US/Eastern" . ("dan" "msalvatore" "sid" "vineetha1"))
                         ("Canada/Eastern" . ("Avital" "mdeslaur"))
-                        ("US/Central" . ("jdstrand" "jmbl" "tyhicks"))
-                        ("US/Mountain" . ("joe"))
+                        ("US/Central" . ("jdstrand" "jmbl"))
                         ("US/Pacific" . ("jj" "sarnold" "sbeattie")))))
             ;; validate team
             (dolist (member team)
@@ -2291,12 +2289,7 @@ With a prefix argument, will default to looking for all
                     ;; make nicks stand out
                     (mapcar #'(lambda (member)
                                 (list (car member)
-                                      (mapconcat #'(lambda (nick)
-                                                     (propertize nick
-                                                                 'face
-                                                                 (erc-hl-nicks-make-face nick)))
-                                                 (cdr member)
-                                                 ", ")))
+                                      (string-join (cdr member) ", ")))
                             team)))
   (setq display-time-default-load-average nil)
   (setq display-time-use-mail-icon t)
