@@ -2469,7 +2469,7 @@ With a prefix argument, will default to looking for all
     (interactive)
     ;; make sure we don't get called a second time automatically
     (dolist (hook '(after-make-frame-functions after-init-hook))
-      (remove-hook hook #'apm-znc-all))
+      (remove-hook hook #'apm-prompt-to-connect-to-irc))
     (when (y-or-n-p "Connect to IRC? ")
       (znc-all disconnect)
       ;; connect to matterircd on localhost
