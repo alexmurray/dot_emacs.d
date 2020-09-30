@@ -1771,6 +1771,12 @@ With a prefix argument, will default to looking for all
 
   (setq mu4e-contact-process-function #'apm-mu4e-contact-process)
 
+  ;; quick bookmarks to easily delete unwanted emails
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Ubuntu kernel process spam"
+                       :query "subject:bug and subject:linux and subject:proposed and subject:tracker"
+                       :key ?k))
+
   ;; add action to view in brower
   (add-to-list 'mu4e-view-actions
                '("browser view" . mu4e-action-view-in-browser) t)
