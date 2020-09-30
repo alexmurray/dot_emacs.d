@@ -1592,10 +1592,9 @@ With a prefix argument, will default to looking for all
     (mu4e-compose-forward))
 
   (defun apm-mu4e-contact-process (contact)
-    (if (string-match
-         "\\(no-?reply\\|bugs.launchpad.net\\|lillypilly.canonical.com\\|docs.google.com\\|gapps.canonical.com\\)"
-         contact)
-        nil
+    (unless (string-match-p
+             "\\(no-?reply\\|bugs.launchpad.net\\|lillypilly.canonical.com\\|docs.google.com\\|gapps.canonical.com\\|forum.snapcraft.io\\)"
+             contact)
       contact))
 
   (defvar apm-mu4e-spammers '("duke.abbaddon@gmail.com"
