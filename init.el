@@ -1271,6 +1271,9 @@ With a prefix argument, will default to looking for all
                (list "\\(Private security bug reported\\)" 1 1 'error))
   (add-to-list 'gnus-emphasis-alist
                (list "\\(This bug is a security vulnerability\\)" 1 1 'warning))
+  ;; and for build failure emacs
+  (add-to-list 'gnus-emphasis-alist
+               (list "\\(State: failed to build\\)" 1 1 'error))
   ;; don't fill long lines as breaks tables in emails
   (setq gnus-treat-fill-long-lines nil)
   ;; gnus smileys look lame
