@@ -637,9 +637,8 @@
 
 (use-package deadgrep
   :ensure t
-  :bind ("<f5>" . deadgrep)
-  :config (unless (executable-find "rg")
-            (alert "Please install ripgrep snap...")))
+  :ensure-system-package (rg . ripgrep)
+  :bind ("<f5>" . deadgrep))
 
 (use-package debian-el
   :ensure t)
