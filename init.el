@@ -839,7 +839,7 @@ With a prefix argument, will default to looking for all
 
   ;; since we connect to oftc directly, we need to autojoin channels there
   ;; - not needed for freenode (since we use ZNC) or canonical matterircd
-  (setq erc-autojoin-channels-alist '("oftc.net" "#apparmor"))
+  (setq erc-autojoin-channels-alist '("oftc.net" "#apparmor" "#debian-security"))
   (setq erc-fill-function #'erc-fill-static)
   (setq erc-fill-static-center 18)
   ;; this fits on a dual horizontal split on my laptop
