@@ -825,8 +825,9 @@ With a prefix argument, will default to looking for all
   (setq erc-user-full-name user-full-name)
   (setq erc-nick (list user-login-name "alexmurray"))
   (setq erc-prompt-for-nickserv-password nil)
-  ;; nickserv password for freenode
-  (dolist (network '((freenode . "irc.freenode.net")))
+  ;; nickserv password for freenode and oftc
+  (dolist (network '((freenode . "irc.freenode.net")
+                     (OFTC . "irc.oftc.net")))
     (let ((login (auth-source-user-and-password (cdr network))))
       (if (null login)
           ;; secret-tool store --label='(car network) IRC NickServ' host
@@ -836,7 +837,9 @@ With a prefix argument, will default to looking for all
 
   (setq erc-autojoin-timing 'ident)
 
-  (setq erc-autojoin-channels-alist nil)
+  ;; since we connect to oftc directly, we need to autojoin channels there
+  ;; - not needed for freenode (since we use ZNC) or canonical matterircd
+  (setq erc-autojoin-channels-alist '("oftc.net" "#apparmor"))
   (setq erc-fill-function #'erc-fill-static)
   (setq erc-fill-static-center 18)
   ;; this fits on a dual horizontal split on my laptop
@@ -2431,7 +2434,7 @@ With a prefix argument, will default to looking for all
 (use-package znc
   :ensure t
   :preface
-  (defvar apm-znc-slugs '(freenode oftc))
+  (defvar apm-znc-slugs '(freenode))
   (defvar apm-znc-server "znc.secret.server")
   (defvar apm-znc-username "amurray")
   (defvar apm-znc-port 7076)
@@ -2458,8 +2461,9 @@ With a prefix argument, will default to looking for all
       (remove-hook hook #'apm-prompt-to-connect-to-irc))
     (when (y-or-n-p "Connect to IRC? ")
       (znc-all disconnect)
-      ;; connect to matterircd on localhost
-      (erc :server "localhost" :port "6667" :nick "alexmurray")))
+      ;; connect to matterircd on localhost and oftc
+      (erc :server "localhost" :port "6667" :nick "alexmurray")
+      (erc :server "irc.oftc.net" :port "6667" :nick "amurray")))
 
   :hook ((after-init . apm-prompt-to-connect-to-irc))
   :config
