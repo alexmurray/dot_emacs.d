@@ -2261,28 +2261,6 @@ With a prefix argument, will default to looking for all
 (use-package systemd
   :ensure t)
 
-(use-package telega
-  :preface
-  (defun apm-start-telega-minimised ()
-    "Start telega without popping to root buffer."
-    (interactive)
-    (let ((current-prefix-arg '(4)))
-      (telega 1)))
-  :init
-  (unless (executable-find "telega-server")
-    (alert (format "Please install the telega snap")))
-  (use-package visual-fill-column
-    :ensure t)
-  (use-package rainbow-identifiers
-    :ensure t)
-  :load-path "/snap/telega/current/share/emacs/site-lisp/telega/"
-  :bind (("C-c t" . telega))
-  ;; automatically connect on startup
-  :hook ((after-init . apm-start-telega-minimised))
-  :config
-  (setq telega-use-images t)
-  (telega-notifications-mode 1))
-
 (use-package time
   :bind ((("C-c z" . world-clock)))
   :config (let ((team '(("Australia/Adelaide" . ("amurray"))
