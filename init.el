@@ -1356,6 +1356,10 @@ With a prefix argument, will default to looking for all
 (use-package imenu
   :bind (("M-i" . imenu)))
 
+(use-package iscroll
+  :load-path "vendor/"
+  :config (iscroll-mode 1))
+
 (use-package ispell
   :defer t
   :ensure-system-package aspell
