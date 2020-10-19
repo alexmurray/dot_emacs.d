@@ -162,6 +162,7 @@
 ;; goodness
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
+(set-frame-font "DejaVu Sans Mono-10")
 (toggle-frame-maximized)
 
 ;; prompt when trying to switch out of a dedicated window
