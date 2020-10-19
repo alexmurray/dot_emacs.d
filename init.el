@@ -878,7 +878,8 @@ With a prefix argument, will default to looking for all
 
   (setq erc-track-exclude-server-buffer t)
   (setq erc-track-showcount t)
-  (setq erc-track-priority-faces-only nil)
+  ;; #emacs is noisy
+  (setq erc-track-priority-faces-only '("#emacs"))
   ;; paper over performance issues with doom-modeline
   ;; https://github.com/seagle0128/doom-modeline/issues/297
   (setq erc-track-shorten-function nil)
