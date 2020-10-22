@@ -161,8 +161,9 @@
 ;; default to maximised windows with DejaVu Sans Mono-10 for unicode fonts
 ;; goodness
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
-(set-frame-font "DejaVu Sans Mono-10")
+(let ((font "DejaVu Sans Mono-10"))
+  (add-to-list 'default-frame-alist `(font . ,font))
+  (set-frame-font font))
 (toggle-frame-maximized)
 
 ;; prompt when trying to switch out of a dedicated window
@@ -2220,6 +2221,9 @@ With a prefix argument, will default to looking for all
 (use-package smex
   :ensure t)
 
+(use-package smiley
+  :custom (smiley-style 'emoji))
+
 (use-package smtpmail
   ;; store password using secret-tool as follows:
   ;; secret-tool store --label='Canonical SMTP' host smtp.canonical.com port 587 user canonical
@@ -2315,13 +2319,6 @@ With a prefix argument, will default to looking for all
   :ensure t
   :diminish undo-tree-mode
   :config (global-undo-tree-mode 1))
-
-(use-package unicode-fonts
-   :ensure t
-   :ensure-system-package (("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf" . fonts-symbola)
-                           ("/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf" . fonts-noto-core))
-   :config
-   (unicode-fonts-setup))
 
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'post-forward
