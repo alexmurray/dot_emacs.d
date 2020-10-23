@@ -1330,6 +1330,7 @@ With a prefix argument, will default to looking for all
          ("C-h v" . helpful-variable)))
 
 (use-package hideshow
+  :diminish hs-minor-mode
   ;; use hs-minor-mode in programming and mail composing - TODO - get it
   ;; working during mail viewing as well to be able to hide quoted bits
   ;; - something like:
@@ -1357,6 +1358,7 @@ With a prefix argument, will default to looking for all
 
 (use-package iscroll
   :load-path "vendor/"
+  :diminish iscroll-mode
   :config (iscroll-mode 1))
 
 (use-package ispell
@@ -2060,6 +2062,7 @@ With a prefix argument, will default to looking for all
   (paradox-enable))
 
 (use-package paredit
+  :diminish paredit-mode
   :ensure t
   ;; don't steal occur prefix
   :bind (:map paredit-mode-map ("M-s" . nil))
@@ -2387,7 +2390,7 @@ With a prefix argument, will default to looking for all
   :config (which-key-mode))
 
 (use-package whitespace
-  :diminish whitespace-mode
+  :diminish whitespace-mode global-whitespace-mode
   :init (setq-default whitespace-style
                       '(face tabs tab-mark trailing))
   :config
