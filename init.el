@@ -974,7 +974,7 @@ With a prefix argument, will default to looking for all
   (setq erc-matterircd-team "canonical")
   (let ((token (auth-source-pick-first-password :host "matterircd")))
     (if (null token)
-        (alert (format "Please store matterircd token in secret store with :host matterircd and :user %s" nick))
+        (alert (format "Please store matterircd token in secret store with :host matterircd"))
       (setq erc-matterircd-password (concat "token=" token))))
   (add-to-list 'erc-modules 'matterircd)
   (erc-update-modules))
