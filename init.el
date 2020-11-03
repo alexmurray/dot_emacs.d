@@ -489,7 +489,6 @@
   :config
   (setq company-box-backends-colors nil)
   (setq company-box-show-single-candidate t)
-  (setq company-box-max-candidates 50)
   (setq company-box-icons-alist 'company-box-icons-all-the-icons)
   (defun company-box-icons--elisp (candidate)
     (when (derived-mode-p 'emacs-lisp-mode)
@@ -1888,6 +1887,8 @@ With a prefix argument, will default to looking for all
          ("C-c c" . org-capture)
          ("C-c l" . org-store-link)
          ("C-c C-w" . org-refile))
+  ;; ensure we always load org at startup
+  :demand t
   :config
   (setq org-directory (expand-file-name "~/org-files/")
         org-agenda-files (mapcar #'(lambda (f)
@@ -1899,10 +1900,14 @@ With a prefix argument, will default to looking for all
         org-imenu-depth 4
         org-todo-keywords '((sequence "TODO(t)" "IN-PROGRESS(p!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
                             (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
-  ;; allow to refile to anywhere
-  (setq org-refile-targets '((nil :maxlevel . 4)))
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
   (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s")))
+
+(use-package org-refile
+  :ensure org-plus-contrib
+  :config
+  ;; allow to refile to anywhere
+  (setq org-refile-targets '((nil :maxlevel . 4))))
 
 ;; add support for man: links in org documents
 (use-package ol-man
@@ -1983,9 +1988,10 @@ With a prefix argument, will default to looking for all
 (use-package org-mru-clock
   :ensure t
   :bind (("C-c s" . org-mru-clock-in))
+  :demand t
   :config
   (setq org-mru-clock-completing-read #'ivy-completing-read)
-  (setq org-mru-clock-keep-formatting t)
+  (setq org-mru-clock-format-function #'substring)
   (setq org-mru-clock-how-many 50))
 
 (use-package org-mu4e
