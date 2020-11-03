@@ -576,6 +576,7 @@
   :init (counsel-mode 1)
   :bind (("C-x b" . counsel-switch-buffer)
          ("C-x 4 b" . counsel-switch-buffer-other-window)
+         ("C-x 8 RET" . counsel-unicode-char)
          ("C-x C-r" . counsel-recentf)
          ("M-y" . counsel-yank-pop)
          ("C-c b" . counsel-search)
