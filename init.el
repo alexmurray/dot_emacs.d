@@ -1935,17 +1935,30 @@ With a prefix argument, will default to looking for all
 
 (use-package org-capture
   :after org
-  :config (setq org-capture-templates
-                `(("t" "todo" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Tasks")
-                   "** TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n- %a\n")
-                  ("m" "meeting" entry (file+headline ,(expand-file-name "canonical.org" org-directory) "Meetings")
-                   "* %?\n%(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n- %a\n")
-                  ("R" "snap-store-review" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Manual reviews")
-                   "*** TODO %?\n- %a\n" :clock-in t :clock-keep t)
-                  ("D" "snap-store-discussion" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Forum store request discussions")
-                   "*** TODO %?\n- %a\n" :clock-in t :clock-keep t)
-                  ("T" "snap-store-tallied-processed" entry (file+olp ,(expand-file-name "canonical.org" org-directory) "Snap Store / Forum" "Forum store requests processed/tallied")
-                   "*** TODO %?\n- %a\n" :clock-in t :clock-keep t))))
+  :config
+  (let ((canonical-org (expand-file-name "canonical.org" org-directory)))
+    (setq org-capture-templates
+          `(("t" "todo" entry (file+headline ,canonical-org "Tasks")
+             "** TODO %^{title}
+SCHEDULED: %^{SCHEDULED}T DEADLINE: %^{DEADLINE}T
+- %a%?")
+            ("m" "meeting" entry (file+headline ,canonical-org "Meetings")
+             "* %^{meeting title}
+%^{meeting day+time}T
+- %a%?")
+            ("R" "snap-store-review" entry (file+olp ,canonical-org "Snap Store / Forum" "Manual reviews")
+             "*** TODO %^{snap name}
+- %a%?" :clock-in t :clock-keep t)
+            ("D" "snap-store-discussion" entry (file+olp ,canonical-org "Snap Store / Forum" "Forum store request discussions")
+             "*** TODO %^{snap name}
+- %a%?" :clock-in t :clock-keep t)
+            ("T" "snap-store-tallied-processed" entry (file+olp ,canonical-org "Snap Store / Forum" "Forum store requests processed/tallied")
+             "*** TODO %^{snap name}
+- %a%?" :clock-in t :clock-keep t)
+            ("P" "snapd-pr-review" entry (file+olp ,canonical-org "Snap Store / Forum" "snapd PR reviews")
+             "*** TODO [[https://github.com/snapcore/snapd/pull/%^{number}][snapd PR #%\\1 %^{title}]]
+SCHEDULED: %^{SCHEDULED}T DEADLINE: %^{DEADLINE}T
+- https://github.com/snapcore/snapd/pull/%\\1%?")))))
 
 (use-package org-clock
   :after org
