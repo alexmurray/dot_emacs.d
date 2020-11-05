@@ -1936,7 +1936,8 @@ With a prefix argument, will default to looking for all
 (use-package org-capture
   :after org
   :config
-  (let ((canonical-org (expand-file-name "canonical.org" org-directory)))
+  (let ((canonical-org (expand-file-name "canonical.org" org-directory))
+        (notes-org (expand-file-name "notes.org" org-directory)))
     (setq org-capture-templates
           `(("t" "todo" entry (file+headline ,canonical-org "Tasks")
              "** TODO %^{title}
@@ -1958,7 +1959,18 @@ SCHEDULED: %^{SCHEDULED}T DEADLINE: %^{DEADLINE}T
             ("P" "snapd-pr-review" entry (file+olp ,canonical-org "Snap Store / Forum" "snapd PR reviews")
              "*** TODO [[https://github.com/snapcore/snapd/pull/%^{number}][snapd PR #%\\1 %^{title}]]
 SCHEDULED: %^{SCHEDULED}T DEADLINE: %^{DEADLINE}T
-- https://github.com/snapcore/snapd/pull/%\\1%?")))))
+- https://github.com/snapcore/snapd/pull/%\\1%?")
+            ("p" "Protocol" entry (file+headline ,notes-org "Inbox")
+             "* %^{Title}
+Source: %u, %c
+#+BEGIN_QUOTE
+%i
+#+END_QUOTE
+
+%?")
+            ("L" "Protocol Link" entry (file+headline ,notes-org "Inbox")
+             "* %? [[%:link][%:description]]
+Captured On: %U")))))
 
 (use-package org-clock
   :after org
