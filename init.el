@@ -1945,7 +1945,7 @@ SCHEDULED: %^{SCHEDULED}T DEADLINE: %^{DEADLINE}T
 - %a%?")
             ("m" "meeting" entry (file+headline ,canonical-org "Meetings")
              "* %^{meeting title}
-%^{meeting day+time}T
+SCHEDULED: %^{meeting day+time}T
 - %a%?")
             ("R" "snap-store-review" entry (file+olp ,canonical-org "Snap Store / Forum" "Manual reviews")
              "*** TODO %^{snap name}
