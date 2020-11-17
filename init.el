@@ -1238,6 +1238,10 @@ With a prefix argument, will default to looking for all
 (use-package fuzzy
   :ensure t)
 
+(use-package gcmh
+  :ensure t
+  :config (gcmh-mode 1))
+
 (use-package gdb-mi
   :defer t
   :init
