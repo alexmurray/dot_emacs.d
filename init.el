@@ -733,6 +733,18 @@
     (require 'erc-log)
     (require 'erc-match))
 
+  (defun apm-prompt-to-connect-to-irc ()
+    "Prompt to connect to irc."
+    (interactive)
+    (when (y-or-n-p "Connect to IRC? ")
+      ;; connect to matterircd on localhost and oftc and freenode via znc
+      (erc :server "localhost" :port "6667" :nick "alexmurray")
+      (erc :server "irc.oftc.net" :port "6667" :nick "amurray")
+      (erc-tls :server "znc.secret.server" :port "7076"
+               :nick "amurray" :password (concat "amurray/freenode:"
+                                                 (auth-source-pick-first-password
+                                                  :user "amurray"
+                                                  :port "7076")))))
   (defgroup apm-erc nil
     "apm's erc customisations."
     :group 'erc)
@@ -801,6 +813,7 @@ With a prefix argument, will default to looking for all
           (browse-url (completing-read "URL: " urls))
         (user-error "No URLs listed in channel topic"))))
 
+  :hook ((after-init . apm-prompt-to-connect-to-irc))
   :bind (:map erc-mode-map
               ("C-c f e" . apm-erc-find-logfile)
               ("M-s e" . apm-occur-in-erc))
@@ -835,7 +848,8 @@ With a prefix argument, will default to looking for all
   ;; - not needed for freenode (since we use ZNC) or canonical matterircd
   (setq erc-autojoin-channels-alist '(("oftc.net" "#apparmor" "#debian-security")))
   (setq erc-fill-function #'erc-fill-static)
-  (setq erc-fill-static-center 18)
+  ;; account for really long names
+  (setq erc-fill-static-center 22)
   ;; this fits on a dual horizontal split on my laptop
   (setq erc-fill-column 115)
 
@@ -2438,51 +2452,6 @@ Captured On: %U")))))
 
 (use-package xref
   :ensure t)
-
-(use-package znc
-  :ensure t
-  :preface
-  (defvar apm-znc-slugs '(freenode))
-  (defvar apm-znc-server "znc.secret.server")
-  (defvar apm-znc-username "amurray")
-  (defvar apm-znc-port 7076)
-  (defvar apm-znc-password (auth-source-pick-first-password
-                            :user apm-znc-username
-                            :port (format "%d" apm-znc-port)))
-
-  (defun apm-znc-generate-server (slug)
-    "Generate a ZNC server entry for SLUG."
-    (list slug
-          (format "%s/%s" apm-znc-username slug)
-          apm-znc-password))
-
-  (defvar apm-znc-servers (list
-                           (list apm-znc-server apm-znc-port t
-                                 (mapcar #'apm-znc-generate-server
-                                         apm-znc-slugs))))
-
-  (defun apm-prompt-to-connect-to-irc (&optional disconnect)
-    "Smarter `znc-all'."
-    (interactive)
-    ;; make sure we don't get called a second time automatically
-    (dolist (hook '(after-make-frame-functions after-init-hook))
-      (remove-hook hook #'apm-prompt-to-connect-to-irc))
-    (when (y-or-n-p "Connect to IRC? ")
-      (znc-all disconnect)
-      ;; connect to matterircd on localhost and oftc
-      (erc :server "localhost" :port "6667" :nick "alexmurray")
-      (erc :server "irc.oftc.net" :port "6667" :nick "amurray")))
-
-  :hook ((after-init . apm-prompt-to-connect-to-irc))
-  :config
-  (unless (url-gateway-nslookup-host apm-znc-server)
-    ;; need to ensure /etc/hosts points znc.secret.server to
-    ;; the correct hostname
-    (alert "Please correctly define znc.secret.server in /etc/hosts"))
-  (unless apm-znc-password
-    ;; secret-tool store --label=ZNC user amurray port 7076
-    (alert "Please store ZNC password in keyring via secret-tool"))
-  (setq znc-servers apm-znc-servers))
 
 (use-package ztree
   :ensure t
