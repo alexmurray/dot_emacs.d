@@ -2009,18 +2009,6 @@ Captured On: %U")))))
   ;; store link to message if in header view, not to header query
   :config (setq mu4e-org-link-query-in-headers-mode nil))
 
-(use-package org-notify
-  :ensure org-plus-contrib
-  :after org
-  ;; has issues with causing too many slowdowns etc so try disabling for now
-  :disabled t
-  :config
-  (setq org-notify-audible nil)
-  (org-notify-start)
-  (org-notify-add 'default '(:time "24h" :actions -notify/window :duration 600))
-  (org-notify-add 'default '(:time "60m" :actions -notify/window :period "2m" :duration 600))
-  (org-notify-add 'default '(:time "15m" :actions -notify/window :period "2m" :duration 120)))
-
 (use-package org-protocol
   :ensure org-plus-contrib
   :init (let ((handler (shell-command-to-string "xdg-mime query default x-scheme-handler/org-protocol")))
@@ -2048,6 +2036,10 @@ Captured On: %U")))))
   :ensure t
   :after org
   :hook ((org-agenda-finalize . org-timeline-insert-timeline)))
+
+(use-package org-wild-notifier
+  :ensure t
+  :config (org-wild-notifier-mode 1))
 
 (use-package ox-hugo
   :ensure t)
