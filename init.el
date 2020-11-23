@@ -158,14 +158,6 @@
 
 (set-language-environment "UTF-8")
 
-;; default to maximised windows with DejaVu Sans Mono-10 for unicode fonts
-;; goodness
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-(let ((font "DejaVu Sans Mono-10"))
-  (add-to-list 'default-frame-alist `(font . ,font))
-  (set-frame-font font))
-(toggle-frame-maximized)
-
 ;; prompt when trying to switch out of a dedicated window
 (setq switch-to-buffer-in-dedicated-window 'prompt)
 
