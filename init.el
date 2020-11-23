@@ -1769,7 +1769,10 @@ With a prefix argument, will default to looking for all
                '(:name "Ubuntu kernel process spam"
                        :query "subject:bug and subject:linux and subject:proposed and subject:tracker"
                        :key ?k))
-
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Snap Store spam"
+                       :query "subject:contains\\ outdated\\ Ubuntu\\ packages from:Snap\\ Store"
+                       :key ?s))
   ;; add action to view in brower
   (add-to-list 'mu4e-view-actions
                '("browser view" . mu4e-action-view-in-browser) t)
