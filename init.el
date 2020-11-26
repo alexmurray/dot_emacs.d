@@ -813,6 +813,13 @@ With a prefix argument, will default to looking for all
           (browse-url (completing-read "URL: " urls))
         (user-error "No URLs listed in channel topic"))))
 
+  (defun apm-erc-lookup-nick (nick)
+    ;; if this is a matterircd buffer then query via launchpadid since they
+    ;; are used as nicks there
+    (if (eq 'matterircd (erc-network))
+        (apm-eudc-lookup-launchpadid nick)
+      (apm-eudc-lookup-ircnick nick)))
+
   :hook ((after-init . apm-prompt-to-connect-to-irc))
   :bind (:map erc-mode-map
               ("C-c f e" . apm-erc-find-logfile)
@@ -898,11 +905,7 @@ With a prefix argument, will default to looking for all
                    `(,(erc-hl-nicks-make-face nick) erc-current-nick-face))))
 
   (add-to-list 'erc-nick-popup-alist
-               ;; defined down in eudc use-package
-               '("Directory (lp)" . (apm-eudc-lookup-launchpadid nick)))
-  (add-to-list 'erc-nick-popup-alist
-               ;; defined down in eudc use-package
-               '("Directory (irc)" . (apm-eudc-lookup-nick nick)))
+               '("Directory" . (apm-erc-lookup-nick nick)))
   ;; only hide join / part / quit for those who are idle for more
   ;; than 10 hours (ie are using a bouncer)
   (setq erc-lurker-hide-list '("JOIN" "PART" "QUIT" "NICK"))
@@ -1103,7 +1106,7 @@ With a prefix argument, will default to looking for all
             (completing-read "Nick: " (erc-get-channel-nickname-list)
                              nil nil initial)
           (read-string "Nick: " initial)))))
-    (eudc-display-records (eudc-query  `((mozillaNickName . ,nick))))))
+    (eudc-display-records (eudc-query  `((mozillaNickName . ,nick)))))
 
   (defun apm-eudc-lookup-launchpadid (&optional id)
     (interactive
@@ -1115,7 +1118,7 @@ With a prefix argument, will default to looking for all
             (completing-read "Id: " (erc-get-channel-nickname-list)
                              nil nil initial)
           (read-string "Id: " initial)))))
-    (eudc-display-records (eudc-query  `((launchpadid . ,id)))))
+    (eudc-display-records (eudc-query  `((launchpadid . ,id))))))
 
 (use-package eshell
   :defer t
