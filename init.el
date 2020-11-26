@@ -1013,6 +1013,12 @@ With a prefix argument, will default to looking for all
            auth-source t)))
   (setq ldap-default-host "ldaps://ldap.canonical.com"))
 
+(use-package link-hint
+  :ensure t
+  :bind
+  ("C-c C-l C-o" . link-hint-open-link)
+  ("C-c C-l C-c" . link-hint-copy-link))
+
 (use-package eudc
   :after ldap
   :config
