@@ -818,7 +818,7 @@ With a prefix argument, will default to looking for all
     ;; are used as nicks there
     (if (eq 'matterircd (erc-network))
         (apm-eudc-lookup-launchpadid nick)
-      (apm-eudc-lookup-ircnick nick)))
+      (apm-eudc-lookup-nick nick)))
 
   :hook ((after-init . apm-prompt-to-connect-to-irc))
   :bind (:map erc-mode-map
