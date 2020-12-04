@@ -2131,24 +2131,18 @@ Captured On: %U")))))
 
 (use-package projectile
   :ensure t
-  :defer t
+  :demand t
   :bind (:map projectile-mode-map ("C-x p" . projectile-command-map))
   :diminish projectile-mode
-  :defines (projectile-enable-caching)
-  :init
-  (setq projectile-enable-caching t)
-  (projectile-mode 1)
   :config
-  (add-to-list 'projectile-project-root-files "compile_commands.json")
-  (add-to-list 'projectile-project-root-files "configure.ac")
-  (add-to-list 'projectile-project-root-files ".cquery")
-  (add-to-list 'projectile-project-root-files ".cquery.in")
-  (add-to-list 'projectile-project-root-files "AndroidManifest.xml")
-  (setq projectile-completion-system 'default)
+  (with-eval-after-load 'compile
+    (setq compilation-buffer-name-function
+          #'projectile-compilation-buffer-name)
+    (setq compilation-save-buffers-predicate
+          #'projectile-current-project-buffer-p))
   (with-eval-after-load 'magit
     (setq projectile-switch-project-action #'magit-status))
-  (with-eval-after-load 'ivy
-    (setq projectile-completion-system 'ivy)))
+  (projectile-mode 1))
 
 (use-package python
   :defer t
