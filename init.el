@@ -1780,7 +1780,7 @@ With a prefix argument, will default to looking for all
                        :key ?k))
   (add-to-list 'mu4e-bookmarks
                '(:name "Snap Store spam"
-                       :query "subject:contains\\ outdated\\ Ubuntu\\ packages from:Snap\\ Store"
+                       :query "subject:outdated\\ Ubuntu\\ packages or subject:outdated\\ Ubuntu\\ kernel and from:Snap\\ Store"
                        :key ?s))
   ;; add action to view in brower
   (add-to-list 'mu4e-view-actions
