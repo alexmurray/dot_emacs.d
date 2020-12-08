@@ -1321,6 +1321,10 @@ With a prefix argument, will default to looking for all
   (setq gnus-dired-mail-mode 'mu4e-user-agent)
   (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode))
 
+(use-package goggles
+  :ensure t
+  :config (goggles-mode 1))
+
 (use-package go-mode
   :ensure t)
 
