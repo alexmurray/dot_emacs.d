@@ -1745,8 +1745,14 @@ With a prefix argument, will default to looking for all
   ;; needed for mbsync
   (setq mu4e-change-filenames-when-moving t)
 
-  ;; ensure this is off
-  (setq mu4e-compose-format-flowed nil)
+  ;; setup format=flowed as per https://useplaintext.email/#mu4e
+  (use-package message
+    :hook ((message-mode . auto-fill-mode)))
+  (setq mu4e-compose-format-flowed t)
+  (use-package flow-fill
+    ;; https://github.com/djcb/mu/issues/1854#issuecomment-740786524
+    :config (setq fill-flowed-encode-column fill-column))
+
   (setq mu4e-headers-sort-direction 'ascending)
 
   ;; show all since often get duplicates via multiple mailing lists so want
