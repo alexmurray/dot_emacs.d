@@ -1481,7 +1481,8 @@ With a prefix argument, will default to looking for all
   :preface
   :defer t
   :bind (("C-x g" . magit-status)
-         ("C-x M-g" . magit-dispatch))
+         ("C-x M-g" . magit-dispatch)
+         ("C-c g" . magit-file-dispatch) )
   :config (setq magit-completing-read-function 'ivy-completing-read))
 
 (use-package magit-patch-changelog
