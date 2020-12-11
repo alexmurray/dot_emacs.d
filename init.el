@@ -593,10 +593,6 @@
   :ensure t
   :after (counsel projectile)
   :config
-  ;; open project in vc after switching
-  (counsel-projectile-modify-action
-   'counsel-projectile-switch-project-action
-   '((default counsel-projectile-switch-project-action-vc)))
   (counsel-projectile-mode))
 
 (use-package counsel-world-clock
@@ -2150,8 +2146,8 @@ Captured On: %U")))))
           #'projectile-compilation-buffer-name)
     (setq compilation-save-buffers-predicate
           #'projectile-current-project-buffer-p))
-  (with-eval-after-load 'magit
-    (setq projectile-switch-project-action #'magit-status))
+  ;; prompt for action on project switch
+  (setq projectile-switch-project-action #'projectile-commander)
   (projectile-mode 1))
 
 (use-package python
