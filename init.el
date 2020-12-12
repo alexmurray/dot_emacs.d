@@ -1918,9 +1918,6 @@ Captured On: %U")))))
 
 (use-package org-clock
   :after org
-  :bind (("C-c g" . org-clock-goto)
-         ("C-c i" . org-clock-in)
-         ("C-c o" . org-clock-out))
   ;; ensure we always run org-clock-persistence-insinuate below
   :demand t
   ;; assume idle after 5 minutes
