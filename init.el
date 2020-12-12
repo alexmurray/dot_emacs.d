@@ -213,15 +213,6 @@
   :ensure t
   :hook ((dired-mode . all-the-icons-dired-mode)))
 
-(use-package all-the-icons-ivy
-  :ensure t
-  :after (all-the-icons ivy)
-  :custom (all-the-icons-ivy-buffer-commands '(ivy-switch-buffer-other-window))
-  :config
-  (add-to-list 'all-the-icons-ivy-file-commands 'counsel-dired-jump)
-  (add-to-list 'all-the-icons-ivy-file-commands 'counsel-find-library)
-  (all-the-icons-ivy-setup))
-
 (use-package android-mode
   :ensure t
   :defer t
@@ -561,43 +552,28 @@
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error))
 
-(use-package counsel
+(use-package consult
   :ensure t
-  :after ivy org
-  :diminish counsel-mode
-  :init (counsel-mode 1)
-  :bind (("C-x b" . counsel-switch-buffer)
-         ("C-x 4 b" . counsel-switch-buffer-other-window)
-         ("C-x 8 RET" . counsel-unicode-char)
-         ("C-x C-r" . counsel-recentf)
-         ("M-y" . counsel-yank-pop)
-         ("C-c b" . counsel-search)
-         ("C-c S" . counsel-grep-or-swiper)
-         ("M-s s" . counsel-grep-or-swiper)
-         ("C-c R" . counsel-grep-or-swiper-backward)
-         ("M-s r" . counsel-grep-or-swiper-backward)
-         :map outline-mode-map ("M-i" . counsel-outline)
-         :map company-active-map ("C-/" . counsel-company))
-  :demand t
-  :config
-  ;; required so we can use counsel-yank-pop in the minibuffer itself
-  (setq enable-recursive-minibuffers t)
-  (setq counsel-yank-pop-preselect-last t)
-  ;; use google for searching
-  (setq counsel-search-engine 'google)
-  (with-eval-after-load 'helpful
-    (setq counsel-describe-function-function #'helpful-callable)
-    (setq counsel-describe-variable-function #'helpful-variable)))
+  :bind (
+         ("C-x b" . consult-buffer)
+         ("C-x 4 b" . consult-buffer-other-window)
+         ("C-x 5 b" . consult-buffer-other-frame)
+         ("M-s i" . consult-imenu)
+         ("M-s l" . consult-line)
+         ("M-s o" . consult-outline)
+         ("M-y". consult-yank-pop)
+         ("<help> a" . consult-apropos))
+  ;; Replace functions (consult-multi-occur is a drop-in replacement)
+  :init (fset 'multi-occur #'consult-multi-occur)
+  :config (consult-preview-mode 1))
 
-(use-package counsel-projectile
-  :ensure t
-  :after (counsel projectile)
-  :config
-  (counsel-projectile-mode))
+(use-package consult-flycheck
+  :ensure consult
+  :bind (:map flycheck-command-map
+              ("!" . consult-flycheck)))
 
-(use-package counsel-world-clock
-  :ensure t
-  :after counsel)
+(use-package consult-selectrum
+  :ensure consult)
 
 (use-package cov
   :load-path "vendor/"
@@ -1129,12 +1105,7 @@ With a prefix argument, will default to looking for all
     "Initialise 'eshell-mode'."
     (eval-when-compile
       (require 'em-cmpl))
-    (eshell-cmpl-initialize)
-    (with-eval-after-load 'counsel
-      (eval-when-compile (require 'esh-mode))
-      (define-key eshell-mode-map [remap eshell-previous-matching-input] #'counsel-esh-history)
-      (define-key eshell-mode-map [remap eshell-next-matching-input] #'counsel-esh-history)
-      (define-key eshell-mode-map [remap eshell-pcomplete] #'completion-at-point)))
+    (eshell-cmpl-initialize))
   :commands eshell
   :hook ((eshell-mode . apm-eshell-mode-setup)))
 
@@ -1236,12 +1207,6 @@ With a prefix argument, will default to looking for all
   :hook ((text-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode)))
 
-(use-package flyspell-correct-ivy
-  :ensure t
-  ;; use instead of ispell-word
-  :bind (([remap ispell-word] . flyspell-correct-wrapper)
-         :map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
-
 (use-package forge
   :ensure t
   :after magit)
@@ -1337,10 +1302,6 @@ With a prefix argument, will default to looking for all
   :defer t
   :hook ((gud-mode . gud-tooltip-mode)))
 
-(use-package helm-make
-  :ensure t
-  :config (setq helm-make-completion-method 'ivy))
-
 (use-package helpful
   :ensure t
   :bind (("C-h a" . helpful-symbol)
@@ -1389,35 +1350,6 @@ With a prefix argument, will default to looking for all
   (ispell-extra-args '("--sug-mode=ultra"))
   (ispell-silently-savep t))
 
-(use-package ivy
-  :ensure t
-  :defer t
-  :diminish ivy-mode
-  :bind (("C-c C-r" . ivy-resume)
-         ;; C-c C-r is shadowed in org-mode and others so also bind f6 for
-         ;; convenience
-         ("<f6>" . ivy-resume))
-  :init (ivy-mode 1)
-  :config
-  (setq ivy-use-virtual-buffers t)
-  ;; allow to select the typed in value with C-p
-  (setq ivy-use-selectable-prompt t)
-  (define-key isearch-mode-map (kbd "M-o") 'ivy-occur))
-
-(use-package ivy-rich
-  :ensure t
-  :after ivy
-  :config
-  (ivy-rich-mode 1)
-  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
-
-(use-package ivy-xref
-  :ensure t
-  :init
-  (when (>= emacs-major-version 27)
-    (setq xref-show-definitions-function #'ivy-xref-show-defs))
-  (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
-
 (use-package keypression
   :ensure t)
 
@@ -1456,9 +1388,6 @@ With a prefix argument, will default to looking for all
   :ensure lsp-mode
   :hook ((lsp-after-open . lsp-enable-imenu)))
 
-(use-package lsp-ivy
-  :ensure t)
-
 (use-package lsp-java
   :ensure t
   :after lsp-mode
@@ -1483,7 +1412,7 @@ With a prefix argument, will default to looking for all
   :bind (("C-x g" . magit-status)
          ("C-x M-g" . magit-dispatch)
          ("C-c g" . magit-file-dispatch) )
-  :config (setq magit-completing-read-function 'ivy-completing-read))
+  :config (setq magit-completing-read-function 'selectrum-completing-read))
 
 (use-package magit-patch-changelog
   :ensure t)
@@ -1496,6 +1425,10 @@ With a prefix argument, will default to looking for all
 (use-package mallard-mode
   :ensure t
   :defer t)
+
+(use-package marginalia
+  :ensure t
+  :init (marginalia-mode 1))
 
 (use-package markdown-mode
   :ensure t
@@ -2019,7 +1952,7 @@ Captured On: %U")))))
   :bind (("C-c s" . org-mru-clock-in))
   :demand t
   :config
-  (setq org-mru-clock-completing-read #'ivy-completing-read)
+  (setq org-mru-clock-completing-read #'selectrum-completing-read)
   (setq org-mru-clock-format-function #'substring)
   (setq org-mru-clock-how-many 50))
 
@@ -2128,6 +2061,10 @@ Captured On: %U")))))
   :ensure t
   :config (setq posframe-mouse-banish nil))
 
+(use-package prescient
+  :ensure t
+  :config (prescient-persist-mode 1))
+
 (use-package prog-mode
   :config
   (when (boundp 'prettify-symbols-unprettify-at-point)
@@ -2211,6 +2148,15 @@ Captured On: %U")))))
   :ensure t
   :defer t)
 
+(use-package selectrum
+  :ensure t
+  :bind (("C-x C-z" . #'selectrum-repeat))
+  :config (selectrum-mode 1))
+
+(use-package selectrum-prescient
+  :ensure t
+  :config (selectrum-prescient-mode 1))
+
 (use-package server
   :config
   ;; start emacs server only it has not already been started
@@ -2237,11 +2183,6 @@ Captured On: %U")))))
   (setq save-interprogram-paste-before-kill t)
   (setq visual-line-fringe-indicators
         '(left-curly-arrow right-curly-arrow)))
-
-;; use smex since counsel-M-x will use it to provide better fuzzy matching
-;; if it is installed
-(use-package smex
-  :ensure t)
 
 (use-package smiley
   :custom (smiley-style 'emoji))
@@ -2285,14 +2226,6 @@ Captured On: %U")))))
 
 (use-package suggest
   :ensure t)
-
-(use-package swiper
-  :ensure t
-  :bind (("C-s" . swiper-isearch)
-         ("C-r" . swiper-isearch-backward)
-         ("M-s o" . swiper-isearch-thing-at-point)
-         ("M-s ." . swiper-isearch-thing-at-point)
-         :map isearch-mode-map ("M-i" . swiper-from-isearch)))
 
 (use-package systemd
   :ensure t)
