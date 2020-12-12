@@ -1870,6 +1870,14 @@ With a prefix argument, will default to looking for all
   (org-agenda-to-appt t))
 
 (use-package org-capture
+  :preface
+  (defun apm-get-github-issue-title (repo issue)
+    "Get the title of ISSUE from REPO via github REST API."
+    (interactive "sRepo: \nnIssue: ")
+    (string-trim
+     ;; TODO - use request.el to do this ourself
+     (shell-command-to-string
+      (concat "curl --silent -X GET https://api.github.com/repos/" repo "/issues | jq -r -c '.[] | select (.number | contains(" (number-to-string issue) ")) | .title'"))))
   :after org
   :config
   (let ((canonical-org (expand-file-name "canonical.org" org-directory))
@@ -1893,7 +1901,7 @@ SCHEDULED: %^{meeting day+time}T
              "*** TODO %^{snap name}
 - %a%?" :clock-in t :clock-keep t)
             ("P" "snapd-pr-review" entry (file+olp ,canonical-org "Snap Store / Forum" "snapd PR reviews")
-             "*** TODO [[https://github.com/snapcore/snapd/pull/%^{number}][snapd PR #%\\1 %^{title}]]
+             "*** TODO [[https://github.com/snapcore/snapd/pull/%^{number}][snapd PR #%\\1 %(apm-get-github-issue-title \"snapcore/snapd\" %\\1)]]
 SCHEDULED: %^{SCHEDULED}T DEADLINE: %^{DEADLINE}T
 - https://github.com/snapcore/snapd/pull/%\\1%?")
             ("p" "Protocol" entry (file+headline ,notes-org "Inbox")
