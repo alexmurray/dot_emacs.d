@@ -1581,7 +1581,7 @@ With a prefix argument, will default to looking for all
        ;; store emails about outdated dependencies or reviews should get
        ;; trashed
        ((and (mu4e-message-contact-field-matches msg :from "Snap Store")
-             (string-match-p "\\(built from outdated Ubuntu kernel\\|contains outdated Ubuntu packages\\|^Manual review requested for version\\|^Manual review for .* version .* requested$\\)" subject))
+             (string-match-p "\\(built from outdated Ubuntu kernel\\|was built with outdated Ubuntu packages\\|contains outdated Ubuntu packages\\|^Manual review requested for version\\|^Manual review for .* version .* requested$\\)" subject))
         mu4e-trash-folder)
        ((or (mu4e-message-contact-field-matches msg :from "Snap Store")
             (string-match-p "^\\(R[eE]: \\)?Manual review \\(for .* version .* requested\\|requested for version\\)" subject)
