@@ -568,12 +568,12 @@
   :config (consult-preview-mode 1))
 
 (use-package consult-flycheck
-  :ensure consult
+  :ensure t
   :bind (:map flycheck-command-map
               ("!" . consult-flycheck)))
 
 (use-package consult-selectrum
-  :ensure consult)
+  :ensure t)
 
 (use-package cov
   :load-path "vendor/"
