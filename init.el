@@ -240,7 +240,7 @@
   :bind (("C-c b l" . apm-browse-lp-bug-at-point)))
 
 (use-package apparmor-mode
-  :load-path "vendor/")
+  :ensure t)
 
 (use-package appt
   :preface
