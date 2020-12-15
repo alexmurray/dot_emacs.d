@@ -1409,9 +1409,9 @@ With a prefix argument, will default to looking for all
   :ensure t
   :preface
   :defer t
-  :bind (("C-x g" . magit-status)
-         ("C-x M-g" . magit-dispatch)
-         ("C-c g" . magit-file-dispatch) )
+  :bind (("C-x g g" . magit-status)
+         ("C-x g d" . magit-dispatch)
+         ("C-x g f" . magit-file-dispatch) )
   :config (setq magit-completing-read-function 'selectrum-completing-read))
 
 (use-package magit-patch-changelog
@@ -1920,6 +1920,9 @@ Captured On: %U")))))
   :after org
   ;; ensure we always run org-clock-persistence-insinuate below
   :demand t
+  :bind (("C-c g" . org-clock-goto)
+         ("C-c i" . org-clock-in)
+         ("C-c o" . org-clock-out))
   ;; assume idle after 5 minutes
   :ensure-system-package xprintidle
   :config
