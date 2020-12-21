@@ -1917,13 +1917,13 @@ With a prefix argument, will default to looking for all
 %^{meeting day+time}T
 - %a%?")
             ("R" "snap-store-review" entry (file+olp ,canonical-org "Snap Store / Forum" "Manual reviews")
-             "*** TODO %^{snap name}
+             "*** %^{snap name}
 - %a%?" :clock-in t :clock-keep t)
             ("D" "snap-store-discussion" entry (file+olp ,canonical-org "Snap Store / Forum" "Forum store request discussions")
-             "*** TODO %^{snap name}
+             "*** %^{snap name}
 - %a%?" :clock-in t :clock-keep t)
             ("T" "snap-store-tallied-processed" entry (file+olp ,canonical-org "Snap Store / Forum" "Forum store requests processed/tallied")
-             "*** TODO %^{snap name}
+             "*** %^{snap name}
 - %a%?" :clock-in t :clock-keep t)
             ("P" "snapd-pr-review" entry (file ,inbox-org)
              "* [[https://github.com/snapcore/snapd/pull/%\\1][snapd PR #%^{number} %^{title}]]
