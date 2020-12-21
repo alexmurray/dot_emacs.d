@@ -1831,20 +1831,21 @@ With a prefix argument, will default to looking for all
         org-agenda-files (mapcar #'(lambda (f)
                                      (expand-file-name f org-directory))
                                  '("personal.org" "canonical.org"
-                                   "blog.org" "notes.org"))
+                                   "inbox.org" "tickler.org" "notes.org"))
         ;; don't indent org document sections etc
         org-adapt-indentation nil
         org-imenu-depth 4
-        org-todo-keywords '((sequence "TODO(t)" "IN-PROGRESS(p!)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
-                            (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
+        org-todo-keywords '((sequence "TODO(t)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
+                            (sequence "|" "CANCELLED(c@)")))
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
   (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s")))
 
 (use-package org-refile
   :ensure org-plus-contrib
   :config
-  ;; allow to refile to anywhere
-  (setq org-refile-targets '((nil :maxlevel . 4))))
+  (setq org-refile-targets '(("~/org-files/canonical.org" :maxlevel . 4)
+                             ("~/org-files/someday.org" :level . 1)
+                             ("~/org-files/tickler.org" :maxlevel . 1))))
 
 ;; add support for man: links in org documents
 (use-package ol-man
@@ -1858,6 +1859,18 @@ With a prefix argument, will default to looking for all
   (defun apm-org-agenda-file-notify (_event)
     "Rebuild appointments when _EVENT specifies any org agenda files change."
     (org-agenda-to-appt t))
+  (defun apm-org-agenda-skip-all-siblings-but-first-todo ()
+    "Skip all but the first TODO entry."
+    (let ((should-skip-entry nil))
+      (unless (string= "TODO" (org-get-todo-state))
+        (setq should-skip-entry t))
+      (save-excursion
+        (while (and (not should-skip-entry) (org-goto-sibling t))
+          (when (string= "TODO" (org-get-todo-state))
+            (setq should-skip-entry t))))
+      (when should-skip-entry
+        (or (outline-next-heading)
+            (goto-char (point-max))))))
   :config
   ;; when modifying agenda files make sure to update appt
   (require 'filenotify)
@@ -1867,22 +1880,35 @@ With a prefix argument, will default to looking for all
   ;; when showing agenda, jump to now
   (add-hook 'org-agenda-finalize-hook #'org-agenda-find-same-or-today-or-agenda 90)
   ;; rebuild appointments now
-  (org-agenda-to-appt t))
+  (org-agenda-to-appt t)
+  (setq org-agenda-custom-commands
+        '(("i" "Next TODO from inbox" alltodo nil
+           ((org-agenda-files '("~/org-files/inbox.org"))
+            (org-agenda-skip-function #'apm-org-agenda-skip-all-siblings-but-first-todo)))
+          ("I" "Next TODO from all" alltodo nil (
+            (org-agenda-skip-function #'apm-org-agenda-skip-all-siblings-but-first-todo))))) )
 
 (use-package org-capture
   :preface
   :after org
   :config
-  (let ((canonical-org (expand-file-name "canonical.org" org-directory))
-        (notes-org (expand-file-name "notes.org" org-directory)))
+  (let ((inbox-org (expand-file-name "inbox.org" org-directory))
+        (tickler-org (expand-file-name "tickler.org" org-directory))
+        (canonical-org (expand-file-name "canonical.org" org-directory)))
     (setq org-capture-templates
-          `(("t" "todo" entry (file+headline ,canonical-org "Tasks")
-             "** TODO %^{title}
-SCHEDULED: %^{SCHEDULED}T DEADLINE: %^{DEADLINE}T
-- %a%?")
+          `(("t" "todo" entry (file ,inbox-org)
+             "* TODO %i%?
+- %a")
+            ("T" "tickler" entry (file ,tickler-org)
+             "* %i%?
+%U
+- %a")
+            ("r" "pRoject" entry (file ,canonical-org)
+             "* TODO %i%?
+- %a")
             ("m" "meeting" entry (file+headline ,canonical-org "Meetings")
              "* %^{meeting title}
-SCHEDULED: %^{meeting day+time}T
+%^{meeting day+time}T
 - %a%?")
             ("R" "snap-store-review" entry (file+olp ,canonical-org "Snap Store / Forum" "Manual reviews")
              "*** TODO %^{snap name}
@@ -1893,11 +1919,10 @@ SCHEDULED: %^{meeting day+time}T
             ("T" "snap-store-tallied-processed" entry (file+olp ,canonical-org "Snap Store / Forum" "Forum store requests processed/tallied")
              "*** TODO %^{snap name}
 - %a%?" :clock-in t :clock-keep t)
-            ("P" "snapd-pr-review" entry (file+olp ,canonical-org "Snap Store / Forum" "snapd PR reviews")
-             "*** TODO [[https://github.com/snapcore/snapd/pull/%\\1][snapd PR #%^{number} %^{title}]]
-SCHEDULED: %^{SCHEDULED}T DEADLINE: %^{DEADLINE}T
+            ("P" "snapd-pr-review" entry (file ,inbox-org)
+             "* [[https://github.com/snapcore/snapd/pull/%\\1][snapd PR #%^{number} %^{title}]]
 - https://github.com/snapcore/snapd/pull/%\\1%?")
-            ("p" "Protocol" entry (file+headline ,notes-org "Inbox")
+            ("p" "Protocol" entry (file ,inbox-org)
              "* %^{Title}
 Source: %u, %c
 #+BEGIN_QUOTE
@@ -1905,7 +1930,7 @@ Source: %u, %c
 #+END_QUOTE
 
 %?")
-            ("L" "Protocol Link" entry (file+headline ,notes-org "Inbox")
+            ("L" "Protocol Link" entry (file ,inbox-org)
              "* %? [[%:link][%:description]]
 Captured On: %U")))))
 
