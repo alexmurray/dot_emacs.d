@@ -1835,8 +1835,11 @@ With a prefix argument, will default to looking for all
         ;; don't indent org document sections etc
         org-adapt-indentation nil
         org-imenu-depth 4
+        ;; @ = add note with time
+        ;; ! = record only time of state change
+        ;; | = remaining keywords are final states
         org-todo-keywords '((sequence "TODO(t)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
-                            (sequence "|" "CANCELLED(c@)")))
+                            (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
   (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s")))
 
