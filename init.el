@@ -1848,7 +1848,10 @@ With a prefix argument, will default to looking for all
   :config
   (setq org-refile-targets '(("~/org-files/canonical.org" :maxlevel . 4)
                              ("~/org-files/someday.org" :level . 1)
-                             ("~/org-files/tickler.org" :maxlevel . 1))))
+                             ("~/org-files/tickler.org" :maxlevel . 1)))
+  ;; allow to refile as top-level items in files
+  (setq org-refile-use-outline-path 'file)
+  (setq org-outline-path-complete-in-steps nil))
 
 ;; add support for man: links in org documents
 (use-package ol-man
