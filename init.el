@@ -1382,7 +1382,11 @@ With a prefix argument, will default to looking for all
   :hook ((prog-mode . lsp))
   :custom
   (lsp-headerline-breadcrumb-enable t)
-  (lsp-eldoc-enable-hover nil))
+  (lsp-eldoc-enable-hover nil)
+  :config
+  (lsp-register-custom-settings
+   ;; for gopls disable -mod=readonly for now
+   '(("gopls.allowModfileModifications" t t))))
 
 (use-package lsp-imenu
   :ensure lsp-mode
