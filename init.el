@@ -1827,19 +1827,23 @@ With a prefix argument, will default to looking for all
   ;; ensure we always load org at startup
   :demand t
   :config
-  (setq org-directory (expand-file-name "~/org-files/")
-        org-agenda-files (mapcar #'(lambda (f)
+  (setq org-directory (expand-file-name "~/org-files/"))
+  (setq org-agenda-files (mapcar #'(lambda (f)
                                      (expand-file-name f org-directory))
                                  '("personal.org" "canonical.org"
-                                   "inbox.org" "tickler.org" "notes.org"))
-        ;; don't indent org document sections etc
-        org-adapt-indentation nil
-        org-imenu-depth 4
-        ;; @ = add note with time
-        ;; ! = record only time of state change
-        ;; | = remaining keywords are final states
-        org-todo-keywords '((sequence "TODO(t)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
+                                   "inbox.org" "tickler.org" "notes.org")))
+  ;; don't indent org document sections etc
+  (setq org-adapt-indentation nil)
+  (setq org-imenu-depth 4)
+  ;; @ = add note with time
+  ;; ! = record only time of state change
+  ;; | = remaining keywords are final states
+  (setq org-todo-keywords '((sequence "TODO(t)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
                             (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
+  ;; ensure it is harder to inadvertently delete collapsed parts of org
+  ;; documents
+  (setq org-catch-invisible-edits 'smart)
+  (setq org-ctrl-k-protect-subtree t)
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
   (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s")))
 
@@ -1908,11 +1912,11 @@ With a prefix argument, will default to looking for all
           `(("t" "todo" entry (file ,inbox-org)
              "* TODO %i%?
 - %a")
-            ("T" "tickler" entry (file ,tickler-org)
+            ("I" "tickler" entry (file ,tickler-org)
              "* %i%?
 %U
 - %a")
-            ("r" "pRoject" entry (file ,canonical-org)
+            ("p" "project" entry (file ,canonical-org)
              "* TODO %i%?
 - %a")
             ("m" "meeting" entry (file+headline ,canonical-org "Meetings")
@@ -1931,7 +1935,7 @@ With a prefix argument, will default to looking for all
             ("P" "snapd-pr-review" entry (file ,inbox-org)
              "* [[https://github.com/snapcore/snapd/pull/%\\1][snapd PR #%^{number} %^{title}]]
 - https://github.com/snapcore/snapd/pull/%\\1%?")
-            ("p" "Protocol" entry (file ,inbox-org)
+            ("r" "protocol" entry (file ,inbox-org)
              "* %^{Title}
 Source: %u, %c
 #+BEGIN_QUOTE
