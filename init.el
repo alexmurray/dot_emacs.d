@@ -1758,7 +1758,73 @@ With a prefix argument, will default to looking for all
                               (:size . 8)
                               (:subject)))
 
-  ;; save attachment to Downloads
+  ;; stolen from
+  ;; https://github.com/stardiviner/emacs.d/blob/b0cda533cb530e9a81edce511535569fa09503f2/init/tools/init-mu4e.el#L55
+  (setq mu4e-use-fancy-chars t)
+  (setq mu4e-headers-seen-mark `("S" . ,(propertize
+                                         (all-the-icons-material "mail_outline")
+                                         'face '(:family (all-the-icons-material-family)
+                                                         :foreground (face-background 'default)))))
+  (setq mu4e-headers-new-mark `("N" . ,(propertize
+                                        (all-the-icons-material "markunread")
+                                        'face '(:family (all-the-icons-material-family)
+                                                        :foreground (face-background 'default)))))
+  (setq mu4e-headers-unread-mark `("u" . ,(propertize
+                                           (all-the-icons-material "notifications_none")
+                                           'face '(:family (all-the-icons-material-family)
+                                                           :foreground (face-foreground 'mu4e-unread-face)))))
+  (setq mu4e-headers-signed-mark `("s" . ,(propertize
+                                           (all-the-icons-material "check")
+                                           'face '(:family (all-the-icons-material-family)
+                                                           :foreground "DarkCyan"))))
+  (setq mu4e-headers-encrypted-mark `("x" . ,(propertize
+                                              (all-the-icons-material "enhanced_encryption")
+                                              'face '(:family (all-the-icons-material-family)
+                                                              :foreground "CornflowerBlue"))))
+  (setq mu4e-headers-draft-mark `("D" . ,(propertize
+                                          (all-the-icons-material "edit")
+                                          'face '(:family (all-the-icons-material-family)
+                                                          :foreground (face-foreground 'mu4e-draft-face)))))
+  (setq mu4e-headers-attach-mark `("a" . ,(propertize
+                                           (all-the-icons-material "attachment")
+                                           'face '(:family (all-the-icons-material-family)
+                                                           :foreground (face-foreground 'mu4e-attach-number-face)))))
+  (setq mu4e-headers-passed-mark `("P" . ,(propertize ; ❯ (I'm participated in thread)
+                                           (all-the-icons-material "center_focus_weak")
+                                           'face '(:family (all-the-icons-material-family)
+                                                           :foreground "yellow"))))
+  (setq mu4e-headers-flagged-mark `("F" . ,(propertize
+                                            (all-the-icons-material "flag")
+                                            'face '(:family (all-the-icons-material-family)
+                                                            :foreground (face-foreground 'mu4e-flagged-face)))))
+  (setq mu4e-headers-replied-mark `("R" . ,(propertize
+                                            (all-the-icons-material "reply_all")
+                                            'face '(:family (all-the-icons-material-family)
+                                                            :foreground (face-foreground 'mu4e-replied-face)))))
+  (setq mu4e-headers-trashed-mark `("T" . ,(propertize
+                                            (all-the-icons-material "delete_forever")
+                                            'face '(:family (all-the-icons-material-family)
+                                                            :foreground (face-foreground 'mu4e-trashed-face)))))
+  ;; thread prefix marks - only for mu4e 1.5
+  (when (version< "1.5" mu4e-mu-version)
+    (eval-and-compile
+      (setq mu4e-headers-default-prefix `("|" . ,(propertize
+                                                  (all-the-icons-material "message")
+                                                  'face '(:family (all-the-icons-material-family))))
+            mu4e-headers-has-child-prefix `("+" . ,(propertize ; "Parent" ╰
+                                                    (all-the-icons-material "expand_more")
+                                                    'face '(:family (all-the-icons-material-family))))
+            mu4e-headers-empty-parent-prefix `("-" . ,(propertize ; "Orphan"
+                                                       (all-the-icons-material "navigate_before")
+                                                       'face '(:family (all-the-icons-material-family))))
+            mu4e-headers-first-child-prefix `("\\" . ,(propertize
+                                                       (all-the-icons-material "navigate_next")
+                                                       'face '(:family (all-the-icons-material-family))))
+            mu4e-headers-duplicate-prefix `("=" . ,(propertize
+                                                    (all-the-icons-material "content_copy")
+                                                    'face '(:family (all-the-icons-material-family)
+                                                                    :foreground "siennan"))))))
+ ;; save attachment to Downloads
   (setq mu4e-attachment-dir (expand-file-name "~/Downloads"))
 
   ;; attempt to show images when viewing messages
