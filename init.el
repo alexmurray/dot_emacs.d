@@ -2406,6 +2406,10 @@ Captured On: %U")))))
   (setq whitespace-global-modes '(not erc-mode magit-log-mode vterm-mode))
   (global-whitespace-mode 1))
 
+(use-package whitespace-cleanup-mode
+  :ensure t
+  :config (global-whitespace-cleanup-mode 1))
+
 (use-package windmove
   :config
   (windmove-default-keybindings 'shift)
