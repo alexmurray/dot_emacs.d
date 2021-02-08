@@ -2176,6 +2176,9 @@ Captured On: %U")))))
   :defer t
   :hook ((css-mode html-mode) . rainbow-mode))
 
+(use-package recentf
+  :config (recentf-mode 1))
+
 (use-package region-state
   :ensure t
   :config (region-state-mode 1))
