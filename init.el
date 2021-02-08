@@ -1337,9 +1337,9 @@ With a prefix argument, will default to looking for all
   :bind (("M-i" . imenu)))
 
 (use-package iscroll
-  :load-path "vendor/"
+  :ensure t
   :diminish iscroll-mode
-  :config (iscroll-mode 1))
+  :hook ((erc-mode .  iscroll-mode)))
 
 (use-package ispell
   :defer t
