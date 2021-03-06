@@ -688,6 +688,12 @@
 (use-package dts-mode
   :ensure t)
 
+(use-package edebug-inline-result
+  :ensure t
+  :defer t
+  :custom (edebug-inline-result-backend 'posframe)
+  :hook (edebug-mode . edebug-inline-result-mode))
+
 (use-package ediff
   :defer t
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain
