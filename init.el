@@ -1404,7 +1404,8 @@ With a prefix argument, will default to looking for all
   :after yasnippet
   :init (unless (executable-find "pyls")
           (alert "Please install the python-language-server python module via pip"))
-  :hook ((prog-mode . lsp))
+  :hook ((prog-mode . lsp)
+         (yaml-mode . lsp))
   :custom
   (lsp-headerline-breadcrumb-enable t)
   (lsp-eldoc-enable-hover nil)
