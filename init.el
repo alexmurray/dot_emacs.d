@@ -746,7 +746,7 @@
     (interactive)
     (when (y-or-n-p "Connect to IRC? ")
       ;; connect to matterircd on localhost and oftc and freenode via znc
-      (erc :server "localhost" :port "6667" :nick "alexmurray")
+      ;; (erc :server "localhost" :port "6667" :nick "alexmurray")
       (erc :server "irc.oftc.net" :port "6667" :nick "amurray")
       (erc-tls :server "znc.secret.server" :port "7076"
                :nick "amurray" :password (concat "amurray/freenode:"
@@ -947,20 +947,7 @@ With a prefix argument, will default to looking for all
   (defadvice erc-track-find-face (around erc-track-find-face-promote-query activate)
     (if (erc-query-buffer-p)
         (setq ad-return-value (intern "erc-current-nick-face"))
-      ad-do-it))
-
-  ;; ensure erc tries to reuse windows as much as possible
-  (defun apm-reuse-erc-window (buffer action)
-    (with-current-buffer buffer
-      (if (eq major-mode 'erc-mode)
-          ;; Don't override an explicit action
-          (not action))))
-
-  (add-to-list 'display-buffer-alist
-               '(apm-reuse-erc-window . (display-buffer-reuse-mode-window
-                                         (inhibit-same-window . t)
-                                         (inhibit-switch-frame . t)
-                                         (mode . erc-mode)))))
+      ad-do-it)))
 
 (use-package erc-goodies
   :ensure erc
