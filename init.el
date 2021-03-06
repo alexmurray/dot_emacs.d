@@ -562,18 +562,41 @@
          ("M-s l" . consult-line)
          ("M-s o" . consult-outline)
          ("M-y". consult-yank-pop)
-         ("<help> a" . consult-apropos))
+         ("<help> a" . consult-apropos)
+         ("M-g e" . consult-compile-error)
+         ("M-g g" . consult-goto-line)             ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+         ("M-g o" . consult-outline)
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-project-imenu)
+         ;; M-s bindings (search-map)
+         ("M-s f" . consult-find)
+         ("M-s L" . consult-locate)
+         ("M-s g" . consult-grep)
+         ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
+         ("M-s l" . consult-line)
+         ("M-s m" . consult-multi-occur)
+         ("M-s k" . consult-keep-lines)
+         ("M-s u" . consult-focus-lines)
+         ;; Isearch integration
+         ("M-s e" . consult-isearch)
+         :map isearch-mode-map
+         ("M-e" . consult-isearch)                 ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
+         ("M-s l" . consult-line)         )
+  :init
   ;; Replace functions (consult-multi-occur is a drop-in replacement)
-  :init (fset 'multi-occur #'consult-multi-occur)
-  :config (consult-preview-mode 1))
+  (fset 'multi-occur #'consult-multi-occur)
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref))
 
 (use-package consult-flycheck
   :ensure t
   :bind (:map flycheck-command-map
               ("!" . consult-flycheck)))
-
-(use-package consult-selectrum
-  :ensure t)
 
 (use-package cov
   :load-path "vendor/"
