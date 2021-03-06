@@ -1285,7 +1285,9 @@ With a prefix argument, will default to looking for all
   ;; don't fill long lines as breaks tables in emails
   (setq gnus-treat-fill-long-lines nil)
   ;; disable image loading
-  (setq gnus-inhibit-images t))
+  (setq gnus-inhibit-images t)
+  ;; prefer plain text if have both html it
+  (setq mm-discouraged-alternatives '("text/html" "text/richtext")))
 
 (use-package gnus-dired
   :ensure gnus
