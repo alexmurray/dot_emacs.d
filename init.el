@@ -634,6 +634,11 @@
 (use-package debian-el
   :ensure t)
 
+(use-package cvelist
+  :load debian-cvelist
+  :load-path "~/ubuntu/git/security-tracker/conf/"
+  :mode ("list" . debian-cvelist-mode))
+
 (use-package debbugs
   :ensure t)
 
