@@ -1872,6 +1872,8 @@ With a prefix argument, will default to looking for all
   ;; ensure we always load org at startup
   :demand t
   :config
+  ;; use org-appear instead
+  (setq org-hide-emphasis-markers t)
   (setq org-directory (expand-file-name "~/org-files/"))
   (setq org-agenda-files (mapcar #'(lambda (f)
                                      (expand-file-name f org-directory))
@@ -1891,6 +1893,10 @@ With a prefix argument, will default to looking for all
   (setq org-ctrl-k-protect-subtree t)
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
   (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s")))
+
+(use-package org-appear
+  :ensure t
+  :hook (org-mode . org-appear-mode))
 
 (use-package org-refile
   :ensure org-plus-contrib
