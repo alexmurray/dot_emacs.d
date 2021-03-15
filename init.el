@@ -1208,7 +1208,8 @@ With a prefix argument, will default to looking for all
   :load-path "vendor/")
 
 (use-package flycheck-posframe
-  :ensure t
+  ;; :ensure t
+  :load-path "~/git/flycheck-posframe"
   :after (flycheck posframe)
   :hook ((flycheck-mode . flycheck-posframe-mode))
   :config (flycheck-posframe-configure-pretty-defaults))
