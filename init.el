@@ -882,7 +882,7 @@ With a prefix argument, will default to looking for all
   ;; format nicknames to show if user has voice(+), owner (~), admin (&),
   ;; operator (@)
   (setq erc-format-nick-function 'erc-format-@nick)
-  (setq erc-pals '("joe" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "morlino" "emitorino" "deafpool" "Avital" "dan" "sid"))
+  (setq erc-pals '("joemcmanus" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "emitorino" "deafpool" "Avital" "dan" "sid"))
   (setq erc-notify-list erc-pals)
 
   (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security[^-]" "esm" "@here" "@all"))
@@ -2328,11 +2328,12 @@ Captured On: %U")))))
 (use-package time
   :bind ((("C-c z" . world-clock)))
   :config (let ((team '(("Australia/Adelaide" . ("amurray"))
+                        ("Europe/Brussels" . ("ebarretto"))
                         ("Europe/London" . ("ChrisCoulson"))
-                        ("Brazil/East" . ("ebarretto" "emitorino" "leosilva" "pfsmorigo"))
-                        ("US/Eastern" . ("dan" "msalvatore" "sid" "vineetha1"))
+                        ("Brazil/East" . ("deafpool" "leosilva" "pfsmorigo"))
+                        ("America/Argentina/Buenos_Aires" . ("emitorino"))
+                        ("US/Eastern" . ("cipherboy" "dan" "shoonmcgregor" "sid" "vineetha1"))
                         ("Canada/Eastern" . ("Avital" "mdeslaur"))
-                        ("US/Central" . ("jdstrand" "jmbl"))
                         ("US/Pacific" . ("jj" "sarnold" "sbeattie")))))
             ;; validate team
             (dolist (member team)
