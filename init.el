@@ -346,9 +346,9 @@
                           (string-prefix-p "bug" prefix t))
                       (format "https://bugs.launchpad.net/bugs/%s" id))
                      ((string-prefix-p "CVE" prefix)
-                      (format "https://people.canonical.com/~ubuntu-security/cve/CVE-%s.html" id))
+                      (format "https://ubuntu.com/security/CVE-%s.html" id))
                      ((string-prefix-p "USN" prefix)
-                      (format "https://usn.ubuntu.com/%s" id))
+                      (format "https://ubuntu.com/security/notices/USN-%s" id))
                      (t (error (concat "Unknown bug prefix '%s'" prefix))))))
   :init
   (eval-when-compile
