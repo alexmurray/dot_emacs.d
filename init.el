@@ -661,7 +661,8 @@
   :ensure t
   :custom
   (doom-modeline-mu4e t)
-  :config
+  (doom-modeline-buffer-encoding nil)
+  :init
   (doom-modeline-mode 1))
 
 (use-package dpkg-dev-el
@@ -1240,6 +1241,7 @@ With a prefix argument, will default to looking for all
 
 (use-package gcmh
   :ensure t
+  :diminish gcmh-mode
   :config (gcmh-mode 1))
 
 (use-package gdb-mi
@@ -2450,6 +2452,7 @@ Captured On: %U")))))
 
 (use-package whitespace-cleanup-mode
   :ensure t
+  :diminish whitespace-cleanup-mode
   :config (global-whitespace-cleanup-mode 1))
 
 (use-package windmove
