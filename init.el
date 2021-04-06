@@ -2071,6 +2071,13 @@ Captured On: %U")))))
             ;; https://github.com/sprig/org-capture-extension#under-linux
             (alert "Please configure emacsclient as handler for org-protocol"))))
 
+(use-package org-src
+  :ensure org-plus-contrib
+  :pin org
+  :config
+  ;; preserve indentation of org src blocks
+  (setq org-src-preserve-indentation t))
+
 (use-package org-table-sticky-header
   :ensure t
   :after org
