@@ -1267,6 +1267,10 @@ With a prefix argument, will default to looking for all
   :ensure t
   :config (goggles-mode 1))
 
+(use-package good-scroll
+  :ensure t
+  :config (good-scroll-mode 1))
+
 (use-package go-mode
   :ensure t)
 
