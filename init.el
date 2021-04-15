@@ -1586,7 +1586,7 @@ With a prefix argument, will default to looking for all
             (string-match-p "Store authorization failed for.*$" subject))
         "/snap-store")
        ((or (string-match-p "^\\[Bug [0-9]+\\] \\(R[eE]: \\)?.*linux.*proposed tracker$" subject)
-            (string-match-p "^\\[Bug [0-9]+\\] \\(\\(R[eE]:\\|\\[NEW\\]\\) \\)?request of \\(\\(create\\|merge\\)_\\(production_suite\\|project\\)\\|\\(copy\\|publish\\|delete\\)_package\\)" subject))
+            (string-match-p "^\\[Bug [0-9]+\\] \\(\\(R[eE]:\\|\\[NEW\\]\\) \\)?request of \\(\\(create\\|merge\\)_\\(production_suite\\|project\\)\\|\\(copy\\|publish\\|delete\\)_package\\|gensnapshot\\)" subject))
         mu4e-trash-folder)
        ((or (string-match-p "^\\(R[eE]: \\)?\\[Bug " subject)
             (mu4e-message-contact-field-matches msg :from "bugs.launchpad.net"))
@@ -1719,8 +1719,12 @@ With a prefix argument, will default to looking for all
                        :key ?k))
   (add-to-list 'mu4e-bookmarks
                '(:name "Snap Store spam"
-                       :query "from:Snap\\ Store and not to:alex.murray@canonical.com and subject:outdated\\ Ubuntu\\ packages or subject:outdated\\ Ubuntu\\ kernel"
+                       :query "from:\"Snap Store\" and not to:alex.murray@canonical.com and subject:\"outdated Ubuntu packages\" or subject:\"outdated Ubuntu kernel\""
                        :key ?s))
+    (add-to-list 'mu4e-bookmarks
+               '(:name "Ubuntu OEM team process bug spam"
+                       :query "from:bugs.launchpad.net and subject:bug and subject:\"request of\""
+                       :key ?o))
   ;; add action to view in brower
   (add-to-list 'mu4e-view-actions
                '("browser view" . mu4e-action-view-in-browser) t)
