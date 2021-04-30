@@ -1722,7 +1722,7 @@ With a prefix argument, will default to looking for all
                        :key ?k))
   (add-to-list 'mu4e-bookmarks
                '(:name "Snap Store spam"
-                       :query "from:\"Snap Store\" and not to:alex.murray@canonical.com and subject:\"outdated Ubuntu packages\" or subject:\"outdated Ubuntu kernel\""
+                       :query "(from:\"Snap Store\" or from:noreply@canonical.com) and not to:alex.murray@canonical.com and subject:\"outdated Ubuntu packages\" or subject:\"outdated Ubuntu kernel\""
                        :key ?s))
     (add-to-list 'mu4e-bookmarks
                '(:name "Ubuntu OEM team process bug spam"
