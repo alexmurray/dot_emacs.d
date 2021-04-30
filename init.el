@@ -1086,6 +1086,10 @@ With a prefix argument, will default to looking for all
   :commands eshell
   :hook ((eshell-mode . apm-eshell-mode-setup)))
 
+(use-package eshell-syntax-highlighting
+  :ensure t
+  :config (eshell-syntax-highlighting-global-mode 1))
+
 (use-package eterm-256color
   :ensure t
   :hook ((term-mode . eterm-256color-mode))
