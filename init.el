@@ -1366,8 +1366,7 @@ With a prefix argument, will default to looking for all
   :ensure t
   ;; wants yasnippet by default and complains if not already available
   :after yasnippet
-  :init (unless (executable-find "pyls")
-          (alert "Please install the python-language-server python module via pip"))
+  :ensure-system-package (pyls . python3-pyls)
   :hook ((prog-mode . lsp)
          (yaml-mode . lsp))
   :custom
