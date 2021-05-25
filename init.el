@@ -703,7 +703,7 @@
       ;; (erc :server "localhost" :port "6667" :nick "alexmurray")
       (erc :server "irc.oftc.net" :port "6667" :nick "amurray")
       (erc-tls :server "znc.secret.server" :port "7076"
-               :nick "amurray" :password (concat "amurray/freenode:"
+               :nick "amurray" :password (concat "amurray/libera:"
                                                  (auth-source-pick-first-password
                                                   :user "amurray"
                                                   :port "7076")))))
@@ -801,8 +801,21 @@ With a prefix argument, will default to looking for all
   (setq erc-user-full-name user-full-name)
   (setq erc-nick (list user-login-name "alexmurray"))
   (setq erc-prompt-for-nickserv-password nil)
-  ;; nickserv password for freenode and oftc
-  (dolist (network '((freenode . "irc.freenode.net")
+  ;; add basic libera.chat support
+  (add-to-list 'erc-networks-alist
+               '(Libera.Chat "libera.chat"))
+  (add-to-list 'erc-nickserv-alist
+               '(Libera.Chat
+                 "NickServ!NickServ@services.libera.chat"
+                 ;; Libera.Chat also accepts a password at login, see the `erc'
+                 ;; :password argument.
+                 "This\\s-nickname\\s-is\\s-registered.\\s-Please\\s-choose"
+                 "NickServ"
+                 "IDENTIFY" nil nil
+                 ;; See also the 901 response code message.
+                 "You\\s-are\\s-now\\s-identified\\s-for\\s-"))
+  ;; nickserv password for liber and oftc
+  (dolist (network '((Libera.Chat . "irc.libera.chat")
                      (OFTC . "irc.oftc.net")))
     (let ((login (auth-source-user-and-password (cdr network))))
       (if (null login)
@@ -814,7 +827,7 @@ With a prefix argument, will default to looking for all
   (setq erc-autojoin-timing 'ident)
 
   ;; since we connect to oftc directly, we need to autojoin channels there
-  ;; - not needed for freenode (since we use ZNC) or canonical matterircd
+  ;; - not needed for libera (since we use ZNC) or canonical matterircd
   (setq erc-autojoin-channels-alist '(("oftc.net" "#apparmor" "#debian-security")))
   (setq erc-fill-function #'erc-fill-static)
   ;; account for really long names
