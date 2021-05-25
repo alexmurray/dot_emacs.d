@@ -700,7 +700,7 @@
     (interactive)
     (when (y-or-n-p "Connect to IRC? ")
       ;; connect to matterircd on localhost and oftc and freenode via znc
-      ;; (erc :server "localhost" :port "6667" :nick "alexmurray")
+      (erc :server "localhost" :port "6667" :nick "alexmurray")
       (erc :server "irc.oftc.net" :port "6667" :nick "amurray")
       (erc-tls :server "znc.secret.server" :port "7076"
                :nick "amurray" :password (concat "amurray/libera:"
@@ -852,7 +852,7 @@ With a prefix argument, will default to looking for all
   (setq erc-pals '("joemcmanus" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "emitorino" "deafpool" "Avital" "dan" "sid"))
   (setq erc-notify-list erc-pals)
 
-  (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security[^-]" "esm" "@here" "@all"))
+  (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm" "@here" "@all" "@security"))
 
   ;; when joining don't bring to front
   (setq erc-join-buffer 'bury)
