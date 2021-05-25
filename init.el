@@ -1538,7 +1538,7 @@ With a prefix argument, will default to looking for all
 
   (defun apm-mu4e-contact-process (contact)
     (unless (string-match-p
-             "\\(no-?reply\\|bugs.launchpad.net\\|lillypilly.canonical.com\\|docs.google.com\\|gapps.canonical.com\\|forum.snapcraft.io\\)"
+             "\\(no-?reply\\|bugs.launchpad.net\\|keule.canonical.com\\|lillypilly.canonical.com\\|docs.google.com\\|gapps.canonical.com\\|forum.snapcraft.io\\)"
              contact)
       contact))
 
@@ -1575,8 +1575,7 @@ With a prefix argument, will default to looking for all
             (mu4e-message-contact-field-matches msg :from "info@ubuntuforums.org")
             (mu4e-message-contact-field-matches msg :from "root@snakefruit.canonical.com")
             (mu4e-message-contact-field-matches msg :from "esm-notifications@canonical.com")
-            (mu4e-message-contact-field-matches msg :from "notifications@github.com")
-            (mu4e-message-contact-field-matches msg :from "gitlab@mg.gitlab.com")
+            (mu4e-message-contact-field-matches msg :from "notify@google.com")
             (mu4e-message-contact-field-matches msg :from "noreply\\+chat.canonical.com@canonical.com"))
         mu4e-trash-folder)
        ((or (string-match-p "^\\[.* Wiki\\] \\(Update of\\|New attachment added to page\\)" subject)
