@@ -1358,6 +1358,9 @@ With a prefix argument, will default to looking for all
 (use-package journalctl-mode
   :ensure t)
 
+(use-package jq-mode
+  :ensure t)
+
 (use-package js2-mode
   :ensure t
   :defer t
