@@ -1256,6 +1256,9 @@ With a prefix argument, will default to looking for all
                (list "\\(Private security bug reported\\)" 1 1 'error))
   (add-to-list 'gnus-emphasis-alist
                (list "\\(This bug is a security vulnerability\\)" 1 1 'warning))
+  ;; github PRs I have been requested to review
+  (add-to-list 'gnus-emphasis-alist
+               (list "\\(requested your review on:\\)" 1 1 'error))
   ;; and for build failure emacs
   (add-to-list 'gnus-emphasis-alist
                (list "\\(State: failed to build\\)" 1 1 'error))
