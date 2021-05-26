@@ -898,6 +898,10 @@ With a prefix argument, will default to looking for all
   (setq erc-log-write-after-insert t)
   (setq erc-save-buffer-on-part t)
 
+  ;; log mentions when away
+  (add-to-list 'erc-log-matches-types-alist
+               '(current-nick . "ERC Mentions"))
+
   (unless (file-exists-p erc-log-channels-directory)
     (mkdir erc-log-channels-directory t))
 
