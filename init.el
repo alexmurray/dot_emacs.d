@@ -850,7 +850,7 @@ With a prefix argument, will default to looking for all
   (setq erc-pals '("joemcmanus" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "emitorino" "deafpool" "Avital" "dan" "sid"))
   (setq erc-notify-list erc-pals)
 
-  (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm" "@here" "@all" "@security"))
+  (setq erc-keywords '("cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm" "@here" "@all" "@channel" "@security"))
 
   ;; when joining don't bring to front
   (setq erc-join-buffer 'bury)
