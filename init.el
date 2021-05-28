@@ -76,6 +76,11 @@
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
 
+(use-package powerline
+  :ensure t
+  :custom (powerline-height 25)
+  :config (powerline-default-theme))
+
 (use-package doom-themes
   :ensure t
   :config
@@ -610,14 +615,6 @@
   :hook ((prog-mode . display-fill-column-indicator-mode)
          (text-mode . display-fill-column-indicator-mode)))
 
-(use-package doom-modeline
-  :ensure t
-  :custom
-  (doom-modeline-mu4e t)
-  (doom-modeline-buffer-encoding nil)
-  :init
-  (doom-modeline-mode 1))
-
 (use-package dpkg-dev-el
   :ensure t
   :after flyspell
@@ -869,8 +866,6 @@ With a prefix argument, will default to looking for all
   (setq erc-track-showcount t)
   ;; emacs channels are noisy
   (setq erc-track-exclude '("#emacs" "#emacsconf"))
-  ;; paper over performance issues with doom-modeline
-  ;; https://github.com/seagle0128/doom-modeline/issues/297
   (setq erc-track-shorten-function nil)
   ;; ensure our nick highlighted with erc-hl-nicks gets picked up by
   ;; erc-track
