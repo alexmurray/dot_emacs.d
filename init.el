@@ -1439,7 +1439,7 @@ With a prefix argument, will default to looking for all
 
 (use-package marginalia
   :ensure t
-  :init (marginalia-mode 1))
+  :hook ((after-init . marginalia-mode)))
 
 (use-package markdown-mode
   :ensure t
@@ -1848,7 +1848,8 @@ With a prefix argument, will default to looking for all
 
 (use-package orderless
   ;; for vertico
-  :ensure t)
+  :ensure t
+  :config (setq completion-styles '(substring orderless)))
 
 (use-package org
   :ensure org-plus-contrib
@@ -2403,7 +2404,7 @@ Captured On: %U")))))
 
 (use-package vertico
   :ensure t
-  :hook (after-init . vertico-mode))
+  :hook ((after-init . vertico-mode)))
 
 (use-package vimrc-mode
   :ensure t
