@@ -551,7 +551,8 @@
   ;; Replace functions (consult-multi-occur is a drop-in replacement)
   (fset 'multi-occur #'consult-multi-occur)
   (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref))
+        xref-show-definitions-function #'consult-xref)
+  (setq-default consult-project-root-function 'projectile-project-root))
 
 (use-package consult-flycheck
   :ensure t
@@ -1422,8 +1423,7 @@ With a prefix argument, will default to looking for all
   :defer t
   :bind (("C-x g g" . magit-status)
          ("C-x g d" . magit-dispatch)
-         ("C-x g f" . magit-file-dispatch) )
-  :config (setq magit-completing-read-function 'selectrum-completing-read))
+         ("C-x g f" . magit-file-dispatch) ))
 
 (use-package magit-patch-changelog
   :ensure t)
@@ -1846,6 +1846,10 @@ With a prefix argument, will default to looking for all
   (add-hook 'nxml-mode-hook 'hs-minor-mode)
   :config (setq nxml-slash-auto-complete-flag t))
 
+(use-package orderless
+  ;; for vertico
+  :ensure t)
+
 (use-package org
   :ensure org-plus-contrib
   :pin org
@@ -2027,7 +2031,6 @@ Captured On: %U")))))
   :bind (("C-c s" . org-mru-clock-in))
   :demand t
   :config
-  (setq org-mru-clock-completing-read #'selectrum-completing-read)
   (setq org-mru-clock-format-function #'substring)
   (setq org-mru-clock-how-many 50))
 
@@ -2235,11 +2238,13 @@ Captured On: %U")))))
 
 (use-package selectrum
   :ensure t
+  :disabled t
   :bind (("C-x C-z" . #'selectrum-repeat))
   :config (selectrum-mode 1))
 
 (use-package selectrum-prescient
   :ensure t
+  :disabled t
   :config (selectrum-prescient-mode 1))
 
 (use-package server
@@ -2395,6 +2400,10 @@ Captured On: %U")))))
   (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
   (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
   (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit))
+
+(use-package vertico
+  :ensure t
+  :hook (after-init . vertico-mode))
 
 (use-package vimrc-mode
   :ensure t
