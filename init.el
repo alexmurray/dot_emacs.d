@@ -552,7 +552,7 @@
   (fset 'multi-occur #'consult-multi-occur)
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
-  (setq-default consult-project-root-function 'projectile-project-root))
+  (setq-default consult-project-root-function #'projectile-project-root))
 
 (use-package consult-flycheck
   :ensure t
@@ -584,11 +584,6 @@
 (use-package cwarn
   :diminish cwarn-mode
   :init (global-cwarn-mode 1))
-
-(use-package deadgrep
-  :ensure t
-  :ensure-system-package (rg . ripgrep)
-  :bind ("<f5>" . deadgrep))
 
 (use-package debian-el
   :ensure t)
@@ -2214,6 +2209,11 @@ Captured On: %U")))))
 (use-package region-state
   :ensure t
   :config (region-state-mode 1))
+
+(use-package ripgrep
+  ;; for projectile to search with rg
+  :ensure t
+  :ensure-system-package (rg . ripgrep))
 
 (use-package rnc-mode
   :ensure t)
