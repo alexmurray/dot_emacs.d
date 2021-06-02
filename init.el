@@ -1856,6 +1856,7 @@ With a prefix argument, will default to looking for all
   ;; ensure we always load org at startup
   :demand t
   :config
+  (setq org-pretty-entities t)
   ;; use org-appear instead
   (setq org-hide-emphasis-markers t)
   (setq org-directory (expand-file-name "~/org-files/"))
@@ -1928,12 +1929,10 @@ With a prefix argument, will default to looking for all
   ;; rebuild appointments now
   (org-agenda-to-appt t)
   (setq org-agenda-custom-commands
-        '(("i" "Next TODO from inbox" todo "TODO"
-           ((org-agenda-files '("~/org-files/inbox.org"))
-            (org-agenda-skip-function #'apm-org-agenda-skip-all-siblings-but-first-todo)))
-          ("c" "Next TODO from canonical" todo "TODO"
-           ((org-agenda-files '("~/org-files/canonical.org"))
-            (org-agenda-skip-function #'apm-org-agenda-skip-all-siblings-but-first-todo)))
+        '(("i" "TODO from inbox" todo "TODO"
+           ((org-agenda-files '("~/org-files/inbox.org"))))
+          ("c" "TODO from canonical" todo "TODO"
+           ((org-agenda-files '("~/org-files/canonical.org"))))
           ("I" "Next TODO from all" todo "TODO" (
             (org-agenda-skip-function #'apm-org-agenda-skip-all-siblings-but-first-todo))))) )
 
