@@ -3,7 +3,6 @@
 ;; savely s,ft-,,'d - if this is to be submitted to the gnus developers.
 
 (require 'diff-mode)
-(require 'doom-themes-base)
 
 (add-hook 'gnus-part-display-hook 'ft-gnus-article-treat-patch)
 (add-hook 'mu4e-view-mode-hook 'ft-gnus-article-treat-patch)
