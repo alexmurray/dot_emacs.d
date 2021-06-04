@@ -783,6 +783,7 @@ With a prefix argument, will default to looking for all
   (eval-and-compile
     (require 'erc-button)
     (require 'erc-desktop-notifications)
+    (require 'erc-fill)
     (require 'erc-join)
     (require 'erc-log)
     (require 'erc-match)
