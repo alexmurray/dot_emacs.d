@@ -1805,14 +1805,6 @@ With a prefix argument, will default to looking for all
   (setq mu4e-marker-icons-use-unicode t)
   (mu4e-marker-icons-mode 1))
 
-(use-package mu4e-patch
-  :load-path "vendor/"
-  :after mu4e
-  :hook (mu4e-view-mode . mu4e-patch-highlight)
-  :config
-  (set-face-attribute 'mu4e-patch-commit-message nil :foreground "default")
-  (set-face-attribute 'mu4e-patch-diff-stat-file nil :foreground "orange"))
-
 (use-package mwheel
   :config
   ;; Scroll one line at a time (less "jumpy" than defaults)
