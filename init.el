@@ -831,6 +831,12 @@ With a prefix argument, will default to looking for all
   ;; use sensible buffer names with server as well
   (setq erc-rename-buffers t)
 
+  ;; try harder to reconnect but wait longer each time since it may take a
+  ;; while to get a DHCP lease etc
+  (setq erc-server-auto-reconnect t)
+  (setq erc-server-reconnect-attempts 5)
+  (setq erc-server-reconnect-timeout 30)
+
   (add-to-list 'erc-modules 'button)
   (add-to-list 'erc-modules 'log)
   (add-to-list 'erc-modules 'match)
