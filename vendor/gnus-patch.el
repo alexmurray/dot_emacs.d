@@ -3,9 +3,7 @@
 ;; savely s,ft-,,'d - if this is to be submitted to the gnus developers.
 
 (require 'diff-mode)
-
-(add-hook 'gnus-part-display-hook 'ft-gnus-article-treat-patch)
-(add-hook 'mu4e-view-mode-hook 'ft-gnus-article-treat-patch)
+(require 'gnus)
 
 ;; Colour handling and faces
 (defun ft-gnus-colour-line (use-face)
@@ -459,12 +457,20 @@ lines, three-dashes-line, equals lines, diffstat lines, diffstat
 summary. Then there is added lines, removed lines, context lines,
 diff-header lines and diff-file-header lines, for which we are
 borrowing the highlighting faces for from `diff-mode'."
-  (if (ft-gnus-part-want-patch-treatment)
-      (save-excursion
-        (progn
-          (let ((inhibit-read-only t))
-            (goto-char (point-min))
-            (ft-gnus-article-treat-patch-state-machine))))))
+  (save-excursion
+    (if (ft-gnus-part-want-patch-treatment)
+        (let ((inhibit-read-only t))
+          (goto-char (point-min))
+          (ft-gnus-article-treat-patch-state-machine)))))
+
+(defun ft-gnus-mu4e-article-treat-patch ()
+  "A mu4e specific form of gnus-patch."
+  (save-restriction
+    (gnus-narrow-to-body)
+    (ft-gnus-article-treat-patch)))
+
+(add-hook 'gnus-part-display-hook 'ft-gnus-article-treat-patch)
+(add-hook 'mu4e-view-mode-hook 'ft-gnus-mu4e-article-treat-patch)
 
 (provide 'gnus-patch)
 ;;; gnus-patch.el ends here
