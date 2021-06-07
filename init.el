@@ -1218,6 +1218,7 @@ With a prefix argument, will default to looking for all
 
 (use-package gcmh
   :ensure t
+  :disabled t
   :diminish gcmh-mode
   :config (gcmh-mode 1))
 
