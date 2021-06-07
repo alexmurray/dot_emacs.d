@@ -487,6 +487,11 @@
   (add-to-list 'company-backends 'company-math-symbols-unicode)
   (add-to-list 'company-backends 'company-math-symbols-latex))
 
+(use-package company-posframe
+  :ensure t
+  :diminish company-posframe-mode
+  :hook (after-init . company-posframe-mode))
+
 (use-package company-reftex
   :ensure t
   :after company
