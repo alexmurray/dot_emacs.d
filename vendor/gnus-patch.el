@@ -465,9 +465,10 @@ borrowing the highlighting faces for from `diff-mode'."
 
 (defun ft-gnus-mu4e-article-treat-patch ()
   "A mu4e specific form of gnus-patch."
-  (save-restriction
-    (gnus-narrow-to-body)
-    (ft-gnus-article-treat-patch)))
+  (save-excursion
+    (save-restriction
+      (gnus-narrow-to-body)
+      (ft-gnus-article-treat-patch))))
 
 (add-hook 'gnus-part-display-hook 'ft-gnus-article-treat-patch)
 (add-hook 'mu4e-view-mode-hook 'ft-gnus-mu4e-article-treat-patch)
