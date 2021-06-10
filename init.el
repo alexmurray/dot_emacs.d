@@ -2467,13 +2467,6 @@ Captured On: %U")))))
   :diminish whitespace-cleanup-mode
   :config (global-whitespace-cleanup-mode 1))
 
-(use-package windmove
-  :config
-  (windmove-default-keybindings 'shift)
-  (windmove-swap-states-default-keybindings '(shift control))
-  ;; wrap around at edges
-  (setq windmove-wrap-around t))
-
 (use-package world-time-mode
   :ensure t)
 
