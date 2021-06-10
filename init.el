@@ -361,6 +361,9 @@
   (setq bug-reference-url-format #'apm-bug-reference-url-format
         bug-reference-bug-regexp "\\<\\(\\([Ll][Pp]:?\\|bug\\) #?\\|CVE[ -]\\|USN[ -]\\)\\([0-9][0-9-]*\\)\\>"))
 
+(use-package calendar
+  :custom (calendar-week-start-day 1))
+
 (use-package cargo
   :ensure t
   :defer t
@@ -1850,10 +1853,12 @@ With a prefix argument, will default to looking for all
   (add-hook 'nxml-mode-hook 'hs-minor-mode)
   :config (setq nxml-slash-auto-complete-flag t))
 
+(use-package minibuffer
+  :config (setq completion-styles '(basic partial-completion orderless)))
+
 (use-package orderless
   ;; for vertico
-  :ensure t
-  :config (setq completion-styles '(substring orderless)))
+  :ensure t)
 
 (use-package org
   :ensure org-plus-contrib
