@@ -1934,7 +1934,8 @@ With a prefix argument, will default to looking for all
     (file-notify-add-watch file '(change) #'apm-org-agenda-file-notify))
   (setq org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
   ;; when showing agenda, jump to now
-  (add-hook 'org-agenda-finalize-hook #'org-agenda-find-same-or-today-or-agenda 90)
+  (add-hook 'org-agenda-finalize-hook
+            #'org-agenda-find-same-or-today-or-agenda 90)
   ;; rebuild appointments now
   (org-agenda-to-appt t)
   (setq org-agenda-custom-commands
@@ -1943,7 +1944,7 @@ With a prefix argument, will default to looking for all
           ("c" "TODO from canonical" todo "TODO"
            ((org-agenda-files '("~/org-files/canonical.org"))))
           ("I" "Next TODO from all" todo "TODO" (
-            (org-agenda-skip-function #'apm-org-agenda-skip-all-siblings-but-first-todo))))) )
+            (org-agenda-skip-function #'apm-org-agenda-skip-all-siblings-but-first-todo))))))
 
 (use-package org-capture
   :preface
