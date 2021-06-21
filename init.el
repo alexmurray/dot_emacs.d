@@ -85,7 +85,7 @@
   :ensure t
   :config
   ;; better keyword lightlighting
-  (add-to-list 'doom-themes-base-faces '(erc-keyword-face :foreground (doom-lighten green 0.2) :weight 'bold))
+  (add-to-list 'doom-themes-base-faces '(erc-keyword-face :foreground yellow :weight 'bold))
   (doom-themes-org-config)
   (load-theme 'doom-one t))
 
