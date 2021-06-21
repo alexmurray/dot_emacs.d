@@ -948,9 +948,15 @@ With a prefix argument, will default to looking for all
   (erc-update-modules))
 
 (use-package erc-matterircd
-  :ensure t
+  :load-path "vendor/"
   :after erc
   :config
+  ;; don't clutter view with context ids and make sure emojify doesn't try
+  ;; and emojify over the top of us otherwise the keymap added by
+  ;; erc-matterircd's use of erc-button get lost
+  (setq erc-matterircd-replace-context-id
+        (propertize "↩" 'emojify-inhibit t))
+  (setq erc-matterircd-updatelastviewed-on-buffer-switch t)
   (setq erc-matterircd-server "chat.canonical.com")
   (setq erc-matterircd-team "canonical")
   (let ((token (auth-source-pick-first-password :host "matterircd")))
