@@ -1445,12 +1445,7 @@ With a prefix argument, will default to looking for all
   :after lsp-mode
   :hook ((lsp-mode . lsp-ui-mode))
   :bind (:map lsp-ui-mode-map (([remap xref-find-definitions] . lsp-find-definition)
-                               ([remap xref-find-references] . lsp-find-references)))
-  :config (setq lsp-ui-sideline-enable nil
-                lsp-ui-doc-enable t
-                lsp-ui-doc-use-childframe t
-                lsp-ui-doc-position 'top
-                lsp-ui-doc-include-signature t))
+                               ([remap xref-find-references] . lsp-find-references))))
 
 (use-package magit
   :ensure t
