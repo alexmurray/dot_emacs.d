@@ -76,10 +76,25 @@
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
 
-(use-package powerline
+(use-package doom-modeline
+  :preface
+  (eval-and-compile
+    (require 'erc-track))
+  (defun apm-erc-stylize-buffer-name (name)
+    (let ((channel (assoc (get-buffer name) erc-modified-channels-alist)))
+      (if channel
+          (erc-make-mode-line-buffer-name name (car channel) (cddr channel)
+                                          (cadr channel))
+        name)))
   :ensure t
-  :custom (powerline-height 25)
-  :config (powerline-default-theme))
+  :custom
+  (doom-modeline-mu4e t)
+  (doom-modeline-irc t)
+  (doom-modeline-irc-buffers t)
+  (doom-modeline-irc-stylize #'apm-erc-stylize-buffer-name)
+  (doom-modeline-buffer-encoding nil)
+  :init
+  (doom-modeline-mode 1))
 
 (use-package doom-themes
   :ensure t
