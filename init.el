@@ -2195,7 +2195,7 @@ Captured On: %U")))))
     (setq compilation-save-buffers-predicate
           #'projectile-current-project-buffer-p))
   ;; prompt for action on project switch
-  (setq projectile-switch-project-action #'projectile-commander)
+  (setq projectile-switch-project-action #'projectile-vc)
   (projectile-mode 1))
 
 (use-package python
