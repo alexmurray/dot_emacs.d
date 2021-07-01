@@ -1555,8 +1555,11 @@ With a prefix argument, will default to looking for all
 (use-package mu4e
   :load-path "/snap/maildir-utils/current/share/emacs/site-lisp/mu4e/"
   :bind (("C-c m" . mu4e))
-  :preface
-
+  :config
+  (eval-and-compile
+    (require 'mu4e-compose)
+    (require 'mu4e-message)
+    (require 'mu4e-utils))
   ;; some hacky bits so we can do an async forward as attachment
   (defvar apm-mu4e-compose-mode-hook-orig)
   (defvar apm-mu4e-compose-forward-as-attachment-orig)
@@ -1686,7 +1689,6 @@ With a prefix argument, will default to looking for all
         mu4e-trash-folder)
        (t "/Archive"))))
 
-  :config
   (setq mail-user-agent 'mu4e-user-agent)
   (setq mu4e-sent-folder   "/Sent"
         mu4e-drafts-folder "/Drafts"
