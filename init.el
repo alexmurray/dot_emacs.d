@@ -1401,6 +1401,9 @@ With a prefix argument, will default to looking for all
 (use-package jq-mode
   :ensure t)
 
+(use-package js
+  :custom (js-indent-level 2))
+
 (use-package js2-mode
   :ensure t
   :defer t
