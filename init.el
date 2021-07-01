@@ -1341,6 +1341,9 @@ With a prefix argument, will default to looking for all
   :defer t
   :hook ((gud-mode . gud-tooltip-mode)))
 
+(use-package help-at-pt
+  :custom (help-at-pt-display-when-idle t))
+
 (use-package helpful
   :ensure t
   :bind (("C-h a" . helpful-symbol)
