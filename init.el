@@ -466,9 +466,6 @@
   (setq company-minimum-prefix-length 1)
   (setq company-selection-wrap-around t)
 
-  ;; use nice dark icons to match theme
-  (setq company-format-margin-function #'company-vscode-dark-icons-margin)
-
   ;; align annotations in tooltip
   (setq company-tooltip-align-annotations t)
 
