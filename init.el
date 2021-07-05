@@ -493,6 +493,10 @@
   ;; keep original case
   :config (setq company-dabbrev-downcase nil))
 
+(use-package company-emoji
+  :ensure t
+  :config (add-to-list 'company-backends 'company-emoji))
+
 (use-package company-math
   :ensure t
   :defer t
@@ -691,14 +695,15 @@
   :diminish emojify-mode
   :demand t
   :bind (("C-c e" . emojify-insert-emoji))
-  :config
+  :custom
   ;; display emojis using images since looks nicer
-  (setq emojify-display-style 'image)
+  (emojify-display-style 'image)
   ;; replace github and unicode emojis (github ones are used in mattermost)
-  (setq emojify-emoji-styles '(github unicode))
+  (emojify-emoji-styles '(github unicode))
   ;; echo the actual underlying character to the minibuffer when point is
   ;; over them so we don't mess with the displayed buffer itself
-  (setq emojify-point-entered-behaviour 'echo)
+  (emojify-point-entered-behaviour 'echo)
+  :config
   (global-emojify-mode 1))
 
 (use-package erc
