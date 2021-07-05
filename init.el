@@ -477,12 +477,6 @@
   ;; put most often used completions at stop of list
   (setq company-transformers '(company-sort-by-occurrence)))
 
-(use-package company-anaconda
-  :ensure t
-  :defer t
-  :after company
-  :init (add-to-list 'company-backends #'company-anaconda))
-
 (use-package company-auctex
   :ensure t
   :defer t
@@ -1430,7 +1424,6 @@ With a prefix argument, will default to looking for all
   :ensure t
   ;; wants yasnippet by default and complains if not already available
   :after yasnippet
-  :ensure-system-package (pyls . python3-pyls)
   :hook ((prog-mode . lsp)
          (yaml-mode . lsp))
   :custom
@@ -1449,6 +1442,11 @@ With a prefix argument, will default to looking for all
   :ensure t
   :after lsp-mode
   :hook ((java-mode . lsp-java-enable)))
+
+(use-package lsp-pyright
+  :ensure t
+  :init (unless (executable-find "pyright-langserver")
+          (alert "Please install the pyright snap")))
 
 (use-package lsp-ui
   :ensure t
