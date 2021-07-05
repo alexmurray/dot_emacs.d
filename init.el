@@ -350,6 +350,12 @@
   :ensure t
   :config (browse-kill-ring-default-keybindings))
 
+(use-package browse-url
+  ;; since using the firefox snap this needs to be somewhere that a snap
+  ;; can access and global /tmp is not that... plus this also means we
+  ;; don't drop our random files in the global /tmp which is good too
+  :custom ((browse-url-temp-dir (expand-file-name "~/tmp"))))
+
 (use-package bs
   :bind ("C-x C-b" . bs-show))
 
