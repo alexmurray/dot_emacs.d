@@ -1500,7 +1500,11 @@ With a prefix argument, will default to looking for all
 
 (use-package message
   ;; use standard completion UI for message completion
-  :config (setq message-expand-name-standard-ui t))
+  :custom
+  (message-expand-name-standard-ui t)
+  ;; set to nil to disable auto-fill-mode being turned on automatically in
+  ;; message-mode buffers since we use virtual-auto-fill below
+  (message-fill-column nil))
 
 (use-package message-attachment-reminder
   :ensure t)
@@ -2448,6 +2452,11 @@ Captured On: %U")))))
 (use-package vimrc-mode
   :ensure t
   :mode (("\\.vim\\(rc\\)?\\'" . vimrc-mode)))
+
+(use-package virtual-auto-fill
+  :ensure t
+  :hook ((message-mode . virtual-auto-fill-mode)
+         (markdown-mode . virtual-auto-fill-mode)))
 
 (use-package vterm
   :load-path "/snap/emacs-vterm/current/"
