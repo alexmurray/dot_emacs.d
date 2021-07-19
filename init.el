@@ -145,8 +145,8 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; don't try and use dialog boxes
-(setq use-dialog-box nil)
-(setq use-file-dialog nil)
+(setq-default use-dialog-box nil)
+(setq-default use-file-dialog nil)
 
 ;; inhibit startup message and splash screen
 (setq inhibit-startup-message t)
@@ -1239,6 +1239,11 @@ With a prefix argument, will default to looking for all
   :ensure t
   :after magit)
 
+(use-package fringe
+  :custom (indicate-empty-line t)
+  ;; ensure we indicate empty lines via fringe-mode with defaults
+  :config (fringe-mode))
+
 (use-package fuzzy
   :ensure t)
 
@@ -1785,7 +1790,7 @@ With a prefix argument, will default to looking for all
                '(:name "Snap Store spam"
                        :query "(from:\"Snap Store\" or from:noreply@canonical.com) and not to:alex.murray@canonical.com and subject:\"outdated Ubuntu packages\" or subject:\"outdated Ubuntu kernel\""
                        :key ?s))
-    (add-to-list 'mu4e-bookmarks
+  (add-to-list 'mu4e-bookmarks
                '(:name "Ubuntu OEM team process bug spam"
                        :query "from:bugs.launchpad.net and subject:bug and subject:\"request of\""
                        :key ?o))
