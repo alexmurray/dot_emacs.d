@@ -1794,6 +1794,10 @@ With a prefix argument, will default to looking for all
                '(:name "Ubuntu OEM team process bug spam"
                        :query "from:bugs.launchpad.net and subject:bug and subject:\"request of\""
                        :key ?o))
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Failed PPA package builds"
+                       :query "from:noreply@launchpad.net and subject:\"build of\""
+                       :key ?p))
   ;; add action to view in brower
   (add-to-list 'mu4e-view-actions
                '("browser view" . mu4e-action-view-in-browser) t)
