@@ -493,9 +493,9 @@
   ;; keep original case
   :config (setq company-dabbrev-downcase nil))
 
-(use-package company-emoji
+(use-package company-emojify
   :ensure t
-  :config (add-to-list 'company-backends 'company-emoji))
+  :config (add-to-list 'company-backends 'company-emojify))
 
 (use-package company-math
   :ensure t
