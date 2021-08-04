@@ -2369,6 +2369,9 @@ Captured On: %U")))))
 (use-package suggest
   :ensure t)
 
+(use-package syslog-mode
+  :ensure t)
+
 (use-package systemd
   :ensure t)
 
