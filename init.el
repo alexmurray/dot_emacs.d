@@ -1152,6 +1152,7 @@ With a prefix argument, will default to looking for all
 
 (use-package eyebrowse
   :ensure t
+  :disabled t
   :custom (eyebrowse-keymap-prefix (kbd "C-c w"))
   :config
   (eyebrowse-mode 1)
