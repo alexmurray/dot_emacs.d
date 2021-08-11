@@ -1,4 +1,5 @@
 *#*#
+*.elc
 *~
 /.cask/
 /.mc-lists.el
@@ -8,15 +9,20 @@
 /ac-comphist.dat
 /anaconda-mode/*
 /auto-save-list
+/bookmarks
 /company-statistics-cache.el
 /custom.el
+/ebdb
+/eln-cache/
 /elpa
 /emojis/*
 /erc
 /eshell
+/etc/eudc-options.el
 /eudc-options
 /flycheck_init.el
 /forge-database.sqlite
+/games/
 /helm-adaptive-history
 /history
 /ido.last
@@ -39,7 +45,3 @@
 /url
 /var/
 /vimish-fold/
-/etc/eudc-options.el
-/games/
-/ebdb
-/bookmarks
