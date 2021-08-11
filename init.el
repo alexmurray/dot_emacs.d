@@ -998,25 +998,6 @@ With a prefix argument, will default to looking for all
                                    (expand-file-name
                                     erc-log-channels-directory))) . erc-view-log-mode)))
 
-(use-package ldap
-  :ensure-system-package (ldapsearch . ldap-utils)
-  :config
-  ;; Store password using secret-tool as follows:
-  ;; secret-tool store --label='Canonical LDAP' host ldaps://ldap.canonical.com
-  ;; then enter PASSWORD
-  (setq ldap-host-parameters-alist
-        `(("ldaps://ldap.canonical.com"
-           base "ou=staff,dc=canonical,dc=com"
-           binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
-           auth-source t)))
-  (setq ldap-default-host "ldaps://ldap.canonical.com"))
-
-(use-package link-hint
-  :ensure t
-  :bind
-  ("C-c C-l C-o" . link-hint-open-link)
-  ("C-c C-l C-c" . link-hint-copy-link))
-
 (use-package eudc
   :after ldap
   :config
@@ -1429,6 +1410,25 @@ With a prefix argument, will default to looking for all
 
 (use-package json-mode
   :ensure t)
+
+(use-package ldap
+  :ensure-system-package (ldapsearch . ldap-utils)
+  :config
+  ;; Store password using secret-tool as follows:
+  ;; secret-tool store --label='Canonical LDAP' host ldaps://ldap.canonical.com
+  ;; then enter PASSWORD
+  (setq ldap-host-parameters-alist
+        `(("ldaps://ldap.canonical.com"
+           base "ou=staff,dc=canonical,dc=com"
+           binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
+           auth-source t)))
+  (setq ldap-default-host "ldaps://ldap.canonical.com"))
+
+(use-package link-hint
+  :ensure t
+  :bind
+  ("C-c C-l C-o" . link-hint-open-link)
+  ("C-c C-l C-c" . link-hint-copy-link))
 
 (use-package lxd-tramp
   :ensure t)
