@@ -229,6 +229,10 @@
   (unless (file-exists-p (expand-file-name "~/.local/share/fonts/all-the-icons.ttf"))
     (all-the-icons-install-fonts)))
 
+(use-package all-the-icons-completion
+  :ensure t
+  :hook (after-init . all-the-icons-completion-mode))
+
 (use-package all-the-icons-dired
   :ensure t
   :hook ((dired-mode . all-the-icons-dired-mode)))
@@ -1150,6 +1154,10 @@ With a prefix argument, will default to looking for all
   :init (when (memq window-system '(mac ns))
           (exec-path-from-shell-initialize)))
 
+(use-package expand-region
+  :ensure t
+  :bind ("C-=" . er/expand-region))
+
 (use-package eyebrowse
   :ensure t
   :disabled t
@@ -1851,6 +1859,11 @@ With a prefix argument, will default to looking for all
   :hook ((after-init . mu4e-alert-enable-mode-line-display)
          (after-init . mu4e-alert-enable-notifications))
   :config (mu4e-alert-set-default-style 'notifications))
+
+(use-package mu4e-column-faces
+  :ensure t
+  :after mu4e
+  :config (mu4e-column-faces-mode 1))
 
 (use-package mu4e-jump-to-list
   :ensure t)
