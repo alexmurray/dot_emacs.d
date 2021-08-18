@@ -1291,9 +1291,7 @@ With a prefix argument, will default to looking for all
   ;; disable image loading
   (setq gnus-inhibit-images t)
   ;; discourse emails use --- as signature separator
-  (setq gnus-signature-separator '("^---? $" "^---? *$"))
-  ;; prefer plain text if have both html it
-  (setq mm-discouraged-alternatives '("text/html" "text/richtext")))
+  (setq gnus-signature-separator '("^---? $" "^---? *$")))
 
 (use-package gnus-dired
   :ensure gnus
