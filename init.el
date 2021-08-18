@@ -1580,6 +1580,7 @@ With a prefix argument, will default to looking for all
 
 (use-package mu4e
   :load-path "/snap/maildir-utils/current/share/emacs/site-lisp/mu4e/"
+  :init (add-to-list 'Info-directory-list "/snap/maildir-utils/current/share/info/")
   :bind (("C-c m" . mu4e))
   :config
   (eval-and-compile
