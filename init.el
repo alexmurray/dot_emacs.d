@@ -2477,7 +2477,8 @@ Captured On: %U")))))
 
 (use-package vertico
   :ensure t
-  :hook ((after-init . vertico-mode)))
+  :hook ((after-init . vertico-mode))
+  :custom (vertico-cycle t))
 
 (use-package vimrc-mode
   :ensure t
