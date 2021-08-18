@@ -1660,11 +1660,15 @@ With a prefix argument, will default to looking for all
             (string-match-p "^\\[Build #[0-9]+]" subject)
             (string-match-p "^CVE webbot process errors$" subject))
         mu4e-trash-folder)
+       ((string-match-p "Cron .* ~/bin/scripts-diff.sh" subject)
+        mu4e-trash-folder)
        ((mu4e-message-contact-field-matches msg :from "root@lillypilly.canonical.com")
         "/lillypilly")
        ((mu4e-message-contact-field-matches msg :from "root@keule.canonical.com")
         "/keule")
-       ((not (null mailing-list))
+       ((and (not (null mailing-list))
+             ;; gitlab list-ids are not useful
+             (not (mu4e-message-contact-field-matches msg :from "gitlab@mg.gitlab.com")))
         (concat "/Lists/" (mu4e-get-mailing-list-shortname mailing-list)))
        ;; store emails about outdated dependencies or reviews should get
        ;; trashed
@@ -1699,8 +1703,6 @@ With a prefix argument, will default to looking for all
         "/Lists/opensuse-security-announce")
        ((mu4e-message-contact-field-matches msg :to "newsbox@idg.com")
         "/Lists/newsbox-idg")
-       ((string-match-p "^Cron .* ~/bin/scripts-diff.sh$" subject)
-        mu4e-trash-folder)
        ((mu4e-message-contact-field-matches msg :from "atpi.com")
         "/Travel")
        ((or (mu4e-message-contact-field-matches msg :from "rt@admin.canonical.com")
