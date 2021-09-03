@@ -1680,7 +1680,7 @@ With a prefix argument, will default to looking for all
         (concat "/Lists/" (mu4e-get-mailing-list-shortname mailing-list)))
        ;; store emails about outdated dependencies or reviews should get
        ;; trashed
-       ((and (mu4e-message-contact-field-matches msg :from "Snap Store")
+       ((and (mu4e-message-contact-field-matches msg :from "security-snap-review@canonical.com")
              (string-match-p "\\(built from outdated Ubuntu kernel\\|was built with outdated Ubuntu packages\\|contains outdated Ubuntu packages\\|^Manual review requested for version\\|^Manual review for .* version .* requested$\\)" subject))
         mu4e-trash-folder)
        ((or (mu4e-message-contact-field-matches msg :from "Snap Store")
@@ -1808,7 +1808,7 @@ With a prefix argument, will default to looking for all
                        :key ?k))
   (add-to-list 'mu4e-bookmarks
                '(:name "Snap Store spam"
-                       :query "(from:\"Snap Store\" or from:noreply@canonical.com) and not to:alex.murray@canonical.com and subject:\"outdated Ubuntu packages\" or subject:\"outdated Ubuntu kernel\""
+                       :query "(from:\"Snap Store\" or from:noreply+security-snap-review@canonical.com or from:security-team-toolbox-bot@canonical.com) and not to:alex.murray@canonical.com and subject:\"outdated Ubuntu packages\" or subject:\"outdated Ubuntu kernel\""
                        :key ?s))
   (add-to-list 'mu4e-bookmarks
                '(:name "Ubuntu OEM team process bug spam"
