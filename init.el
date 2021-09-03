@@ -1418,16 +1418,16 @@ With a prefix argument, will default to looking for all
 
 (use-package ldap
   :ensure-system-package (ldapsearch . ldap-utils)
-  :config
+  :demand t
+  :custom
   ;; Store password using secret-tool as follows:
   ;; secret-tool store --label='Canonical LDAP' host ldaps://ldap.canonical.com
   ;; then enter PASSWORD
-  (setq ldap-host-parameters-alist
-        `(("ldaps://ldap.canonical.com"
-           base "ou=staff,dc=canonical,dc=com"
-           binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
-           auth-source t)))
-  (setq ldap-default-host "ldaps://ldap.canonical.com"))
+  (ldap-host-parameters-alist '(("ldaps://ldap.canonical.com"
+      base "ou=staff,dc=canonical,dc=com"
+      binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
+      auth-source t)))
+  (ldap-default-host "ldaps://ldap.canonical.com"))
 
 (use-package link-hint
   :ensure t
