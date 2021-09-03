@@ -1015,6 +1015,8 @@ With a prefix argument, will default to looking for all
                '(mozillacustom4 . "UTC Offset"))
   (add-to-list 'eudc-user-attribute-names-alist
                '(launchpadid . "Launchpad ID"))
+  (add-to-list 'eudc-user-attribute-names-alist
+               '(githubid . "Github ID"))
   ;; keep byte-compiler happy
   (defvar eudc-bob-generic-keymap nil)
   ;; add support for querying up the hierarchy via manager
@@ -1028,6 +1030,7 @@ With a prefix argument, will default to looking for all
   (add-to-list 'eudc-attribute-display-method-alist '("utc offset" . apm-eudc-display-utc-offset))
   (add-to-list 'eudc-attribute-display-method-alist '("timezone name" . apm-eudc-display-timezone))
   (add-to-list 'eudc-attribute-display-method-alist '("launchpad id" . apm-eudc-display-launchpadid))
+  (add-to-list 'eudc-attribute-display-method-alist '("github id" . apm-eudc-display-githubid))
   (add-to-list 'eudc-attribute-display-method-alist '("irc nick" . apm-eudc-display-nick))
   (defun apm-eudc-query-at-point ()
     (interactive)
@@ -1060,6 +1063,10 @@ With a prefix argument, will default to looking for all
   (defun apm-eudc-display-launchpadid (id)
     "Display ID as a clickable URL."
     (eudc-display-url (concat "https://launchpad.net/~" id)))
+
+  (defun apm-eudc-display-githubid (id)
+    "Display ID as a clickable URL."
+    (eudc-display-url (concat "https://github.com/" id)))
 
   (defun apm-eudc-display-nick (nick)
     "Display NICK as using colors from erc-hl-nicks."
