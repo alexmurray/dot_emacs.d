@@ -721,7 +721,7 @@
     (interactive)
     (when (y-or-n-p "Connect to IRC? ")
       ;; connect to matterircd on localhost and oftc and freenode via znc
-      (erc :server "localhost" :port "6667" :nick "alexmurray")
+      ;;(erc :server "localhost" :port "6667" :nick "alexmurray")
       (erc :server "irc.oftc.net" :port "6667" :nick "amurray")
       (erc-tls :server "znc.secret.server" :port "7076"
                :nick "amurray" :password (concat "amurray/libera:"
