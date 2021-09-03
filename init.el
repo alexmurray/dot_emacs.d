@@ -1997,6 +1997,12 @@ With a prefix argument, will default to looking for all
       (when should-skip-entry
         (or (outline-next-heading)
             (goto-char (point-max))))))
+  :custom
+  ;; add remove-match so grid lines which are already present in an entry
+  ;; are not shown
+  (org-agenda-time-grid '((daily today require-timed remove-match)
+                          (800 1000 1200 1400 1600 1800 2000)
+                          "......" "----------------"))
   :config
   ;; when modifying agenda files make sure to update appt
   (require 'filenotify)
