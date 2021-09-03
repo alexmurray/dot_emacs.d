@@ -1930,6 +1930,8 @@ With a prefix argument, will default to looking for all
   ;; ensure we always load org at startup
   :demand t
   :config
+  (setq org-log-repeat nil)
+  (setq org-log-into-drawer t)
   (setq org-pretty-entities t)
   ;; use org-appear instead
   (setq org-hide-emphasis-markers t)
@@ -1944,7 +1946,7 @@ With a prefix argument, will default to looking for all
   ;; @ = add note with time
   ;; ! = record only time of state change
   ;; | = remaining keywords are final states
-  (setq org-todo-keywords '((sequence "TODO(t)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE(d!)")
+  (setq org-todo-keywords '((sequence "TODO(t)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE")
                             (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
   ;; ensure it is harder to inadvertently delete collapsed parts of org
   ;; documents
@@ -2075,9 +2077,7 @@ Captured On: %U")))))
         ;; resume clocking task on clock-in if the clock is open
         org-clock-in-resume t
         ;; persist clock data into org-directory
-        org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
-        ;; insert a note when TODOs are marked DONE
-        org-log-done 'note)
+        org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory))
   (setq org-clock-x11idle-program-name "xprintidle")
   ;; reload any saved org clock information on startup
   (org-clock-persistence-insinuate))
