@@ -1574,6 +1574,9 @@ With a prefix argument, will default to looking for all
 (use-package moinmoin-mode
   :load-path "vendor/")
 
+(use-package mouse
+  :config (context-menu-mode 1))
+
 (use-package move-text
   :ensure t
   :bind (([(meta shift up)] . move-text-up)
