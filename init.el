@@ -2511,8 +2511,8 @@ Captured On: %U")))))
   :config
   (setq webpaste-paste-confirmation t)
   (add-to-list 'webpaste-providers-alist
-               `("pastebin.ubuntu.com"
-                 :uri "https://pastebin.ubuntu.com/"
+               `("paste.ubuntu.com"
+                 :uri "https://paste.ubuntu.com/"
                  ;; poster cannot be empty string and expiry in 1 day
                  :post-data (("poster" . ,user-full-name)
                              ("expiration" . "day"))
@@ -2521,7 +2521,7 @@ Captured On: %U")))))
                  ;; should this be common-lisp perhaps?
                  :lang-overrides ((emacs-lisp-mode . "clojure"))
                  :success-lambda webpaste--providers-success-response-url))
-  (setq webpaste-provider-priority '("pastebin.ubuntu.com")))
+  (setq webpaste-provider-priority '("paste.ubuntu.com")))
 
 (use-package which-key
   :ensure t
