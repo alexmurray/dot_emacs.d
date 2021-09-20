@@ -376,7 +376,7 @@
                           (string-prefix-p "bug" prefix t))
                       (format "https://bugs.launchpad.net/bugs/%s" id))
                      ((string-prefix-p "CVE" prefix)
-                      (format "https://ubuntu.com/security/CVE-%s.html" id))
+                      (format "https://ubuntu.com/security/CVE-%s" id))
                      ((string-prefix-p "USN" prefix)
                       (format "https://ubuntu.com/security/notices/USN-%s" id))
                      (t (error (concat "Unknown bug prefix '%s'" prefix))))))
