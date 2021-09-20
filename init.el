@@ -835,7 +835,7 @@ With a prefix argument, will default to looking for all
   ;; account for really long names
   (setq erc-fill-static-center 22)
   ;; this fits on a dual horizontal split on my laptop
-  (setq erc-fill-column 115)
+  (setq erc-fill-column 100)
 
   ;; use sensible buffer names with server as well
   (setq erc-rename-buffers t)
