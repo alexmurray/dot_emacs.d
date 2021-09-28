@@ -538,6 +538,7 @@
   :ensure t
   :bind (
          ("C-c h" . consult-history)
+         ("C-c s" . consult-clock-in)
          ("C-x b" . consult-buffer)
          ("C-x 4 b" . consult-buffer-other-window)
          ("C-x 5 b" . consult-buffer-other-frame)
@@ -575,7 +576,38 @@
   (fset 'multi-occur #'consult-multi-occur)
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
-  (setq-default consult-project-root-function #'projectile-project-root))
+  (setq-default consult-project-root-function #'projectile-project-root)
+  :config
+  ;; from https://github.com/minad/consult/wiki#org-clock
+  (defun consult-clock-in (&optional match scope resolve)
+    "Clock into an Org heading."
+    (interactive (list nil nil current-prefix-arg))
+    (require 'org-clock)
+    (org-clock-load)
+    (save-window-excursion
+      (consult-org-heading
+       match
+       (or scope
+           (thread-last org-clock-history
+                        (mapcar 'marker-buffer)
+                        (mapcar 'buffer-file-name)
+                        (delete-dups)
+                        (delq nil))
+           (user-error "No recent clocked tasks")))
+      (org-clock-in nil (when resolve
+                          (org-resolve-clocks)
+                          (org-read-date t t)))))
+  (consult-customize consult-clock-in
+                     :prompt "Clock in: "
+                     :preview-key (kbd "M-.")
+                     :group
+                     (lambda (cand transform)
+                       (if transform
+                           (substring cand (next-single-property-change 0 'consult-org--buffer cand))
+                         (let ((m (car (get-text-property 0 'consult-org--heading cand))))
+                           (if (member m org-clock-history)
+                               "*Recent*"
+                             (buffer-name (marker-buffer m))))))))
 
 (use-package consult-flycheck
   :ensure t
@@ -2085,14 +2117,6 @@ Captured On: %U")))))
 
 (use-package orgit
   :ensure t)
-
-(use-package org-mru-clock
-  :ensure t
-  :bind (("C-c s" . org-mru-clock-in))
-  :demand t
-  :config
-  (setq org-mru-clock-format-function #'substring)
-  (setq org-mru-clock-how-many 50))
 
 (use-package org-mu4e
   :after (mu4e org)
