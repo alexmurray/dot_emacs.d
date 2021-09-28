@@ -1641,7 +1641,8 @@ With a prefix argument, will default to looking for all
                               "jira@clockworkers.atlassian.net"
                               "advisories@auraredeye.zendesk.com"
                               "gohr@mail.continue.de"
-                              "m1-en0on.jp"))
+                              "m1-en0on.jp"
+                              "support@coalfire.com"))
 
   ;; TODO: consider using imapfilter
   (defun apm-mu4e-refile-message (msg)
