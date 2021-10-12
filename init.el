@@ -736,9 +736,12 @@
       ;;(erc :server "localhost" :port "6667" :nick "alexmurray")
       (erc :server "irc.oftc.net" :port "6667" :nick "amurray")
       (erc-tls :server "znc.secret.server" :port "7076"
+               ;; secret-tool store --label="ZNC" host znc.secret.server \
+               ;; user amurray port 7076
                :nick "amurray" :password (concat "amurray/libera:"
                                                  (auth-source-pick-first-password
                                                   :user "amurray"
+                                                  :host "znc.secret.server"
                                                   :port "7076")))))
   (defgroup apm-erc nil
     "apm's erc customisations."
@@ -835,28 +838,11 @@ With a prefix argument, will default to looking for all
   (setq erc-user-full-name user-full-name)
   (setq erc-nick (list user-login-name "alexmurray"))
   (setq erc-prompt-for-nickserv-password nil)
-  ;; add basic libera.chat support
-  (add-to-list 'erc-networks-alist
-               '(Libera.Chat "libera.chat"))
-  (add-to-list 'erc-nickserv-alist
-               '(Libera.Chat
-                 "NickServ!NickServ@services.libera.chat"
-                 ;; Libera.Chat also accepts a password at login, see the `erc'
-                 ;; :password argument.
-                 "This\\s-nickname\\s-is\\s-registered.\\s-Please\\s-choose"
-                 "NickServ"
-                 "IDENTIFY" nil nil
-                 ;; See also the 901 response code message.
-                 "You\\s-are\\s-now\\s-identified\\s-for\\s-"))
-  ;; nickserv password for liber and oftc
-  (dolist (network '((Libera.Chat . "irc.libera.chat")
-                     (OFTC . "irc.oftc.net")))
-    (let ((login (auth-source-user-and-password (cdr network))))
-      (if (null login)
-          ;; secret-tool store --label='(car network) IRC NickServ' host
-          ;; (cdr network) user USER then enter password
-          (alert (format "Please store %s NickServ password in secret store" (cdr network)))
-        (add-to-list 'erc-nickserv-passwords `(,(car network) ((,(car login) . ,(cadr login))))))))
+  ;; need to ensure we set the password as:
+  ;; secret-tool store --label="Libera IRC NickServ" host irc.libera.chat user amurray port 7076
+  ;; secret-tool store --label="OFTC IRC NickServ" host irc.oftc.net user amurray port 6667
+
+  (setq erc-use-auth-source-for-nickserv-password t)
 
   (setq erc-autojoin-timing 'ident)
 
