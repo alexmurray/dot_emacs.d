@@ -1154,7 +1154,8 @@ With a prefix argument, will default to looking for all
   (eyebrowse-setup-opinionated-keys))
 
 (use-package files
-  :bind ("C-c r" . revert-buffer))
+  :bind ("C-c r" . revert-buffer)
+  :custom (view-read-only t))
 
 (use-package flycheck
   :ensure t
