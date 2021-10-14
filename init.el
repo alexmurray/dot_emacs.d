@@ -1966,6 +1966,7 @@ With a prefix argument, will default to looking for all
   :ensure org-plus-contrib
   :config
   (setq org-refile-targets '(("~/org-files/canonical.org" :maxlevel . 4)
+                             ("~/org-files/personal.org" :maxlevel . 2)
                              ("~/org-files/someday.org" :level . 1)
                              ("~/org-files/tickler.org" :maxlevel . 1)
                              ("~/org-files/notes.org" :maxlevel . 2)))
