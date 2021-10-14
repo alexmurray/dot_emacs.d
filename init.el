@@ -1325,7 +1325,9 @@ With a prefix argument, will default to looking for all
   :config (good-scroll-mode 1))
 
 (use-package go-mode
-  :ensure t)
+  :ensure t
+  :hook ((go-mode . lsp-deferred)
+         (before-save . lsp-format-buffer)))
 
 (use-package goto-addr
   :defer t
