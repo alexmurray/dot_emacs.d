@@ -1261,12 +1261,16 @@ With a prefix argument, will default to looking for all
   :ensure t
   :ensure-system-package (scrot gifsicle))
 
+(use-package gitattributes-mode
+  :ensure git-modes
+  :defer t)
+
 (use-package gitconfig-mode
-  :ensure t
+  :ensure git-modes
   :defer t)
 
 (use-package gitignore-mode
-  :ensure t
+  :ensure git-modes
   :defer t)
 
 (use-package gnu-elpa
