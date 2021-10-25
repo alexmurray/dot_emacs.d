@@ -723,6 +723,7 @@
 
 (use-package erc
   :ensure t
+  :pin gnu
   :preface
   (eval-when-compile
     (require 'erc-log)
