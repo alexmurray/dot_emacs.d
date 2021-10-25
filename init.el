@@ -1907,6 +1907,9 @@ With a prefix argument, will default to looking for all
   (setq fast-but-imprecise-scrolling t))
 
 
+(use-package nano-agenda
+  :ensure t)
+
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
   :init
