@@ -1486,6 +1486,7 @@ With a prefix argument, will default to looking for all
   :ensure t
   :preface
   :defer t
+  :custom (magit-diff-refine-hunk t)
   :bind (("C-x g g" . magit-status)
          ("C-x g d" . magit-dispatch)
          ("C-x g f" . magit-file-dispatch) ))
