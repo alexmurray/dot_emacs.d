@@ -2501,6 +2501,10 @@ Captured On: %U")))))
   :hook ((after-init . vertico-mode))
   :custom (vertico-cycle t))
 
+(use-package vertico-posframe
+  :ensure t
+  :hook ((after-init . vertico-posframe-mode)))
+
 (use-package vimrc-mode
   :ensure t
   :mode (("\\.vim\\(rc\\)?\\'" . vimrc-mode)))
