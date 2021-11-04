@@ -350,6 +350,9 @@
   :init (unless (executable-find "black")
           (alert "Please install the black snap")))
 
+(use-package blamer
+  :ensure t)
+
 (use-package browse-kill-ring
   :ensure t
   :config (browse-kill-ring-default-keybindings))
