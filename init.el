@@ -1719,6 +1719,8 @@ With a prefix argument, will default to looking for all
             (string-match-p "Store upload \\(scan \\)?failed for.*$" subject)
             (string-match-p "Store authorization failed for.*$" subject))
         "/snap-store")
+       ((mu4e-message-contact-field-matches msg :to "samba-vendor@samba.org")
+        "/samba-vendor")
        ((or (string-match-p "^\\[Bug [0-9]+\\] \\(R[eE]: \\)?.*linux.*proposed tracker$" subject)
             (string-match-p "^\\[Bug [0-9]+\\] \\(\\(R[eE]:\\|\\[NEW\\]\\) \\)?request of \\(\\(create\\|merge\\)_\\(production_suite\\|project\\)\\|\\(copy\\|publish\\|delete\\)_package\\|gensnapshot\\)" subject))
         mu4e-trash-folder)
