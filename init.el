@@ -11,11 +11,9 @@
 ;;; Package management
 (require 'package)
 
-;; use https for both melpa and gelpa
+;; add melpa archive
 (eval-and-compile
-  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                           ("melpa" . "https://melpa.org/packages/")
-                           ("org" . "https://orgmode.org/elpa/"))))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
 
 ;; this is done automatically in 27 etc
 (if (or (version< emacs-version "27")
@@ -1951,8 +1949,7 @@ With a prefix argument, will default to looking for all
   :ensure t)
 
 (use-package org
-  :ensure org-plus-contrib
-  :pin org
+  :pin gnu
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture)
          ("C-c l" . org-store-link)
@@ -1985,12 +1982,16 @@ With a prefix argument, will default to looking for all
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
   (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s")))
 
+(use-package org-contrib
+  :pin nongnu
+  :ensure t)
+
 (use-package org-appear
   :ensure t
   :hook (org-mode . org-appear-mode))
 
 (use-package org-refile
-  :ensure org-plus-contrib
+  :ensure org-contrib
   :config
   (setq org-refile-targets '(("~/org-files/canonical.org" :maxlevel . 4)
                              ("~/org-files/personal.org" :maxlevel . 2)
@@ -2003,12 +2004,12 @@ With a prefix argument, will default to looking for all
 
 ;; add support for man: links in org documents
 (use-package ol-man
-  :ensure org-plus-contrib
-  :pin org)
+  :ensure org-contrib
+  :pin nongnu)
 
 (use-package org-agenda
-  :ensure org-plus-contrib
-  :pin org
+  :ensure org-contrib
+  :pin nongnu
   :preface
   (defun apm-org-agenda-file-notify (_event)
     "Rebuild appointments when _EVENT specifies any org agenda files change."
@@ -2126,7 +2127,7 @@ Captured On: %U")))))
               ("S-<down>" . org-clock-convenience-timestamp-down)))
 
 (use-package org-duration
-  :ensure org-plus-contrib
+  :ensure org-contrib
   ;; don't show days, only total hours as maximum value
   :config (setq org-duration-format (quote h:mm)))
 
@@ -2139,7 +2140,7 @@ Captured On: %U")))))
   :config (setq mu4e-org-link-query-in-headers-mode nil))
 
 (use-package org-protocol
-  :ensure org-plus-contrib
+  :ensure org-contrib
   :init (let ((handler (shell-command-to-string "xdg-mime query default x-scheme-handler/org-protocol")))
           (unless (string-match "^emacsclient.*.desktop" handler)
             ;; ensure an emacsclient26.desktop file exists in
@@ -2155,8 +2156,8 @@ Captured On: %U")))))
             (alert "Please configure emacsclient as handler for org-protocol"))))
 
 (use-package org-src
-  :ensure org-plus-contrib
-  :pin org
+  :ensure org-contrib
+  :pin nongnu
   :config
   ;; preserve indentation of org src blocks
   (setq org-src-preserve-indentation t))
