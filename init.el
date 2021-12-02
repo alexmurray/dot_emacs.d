@@ -1457,21 +1457,11 @@ With a prefix argument, will default to looking for all
   :hook ((prog-mode . lsp)
          (yaml-mode . lsp))
   :custom
-  (lsp-headerline-breadcrumb-enable t)
-  (lsp-eldoc-enable-hover nil)
-  :config
-  (lsp-register-custom-settings
-   ;; for gopls disable -mod=readonly for now
-   '(("gopls.allowModfileModifications" t t))))
+  (lsp-eldoc-enable-hover nil))
 
 (use-package lsp-imenu
   :ensure lsp-mode
   :hook ((lsp-after-open . lsp-enable-imenu)))
-
-(use-package lsp-java
-  :ensure t
-  :after lsp-mode
-  :hook ((java-mode . lsp-java-enable)))
 
 (use-package lsp-pyright
   :ensure t
