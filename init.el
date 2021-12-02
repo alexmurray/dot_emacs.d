@@ -579,7 +579,10 @@
          :map isearch-mode-map
          ("M-e" . consult-isearch)                 ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
-         ("M-s l" . consult-line)         )
+         ("M-s l" . consult-line)
+         ;; https://emacsredux.com/blog/2021/11/25/redo-complex-command-with-consult/
+         ([remap repeat-complex-command] . consult-complex-command)
+)
   :init
   ;; Replace functions (consult-multi-occur is a drop-in replacement)
   (fset 'multi-occur #'consult-multi-occur)
