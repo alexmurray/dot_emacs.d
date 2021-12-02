@@ -1333,7 +1333,7 @@ With a prefix argument, will default to looking for all
 (use-package go-mode
   :ensure t
   :hook ((go-mode . lsp-deferred)
-         (before-save . lsp-format-buffer)))
+         (before-save . gofmt-before-save)))
 
 (use-package goto-addr
   :defer t
