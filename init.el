@@ -166,10 +166,15 @@
 (when (boundp 'x-gtk-use-system-tooltips)
   (setq x-gtk-use-system-tooltips nil))
 (blink-cursor-mode -1)
-;; adopt the default from emacs-28
-(setq frame-title-format
-      '(multiple-frames "%b" ("%b - GNU Emacs")))
-(setq icon-title-format frame-title-format)
+
+;; use better font
+(let ((preferred-font "Fira Code-10"))
+  (if (font-info preferred-font)
+      ;; apply this to all existing and future frames
+      (set-frame-font preferred-font nil t)
+    (system-packages-install "fonts-firacode")))
+
+
 
 ;; make emacs less laggy
 (setq inhibit-compacting-font-caches t)
