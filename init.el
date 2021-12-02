@@ -1633,7 +1633,7 @@ With a prefix argument, will default to looking for all
 
   (defun apm-mu4e-contact-process (contact)
     (unless (string-match-p
-             "\\(no-?reply\\|bugs.launchpad.net\\|keule.canonical.com\\|lillypilly.canonical.com\\|docs.google.com\\|gapps.canonical.com\\|forum.snapcraft.io\\)"
+             "\\(no-?reply\\|bugs.launchpad.net\\|code.launchpad.net\\|keule.canonical.com\\|lillypilly.canonical.com\\|docs.google.com\\|gapps.canonical.com\\|forum.snapcraft.io\\)"
              contact)
       contact))
 
@@ -1647,6 +1647,7 @@ With a prefix argument, will default to looking for all
                               "gohr@mail.continue.de"
                               "m1-en0on.jp"
                               "support@coalfire.com"
+                              "mail@yg64khfs646n.com"
                               "mail@zdnnatwarfrpi.net"
                               "mail@cxceagagrihic.com"))
 
