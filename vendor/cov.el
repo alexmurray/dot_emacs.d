@@ -1,1 +1,0 @@
-../../git/cov/cov.el

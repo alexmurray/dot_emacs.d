@@ -617,14 +617,6 @@
   :bind (:map flycheck-command-map
               ("!" . consult-flycheck)))
 
-(use-package cov
-  :load-path "vendor/"
-  :defer t
-  :diminish cov-mode
-  :hook ((prog-mode . cov-mode))
-  :init (use-package elquery
-          :ensure t))
-
 (use-package crontab-mode
   :ensure t)
 
