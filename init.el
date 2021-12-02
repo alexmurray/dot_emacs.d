@@ -585,7 +585,6 @@
   (fset 'multi-occur #'consult-multi-occur)
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
-  (setq-default consult-project-root-function #'projectile-project-root)
   :config
   ;; from https://github.com/minad/consult/wiki#org-clock
   (defun consult-clock-in (&optional match scope resolve)
@@ -1502,11 +1501,11 @@ With a prefix argument, will default to looking for all
             (browse-url url))))))
   :init
   (add-hook 'magit-process-prompt-functions #'apm-magit-process-lp-merge-request-prompt-hook)
-  :defer t
   :custom (magit-diff-refine-hunk t)
   :bind (("C-x g g" . magit-status)
          ("C-x g d" . magit-dispatch)
-         ("C-x g f" . magit-file-dispatch) ))
+         ("C-x g f" . magit-file-dispatch))
+  :demand t)
 
 (use-package magit-patch-changelog
   :ensure t)
@@ -2266,20 +2265,10 @@ Captured On: %U")))))
   ;; prettify symbols (turn lambda -> λ)
   (global-prettify-symbols-mode 1))
 
-(use-package projectile
+(use-package project
   :ensure t
-  :demand t
-  :bind (:map projectile-mode-map ("C-x p" . projectile-command-map))
-  :diminish projectile-mode
-  :config
-  (with-eval-after-load 'compile
-    (setq compilation-buffer-name-function
-          #'projectile-compilation-buffer-name)
-    (setq compilation-save-buffers-predicate
-          #'projectile-current-project-buffer-p))
-  ;; prompt for action on project switch
-  (setq projectile-switch-project-action #'projectile-vc)
-  (projectile-mode 1))
+  :pin gnu
+  :demand t)
 
 (use-package python
   :defer t
@@ -2323,7 +2312,6 @@ Captured On: %U")))))
   :config (region-state-mode 1))
 
 (use-package ripgrep
-  ;; for projectile to search with rg
   :ensure t
   :ensure-system-package (rg . ripgrep))
 
