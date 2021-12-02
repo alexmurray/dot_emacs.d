@@ -464,6 +464,9 @@
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
   :mode ("check-cves\\..*\\'" . check-cves-mode))
 
+(use-package code-review
+  :ensure t)
+
 (use-package company
   :ensure t
   :diminish company-mode
