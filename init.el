@@ -898,7 +898,7 @@ With a prefix argument, will default to looking for all
   (setq erc-track-exclude-server-buffer t)
   (setq erc-track-showcount t)
   ;; emacs channels are noisy
-  (setq erc-track-exclude '("#emacs" "#emacsconf"))
+  (setq erc-track-exclude '("#emacs" "#emacsconf" "#ubuntu"))
   (setq erc-track-shorten-function nil)
   ;; ensure our nick highlighted with erc-hl-nicks gets picked up by
   ;; erc-track
