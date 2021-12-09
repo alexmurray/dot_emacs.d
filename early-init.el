@@ -9,6 +9,7 @@
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
-
+;; silence native-compile warnings
+(setq native-comp-async-report-warnings-errors 'silent)
 (provide 'early-init)
 ;;; early-init.el ends here
