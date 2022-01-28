@@ -2448,6 +2448,9 @@ Captured On: %U")))))
   :ensure t
   :config (setq-default tramp-default-method "ssh"))
 
+(use-package tzc
+  :ensure t)
+
 (use-package uct
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
   :demand t
