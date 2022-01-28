@@ -1806,7 +1806,7 @@ With a prefix argument, will default to looking for all
   ;; to be able to see them all in general
   (setq mu4e-headers-skip-duplicates nil)
 
-  (setq mu4e-update-interval 300)
+  (setq mu4e-update-interval 600)
 
   ;; cite with better formatting
   (setq message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
