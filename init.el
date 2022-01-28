@@ -1499,9 +1499,7 @@ With a prefix argument, will default to looking for all
   :init
   (add-hook 'magit-process-prompt-functions #'apm-magit-process-lp-merge-request-prompt-hook)
   :custom (magit-diff-refine-hunk t)
-  :bind (("C-x g g" . magit-status)
-         ("C-x g d" . magit-dispatch)
-         ("C-x g f" . magit-file-dispatch))
+  :bind (("C-x g" . magit-status))
   :demand t)
 
 (use-package magit-patch-changelog
