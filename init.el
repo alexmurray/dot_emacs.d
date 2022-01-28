@@ -1854,7 +1854,6 @@ With a prefix argument, will default to looking for all
         (make-directory temporary-file-directory))
       (apply orig-fun args)))
 
-  (setq mu4e-html2text-command 'mu4e-shr2text)
   (with-eval-after-load 'shr
     ;; html colors in shr usually look bad especially with a dark theme
     (setq shr-use-colors nil)
@@ -1877,18 +1876,15 @@ With a prefix argument, will default to looking for all
   ;; attempt to show images when viewing messages
   (setq mu4e-view-show-images t)
 
-  ;; allows to see attached patches etc more easily inline and also inline
-  ;; PGP
-  (setq mu4e-view-use-gnus t)
-
   ;; show full addresses in message view
   (setq mu4e-view-show-addresses t)
 
-  (require 'mu4e-icalendar)
-  (mu4e-icalendar-setup)
-
   ;; always start mu4e in the background
   (mu4e t))
+
+(use-package mu4e-icalendar
+  :load-path "/snap/maildir-utils/current/share/emacs/site-lisp/mu4e/"
+  :config (mu4e-icalendar-setup))
 
 (use-package mu4e-alert
   :ensure t
