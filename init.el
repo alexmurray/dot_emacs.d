@@ -1234,6 +1234,10 @@ With a prefix argument, will default to looking for all
   :hook ((text-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode)))
 
+(use-package flyspell-correct
+  :ensure t
+  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+
 (use-package forge
   :ensure t
   :after magit)
