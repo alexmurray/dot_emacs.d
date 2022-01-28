@@ -2262,16 +2262,14 @@ Captured On: %U")))))
 (use-package project
   :ensure t
   :pin gnu
-  :demand t)
+  :demand t
+  ;; try forcing magit to be integrated with project-switch-commands
+  :config (with-eval-after-load 'magit
+            (require 'magit-extras)))
 
 (use-package python
   :defer t
   :init (setq-default python-indent-offset 4))
-
-(use-package python-pytest
-  :ensure t
-  :bind (:map python-mode-map ("C-x t" . python-pytest-dispatch))
-  :config (setq python-pytest-executable "pytest-3"))
 
 (use-package quilt
   :ensure t)
