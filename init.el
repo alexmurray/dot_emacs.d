@@ -625,6 +625,9 @@
   :bind (:map flycheck-command-map
               ("!" . consult-flycheck)))
 
+(use-package consult-notmuch
+  :ensure t)
+
 (use-package crontab-mode
   :ensure t)
 
@@ -1326,7 +1329,7 @@ With a prefix argument, will default to looking for all
                      (null message-sent-message-via))
             (push (buffer-name buffer) buffers))))
       (append (apply orig-fun args) (nreverse buffers))))
-  (setq gnus-dired-mail-mode 'mu4e-user-agent)
+  (setq gnus-dired-mail-mode 'notmuch-user-agent)
   (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode))
 
 (use-package goggles
@@ -1606,6 +1609,7 @@ With a prefix argument, will default to looking for all
   :ensure-system-package (mosquitto_pub .  mosquitto-clients))
 
 (use-package mu4e
+  :disabled t
   :load-path "/snap/maildir-utils/current/share/emacs/site-lisp/mu4e/"
   :init (add-to-list 'Info-directory-list "/snap/maildir-utils/current/share/info/")
   :bind (("C-c m" . mu4e))
@@ -1806,7 +1810,7 @@ With a prefix argument, will default to looking for all
   ;; to be able to see them all in general
   (setq mu4e-headers-skip-duplicates nil)
 
-  (setq mu4e-update-interval 600)
+  (setq mu4e-update-interval nil)
 
   ;; cite with better formatting
   (setq message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
@@ -1883,24 +1887,29 @@ With a prefix argument, will default to looking for all
   (mu4e t))
 
 (use-package mu4e-icalendar
+  :disabled t
   :load-path "/snap/maildir-utils/current/share/emacs/site-lisp/mu4e/"
   :config (mu4e-icalendar-setup))
 
 (use-package mu4e-alert
+  :disabled t
   :ensure t
   :hook ((after-init . mu4e-alert-enable-mode-line-display)
          (after-init . mu4e-alert-enable-notifications))
   :config (mu4e-alert-set-default-style 'notifications))
 
 (use-package mu4e-column-faces
+  :disabled t
   :ensure t
   :after mu4e
   :config (mu4e-column-faces-mode 1))
 
 (use-package mu4e-jump-to-list
+  :disabled t
   :ensure t)
 
 (use-package mu4e-marker-icons
+  :disabled t
   :ensure t
   :init
   (setq mu4e-marker-icons-use-unicode t)
@@ -1921,6 +1930,43 @@ With a prefix argument, will default to looking for all
 
 (use-package nano-agenda
   :ensure t)
+
+(use-package notmuch
+  :ensure t
+  :ensure-system-package (notmuch afew)
+  :bind (("C-c m" . notmuch)
+         :map notmuch-show-mode-map (("D" . apm-notmuch-show-toggle-deleted))
+         :map notmuch-search-mode-map (("D" . apm-notmuch-search-toggle-deleted)))
+  :config
+  (defun apm-notmuch-show-toggle-deleted ()
+    "Toggle the deleted tag for the current message."
+    (interactive)
+    (if (member "deleted" (notmuch-show-get-tags))
+        (notmuch-show-tag (list "-deleted"))
+      (notmuch-show-tag (list "+deleted"))))
+  (defun apm-notmuch-search-toggle-deleted ()
+    "Toggle the deleted tag for the current message."
+    (interactive)
+    (if (member "deleted" (notmuch-search-get-tags))
+        (notmuch-search-tag (list "-deleted"))
+      (notmuch-search-tag (list "+deleted"))))
+  ;; place sent in Sent/ maildir with sent tag and remove unread or inbox tags
+  (setq notmuch-fcc-dirs "Sent +sent -unread -inbox")
+  ;; place drafts in Drafts/ maildir
+  (setq notmuch-draft-folder "Drafts")
+  (setq mail-user-agent 'notmuch-user-agent)
+  ;; ensure kernel team daily bug report emails display without wrapping
+  (setq notmuch-wash-wrap-lines-length 150)
+  (add-hook 'notmuch-show-insert-text/plain-hook 'notmuch-wash-convert-inline-patch-to-part))
+
+(use-package notmuch-addr
+  :ensure t
+  ;; use :init since we have to setup to load as soon as notmuch-address
+  ;; (from notmuch itself) has loaded
+  :init
+  (with-eval-after-load 'notmuch-address
+    (require 'notmuch-addr)
+    (notmuch-addr-setup)))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
@@ -2003,6 +2049,10 @@ With a prefix argument, will default to looking for all
 
 ;; add support for man: links in org documents
 (use-package ol-man
+  :ensure org-contrib
+  :pin nongnu)
+
+(use-package ol-notmuch
   :ensure org-contrib
   :pin nongnu)
 
