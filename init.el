@@ -2168,11 +2168,6 @@ Captured On: %U")))))
   :diminish org-table-sticky-header-mode
   :hook ((org-mode . org-table-sticky-header-mode)))
 
-(use-package org-timeline
-  :ensure t
-  :after org
-  :hook ((org-agenda-finalize . org-timeline-insert-timeline)))
-
 (use-package org-wild-notifier
   :ensure t
   :config (org-wild-notifier-mode 1))
