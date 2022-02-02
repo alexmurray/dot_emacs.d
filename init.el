@@ -1959,14 +1959,6 @@ With a prefix argument, will default to looking for all
   (setq notmuch-wash-wrap-lines-length 150)
   (add-hook 'notmuch-show-insert-text/plain-hook 'notmuch-wash-convert-inline-patch-to-part))
 
-(use-package notmuch-addr
-  :ensure t
-  ;; use :init since we have to setup to load as soon as notmuch-address
-  ;; (from notmuch itself) has loaded
-  :init
-  (with-eval-after-load 'notmuch-address
-    (require 'notmuch-addr)
-    (notmuch-addr-setup)))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
