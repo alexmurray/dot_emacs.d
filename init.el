@@ -1937,6 +1937,7 @@ With a prefix argument, will default to looking for all
   :bind (("C-c m" . notmuch)
          :map notmuch-show-mode-map (("D" . apm-notmuch-show-toggle-deleted))
          :map notmuch-search-mode-map (("D" . apm-notmuch-search-toggle-deleted)))
+  :custom (notmuch-wash-wrap-lines-length 150)
   :config
   (defun apm-notmuch-show-toggle-deleted ()
     "Toggle the deleted tag for the current message."
@@ -1956,9 +1957,13 @@ With a prefix argument, will default to looking for all
   (setq notmuch-draft-folder "Drafts")
   (setq mail-user-agent 'notmuch-user-agent)
   ;; ensure kernel team daily bug report emails display without wrapping
-  (setq notmuch-wash-wrap-lines-length 150)
-  (add-hook 'notmuch-show-insert-text/plain-hook 'notmuch-wash-convert-inline-patch-to-part))
+  (add-hook 'notmuch-show-insert-text/plain-hook 'notmuch-wash-convert-inline-patch-to-part)
 
+  ;; ensure when viewing parts we use a tmp dir which all snaps and regular
+  ;; applications can access
+  (setq mm-tmp-directory (expand-file-name "~/tmp"))
+  (unless (file-exists-p mm-tmp-directory)
+        (make-directory mm-tmp-directory)))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
