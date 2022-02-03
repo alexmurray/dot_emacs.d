@@ -1935,8 +1935,12 @@ With a prefix argument, will default to looking for all
   :ensure t
   :ensure-system-package (notmuch afew)
   :bind (("C-c m" . notmuch)
-         :map notmuch-show-mode-map (("D" . apm-notmuch-show-toggle-deleted))
-         :map notmuch-search-mode-map (("D" . apm-notmuch-search-toggle-deleted)))
+         :map notmuch-show-mode-map (("D" . apm-notmuch-show-toggle-deleted)
+                                     ("J" . apm-notmuch-show-toggle-spam))
+         :map notmuch-search-mode-map (("D" . apm-notmuch-search-toggle-deleted)
+                                       ("J" . apm-notmuch-search-toggle-spam))
+         :map notmuch-tree-mode-map (("D" . apm-notmuch-tree-toggle-deleted)
+                                     ("J" . apm-notmuch-tree-toggle-spam)))
   :custom (notmuch-wash-wrap-lines-length 150)
   :config
   (defun apm-notmuch-show-toggle-deleted ()
@@ -1951,6 +1955,30 @@ With a prefix argument, will default to looking for all
     (if (member "deleted" (notmuch-search-get-tags))
         (notmuch-search-tag (list "-deleted"))
       (notmuch-search-tag (list "+deleted"))))
+  (defun apm-notmuch-tree-toggle-deleted ()
+    "Toggle the deleted tag for the current message."
+    (interactive)
+    (if (member "deleted" (notmuch-tree-get-tags))
+        (notmuch-tree-tag (list "-deleted"))
+      (notmuch-tree-tag (list "+deleted"))))
+  (defun apm-notmuch-show-toggle-spam ()
+    "Toggle the spam tag for the current message."
+    (interactive)
+    (if (member "spam" (notmuch-show-get-tags))
+        (notmuch-show-tag (list "-spam"))
+      (notmuch-show-tag (list "+spam"))))
+  (defun apm-notmuch-search-toggle-spam ()
+    "Toggle the spam tag for the current message."
+    (interactive)
+    (if (member "spam" (notmuch-search-get-tags))
+        (notmuch-search-tag (list "-spam"))
+      (notmuch-search-tag (list "+spam"))))
+  (defun apm-notmuch-tree-toggle-spam ()
+    "Toggle the spam tag for the current message."
+    (interactive)
+    (if (member "spam" (notmuch-tree-get-tags))
+        (notmuch-tree-tag (list "-spam"))
+      (notmuch-tree-tag (list "+spam"))))
   ;; place sent in Sent/ maildir with sent tag and remove unread or inbox tags
   (setq notmuch-fcc-dirs "Sent +sent -unread -inbox")
   ;; place drafts in Drafts/ maildir
