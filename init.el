@@ -2011,6 +2011,9 @@ With a prefix argument, will default to looking for all
   (add-hook 'nxml-mode-hook 'hs-minor-mode)
   :config (setq nxml-slash-auto-complete-flag t))
 
+(use-package message
+  :custom (message-make-forward-subject-function 'message-forward-subject-fwd))
+
 (use-package minibuffer
   :config (setq completion-styles '(basic partial-completion orderless)))
 
