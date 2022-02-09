@@ -727,6 +727,10 @@
   :diminish elisp-def-mode
   :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode))
 
+(use-package epg
+  :config
+  (setq epg-user-id "alex.murray@canonical.com"))
+
 (use-package erc
   :ensure t
   :pin gnu
@@ -1540,7 +1544,11 @@ With a prefix argument, will default to looking for all
   (message-expand-name-standard-ui t)
   ;; set to nil to disable auto-fill-mode being turned on automatically in
   ;; message-mode buffers since we use virtual-auto-fill below
-  (message-fill-column nil))
+  (message-fill-column nil)
+  (message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
+  (message-citation-line-function #'message-insert-formatted-citation-line)
+  ;; kill message buffer after sending rather than burying
+  (message-kill-buffer-on-exit t))
 
 (use-package message-attachment-reminder
   :ensure t)
@@ -1560,6 +1568,9 @@ With a prefix argument, will default to looking for all
         (if (and justone (> (length keys) 0))
             (mml-secure-select-keys context name keys usage)
           keys))))
+  ;; encrypt to self
+  (setq mml-secure-openpgp-encrypt-to-self t)
+  (setq mml-secure-openpgp-sign-with-sender t)
   (setq mml-secure-key-preferences '((OpenPGP
                                       (sign)
                                       (encrypt
@@ -2420,6 +2431,13 @@ Captured On: %U")))))
 (use-package session-manager
   :load-path "vendor/"
   :config (session-manager-init "apm"))
+
+(use-package shr
+  :custom
+  ;; html colors in shr usually look bad especially with a dark theme
+  (shr-use-colors nil)
+  ;; also fonts don't normally layout well
+  (shr-use-fonts nil))
 
 (use-package sh-script
   :init (setq-default sh-basic-offset 2
