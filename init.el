@@ -1961,23 +1961,23 @@ With a prefix argument, will default to looking for all
     (require 'notmuch-tree))
   (defun apm-notmuch-toggle-tag (tag)
     "Toggle TAG for the current message."
-    (let ((gettags nil)
-          (tag nil))
+    (let ((gettagsfun nil)
+          (tagfun nil))
       (pcase major-mode
         ('notmuch-search-mode
-         (setq gettags #'notmuch-search-get-tags)
-         (setq tag #'notmuch-search-tag))
+         (setq gettagsfun #'notmuch-search-get-tags)
+         (setq tagfun #'notmuch-search-tag))
         ('notmuch-show-mode
-         (setq gettags #'notmuch-show-get-tags)
-         (setq tag #'notmuch-show-tag))
+         (setq gettagsfun #'notmuch-show-get-tags)
+         (setq tagfun #'notmuch-show-tag))
         ('notmuch-tree-mode
-         (setq gettags #'notmuch-tree-get-tags)
-         (setq tag #'notmuch-tree-tag))
+         (setq gettagsfun #'notmuch-tree-get-tags)
+         (setq tagfun #'notmuch-tree-tag))
         (t
          (user-error "Must be called from notmuch mode")))
-      (if (member tag (funcall gettags))
-          (funcall tag (list (concat "-" tag)))
-        (funcall tag (list (concat "+" tag))))))
+      (if (member tag (funcall gettagsfun))
+          (funcall tagfun (list (concat "-" tag)))
+        (funcall tagfun (list (concat "+" tag))))))
   (defun apm-notmuch-toggle-deleted ()
     "Toggle the deleted tag for the current message."
     (interactive)
