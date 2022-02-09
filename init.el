@@ -374,6 +374,7 @@
   :hook ((prog-mode . bug-reference-prog-mode)
          (erc-mode . bug-reference-mode)
          (mu4e-view-mode . bug-reference-mode)
+         (notmuch-show-mode . bug-reference-mode)
          (org-mode . bug-reference-mode))
   :preface (defun apm-bug-reference-url-format ()
              (let ((prefix (match-string-no-properties 2))
