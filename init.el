@@ -99,8 +99,9 @@
   :config
   ;; better keyword lightlighting
   (add-to-list 'doom-themes-base-faces '(erc-keyword-face :foreground yellow :weight 'bold))
-  (doom-themes-org-config)
-  (load-theme 'doom-vibrant t))
+  (load-theme 'doom-challenger-deep t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
 
 ;; used in some of my yasnippet snippets
 (defun apm-camelize (s &optional delim)
