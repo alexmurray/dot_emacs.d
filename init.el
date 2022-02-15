@@ -2058,7 +2058,7 @@ With a prefix argument, will default to looking for all
   (setq org-catch-invisible-edits 'smart)
   (setq org-ctrl-k-protect-subtree t)
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
-  (add-to-list 'org-file-apps '("\\.aup\\'" . "audacity %s")))
+  (add-to-list 'org-file-apps '("\\.aup3?\\'" . "audacity %s")))
 
 (use-package org-contrib
   :pin nongnu
