@@ -1988,6 +1988,7 @@ With a prefix argument, will default to looking for all
   (setq notmuch-fcc-dirs "Sent +sent -unread -inbox")
   ;; place drafts in Drafts/ maildir
   (setq notmuch-draft-folder "Drafts")
+  (setq notmuch-archive-tags '("-inbox" "-unread"))
   (setq mail-user-agent 'notmuch-user-agent)
   ;; ensure kernel team daily bug report emails display without wrapping
   (add-hook 'notmuch-show-insert-text/plain-hook 'notmuch-wash-convert-inline-patch-to-part)
