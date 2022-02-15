@@ -1543,9 +1543,6 @@ With a prefix argument, will default to looking for all
   ;; use standard completion UI for message completion
   :custom
   (message-expand-name-standard-ui t)
-  ;; set to nil to disable auto-fill-mode being turned on automatically in
-  ;; message-mode buffers since we use virtual-auto-fill below
-  (message-fill-column nil)
   (message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
   (message-citation-line-function #'message-insert-formatted-citation-line)
   ;; kill message buffer after sending rather than burying
@@ -2601,8 +2598,7 @@ Captured On: %U")))))
 
 (use-package virtual-auto-fill
   :ensure t
-  :hook ((message-mode . virtual-auto-fill-mode)
-         (markdown-mode . virtual-auto-fill-mode)))
+  :hook ((markdown-mode . virtual-auto-fill-mode)))
 
 (use-package vterm
   :load-path "/snap/emacs-vterm/current/"
