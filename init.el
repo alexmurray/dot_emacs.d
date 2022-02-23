@@ -2352,7 +2352,18 @@ Captured On: %U")))))
   :demand t
   ;; try forcing magit to be integrated with project-switch-commands
   :config (with-eval-after-load 'magit
-            (require 'magit-extras)))
+            (require 'magit-extras))
+  ;; make debian source packages work as projects
+  (defun apm-project-try-debian (dir)
+    "Find a debian source package from DIR."
+    (let ((dir (locate-dominating-file dir "debian/control")))
+      (and dir (cons 'debian dir))))
+
+  (defmethod project-root ((project (head debian)))
+    (cdr project))
+
+  (add-hook 'project-find-functions #'apm-project-try-debian))
+
 
 (use-package python
   :defer t
