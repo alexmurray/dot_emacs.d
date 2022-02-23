@@ -1392,13 +1392,16 @@ With a prefix argument, will default to looking for all
 (use-package hippie-exp
   :bind (("M-/" . hippie-expand)))
 
+(use-package hl-line
+  :config (global-hl-line-mode 1))
+
 (use-package hl-todo
   :ensure t
   :defer t
   :functions global-hl-todo-mode
   :config
   (add-to-list 'hl-todo-keyword-faces '("@todo" . "#cc9393"))
-  (global-hl-todo-mode))
+  (global-hl-todo-mode 1))
 
 (use-package hungry-delete
   :ensure t
