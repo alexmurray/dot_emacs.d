@@ -650,6 +650,10 @@
   :diminish cwarn-mode
   :init (global-cwarn-mode 1))
 
+(use-package cycle-at-point
+  :ensure t
+  :bind (("M-p" . cycle-at-point)))
+
 (use-package debian-el
   :ensure t)
 
