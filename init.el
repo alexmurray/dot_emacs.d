@@ -65,9 +65,9 @@
   (setq system-packages-use-sudo t))
 
 ;; customisations
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(setq custom-file (locate-user-emacs-file "custom.el"))
 ;; load custom but ignore error if doesn't exist
-(load custom-file t)
+(load custom-file 'noerror 'nomessage)
 
 (use-package alert
   :ensure t
@@ -296,7 +296,9 @@
 
 (use-package autorevert
   :diminish auto-revert-mode
-  :config (global-auto-revert-mode 1))
+  :config
+  (setq global-auto-revert-non-file-buffers t)
+  (global-auto-revert-mode 1))
 
 (use-package auctex
   :ensure t
@@ -2396,14 +2398,12 @@ Captured On: %U")))))
 ;; save minibuffer history
 (use-package savehist
   :init (savehist-mode 1)
-  ;; I wonder if this is causing large CPU usage like
-  ;; https://github.com/syl20bnr/spacemacs/issues/9409
-  :disabled t)
+  :config (setq history-length 25))
 
 (use-package saveplace
   :config
-  (setq-default save-place t)
-  (setq save-place-file (expand-file-name ".places" user-emacs-directory)))
+  (setq save-place-file (expand-file-name ".places" user-emacs-directory))
+  (save-place-mode 1))
 
 (use-package scratch
   :ensure t
