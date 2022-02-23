@@ -235,6 +235,7 @@
 
 (use-package all-the-icons-completion
   :ensure t
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
   :hook (after-init . all-the-icons-completion-mode))
 
 (use-package all-the-icons-dired
