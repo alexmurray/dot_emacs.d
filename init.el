@@ -99,7 +99,7 @@
   :config
   ;; better keyword lightlighting
   (add-to-list 'doom-themes-base-faces '(erc-keyword-face :foreground yellow :weight 'bold))
-  (load-theme 'doom-challenger-deep t)
+  (load-theme 'doom-tomorrow-night t)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
 
