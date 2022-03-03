@@ -686,6 +686,14 @@
   :after flyspell
   :hook (debian-changelog-mode . flyspell-mode))
 
+(use-package debian-changelog-mode
+  :ensure dpkg-dev-el
+  :config (let ((releases (split-string
+                           (shell-command-to-string
+                            "distro-info --supported-esm"))))
+            (dolist (release releases)
+              (add-to-list 'debian-changelog-allowed-distributions release))))
+
 (use-package delsel
   ;; enable delete-selection mode to allow replacing selected region
   ;; with new text automatically
