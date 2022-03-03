@@ -633,6 +633,9 @@
 (use-package consult-notmuch
   :ensure t)
 
+(use-package consult-project-extra
+  :ensure t)
+
 (use-package crontab-mode
   :ensure t)
 
