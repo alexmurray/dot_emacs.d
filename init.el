@@ -1964,6 +1964,10 @@ With a prefix argument, will default to looking for all
 (use-package nano-agenda
   :ensure t)
 
+(use-package newcomment
+  ;; prefer comment-line over comment-dwim
+  :bind (("M-;" . comment-line)))
+
 (use-package notmuch
   :ensure t
   :ensure-system-package (notmuch afew)
