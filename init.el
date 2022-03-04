@@ -1492,7 +1492,7 @@ With a prefix argument, will default to looking for all
   :hook ((prog-mode . lsp)
          (yaml-mode . lsp))
   :custom
-  (lsp-eldoc-enable-hover nil))
+  (lsp-eldoc-enable-hover t))
 
 (use-package lsp-imenu
   :ensure lsp-mode
@@ -1507,6 +1507,7 @@ With a prefix argument, will default to looking for all
   :ensure t
   :after lsp-mode
   :hook ((lsp-mode . lsp-ui-mode))
+  :custom (lsp-ui-doc-show-with-cursor t)
   :bind (:map lsp-ui-mode-map (([remap xref-find-definitions] . lsp-find-definition)
                                ([remap xref-find-references] . lsp-find-references))))
 
