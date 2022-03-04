@@ -2577,7 +2577,9 @@ Captured On: %U")))))
   :config (setq-default tramp-default-method "ssh"))
 
 (use-package tzc
-  :ensure t)
+  :ensure t
+  :custom (tzc-favourite-time-zones-alist '(("UTC+0000" "UTC")
+                                            ("Australia/Adelaide" "Adelaide"))))
 
 (use-package uct
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
