@@ -1980,7 +1980,7 @@ With a prefix argument, will default to looking for all
     (require 'notmuch-show)
     (require 'notmuch-tree))
   (defun apm-notmuch-toggle-tag (tag)
-    "Toggle TAG for the current message."
+    "Toggle TAG for the current message returning t if we set it."
     (let ((gettagsfun nil)
           (tagfun nil))
       (pcase major-mode
@@ -1997,7 +1997,9 @@ With a prefix argument, will default to looking for all
          (user-error "Must be called from notmuch mode")))
       (if (member tag (funcall gettagsfun))
           (funcall tagfun (list (concat "-" tag)))
-        (funcall tagfun (list (concat "+" tag))))))
+        (funcall tagfun (list (concat "+" tag))))
+      ;; return whether it is now set or not
+      (member tag (funcall gettagsfun))))
   (defun apm-notmuch-toggle-deleted ()
     "Toggle the deleted tag for the current message."
     (interactive)
@@ -2005,7 +2007,11 @@ With a prefix argument, will default to looking for all
   (defun apm-notmuch-toggle-spam ()
     "Toggle the spam tag for the current message."
     (interactive)
-    (apm-notmuch-toggle-tag "spam"))
+    (if (apm-notmuch-toggle-tag "spam")
+        (when-let ((url (notmuch-show-get-header :X-MailControl-ReportSpam)))
+          (and (y-or-n-p "Do you also want to report this message as spam to mailcontrol? ")
+               (eww-browse-url url)))))
+
   ;; place sent in Sent/ maildir with sent tag and remove unread or inbox tags
   (setq notmuch-fcc-dirs "Sent +sent -unread -inbox")
   ;; place drafts in Drafts/ maildir
