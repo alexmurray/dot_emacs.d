@@ -586,8 +586,7 @@
          ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
          ("M-s l" . consult-line)
          ;; https://emacsredux.com/blog/2021/11/25/redo-complex-command-with-consult/
-         ([remap repeat-complex-command] . consult-complex-command)
-)
+         ([remap repeat-complex-command] . consult-complex-command))
   :init
   ;; Replace functions (consult-multi-occur is a drop-in replacement)
   (fset 'multi-occur #'consult-multi-occur)
@@ -2552,8 +2551,8 @@ Captured On: %U")))))
                         ("Europe/London" . ("ChrisCoulson"))
                         ("Brazil/East" . ("deafpool" "leosilva" "pfsmorigo"))
                         ("America/Argentina/Buenos_Aires" . ("emitorino"))
-                        ("US/Eastern" . ("cipherboy" "dan" "shoonmcgregor" "sid" "vineetha1"))
-                        ("Canada/Eastern" . ("Avital" "mdeslaur"))
+                        ("US/Eastern" . ("dan" "shoonmcgregor" "sid" "vineetha1"))
+                        ("Canada/Eastern" . ("mdeslaur"))
                         ("US/Pacific" . ("jj" "sarnold" "sbeattie")))))
             ;; validate team
             (dolist (member team)
