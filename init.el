@@ -683,6 +683,11 @@
   :hook ((prog-mode . display-fill-column-indicator-mode)
          (text-mode . display-fill-column-indicator-mode)))
 
+(use-package display-wttr
+  :ensure t
+  :custom (display-wttr-format "1")
+  :config (display-wttr-mode 1))
+
 (use-package dpkg-dev-el
   :ensure t
   :after flyspell
