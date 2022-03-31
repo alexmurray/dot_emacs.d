@@ -2004,7 +2004,7 @@ With a prefix argument, will default to looking for all
         ('notmuch-tree-mode
          (setq gettagsfun #'notmuch-tree-get-tags)
          (setq tagfun #'notmuch-tree-tag))
-        (t
+        (_
          (user-error "Must be called from notmuch mode")))
       (if (member tag (funcall gettagsfun))
           (funcall tagfun (list (concat "-" tag)))
