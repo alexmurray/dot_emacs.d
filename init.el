@@ -546,7 +546,9 @@
 
 (use-package compile
   ;; automatically scroll to first error on output
-  :config (setq compilation-scroll-output 'first-error))
+  :config (setq compilation-scroll-output 'first-error)
+  ;; use compilation-mode for .build files
+  (add-to-list 'auto-mode-alist '("\\.build\\'" . compilation-mode)))
 
 (use-package consult
   :ensure t
