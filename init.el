@@ -2032,11 +2032,35 @@ With a prefix argument, will default to looking for all
   ;; ensure kernel team daily bug report emails display without wrapping
   (add-hook 'notmuch-show-insert-text/plain-hook 'notmuch-wash-convert-inline-patch-to-part)
 
+  ;; add gnus-art emphasis highlighting too
+  (with-eval-after-load 'gnus-art
+    (defun apm-notmuch-wash-article-emphasize (_msg _depth)
+      (dolist (elem gnus-emphasis-alist)
+        (let ((regexp (car elem))
+              (invisible (nth 1 elem))
+              (visible (nth 2 elem))
+              (face (nth 3 elem))
+              (props (append '(article-type emphasis)
+                             gnus-hidden-properties)))
+          (goto-char (point-min))
+          (while (re-search-forward regexp nil t)
+            (when (and (match-beginning visible) (match-beginning invisible))
+              (gnus-article-hide-text
+               (match-beginning invisible) (match-end invisible) props)
+              (gnus-article-unhide-text-type
+               (match-beginning visible) (match-end visible) 'emphasis)
+              (gnus-put-overlay-excluding-newlines
+               (match-beginning visible) (match-end visible) 'face face)
+              (gnus-add-wash-type 'emphasis)
+              (goto-char (match-end invisible)))))))
+
+    (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-article-emphasize))
+
   ;; ensure when viewing parts we use a tmp dir which all snaps and regular
   ;; applications can access
   (setq mm-tmp-directory (expand-file-name "~/tmp"))
   (unless (file-exists-p mm-tmp-directory)
-        (make-directory mm-tmp-directory)))
+    (make-directory mm-tmp-directory)))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
