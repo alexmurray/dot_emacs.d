@@ -2414,7 +2414,7 @@ Captured On: %U")))))
     (let ((dir (locate-dominating-file dir "debian/control")))
       (and dir (cons 'debian dir))))
 
-  (defmethod project-root ((project (head debian)))
+  (cl-defmethod project-root ((project (head debian)))
     (cdr project))
 
   (add-hook 'project-find-functions #'apm-project-try-debian))
