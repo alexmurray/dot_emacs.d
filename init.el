@@ -618,17 +618,17 @@
       (org-clock-in nil (when resolve
                           (org-resolve-clocks)
                           (org-read-date t t)))))
+
   (consult-customize consult-clock-in
                      :prompt "Clock in: "
                      :preview-key (kbd "M-.")
                      :group
                      (lambda (cand transform)
-                       (if transform
-                           (substring cand (next-single-property-change 0 'consult-org--buffer cand))
-                         (let ((m (car (get-text-property 0 'consult-org--heading cand))))
-                           (if (member m org-clock-history)
-                               "*Recent*"
-                             (buffer-name (marker-buffer m))))))))
+                       (let* ((marker (get-text-property 0 'consult--candidate cand))
+                              (name (if (member marker org-clock-history)
+                                        "*Recent*"
+                                      (buffer-name (marker-buffer marker)))))
+                         (if transform (substring cand (1+ (length name))) name)))))
 
 (use-package consult-flycheck
   :ensure t
