@@ -472,6 +472,10 @@
 (use-package code-review
   :ensure t)
 
+(use-package comint-mime
+  :ensure t
+  :hook ((shell-mode . comint-mime-setup)))
+
 (use-package company
   :ensure t
   :diminish company-mode
