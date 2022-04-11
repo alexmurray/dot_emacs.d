@@ -140,9 +140,6 @@
 (setq-default fill-column 75)
 (setq-default comment-column 75)
 
-;; just use y or n not yes or no
-(defalias 'yes-or-no-p 'y-or-n-p)
-
 ;; don't try and use dialog boxes
 (setq-default use-dialog-box nil)
 (setq-default use-file-dialog nil)
@@ -1377,10 +1374,6 @@ With a prefix argument, will default to looking for all
   :ensure t
   :config (goggles-mode 1))
 
-(use-package good-scroll
-  :ensure t
-  :config (good-scroll-mode 1))
-
 (use-package go-mode
   :ensure t
   :hook ((go-mode . lsp-deferred)
@@ -1441,11 +1434,6 @@ With a prefix argument, will default to looking for all
 
 (use-package imenu
   :bind (("M-i" . imenu)))
-
-(use-package iscroll
-  :ensure t
-  :diminish iscroll-mode
-  :hook ((erc-mode .  iscroll-mode)))
 
 (use-package ispell
   :defer t
@@ -1966,19 +1954,6 @@ With a prefix argument, will default to looking for all
   :init
   (setq mu4e-marker-icons-use-unicode t)
   (mu4e-marker-icons-mode 1))
-
-(use-package mwheel
-  :config
-  ;; Scroll one line at a time (less "jumpy" than defaults)
-  (setq mouse-wheel-scroll-amount '(1
-                                    ((shift) . 5)
-                                    ((control))))
-  (setq mouse-wheel-progressive-speed nil)
-  (setq scroll-step 1
-        scroll-margin 0
-        scroll-conservatively 100000)
-  (setq fast-but-imprecise-scrolling t))
-
 
 (use-package nano-agenda
   :ensure t)
