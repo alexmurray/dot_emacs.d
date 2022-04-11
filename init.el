@@ -1475,6 +1475,10 @@ With a prefix argument, will default to looking for all
       auth-source t)))
   (ldap-default-host "ldaps://ldap.canonical.com"))
 
+(use-package lin
+  :ensure t
+  :config (setq lin-face 'lin-cyan-override-fg))
+
 (use-package link-hint
   :ensure t
   :bind
