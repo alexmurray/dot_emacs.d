@@ -689,11 +689,6 @@
   :hook ((prog-mode . display-fill-column-indicator-mode)
          (text-mode . display-fill-column-indicator-mode)))
 
-(use-package display-wttr
-  :ensure t
-  :custom (display-wttr-format "1")
-  :config (display-wttr-mode 1))
-
 (use-package dpkg-dev-el
   :ensure t
   :after flyspell
@@ -2717,13 +2712,6 @@ Captured On: %U")))))
 
 (use-package world-time-mode
   :ensure t)
-
-(use-package wttrin
-  :load-path "~/git/emacs-wttrin/"
-  :bind (("C-c f f" . wttrin))
-  :config
-  (setq wttrin-api-version 2)
-  (setq wttrin-default-cities '("Adelaide")))
 
 (use-package yaml-mode
   :ensure t)
