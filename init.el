@@ -290,6 +290,9 @@
 (use-package apropos
   :bind ("C-h a" . apropos))
 
+(use-package arc-mode
+  :config  (add-to-list 'auto-mode-alist '("\\.snap\\'" . archive-mode)))
+
 (use-package asn1-mode
   :ensure t
   :defer t
