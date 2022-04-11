@@ -152,6 +152,9 @@
 ;; remove message from initial scratch buffer
 (setq initial-scratch-message nil)
 
+;; don't restore window layout on minibuffer exit
+(setq read-minibuffer-restore-windows nil)
+
 ;; disable menu, tool and scroll-bars, show time
 (menu-bar-mode 0)
 (tool-bar-mode 0)
@@ -618,17 +621,17 @@
       (org-clock-in nil (when resolve
                           (org-resolve-clocks)
                           (org-read-date t t)))))
-
   (consult-customize consult-clock-in
                      :prompt "Clock in: "
                      :preview-key (kbd "M-.")
                      :group
                      (lambda (cand transform)
-                       (let* ((marker (get-text-property 0 'consult--candidate cand))
-                              (name (if (member marker org-clock-history)
-                                        "*Recent*"
-                                      (buffer-name (marker-buffer marker)))))
-                         (if transform (substring cand (1+ (length name))) name)))))
+                       (if transform
+                           (substring cand (next-single-property-change 0 'consult-org--buffer cand))
+                         (let ((m (car (get-text-property 0 'consult-org--heading cand))))
+                           (if (member m org-clock-history)
+                               "*Recent*"
+                             (buffer-name (marker-buffer m))))))))
 
 (use-package consult-flycheck
   :ensure t
@@ -1197,7 +1200,10 @@ With a prefix argument, will default to looking for all
 
 (use-package files
   :bind ("C-c r" . revert-buffer)
-  :custom (view-read-only t))
+  :config
+  :custom
+  (view-read-only t)
+  (save-some-buffers-default-predicate #'save-some-buffers-root))
 
 (use-package flycheck
   :ensure t
@@ -1395,6 +1401,9 @@ With a prefix argument, will default to looking for all
 
 (use-package help-at-pt
   :custom (help-at-pt-display-when-idle t))
+
+(use-package help-fns
+  :config (setq describe-bindings-outline t))
 
 (use-package helpful
   :ensure t
@@ -2385,6 +2394,11 @@ Captured On: %U")))))
   :config
   (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
 
+(use-package pixel-scroll
+  :config (if (fboundp 'pixel-scroll-precision-mode)
+              (pixel-scroll-precision-mode 1)
+            (pixel-scroll-mode 1)))
+
 (use-package pod-mode
   :load-path "vendor/"
   :mode ("\\.pod$" . pod-mode))
@@ -2529,6 +2543,7 @@ Captured On: %U")))))
   ;; save whatever is in the system clipboard to the kill ring before
   ;; killing something else into the kill ring
   (setq save-interprogram-paste-before-kill t)
+  (setq next-error-message-highlight t)
   (setq visual-line-fringe-indicators
         '(left-curly-arrow right-curly-arrow)))
 
