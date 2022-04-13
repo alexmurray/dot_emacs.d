@@ -254,6 +254,7 @@
   (setq android-mode-key-prefix (kbd "C-c C-m")))
 
 (use-package ansi-color
+  :hook ((compilation-filter . ansi-color-compilation-filter))
   ;; show colours correctly in shell
   :config (ansi-color-for-comint-mode-on))
 
@@ -475,6 +476,9 @@
 (use-package code-review
   :ensure t)
 
+(use-package comint
+  :hook ((comint-output-filter-functions . comint-osc-process-output)))
+
 (use-package comint-mime
   :ensure t
   :hook ((shell-mode . comint-mime-setup)))
@@ -552,6 +556,7 @@
   :init (add-to-list 'company-backends 'company-web-html))
 
 (use-package compile
+  :hook ((shell-mode . compilation-shell-minor-mode))
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error)
   ;; use compilation-mode for .build files
@@ -2736,7 +2741,7 @@ Captured On: %U")))))
 (use-package whitespace
   :diminish whitespace-mode global-whitespace-mode
   :init (setq-default whitespace-style
-                      '(face tabs tab-mark trailing))
+                      '(face tabs tab-mark trailing missing-newline-at-eof))
   :config
   ;; whitespace-mode is not useful for erc or magit-log buffers
   (setq whitespace-global-modes '(not erc-mode magit-log-mode vterm-mode))
@@ -2770,7 +2775,8 @@ Captured On: %U")))))
   :bind ("C-h x" . x86-lookup))
 
 (use-package xref
-  :ensure t)
+  :ensure t
+  :custom (xref-search-program 'ripgrep))
 
 (use-package ztree
   :ensure t
