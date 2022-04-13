@@ -2137,7 +2137,7 @@ With a prefix argument, will default to looking for all
   ;; @ = add note with time
   ;; ! = record only time of state change
   ;; | = remaining keywords are final states
-  (setq org-todo-keywords '((sequence "TODO(t)" "BLOCKED(b@)" "DEFERRED(D@)" "|" "DONE")
+  (setq org-todo-keywords '((sequence "TODO(t)" "WORK(w)" "|" "DONE")
                             (sequence "|" "CANCELLED(c@)" "DELEGATED(G@)")))
   ;; ensure it is harder to inadvertently delete collapsed parts of org
   ;; documents
