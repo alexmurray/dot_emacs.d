@@ -670,6 +670,10 @@
   :ensure t
   :bind (("M-p" . cycle-at-point)))
 
+(use-package deadgrep
+  :ensure t
+  :ensure-system-package (rg . ripgrep))
+
 (use-package debian-el
   :ensure t)
 
