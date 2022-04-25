@@ -2311,22 +2311,6 @@ Captured On: %U")))))
   ;; store link to message if in header view, not to header query
   :config (setq mu4e-org-link-query-in-headers-mode nil))
 
-(use-package org-protocol
-  :ensure org-contrib
-  :init (let ((handler (shell-command-to-string "xdg-mime query default x-scheme-handler/org-protocol")))
-          (unless (string-match "^emacsclient.*.desktop" handler)
-            ;; ensure an emacsclient26.desktop file exists in
-            ;; ~/.local/share/applications and that it has a MimeType
-            ;; entry of x-scheme-handler/org-protocol;
-
-            ;; then run the following to set it as the default handler:
-            ;; xdg-mime default emacsclient26.desktop \
-            ;; x-scheme-handler/org-protocol
-
-            ;; also see the following
-            ;; https://github.com/sprig/org-capture-extension#under-linux
-            (alert "Please configure emacsclient as handler for org-protocol"))))
-
 (use-package org-src
   :ensure org-contrib
   :pin nongnu
