@@ -2084,7 +2084,23 @@ With a prefix argument, will default to looking for all
   ;; applications can access
   (setq mm-tmp-directory (expand-file-name "~/tmp"))
   (unless (file-exists-p mm-tmp-directory)
-    (make-directory mm-tmp-directory)))
+    (make-directory mm-tmp-directory))
+
+  ;; periodically refresh all notmuch buffers every 5 minutes - actually
+  ;; this causes point to move and so loses our place in the inbox buffer
+  ;; when refresh happens so don't do this for now...
+  (when nil
+    (defvar apm-notmuch-refresh-timer nil)
+    (when (timerp apm-notmuch-refresh-timer)
+      (cancel-timer apm-notmuch-refresh-timer))
+    (setq apm-notmuch-refresh-timer
+          (run-at-time t 300 #'notmuch-refresh-all-buffers))
+
+    ;; also ensure cursor doesn't move when notmuch buffers get refreshed
+    (define-advice notmuch-refresh-this-buffer (:around (orig-fun &rest args) save-excursion-around-notmuch-refresh)
+      "Save cursor position around notmuch-refresh-this-buffer."
+      (save-excursion
+        (apply orig-fun args)))))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
