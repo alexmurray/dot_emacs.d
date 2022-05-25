@@ -2734,21 +2734,11 @@ Captured On: %U")))))
 (use-package webpaste
   :ensure t
   :bind (("C-c C-p C-b" . webpaste-paste-buffer)
-         ("C-c C-p C-r" . webpaste-paste-region))
+         ("C-c C-p C-r" . webpaste-paste-region)
+         ("C-c C-p C-p" . webpaste-paste-region-or-region))
   :demand t
   :config
   (setq webpaste-paste-confirmation t)
-  (add-to-list 'webpaste-providers-alist
-               `("paste.ubuntu.com"
-                 :uri "https://paste.ubuntu.com/"
-                 ;; poster cannot be empty string and expiry in 1 day
-                 :post-data (("poster" . ,user-full-name)
-                             ("expiration" . "day"))
-                 :post-field "content"
-                 :post-lang-field-name "syntax"
-                 ;; should this be common-lisp perhaps?
-                 :lang-overrides ((emacs-lisp-mode . "clojure"))
-                 :success-lambda webpaste--providers-success-response-url))
   (setq webpaste-provider-priority '("paste.ubuntu.com")))
 
 (use-package which-key
