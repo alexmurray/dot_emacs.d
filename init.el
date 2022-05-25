@@ -723,9 +723,12 @@
 
 (use-package debian-changelog-mode
   :ensure dpkg-dev-el
-  :config (let ((releases (split-string
-                           (shell-command-to-string
-                            "distro-info --supported-esm"))))
+  :config (let ((releases (append (split-string
+                                   (shell-command-to-string
+                                    "distro-info --supported-esm"))
+                                   (split-string
+                                   (shell-command-to-string
+                                    "distro-info --devel")))))
             (dolist (release releases)
               (add-to-list 'debian-changelog-allowed-distributions release))))
 
