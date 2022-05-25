@@ -76,6 +76,7 @@
 
 (use-package doom-modeline
   :preface
+  :disabled t
   (eval-and-compile
     (require 'erc-track))
   (defun apm-erc-stylize-buffer-name (name)
@@ -96,12 +97,27 @@
 
 (use-package doom-themes
   :ensure t
+  :disabled t
   :config
   ;; better keyword lightlighting
   (add-to-list 'doom-themes-base-faces '(erc-keyword-face :foreground yellow :weight 'bold))
   (load-theme 'doom-tomorrow-night t)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
+
+(use-package modus-themes
+  :ensure t
+  :custom
+  (modus-themes-bold-constructs t)
+  (modus-themes-italic-constructs t)
+  (modus-themes-hl-line '(accented))
+  (modus-themes-mail-citations 'intense)
+  (modus-themes-region '(bg-only no-extend))
+  (modus-themes-mixed-fonts t)
+  (modus-themes-paren-match '(intense))
+  (modus-themes-org-blocks 'tinted-background)
+  (modus-themes-mode-line '(borderless (padding . 4) (height . 1.0)))
+  :config (load-theme 'modus-operandi t))
 
 ;; used in some of my yasnippet snippets
 (defun apm-camelize (s &optional delim)
