@@ -1558,7 +1558,8 @@ With a prefix argument, will default to looking for all
   :hook ((prog-mode . lsp)
          (yaml-mode . lsp))
   :custom
-  (lsp-eldoc-enable-hover t))
+  (lsp-eldoc-enable-hover t)
+  (lsp-file-watch-threshold 3000))
 
 (use-package lsp-imenu
   :ensure lsp-mode
