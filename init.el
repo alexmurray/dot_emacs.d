@@ -2193,6 +2193,10 @@ With a prefix argument, will default to looking for all
   :ensure t
   :hook (org-mode . org-appear-mode))
 
+(use-package org-autolist
+  :ensure t
+  :hook (org-mode . org-autolist-mode))
+
 (use-package org-refile
   :ensure org-contrib
   :config
