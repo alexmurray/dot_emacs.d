@@ -2224,14 +2224,17 @@ With a prefix argument, will default to looking for all
   (setq org-refile-use-outline-path 'file)
   (setq org-outline-path-complete-in-steps nil))
 
+(use-package org-ql
+  :ensure t)
+
 ;; add support for man: links in org documents
 (use-package ol-man
   :ensure org-contrib
   :pin nongnu)
 
 (use-package ol-notmuch
-  :ensure org-contrib
-  :pin nongnu)
+  :ensure t
+  :pin melpa)
 
 (use-package org-agenda
   :ensure org-contrib
