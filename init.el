@@ -664,6 +664,20 @@
 (use-package consult-project-extra
   :ensure t)
 
+(use-package copilot
+  :load-path "vendor/"
+  :preface
+  (defun apm-copilot-tab ()
+    (interactive)
+    (or (copilot-accept-completion)
+        (indent-for-tab-command)))
+  :bind (:map copilot-mode-map
+              ("<tab>" . apm-copilot-tab))
+  :hook ((prog-mode . copilot-mode))
+  :init (setq copilot--base-dir "/snap/copilot-client/current")
+  :custom
+  (copilot-node-executable "copilot-client.node"))
+
 (use-package crontab-mode
   :ensure t)
 
