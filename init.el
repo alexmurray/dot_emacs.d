@@ -2210,6 +2210,7 @@ With a prefix argument, will default to looking for all
 
 (use-package org-autolist
   :ensure t
+  :diminish org-autolist-mode
   :hook (org-mode . org-autolist-mode))
 
 (use-package org-refile
