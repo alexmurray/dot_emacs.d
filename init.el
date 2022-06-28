@@ -76,7 +76,6 @@
 
 (use-package doom-modeline
   :preface
-  :disabled t
   (eval-and-compile
     (require 'erc-track))
   (defun apm-erc-stylize-buffer-name (name)
@@ -87,11 +86,13 @@
         name)))
   :ensure t
   :custom
-  (doom-modeline-mu4e t)
-  (doom-modeline-irc t)
+  (doom-modeline-hud t)
+  (doom-modeline-unicode-fallback t)
+  (doom-modeline-github t)
   (doom-modeline-irc-buffers t)
   (doom-modeline-irc-stylize #'apm-erc-stylize-buffer-name)
   (doom-modeline-buffer-encoding nil)
+  (doom-modeline-env-python-executable "python3")
   :init
   (doom-modeline-mode 1))
 
@@ -116,7 +117,7 @@
   (modus-themes-mixed-fonts t)
   (modus-themes-paren-match '(intense))
   (modus-themes-org-blocks 'tinted-background)
-  (modus-themes-mode-line '(borderless (padding . 4) (height . 1.0)))
+  (modus-themes-mode-line '(borderless (padding . 1) (height . 1.0)))
   :config (load-theme 'modus-operandi t))
 
 ;; used in some of my yasnippet snippets
