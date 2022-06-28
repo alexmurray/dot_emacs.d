@@ -2083,13 +2083,14 @@ With a prefix argument, will default to looking for all
     (if (apm-notmuch-toggle-tag "spam")
         (when-let ((url (notmuch-show-get-header :X-MailControl-ReportSpam)))
           (and (y-or-n-p "Do you also want to report this message as spam to mailcontrol? ")
-               (url-retrieve (concat url)
-                             (lambda (s)
-                               (let ((status (url-http-symbol-value-in-buffer
-                                              'url-http-response-status (current-buffer))))
-                                 (pcase status
-                                   (200 (message "Reported as spam"))
-                                   (_ (user-error "Failed to report as spam: %s" status))))) )))))
+               (let ((subject (notmuch-show-get-subject)))
+                 (url-retrieve (concat url)
+                               (lambda (s)
+                                 (let ((status (url-http-symbol-value-in-buffer
+                                                'url-http-response-status (current-buffer))))
+                                   (pcase status
+                                     (200 (message "Reported '%s' as spam" subject))
+                                     (_ (user-error "Failed to report as spam: %s" status))))) ))))))
 
   ;; place sent in Sent/ maildir with sent tag and remove unread or inbox tags
   (setq notmuch-fcc-dirs "Sent +sent -unread -inbox")
