@@ -675,7 +675,10 @@
   :bind (:map copilot-mode-map
               ("<tab>" . apm-copilot-tab))
   :hook ((prog-mode . copilot-mode))
-  :init (setq copilot--base-dir "/snap/copilot-client/current")
+  ;; this needs to be set after copilot-mode is loaded otherwise it will
+  ;; still be the default value which is relative to copilot.el in our
+  ;; local vendor directory
+  :config (setq copilot--base-dir "/snap/copilot-client/current")
   :custom
   (copilot-node-executable "copilot-client.node"))
 
