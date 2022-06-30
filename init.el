@@ -2588,13 +2588,6 @@ Captured On: %U")))))
   :load-path "vendor/"
   :config (session-manager-init "apm"))
 
-(use-package shr
-  :custom
-  ;; html colors in shr usually look bad especially with a dark theme
-  (shr-use-colors nil)
-  ;; also fonts don't normally layout well
-  (shr-use-fonts nil))
-
 (use-package sh-script
   :init (setq-default sh-basic-offset 2
                       sh-indentation 2))
