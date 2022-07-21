@@ -2608,11 +2608,11 @@ Captured On: %U")))))
   ;; store password using secret-tool as follows:
   ;; secret-tool store --label='Canonical SMTP' host smtp.canonical.com port 587 user amurray
   ;; then enter PASSWORD
-  :config
-  (setq smtpmail-smtp-user "amurray")
-  (setq smtpmail-local-domain "canonical.com")
-  (setq smtpmail-smtp-server "smtp.canonical.com")
-  (setq smtpmail-smtp-service 587))
+  :custom
+  (smtpmail-smtp-user "amurray")
+  (smtpmail-local-domain "canonical.com")
+  (smtpmail-smtp-server "smtp.canonical.com")
+  (smtpmail-smtp-service 587))
 
 (use-package so-long
   :config (global-so-long-mode 1))
