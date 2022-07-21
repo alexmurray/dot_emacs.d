@@ -2613,6 +2613,7 @@ Captured On: %U")))))
   ;; then enter PASSWORD
   :config
   (setq smtpmail-smtp-user "amurray")
+  (setq smtpmail-local-domain "canonical.com")
   (setq smtpmail-smtp-server "smtp.canonical.com")
   (setq smtpmail-smtp-service 587))
 
