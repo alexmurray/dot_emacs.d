@@ -2139,7 +2139,10 @@ With a prefix argument, will default to looking for all
     (define-advice notmuch-refresh-this-buffer (:around (orig-fun &rest args) save-excursion-around-notmuch-refresh)
       "Save cursor position around notmuch-refresh-this-buffer."
       (save-excursion
-        (apply orig-fun args)))))
+        (apply orig-fun args))))
+
+  ;; add a few helpful custom saved search queries
+  (add-to-list 'notmuch-saved-searches '("cvewebbot" . "from:noreply+security-tools@canonical.com and subject:\"CVE webbot process errors\"")))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
