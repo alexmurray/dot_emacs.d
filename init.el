@@ -504,8 +504,7 @@
   :ensure t
   :diminish company-mode
   ;; Use Company for completion
-  :bind (("C-<tab>" . company-complete-common)
-         :map company-mode-map
+  :bind (:map company-mode-map
          ([remap completion-at-point] . company-complete-common)
          ([remap complete-symbol] . company-complete-common)
          ([remap indent-for-tab-command] . company-indent-or-complete-common))
@@ -667,13 +666,8 @@
 
 (use-package copilot
   :load-path "vendor/"
-  :preface
-  (defun apm-copilot-tab ()
-    (interactive)
-    (or (copilot-accept-completion)
-        (indent-for-tab-command)))
   :bind (:map copilot-mode-map
-              ("<tab>" . apm-copilot-tab))
+              ("C-<tab>" . copilot-accept-completion))
   :hook ((prog-mode . copilot-mode))
   ;; this needs to be set after copilot-mode is loaded otherwise it will
   ;; still be the default value which is relative to copilot.el in our
