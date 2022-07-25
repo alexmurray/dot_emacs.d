@@ -502,6 +502,7 @@
 
 (use-package company
   :ensure t
+  :disabled t
   :diminish company-mode
   ;; Use Company for completion
   :bind (:map company-mode-map
@@ -530,16 +531,19 @@
 
 (use-package company-auctex
   :ensure t
+  :disabled t
   :defer t
   :hook ((LaTeX-mode . company-auctex-init)))
 
 (use-package company-dabbrev
   :after company
+  :disabled t
   ;; keep original case
   :config (setq company-dabbrev-downcase nil))
 
 (use-package company-math
   :ensure t
+  :disabled t
   :defer t
   :after company
   ;; Add backend for math characters
@@ -549,27 +553,57 @@
 
 (use-package company-posframe
   :ensure t
+  :disabled t
   :diminish company-posframe-mode
   :hook (after-init . company-posframe-mode))
 
 (use-package company-reftex
   :ensure t
   :after company
+  :disabled t
   :init
   (add-to-list 'company-backends 'company-reftex-labels)
   (add-to-list 'company-backends 'company-reftex-citations))
 
 (use-package company-shell
   :ensure t
+  :disabled t
   :defer t
   :after company
   :init (add-to-list 'company-backends 'company-shell))
 
 (use-package company-web
   :ensure t
+  :disabled t
   :defer t
   :after company
   :init (add-to-list 'company-backends 'company-web-html))
+
+(use-package corfu
+  :ensure t
+  :custom
+  (corfu-cycle t)
+  (corfu-auto t)
+  :init
+  (global-corfu-mode 1)
+  (setq tab-always-indent 'complete)
+  ;; cycle with at least 3 candidates
+  (setq completion-cycle-threshold 3))
+
+(use-package corfu-doc
+  :ensure t
+  :hook (corfu-mode . corfu-doc-mode)
+  :bind (:map corfu-map
+              ("M-p" . corfu-doc-scroll-down)
+              ("M-n" . corfu-doc-scroll-up)
+              ("M-d" . corfu-doc-toggle)))
+
+(use-package cape
+  :ensure t
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file))
 
 (use-package compile
   :hook ((shell-mode . compilation-shell-minor-mode))
@@ -1484,6 +1518,14 @@ With a prefix argument, will default to looking for all
 (use-package keypression
   :ensure t)
 
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
 (use-package journalctl-mode
   :ensure t)
 
@@ -2142,7 +2184,7 @@ With a prefix argument, will default to looking for all
         (apply orig-fun args))))
 
   ;; add a few helpful custom saved search queries
-  (add-to-list 'notmuch-saved-searches '("cvewebbot" . "from:noreply+security-tools@canonical.com and subject:\"CVE webbot process errors\"")))
+  (add-to-list 'notmuch-saved-searches '(:name "cvewebbot" :query "from:noreply+security-tools@canonical.com and subject:\"CVE webbot process errors\"" :key "c")))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
@@ -2166,7 +2208,10 @@ With a prefix argument, will default to looking for all
   :custom (message-make-forward-subject-function 'message-forward-subject-fwd))
 
 (use-package minibuffer
-  :config (setq completion-styles '(basic partial-completion orderless)))
+  :config
+  (setq completion-styles '(basic orderless))
+  (setq completion-category-defaults nil)
+  (setq completion-category-overrides '((file (styles . (partial-completion))))))
 
 (use-package orderless
   ;; for vertico
