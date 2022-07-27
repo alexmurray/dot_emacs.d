@@ -1223,6 +1223,14 @@ With a prefix argument, will default to looking for all
           (read-string "Id: " initial)))))
     (eudc-display-records (eudc-query  `((launchpadid . ,id))))))
 
+(use-package eudc-capf
+  :config
+  (add-to-list 'eudc-capf-modes 'notmuch-message-mode))
+
+(use-package eudcb-notmuch-address
+  :load-path "vendor/"
+  :config (add-to-list 'eudc-server-hotlist '("localhost" . notmuch-address)))
+
 (use-package eshell
   :defer t
   :preface
