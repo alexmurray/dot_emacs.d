@@ -804,6 +804,11 @@
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain
                 ediff-split-window-function 'split-window-horizontally))
 
+(use-package eglot
+  :ensure t
+  :pin gnu
+  :hook (prog-mode . eglot-mode))
+
 (use-package eldoc
   :diminish eldoc-mode
   :config (global-eldoc-mode 1))
@@ -1380,8 +1385,7 @@ With a prefix argument, will default to looking for all
 
 (use-package go-mode
   :ensure t
-  :hook ((go-mode . lsp-deferred)
-         (before-save . gofmt-before-save)))
+  :hook ((before-save . gofmt-before-save)))
 
 (use-package goto-addr
   :defer t
@@ -1537,33 +1541,6 @@ With a prefix argument, will default to looking for all
   :after magit
   :init (unless (executable-find "git-lp-open")
           (alert "Please install the gitlptools snap")))
-
-(use-package lsp-mode
-  :ensure t
-  ;; wants yasnippet by default and complains if not already available
-  :after yasnippet
-  :hook ((prog-mode . lsp)
-         (yaml-mode . lsp))
-  :custom
-  (lsp-eldoc-enable-hover t)
-  (lsp-file-watch-threshold 3000))
-
-(use-package lsp-imenu
-  :ensure lsp-mode
-  :hook ((lsp-after-open . lsp-enable-imenu)))
-
-(use-package lsp-pyright
-  :ensure t
-  :init (unless (executable-find "pyright-langserver")
-          (alert "Please install the pyright snap")))
-
-(use-package lsp-ui
-  :ensure t
-  :after lsp-mode
-  :hook ((lsp-mode . lsp-ui-mode))
-  :custom (lsp-ui-doc-show-with-cursor t)
-  :bind (:map lsp-ui-mode-map (([remap xref-find-definitions] . lsp-find-definition)
-                               ([remap xref-find-references] . lsp-find-references))))
 
 (use-package magit
   :ensure t
