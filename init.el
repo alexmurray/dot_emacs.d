@@ -687,11 +687,6 @@
                                       (buffer-name (marker-buffer marker)))))
                          (if transform (substring cand (1+ (length name))) name)))))
 
-(use-package consult-flycheck
-  :ensure t
-  :bind (:map flycheck-command-map
-              ("!" . consult-flycheck)))
-
 (use-package consult-notmuch
   :ensure t)
 
@@ -721,7 +716,7 @@
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts"
   :mode (("CVE-[[:digit:]]\\{4\\}-[[:digit:]]\\{4,\\}\\'" . cve-mode)
          ("00boilerplate.*\\'" . cve-mode))
-  :hook ((cve-mode . flycheck-mode)))
+  :hook ((cve-mode . flymake-mode)))
 
 ;; show suspicious c constructs automatically
 (use-package cwarn
@@ -1273,70 +1268,8 @@ With a prefix argument, will default to looking for all
   (view-read-only t)
   (save-some-buffers-default-predicate #'save-some-buffers-root))
 
-(use-package flycheck
-  :ensure t
-  :diminish flycheck-mode
-  :commands flycheck-add-next-checker
-  :ensure-system-package (cppcheck shellcheck)
-  :init (setq-default flycheck-emacs-lisp-load-path 'inherit)
-  :hook ((prog-mode . flycheck-mode))
-  :config
-  ;; use lsp checker via cquery instead
-  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))
-  (setq-default flycheck-display-errors-delay 0.2))
-
-(use-package flycheck-checkbashisms
-  :ensure t
-  :after flycheck
-  :ensure-system-package (checkbashisms . devscripts)
-  :config (flycheck-checkbashisms-setup))
-
-(use-package flycheck-clang-analyzer
-  :ensure t
-  :after flycheck
-  :ensure-system-package clang
-  :config
-  (setq flycheck-clang-analyzer-executable "clang")
-  (flycheck-clang-analyzer-setup)
-  ;; automatically sets itself up as next checker after lsp so undo
-  ;; that so is instead after cppcheck
-  (ignore-errors
-    (delete '(warning . clang-analyzer)
-            (flycheck-checker-get 'lsp 'next-checkers)))
-  (flycheck-add-next-checker 'c/c++-cppcheck '(t . clang-analyzer)))
-
-(use-package flycheck-coverity
-  :ensure t
-  :after flycheck-clang-analyzer
-  :init (unless (executable-find "cov-run-desktop")
-          (alert "cov-run-desktop not found - is it installed?"))
-  :config
-  (flycheck-coverity-setup)
-  (flycheck-add-next-checker 'clang-analyzer '(t . coverity)))
-
-(use-package flycheck-package
-  :ensure t
-  :after flycheck
-  :config (flycheck-package-setup))
-
-(use-package flycheck-pod
-  :load-path "vendor/")
-
-(use-package flycheck-posframe
-  ;; :ensure t
-  :load-path "~/git/flycheck-posframe"
-  :after (flycheck posframe)
-  :hook ((flycheck-mode . flycheck-posframe-mode))
-  :config (flycheck-posframe-configure-pretty-defaults))
-
-(use-package flycheck-relint
-  :ensure t
-  :after (flycheck flycheck-package)
-  :config (flycheck-relint-setup))
-
-(use-package flycheck-rust
-  :ensure t
-  :config (flycheck-rust-setup))
+(use-package flymake
+  :hook (prog-mode . flymake-mode))
 
 (use-package flyspell
   :defer t
