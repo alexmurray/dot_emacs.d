@@ -731,7 +731,8 @@
 (use-package eglot
   :ensure t
   :pin gnu
-  :hook (prog-mode . eglot-mode))
+  :hook (prog-mode . eglot-ensure)
+  :custom (eglot-extend-to-xref t))
 
 (use-package eldoc
   :diminish eldoc-mode
