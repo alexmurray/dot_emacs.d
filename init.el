@@ -2338,14 +2338,9 @@ Captured On: %U")))))
 
 (use-package pdf-tools
   :load-path "/snap/pdf-tools/current/usr/share/emacs/site-lisp/pdf-tools"
-  ;; only try and install when needed
-  :mode ("\\.pdf\\'" . pdf-tools-install))
-
-(use-package pdf-view-restore
-  :ensure t
-  :after pdf-tools
-  :config
-  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
+  :custom
+  (pdf-info-epdfinfo-program "pdf-tools.epdfinfo")
+  (pdf-info-epdfinfo-error-filename (expand-file-name "~/snap/pdf-tools/common/epdfinfo.log")))
 
 (use-package pixel-scroll
   :config (if (fboundp 'pixel-scroll-precision-mode)
