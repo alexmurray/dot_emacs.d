@@ -1209,6 +1209,10 @@ With a prefix argument, will default to looking for all
 (use-package flymake
   :hook (prog-mode . flymake-mode))
 
+(use-package flymake-shellcheck
+  :ensure t
+  :hook (sh-mode . flymake-shellcheck-load))
+
 (use-package flyspell
   :defer t
   :diminish flyspell-mode
