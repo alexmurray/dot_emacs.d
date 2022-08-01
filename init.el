@@ -409,6 +409,9 @@
                       (format "https://bugs.launchpad.net/bugs/%s" id))
                      ((string-prefix-p "CVE" prefix)
                       (format "https://ubuntu.com/security/CVE-%s" id))
+                     ((string-match "^\\([UL]SN\\)" prefix)
+                      (format "https://ubuntu.com/security/notices/%s-%s"
+                              (match-string-no-properties 1 prefix) id))
                      ((string-prefix-p "USN" prefix)
                       (format "https://ubuntu.com/security/notices/USN-%s" id))
                      (t (error (concat "Unknown bug prefix '%s'" prefix))))))
@@ -416,7 +419,7 @@
   (eval-when-compile
     (require 'bug-reference))
   (setq bug-reference-url-format #'apm-bug-reference-url-format
-        bug-reference-bug-regexp "\\<\\(\\(\\([Ll][Pp]:?\\|bug\\) #?\\|CVE[ -]\\|USN[ -]\\)\\([0-9][0-9-]*\\)\\)\\>"))
+        bug-reference-bug-regexp "\\<\\(\\(\\([Ll][Pp]:?\\|bug\\) #?\\|CVE[ -]\\|[UL]SN[ -]\\)\\([0-9][0-9-]*\\)\\)\\>"))
 
 (use-package calendar
   :custom (calendar-week-start-day 1))
