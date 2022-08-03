@@ -1345,10 +1345,10 @@ With a prefix argument, will default to looking for all
 
 (use-package helpful
   :ensure t
-  :bind (("C-h a" . helpful-symbol)
-         ("C-h f" . helpful-callable)
-         ("C-h k" . helpful-key)
-         ("C-h v" . helpful-variable)))
+  :bind (([remap describe-key]      . helpful-key)
+         ([remap describe-command]  . helpful-command)
+         ([remap describe-variable] . helpful-variable)
+         ([remap describe-function] . helpful-callable)))
 
 (use-package hideshow
   :diminish hs-minor-mode
