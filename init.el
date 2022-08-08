@@ -74,38 +74,6 @@
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
 
-(use-package doom-modeline
-  :preface
-  (eval-and-compile
-    (require 'erc-track))
-  (defun apm-erc-stylize-buffer-name (name)
-    (let ((channel (assoc (get-buffer name) erc-modified-channels-alist)))
-      (if channel
-          (erc-make-mode-line-buffer-name name (car channel) (cddr channel)
-                                          (cadr channel))
-        name)))
-  :ensure t
-  :custom
-  (doom-modeline-hud t)
-  (doom-modeline-unicode-fallback t)
-  (doom-modeline-github t)
-  (doom-modeline-irc-buffers t)
-  (doom-modeline-irc-stylize #'apm-erc-stylize-buffer-name)
-  (doom-modeline-buffer-encoding nil)
-  (doom-modeline-env-python-executable "python3")
-  :init
-  (doom-modeline-mode 1))
-
-(use-package doom-themes
-  :ensure t
-  :disabled t
-  :config
-  ;; better keyword lightlighting
-  (add-to-list 'doom-themes-base-faces '(erc-keyword-face :foreground yellow :weight 'bold))
-  (load-theme 'doom-tomorrow-night t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
-
 (use-package modus-themes
   :ensure t
   :custom
@@ -117,7 +85,7 @@
   (modus-themes-mixed-fonts t)
   (modus-themes-paren-match '(intense))
   (modus-themes-org-blocks 'tinted-background)
-  (modus-themes-mode-line '(borderless (padding . 1) (height . 1.0)))
+  (modus-themes-mode-line '(borderless (padding . 5) (height . 1.0)))
   :config (load-theme 'modus-operandi t))
 
 ;; used in some of my yasnippet snippets
