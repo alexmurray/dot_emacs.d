@@ -486,10 +486,11 @@
 
 (use-package cape
   :ensure t
-  :init
+  :config
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file))
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-ispell))
 
 (use-package compile
   :hook ((shell-mode . compilation-shell-minor-mode))
