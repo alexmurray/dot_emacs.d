@@ -1509,6 +1509,11 @@ With a prefix argument, will default to looking for all
   :ensure t
   :hook ((gnus-part-display . message-view-patch-highlight)))
 
+(use-package minibuffer-header
+  :ensure t
+  :config
+  (minibuffer-header-mode 1))
+
 (use-package mml-sec
   :config
   (define-advice mml-secure-find-usable-keys
