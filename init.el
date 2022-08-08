@@ -2479,6 +2479,11 @@ Captured On: %U")))))
   :init (setq-default sh-basic-offset 2
                       sh-indentation 2))
 
+(use-package sideline-flymake
+  :ensure t
+  :hook (flymake-mode . sideline-mode)
+  :init (setq sideline-backends-right '(sideline-flymake)))
+
 (use-package simple
   :defer t
   :diminish visual-line-mode
