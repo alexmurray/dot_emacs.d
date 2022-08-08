@@ -96,18 +96,12 @@
                         #'(lambda (word) (capitalize (downcase word)))
                         (split-string s (if delim delim "_"))) ""))
 
-(defvar apm-preferred-emacs-version "27.1")
-(when (version< emacs-version apm-preferred-emacs-version)
-  (alert (format "Emacs version too old - please run %s or newer"
-                 apm-preferred-emacs-version)
-         :severity 'high))
-
 
 ;;; General settings etc from C source so no package to associate settings
 ;;; with...
 
 ;; use pipes for subprocess communication
-(setq process-connection-type nil)
+(setq-default process-connection-type nil)
 ;; performance increases as per https://emacs-lsp.github.io/lsp-mode/page/performance/
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
