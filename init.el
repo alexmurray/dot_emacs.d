@@ -454,9 +454,6 @@
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
   :mode ("check-cves\\..*\\'" . check-cves-mode))
 
-(use-package code-review
-  :ensure t)
-
 (use-package comint
   :hook ((comint-output-filter-functions . comint-osc-process-output)))
 
