@@ -1528,26 +1528,34 @@ With a prefix argument, will default to looking for all
                                       (sign)
                                       (encrypt
                                        ("security@ubuntu.com"
-                                        "88E9530BCBDDC200517B5EB0F498D2D9DE7DAD9C" ;amurray
-                                        "4C20C06B5D8BDE688854D28A51DBDC58CC559573" ;jdstrand
-                                        "A6063BB5602309A43C8EBBD42F099E8D005E81F4" ;sbeattie
-                                        "50C4A0DDCF31E452CEB19B516569D855A744BE93" ;mdeslaur
-                                        "D92678445CD9BFA56C74EC8EC4057122C10A23E6" ;jjohansen
-                                        "415010F1BA23C8C720DFB1F5F32172599D8D2E97" ;sarnold
-                                        "44DFFFE4C1A008E83229E205611FBDECD5946E0F" ;ChrisCoulson
-                                        "7FE79B445728C8EA0042839E45BCE75B840B1F69" ;leosilva
-                                        "C196DEF7A9097968763884D1772835433D285D7D" ;msalvatore
-                                        "776FCD6573E7712AC111E3B0FBD3F310B1C9C4C1" ;joe
-                                        "08AA09489F9DC266D9046E05A897FD7E8600E018" ;markmorlino
-                                        "0ADCB2CFA6B3532E80641CD2906788EB31A737FF" ;ebarretto
-                                        "410774CCB1C9851EB8BFECADA179EB5276C81B4C" ;jmbl
-                                        "3E2CC11CC9ED7154183B9615C2A82596AE602046" ;vineetha1
-                                        "9027444394FA0EEB52BDE0B26D4A7990BDE2CC66" ;pfsmorigo
-                                        "C8726381716BC3D27B868575CB8F16FBD3A64F82" ;emitorino
-                                        "9673BF778F45A143CAF5FC32B46763D063A1DBEC" ;Avital
-                                        "7AB7FF87BB30FEBADD1BADDCD6073960E299350D" ;sid
-                                        "5F2395C9FCE8A66078A8E9CDCCAACB01128F5657" ;dan
-                                        "5D3A333BBF6CEB840A3446BCA7D23FB0E778DEDF"))) ;kyrofa
+                                        ;; taken from https://wiki.ubuntu.com/SecurityTeam/GPGKeyTable
+                                        "76840A6FFB3DEA51B723185F0EB3E83D29117223"
+                                        "50C4A0DDCF31E452CEB19B516569D855A744BE93"
+                                        "EDC4830FBD39AB6AC51047FB052F367018D5C3D8"
+                                        "415010F1BA23C8C720DFB1F5F32172599D8D2E97"
+                                        "44DFFFE4C1A008E83229E205611FBDECD5946E0F"
+                                        "7FE79B445728C8EA0042839E45BCE75B840B1F69"
+                                        "88E9530BCBDDC200517B5EB0F498D2D9DE7DAD9C"
+                                        "0ADCB2CFA6B3532E80641CD2906788EB31A737FF"
+                                        "9027444394FA0EEB52BDE0B26D4A7990BDE2CC66"
+                                        "4F90787345208AC1CF25E30BE1C6FD981B751883"
+                                        "5F2395C9FCE8A66078A8E9CDCCAACB01128F5657"
+                                        "6C18C4CAF651E8473C6603408A8F7B1C00993172"
+                                        "1BCE99F129F1EAE991455C1CD75C2ACFC9409A08"
+                                        "F763837EFAF24ADBF3567E5A0DC98647D37D791E"
+                                        "07A4E60A50B0646436868D4244470A1D4730D394"
+                                        "8F06E0BAC0796B7ED5A363D2538B7C0DCCB5A3C9"
+                                        "62BCA0771D460DE73D4D5F0467419E45C3399EDD"
+                                        "EEEF423A2E6C0B8AA07812BA6034DD32D0F08B59"
+                                        "73176FE2008213C5BD9EBB796B5F8F2FE775FC48"
+                                        "1AAF7A49D008258D6F22744B6F302D087E8BA936"
+                                        "03827EEE014E2DAC02CC74F2EDD0EA1FDFCFE8FA"
+                                        "9B693D7440802E8A6FF803DE13498F032CCFE9DA"
+                                        "8866CD2EAAB6D399E4D213DD196D412138F33F64"
+                                        "B35EBCD35C6717BC0ADEB08AEC873ACED468723C"
+                                        "D9682DBE6C2672068404B967080BCAD50BC3E920"
+                                        "2D3B10FE866E24CA8BF7D42DD60B83C90513BD4F"
+                                        )))
                                      (CMS
                                       (sign)
                                       (encrypt)))))
