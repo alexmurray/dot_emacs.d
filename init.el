@@ -333,7 +333,7 @@
 
 (use-package bbdb
   :ensure t
-  :config (bbdb-initialize 'message 'mu4e))
+  :config (bbdb-initialize 'message))
 
 (use-package blacken
   :ensure t
@@ -360,7 +360,6 @@
   :defer t
   :hook ((prog-mode . bug-reference-prog-mode)
          (erc-mode . bug-reference-mode)
-         (mu4e-view-mode . bug-reference-mode)
          (notmuch-show-mode . bug-reference-mode)
          (org-mode . bug-reference-mode))
   :preface (defun apm-bug-reference-url-format ()
@@ -1265,7 +1264,7 @@ With a prefix argument, will default to looking for all
   :ensure gnus
   :config
   ;; make the `gnus-dired-mail-buffers' function also work on
-  ;; message-mode derived modes, such as mu4e-compose-mode
+  ;; message-mode derived modes, such as notmuch-message-mode
   (define-advice gnus-dired-mail-buffers (:around (orig-fun &rest args) include-message-mode-derived-buffers)
     "Return a list of active message buffers."
     (let (buffers)
@@ -1318,7 +1317,6 @@ With a prefix argument, will default to looking for all
   ;; use hs-minor-mode in programming and mail composing - TODO - get it
   ;; working during mail viewing as well to be able to hide quoted bits
   ;; - something like:
-  ;; :config (add-to-list 'hs-special-modes-alist '(mu4e-view-mode "^>" "^[^^]"))
   :hook ((prog-mode message-mode) . hs-minor-mode))
 
 (use-package hippie-exp
@@ -1576,313 +1574,6 @@ With a prefix argument, will default to looking for all
 (use-package mqtt-mode
   :ensure t
   :ensure-system-package (mosquitto_pub .  mosquitto-clients))
-
-(use-package mu4e
-  :disabled t
-  :load-path "/snap/maildir-utils/current/share/emacs/site-lisp/mu4e/"
-  :init (add-to-list 'Info-directory-list "/snap/maildir-utils/current/share/info/")
-  :bind (("C-c m" . mu4e))
-  :config
-  (eval-and-compile
-    (require 'mu4e-compose)
-    (require 'mu4e-message)
-    (require 'mu4e-utils))
-  ;; some hacky bits so we can do an async forward as attachment
-  (defvar apm-mu4e-compose-mode-hook-orig)
-  (defvar apm-mu4e-compose-forward-as-attachment-orig)
-
-  (defun apm-mu4e-compose-forward-as-attachment-2 ()
-    (setq mu4e-compose-forward-as-attachment
-          apm-mu4e-compose-forward-as-attachment-orig)
-    (setq mu4e-compose-mode-hook
-          apm-mu4e-compose-mode-hook-orig))
-
-  (defun apm-mu4e-compose-forward-as-attachment ()
-    "Forward the message as an attachment."
-    (interactive)
-    (setq apm-mu4e-compose-mode-hook-orig mu4e-compose-mode-hook)
-    (setq apm-mu4e-compose-forward-as-attachment-orig mu4e-compose-forward-as-attachment)
-    (setq mu4e-compose-forward-as-attachment t)
-    (setq mu4e-compose-mode-hook '(apm-mu4e-compose-forward-as-attachment-2))
-    (mu4e-compose-forward))
-
-  (defun apm-mu4e-contact-process (contact)
-    (unless (string-match-p
-             "\\(no-?reply\\|bugs.launchpad.net\\|code.launchpad.net\\|keule.canonical.com\\|lillypilly.canonical.com\\|docs.google.com\\|gapps.canonical.com\\|forum.snapcraft.io\\)"
-             contact)
-      contact))
-
-  (defvar apm-mu4e-spammers '("duke.abbaddon@gmail.com"
-                              "redmine@mantykora.net"
-                              "jira@nine.ch"
-                              "providing@babiel.com"
-                              "jshaymac@gmail.com"
-                              "jira@clockworkers.atlassian.net"
-                              "advisories@auraredeye.zendesk.com"
-                              "gohr@mail.continue.de"
-                              "m1-en0on.jp"
-                              "support@coalfire.com"
-                              "mail@yg64khfs646n.com"
-                              "mail@zdnnatwarfrpi.net"
-                              "mail@cxceagagrihic.com"))
-
-  ;; TODO: consider using imapfilter
-  (defun apm-mu4e-refile-message (msg)
-    (let ((mailing-list (mu4e-message-field msg :mailing-list))
-          (subject (mu4e-message-field msg :subject)))
-      (cond
-       ((and (not (null mailing-list))
-             (or (string-match-p "unsubscribe notification$" subject)
-                 (string-match-p "^.* post from .* requires approval" subject)
-                 (string-match-p "uncaught bounce notification" subject)
-                 (string-match-p "Bounce action notification" subject)
-                 (string-match-p "moderator request(s) waiting" subject)))
-        mu4e-trash-folder)
-       ((cl-some #'(lambda (e) (mu4e-message-contact-field-matches msg :from e)) apm-mu4e-spammers)
-        "/Spam")
-       ((or (string-match-p "^\\([\u3000-\u303F]\\|[\u3040-\u309F]\\|[\u30A0-\u30FF]\\|[\uFF00-\uFFEF]\\|[\u4E00-\u9FAF]\\|[\u2605-\u2606]\\|[\u2190-\u2195]\\|\u203B\\)+$" subject)
-            (string-match-p "^\\[\\(For Your Eyes Only\\|Limited Time Offer\\)\\].*" subject)
-            (string-match-p "no deposit" subject))
-        "/Spam")
-       ((or (mu4e-message-contact-field-matches msg :from "do-not-reply@trello.com")
-            (mu4e-message-contact-field-matches msg :from "bounce@websense.com")
-            (mu4e-message-contact-field-matches msg :from "comments-noreply@docs.google.com")
-            (mu4e-message-contact-field-matches msg :from "info@ubuntuforums.org")
-            (mu4e-message-contact-field-matches msg :from "root@snakefruit.canonical.com")
-            (mu4e-message-contact-field-matches msg :from "esm-notifications@canonical.com")
-            (mu4e-message-contact-field-matches msg :from "notify@google.com")
-            (mu4e-message-contact-field-matches msg :from "noreply\\+chat.canonical.com@canonical.com")
-            (mu4e-message-contact-field-matches msg :from "jira@warthogs.atlassian.net")
-            (mu4e-message-contact-field-matches msg :from "no-reply@coschedule.com"))
-        mu4e-trash-folder)
-       ((or (string-match-p "^\\[.* Wiki\\] \\(Update of\\|New attachment added to page\\)" subject)
-            (string-match-p "We just published a new Production deploy for ubuntusecuritypodcast" subject)
-            (string-match-p "Archive is broken! (kernel ABI check failure)" subject)
-            (string-match-p "Undelivered Mail Returned to Sender" subject)
-            (string-match-p "^.* post from .* requires approval" subject)
-            (string-match-p "VINCE  \\[VU#[0-9]+\\] New Post in Case Discussion" subject)
-            (string-match-p "^\\[Build #[0-9]+]" subject)
-            (string-match-p "^CVE webbot process errors$" subject))
-        mu4e-trash-folder)
-       ((string-match-p "Cron .* ~/bin/scripts-diff.sh" subject)
-        mu4e-trash-folder)
-       ((mu4e-message-contact-field-matches msg :from "root@lillypilly.canonical.com")
-        "/lillypilly")
-       ((mu4e-message-contact-field-matches msg :from "root@keule.canonical.com")
-        "/keule")
-       ((and (not (null mailing-list))
-             ;; gitlab list-ids are not useful
-             (not (mu4e-message-contact-field-matches msg :from "gitlab@mg.gitlab.com")))
-        (concat "/Lists/" (mu4e-get-mailing-list-shortname mailing-list)))
-       ;; store emails about outdated dependencies or reviews should get
-       ;; trashed
-       ((and (mu4e-message-contact-field-matches msg :from "security-snap-review@canonical.com")
-             (string-match-p "\\(built from outdated Ubuntu kernel\\|was built with outdated Ubuntu packages\\|contains outdated Ubuntu packages\\|^Manual review requested for version\\|^Manual review for .* version .* requested$\\)" subject))
-        mu4e-trash-folder)
-       ((or (mu4e-message-contact-field-matches msg :from "Snap Store")
-            (string-match-p "^\\(R[eE]: \\)?Manual review \\(for .* version .* requested\\|requested for version\\)" subject)
-            (string-match-p "^Package declaration update: " subject)
-            (string-match-p "Store upload \\(scan \\)?failed for.*$" subject)
-            (string-match-p "Store authorization failed for.*$" subject))
-        "/snap-store")
-       ((mu4e-message-contact-field-matches msg :to "samba-vendor@samba.org")
-        "/samba-vendor")
-       ((or (string-match-p "^\\[Bug [0-9]+\\] \\(R[eE]: \\)?.*linux.*proposed tracker$" subject)
-            (string-match-p "^\\[Bug [0-9]+\\] \\(\\(R[eE]:\\|\\[NEW\\]\\) \\)?request of \\(\\(create\\|merge\\)_\\(production_suite\\|project\\)\\|\\(copy\\|publish\\|delete\\)_package\\|gensnapshot\\)" subject))
-        mu4e-trash-folder)
-       ((or (string-match-p "^\\(R[eE]: \\)?\\[Bug " subject)
-            (mu4e-message-contact-field-matches msg :from "bugs.launchpad.net"))
-        "/launchpad-bugs")
-       ((or (string-match-p "^\\(R[eE]: \\)?\\[Bug " subject)
-            (mu4e-message-contact-field-matches msg :from "answers.launchpad.net"))
-        "/launchpad-answers")
-       ((mu4e-message-contact-field-matches msg :from "bugs.debian.org")
-        "/debian-bugs")
-       ((string-match-p "^\\(R[eE]: \\)?\\[Merge\\]" subject)
-        "/merge-requests")
-       ((or (mu4e-message-contact-field-matches msg :to "distros@vs.openwall.org")
-            (mu4e-message-contact-field-matches msg :cc "distros@vs.openwall.org")
-            (mu4e-message-contact-field-matches msg :to "linux-distros@vs.openwall.org")
-            (mu4e-message-contact-field-matches msg :cc "linux-distros@vs.openwall.org"))
-        "/Lists/linux-distros")
-       ((mu4e-message-contact-field-matches msg :to "opensuse-security-announce@opensuse.org")
-        "/Lists/opensuse-security-announce")
-       ((mu4e-message-contact-field-matches msg :to "newsbox@idg.com")
-        "/Lists/newsbox-idg")
-       ((mu4e-message-contact-field-matches msg :from "atpi.com")
-        "/Travel")
-       ((or (mu4e-message-contact-field-matches msg :from "rt@admin.canonical.com")
-            (mu4e-message-contact-field-matches msg :to "rt@admin.canonical.com"))
-        "/canonical-is")
-       ((and (mu4e-message-contact-field-matches msg :from "security@ubuntu.com")
-             (or (string-match-p "^Missing kernel CVE merge commits$" subject)
-                 (string-match-p "^Kernel USN needed$" subject)))
-        mu4e-trash-folder)
-       ((or (mu4e-message-contact-field-matches msg :from "lillypilly.canonical.com")
-            (and (mu4e-message-contact-field-matches msg :from "noreply@canonical.com")
-                 (string-match-p "\\(contains outdated Ubuntu packages\\|built from outdated Ubuntu kernel\\)" subject))
-            (and (mu4e-message-contact-field-matches msg :from "noreply@launchpad.net")
-                 (string-match-p "^\\[.*\\] .* build of .* in ubuntu .*$" subject)))
-        mu4e-trash-folder)
-       (t "/Archive"))))
-
-  (setq mail-user-agent 'mu4e-user-agent)
-  (setq mu4e-sent-folder   "/Sent"
-        mu4e-drafts-folder "/Drafts"
-        mu4e-trash-folder  "/Trash")
-  (setq mu4e-maildir-shortcuts
-        '(("/Archive"              . ?a)
-          ("/Drafts"               . ?d)
-          ("/INBOX"                . ?i)
-          ("/Sent"                 . ?s)
-          ("/Spam"                 . ?j)
-          ("/Trash"                . ?t)))
-
-  (setq mu4e-user-mailing-lists '(;; ubuntu
-                                  ("launchpad-announce.lists.ubuntu.com" . "launchpad-announce")
-                                  ("ubuntu-devel.lists.ubuntu.com" . "ubuntu-devel")
-                                  ("ubuntu-devel-announce.lists.ubuntu.com" . "ubuntu-devel-announce")
-                                  ("ubuntu-hardened.lists.ubuntu.com" . "ubuntu-hardened")
-                                  ("ubuntu-release.lists.ubuntu.com" . "ubuntu-release")
-                                  ("ubuntu-security-announce.lists.ubuntu.com" . "ubuntu-security-announce")
-
-                                  ;; canonical
-                                  ("canonical-allhands.lists.canonical.com" . "canonical-allhands")
-                                  ("canonical-announce.lists.canonical.com" . "canonical-announce")
-                                  ("canonistack-announce.lists.canonical.com" . "canonistack-announce")
-                                  ("canonical-snapcraft.lists.canonical.com" . "canonical-snapcraft")
-                                  ("roadmap-sprint.lists.canonical.com" . "roadmap-sprint")
-                                  ("ue-leads.lists.canonical.com" . "ue-leads")
-
-                                  ;; security
-                                  ("security-announce.lists.apple.com" . "apple-security-announce")
-                                  ("bugtraq.list-id.securityfocus.com" . "bugtraq")
-                                  ("debian-security-announce.lists.debian.org" . "debian-security-announce")
-                                  ("fulldisclosure.lists.seclists.org" . "fulldisclosure")
-                                  ("kernel-hardening.lists.openwall.com" . "kernel-hardening")
-                                  ("officesecurity.lists.freedesktop.org" . "Officesecurity")
-                                  ("opensuse-security-announce.opensuse.org" . "opensuse-security-announce")
-                                  ("oss-security.lists.openwall.com" . "oss-security")
-                                  ("rhsa-announce.redhat.com" . "rhsa-announce")
-                                  ("security-ceph.com" . "security-ceph")
-                                  ("xen-security-issues.lists.xenproject.org" . "xen-security-issues")
-                                  ("xorg-security.lists.x.org" . "xorg-security")))
-
-  (setq mu4e-refile-folder #'apm-mu4e-refile-message)
-  (setq mu4e-get-mail-command "mbsync -a")
-  ;; needed for mbsync
-  (setq mu4e-change-filenames-when-moving t)
-
-  (setq mu4e-headers-sort-direction 'ascending)
-
-  ;; show all since often get duplicates via multiple mailing lists so want
-  ;; to be able to see them all in general
-  (setq mu4e-headers-skip-duplicates nil)
-
-  (setq mu4e-update-interval nil)
-
-  ;; cite with better formatting
-  (setq message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
-  (setq message-citation-line-function #'message-insert-formatted-citation-line)
-
-  ;; kill message buffer after sending rather than burying
-  (setq message-kill-buffer-on-exit t)
-
-  (setq mu4e-compose-reply-to-address "alex.murray@canonical.com"
-        user-mail-address "alex.murray@canonical.com"
-        user-full-name  "Alex Murray")
-  ;; encrypt to self
-  (setq epg-user-id "alex.murray@canonical.com")
-  (setq mml-secure-openpgp-encrypt-to-self t)
-  (setq mml-secure-openpgp-sign-with-sender t)
-  (setq mu4e-compose-signature nil)
-
-  (setq mu4e-contact-process-function #'apm-mu4e-contact-process)
-
-  ;; quick bookmarks to easily delete unwanted emails
-  (add-to-list 'mu4e-bookmarks
-               '(:name "Ubuntu kernel process spam"
-                       :query "subject:bug and subject:linux and subject:proposed and subject:tracker"
-                       :key ?k))
-  (add-to-list 'mu4e-bookmarks
-               '(:name "Snap Store spam"
-                       :query "(from:\"Snap Store\" or from:noreply+security-snap-review@canonical.com or from:security-team-toolbox-bot@canonical.com) and not to:alex.murray@canonical.com and subject:\"outdated Ubuntu packages\" or subject:\"outdated Ubuntu kernel\""
-                       :key ?s))
-  (add-to-list 'mu4e-bookmarks
-               '(:name "Ubuntu OEM team process bug spam"
-                       :query "from:bugs.launchpad.net and subject:bug and subject:\"request of\""
-                       :key ?o))
-  (add-to-list 'mu4e-bookmarks
-               '(:name "Failed PPA package builds"
-                       :query "from:noreply@launchpad.net and subject:\"build of\""
-                       :key ?p))
-  ;; add action to view in brower
-  (add-to-list 'mu4e-view-actions
-               '("browser view" . mu4e-action-view-in-browser) t)
-  ;; since we use the firefox snap, it has a private /tmp so use somewhere
-  ;; common (home) to work-around this...
-  (define-advice mu4e-action-view-in-browser (:around (orig-fun &rest args) per-user-tmp)
-    (let ((temporary-file-directory (expand-file-name "~/tmp")))
-      (unless (file-exists-p temporary-file-directory)
-        (make-directory temporary-file-directory))
-      (apply orig-fun args)))
-
-  (with-eval-after-load 'shr
-    ;; html colors in shr usually look bad especially with a dark theme
-    (setq shr-use-colors nil)
-    ;; also fonts don't normally layout well
-    (setq shr-use-fonts nil))
-
-  (setq mu4e-split-view 'horizontal)
-  (setq mu4e-headers-visible-lines 15)
-  (setq mu4e-completing-read-function 'completing-read)
-  (setq mu4e-headers-fields '((:human-date . 12)
-                              (:flags . 6)
-                              (:mailing-list . 15)
-                              (:from-or-to . 22)
-                              (:size . 8)
-                              (:subject)))
-
-  ;; save attachment to Downloads
-  (setq mu4e-attachment-dir (expand-file-name "~/Downloads"))
-
-  ;; attempt to show images when viewing messages
-  (setq mu4e-view-show-images t)
-
-  ;; show full addresses in message view
-  (setq mu4e-view-show-addresses t)
-
-  ;; always start mu4e in the background
-  (mu4e t))
-
-(use-package mu4e-icalendar
-  :disabled t
-  :load-path "/snap/maildir-utils/current/share/emacs/site-lisp/mu4e/"
-  :config (mu4e-icalendar-setup))
-
-(use-package mu4e-alert
-  :disabled t
-  :ensure t
-  :hook ((after-init . mu4e-alert-enable-mode-line-display)
-         (after-init . mu4e-alert-enable-notifications))
-  :config (mu4e-alert-set-default-style 'notifications))
-
-(use-package mu4e-column-faces
-  :disabled t
-  :ensure t
-  :after mu4e
-  :config (mu4e-column-faces-mode 1))
-
-(use-package mu4e-jump-to-list
-  :disabled t
-  :ensure t)
-
-(use-package mu4e-marker-icons
-  :disabled t
-  :ensure t
-  :init
-  (setq mu4e-marker-icons-use-unicode t)
-  (mu4e-marker-icons-mode 1))
 
 (use-package nano-agenda
   :ensure t)
@@ -2232,11 +1923,6 @@ Captured On: %U")))))
 (use-package orgit
   :ensure t)
 
-(use-package org-mu4e
-  :after (mu4e org)
-  ;; store link to message if in header view, not to header query
-  :config (setq mu4e-org-link-query-in-headers-mode nil))
-
 (use-package org-src
   :ensure org-contrib
   :pin nongnu
@@ -2456,7 +2142,6 @@ Captured On: %U")))))
 (use-package simple
   :defer t
   :diminish visual-line-mode
-  :hook ((mu4e-view-mode . visual-line-mode))
   :init
   ;; save whatever is in the system clipboard to the kill ring before
   ;; killing something else into the kill ring
