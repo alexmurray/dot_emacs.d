@@ -15,11 +15,6 @@
 (eval-and-compile
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
 
-;; this is done automatically in 27 etc
-(if (or (version< emacs-version "27")
-        (not package--initialized))
-    (package-initialize))
-
 (defvar use-package-enable-imenu-support t)
 ;; must be set before loading use-package
 (setq use-package-enable-imenu-support t)
