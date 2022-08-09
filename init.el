@@ -1502,6 +1502,7 @@ With a prefix argument, will default to looking for all
 
 (use-package minibuffer-header
   :ensure t
+  :disabled t
   :config
   (minibuffer-header-mode 1))
 
