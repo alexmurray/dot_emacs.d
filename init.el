@@ -1830,7 +1830,7 @@ With a prefix argument, will default to looking for all
   (require 'filenotify)
   (dolist (file org-agenda-files)
     (file-notify-add-watch file '(change) #'apm-org-agenda-file-notify))
-  (setq org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
+  (setq org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3 :narrow 80))
   ;; when showing agenda, jump to now
   (add-hook 'org-agenda-finalize-hook
             #'org-agenda-find-same-or-today-or-agenda 90)
