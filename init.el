@@ -1697,6 +1697,10 @@ With a prefix argument, will default to looking for all
 (use-package notmuch-transient
   :ensure t)
 
+(use-package notmuch-unread
+  :load-path "vendor/"
+  :config (notmuch-unread-mode 1))
+
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
   :init
