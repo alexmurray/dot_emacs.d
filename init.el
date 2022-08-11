@@ -1582,6 +1582,7 @@ With a prefix argument, will default to looking for all
 (use-package notmuch
   :ensure t
   :ensure-system-package (notmuch afew)
+  :diminish notmuch-hello-mode notmuch-show-mode notmuch-tree-mode notmuch-unthreaded-mode
   :bind (("C-c m" . notmuch)
          :map notmuch-show-mode-map (("D" . apm-notmuch-toggle-deleted)
                                      ("J" . apm-notmuch-toggle-spam))
