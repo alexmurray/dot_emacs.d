@@ -2044,6 +2044,10 @@ Captured On: %U")))))
   (add-hook 'project-find-functions #'apm-project-try-debian))
 
 
+(use-package project-mode-line-tag
+  :ensure t
+  :config (project-mode-line-tag-mode 1))
+
 (use-package python
   :defer t
   :init (setq-default python-indent-offset 4)
