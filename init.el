@@ -1183,6 +1183,10 @@ With a prefix argument, will default to looking for all
   :ensure t
   :after magit)
 
+(use-package forge-launchpad
+  :load-path "vendor/"
+  :after forge)
+
 (use-package fringe
   :custom (indicate-empty-line t)
   ;; ensure we indicate empty lines via fringe-mode with defaults
