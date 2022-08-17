@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: rev
+# key: rev
+# --
+Update to latest upstream release ${version}
