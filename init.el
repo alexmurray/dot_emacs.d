@@ -1576,6 +1576,24 @@ With a prefix argument, will default to looking for all
   :ensure t
   :ensure-system-package (notmuch afew)
   :diminish notmuch-hello-mode notmuch-show-mode notmuch-tree-mode notmuch-unthreaded-mode
+  :preface
+  (defvar apm-notmuch-discouraged-senders '((("text/plain") . ("jira@warthogs.atlassian.net"
+                                                               "noreply+chat@canonical.com"
+                                                               "forum@forum.snapcraft.io"
+                                                               "bounce@websense.com"
+                                                               "notifications@github.com"
+                                                               "wsm-postmaster@intel.com"))))
+  (defun apm-notmuch-determine-discouraged (msg)
+    "Determine is MSG wants text/plain to be discouraged."
+    (let* ((headers (plist-get msg :headers))
+           (from (or (plist-get headers :From) ""))
+           (discouraged '("text/html" "multipart/related")))
+      (dolist (discouraged-sender apm-notmuch-discouraged-senders)
+        (dolist (sender (cdr discouraged-sender))
+          (when (string-search sender from)
+            (setq discouraged (car discouraged-sender)))))
+      discouraged))
+
   :bind (("C-c m" . notmuch)
          :map notmuch-show-mode-map (("D" . apm-notmuch-toggle-deleted)
                                      ("J" . apm-notmuch-toggle-spam))
@@ -1589,6 +1607,7 @@ With a prefix argument, will default to looking for all
     (require 'notmuch)
     (require 'notmuch-show)
     (require 'notmuch-tree))
+  (setq notmuch-multipart/alternative-discouraged 'apm-notmuch-determine-discouraged)
   (defun apm-notmuch-toggle-tag (tag)
     "Toggle TAG for the current message returning t if we set it."
     (let ((gettagsfun nil)
