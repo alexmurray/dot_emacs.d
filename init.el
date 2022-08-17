@@ -351,7 +351,7 @@
                    (id (match-string-no-properties 4)))
                (cond ((or (string-prefix-p "lp" prefix t)
                           (string-prefix-p "bug" prefix t))
-                      (format "https://bugs.launchpad.net/bugs/%s" id))
+                      (format "https://launchpad.net/bugs/%s" id))
                      ((string-prefix-p "CVE" prefix)
                       (format "https://ubuntu.com/security/CVE-%s" id))
                      ((string-match "^\\([UL]SN\\)" prefix)

@@ -7,7 +7,7 @@
 (defun apm-browse-lp-bug-at-point ()
   "Browse to the launchpad bug referenced by bug number at point."
   (interactive)
-  (let ((base-uri "https://bugs.launchpad.net/bugs/")
+  (let ((base-uri "https://launchpad.net/bugs/")
         (id (substring-no-properties (thing-at-point 'symbol))))
     (when id
       (browse-url (concat base-uri id)))))
