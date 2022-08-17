@@ -216,17 +216,6 @@
   :ensure t
   :hook ((dired-mode . all-the-icons-dired-mode)))
 
-(use-package android-mode
-  :ensure t
-  :defer t
-  :diminish android-mode
-  :commands android-mode
-  :hook java-mode
-  :init
-  (setq android-mode-sdk-dir (expand-file-name "~/android-sdk-linux/"))
-  ;; change prefix so doesn't conflict with comment-region
-  (setq android-mode-key-prefix (kbd "C-c C-m")))
-
 (use-package ansi-color
   :hook ((compilation-filter . ansi-color-compilation-filter))
   ;; show colours correctly in shell
