@@ -2209,6 +2209,9 @@ Captured On: %U")))))
   (setq solarized-use-variable-pitch nil)
   (load-theme 'solarized-light t))
 
+(use-package spdx
+  :ensure t)
+
 (use-package strace-mode
   :ensure t)
 
