@@ -2067,8 +2067,8 @@ Captured On: %U")))))
 
 (use-package python
   :defer t
-  :init (setq-default python-indent-offset 4)
   :custom
+  (python-indent-offset 4)
   (python-check-command (executable-find "flake8"))
   (python-flymake-command '("flake8" "-")))
 
