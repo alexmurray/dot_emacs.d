@@ -1753,6 +1753,12 @@ With a prefix argument, will default to looking for all
          ("M-s i" . consult-org-heading))
   ;; ensure we always load org at startup
   :demand t
+  :preface
+  (defun apm-org-mode-setup ()
+    ;; add * and = as electric pairs
+    (setq-local electric-pair-pairs (append electric-pair-pairs '((?\* . ?\*)
+                                                                  (?\= . ?\=)))))
+  :hook (org-mode . apm-org-mode-setup)
   :config
   (setq org-log-repeat nil)
   (setq org-log-into-drawer t)
