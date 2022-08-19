@@ -1578,7 +1578,6 @@ With a prefix argument, will default to looking for all
   :diminish notmuch-hello-mode notmuch-show-mode notmuch-tree-mode notmuch-unthreaded-mode
   :preface
   (defvar apm-notmuch-discouraged-senders '((("text/plain") . ("jira@warthogs.atlassian.net"
-                                                               "noreply+chat@canonical.com"
                                                                "forum@forum.snapcraft.io"
                                                                "bounce@websense.com"
                                                                "notifications@github.com"
