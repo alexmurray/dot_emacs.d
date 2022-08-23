@@ -1749,7 +1749,8 @@ With a prefix argument, will default to looking for all
   :config
   (setq completion-styles '(basic orderless))
   (setq completion-category-defaults nil)
-  (setq completion-category-overrides '((file (styles . (partial-completion))))))
+  (setq completion-category-overrides '((file (styles . (partial-completion)))
+                                        (eglot (styles orderless)))))
 
 (use-package orderless
   ;; for vertico
