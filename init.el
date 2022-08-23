@@ -64,6 +64,15 @@
 ;; load custom but ignore error if doesn't exist
 (load custom-file 'noerror 'nomessage)
 
+(use-package doom-themes
+  :ensure t
+  :custom (doom-themes-padded-modeline t)
+  :config
+  (add-to-list 'doom-themes-base-faces '(erc-keyword-face :foreground yellow :weight 'bold))
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config)
+  (load-theme 'doom-one-light t))
+
 (use-package alert
   :ensure t
   :config (when (eq system-type 'gnu/linux)
@@ -71,6 +80,7 @@
 
 (use-package modus-themes
   :ensure t
+  :disabled t
   :custom
   (modus-themes-bold-constructs t)
   (modus-themes-italic-constructs t)
