@@ -688,7 +688,8 @@
   :ensure t
   :pin gnu
   :hook (prog-mode . eglot-ensure)
-  :custom (eglot-extend-to-xref t))
+  :custom (eglot-extend-to-xref t)
+  :config (add-to-list 'eglot-server-programs '(markdown-mode "vscode-markdown-languageserver" "--stdio")))
 
 (use-package eldoc
   :diminish eldoc-mode
