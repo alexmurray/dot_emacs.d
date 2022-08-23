@@ -125,8 +125,8 @@
 (setq-default indent-tabs-mode nil)
 
 ;; set a reasonable fill and comment column
-(setq-default fill-column 75)
-(setq-default comment-column 75)
+(setq-default fill-column 80)
+(setq-default comment-column 80)
 
 ;; don't try and use dialog boxes
 (setq-default use-dialog-box nil)
