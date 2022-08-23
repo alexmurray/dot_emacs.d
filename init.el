@@ -1254,8 +1254,6 @@ With a prefix argument, will default to looking for all
                (list "\\(State: failed to build\\)" 1 1 'error))
   ;; don't fill long lines as breaks tables in emails
   (setq gnus-treat-fill-long-lines nil)
-  ;; disable image loading
-  (setq gnus-inhibit-images t)
   ;; discourse emails use --- as signature separator
   (setq gnus-signature-separator '("^---? $" "^---? *$")))
 
