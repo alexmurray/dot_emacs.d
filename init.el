@@ -572,6 +572,8 @@
 
 (use-package copilot
   :load-path "vendor/"
+  ;; no copilot access anymore
+  :disabled t
   :bind (:map copilot-mode-map
               ("C-<tab>" . copilot-accept-completion))
   :hook ((prog-mode . copilot-mode))
@@ -580,7 +582,8 @@
   ;; local vendor directory
   :config (setq copilot--base-dir "/snap/copilot-client/current")
   :custom
-  (copilot-node-executable "copilot-client.node"))
+  ;; ensure we use the node executable shipped in the copilot-client snap
+  (copilot-node-executable "/snap/bin/copilot-client.node"))
 
 (use-package crontab-mode
   :ensure t)
