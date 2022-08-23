@@ -66,12 +66,16 @@
 
 (use-package doom-themes
   :ensure t
-  :custom (doom-themes-padded-modeline t)
+  :custom
+  (doom-one-padded-modeline t)
   :config
-  (add-to-list 'doom-themes-base-faces '(erc-keyword-face :foreground yellow :weight 'bold))
+  (custom-set-faces `(erc-keyword-face ((t (:foreground ,(doom-color 'yellow)))))
+                    ;; make some notmuch elements have more contrast
+                    `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'constants)))))
+                    `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'comments))))))
   (doom-themes-visual-bell-config)
   (doom-themes-org-config)
-  (load-theme 'doom-one-light t))
+  (load-theme 'doom-one t))
 
 (use-package alert
   :ensure t
@@ -2172,6 +2176,9 @@ Captured On: %U")))))
 (use-package sh-script
   :init (setq-default sh-basic-offset 2
                       sh-indentation 2))
+
+(use-package shr
+  :custom (shr-use-colors nil))
 
 (use-package sideline-flymake
   :ensure t
