@@ -2213,10 +2213,6 @@ Captured On: %U")))))
   (setq display-time-24hr-format t)
   (display-time))
 
-(use-package tramp
-  :ensure t
-  :config (setq-default tramp-default-method "ssh"))
-
 (use-package tzc
   :ensure t
   :custom (tzc-favourite-time-zones-alist '(("UTC+0000" "UTC")
