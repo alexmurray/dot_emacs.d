@@ -1225,7 +1225,7 @@ With a prefix argument, will default to looking for all
                (list "\\(requested your review on:\\)" 1 1 'error))
   ;; and for build failure emacs
   (add-to-list 'gnus-emphasis-alist
-               (list "\\(State: failed to build\\)" 1 1 'error))
+               (list "\\(State: failed to \\(build\\|upload\\)\\)" 1 1 'error))
   ;; don't fill long lines as breaks tables in emails
   (setq gnus-treat-fill-long-lines nil)
   ;; discourse emails use --- as signature separator
@@ -1561,7 +1561,8 @@ With a prefix argument, will default to looking for all
                                                                "forum@forum.snapcraft.io"
                                                                "bounce@websense.com"
                                                                "notifications@github.com"
-                                                               "wsm-postmaster@intel.com"))))
+                                                               "wsm-postmaster@intel.com"
+                                                               "no-reply@onepointpay.com.au"))))
   (defun apm-notmuch-determine-discouraged (msg)
     "Determine is MSG wants text/plain to be discouraged."
     (let* ((headers (plist-get msg :headers))
