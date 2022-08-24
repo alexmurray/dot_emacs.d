@@ -82,21 +82,6 @@
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
 
-(use-package modus-themes
-  :ensure t
-  :disabled t
-  :custom
-  (modus-themes-bold-constructs t)
-  (modus-themes-italic-constructs t)
-  (modus-themes-hl-line '(accented))
-  (modus-themes-mail-citations 'intense)
-  (modus-themes-region '(bg-only no-extend))
-  (modus-themes-mixed-fonts t)
-  (modus-themes-paren-match '(intense))
-  (modus-themes-org-blocks 'tinted-background)
-  (modus-themes-mode-line '(borderless (padding . 5) (height . 1.0)))
-  :config (load-theme 'modus-operandi t))
-
 ;; used in some of my yasnippet snippets
 (defun apm-camelize (s &optional delim)
   "Convert under_score string S to CamelCase string with optional DELIM."
@@ -1151,15 +1136,6 @@ With a prefix argument, will default to looking for all
   :ensure t
   :bind ("C-=" . er/expand-region))
 
-(use-package eyebrowse
-  :ensure t
-  :disabled t
-  :custom (eyebrowse-keymap-prefix (kbd "C-c w"))
-  :config
-  (eyebrowse-mode 1)
-  ;; binds to M-1 M-2 etc to easily switch
-  (eyebrowse-setup-opinionated-keys))
-
 (use-package files
   :bind ("C-c r" . revert-buffer)
   :config
@@ -1201,12 +1177,6 @@ With a prefix argument, will default to looking for all
 
 (use-package fuzzy
   :ensure t)
-
-(use-package gcmh
-  :ensure t
-  :disabled t
-  :diminish gcmh-mode
-  :config (gcmh-mode 1))
 
 (use-package gdb-mi
   :defer t
@@ -1508,12 +1478,6 @@ With a prefix argument, will default to looking for all
 (use-package message-view-patch
   :ensure t
   :hook ((gnus-part-display . message-view-patch-highlight)))
-
-(use-package minibuffer-header
-  :ensure t
-  :disabled t
-  :config
-  (minibuffer-header-mode 1))
 
 (use-package mml-sec
   :config
@@ -2150,17 +2114,6 @@ Captured On: %U")))))
   :ensure t
   :defer t)
 
-(use-package selectrum
-  :ensure t
-  :disabled t
-  :bind (("C-x C-z" . #'selectrum-repeat))
-  :config (selectrum-mode 1))
-
-(use-package selectrum-prescient
-  :ensure t
-  :disabled t
-  :config (selectrum-prescient-mode 1))
-
 (use-package server
   :config
   ;; start emacs server only it has not already been started
@@ -2212,24 +2165,6 @@ Captured On: %U")))))
 
 (use-package so-long
   :config (global-so-long-mode 1))
-
-(use-package solarized-theme
-  :ensure t
-  :disabled t
-  :config
-  ;; settings for moody package
-  (let ((line (face-attribute 'mode-line :underline)))
-    (set-face-attribute 'mode-line          nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :underline  line)
-    (set-face-attribute 'mode-line          nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9"))
-  (setq x-underline-at-descent-line t)
-  (setq solarized-distinct-fringe-background t)
-  (setq solarized-scale-org-headlines nil)
-  (setq solarized-use-variable-pitch nil)
-  (load-theme 'solarized-light t))
 
 (use-package spdx
   :ensure t)
@@ -2317,11 +2252,6 @@ Captured On: %U")))))
 (use-package uvt
   :load-path "~/ubuntu/git/ubuntu-qa-tools/vm-tools/"
   :bind (("C-c v" . uvt)))
-
-(use-package web-mode
-  :ensure t
-  :defer t
-  :mode ("\\.php\\'" . web-mode))
 
 (use-package vdiff
   :ensure t
