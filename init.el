@@ -1558,10 +1558,8 @@ With a prefix argument, will default to looking for all
   :ensure-system-package (notmuch afew)
   :diminish notmuch-hello-mode notmuch-show-mode notmuch-tree-mode notmuch-unthreaded-mode
   :preface
-  (defvar apm-notmuch-discouraged-senders '((("text/plain") . ("jira@warthogs.atlassian.net"
-                                                               "forum@forum.snapcraft.io"
+  (defvar apm-notmuch-discouraged-senders '((("text/plain") . ("forum@forum.snapcraft.io"
                                                                "bounce@websense.com"
-                                                               "notifications@github.com"
                                                                "wsm-postmaster@intel.com"
                                                                "no-reply@onepointpay.com.au"))))
   (defun apm-notmuch-determine-discouraged (msg)
