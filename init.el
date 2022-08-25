@@ -69,13 +69,14 @@
   :custom
   (doom-one-padded-modeline t)
   :config
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config)
+  (load-theme 'doom-one t)
+  ;; set customisations after loading the theme
   (custom-set-faces `(erc-keyword-face ((t (:foreground ,(doom-color 'yellow)))))
                     ;; make some notmuch elements have more contrast
                     `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'constants)))))
-                    `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base6))))))
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config)
-  (load-theme 'doom-one t))
+                    `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base6)))))))
 
 (use-package alert
   :ensure t
