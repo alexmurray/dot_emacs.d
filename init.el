@@ -613,9 +613,6 @@
 (use-package consult-notmuch
   :ensure t)
 
-(use-package consult-project-extra
-  :ensure t)
-
 (use-package copilot
   :load-path "vendor/"
   ;; no copilot access anymore
@@ -2320,6 +2317,11 @@ Captured On: %U")))))
   :ensure t
   :hook ((after-init . vertico-mode))
   :custom (vertico-cycle t))
+
+(use-package vertico-repeat
+  :ensure vertico
+  :hook (minibuffer-setup . vertico-repeat-save)
+  :bind (("C-c r v" . vertico-repeat)))
 
 (use-package vimrc-mode
   :ensure t
