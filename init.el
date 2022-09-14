@@ -772,7 +772,12 @@
     (when (y-or-n-p "Connect to IRC? ")
       ;; connect to matterircd on localhost and oftc and freenode via znc
       ;;(erc :server "localhost" :port "6667" :nick "alexmurray")
-      (erc :server "irc.oftc.net" :port "6667" :nick "amurray")
+      (erc-tls :server "znc.secret.server" :port "7076"
+               :nick "amurray" :password (concat "amurray/OFTC:"
+                                                 (auth-source-pick-first-password
+                                                  :user "amurray"
+                                                  :host "znc.secret.server"
+                                                  :port "7076")))
       (erc-tls :server "znc.secret.server" :port "7076"
                ;; secret-tool store --label="ZNC" host znc.secret.server \
                ;; user amurray port 7076
@@ -877,8 +882,8 @@ With a prefix argument, will default to looking for all
   (setq erc-nick (list user-login-name "alexmurray"))
   (setq erc-prompt-for-nickserv-password nil)
   ;; need to ensure we set the password as:
-  ;; secret-tool store --label="Libera IRC NickServ" host irc.libera.chat user amurray port 7076
-  ;; secret-tool store --label="OFTC IRC NickServ" host irc.oftc.net user amurray port 6667
+  ;; secret-tool store --label="Libera IRC NickServ" host irc.libera.chat user amurray
+  ;; secret-tool store --label="OFTC IRC NickServ" host irc.oftc.net user amurray
 
   (setq erc-use-auth-source-for-nickserv-password t)
 
@@ -886,7 +891,7 @@ With a prefix argument, will default to looking for all
 
   ;; since we connect to oftc directly, we need to autojoin channels there
   ;; - not needed for libera (since we use ZNC) or canonical matterircd
-  (setq erc-autojoin-channels-alist '(("oftc.net" "#apparmor" "#debian-security")))
+  (setq erc-autojoin-channels-alist nil)
   (setq erc-fill-function #'erc-fill-static)
   ;; account for really long names
   (setq erc-fill-static-center 22)
