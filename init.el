@@ -1196,7 +1196,7 @@ With a prefix argument, will default to looking for all
   :bind ("C-=" . er/expand-region))
 
 (use-package files
-  :bind ("C-c r" . revert-buffer)
+  :bind (("C-c r b" . revert-buffer))
   :config
   :custom
   (view-read-only t)
@@ -1272,7 +1272,6 @@ With a prefix argument, will default to looking for all
   :ensure t)
 
 (use-package gnus-art
-  :ensure gnus
   :config
   ;; add custom highlighting to gnus for launchpad security bugs
   (add-to-list 'gnus-emphasis-alist
@@ -2185,7 +2184,9 @@ Captured On: %U")))))
                       sh-indentation 2))
 
 (use-package shr
-  :custom (shr-use-colors nil))
+  :custom
+  (shr-use-colors nil)
+  (shr-use-fonts nil))
 
 (use-package sideline-flymake
   :ensure t
