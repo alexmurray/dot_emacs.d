@@ -64,19 +64,75 @@
 ;; load custom but ignore error if doesn't exist
 (load custom-file 'noerror 'nomessage)
 
+(defvar apm-preferred-dark-theme nil)
+(defvar apm-preferred-light-theme nil)
+(defvar apm-preferred-theme nil)
+
+(defvar apm-load-preferred-theme-hook nil)
+
+(defun apm-load-preferred-theme (dark)
+  "Set the preferred DARK or light theme."
+  (let ((theme (if (eq dark 1)
+                   apm-preferred-dark-theme
+                 apm-preferred-light-theme)))
+    (when theme
+      (setq apm-preferred-theme theme)
+      (load-theme apm-preferred-theme t)
+      (run-hooks 'apm-load-preferred-theme-hook))))
+
+(defun apm-desktop-portal-settings-changed (path var value)
+  "Update preferred theme based on VALUE of VAR at PATH."
+  (when (and (string-equal path "org.freedesktop.appearance")
+             (string-equal var "color-scheme"))
+    (apm-load-preferred-theme (car value))))
+
+(defun apm-set-preferred-theme ()
+  "Set preferred theme based on desktop color-scheme."
+  (dbus-call-method-asynchronously
+   :session
+   "org.freedesktop.portal.Desktop"
+   "/org/freedesktop/portal/desktop"
+   "org.freedesktop.portal.Settings"
+   "Read"
+   (lambda (value)
+     (apm-load-preferred-theme (caar value)))
+   "org.freedesktop.appearance"
+   "color-scheme"))
+
+(when (require 'dbus nil t)
+  ;; monitor for changes to the desktop portal settings
+  (dbus-register-signal
+   :session
+   "org.freedesktop.portal.Desktop"
+   "/org/freedesktop/portal/desktop"
+   "org.freedesktop.portal.Settings"
+   "SettingChanged"
+   #'apm-desktop-portal-settings-changed))
+
 (use-package doom-themes
   :ensure t
+  :preface
+  (defun apm-setup-doom-themes ()
+    (if (eq apm-preferred-theme apm-preferred-dark-theme)
+        (custom-set-faces `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
+                          ;; make some notmuch elements have more contrast
+                          `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'constants)))))
+                          `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base6))))))
+      (custom-set-faces `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
+                        ;; revert some elements for light theme
+                        `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'grey)))))
+                        `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base4))))))))
   :custom
   (doom-one-padded-modeline t)
+  (doom-one-light-padded-modeline t)
   :config
   (doom-themes-visual-bell-config)
   (doom-themes-org-config)
-  (load-theme 'doom-one t)
+  (setq apm-preferred-dark-theme 'doom-one)
+  (setq apm-preferred-light-theme 'doom-one)
   ;; set customisations after loading the theme
-  (custom-set-faces `(erc-keyword-face ((t (:foreground ,(doom-color 'yellow)))))
-                    ;; make some notmuch elements have more contrast
-                    `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'constants)))))
-                    `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base6)))))))
+  (add-hook 'apm-load-preferred-theme-hook #'apm-setup-doom-themes)
+  (apm-set-preferred-theme))
 
 (use-package alert
   :ensure t
