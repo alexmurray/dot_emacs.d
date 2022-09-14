@@ -1825,6 +1825,13 @@ With a prefix argument, will default to looking for all
   :pin nongnu
   :ensure t)
 
+(use-package org-crypt
+  :ensure org
+  :config
+  (org-crypt-use-before-save-magic)
+  (setq org-tags-exclude-from-inheritance '("crypt"))
+  (setq org-crypt-key '("88E9530BCBDDC200517B5EB0F498D2D9DE7DAD9C")))
+
 (use-package org-appear
   :ensure t
   :hook (org-mode . org-appear-mode))
