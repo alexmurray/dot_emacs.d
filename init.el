@@ -1637,7 +1637,9 @@ With a prefix argument, will default to looking for all
                                        ("J" . apm-notmuch-toggle-spam))
          :map notmuch-tree-mode-map (("D" . apm-notmuch-toggle-deleted)
                                      ("J" . apm-notmuch-toggle-spam)))
-  :custom (notmuch-wash-wrap-lines-length 150)
+  :custom
+  (notmuch-wash-wrap-lines-length 150)
+  (notmuch-print-mechanism #'notmuch-print-ps-print/evince)
   :config
   (eval-and-compile
     (require 'notmuch)
