@@ -76,6 +76,8 @@
                    apm-preferred-dark-theme
                  apm-preferred-light-theme)))
     (when theme
+      (when apm-preferred-theme
+        (disable-theme apm-preferred-theme))
       (setq apm-preferred-theme theme)
       (load-theme apm-preferred-theme t)
       (run-hooks 'apm-load-preferred-theme-hook))))
@@ -129,7 +131,7 @@
   (doom-themes-visual-bell-config)
   (doom-themes-org-config)
   (setq apm-preferred-dark-theme 'doom-one)
-  (setq apm-preferred-light-theme 'doom-one)
+  (setq apm-preferred-light-theme 'doom-one-light)
   ;; set customisations after loading the theme
   (add-hook 'apm-load-preferred-theme-hook #'apm-setup-doom-themes)
   (apm-set-preferred-theme))
