@@ -978,6 +978,9 @@ With a prefix argument, will default to looking for all
 
   (erc-spelling-mode 1)
 
+  ;; make sure we identify to nickserv
+  (erc-services-mode 1)
+
   ;; change header line face when disconnected
   (setq erc-header-line-face-method
         #'apm-erc-update-header-line-show-disconnected)
