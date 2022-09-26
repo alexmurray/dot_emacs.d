@@ -640,7 +640,8 @@
 (use-package cve-mode
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts"
   :mode (("CVE-[[:digit:]]\\{4\\}-[[:digit:]]\\{4,\\}\\'" . cve-mode)
-         ("00boilerplate.*\\'" . cve-mode))
+         ("00boilerplate.*\\'" . cve-mode)
+         (("boilerplate" . cve-mode)))
   :hook ((cve-mode . flymake-mode)))
 
 ;; show suspicious c constructs automatically
