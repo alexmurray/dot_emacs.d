@@ -1605,10 +1605,6 @@ With a prefix argument, will default to looking for all
   :bind (([(meta shift up)] . move-text-up)
          ([(meta shift down)] . move-text-down)))
 
-(use-package mqtt-mode
-  :ensure t
-  :ensure-system-package (mosquitto_pub .  mosquitto-clients))
-
 (use-package nano-agenda
   :ensure t)
 
