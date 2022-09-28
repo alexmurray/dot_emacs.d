@@ -2182,10 +2182,6 @@ Captured On: %U")))))
   (add-hook 'after-make-frame-functions
             #'(lambda (frame) (select-frame-set-input-focus frame)) t))
 
-(use-package session-manager
-  :load-path "vendor/"
-  :config (session-manager-init "apm"))
-
 (use-package sh-script
   :init (setq-default sh-basic-offset 2
                       sh-indentation 2))
