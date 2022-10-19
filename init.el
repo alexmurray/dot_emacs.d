@@ -892,8 +892,8 @@ With a prefix argument, will default to looking for all
   (setq erc-nick (list user-login-name "alexmurray"))
   (setq erc-prompt-for-nickserv-password nil)
   ;; need to ensure we set the password as:
-  ;; secret-tool store --label="Libera IRC NickServ" host irc.libera.chat user amurray
-  ;; secret-tool store --label="OFTC IRC NickServ" host irc.oftc.net user amurray
+  ;; secret-tool store --label="Libera IRC NickServ" host Libera.Chat user amurray port irc
+  ;; secret-tool store --label="OFTC IRC NickServ" host OFTC user amurray port irc
 
   (setq erc-use-auth-source-for-nickserv-password t)
 
