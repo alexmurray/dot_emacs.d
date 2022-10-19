@@ -427,6 +427,13 @@
 (use-package calendar
   :custom (calendar-week-start-day 1))
 
+(use-package calfw
+  :ensure t)
+
+(use-package calfw-org
+  :ensure t
+  :after calfw)
+
 (use-package cargo
   :ensure t
   :defer t
