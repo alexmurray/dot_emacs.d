@@ -1749,9 +1749,6 @@ With a prefix argument, will default to looking for all
   ;; add a few helpful custom saved search queries
   (add-to-list 'notmuch-saved-searches '(:name "cvewebbot" :query "from:noreply+security-tools@canonical.com and subject:\"CVE webbot process errors\"" :key "c")))
 
-(use-package notmuch-transient
-  :ensure t)
-
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
   :init
