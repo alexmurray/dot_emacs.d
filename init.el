@@ -1206,7 +1206,7 @@ With a prefix argument, will default to looking for all
 
 (use-package expand-region
   :ensure t
-  :bind ("C-=" . er/expand-region))
+  :bind ("C-'" . er/expand-region))
 
 (use-package files
   :bind (("C-c r b" . revert-buffer))
