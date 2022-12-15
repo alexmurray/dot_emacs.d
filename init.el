@@ -514,20 +514,19 @@
   :ensure t
   :custom
   (corfu-cycle t)
-  (corfu-auto t)
   :init
   (global-corfu-mode 1)
   (setq tab-always-indent 'complete)
   ;; cycle with at least 3 candidates
   (setq completion-cycle-threshold 3))
 
-(use-package corfu-doc
-  :ensure t
-  :hook (corfu-mode . corfu-doc-mode)
+(use-package corfu-popupinfo
+  :ensure corfu
+  :hook (corfu-mode . corfu-popupinfo-mode)
   :bind (:map corfu-map
-              ("M-p" . corfu-doc-scroll-down)
-              ("M-n" . corfu-doc-scroll-up)
-              ("M-d" . corfu-doc-toggle)))
+              ("M-p" . corfu-popupinfo-scroll-down)
+              ("M-n" . corfu-popupinfo-scroll-up)
+              ("M-d" . corfu-popupinfo-toggle)))
 
 (use-package cape
   :ensure t
