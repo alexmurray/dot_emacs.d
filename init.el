@@ -1723,6 +1723,12 @@ With a prefix argument, will default to looking for all
 
     (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-article-emphasize))
 
+  (with-eval-after-load 'epa
+    (defun apm-notmuch-wash-pgp-armor (_msg _depth)
+      (let ((epa-replace-original-text t))
+        (epa-decrypt-armor-in-region (point-min) (point-max))))
+    (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-pgp-armor))
+
   ;; ensure when viewing parts we use a tmp dir which all snaps and regular
   ;; applications can access
   (setq mm-tmp-directory (expand-file-name "~/tmp"))
