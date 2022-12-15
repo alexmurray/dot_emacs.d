@@ -679,6 +679,9 @@
   :bind (("C-c d" . define-word-at-point)
          ("C-c D" . define-word)))
 
+(use-package devhelp
+  :ensure t)
+
 (use-package diff-mode
   :mode (("\\.debdiff\\'" . diff-mode)))
 
