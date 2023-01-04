@@ -111,29 +111,11 @@
    "SettingChanged"
    #'apm-desktop-portal-settings-changed))
 
-(use-package doom-themes
+(use-package modus-themes
   :ensure t
-  :preface
-  (defun apm-setup-doom-themes ()
-    (if (eq apm-preferred-theme apm-preferred-dark-theme)
-        (custom-set-faces `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
-                          ;; make some notmuch elements have more contrast
-                          `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'constants)))))
-                          `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base6))))))
-      (custom-set-faces `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
-                        ;; revert some elements for light theme
-                        `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'grey)))))
-                        `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base4))))))))
-  :custom
-  (doom-one-padded-modeline t)
-  (doom-one-light-padded-modeline t)
   :config
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config)
-  (setq apm-preferred-dark-theme 'doom-one)
-  (setq apm-preferred-light-theme 'doom-one-light)
-  ;; set customisations after loading the theme
-  (add-hook 'apm-load-preferred-theme-hook #'apm-setup-doom-themes)
+  (setq apm-preferred-dark-theme 'modus-vivendi)
+  (setq apm-preferred-light-theme 'modus-operandi)
   (apm-set-preferred-theme))
 
 (use-package alert
