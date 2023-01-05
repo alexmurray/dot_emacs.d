@@ -113,6 +113,11 @@
 
 (use-package modus-themes
   :ensure t
+  :custom
+  (modus-themes-italic-constructs t)
+  (modus-themes-bold-constructs t)
+  (modus-themes-variable-pitch-ui t)
+  (modus-themes-mixed-fonts t)
   :config
   (setq apm-preferred-dark-theme 'modus-vivendi)
   (setq apm-preferred-light-theme 'modus-operandi)
