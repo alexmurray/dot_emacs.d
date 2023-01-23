@@ -1667,9 +1667,9 @@ With a prefix argument, will default to looking for all
     "Toggle the spam tag for the current message."
     (interactive)
     (if (apm-notmuch-toggle-tag "spam")
-        (when-let ((url (notmuch-show-get-header :X-MailControl-ReportSpam)))
-          (and (y-or-n-p "Do you also want to report this message as spam to mailcontrol? ")
-               (let ((subject (notmuch-show-get-subject)))
+        (let ((subject (notmuch-show-get-subject)))
+          (when-let ((url (notmuch-show-get-header :X-MailControl-ReportSpam)))
+            (and (y-or-n-p (format "Do you also want to report this message \"%s\" as spam to mailcontrol? " subject))
                  (url-retrieve (concat url)
                                (lambda (s)
                                  (let ((status (url-http-symbol-value-in-buffer
