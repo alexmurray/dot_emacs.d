@@ -1768,7 +1768,9 @@ With a prefix argument, will default to looking for all
   (setq completion-styles '(basic orderless))
   (setq completion-category-defaults nil)
   (setq completion-category-overrides '((file (styles . (partial-completion)))
-                                        (eglot (styles orderless)))))
+                                        (eglot (styles orderless))))
+  (setq completion-auto-help 'visible)
+  (setq completion-auto-select 'second-tab))
 
 (use-package orderless
   ;; for vertico
