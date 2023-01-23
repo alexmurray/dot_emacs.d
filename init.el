@@ -1923,7 +1923,7 @@ With a prefix argument, will default to looking for all
 %U
 - %a")
             ("p" "project" entry (file ,canonical-org)
-             "* TODO %i%?
+             "* %i%?
 - %a")
             ("m" "meeting" entry (file+headline ,canonical-org "Meetings")
              "* %^{meeting title}
