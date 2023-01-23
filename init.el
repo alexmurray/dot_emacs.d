@@ -1820,6 +1820,10 @@ With a prefix argument, will default to looking for all
   :pin nongnu
   :ensure t)
 
+(use-package org-block-capf
+  :load-path "vendor/"
+  :hook (org-mode . org-block-capf-add-to-completion-at-point-functions))
+
 (use-package org-crypt
   :ensure org
   :config
