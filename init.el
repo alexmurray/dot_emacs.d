@@ -542,7 +542,6 @@
          ("M-s l" . consult-line)
          ("M-s o" . consult-outline)
          ("M-y". consult-yank-pop)
-         ("<help> a" . consult-apropos)
          ("M-g e" . consult-compile-error)
          ("M-g g" . consult-goto-line)             ;; orig. goto-line
          ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
