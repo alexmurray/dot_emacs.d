@@ -1922,7 +1922,7 @@ With a prefix argument, will default to looking for all
              "* %i%?
 - %a")
             ("m" "meeting" entry (file+headline ,canonical-org "Meetings")
-             "* %^{meeting title}
+             "* %^{meeting title}     :meeting:
 %^{meeting day+time}T
 - %a%?")
             ("R" "snap-store-review" entry (file+olp ,canonical-org "Manual snap reviews")
