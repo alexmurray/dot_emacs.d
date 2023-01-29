@@ -558,7 +558,6 @@
          ("M-s G" . consult-git-grep)
          ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
-         ("M-s m" . consult-multi-occur)
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
          ;; Isearch integration
@@ -570,8 +569,6 @@
          ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
          ("M-s l" . consult-line))
   :init
-  ;; Replace functions (consult-multi-occur is a drop-in replacement)
-  (fset 'multi-occur #'consult-multi-occur)
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
   :config
