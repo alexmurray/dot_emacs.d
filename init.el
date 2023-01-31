@@ -410,6 +410,11 @@
   (setq bug-reference-url-format #'apm-bug-reference-url-format
         bug-reference-bug-regexp "\\<\\(\\(\\([Ll][Pp]:?\\|bug\\) #?\\|CVE[ -]\\|[UL]SN[ -]\\)\\([0-9][0-9-]*\\)\\)\\>"))
 
+(use-package calc
+  :defer t
+  ;; https://emacs.ch/@galdor/109759892132784831
+  :custom (calc-multiplication-has-precedence nil))
+
 (use-package calendar
   :custom (calendar-week-start-day 1))
 
