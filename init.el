@@ -337,10 +337,9 @@
   (setq-default TeX-source-correlate-start-server t))
 
 (use-package auth-source
-  ;; prefer gnome-keyring via Login keyring, encrypted auth source to non-encrypted
+  ;; prefer encrypted auth source to non-encrypted
   :init
-  (require 'secrets)
-  (setq auth-sources '("~/.authinfo" "secrets:Login" "~/.netrc")))
+  (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc")))
 
 (use-package avy
   :ensure t
@@ -772,8 +771,6 @@
                                                   :host "znc.secret.server"
                                                   :port "7076")))
       (erc-tls :server "znc.secret.server" :port "7076"
-               ;; secret-tool store --label="ZNC" host znc.secret.server \
-               ;; user amurray port 7076
                :nick "amurray" :password (concat "amurray/libera:"
                                                  (auth-source-pick-first-password
                                                   :user "amurray"
@@ -874,9 +871,6 @@ With a prefix argument, will default to looking for all
   (setq erc-user-full-name user-full-name)
   (setq erc-nick (list user-login-name "alexmurray"))
   (setq erc-prompt-for-nickserv-password nil)
-  ;; need to ensure we set the password as:
-  ;; secret-tool store --label="Libera IRC NickServ" host Libera.Chat user amurray port irc
-  ;; secret-tool store --label="OFTC IRC NickServ" host OFTC user amurray port irc
 
   (setq erc-use-auth-source-for-nickserv-password t)
 
@@ -1018,7 +1012,7 @@ With a prefix argument, will default to looking for all
   (setq erc-matterircd-team "canonical")
   (let ((token (auth-source-pick-first-password :host "matterircd")))
     (if (null token)
-        (alert (format "Please store matterircd token in secret store with :host matterircd"))
+        (alert (format "Please store matterircd token in ~/.authinfo.gpg with machine matterircd"))
       (setq erc-matterircd-password (concat "token=" token))))
   (add-to-list 'erc-modules 'matterircd)
   (erc-update-modules))
@@ -1403,9 +1397,6 @@ With a prefix argument, will default to looking for all
   :ensure-system-package (ldapsearch . ldap-utils)
   :demand t
   :custom
-  ;; Store password using secret-tool as follows:
-  ;; secret-tool store --label='Canonical LDAP' host ldaps://ldap.canonical.com
-  ;; then enter PASSWORD
   (ldap-host-parameters-alist '(("ldaps://ldap.canonical.com"
       base "ou=staff,dc=canonical,dc=com"
       binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
@@ -2018,7 +2009,7 @@ Captured On: %U")))))
     (require 'auth-source)
     (eval-when-compile
       (require 'paradox-github))
-    (if (file-exists-p "~/.authinfo")
+    (if (file-exists-p "~/.authinfo.gpg")
         (let ((authinfo-result (car (auth-source-search
                                      :max 1
                                      :host "github.com"
@@ -2026,9 +2017,10 @@ Captured On: %U")))))
                                      :user "paradox"
                                      :require '(:secret)))))
           (let ((paradox-token (plist-get authinfo-result :secret)))
-            (setq paradox-github-token (if (functionp paradox-token)
-                                           (funcall paradox-token)
-                                         paradox-token))))
+            (setq paradox-github-token (auth-source-pick-first-password
+                                        :host "github.com"
+                                        :port "paradox"
+                                        :user "paradox"))))
       (alert "No github token found in ~/.authinfo")))
   (paradox-enable))
 
@@ -2211,9 +2203,6 @@ Captured On: %U")))))
   :custom (smiley-style 'emoji))
 
 (use-package smtpmail
-  ;; store password using secret-tool as follows:
-  ;; secret-tool store --label='Canonical SMTP' host smtp.canonical.com port 587 user amurray
-  ;; then enter PASSWORD
   :custom
   (smtpmail-smtp-user "amurray")
   (smtpmail-local-domain "canonical.com")
