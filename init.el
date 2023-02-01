@@ -2191,7 +2191,8 @@ Captured On: %U")))))
   :ensure t
   :hook (flymake-mode . sideline-mode)
   :diminish sideline-mode
-  :init (setq sideline-backends-right '(sideline-flymake)))
+  :custom
+  (sideline-backends-right '((sideline-flymake . down))))
 
 (use-package simple
   :defer t
