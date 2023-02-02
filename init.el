@@ -54,10 +54,10 @@
 
 (use-package system-packages
   :ensure t
-  :config
-  (setq system-packages-package-manager 'apt)
-  (setq system-packages-noconfirm t)
-  (setq system-packages-use-sudo t))
+  :custom
+  (system-packages-package-manager 'apt)
+  (system-packages-noconfirm t)
+  (system-packages-use-sudo t))
 
 ;; customisations
 (setq custom-file (locate-user-emacs-file "custom.el"))
