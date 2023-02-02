@@ -1306,6 +1306,19 @@ With a prefix argument, will default to looking for all
   :ensure t
   :hook ((before-save . gofmt-before-save)))
 
+(use-package go-translate
+  :ensure t
+  :bind (("C-c t" . gts-do-translate))
+  :config
+  (setq gts-translate-list '(("zh" "en")))
+  (setq gts-default-translator
+      (gts-translator
+       :picker (gts-prompt-picker)
+       :engines (list (gts-bing-engine)
+                      (gts-google-engine :parser (gts-google-summary-parser))
+                      (gts-google-rpc-engine))
+       :render (gts-buffer-render))))
+
 (use-package goto-addr
   :defer t
   :hook ((prog-mode . goto-address-prog-mode)
