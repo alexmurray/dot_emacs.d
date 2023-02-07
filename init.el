@@ -635,7 +635,12 @@
   :mode (("CVE-[[:digit:]]\\{4\\}-[[:digit:]]\\{4,\\}\\'" . cve-mode)
          ("00boilerplate.*\\'" . cve-mode)
          (("boilerplate" . cve-mode)))
-  :hook ((cve-mode . flymake-mode)))
+  :hook ((cve-mode . flymake-mode))
+  ;; this is used for Notes in CVE files which the web pages link to the
+  ;; corresponding launchpad user
+  :custom
+  (cve-mode-default-user "alexmurray")
+  (cve-mode-prefix-notes-lines 'all))
 
 ;; show suspicious c constructs automatically
 (use-package cwarn
