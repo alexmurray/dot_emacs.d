@@ -188,11 +188,11 @@
 (blink-cursor-mode -1)
 
 ;; use better font
-(let ((preferred-font "Fira Code-10"))
+(let ((preferred-font "Noto Sans Mono-10"))
   (if (font-info preferred-font)
       ;; apply this to all existing and future frames
       (set-frame-font preferred-font nil t)
-    (system-packages-install "fonts-firacode")))
+    (system-packages-install "fonts-noto-mono")))
 
 
 
