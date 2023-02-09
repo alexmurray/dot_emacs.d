@@ -596,7 +596,7 @@
                           (org-read-date t t)))))
   (consult-customize consult-clock-in
                      :prompt "Clock in: "
-                     :preview-key (kbd "M-.")
+                     :preview-key "M-."
                      :group
                      (lambda (cand transform)
                        (let* ((marker (get-text-property 0 'consult--candidate cand))
