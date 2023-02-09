@@ -2000,12 +2000,17 @@ Captured On: %U")))))
 (use-package orgit
   :ensure t)
 
+(use-package org-menu
+  :load-path "vendor/"
+  :bind (:map org-mode-map
+              ("C-x m" . org-menu)))
+
 (use-package org-src
   :ensure org-contrib
   :pin nongnu
   :config
-  ;; preserve indentation of org src blocks
-  (setq org-src-preserve-indentation t))
+  ;; prefer org src blocks to not be indented with surrounding content
+  (setq org-edit-src-content-indentation 0))
 
 (use-package org-table-sticky-header
   :ensure t
