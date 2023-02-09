@@ -2069,10 +2069,17 @@ Captured On: %U")))))
   :mode ("\\.pcapng\\'" . pcap-mode))
 
 (use-package pdf-tools
-  :load-path "/snap/pdf-tools/current/usr/share/emacs/site-lisp/pdf-tools"
-  :custom
-  (pdf-info-epdfinfo-program "pdf-tools.epdfinfo")
-  (pdf-info-epdfinfo-error-filename (expand-file-name "~/snap/pdf-tools/common/epdfinfo.log")))
+  :pin nongnu
+  :ensure t
+  :config (unless (file-executable-p pdf-info-epdfinfo-program)
+            (pdf-tools-install)))
+
+;; (use-package pdf-tools
+;;   :disabled t
+;;   :load-path "/snap/pdf-tools/current/usr/share/emacs/site-lisp/pdf-tools"
+;;   :custom
+;;   (pdf-info-epdfinfo-program "pdf-tools.epdfinfo")
+;;   (pdf-info-epdfinfo-error-filename (expand-file-name "~/snap/pdf-tools/common/epdfinfo.log")))
 
 (use-package pixel-scroll
   :config (if (fboundp 'pixel-scroll-precision-mode)
