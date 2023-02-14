@@ -733,8 +733,15 @@
 
 (use-package eglot
   :ensure t
+  :preface
+  ;; compose all eldoc messages together so eglot plays nicely with flymake etc
+  ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
+  (defun apm-eglot-compose-eldoc ()
+    (setq eldoc-documentation-strategy
+          'eldoc-documentation-compose))
   :pin gnu
-  :hook ((prog-mode yaml-mode) . eglot-ensure)
+  :hook (((prog-mode yaml-mode) . eglot-ensure)
+         (eglot-managed-mode . apm-eglot-compose-eldoc))
   :custom (eglot-extend-to-xref t)
   :config (add-to-list 'eglot-server-programs '(markdown-mode "vscode-markdown-languageserver" "--stdio")))
 
