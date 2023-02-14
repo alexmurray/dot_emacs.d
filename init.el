@@ -2096,6 +2096,12 @@ Captured On: %U")))))
 ;;   (pdf-info-epdfinfo-program "pdf-tools.epdfinfo")
 ;;   (pdf-info-epdfinfo-error-filename (expand-file-name "~/snap/pdf-tools/common/epdfinfo.log")))
 
+(use-package perl-mode
+  :preface (defun apm-perl-mode-setup ()
+             (setq-local indent-tabs-mode t))
+  :hook ((perl-mode . apm-perl-mode-setup))
+  :custom (perl-indent-level 8))
+
 (use-package pixel-scroll
   :config (if (fboundp 'pixel-scroll-precision-mode)
               (pixel-scroll-precision-mode 1)
