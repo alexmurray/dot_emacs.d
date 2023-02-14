@@ -743,7 +743,10 @@
   :hook (((prog-mode yaml-mode) . eglot-ensure)
          (eglot-managed-mode . apm-eglot-compose-eldoc))
   :custom (eglot-extend-to-xref t)
-  :config (add-to-list 'eglot-server-programs '(markdown-mode "vscode-markdown-languageserver" "--stdio")))
+  :config
+  (add-to-list 'eglot-server-programs '(markdown-mode "vscode-markdown-languageserver" "--stdio"))
+  (add-to-list 'eglot-server-programs '(vimrc-mode "vim-language-server" "--stdio"
+                                                   :initializationOptions (:vim-runtime "/usr/share/vim/vim90"))))
 
 (use-package eldoc
   :diminish eldoc-mode
