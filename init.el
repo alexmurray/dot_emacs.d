@@ -752,6 +752,12 @@
   :diminish eldoc-mode
   :config (global-eldoc-mode 1))
 
+(use-package eldoc-box
+  :ensure t
+  :diminish eldoc-box-hover-mode
+  ;; tie in with eglot
+  :hook ((eglot-managed-mode . eldoc-box-hover-mode)))
+
 (use-package elf-mode
   :ensure t)
 
