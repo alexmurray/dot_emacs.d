@@ -1555,10 +1555,6 @@ With a prefix argument, will default to looking for all
 (use-package message-attachment-reminder
   :ensure t)
 
-(use-package message-view-patch
-  :ensure t
-  :hook ((gnus-part-display . message-view-patch-highlight)))
-
 (use-package mml-sec
   :config
   (define-advice mml-secure-find-usable-keys
