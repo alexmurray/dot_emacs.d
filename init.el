@@ -2038,32 +2038,6 @@ Captured On: %U")))))
 (use-package ox-hugo
   :ensure t)
 
-(use-package paradox
-  :ensure t
-  :commands (paradox-list-packages)
-  :init (setq paradox-execute-asynchronously nil)
-  :config
-  (define-advice paradox-list-packages (:before (_no-fetch) set-github-token)
-    "Load `paradox-github-token' from authinfo."
-    (require 'epa-file)
-    (require 'auth-source)
-    (eval-when-compile
-      (require 'paradox-github))
-    (if (file-exists-p "~/.authinfo.gpg")
-        (let ((authinfo-result (car (auth-source-search
-                                     :max 1
-                                     :host "github.com"
-                                     :port "paradox"
-                                     :user "paradox"
-                                     :require '(:secret)))))
-          (let ((paradox-token (plist-get authinfo-result :secret)))
-            (setq paradox-github-token (auth-source-pick-first-password
-                                        :host "github.com"
-                                        :port "paradox"
-                                        :user "paradox"))))
-      (alert "No github token found in ~/.authinfo")))
-  (paradox-enable))
-
 (use-package paredit
   :diminish paredit-mode
   :ensure t
