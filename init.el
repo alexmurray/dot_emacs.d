@@ -732,7 +732,8 @@
                 ediff-split-window-function 'split-window-horizontally))
 
 (use-package eglot
-  :ensure t
+  ;; use the version packaged with emacs-30 for now
+  :ensure nil
   :preface
   ;; compose all eldoc messages together so eglot plays nicely with flymake etc
   ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
@@ -741,7 +742,8 @@
           'eldoc-documentation-compose))
   :pin gnu
   :hook (((prog-mode yaml-mode) . eglot-ensure)
-         (eglot-managed-mode . apm-eglot-compose-eldoc))
+         (eglot-managed-mode . apm-eglot-compose-eldoc)
+         (eglot-managed-mode . eglot-inlay-hints-mode))
   :custom (eglot-extend-to-xref t)
   :config
   (add-to-list 'eglot-server-programs '(markdown-mode "vscode-markdown-languageserver" "--stdio"))
