@@ -408,7 +408,7 @@
   (eval-when-compile
     (require 'bug-reference))
   (setq bug-reference-url-format #'apm-bug-reference-url-format
-        bug-reference-bug-regexp "\\<\\(\\(\\([Ll][Pp]:?\\|bug\\) #?\\|CVE[ -]\\|[UL]SN[ -]\\)\\([0-9][0-9-]*\\)\\)\\>"))
+        bug-reference-bug-regexp "\\<\\(\\(\\([Ll][Pp]:?\\|bug\\) #?\\|CVE[ -]\\|[UL]SN[ -]\\)\\([0-9Y][0-9N-]*\\)\\)\\>"))
 
 (use-package calc
   :defer t
