@@ -1166,10 +1166,14 @@ With a prefix argument, will default to looking for all
     (eudc-display-records (eudc-query  `((launchpadid . ,id))))))
 
 (use-package eudc-capf
+  :preface (defun apm-setup-eudc-capf ()
+             (add-hook 'completion-at-point-functions #'eudc-capf-complete -1 t))
+  :hook ((notmuch-message-mode . apm-setup-eudc-capf))
   :config
   (add-to-list 'eudc-capf-modes 'notmuch-message-mode))
 
 (use-package eudcb-notmuch-address
+  ;; https://www.mail-archive.com/notmuch@notmuchmail.org/msg53258.html
   :load-path "vendor/"
   :config (add-to-list 'eudc-server-hotlist '("localhost" . notmuch-address)))
 
