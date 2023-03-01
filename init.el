@@ -1791,9 +1791,9 @@ With a prefix argument, will default to looking for all
 
 (use-package minibuffer
   :config
-  (setq completion-styles '(basic orderless))
+  (setq completion-styles '(substring orderless basic))
   (setq completion-category-defaults nil)
-  (setq completion-category-overrides '((file (styles . (partial-completion)))
+  (setq completion-category-overrides '((file (styles partial-completion))
                                         (eglot (styles orderless))))
   (setq completion-auto-help 'visible)
   (setq completion-auto-select 'second-tab))
