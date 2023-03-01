@@ -1387,7 +1387,6 @@ With a prefix argument, will default to looking for all
   :defer t
   :functions global-hl-todo-mode
   :config
-  (add-to-list 'hl-todo-keyword-faces '("@todo" . "#cc9393"))
   (global-hl-todo-mode 1))
 
 (use-package hungry-delete
@@ -1524,6 +1523,12 @@ With a prefix argument, will default to looking for all
   ;; whilst magit doesn't need this anymore, other packages do and magit
   ;; doesn't provide it anymore so explicitly add it
   :ensure t)
+
+(use-package magit-todos
+  :ensure t
+  ;; doesn't work on emacs30 since fails on using pcre2el but keep around for
+  :disabled (version< "29" emacs-version)
+  :config (magit-todos-mode 1))
 
 (use-package mallard-mode
   :ensure t
