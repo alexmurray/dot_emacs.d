@@ -933,8 +933,6 @@ With a prefix argument, will default to looking for all
   ;; format nicknames to show if user has voice(+), owner (~), admin (&),
   ;; operator (@)
   (setq erc-format-nick-function 'erc-format-@nick)
-  (setq erc-pals '("joemcmanus" "jdstrand" "mdeslaur" "sbeattie" "jjohansen" "jj" "sarnold" "ChrisCoulson" "leosilva" "msalvatore" "ebarretto" "pfsmorigo" "emitorino" "deafpool" "Avital" "dan" "sid"))
-  (setq erc-notify-list erc-pals)
 
   (setq erc-keywords '("alexmurray" "cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm" "@here" "@all" "@channel" "@security"))
 
@@ -1013,11 +1011,7 @@ With a prefix argument, will default to looking for all
 
 (use-package erc-hl-nicks
   :ensure t
-  :after erc
-  ;; erc-match will highlight pals with erc-pal-face so override that
-  ;; for pretty colors
-  :config (setq erc-hl-nicks-skip-faces
-                (delete "erc-pal-face" erc-hl-nicks-skip-faces)))
+  :after erc)
 
 (use-package erc-image
   :ensure t
