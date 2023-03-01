@@ -1221,7 +1221,9 @@ With a prefix argument, will default to looking for all
   (save-some-buffers-default-predicate #'save-some-buffers-root))
 
 (use-package flymake
-  :hook (prog-mode . flymake-mode))
+  :hook (prog-mode . flymake-mode)
+  :bind (("M-g n" . flymake-goto-next-error)
+         ("M-g p" . flymake-goto-prev-error)))
 
 (use-package flyspell
   :defer t
