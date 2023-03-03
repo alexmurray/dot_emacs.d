@@ -1384,8 +1384,6 @@ With a prefix argument, will default to looking for all
 
 (use-package hl-todo
   :ensure t
-  :defer t
-  :functions global-hl-todo-mode
   :config
   (global-hl-todo-mode 1))
 
