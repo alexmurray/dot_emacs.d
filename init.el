@@ -685,9 +685,7 @@
          (text-mode . display-fill-column-indicator-mode)))
 
 (use-package dpkg-dev-el
-  :ensure t
-  :after flyspell
-  :hook (debian-changelog-mode . flyspell-mode))
+  :ensure t)
 
 (use-package debian-changelog-mode
   :ensure dpkg-dev-el
@@ -1224,18 +1222,6 @@ With a prefix argument, will default to looking for all
               ("M-n" . flymake-goto-next-error)
               ("M-p" . flymake-goto-prev-error)))
 
-(use-package flyspell
-  :defer t
-  :diminish flyspell-mode
-  ;; improve performance by making flyspell less chatty
-  :config (setq flyspell-issue-message-flag nil)
-  :hook ((text-mode . flyspell-mode)
-         (prog-mode . flyspell-prog-mode)))
-
-(use-package flyspell-correct
-  :ensure t
-  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
-
 (use-package forge
   :ensure t
   :after magit)
@@ -1414,6 +1400,14 @@ With a prefix argument, will default to looking for all
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+(use-package jit-spell
+  :ensure t
+  :demand t
+  :hook ((text-mode . jit-spell-mode)
+         (prog-mode . jit-spell-mode)
+         (debian-changelog-mode . jit-spell-mode))
+  :bind (:map jit-spell-mode-map ("C-;" . jit-spell-correct-word)))
 
 (use-package journalctl-mode
   :ensure t)
