@@ -266,10 +266,12 @@
   ;; show colours correctly in shell
   :config (ansi-color-for-comint-mode-on))
 
+;; we could use the built-in `isearch-lazy-count' but this doesn't do counts on
+;; query-replace-regexp etc
 (use-package anzu
   :ensure t
   :diminish anzu-mode global-anzu-mode
-  :init (global-anzu-mode)
+  :init (global-anzu-mode 1)
   :bind (("M-%" . anzu-query-replace-regexp)
          ("C-M-%" . anzu-query-replace)))
 
