@@ -1,5 +1,13 @@
 # -*- mode: snippet -*-
 # name: rev
 # key: rev
+# type: command
 # --
-Update to latest upstream release ${version}
+;; try and get the new version number automatically from the associated magit-diff buffer if there is one
+(let ((version "version"))
+  (save-excursion
+    (with-current-buffer (magit-get-mode-buffer 'magit-diff-mode)
+      (goto-char (point-min))
+      (when (re-search-forward "^\\+version: \\(.*\\)" nil t)
+        (setq version (substring-no-properties (match-string 1))))))
+  (yas-expand-snippet (format "Update to latest upstream release ${%s}" version)))
