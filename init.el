@@ -1405,6 +1405,7 @@ With a prefix argument, will default to looking for all
 
 (use-package jit-spell
   :ensure t
+  :diminish jit-spell-mode
   :demand t
   :hook ((text-mode . jit-spell-mode)
          (prog-mode . jit-spell-mode)
