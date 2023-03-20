@@ -1480,7 +1480,12 @@ With a prefix argument, will default to looking for all
   (push 'link-hint-bug-reference link-hint-types))
 
 (use-package lxd-tramp
-  :ensure t)
+  :ensure t
+  :preface (defun apm-recentf-ignore-lxd-tramp (file)
+             "Do not keep FILE if it is on a lxd remote."
+             ;; return non-nil to keep in recentf-list
+             (not (string-match "^/lxd:.*" file)))
+  :config (add-to-list 'recentf-keep 'apm-recentf-ignore-lxd-tramp))
 
 (use-package lp
   :load-path "/snap/gitlptools/current"
