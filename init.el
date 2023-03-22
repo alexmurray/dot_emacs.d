@@ -187,15 +187,6 @@
   (setq x-gtk-use-system-tooltips nil))
 (blink-cursor-mode -1)
 
-;; use better font
-(let ((preferred-font "Noto Sans Mono-10"))
-  (if (font-info preferred-font)
-      ;; apply this to all existing and future frames
-      (set-frame-font preferred-font nil t)
-    (system-packages-install "fonts-noto-mono")))
-
-
-
 ;; make emacs less laggy
 (setq inhibit-compacting-font-caches t)
 
