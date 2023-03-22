@@ -507,6 +507,7 @@
   :ensure t
   :custom
   (corfu-cycle t)
+  (corfu-auto t)
   :init
   (global-corfu-mode 1)
   (setq tab-always-indent 'complete)
