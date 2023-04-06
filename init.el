@@ -2207,10 +2207,13 @@ Captured On: %U")))))
   (shr-use-colors nil)
   (shr-use-fonts nil))
 
+(use-package sideline
+  :ensure t
+  :diminish sideline-mode)
+
 (use-package sideline-flymake
   :ensure t
   :hook (flymake-mode . sideline-mode)
-  :diminish sideline-mode
   :custom
   (sideline-backends-right '((sideline-flymake . down))))
 
