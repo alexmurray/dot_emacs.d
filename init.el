@@ -1983,8 +1983,6 @@ Captured On: %U")))))
   :bind (("C-c g" . org-clock-goto)
          ("C-c i" . org-clock-in)
          ("C-c o" . org-clock-out))
-  ;; assume idle after 5 minutes
-  :ensure-system-package xprintidle
   :config
   (setq org-clock-idle-time 5
         ;; include the current clocked in task in clock reports
@@ -1995,7 +1993,6 @@ Captured On: %U")))))
         org-clock-in-resume t
         ;; persist clock data into org-directory
         org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory))
-  (setq org-clock-x11idle-program-name "xprintidle")
   ;; reload any saved org clock information on startup
   (org-clock-persistence-insinuate))
 
