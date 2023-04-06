@@ -1521,8 +1521,6 @@ With a prefix argument, will default to looking for all
 
 (use-package magit-todos
   :ensure t
-  ;; doesn't work on emacs30 since fails on using pcre2el but keep around for
-  :disabled (version< "29" emacs-version)
   :config (magit-todos-mode 1))
 
 (use-package mallard-mode
