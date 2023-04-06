@@ -1043,6 +1043,9 @@ With a prefix argument, will default to looking for all
                                    (expand-file-name
                                     erc-log-channels-directory))) . erc-view-log-mode)))
 
+(use-package erlang
+  :load-path "vendor/erlang")
+
 (use-package eudc
   :after ldap
   :config
