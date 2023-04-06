@@ -1093,10 +1093,10 @@ With a prefix argument, will default to looking for all
 
   (defun apm-eudc-display-timezone (timezone)
     "Display TIMEZONE with current local time."
-      (insert (concat timezone
-                      " ["
-                      (current-time-string nil timezone)
-                      "]")))
+    (insert (concat timezone
+                    " ["
+                    (current-time-string nil timezone)
+                    "]")))
 
   (defun apm-eudc-display-utc-offset (offset)
     "Display OFFSET with current local time."
