@@ -2361,10 +2361,6 @@ Captured On: %U")))))
   :ensure t
   :hook ((markdown-mode . virtual-auto-fill-mode)))
 
-(use-package vterm
-  :load-path "/snap/emacs-vterm/current/"
-  :bind (("C-x m" . vterm)))
-
 (use-package webpaste
   :ensure t
   :bind (("C-c C-p C-b" . webpaste-paste-buffer)
@@ -2386,7 +2382,7 @@ Captured On: %U")))))
                       '(face tabs tab-mark trailing missing-newline-at-eof))
   :config
   ;; whitespace-mode is not useful for erc or magit-log buffers
-  (setq whitespace-global-modes '(not erc-mode magit-log-mode vterm-mode))
+  (setq whitespace-global-modes '(not erc-mode magit-log-mode))
   (global-whitespace-mode 1))
 
 (use-package whitespace-cleanup-mode
