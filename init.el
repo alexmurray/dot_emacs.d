@@ -2390,6 +2390,9 @@ Captured On: %U")))))
   :diminish whitespace-cleanup-mode
   :config (global-whitespace-cleanup-mode 1))
 
+(use-package wgrep-deadgrep
+  :ensure t)
+
 (use-package world-time-mode
   :ensure t)
 
