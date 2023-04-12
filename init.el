@@ -1794,7 +1794,7 @@ With a prefix argument, will default to looking for all
   :config
   (setq completion-styles '(substring orderless basic))
   (setq completion-category-defaults nil)
-  (setq completion-category-overrides '((file (styles basic-remote orderless partial-completion))
+  (setq completion-category-overrides '((file (styles basic partial-completion))
                                         (eglot (styles orderless))))
   (setq completion-auto-help 'visible)
   (setq completion-auto-select 'second-tab))
