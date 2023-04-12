@@ -534,11 +534,13 @@
          ("C-c h" . consult-history)
          ("C-c s" . consult-clock-in)
          ("C-x b" . consult-buffer)
+         ("C-x p b" . consult-project-buffer)
          ("C-x 4 b" . consult-buffer-other-window)
          ("C-x 5 b" . consult-buffer-other-frame)
          ("M-s i" . consult-imenu)
          ("M-s l" . consult-line)
          ("M-s o" . consult-outline)
+         ("C-y". consult-yank-replace)
          ("M-y". consult-yank-pop)
          ("M-g e" . consult-compile-error)
          ("M-g g" . consult-goto-line)             ;; orig. goto-line
@@ -547,7 +549,7 @@
          ("M-g m" . consult-mark)
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
-         ("M-g I" . consult-project-imenu)
+         ("M-g I" . consult-imenu-multi)
          ;; M-s bindings (search-map)
          ("M-s f" . consult-find)
          ("M-s L" . consult-locate)
@@ -564,7 +566,9 @@
          :map isearch-mode-map
          ("M-e" . consult-isearch)                 ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
-         ("M-s l" . consult-line))
+         ("M-s l" . consult-line)
+         :map minibuffer-mode-map
+         ("C-y" . yank))
   :init
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
