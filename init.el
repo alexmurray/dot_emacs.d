@@ -364,6 +364,13 @@
 (use-package blamer
   :ensure t)
 
+(use-package breadcrumb
+  :ensure t
+  ;; is coming soon to ELPA apparently
+  ;; https://github.com/joaotavora/breadcrumb/issues/2#issuecomment-1546634006
+  :disabled t
+  :config (breadcrumb-mode 1))
+
 (use-package browse-kill-ring
   :ensure t
   :config (browse-kill-ring-default-keybindings))
