@@ -792,24 +792,29 @@
   (defun apm-prompt-to-connect-to-irc ()
     "Prompt to connect to irc."
     (interactive)
-    (when (y-or-n-p "Connect to IRC? ")
-      ;; connect to matterircd on localhost and oftc and freenode via znc
-      ;;(erc :server "localhost" :port "6667" :nick "alexmurray")
-      (erc-tls :server "znc.secret.server" :port "7076"
-               :nick "amurray" :password (concat "amurray/OFTC:"
-                                                 (auth-source-pick-first-password
-                                                  :user "amurray"
-                                                  :host "znc.secret.server"
-                                                  :port "7076")))
-      (erc-tls :server "znc.secret.server" :port "7076"
-               :nick "amurray" :password (concat "amurray/libera:"
-                                                 (auth-source-pick-first-password
-                                                  :user "amurray"
-                                                  :host "znc.secret.server"
-                                                  :port "7076")))))
-  (defgroup apm-erc nil
-    "apm's erc customisations."
-    :group 'erc)
+    (let ((connectivity (string-trim
+                          (shell-command-to-string "nmcli networking connectivity"))))
+      (if (string= connectivity "full")
+          (when (y-or-n-p "Connect to IRC? ")
+            ;; connect to matterircd on localhost and oftc and freenode via znc
+            ;;(erc :server "localhost" :port "6667" :nick "alexmurray")
+            (erc-tls :server "znc.secret.server" :port "7076"
+                     :nick "amurray" :password (concat "amurray/OFTC:"
+                                                       (auth-source-pick-first-password
+                                                        :user "amurray"
+                                                        :host "znc.secret.server"
+                                                        :port "7076")))
+            (erc-tls :server "znc.secret.server" :port "7076"
+                     :nick "amurray" :password (concat "amurray/libera:"
+                                                       (auth-source-pick-first-password
+                                                        :user "amurray"
+                                                        :host "znc.secret.server"
+                                                        :port "7076"))))
+        (message "Network connectivity is %s, not prompting to connect to IRC" connectivity)))
+
+    (defgroup apm-erc nil
+      "apm's erc customisations."
+      :group 'erc))
 
   ;; face to show in header line when disconnected
   (defface apm-erc-header-line-disconnected
