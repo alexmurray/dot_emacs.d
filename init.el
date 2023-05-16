@@ -2121,10 +2121,13 @@ Captured On: %U")))))
 
   (add-hook 'project-find-functions #'apm-project-try-debian))
 
-
 (use-package project-mode-line-tag
   :ensure t
   :config (project-mode-line-tag-mode 1))
+
+(use-package projection
+  :ensure t
+  :bind (("C-x C-m" . projection-multi-compile)))
 
 (use-package python
   :defer t
