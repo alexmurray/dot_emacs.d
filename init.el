@@ -616,7 +616,7 @@
   :ensure t)
 
 (use-package copilot
-  :load-path "vendor/"
+  :vc (:fetcher github :repo zerolfx/copilot.el)
   ;; no copilot access anymore
   :disabled t
   :bind (:map copilot-mode-map
@@ -1862,7 +1862,7 @@ With a prefix argument, will default to looking for all
   :ensure t)
 
 (use-package org-block-capf
-  :load-path "vendor/"
+  :vc (:fetcher github :repo xenodium/org-block-capf)
   :hook (org-mode . org-block-capf-add-to-completion-at-point-functions))
 
 (use-package org-crypt
@@ -2027,7 +2027,7 @@ Captured On: %U")))))
   :ensure t)
 
 (use-package org-menu
-  :load-path "vendor/"
+  :vc (:fetcher github :repo sheijk/org-menu)
   :bind (:map org-mode-map
               ("C-x m" . org-menu)))
 
@@ -2098,7 +2098,7 @@ Captured On: %U")))))
             (pixel-scroll-mode 1)))
 
 (use-package pod-mode
-  :load-path "vendor/"
+  :vc (:fetcher github :repo renormalist/emacs-pod-mode)
   :mode ("\\.pod$" . pod-mode))
 
 (use-package posframe
