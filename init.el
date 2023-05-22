@@ -19,11 +19,6 @@
 ;; must be set before loading use-package
 (setq use-package-enable-imenu-support t)
 
-;; Bootstrap `use-package' from melpa
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
 (eval-and-compile
   (require 'use-package))
 
