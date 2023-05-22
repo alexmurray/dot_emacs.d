@@ -41,6 +41,13 @@
 (use-package use-package-ensure-system-package
   :ensure t)
 
+;; support :vc integration in use-package - this is in emacs 30 but not emacs-29
+;; so install it manually if needed
+(unless (package-installed-p 'vc-use-package)
+  (package-vc-install "https://github.com/slotThe/vc-use-package"))
+(eval-and-compile
+  (require 'vc-use-package))
+
 (use-package diminish
   :ensure t)
 
