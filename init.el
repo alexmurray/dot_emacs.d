@@ -617,8 +617,6 @@
 
 (use-package copilot
   :vc (:fetcher github :repo zerolfx/copilot.el)
-  ;; no copilot access anymore
-  :disabled t
   :bind (:map copilot-mode-map
               ("C-<tab>" . copilot-accept-completion))
   :hook ((prog-mode . copilot-mode))
