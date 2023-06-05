@@ -2443,7 +2443,7 @@ Captured On: %U")))))
 
 (use-package ztree
   :ensure t
-  :bind (("C-x C-d" . ztree-dir))
+  :bind (("C-x C-d" . ztree-diff))
   :config
   (setq ztree-draw-unicode-lines t)
   (setq ztree-show-number-of-children t))
