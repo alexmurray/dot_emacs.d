@@ -1825,9 +1825,10 @@ With a prefix argument, will default to looking for all
   :demand t
   :preface
   (defun apm-org-mode-setup ()
-    ;; add * and = as electric pairs
+    ;; add * = ~ as electric pairs
     (setq-local electric-pair-pairs (append electric-pair-pairs '((?\* . ?\*)
-                                                                  (?\= . ?\=)))))
+                                                                  (?\= . ?\=)
+                                                                  (?\~ . ?\~)))))
   :hook (org-mode . apm-org-mode-setup)
   :config
   (setq org-log-repeat nil)
