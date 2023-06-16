@@ -619,6 +619,7 @@
 
 (use-package copilot
   :vc (:fetcher github :repo zerolfx/copilot.el)
+  :diminish copilot-mode
   :bind (:map copilot-completion-map
               ("<tab>" . copilot-accept-completion)
               ("TAB" . copilot-accept-completion)
