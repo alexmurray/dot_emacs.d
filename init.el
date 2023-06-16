@@ -429,6 +429,8 @@
 
 (use-package cargo
   :ensure t
+  :init (unless (executable-find "cargo")
+      (alert "Please install rust: https://www.rust-lang.org/en-US/install.html"))
   :defer t
   :hook ((rust-mode . cargo-minor-mode)))
 
@@ -2152,23 +2154,6 @@ Captured On: %U")))))
 (use-package quilt
   :ensure t)
 
-(use-package racer
-  :ensure t
-  :preface
-  (defun apm-racer-mode-setup ()
-    "Setup racer-mode."
-    (eval-when-compile
-      (require 'racer))
-    (unless (executable-find "cargo")
-      (alert "Please install rust: https://www.rust-lang.org/en-US/install.html"))
-    (unless (file-exists-p racer-cmd)
-      (alert "rustup toolchain add nightly && cargo +nightly install racer"))
-    (unless (file-exists-p racer-rust-src-path)
-      (alert "rustup component add rust-src"))
-    (racer-mode 1))
-  :defer t
-  :hook ((rust-mode . apm-racer-mode-setup)))
-
 (use-package rainbow-mode
   :ensure t
   :defer t
@@ -2192,7 +2177,11 @@ Captured On: %U")))))
   :ensure t)
 
 (use-package rust-mode
-  :ensure t)
+  :ensure t
+  ;; ensure rust-analyzer is installed via cargo
+  :config
+  (unless (file-exists-p (expand-file-name "rust-analyzer" "~/.cargo/bin"))
+    (alert "Please install rust-analyzer: rustup component add rust-analyzer")))
 
 ;; save minibuffer history
 (use-package savehist
