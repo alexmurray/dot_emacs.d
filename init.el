@@ -554,8 +554,8 @@
          ("C-y". consult-yank-replace)
          ("M-y". consult-yank-pop)
          ("M-g e" . consult-compile-error)
-         ("M-g g" . consult-goto-line)             ;; orig. goto-line
-         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+         ("M-g g" . consult-goto-line)   ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line) ;; orig. goto-line
          ("M-g o" . consult-outline)
          ("M-g m" . consult-mark)
          ("M-g k" . consult-global-mark)
@@ -575,8 +575,8 @@
          ;; https://emacsredux.com/blog/2021/11/25/redo-complex-command-with-consult/
          ([remap repeat-complex-command] . consult-complex-command)
          :map isearch-mode-map
-         ("M-e" . consult-isearch)                 ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
+         ("M-e" . consult-isearch)   ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch) ;; orig. isearch-edit-string
          ("M-s l" . consult-line)
          :map minibuffer-mode-map
          ("C-y" . yank))
