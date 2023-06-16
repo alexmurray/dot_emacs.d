@@ -619,8 +619,11 @@
 
 (use-package copilot
   :vc (:fetcher github :repo zerolfx/copilot.el)
-  :bind (:map copilot-mode-map
-              ("C-<tab>" . copilot-accept-completion))
+  :bind (:map copilot-completion-map
+              ("<tab>" . copilot-accept-completion)
+              ("TAB" . copilot-accept-completion)
+              ("C-<tab>" . copilot-accept-completion-by-word)
+              ("C-TAB" . copilot-accept-completion-by-word))
   :hook ((prog-mode . copilot-mode))
   ;; this needs to be set after copilot-mode is loaded otherwise it will
   ;; still be the default value which is relative to copilot.el in our
