@@ -1542,6 +1542,10 @@ With a prefix argument, will default to looking for all
   :ensure t
   :config (magit-todos-mode 1))
 
+(use-package mailscripts
+  :load-path "vendor/"
+  :ensure-system-package (maildir-import-patch . mailscripts))
+
 (use-package mallard-mode
   :ensure t
   :defer t)
