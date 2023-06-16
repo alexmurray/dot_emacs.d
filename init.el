@@ -2030,6 +2030,18 @@ Captured On: %U")))))
 (use-package orgit
   :ensure t)
 
+(use-package org-jira
+  :ensure t
+  :config
+  (setq jiralib-url "https://warthogs.atlassian.net")
+  (setq org-jira-progress-issue-flow
+        '(("Untriaged" . "Triaged")
+          ("Triaged" . "Blocked")
+          ("Blocked" . "In Review")
+          ("In Review" . "To Be Deployed")
+          ("To Be Deployed" . "Done")
+          ("Done" . "Rejected"))))
+
 (use-package org-menu
   :vc (:fetcher github :repo sheijk/org-menu)
   :bind (:map org-mode-map
