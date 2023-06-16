@@ -534,8 +534,8 @@
   :hook ((shell-mode . compilation-shell-minor-mode))
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error)
-  ;; use compilation-mode for .build files
-  (add-to-list 'auto-mode-alist '("\\.build\\'" . compilation-mode)))
+  ;; use compilation-mode for _source.build files
+  (add-to-list 'auto-mode-alist '("_\\(amd64\\|source\\)\\.build\\'" . compilation-mode)))
 
 (use-package consult
   :ensure t
