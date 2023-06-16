@@ -1573,10 +1573,18 @@ With a prefix argument, will default to looking for all
   (message-expand-name-standard-ui t)
   (message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
   (message-citation-line-function #'message-insert-formatted-citation-line)
+  (message-make-forward-subject-function 'message-forward-subject-fwd)
   ;; kill message buffer after sending rather than burying
   (message-kill-buffer-on-exit t))
 
-(use-package message-attachment-reminder
+(use-package minibuffer
+  :config
+  (setq completion-styles '(substring orderless basic))
+  (setq completion-category-defaults nil)
+  (setq completion-category-overrides '((file (styles basic partial-completion))
+                                        (eglot (styles orderless))))
+  (setq completion-auto-help 'visible)
+  (setq completion-auto-select 'second-tab))(use-package message-attachment-reminder
   :ensure t)
 
 (use-package mml-sec
@@ -1805,18 +1813,6 @@ With a prefix argument, will default to looking for all
 
   (add-hook 'nxml-mode-hook 'hs-minor-mode)
   :config (setq nxml-slash-auto-complete-flag t))
-
-(use-package message
-  :custom (message-make-forward-subject-function 'message-forward-subject-fwd))
-
-(use-package minibuffer
-  :config
-  (setq completion-styles '(substring orderless basic))
-  (setq completion-category-defaults nil)
-  (setq completion-category-overrides '((file (styles basic partial-completion))
-                                        (eglot (styles orderless))))
-  (setq completion-auto-help 'visible)
-  (setq completion-auto-select 'second-tab))
 
 (use-package orderless
   ;; for vertico
