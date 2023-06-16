@@ -2314,9 +2314,6 @@ Captured On: %U")))))
   :custom (treesit-auto-install 'prompt)
   :config (global-treesit-auto-mode 1))
 
-(use-package type-break
-  :config (type-break-mode 1))
-
 (use-package tzc
   :ensure t
   :custom (tzc-favourite-time-zones-alist '(("UTC+0000" "UTC")
