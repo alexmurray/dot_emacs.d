@@ -145,7 +145,8 @@
 ;; use pipes for subprocess communication
 (setq-default process-connection-type nil)
 ;; performance increases as per https://emacs-lsp.github.io/lsp-mode/page/performance/
-(setq gc-cons-threshold 100000000)
+;; disabled while using emacs-gc-stats
+;; (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 ;; personalisation
@@ -784,6 +785,12 @@
   :defer t
   :diminish elisp-def-mode
   :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode))
+
+(use-package emacs-gc-stats
+  :ensure t
+  :config
+  (setq emacs-gc-stats-gc-defaults 'emacs-defaults)
+  (emacs-gc-stats-mode 1))
 
 (use-package epg
   :config
