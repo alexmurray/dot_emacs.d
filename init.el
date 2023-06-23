@@ -2342,7 +2342,14 @@ Captured On: %U")))))
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
-  :config (global-undo-tree-mode 1))
+  :config
+  (when (require 'no-littering nil t)
+    (setq undo-tree-history-directory-alist
+          `((,(concat "\\`" (file-name-as-directory temporary-file-directory)))
+            ("\\`/tmp/" . nil)
+            ("\\`/dev/shm/" . nil)
+            ("." . ,(no-littering-expand-var-file-name "undo-tree-hist/")))))
+  (global-undo-tree-mode 1))
 
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'post-forward
