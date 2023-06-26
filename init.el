@@ -1869,10 +1869,6 @@ With a prefix argument, will default to looking for all
   (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
   (add-to-list 'org-file-apps '("\\.aup3?\\'" . "audacity %s")))
 
-(use-package org-contrib
-  :pin nongnu
-  :ensure t)
-
 (use-package org-block-capf
   :vc (:fetcher github :repo xenodium/org-block-capf)
   :hook (org-mode . org-block-capf-add-to-completion-at-point-functions))
@@ -1894,7 +1890,7 @@ With a prefix argument, will default to looking for all
   :hook (org-mode . org-autolist-mode))
 
 (use-package org-refile
-  :ensure org-contrib
+  :ensure org
   :config
   (setq org-refile-targets '(("~/org-files/canonical.org" :maxlevel . 4)
                              ("~/org-files/personal.org" :maxlevel . 2)
@@ -1907,16 +1903,14 @@ With a prefix argument, will default to looking for all
 
 ;; add support for man: links in org documents
 (use-package ol-man
-  :ensure org-contrib
-  :pin nongnu)
+  :ensure org)
 
 (use-package ol-notmuch
   :ensure t
   :pin melpa)
 
 (use-package org-agenda
-  :ensure org-contrib
-  :pin nongnu
+  :ensure org
   :preface
   (defun apm-org-agenda-file-notify (_event)
     "Rebuild appointments when _EVENT specifies any org agenda files change."
@@ -2031,7 +2025,7 @@ Captured On: %U")))))
               ("S-<down>" . org-clock-convenience-timestamp-down)))
 
 (use-package org-duration
-  :ensure org-contrib
+  :ensure org
   ;; don't show days, only total hours as maximum value
   :config (setq org-duration-format (quote h:mm)))
 
@@ -2056,8 +2050,7 @@ Captured On: %U")))))
               ("C-x m" . org-menu)))
 
 (use-package org-src
-  :ensure org-contrib
-  :pin nongnu
+  :ensure org
   :config
   ;; prefer org src blocks to not be indented with surrounding content
   (setq org-edit-src-content-indentation 0))
