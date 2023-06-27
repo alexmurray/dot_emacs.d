@@ -2186,6 +2186,13 @@ Captured On: %U")))))
   :ensure t
   :config (region-state-mode 1))
 
+(use-package rfn-eshadow
+  :config
+  ;; make minibuffer show shadowed files and play nicer with vertico
+  (when (require 'vertico nil t)
+    (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))
+  (file-name-shadow-mode 1))
+
 (use-package ripgrep
   :ensure t
   :ensure-system-package (rg . ripgrep))
