@@ -689,6 +689,10 @@
 (use-package diff-mode
   :mode (("\\.debdiff\\'" . diff-mode)))
 
+(use-package dired
+  :custom (dired-dwim-target t)
+  :hook ((dired-mode . dired-hide-details-mode)))
+
 (use-package disk-usage
   :ensure t)
 
