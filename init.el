@@ -794,6 +794,7 @@
   :ensure t
   :config
   (setq emacs-gc-stats-gc-defaults 'emacs-defaults)
+  (setq emacs-gc-stats-remind t)
   (emacs-gc-stats-mode 1))
 
 (use-package epg
