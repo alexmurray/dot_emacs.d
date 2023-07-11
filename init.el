@@ -1274,6 +1274,9 @@ With a prefix argument, will default to looking for all
   ;; Non-nil means display source file containing the main routine at startup
   (setq-default gdb-show-main t))
 
+(use-package gh-notify
+  :ensure t)
+
 (use-package gif-screencast
   :ensure t
   :ensure-system-package (scrot gifsicle))
