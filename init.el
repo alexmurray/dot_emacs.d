@@ -2397,7 +2397,9 @@ Captured On: %U")))))
 (use-package vertico
   :ensure t
   :hook ((after-init . vertico-mode))
-  :custom (vertico-cycle t))
+  :custom
+  (vertico-cycle t)
+  (vertico-resize nil))
 
 (use-package vertico-repeat
   :ensure vertico
