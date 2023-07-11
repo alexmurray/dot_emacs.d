@@ -625,7 +625,7 @@
               ("C-<tab>" . copilot-accept-completion)
               ("C-TAB" . copilot-accept-completion)
               ("C-<backtab>" . copilot-accept-completion-by-word)
-              ("C-<isolefttab>" . copilot-accept-completion-by-word))
+              ("C-<iso-lefttab>" . copilot-accept-completion-by-word))
   :hook ((prog-mode . copilot-mode))
   ;; this needs to be set after copilot-mode is loaded otherwise it will
   ;; still be the default value which is relative to copilot.el in our
