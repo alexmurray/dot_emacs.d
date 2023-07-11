@@ -693,6 +693,10 @@
   :custom (dired-dwim-target t)
   :hook ((dired-mode . dired-hide-details-mode)))
 
+(use-package dired-preview
+  :ensure t
+  :hook ((dired-mode . dired-preview-mode)))
+
 (use-package disk-usage
   :ensure t)
 
