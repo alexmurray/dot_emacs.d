@@ -1041,7 +1041,8 @@ With a prefix argument, will default to looking for all
 
 (use-package erc-hl-nicks
   :ensure t
-  :after erc)
+  :after erc
+  :hook ((apm-load-preferred-theme . erc-hl-nicks-refresh-colors)))
 
 (use-package erc-image
   :ensure t
