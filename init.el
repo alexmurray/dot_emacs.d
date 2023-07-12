@@ -276,22 +276,6 @@
 (use-package apparmor-mode
   :ensure t)
 
-(use-package appt
-  :preface
-  (defun apm-appt-notify (min-to-appt _new-time msg)
-    "Notify for appointment at MIN-TO-APPT for _NEW-TIME with MSG."
-    ;; the arguments may be lists or not so always use them as lists
-    (unless (listp min-to-appt)
-      (setq min-to-appt (list min-to-appt)))
-    (unless (listp msg)
-      (setq msg (list msg)))
-    (alert (string-join msg "\n")
-           :title (format "Appointment(s) in %s minutes" (string-join min-to-appt ", "))
-           :icon "/usr/share/icons/HighContrast/32x32/status/appointment-soon.png"))
-  :config
-  (setq appt-disp-window-function #'apm-appt-notify)
-  (appt-activate 1))
-
 (use-package apropos
   :bind ("C-h a" . apropos))
 
@@ -1925,9 +1909,6 @@ With a prefix argument, will default to looking for all
 (use-package org-agenda
   :ensure org
   :preface
-  (defun apm-org-agenda-file-notify (_event)
-    "Rebuild appointments when _EVENT specifies any org agenda files change."
-    (org-agenda-to-appt t))
   (defun apm-org-agenda-skip-all-siblings-but-first-todo ()
     "Skip all but the first TODO entry."
     (let ((should-skip-entry nil))
@@ -1947,16 +1928,10 @@ With a prefix argument, will default to looking for all
                           (800 1000 1200 1400 1600 1800 2000)
                           "......" "----------------"))
   :config
-  ;; when modifying agenda files make sure to update appt
-  (require 'filenotify)
-  (dolist (file org-agenda-files)
-    (file-notify-add-watch file '(change) #'apm-org-agenda-file-notify))
   (setq org-agenda-clockreport-parameter-plist '(:link t :maxlevel 4 :narrow 80 :tags t :hidefiles t))
   ;; when showing agenda, jump to now
   (add-hook 'org-agenda-finalize-hook
             #'org-agenda-find-same-or-today-or-agenda 90)
-  ;; rebuild appointments now
-  (org-agenda-to-appt t)
   (setq org-agenda-custom-commands
         '(("i" "TODO from inbox" todo "TODO"
            ((org-agenda-files '("~/org-files/inbox.org"))))
