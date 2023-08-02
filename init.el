@@ -2008,15 +2008,14 @@ Captured On: %U")))))
          ("C-c i" . org-clock-in)
          ("C-c o" . org-clock-out))
   :config
-  (setq org-clock-idle-time 5
-        ;; include the current clocked in task in clock reports
-        org-clock-report-include-clocking-task t
-        ;; save running clock and all history when exiting emacs
-        org-clock-persist t
-        ;; resume clocking task on clock-in if the clock is open
-        org-clock-in-resume t
-        ;; persist clock data into org-directory
-        org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory))
+  ;; include the current clocked in task in clock reports
+  (setq org-clock-report-include-clocking-task t)
+  ;; save running clock and all history when exiting emacs
+  (setq  org-clock-persist t)
+  ;; resume clocking task on clock-in if the clock is open
+  (setq  org-clock-in-resume t)
+  ;; persist clock data into org-directory
+  (setq org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory))
   ;; reload any saved org clock information on startup
   (org-clock-persistence-insinuate))
 
