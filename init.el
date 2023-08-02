@@ -2294,6 +2294,7 @@ Captured On: %U")))))
   :ensure t)
 
 (use-package systemd
+  :pin nongnu
   :ensure t)
 
 (use-package time
