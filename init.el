@@ -151,6 +151,8 @@
 
 ;; personalisation
 (setq user-full-name "Alex Murray")
+;; via notmuch below
+(setq user-mail-address "alex.murray@canonical.com")
 
 ;; enable narrow-to-region
 (put 'narrow-to-region 'disabled nil)
