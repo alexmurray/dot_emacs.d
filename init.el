@@ -742,8 +742,10 @@
 
 (use-package ediff
   :defer t
-  :config (setq ediff-window-setup-function 'ediff-setup-windows-plain
-                ediff-split-window-function 'split-window-horizontally))
+  :custom
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  (ediff-keep-variants nil)
+  (ediff-split-window-function 'split-window-horizontally))
 
 (use-package eglot
   ;; use the version packaged with emacs-30 for now
