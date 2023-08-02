@@ -606,10 +606,20 @@
   :vc (:fetcher github :repo zerolfx/copilot.el)
   :diminish copilot-mode
   :bind (:map copilot-mode-map
+              ;; enable binding is normal copilot map as doing it just in the
+              ;; completion map doesn't seem sufficient and gets overridden
+              ;; sometimes (and hence they don't work)
               ("C-<tab>" . copilot-accept-completion)
               ("C-TAB" . copilot-accept-completion)
               ("C-<backtab>" . copilot-accept-completion-by-word)
-              ("C-<iso-lefttab>" . copilot-accept-completion-by-word))
+              ("C-<iso-lefttab>" . copilot-accept-completion-by-word)
+              :map copilot-completion-map
+              ("C-<tab>" . copilot-accept-completion)
+              ("C-TAB" . copilot-accept-completion)
+              ("C-<backtab>" . copilot-accept-completion-by-word)
+              ("C-<iso-lefttab>" . copilot-accept-completion-by-word)
+              ("M-n" . copilot-next-completion)
+              ("M-p" . copilot-previous-completion))
   :hook ((prog-mode . copilot-mode))
   ;; this needs to be set after copilot-mode is loaded otherwise it will
   ;; still be the default value which is relative to copilot.el in our
