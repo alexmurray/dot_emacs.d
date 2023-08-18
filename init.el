@@ -2139,6 +2139,8 @@ clocktable works."
 (use-package paren
   :defer t
   :commands show-paren-mode
+  :custom
+  (show-paren-context-when-offscreen 'child-frame)
   :config
   (show-paren-mode 1))
 
