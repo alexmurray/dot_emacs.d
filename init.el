@@ -2002,6 +2002,58 @@ Captured On: %U")))))
 
 (use-package org-clock
   :after org
+  :preface
+  (defun apm-org-clock-weekly-report-formatter (ipos tables params)
+    "Generate a weekly task report with the given `IPOS', `TABLES' and `PARAMS'.
+The `IPOS' is the point position. `TABLES' should be a list of table data.
+The `PARAMS' should be a property list of table keywords and values.
+
+See `org-clocktable-write-default' if you want an example of how the standard
+clocktable works."
+    (let* ((lang (or (plist-get params :lang) "en"))
+           (block (plist-get params :block))
+           (emph (plist-get params :emphasize))
+           (header (plist-get params :header))
+           (show-time (plist-get params :show-time)))
+      (goto-char ipos)
+      (insert-before-markers
+       (or header
+           ;; Format the standard header.
+           (format "#+CAPTION: %s %s%s\n"
+                   (org-clock--translate "Clock summary at" lang)
+                   (format-time-string (org-time-stamp-format t t))
+                   (if block
+                       (let ((range-text
+                              (nth 2 (org-clock-special-range
+                                      block nil t
+                                      (plist-get params :wstart)
+                                      (plist-get params :mstart)))))
+                         (format ", for %s." range-text))
+                     ""))))
+      (let '(total-time (apply #'+ (mapcar #'cadr tables)))
+        (when (and total-time (> total-time 0))
+          (pcase-dolist (`(, file-name , file-time , entries) tables)
+            (when (and file-time (> file-time 0))
+              (pcase-dolist (`(,level ,headline ,tgs ,ts ,time ,props) entries)
+                (insert-before-markers
+                 ;; indent with level
+                 (if (= level 1)
+                     "- "
+                   (concat (make-string level ? ) "- "))
+                 headline
+                 (if show-time
+                     (concat " ["
+                             (org-duration-from-minutes time)
+                             "]")
+                   "")
+                 "\n"))))
+          (when show-time
+            (insert-before-markers
+             "\n"
+             "Total time"
+             (concat " ["
+                     (format "%s" (org-duration-from-minutes total-time))
+                     "]")))))))
   ;; ensure we always run org-clock-persistence-insinuate below
   :demand t
   :bind (("C-c g" . org-clock-goto)
