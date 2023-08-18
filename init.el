@@ -1782,7 +1782,9 @@ With a prefix argument, will default to looking for all
               (gnus-add-wash-type 'emphasis)
               (goto-char (match-end invisible)))))))
 
-    (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-article-emphasize))
+    (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-article-emphasize)
+    ;; ensure hyphenated words are highlighted correctly
+    (modify-syntax-entry ?- "w" notmuch-show-mode-syntax-table))
 
   (with-eval-after-load 'epa
     (defun apm-notmuch-wash-pgp-armor (_msg _depth)
