@@ -2349,10 +2349,6 @@ clocktable works."
 (use-package syslog-mode
   :ensure t)
 
-(use-package systemd
-  :pin nongnu
-  :ensure t)
-
 (use-package time
   :bind ((("C-c z" . world-clock)))
   :config (let ((team '(("Australia/Adelaide" . ("amurray"))
