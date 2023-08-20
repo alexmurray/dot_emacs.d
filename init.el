@@ -113,6 +113,56 @@
    "SettingChanged"
    #'apm-desktop-portal-settings-changed))
 
+;; disable doom themes for now until I have time to get them looking better,
+;; particularly with erc buffer tracking
+(use-package doom-themes
+  :ensure t
+  :disabled t
+  :preface
+  (defun apm-setup-doom-themes ()
+    (if (eq apm-preferred-theme apm-preferred-dark-theme)
+        (custom-set-faces `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
+                          ;; make some notmuch elements have more contrast
+                          `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'constants)))))
+                          `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base6))))))
+      (custom-set-faces `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
+                        ;; revert some elements for light theme
+                        `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'grey)))))
+                        `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base4))))))))
+  :custom
+  (doom-one-padded-modeline t)
+  :config
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config)
+  (setq apm-preferred-dark-theme 'doom-one)
+  (setq apm-preferred-light-theme 'doom-one-light)
+  ;; set customisations after loading the theme
+  (add-hook 'apm-load-preferred-theme-hook #'apm-setup-doom-themes)
+  (apm-set-preferred-theme))
+
+(use-package doom-modeline
+  :preface
+  :disabled t
+  (eval-and-compile
+    (require 'erc-track))
+  (defun apm-erc-stylize-buffer-name (name)
+    (let ((channel (assoc (get-buffer name) erc-modified-channels-alist)))
+      (if channel
+          (erc-make-mode-line-buffer-name name (car channel) (cddr channel)
+                                          (cadr channel))
+        name)))
+  :ensure t
+  :custom
+  (doom-modeline-hud t)
+  (doom-modeline-unicode-fallback t)
+  (doom-modeline-github t)
+  (doom-modeline-irc-buffers t)
+  (doom-modeline-irc-stylize #'apm-erc-stylize-buffer-name)
+  (doom-modeline-buffer-encoding nil)
+  (doom-modeline-env-python-executable "python3")
+  :init
+  (doom-modeline-mode 1))
+
 (use-package modus-themes
   :ensure t
   :custom
