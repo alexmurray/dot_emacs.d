@@ -18,6 +18,9 @@
 (defvar use-package-enable-imenu-support t)
 ;; must be set before loading use-package
 (setq use-package-enable-imenu-support t)
+;; compute stats info - needs to be set before loading use-package as well - see
+;; stats with `use-package-report'
+;;(setq use-package-compute-statistics t)
 
 (eval-and-compile
   (require 'use-package))
