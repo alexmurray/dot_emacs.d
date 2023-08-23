@@ -1287,9 +1287,10 @@ With a prefix argument, will default to looking for all
   :init (when (memq window-system '(mac ns))
           (exec-path-from-shell-initialize)))
 
-(use-package expand-region
+(use-package expreg
   :ensure t
-  :bind ("C-'" . er/expand-region))
+  :bind (("C-'" . expreg-expand)
+         ("C-\"" . expreg-contract)))
 
 (use-package files
   :bind (("C-c r b" . revert-buffer))
