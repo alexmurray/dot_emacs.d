@@ -1895,6 +1895,7 @@ With a prefix argument, will default to looking for all
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture)
          ("C-c l" . org-store-link)
+         ("C-c j" . consult-org-agenda)
          ("C-c C-w" . org-refile)
          :map org-mode-map
          ("M-s i" . consult-org-heading))
