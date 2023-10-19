@@ -1458,7 +1458,11 @@ With a prefix argument, will default to looking for all
 (use-package hl-todo
   :ensure t
   :config
-  (global-hl-todo-mode 1))
+  (global-hl-todo-mode 1)
+  ;; add flymake backend too
+  (when (fboundp 'flymake-hl-todo)
+    ;; TODO - apparently should use depth nil and set 'local as well...
+    (add-hook 'flymake-diagnostic-functions #'flymake-hl-todo)))
 
 (use-package hungry-delete
   :ensure t
