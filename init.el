@@ -1746,14 +1746,7 @@ With a prefix argument, will default to looking for all
           (when (string-search sender from)
             (setq discouraged (car discouraged-sender)))))
       discouraged))
-
-  :bind (("C-c m" . notmuch)
-         :map notmuch-show-mode-map (("D" . apm-notmuch-toggle-deleted)
-                                     ("J" . apm-notmuch-toggle-spam))
-         :map notmuch-search-mode-map (("D" . apm-notmuch-toggle-deleted)
-                                       ("J" . apm-notmuch-toggle-spam))
-         :map notmuch-tree-mode-map (("D" . apm-notmuch-toggle-deleted)
-                                     ("J" . apm-notmuch-toggle-spam)))
+  :bind (("C-c m" . notmuch))
   :custom
   (notmuch-wash-wrap-lines-length 150)
   (notmuch-print-mechanism #'notmuch-print-ps-print/evince)
@@ -1763,45 +1756,24 @@ With a prefix argument, will default to looking for all
     (require 'notmuch-show)
     (require 'notmuch-tree))
   (setq notmuch-multipart/alternative-discouraged 'apm-notmuch-determine-discouraged)
-  (defun apm-notmuch-toggle-tag (tag)
-    "Toggle TAG for the current message returning t if we set it."
-    (let ((gettagsfun nil)
-          (tagfun nil))
-      (pcase major-mode
-        ('notmuch-search-mode
-         (setq gettagsfun #'notmuch-search-get-tags)
-         (setq tagfun #'notmuch-search-tag))
-        ('notmuch-show-mode
-         (setq gettagsfun #'notmuch-show-get-tags)
-         (setq tagfun #'notmuch-show-tag))
-        ('notmuch-tree-mode
-         (setq gettagsfun #'notmuch-tree-get-tags)
-         (setq tagfun #'notmuch-tree-tag))
-        (_
-         (user-error "Must be called from notmuch mode")))
-      (if (member tag (funcall gettagsfun))
-          (funcall tagfun (list (concat "-" tag)))
-        (funcall tagfun (list (concat "+" tag))))
-      ;; return whether it is now set or not
-      (member tag (funcall gettagsfun))))
-  (defun apm-notmuch-toggle-deleted ()
-    "Toggle the deleted tag for the current message."
-    (interactive)
-    (apm-notmuch-toggle-tag "deleted"))
-  (defun apm-notmuch-toggle-spam ()
-    "Toggle the spam tag for the current message."
-    (interactive)
-    (if (apm-notmuch-toggle-tag "spam")
+  (defun apm-prompt-to-report-spam (subject url)
+    (and (y-or-n-p (format "Do you also want to report this message \"%s\" as spam to mailcontrol? " subject))
+         (url-retrieve (concat url)
+                       (lambda (s)
+                         (let ((status (url-http-symbol-value-in-buffer
+                                        'url-http-response-status (current-buffer))))
+                           (pcase status
+                             (200 (message "Reported '%s' as spam" subject))
+                             (_ (user-error "Failed to report as spam: %s" status))))) ))    )
+
+  (define-advice notmuch-show-tag (:around (orig-fun &rest args) prompt-report-spam-around-notmuch-show-tag)
+    "If tagging as spam then prompt to report to mailcontrol when supported"
+    (let ((tag-changes (car args)))
+      (when (seq-contains-p tag-changes "+spam" #'string=)
         (let ((subject (notmuch-show-get-subject)))
           (when-let ((url (notmuch-show-get-header :X-MailControl-ReportSpam)))
-            (and (y-or-n-p (format "Do you also want to report this message \"%s\" as spam to mailcontrol? " subject))
-                 (url-retrieve (concat url)
-                               (lambda (s)
-                                 (let ((status (url-http-symbol-value-in-buffer
-                                                'url-http-response-status (current-buffer))))
-                                   (pcase status
-                                     (200 (message "Reported '%s' as spam" subject))
-                                     (_ (user-error "Failed to report as spam: %s" status))))) ))))))
+            (apm-prompt-to-report-spam subject url)))))
+    (apply orig-fun args))
 
   ;; place sent in Sent/ maildir with sent tag and remove unread or inbox tags
   (setq notmuch-fcc-dirs "Sent +sent -unread -inbox")
