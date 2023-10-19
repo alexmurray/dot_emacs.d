@@ -2413,11 +2413,6 @@ clocktable works."
   :custom (treesit-auto-install 'prompt)
   :config (global-treesit-auto-mode 1))
 
-(use-package tzc
-  :ensure t
-  :custom (tzc-favourite-time-zones-alist '(("UTC+0000" "UTC")
-                                            ("Australia/Adelaide" "Adelaide"))))
-
 (use-package uct
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
   :demand t
