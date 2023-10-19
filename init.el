@@ -1635,6 +1635,10 @@ With a prefix argument, will default to looking for all
 (use-package mb-depth
   :config (minibuffer-depth-indicate-mode 1))
 
+(use-package mermaid-mode
+  :ensure t
+  :defer t)
+
 (use-package meson-mode
   :ensure t)
 
@@ -2141,6 +2145,9 @@ clocktable works."
   :defer t
   :diminish org-table-sticky-header-mode
   :hook ((org-mode . org-table-sticky-header-mode)))
+
+(use-package org-timeblock
+  :ensure t)
 
 (use-package org-upcoming-modeline
   :ensure t
