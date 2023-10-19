@@ -184,92 +184,96 @@
   :config (when (eq system-type 'gnu/linux)
             (setq alert-default-style 'notifications)))
 
-;; used in some of my yasnippet snippets
-(defun apm-camelize (s &optional delim)
-  "Convert under_score string S to CamelCase string with optional DELIM."
-  (interactive "s")
-  (mapconcat 'identity (mapcar
-                        #'(lambda (word) (capitalize (downcase word)))
-                        (split-string s (if delim delim "_"))) ""))
+;;; General settings etc from C source so associate settings with emacs itself
+(use-package emacs
+  :preface
+  ;; used in some of my yasnippet snippets
+  (defun apm-camelize (s &optional delim)
+    "Convert under_score string S to CamelCase string with optional DELIM."
+    (interactive "s")
+    (mapconcat 'identity (mapcar
+                          #'(lambda (word) (capitalize (downcase word)))
+                          (split-string s (if delim delim "_"))) ""))
+  ;; from http://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html
+  (defun endless/fill-or-unfill ()
+    "Like `fill-paragraph', but unfill if used twice."
+    (interactive)
+    (let ((fill-column
+           (if (eq last-command 'endless/fill-or-unfill)
+               (progn (setq this-command nil)
+                      (point-max))
+             fill-column)))
+      (call-interactively #'fill-paragraph)))
+  :config
+  ;; use pipes for subprocess communication
+  (setq-default process-connection-type nil)
+  ;; performance increases as per https://emacs-lsp.github.io/lsp-mode/page/performance/
+  ;; disabled while using emacs-gc-stats
+  ;; (setq gc-cons-threshold 100000000)
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
+  ;; personalisation
+  (setq user-full-name "Alex Murray")
+  ;; via notmuch below
+  (setq user-mail-address "alex.murray@canonical.com")
 
-;;; General settings etc from C source so no package to associate settings
-;;; with...
+  ;; enable narrow-to-region
+  (put 'narrow-to-region 'disabled nil)
 
-;; use pipes for subprocess communication
-(setq-default process-connection-type nil)
-;; performance increases as per https://emacs-lsp.github.io/lsp-mode/page/performance/
-;; disabled while using emacs-gc-stats
-;; (setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+  ;; tabs are never ok
+  (setq-default indent-tabs-mode nil)
 
-;; personalisation
-(setq user-full-name "Alex Murray")
-;; via notmuch below
-(setq user-mail-address "alex.murray@canonical.com")
+  ;; set a reasonable fill and comment column
+  (setq-default fill-column 80)
+  (setq-default comment-column 80)
 
-;; enable narrow-to-region
-(put 'narrow-to-region 'disabled nil)
+  ;; don't try and use dialog boxes
+  (setq-default use-dialog-box nil)
+  (setq-default use-file-dialog nil)
 
-;; tabs are never ok
-(setq-default indent-tabs-mode nil)
+  ;; inhibit startup message and splash screen
+  (setq inhibit-startup-message t)
+  ;; remove message from initial scratch buffer
+  (setq initial-scratch-message nil)
 
-;; set a reasonable fill and comment column
-(setq-default fill-column 80)
-(setq-default comment-column 80)
+  ;; don't restore window layout on minibuffer exit
+  (setq read-minibuffer-restore-windows nil)
 
-;; don't try and use dialog boxes
-(setq-default use-dialog-box nil)
-(setq-default use-file-dialog nil)
+  ;; disable menu, tool and scroll-bars, show time
+  (menu-bar-mode 0)
+  (tool-bar-mode 0)
+  (scroll-bar-mode 0)
+  (when (fboundp 'horizontal-scroll-bar-mode)
+    (horizontal-scroll-bar-mode 0))
 
-;; inhibit startup message and splash screen
-(setq inhibit-startup-message t)
-;; remove message from initial scratch buffer
-(setq initial-scratch-message nil)
+  ;; Show line column numbers in mode line
+  (line-number-mode 1)
+  (column-number-mode 1)
+  ;; Show buffer size in mode line
+  (size-indication-mode 1)
+  ;; don't use gtk style tooltips since are intrusive
+  (when (boundp 'x-gtk-use-system-tooltips)
+    (setq x-gtk-use-system-tooltips nil))
+  (blink-cursor-mode -1)
 
-;; don't restore window layout on minibuffer exit
-(setq read-minibuffer-restore-windows nil)
+  ;; make emacs less laggy
+  (setq inhibit-compacting-font-caches t)
 
-;; disable menu, tool and scroll-bars, show time
-(menu-bar-mode 0)
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
-(when (fboundp 'horizontal-scroll-bar-mode)
-  (horizontal-scroll-bar-mode 0))
-;; Show line column numbers in mode line
-(line-number-mode 1)
-(column-number-mode 1)
-;; Show buffer size in mode line
-(size-indication-mode 1)
-;; don't use gtk style tooltips since are intrusive
-(when (boundp 'x-gtk-use-system-tooltips)
-  (setq x-gtk-use-system-tooltips nil))
-(blink-cursor-mode -1)
+  (set-language-environment "UTF-8")
 
-;; make emacs less laggy
-(setq inhibit-compacting-font-caches t)
+  ;; prompt when trying to switch out of a dedicated window
+  (setq switch-to-buffer-in-dedicated-window 'prompt)
 
-(set-language-environment "UTF-8")
+  ;; ensure scrolling forwards / backwards preserves original location such that
+  ;; they undo each other
+  (setq scroll-preserve-screen-position 'always)
 
-;; prompt when trying to switch out of a dedicated window
-(setq switch-to-buffer-in-dedicated-window 'prompt)
+  (bind-key [remap fill-paragraph] #'endless/fill-or-unfill)
 
-;; ensure scrolling forwards / backwards preserves original location such that
-;; they undo each other
-(setq scroll-preserve-screen-position 'always)
-
-;; from http://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html
-(defun endless/fill-or-unfill ()
-  "Like `fill-paragraph', but unfill if used twice."
-  (interactive)
-  (let ((fill-column
-         (if (eq last-command 'endless/fill-or-unfill)
-             (progn (setq this-command nil)
-                    (point-max))
-           fill-column)))
-    (call-interactively #'fill-paragraph)))
-
-(bind-key [remap fill-paragraph] #'endless/fill-or-unfill)
+  ;; case insensitive completion everywhere
+  (setq read-file-name-completion-ignore-case t)
+  (setq read-buffer-completion-ignore-case t)
+  (setq completion-ignore-case t))
 
 ;;; Packages
 (use-package abbrev
