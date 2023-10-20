@@ -176,8 +176,8 @@
   (modus-themes-variable-pitch-ui t)
   (modus-themes-mixed-fonts t)
   :config
-  (setq apm-preferred-dark-theme 'modus-vivendi)
-  (setq apm-preferred-light-theme 'modus-operandi)
+  (setq apm-preferred-dark-theme 'modus-vivendi-tinted)
+  (setq apm-preferred-light-theme 'modus-operandi-tinted)
   (apm-set-preferred-theme))
 
 (use-package alert
