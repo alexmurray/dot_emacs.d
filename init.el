@@ -77,10 +77,11 @@
 
 (defun apm-load-preferred-theme (dark)
   "Set the preferred DARK or light theme."
-  (let ((theme (if (eq dark 1)
+  (let ((theme (if (or (and (integerp dark) (= dark 1))
+                       (and (stringp dark) (string= dark "prefer-dark")))
                    apm-preferred-dark-theme
                  apm-preferred-light-theme)))
-    (when theme
+    (when (and theme (not (eq theme apm-preferred-theme)))
       (when apm-preferred-theme
         (disable-theme apm-preferred-theme))
       (setq apm-preferred-theme theme)
@@ -89,10 +90,10 @@
 
 (defun apm-desktop-portal-settings-changed (path var value)
   "Update preferred theme based on VALUE of VAR at PATH."
-  (if (and (string-equal path "org.freedesktop.appearance")
+  (when (and (or (string-equal path "org.freedesktop.appearance")
+               (string-equal path "org.gnome.desktop.interface"))
              (string-equal var "color-scheme"))
-      (apm-load-preferred-theme (car value))
-    (error "Unexpected desktop portal settings change: %s %s %s" path var value)))
+      (apm-load-preferred-theme (car value))))
 
 (defun apm-set-preferred-theme ()
   "Set preferred theme based on desktop color-scheme."
