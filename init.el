@@ -875,6 +875,9 @@
   :diminish elisp-def-mode
   :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode))
 
+(use-package ement
+  :ensure t)
+
 (use-package epg
   :config
   (setq epg-user-id "alex.murray@canonical.com"))
