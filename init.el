@@ -1530,7 +1530,8 @@ With a prefix argument, will default to looking for all
   :bind (:map jit-spell-mode-map ("C-;" . jit-spell-correct-word)))
 
 (use-package journalctl-mode
-  :ensure t)
+  :ensure t
+  :vc (:fetcher github :repo WJCFerguson/journalctl))
 
 (use-package jq-mode
   :ensure t)
