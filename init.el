@@ -608,7 +608,7 @@
   :ensure t
   :bind (
          ("C-c h" . consult-history)
-         ("C-c s" . consult-clock-in)
+         ;; ("C-c s" . consult-clock-in)
          ("C-x b" . consult-buffer)
          ("C-x p b" . consult-project-buffer)
          ("C-x 4 b" . consult-buffer-other-window)
@@ -650,6 +650,10 @@
         xref-show-definitions-function #'consult-xref)
   :config
   ;; from https://github.com/minad/consult/wiki#org-clock
+  ;; as of 2023-10-27 this breaks with an error:
+  ;; Error in post-command-hook (vertico--exhibit): (wrong-type-argument markerp nil)
+  ;; so have removed the keybinding above and replaced it with org-mru-clock-in
+  ;; TODO - check if it works again in the future
   (defun consult-clock-in (&optional match scope resolve)
     "Clock into an Org heading."
     (interactive (list nil nil current-prefix-arg))
@@ -668,6 +672,7 @@
       (org-clock-in nil (when resolve
                           (org-resolve-clocks)
                           (org-read-date t t)))))
+
   (consult-customize consult-clock-in
                      :prompt "Clock in: "
                      :preview-key "M-."
@@ -1955,6 +1960,12 @@ With a prefix argument, will default to looking for all
   :diminish org-autolist-mode
   :hook (org-mode . org-autolist-mode))
 
+(use-package org-mru-clock
+  :ensure t
+  :bind (("C-c g" . org-mru-clock-goto)
+         ("C-c i" . org-mru-clock-in)
+         ("C-c s" . org-mru-clock-in)))
+
 (use-package org-refile
   :ensure org
   :config
@@ -2111,9 +2122,7 @@ clocktable works."
                      "]")))))))
   ;; ensure we always run org-clock-persistence-insinuate below
   :demand t
-  :bind (("C-c g" . org-clock-goto)
-         ("C-c i" . org-clock-in)
-         ("C-c o" . org-clock-out))
+  :bind (("C-c o" . org-clock-out))
   :config
   ;; include the current clocked in task in clock reports
   (setq org-clock-report-include-clocking-task t)
