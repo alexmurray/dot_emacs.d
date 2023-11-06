@@ -1334,6 +1334,11 @@ With a prefix argument, will default to looking for all
               ("M-n" . flymake-goto-next-error)
               ("M-p" . flymake-goto-prev-error)))
 
+(use-package flymake-codespell
+  :ensure t
+  :ensure-system-package (codespell)
+  :hook (prog-mode . flymake-codespell-setup-backend))
+
 (use-package forge
   :ensure t
   :after magit)
