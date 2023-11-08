@@ -122,15 +122,18 @@
 ;; particularly with erc buffer tracking
 (use-package doom-themes
   :ensure t
-  :disabled t
   :preface
   (defun apm-setup-doom-themes ()
     (if (eq apm-preferred-theme apm-preferred-dark-theme)
         (custom-set-faces `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
+                          `(diff-removed ((t (:foreground ,(doom-color 'red) :background nil))))
+                          `(diff-added ((t (:foreground ,(doom-color 'green) :inherit nil))))
                           ;; make some notmuch elements have more contrast
                           `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'constants)))))
                           `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base6))))))
       (custom-set-faces `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
+                        `(diff-removed ((t (:foreground ,(doom-color 'red) :background nil))))
+                        `(diff-added ((t (:foreground ,(doom-color 'green) :inherit nil))))
                         ;; revert some elements for light theme
                         `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'grey)))))
                         `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base4))))))))
@@ -170,6 +173,7 @@
 
 (use-package modus-themes
   :ensure t
+  :disabled t
   :custom
   (modus-themes-italic-constructs t)
   (modus-themes-bold-constructs t)
