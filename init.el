@@ -278,7 +278,6 @@
 
 ;;; Packages
 (use-package abbrev
-  :diminish abbrev-mode
   :config
   (setq save-abbrevs t)
   (setq-default abbrev-mode t))
@@ -298,7 +297,6 @@
 (use-package aggressive-indent
   :ensure t
   :defer t
-  :diminish aggressive-indent-mode
   :config (global-aggressive-indent-mode))
 
 (use-package all-the-icons
@@ -325,7 +323,6 @@
 ;; query-replace-regexp etc
 (use-package anzu
   :ensure t
-  :diminish anzu-mode global-anzu-mode
   :init (global-anzu-mode 1)
   :bind (("M-%" . anzu-query-replace-regexp)
          ("C-M-%" . anzu-query-replace)))
@@ -349,7 +346,6 @@
   :mode (("\\.asn1?$" . asn1-mode)))
 
 (use-package autorevert
-  :diminish auto-revert-mode
   :config
   (setq global-auto-revert-non-file-buffers t)
   (global-auto-revert-mode 1))
@@ -393,7 +389,6 @@
 
 (use-package beginend
   :ensure t
-  :diminish beginend-global-mode
   :config
   ;; beginend defines lots of different modes so diminish them all
   (dolist (m beginend-modes)
@@ -689,7 +684,6 @@
 
 (use-package copilot
   :vc (:fetcher github :repo zerolfx/copilot.el)
-  :diminish copilot-mode
   :bind (:map copilot-mode-map
               ;; enable binding is normal copilot map as doing it just in the
               ;; completion map doesn't seem sufficient and gets overridden
@@ -735,7 +729,6 @@
 
 ;; show suspicious c constructs automatically
 (use-package cwarn
-  :diminish cwarn-mode
   :init (global-cwarn-mode 1))
 
 (use-package cycle-at-point
@@ -850,12 +843,10 @@
                                                    :initializationOptions (:vim-runtime "/usr/share/vim/vim90"))))
 
 (use-package eldoc
-  :diminish eldoc-mode
   :config (global-eldoc-mode 1))
 
 (use-package eldoc-box
   :ensure t
-  :diminish eldoc-box-hover-mode
   ;; tie in with eglot
   :hook ((eglot-managed-mode . eldoc-box-hover-mode)))
 
@@ -872,7 +863,6 @@
 (use-package elisp-def
   :ensure t
   :defer t
-  :diminish elisp-def-mode
   :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode))
 
 (use-package ement
@@ -1046,6 +1036,8 @@ With a prefix argument, will default to looking for all
   ;; when joining don't bring to front
   (setq erc-join-buffer 'bury)
 
+  ;; ensure erc-track plays nicer with minions - https://github.com/tarsius/minions/issues/22
+  (setq erc-track-position-in-mode-line t)
   (setq erc-track-switch-direction 'importance)
   (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
                                   ;; channel mode (324), creation
@@ -1476,7 +1468,6 @@ With a prefix argument, will default to looking for all
          ([remap describe-function] . helpful-callable)))
 
 (use-package hideshow
-  :diminish hs-minor-mode
   ;; use hs-minor-mode in programming and mail composing - TODO - get it
   ;; working during mail viewing as well to be able to hide quoted bits
   ;; - something like:
@@ -1499,7 +1490,6 @@ With a prefix argument, will default to looking for all
 
 (use-package hungry-delete
   :ensure t
-  :diminish hungry-delete-mode
   :config (global-hungry-delete-mode 1))
 
 (use-package imenu
@@ -1527,7 +1517,6 @@ With a prefix argument, will default to looking for all
 
 (use-package jit-spell
   :ensure t
-  :diminish jit-spell-mode
   :demand t
   :hook ((text-mode . jit-spell-mode)
          (prog-mode . jit-spell-mode)
@@ -1693,7 +1682,15 @@ With a prefix argument, will default to looking for all
   (setq completion-category-overrides '((file (styles basic partial-completion))
                                         (eglot (styles orderless))))
   (setq completion-auto-help 'visible)
-  (setq completion-auto-select 'second-tab))(use-package message-attachment-reminder
+  (setq completion-auto-select 'second-tab))
+
+(use-package minions
+  :ensure t
+  :config
+  (add-to-list 'minions-prominent-modes 'flymake-mode)
+  (minions-mode 1))
+
+(use-package message-attachment-reminder
   :ensure t)
 
 (use-package mml-sec
@@ -1768,7 +1765,6 @@ With a prefix argument, will default to looking for all
 (use-package notmuch
   :ensure t
   :ensure-system-package (notmuch afew)
-  :diminish notmuch-hello-mode notmuch-show-mode notmuch-tree-mode notmuch-unthreaded-mode
   :preface
   (defvar apm-notmuch-discouraged-senders '((("text/plain") . ("forum@forum.snapcraft.io"
                                                                "bounce@websense.com"
@@ -1964,7 +1960,6 @@ With a prefix argument, will default to looking for all
 
 (use-package org-autolist
   :ensure t
-  :diminish org-autolist-mode
   :hook (org-mode . org-autolist-mode))
 
 (use-package org-mru-clock
@@ -2183,7 +2178,6 @@ clocktable works."
   :ensure t
   :after org
   :defer t
-  :diminish org-table-sticky-header-mode
   :hook ((org-mode . org-table-sticky-header-mode)))
 
 (use-package org-timeblock
@@ -2202,7 +2196,6 @@ clocktable works."
   :ensure t)
 
 (use-package paredit
-  :diminish paredit-mode
   :ensure t
   ;; don't steal occur prefix
   :bind (:map paredit-mode-map ("M-s" . nil))
@@ -2372,8 +2365,7 @@ clocktable works."
   (shr-use-fonts nil))
 
 (use-package sideline
-  :ensure t
-  :diminish sideline-mode)
+  :ensure t)
 
 (use-package sideline-flymake
   :ensure t
@@ -2383,7 +2375,6 @@ clocktable works."
 
 (use-package simple
   :defer t
-  :diminish visual-line-mode
   :init
   ;; save whatever is in the system clipboard to the kill ring before
   ;; killing something else into the kill ring
@@ -2467,7 +2458,6 @@ clocktable works."
 
 (use-package undo-tree
   :ensure t
-  :diminish undo-tree-mode
   :config
   (when (require 'no-littering nil t)
     (setq undo-tree-history-directory-alist
@@ -2539,11 +2529,9 @@ clocktable works."
 
 (use-package which-key
   :ensure t
-  :diminish which-key-mode
   :config (which-key-mode))
 
 (use-package whitespace
-  :diminish whitespace-mode global-whitespace-mode
   :init (setq-default whitespace-style
                       '(face tabs tab-mark trailing missing-newline-at-eof))
   :config
@@ -2553,7 +2541,6 @@ clocktable works."
 
 (use-package whitespace-cleanup-mode
   :ensure t
-  :diminish whitespace-cleanup-mode
   :config (global-whitespace-cleanup-mode 1))
 
 (use-package wgrep-deadgrep
@@ -2567,7 +2554,6 @@ clocktable works."
 
 (use-package yasnippet
   :ensure t
-  :diminish (yas-global-mode yas-minor-mode)
   :config (yas-global-mode 1))
 
 (use-package x86-lookup
