@@ -1215,6 +1215,7 @@ With a prefix argument, will default to looking for all
   (add-to-list 'eudc-attribute-display-method-alist '("timezone name" . apm-eudc-display-timezone))
   (add-to-list 'eudc-attribute-display-method-alist '("launchpad id" . apm-eudc-display-launchpadid))
   (add-to-list 'eudc-attribute-display-method-alist '("github id" . apm-eudc-display-githubid))
+  (add-to-list 'eudc-attribute-display-method-alist '("wikipage" . apm-eudc-display-wikipage))
   (add-to-list 'eudc-attribute-display-method-alist '("irc nick" . apm-eudc-display-nick))
   (defun apm-eudc-query-at-point ()
     (interactive)
@@ -1251,6 +1252,10 @@ With a prefix argument, will default to looking for all
   (defun apm-eudc-display-githubid (id)
     "Display ID as a clickable URL."
     (eudc-display-url (concat "https://github.com/" id)))
+
+  (defun apm-eudc-display-wikipage (id)
+    "Display ID as a clickable URL."
+    (eudc-display-url (concat "https://wiki.canonical.com/" id)))
 
   (defun apm-eudc-display-nick (nick)
     "Display NICK as using colors from erc-hl-nicks."
@@ -1360,6 +1365,11 @@ With a prefix argument, will default to looking for all
   :ensure t
   :ensure-system-package (codespell)
   :hook (prog-mode . flymake-codespell-setup-backend))
+
+(use-package flymake-ruff
+  :ensure t
+  ;; load via eglot
+  :hook (eglot-managed-mode . flymake-ruff-load))
 
 (use-package forge
   :ensure t
