@@ -895,9 +895,6 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package ement
-  :ensure t)
-
 (use-package epg
   :config
   (setq epg-user-id "alex.murray@canonical.com"))
