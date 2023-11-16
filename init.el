@@ -405,7 +405,14 @@
           (alert "Please install the black snap")))
 
 (use-package blamer
-  :ensure t)
+  :ensure t
+  :bind (("s-i" . blamer-show-posframe-commit-info))
+  :custom ((blamer-view 'overlay-right))
+  :config
+  (global-blamer-mode 1)
+  (with-eval-after-load 'doom-themes
+    (custom-set-faces
+     `(blamer-face ((t (:italic t :background unspecified :foreground ,(doom-lighten (doom-color 'blue) 0.5))))))))
 
 (use-package breadcrumb
   :ensure t
