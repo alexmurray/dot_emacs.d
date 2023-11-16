@@ -840,7 +840,8 @@
     (setq eldoc-documentation-strategy
           'eldoc-documentation-compose))
   :pin gnu
-  :hook (((prog-mode yaml-mode) . eglot-ensure)
+  :hook ((prog-mode . eglot-ensure)
+         (yaml-mode . eglot-ensure)
          (eglot-managed-mode . apm-eglot-compose-eldoc)
          (eglot-managed-mode . eglot-inlay-hints-mode))
   :custom (eglot-extend-to-xref t)
