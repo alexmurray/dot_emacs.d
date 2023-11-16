@@ -409,6 +409,8 @@
   :bind (("s-i" . blamer-show-posframe-commit-info))
   :custom ((blamer-view 'overlay)
            (blamer-max-commit-message-length fill-column)
+           (blamer-author-formatter "%s ")
+           (blamer-datetime-formatter "[%s] ")
            (blamer-commit-formatter ":: %s")
            ;; nicer borders
            (blamer-border-lines '(?+ ?- ?+ ?| ?+ ?+ )))
