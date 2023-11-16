@@ -2265,8 +2265,10 @@ clocktable works."
 (use-package pdf-tools
   :pin nongnu
   :ensure t
-  :config (unless (file-executable-p pdf-info-epdfinfo-program)
-            (pdf-tools-install)))
+  :config
+  (unless (file-executable-p pdf-info-epdfinfo-program)
+    (pdf-tools-build-server))
+  (pdf-tools-install))
 
 ;; (use-package pdf-tools
 ;;   :disabled t
