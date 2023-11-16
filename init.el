@@ -407,12 +407,14 @@
 (use-package blamer
   :ensure t
   :bind (("s-i" . blamer-show-posframe-commit-info))
-  :custom ((blamer-view 'overlay-right))
+  :custom ((blamer-view 'overlay)
+           (blamer-max-commit-message-length fill-column)
+           (blamer-commit-formatter ":: %s")
+           ;; nicer borders
+           (blamer-border-lines '(?+ ?- ?+ ?| ?+ ?+ )))
+  :custom-face (blamer-face ((t (:inherit completions-annotations :height 0.9))))
   :config
-  (global-blamer-mode 1)
-  (with-eval-after-load 'doom-themes
-    (custom-set-faces
-     `(blamer-face ((t (:italic t :background unspecified :foreground ,(doom-lighten (doom-color 'blue) 0.5))))))))
+  (global-blamer-mode 1))
 
 (use-package breadcrumb
   :ensure t
