@@ -576,6 +576,18 @@
   :ensure t
   :hook ((shell-mode . comint-mime-setup)))
 
+(use-package copy-as-format
+  :ensure t
+  ;; add bindings for github, gitlab, jira, markdown, org-mode, and slack (aka
+  ;; mattermost)
+  :bind (("C-c w w" . copy-as-format)
+         ("C-c w g" . copy-as-format-github)
+         ("C-c w l" . copy-as-format-gitlab)
+         ("C-c w j" . copy-as-format-jira)
+         ("C-c w m" . copy-as-format-markdown)
+         ("C-c w o" . copy-as-format-org-mode)
+         ("C-c w s" . copy-as-format-slack)))
+
 (use-package corfu
   :ensure t
   :custom
