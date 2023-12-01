@@ -415,7 +415,7 @@
            ;; nicer borders
            (blamer-border-lines '(?+ ?- ?+ ?| ?+ ?+ )))
   :custom-face (blamer-face ((t (:inherit completions-annotations :height 0.9))))
-  :config
+  :init
   (global-blamer-mode 1))
 
 (use-package breadcrumb
