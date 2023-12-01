@@ -1389,8 +1389,12 @@ With a prefix argument, will default to looking for all
 
 (use-package flymake-ruff
   :ensure t
-  ;; load via eglot
-  :hook (eglot-managed-mode . flymake-ruff-load))
+  :preface (defun apm-flymake-ruff-load ()
+             (when (and (derived-mode-p 'python-base-mode)
+                        (not (eq buffer-file-name nil)))
+               (flymake-ruff-load)))
+  ;; load via eglot - but this should only be done in python-mode buffers
+  :hook (eglot-managed-mode . apm-flymake-ruff-load))
 
 (use-package forge
   :ensure t
