@@ -2459,6 +2459,17 @@ clocktable works."
 (use-package so-long
   :config (global-so-long-mode 1))
 
+(use-package spacious-padding
+  :ensure t
+  :config (setq spacious-padding-widths
+                '( :internal-border-width 0
+                   :header-line-width 4
+                   :mode-line-width 4
+                   :tab-width 4
+                   :right-divider-width 0
+                   :scroll-bar-width 0))
+  (spacious-padding-mode 1))
+
 (use-package spdx
   :ensure t)
 
