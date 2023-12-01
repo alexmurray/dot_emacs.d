@@ -626,7 +626,7 @@
   :ensure t
   :bind (
          ("C-c h" . consult-history)
-         ;; ("C-c s" . consult-clock-in)
+         ("C-c s" . consult-clock-in)
          ("C-x b" . consult-buffer)
          ("C-x p b" . consult-project-buffer)
          ("C-x 4 b" . consult-buffer-other-window)
@@ -667,11 +667,10 @@
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
   :config
-  ;; from https://github.com/minad/consult/wiki#org-clock
-  ;; as of 2023-10-27 this breaks with an error:
-  ;; Error in post-command-hook (vertico--exhibit): (wrong-type-argument markerp nil)
-  ;; so have removed the keybinding above and replaced it with org-mru-clock-in
-  ;; TODO - check if it works again in the future
+  ;; from https://github.com/minad/consult/wiki#org-clock with a minor fix since
+  ;; it seems to be broken for me as provided upstream - seems to be an issue
+  ;; where the marker is not set correctly - but the fix means there is not
+  ;; *Recent* entries in the list
   (defun consult-clock-in (&optional match scope resolve)
     "Clock into an Org heading."
     (interactive (list nil nil current-prefix-arg))
@@ -699,7 +698,8 @@
                        (let* ((marker (get-text-property 0 'consult--candidate cand))
                               (name (if (member marker org-clock-history)
                                         "*Recent*"
-                                      (buffer-name (marker-buffer marker)))))
+                                      (buffer-name (and (markerp marker)
+                                                        (marker-buffer marker))))))
                          (if transform (substring cand (1+ (length name))) name)))))
 
 (use-package consult-notmuch
@@ -2023,12 +2023,6 @@ With a prefix argument, will default to looking for all
   :ensure t
   :hook (org-mode . org-autolist-mode))
 
-(use-package org-mru-clock
-  :ensure t
-  :bind (("C-c g" . org-mru-clock-goto)
-         ("C-c i" . org-mru-clock-in)
-         ("C-c s" . org-mru-clock-in)))
-
 (use-package org-refile
   :ensure org
   :config
@@ -2185,7 +2179,9 @@ clocktable works."
                      "]")))))))
   ;; ensure we always run org-clock-persistence-insinuate below
   :demand t
-  :bind (("C-c o" . org-clock-out))
+  :bind (("C-c g" . org-clock-goto)
+         ("C-c i" . org-clock-in)
+         ("C-c o" . org-clock-out))
   :config
   ;; include the current clocked in task in clock reports
   (setq org-clock-report-include-clocking-task t)
