@@ -457,12 +457,14 @@
                               (match-string-no-properties 1 prefix) id))
                      ((string-prefix-p "USN" prefix)
                       (format "https://ubuntu.com/security/notices/USN-%s" id))
+                     ((string-prefix-p "SEC-" prefix)
+                      (format "https://warthogs.atlassian.net/browse/SEC-%s" id))
                      (t (error (concat "Unknown bug prefix '%s'" prefix))))))
   :init
   (eval-when-compile
     (require 'bug-reference))
   (setq bug-reference-url-format #'apm-bug-reference-url-format
-        bug-reference-bug-regexp "\\<\\(\\(\\([Ll][Pp]:?\\|bug\\) #?\\|CVE[ -]\\|[UL]SN[ -]\\)\\([0-9Y][0-9N-]*\\)\\)\\>"))
+        bug-reference-bug-regexp "\\<\\(\\(\\([Ll][Pp]:?\\|bug\\) #?\\|CVE[ -]\\|[UL]SN[ -]\\|SEC-\\)\\([0-9Y][0-9N-]*\\)\\)\\>"))
 
 (use-package calc
   :defer t
