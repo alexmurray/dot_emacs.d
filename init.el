@@ -624,6 +624,17 @@
   ;; use compilation-mode for _source.build files
   (add-to-list 'auto-mode-alist '("_\\(amd64\\|source\\)\\.build\\'" . compilation-mode)))
 
+(use-package completion-preview
+  ;; only in emacs master
+  :disabled (unless (require 'completion-preview nil t))
+  :hook ((prog-mode . completion-preview-mode)
+         (text-mode . completion-preview-mode))
+  :bind (:map completion-preview-active-mode-map
+              ("M-n" . completion-preview-next-candidate)
+              ("M-p" . completion-preview-previous-candidate)
+              ("M-i" . completion-preview-insert))
+  :custom (completion-preview-minimum-symbol-length 2))
+
 (use-package consult
   :ensure t
   :bind (
