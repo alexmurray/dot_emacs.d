@@ -1829,6 +1829,9 @@ With a prefix argument, will default to looking for all
 (use-package nano-agenda
   :ensure t)
 
+(use-package nhexl-mode
+  :ensure t)
+
 (use-package notmuch
   :ensure t
   :ensure-system-package (notmuch afew)
@@ -2557,6 +2560,11 @@ clocktable works."
 (use-package uvt
   :load-path "~/ubuntu/git/ubuntu-qa-tools/vm-tools/"
   :bind (("C-c v" . uvt)))
+
+(use-package vc-auto-commit
+  ;; used to automatically commit changes in org-files git repo
+  :ensure t
+  :config (vc-auto-commit-activate 1))
 
 (use-package vdiff
   :ensure t
