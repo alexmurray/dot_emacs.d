@@ -680,10 +680,9 @@
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
   :config
-  ;; from https://github.com/minad/consult/wiki#org-clock with a minor fix since
-  ;; it seems to be broken for me as provided upstream - seems to be an issue
-  ;; where the marker is not set correctly - but the fix means there is not
-  ;; *Recent* entries in the list
+  ;; from https://github.com/minad/consult/wiki#org-clock with a minor fix to
+  ;; replace 'consult--candidate text property with 'org-marker since it seems
+  ;; to be broken for me as provided upstream
   (defun consult-clock-in (&optional match scope resolve)
     "Clock into an Org heading."
     (interactive (list nil nil current-prefix-arg))
@@ -708,11 +707,11 @@
                      :preview-key "M-."
                      :group
                      (lambda (cand transform)
-                       (let* ((marker (get-text-property 0 'consult--candidate cand))
+                       (let* (;; (marker (get-text-property 0 'consult--candidate cand))
+                              (marker (get-text-property 0 'org-marker cand))
                               (name (if (member marker org-clock-history)
                                         "*Recent*"
-                                      (buffer-name (and (markerp marker)
-                                                        (marker-buffer marker))))))
+                                      (buffer-name (marker-buffer marker)))))
                          (if transform (substring cand (1+ (length name))) name)))))
 
 (use-package consult-notmuch
