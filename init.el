@@ -91,9 +91,9 @@
 (defun apm-desktop-portal-settings-changed (path var value)
   "Update preferred theme based on VALUE of VAR at PATH."
   (when (and (or (string-equal path "org.freedesktop.appearance")
-               (string-equal path "org.gnome.desktop.interface"))
+                 (string-equal path "org.gnome.desktop.interface"))
              (string-equal var "color-scheme"))
-      (apm-load-preferred-theme (car value))))
+    (apm-load-preferred-theme (car value))))
 
 (defun apm-set-preferred-theme ()
   "Set preferred theme based on desktop color-scheme."
@@ -506,7 +506,7 @@
 (use-package cargo
   :ensure t
   :init (unless (executable-find "cargo")
-      (alert "Please install rust: https://www.rust-lang.org/en-US/install.html"))
+          (alert "Please install rust: https://www.rust-lang.org/en-US/install.html"))
   :defer t
   :hook ((rust-mode . cargo-minor-mode)))
 
@@ -822,7 +822,7 @@
   :config (let ((releases (append (split-string
                                    (shell-command-to-string
                                     "distro-info --supported-esm"))
-                                   (split-string
+                                  (split-string
                                    (shell-command-to-string
                                     "distro-info --devel")))))
             (dolist (release releases)
@@ -948,7 +948,7 @@
     "Prompt to connect to irc."
     (interactive)
     (let ((connectivity (string-trim
-                          (shell-command-to-string "nmcli networking connectivity"))))
+                         (shell-command-to-string "nmcli networking connectivity"))))
       (if (string= connectivity "full")
           (when (y-or-n-p "Connect to IRC? ")
             ;; connect to matterircd on localhost and oftc and freenode via znc
@@ -1210,10 +1210,10 @@ With a prefix argument, will default to looking for all
   (with-eval-after-load 'erc-hl-nicks
     (setq erc-view-log-nickname-face-function #'erc-hl-nicks-make-face))
   (add-to-list 'auto-mode-alist
-                       `(,(format "%s/.*\\.[log|txt]"
-                                  (regexp-quote
-                                   (expand-file-name
-                                    erc-log-channels-directory))) . erc-view-log-mode)))
+               `(,(format "%s/.*\\.[log|txt]"
+                          (regexp-quote
+                           (expand-file-name
+                            erc-log-channels-directory))) . erc-view-log-mode)))
 
 (use-package erlang
   :load-path "vendor/erlang")
@@ -1528,12 +1528,12 @@ With a prefix argument, will default to looking for all
   :config
   (setq gts-translate-list '(("zh" "en")))
   (setq gts-default-translator
-      (gts-translator
-       :picker (gts-prompt-picker)
-       :engines (list (gts-bing-engine)
-                      (gts-google-engine :parser (gts-google-summary-parser))
-                      (gts-google-rpc-engine))
-       :render (gts-buffer-render))))
+        (gts-translator
+         :picker (gts-prompt-picker)
+         :engines (list (gts-bing-engine)
+                        (gts-google-engine :parser (gts-google-summary-parser))
+                        (gts-google-rpc-engine))
+         :render (gts-buffer-render))))
 
 (use-package goto-addr
   :defer t
@@ -1640,9 +1640,9 @@ With a prefix argument, will default to looking for all
   :demand t
   :custom
   (ldap-host-parameters-alist '(("ldaps://ldap.canonical.com"
-      base "ou=staff,dc=canonical,dc=com"
-      binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
-      auth-source t)))
+                                 base "ou=staff,dc=canonical,dc=com"
+                                 binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
+                                 auth-source t)))
   (ldap-default-host "ldaps://ldap.canonical.com"))
 
 (use-package lin
@@ -2111,7 +2111,7 @@ With a prefix argument, will default to looking for all
           ("c" "TODO from canonical" todo "TODO"
            ((org-agenda-files '("~/org-files/canonical.org"))))
           ("I" "Next TODO from all" todo "TODO" (
-            (org-agenda-skip-function #'apm-org-agenda-skip-all-siblings-but-first-todo))))))
+                                                 (org-agenda-skip-function #'apm-org-agenda-skip-all-siblings-but-first-todo))))))
 
 (use-package org-capture
   :preface
@@ -2537,11 +2537,11 @@ clocktable works."
                 (user-error "TZ %s does not exist!" (car member))))
             (require 'erc-hl-nicks)
             (setq zoneinfo-style-world-list
-                    ;; make nicks stand out
-                    (mapcar #'(lambda (member)
-                                (list (car member)
-                                      (string-join (cdr member) ", ")))
-                            team)))
+                  ;; make nicks stand out
+                  (mapcar #'(lambda (member)
+                              (list (car member)
+                                    (string-join (cdr member) ", ")))
+                          team)))
   (setq display-time-default-load-average nil)
   (setq display-time-use-mail-icon t)
   (setq display-time-day-and-date t)
