@@ -2344,6 +2344,9 @@ clocktable works."
   :ensure t
   :config (setq posframe-mouse-banish nil))
 
+(use-package pr-review
+  :ensure t)
+
 (use-package prescient
   :ensure t
   :config (prescient-persist-mode 1))
