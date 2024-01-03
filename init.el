@@ -274,7 +274,10 @@
   ;; case insensitive completion everywhere
   (setq read-file-name-completion-ignore-case t)
   (setq read-buffer-completion-ignore-case t)
-  (setq completion-ignore-case t))
+  (setq completion-ignore-case t)
+
+  ;; show empty lines
+  (setq indicate-empty-lines t))
 
 ;;; Packages
 (use-package abbrev
