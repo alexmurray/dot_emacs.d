@@ -1517,10 +1517,11 @@ With a prefix argument, will default to looking for all
   ;; go-test--go-test is called that we replace any instance of -testify.m with
   ;; -check.f
   :config (define-advice go-test--go-test (:filter-args (args) apm-go-test--go-test)
-            (let ((args (car args)))
-              (if (string-match "-testify.m" args)
-                  (list (replace-regexp-in-string "-testify.m" "-check.f" args))
-                args))))
+            ;; args is a list containing the arguments passed to
+            ;; go-test--go-test - which is the command-line arguments as a
+            ;; single string and an optional env which we need to retain
+            (append (list (replace-regexp-in-string "-testify\.m" "-check\.f" (car args)))
+                    (cdr args))))
 
 (use-package go-translate
   :ensure t
