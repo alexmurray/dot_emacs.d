@@ -1508,6 +1508,20 @@ With a prefix argument, will default to looking for all
   :ensure t
   :hook ((before-save . gofmt-before-save)))
 
+(use-package gotest
+  :ensure t
+  ;; snapd uses the check.v1 package for defining test suites rather than
+  ;; testify so we can't specify a single test using -testify.m - instead this
+  ;; needs to be -check.f - but gotest hardcodes the use of testify so
+  ;; unfortunately we can't customise this - instead just ensure than whenever
+  ;; go-test--go-test is called that we replace any instance of -testify.m with
+  ;; -check.f
+  :config (define-advice go-test--go-test (:filter-args (args) apm-go-test--go-test)
+            (let ((args (car args)))
+              (if (string-match "-testify.m" args)
+                  (list (replace-regexp-in-string "-testify.m" "-check.f" args))
+                args))))
+
 (use-package go-translate
   :ensure t
   :bind (("C-c t" . gts-do-translate))
