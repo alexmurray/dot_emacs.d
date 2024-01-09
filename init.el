@@ -2329,9 +2329,13 @@ clocktable works."
   :custom (perl-indent-level 8))
 
 (use-package pixel-scroll
-  :config (if (fboundp 'pixel-scroll-precision-mode)
-              (pixel-scroll-precision-mode 1)
-            (pixel-scroll-mode 1)))
+  :bind
+  (([remap scroll-up-command] . pixel-scroll-interpolate-down)
+   ([remap scroll-down-command] . pixel-scroll-interpolate-up))
+  :custom
+  (pixel-scroll-precision-interpolate-page t)
+  :init
+  (pixel-scroll-precision-mode 1))
 
 (use-package pod-mode
   :vc (:fetcher github :repo renormalist/emacs-pod-mode)
