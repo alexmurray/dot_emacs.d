@@ -749,10 +749,6 @@
 (use-package crontab-mode
   :ensure t)
 
-(use-package cua-base
-  ;; use CUA mode for rectangle selections etc but not copy/paste etc
-  :init (cua-selection-mode 1))
-
 (use-package cve-mode
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts"
   :mode (("CVE-[[:digit:]]\\{4\\}-[[:digit:]]\\{4,\\}\\'" . cve-mode)
