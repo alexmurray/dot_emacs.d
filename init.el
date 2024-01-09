@@ -2671,6 +2671,11 @@ clocktable works."
   :ensure t
   :config (yas-global-mode 1))
 
+(use-package yasnippet-capf
+  :vc (:fetcher github :repo elken/yasnippet-capf)
+  :after cape
+  :config (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+
 (use-package x86-lookup
   :ensure t
   :init (unless (file-exists-p "~/Documents/325383-sdm-vol-2abcd.pdf")
