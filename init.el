@@ -364,6 +364,10 @@
   :defer t
   :mode (("\\.asn1?$" . asn1-mode)))
 
+(use-package async
+  :ensure t
+  :config (async-bytecomp-package-mode 1))
+
 (use-package autorevert
   :config
   (setq global-auto-revert-non-file-buffers t)
