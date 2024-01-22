@@ -878,8 +878,7 @@
   (ediff-split-window-function 'split-window-horizontally))
 
 (use-package eglot
-  ;; use the version packaged with emacs-30 for now
-  :ensure nil
+  :ensure t
   :preface
   ;; compose all eldoc messages together so eglot plays nicely with flymake etc
   ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
