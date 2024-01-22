@@ -122,6 +122,7 @@
 ;; particularly with erc buffer tracking
 (use-package doom-themes
   :ensure t
+  :disabled t
   :preface
   (defun apm-setup-doom-themes ()
     (if (eq apm-preferred-theme apm-preferred-dark-theme)
@@ -140,6 +141,21 @@
   (doom-themes-org-config)
   (setq apm-preferred-dark-theme 'doom-one)
   (setq apm-preferred-light-theme 'doom-one-light)
+  ;; set customisations after loading the theme
+  (add-hook 'apm-load-preferred-theme-hook #'apm-setup-doom-themes)
+  (apm-set-preferred-theme))
+
+(use-package kanagawa-theme
+  :ensure t
+  :preface
+  (defun apm-setup-kanagawa-theme ()
+    (custom-set-faces
+     `(notmuch-wash-cited-text ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'fuji-gray kanagawa-dark-palette)) :slant ,(if kanagawa-theme-keyword-italic 'italic 'normal)))))
+     `(erc-timestamp-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'autumn-green kanagawa-dark-palette))))))
+     `(erc-prompt-face ((((class color) (min-colors 89)) (:background ,(car (alist-get 'wave-blue-1 kanagawa-dark-palette))))))))
+  :config
+  (setq apm-preferred-dark-theme 'kanagawa)
+  (setq apm-preferred-light-theme 'kanagawa)
   ;; set customisations after loading the theme
   (add-hook 'apm-load-preferred-theme-hook #'apm-setup-doom-themes)
   (apm-set-preferred-theme))
