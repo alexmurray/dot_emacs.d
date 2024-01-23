@@ -125,15 +125,20 @@
   :disabled t
   :preface
   (defun apm-setup-doom-themes ()
-    (if (eq apm-preferred-theme apm-preferred-dark-theme)
-        (custom-set-faces `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
-                          ;; make some notmuch elements have more contrast
-                          `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'constants)))))
-                          `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base6))))))
-      (custom-set-faces `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
-                        ;; revert some elements for light theme
-                        `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'grey)))))
-                        `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base4))))))))
+    (let ((custom--inhibit-theme-enable nil))
+      (if (eq apm-preferred-theme apm-preferred-dark-theme)
+          (custom-theme-set-faces
+           apm-preferred-dark-theme
+           `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
+           ;; make some notmuch elements have more contrast
+           `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'constants)))))
+           `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base6))))))
+        (custom-them-set-faces
+         apm-preferred-light-theme
+         `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
+         ;; revert some elements for light theme
+         `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'grey)))))
+         `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base4)))))))))
   :custom
   (doom-one-padded-modeline t)
   :config
@@ -149,25 +154,27 @@
   :ensure t
   :preface
   (defun apm-setup-kanagawa-theme ()
-    (custom-set-faces
-     `(erc-input-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'wave-red kanagawa-dark-palette))))))
-     `(erc-keyword-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'ronin-yellow kanagawa-dark-palette))))))
-     `(erc-notice-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'sumi-ink-4 kanagawa-dark-palette))))))
-     `(erc-prompt-face ((((class color) (min-colors 89)) (:background ,(car (alist-get 'wave-blue-1 kanagawa-dark-palette))))))
-     `(erc-timestamp-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'autumn-green kanagawa-dark-palette))))))
-     `(message-mml ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'spring-green kanagawa-dark-palette))))))
-     `(notmuch-search-unread-face ((((class color) (min-colors 89)) (:weight bold :foreground ,(car (alist-get 'old-white kanagawa-dark-palette))))))
-     `(notmuch-tag-added ((((class color) (min-colors 89)) (:underline ,(car (alist-get 'spring-green kanagawa-dark-palette))))))
-     `(notmuch-tag-deleted ((((class color) (min-colors 89)) (:strike-through ,(car (alist-get 'wave-red kanagawa-dark-palette))))))
-     `(notmuch-tag-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'spring-green kanagawa-dark-palette))))))
-     `(notmuch-tag-unread ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'wave-red kanagawa-dark-palette))))))
-     `(notmuch-wash-cited-text ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'fuji-gray kanagawa-dark-palette)) :slant ,(if kanagawa-theme-keyword-italic 'italic 'normal)))))
-     `(sh-heredoc ((((class color) (min-colors 89)) (:weight bold :foreground ,(car (alist-get 'autumn-yellow kanagawa-dark-palette))))))))
+    (let ((custom--inhibit-theme-enable nil))
+      (custom-theme-set-faces
+       'kanagawa
+       `(erc-input-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'wave-red kanagawa-dark-palette))))))
+       `(erc-keyword-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'ronin-yellow kanagawa-dark-palette))))))
+       `(erc-notice-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'sumi-ink-4 kanagawa-dark-palette))))))
+       `(erc-prompt-face ((((class color) (min-colors 89)) (:background ,(car (alist-get 'wave-blue-1 kanagawa-dark-palette))))))
+       `(erc-timestamp-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'autumn-green kanagawa-dark-palette))))))
+       `(message-mml ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'spring-green kanagawa-dark-palette))))))
+       `(notmuch-search-unread-face ((((class color) (min-colors 89)) (:weight bold :foreground ,(car (alist-get 'old-white kanagawa-dark-palette))))))
+       `(notmuch-tag-added ((((class color) (min-colors 89)) (:underline ,(car (alist-get 'spring-green kanagawa-dark-palette))))))
+       `(notmuch-tag-deleted ((((class color) (min-colors 89)) (:strike-through ,(car (alist-get 'wave-red kanagawa-dark-palette))))))
+       `(notmuch-tag-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'autumn-green kanagawa-dark-palette))))))
+       `(notmuch-tag-unread ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'wave-red kanagawa-dark-palette))))))
+       `(notmuch-wash-cited-text ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'fuji-gray kanagawa-dark-palette)) :slant ,(if kanagawa-theme-keyword-italic 'italic 'normal)))))
+       `(sh-heredoc ((((class color) (min-colors 89)) (:weight bold :foreground ,(car (alist-get 'autumn-yellow kanagawa-dark-palette)))))))))
      :config
   (setq apm-preferred-dark-theme 'kanagawa)
   (setq apm-preferred-light-theme 'kanagawa)
   ;; set customisations after loading the theme
-  (add-hook 'apm-load-preferred-theme-hook #'apm-setup-doom-themes)
+  (add-hook 'apm-load-preferred-theme-hook #'apm-setup-kanagawa-theme)
   (apm-set-preferred-theme))
 
 (use-package doom-modeline
