@@ -1908,7 +1908,28 @@ With a prefix argument, will default to looking for all
           (when (string-search sender from)
             (setq discouraged (car discouraged-sender)))))
       discouraged))
-  :bind (("C-c m" . notmuch))
+
+  (defun apm-notmuch-show-view-lp-build-log ()
+    "Show the build log for the current message in a new buffer."
+    (interactive)
+    ;; find the build log URL in the current message, and open it in a new buffer
+    ;; with compilation-mode to view the log
+    (unless (eq major-mode 'notmuch-show-mode)
+      (error "Not in notmuch-show-mode"))
+    (save-excursion
+      (goto-char (point-min))
+      (when (re-search-forward "Build Log:" nil t)
+        (re-search-forward "https?://[^[:space:]]+" nil t)
+        (when-let ((url (thing-at-point 'url)))
+          (message "Viewing build log: %s" url)
+          (let ((buffer (url-retrieve-synchronously url t)))
+            (with-current-buffer buffer
+              (rename-buffer (format "*Build Log: %s*" url) t)
+              (compilation-mode)
+              (pop-to-buffer buffer)))))))
+  :bind (("C-c m" . notmuch)
+         :map notmuch-show-mode-map
+         ("C-c C-l C-b" . apm-notmuch-show-view-lp-build-log))
   :custom
   (notmuch-wash-wrap-lines-length 150)
   (notmuch-print-mechanism #'notmuch-print-ps-print/evince)
@@ -1946,6 +1967,12 @@ With a prefix argument, will default to looking for all
   ;; ensure kernel team daily bug report emails display without wrapping
   (add-hook 'notmuch-show-insert-text/plain-hook 'notmuch-wash-convert-inline-patch-to-part)
 
+  (defun apm-notmuch-wash-lp-build-log (_msg _depth)
+    "Wash LP build logs in the current message."
+    (apm-notmuch-show-view-lp-build-log))
+
+  ;; automatically display and download failed LP build logs
+  (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-lp-build-log)
   ;; add gnus-art emphasis highlighting too
   (with-eval-after-load 'gnus-art
     (defun apm-notmuch-wash-article-emphasize (_msg _depth)
