@@ -588,27 +588,30 @@
 (use-package apm-c
   :load-path "lisp/"
   :preface
-  (defun apm-c-mode-setup ()
+  (defun apm-c-ts-mode-setup ()
     "Tweaks and customisations for `c-mode'."
     (let ((filename (buffer-file-name)))
       (if (and filename (string-match-p (expand-file-name "~/git/apparmor-kernel") filename))
           ;; upstream linux kernel style actually uses tabs... urgh
           (progn
             (setq indent-tabs-mode t)
-            (setq c-basic-offset 8)
-            (c-set-style "linux-tabs-only"))
-        ;; default to normal linux style
-        (c-set-style "linux")))
+            (setq c-ts-mode-indent-offset 8))))
     ;; always show trailing whitespace
     (setq show-trailing-whitespace t)
     ;; ensure fill-paragraph takes doxygen @ markers as start of new
     ;; paragraphs properly
     (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
-  :hook (((c-mode c++-mode) . apm-c-mode-setup))
+  :hook (((c-ts-mode c++-ts-mode) . apm-c-ts-mode-setup))
+  :custom
+  (c-ts-mode-indent-offset 4)
+  (c-ts-mode-indent-style "linux")
   :config
-  ;; treat linux styles as safe for local variable
-  (add-to-list 'safe-local-variable-values '(c-indentation-style . linux))
-  (add-to-list 'safe-local-variable-values '(c-indentation-style . linux-tabs-only)))
+  ;; treat linux style as safe for local variable
+  (add-to-list 'safe-local-variable-values '(c-ts-mode-indent-style . linux)))
+
+(use-package chatgpt-shell
+  :ensure t
+  :custom ((chatgpt-shell-openai-key (lambda () (auth-source-pick-first-password :host "api.openai.com")))))
 
 (use-package check-cves-mode
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
