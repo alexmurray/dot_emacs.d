@@ -11,9 +11,16 @@
 ;;; Package management
 (require 'package)
 
-;; add melpa archive
+;; add melpa archive and gnu-devel
 (eval-and-compile
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/")))
+
+;; use gnu over non-gnu over melpa over gnu-devel
+(setq package-archive-priorities '(("gnu" . 3) ("nongnu" . 2) ("melpa" . 1)))
+
+;; but use erc from gnu-devel
+(setq package-pinned-packages '((erc . "gnu-devel")))
 
 (defvar use-package-enable-imenu-support t)
 ;; must be set before loading use-package
@@ -967,6 +974,8 @@
   (setq epg-user-id "alex.murray@canonical.com"))
 
 (use-package erc
+  :pin gnu-devel
+  :ensure t
   :preface
   (eval-when-compile
     (require 'erc-log)
@@ -1082,6 +1091,7 @@ With a prefix argument, will default to looking for all
     (require 'erc-join)
     (require 'erc-log)
     (require 'erc-match)
+    (require 'erc-nicks)
     (require 'erc-networks)
     (require 'erc-notify)
     (require 'erc-services)
@@ -1089,6 +1099,9 @@ With a prefix argument, will default to looking for all
 
   (setq erc-user-full-name user-full-name)
   (setq erc-nick (list user-login-name "alexmurray"))
+
+  ;; make prompt more dynamic
+  (setq erc-prompt #'erc-prompt-format)
   (setq erc-prompt-for-nickserv-password nil)
 
   (setq erc-use-auth-source-for-nickserv-password t)
@@ -1098,7 +1111,7 @@ With a prefix argument, will default to looking for all
   ;; since we connect to oftc directly, we need to autojoin channels there
   ;; - not needed for libera (since we use ZNC) or canonical matterircd
   (setq erc-autojoin-channels-alist nil)
-  (setq erc-fill-function #'erc-fill-static)
+  (setq erc-fill-function #'erc-fill-wrap)
   ;; account for really long names
   (setq erc-fill-static-center 22)
   ;; this fits on a dual horizontal split on my laptop
@@ -1109,6 +1122,7 @@ With a prefix argument, will default to looking for all
 
   ;; try harder to reconnect but wait longer each time since it may take a
   ;; while to get a DHCP lease etc
+  (setq erc-server-reconnect-function #'erc-server-delayed-check-reconnect)
   (setq erc-server-auto-reconnect t)
   (setq erc-server-reconnect-attempts 5)
   (setq erc-server-reconnect-timeout 30)
@@ -1116,14 +1130,16 @@ With a prefix argument, will default to looking for all
   (add-to-list 'erc-modules 'button)
   (add-to-list 'erc-modules 'log)
   (add-to-list 'erc-modules 'match)
+  (add-to-list 'erc-modules 'nicks)
   (add-to-list 'erc-modules 'notifications)
   (add-to-list 'erc-modules 'services)
+  (add-to-list 'erc-modules 'services-regain)
   (add-to-list 'erc-modules 'spelling)
   (erc-update-modules)
 
   ;; format nicknames to show if user has voice(+), owner (~), admin (&),
   ;; operator (@)
-  (setq erc-format-nick-function 'erc-format-@nick)
+  (setq erc-show-speaker-membership-status t)
 
   (setq erc-keywords '("alexmurray" "cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm" "@here" "@all" "@channel" "@security"))
 
@@ -1145,12 +1161,6 @@ With a prefix argument, will default to looking for all
   ;; emacs channels are noisy
   (setq erc-track-exclude '("#emacs" "#emacsconf" "#ubuntu"))
   (setq erc-track-shorten-function nil)
-  ;; ensure our nick highlighted with erc-hl-nicks gets picked up by
-  ;; erc-track
-  (with-eval-after-load 'erc-hl-nicks
-    (dolist (nick (apm-erc-nicks))
-      (add-to-list 'erc-track-faces-priority-list
-                   `(,(erc-hl-nicks-make-face nick) erc-current-nick-face))))
 
   (add-to-list 'erc-nick-popup-alist
                '("Directory" . (apm-erc-lookup-nick nick)))
@@ -1202,11 +1212,6 @@ With a prefix argument, will default to looking for all
   :bind (:map erc-mode-map ("C-c C-c" . nil))
   :config (setq erc-interpret-controls-p t))
 
-(use-package erc-hl-nicks
-  :ensure t
-  :after erc
-  :hook ((apm-load-preferred-theme . erc-hl-nicks-refresh-colors)))
-
 (use-package erc-image
   :ensure t
   :after erc
@@ -1234,9 +1239,6 @@ With a prefix argument, will default to looking for all
 (use-package erc-view-log
   :ensure t
   :config
-  ;; colorise nicks better
-  (with-eval-after-load 'erc-hl-nicks
-    (setq erc-view-log-nickname-face-function #'erc-hl-nicks-make-face))
   (add-to-list 'auto-mode-alist
                `(,(format "%s/.*\\.[log|txt]"
                           (regexp-quote
@@ -1322,10 +1324,10 @@ With a prefix argument, will default to looking for all
     (eudc-display-url (concat "https://wiki.canonical.com/" id)))
 
   (defun apm-eudc-display-nick (nick)
-    "Display NICK as using colors from erc-hl-nicks."
+    "Display NICK as using colors from erc-nicks."
     (insert (propertize nick
                         'face
-                        (erc-hl-nicks-make-face nick))))
+                        (erc-nicks--highlight nick))))
 
   (defun apm-eudc-display-query (query)
     "Display QUERY as an interactive element."
@@ -2567,14 +2569,7 @@ clocktable works."
             ;; validate team
             (dolist (member team)
               (unless (file-exists-p (expand-file-name (car member) "/usr/share/zoneinfo"))
-                (user-error "TZ %s does not exist!" (car member))))
-            (require 'erc-hl-nicks)
-            (setq zoneinfo-style-world-list
-                  ;; make nicks stand out
-                  (mapcar #'(lambda (member)
-                              (list (car member)
-                                    (string-join (cdr member) ", ")))
-                          team)))
+                (user-error "TZ %s does not exist!" (car member)))))
   (setq display-time-default-load-average nil)
   (setq display-time-use-mail-icon t)
   (setq display-time-day-and-date t)
