@@ -1085,7 +1085,9 @@ With a prefix argument, will default to looking for all
   :hook ((after-init . apm-prompt-to-connect-to-irc))
   :bind (:map erc-mode-map
               ("C-c f e" . apm-erc-find-logfile)
-              ("M-s e" . apm-occur-in-erc))
+              ("M-s e" . apm-occur-in-erc)
+              :map erc-fill-wrap-mode-map
+              ("C-c a" . org-agenda))
   :config
   (eval-and-compile
     (require 'erc-button)
@@ -1130,11 +1132,14 @@ With a prefix argument, will default to looking for all
   (setq erc-server-reconnect-attempts 5)
   (setq erc-server-reconnect-timeout 30)
 
+  (setq erc-scrolltobottom-all t)
+
   (add-to-list 'erc-modules 'button)
   (add-to-list 'erc-modules 'log)
   (add-to-list 'erc-modules 'match)
   (add-to-list 'erc-modules 'nicks)
   (add-to-list 'erc-modules 'notifications)
+  (add-to-list 'erc-modules 'scrolltobottom)
   (add-to-list 'erc-modules 'services)
   (add-to-list 'erc-modules 'services-regain)
   (add-to-list 'erc-modules 'spelling)
@@ -1330,7 +1335,10 @@ With a prefix argument, will default to looking for all
     "Display NICK as using colors from erc-nicks."
     (insert (propertize nick
                         'face
-                        (erc-nicks--highlight nick))))
+                        ;; colorise as is done on Libera.Chat by erc-nicks
+                        (let ((erc-server-process (with-current-buffer "Libera.Chat"
+                                                    erc-server-process)))
+                          (erc-nicks--highlight nick)))))
 
   (defun apm-eudc-display-query (query)
     "Display QUERY as an interactive element."
