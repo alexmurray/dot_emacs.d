@@ -1547,7 +1547,12 @@ With a prefix argument, will default to looking for all
 
 (use-package go-mode
   :ensure t
-  :hook ((before-save . gofmt-before-save)))
+  ;; plug go-ts-mode into gofmt
+  :preface (defun apm-gofmt-before-save ()
+             (interactive)
+             (when (member major-mode '(go-mode go-ts-mode))
+               (gofmt)))
+  :hook ((before-save . apm-gofmt-before-save)))
 
 (use-package gotest
   :ensure t
