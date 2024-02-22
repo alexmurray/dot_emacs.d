@@ -1965,6 +1965,10 @@ With a prefix argument, will default to looking for all
                              (200 (message "Reported '%s' as spam" subject))
                              (_ (user-error "Failed to report as spam: %s" status))))) ))    )
 
+  ;; requires to have set the following in ~/.notmuch-config so that the X-MailControl-ReportSpam header is available
+  ;;
+  ;; [show]
+  ;; extra_headers=X-MailControl-ReportSpam;Archived-At
   (define-advice notmuch-show-tag (:around (orig-fun &rest args) prompt-report-spam-around-notmuch-show-tag)
     "If tagging as spam then prompt to report to mailcontrol when supported"
     (let ((tag-changes (car args)))
@@ -1973,6 +1977,23 @@ With a prefix argument, will default to looking for all
           (when-let ((url (notmuch-show-get-header :X-MailControl-ReportSpam)))
             (apm-prompt-to-report-spam subject url)))))
     (apply orig-fun args))
+
+  ;; requires to have set the following in ~/.notmuch-config so that the Archived-At header is available
+  ;;
+  ;; [show]
+  ;; extra_headers=X-MailControl-ReportSpam;Archived-At
+  (define-advice notmuch-show-stash-mlarchive-link (:around (orig-fun &rest args) use-archived-at-header-around-notmuch-show-stash-mlarchive-link)
+    "Offer use of the Archived-At header if present."
+    (let ((archived-at (notmuch-show-get-header :Archived-At)))
+      (if archived-at
+          (let ((notmuch-show-stash-mlarchive-link-alist
+                 (append `(("Archived-At" . ,(lambda (id)
+                                               ;; strip any leading and trailing </>
+                                               (string-trim archived-at "<" ">"))))
+                         notmuch-show-stash-mlarchive-link-alist))
+                (notmuch-show-stash-ml-archive-link-default "Archived-At"))
+            (apply orig-fun args))
+        (apply orig-fun args))))
 
   ;; place sent in Sent/ maildir with sent tag and remove unread or inbox tags
   (setq notmuch-fcc-dirs "Sent +sent -unread -inbox")
