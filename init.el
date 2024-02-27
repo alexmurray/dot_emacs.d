@@ -1479,10 +1479,6 @@ With a prefix argument, will default to looking for all
 (use-package gh-notify
   :ensure t)
 
-(use-package gif-screencast
-  :ensure t
-  :ensure-system-package (scrot gifsicle))
-
 (use-package gitattributes-mode
   :ensure git-modes
   :defer t)
