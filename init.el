@@ -1961,6 +1961,26 @@ With a prefix argument, will default to looking for all
                              (200 (message "Reported '%s' as spam" subject))
                              (_ (user-error "Failed to report as spam: %s" status))))) ))    )
 
+  (defun apm-prompt-to-add-email-to-forcepoint-blocklist (email description)
+    "Add EMAIL to the forcepoint blocklist with DESCRIPTION."
+    (let* ((blocklist-secret (or (auth-source-pick-first-password :host "admin.websense.net")
+                                 (user-error "No secret found for admin.websense.net")))
+           (url (concat "https://admin.websense.net/r/" blocklist-secret "?page=bw_add")))
+      (and (y-or-n-p (format "Add %s to the blocklist with description '%s'? " email description))
+           (let ((url-request-method "POST")
+                 (url-request-extra-headers
+                  '(("Content-Type" . "application/x-www-form-urlencoded")))
+                 (url-request-data (concat "action=save&action_general=deny&"
+                                           "email_1=" (url-encode-url email) "&"
+                                           "description_1=" (url-encode-url description))))
+             (url-retrieve url
+                           (lambda (_)
+                             (let ((status (url-http-symbol-value-in-buffer
+                                            'url-http-response-status (current-buffer))))
+                               (pcase status
+                                 (200 (message "Added %s to the blocklist with description '%s'" email description))
+                                 (_ (user-error "Failed to add %s to the blocklist" email))))))
+             t))))
   ;; requires to have set the following in ~/.notmuch-config so that the X-MailControl-ReportSpam header is available
   ;;
   ;; [show]
@@ -1969,9 +1989,11 @@ With a prefix argument, will default to looking for all
     "If tagging as spam then prompt to report to mailcontrol when supported"
     (let ((tag-changes (car args)))
       (when (seq-contains-p tag-changes "+spam" #'string=)
-        (let ((subject (notmuch-show-get-subject)))
+        (let ((subject (notmuch-show-get-subject))
+              (sender (mail-extract-address-components (notmuch-show-get-from))))
           (when-let ((url (notmuch-show-get-header :X-MailControl-ReportSpam)))
-            (apm-prompt-to-report-spam subject url)))))
+            (and (apm-prompt-to-report-spam subject url)
+                 (apm-prompt-to-add-email-to-forcepoint-blocklist (cadr sender) (car sender)))))))
     (apply orig-fun args))
 
   ;; requires to have set the following in ~/.notmuch-config so that the Archived-At header is available
