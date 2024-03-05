@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: d_error(D_WARN, NULL, "");
-# key: ewarn
-# --
-d_error(D_WARN, ${1:NULL}, "$2"$3);

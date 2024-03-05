@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: d_printf(D_ERR, NULL, "");
-# key: derr
-# --
-d_printf(D_ERR, ${1:NULL}, "$2"$3);

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: d_fnend(D_INFO, NULL, "() = \n");
-# key: dfnend
-# --
-d_fnend(${1:$$(yas-choose-value '("D_EMERG" "D_ALERT" "D_CRIT" "D_ERR" "D_WARN" "D_NOTICE" "D_INFO" "D_DEBUG" "D_TEST" "D_VERBOSE" "D_IRQ" "D_ALL"))}, ${2:NULL}, "($3)${4: = $5}\n"$6);

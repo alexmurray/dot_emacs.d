@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: d_printf(D_WARN, NULL, "");
-# key: dwarn
-# --
-d_printf(D_WARN, ${1:NULL}, "$2"$3);

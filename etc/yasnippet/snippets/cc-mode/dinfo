@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: d_printf(D_INFO, NULL, "");
-# key: dinfo
-# --
-d_printf(D_INFO, ${1:NULL}, "$2"$3);

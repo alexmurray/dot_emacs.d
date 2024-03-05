@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: dox
-# key: dox
-# type: command
-# --
-(doxyas-document-function)
