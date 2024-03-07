@@ -2268,7 +2268,8 @@ With a prefix argument, will default to looking for all
 - %a%?" :clock-in t :clock-keep t)
             ("P" "snapd-pr-review" entry (file+olp ,canonical-org "snapd PR reviews")
              "* [[https://github.com/snapcore/snapd/pull/%\\1][snapd PR #%^{number} %^{title}]]
-- https://github.com/snapcore/snapd/pull/%\\1%?")
+- https://github.com/snapcore/snapd/pull/%\\1%?
+- %a")
             ("r" "protocol" entry (file ,inbox-org)
              "* %^{Title}
 Source: %u, %c
