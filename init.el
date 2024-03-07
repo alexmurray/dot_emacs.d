@@ -2173,6 +2173,11 @@ With a prefix argument, will default to looking for all
   (setq org-tags-exclude-from-inheritance '("crypt"))
   (setq org-crypt-key '("88E9530BCBDDC200517B5EB0F498D2D9DE7DAD9C")))
 
+(use-package org-id
+  :ensure org
+  :config
+  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
+
 (use-package org-appear
   :ensure t
   :hook (org-mode . org-appear-mode))
