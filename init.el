@@ -1965,22 +1965,32 @@ With a prefix argument, will default to looking for all
     "Add EMAIL to the forcepoint blocklist with DESCRIPTION."
     (let* ((blocklist-secret (or (auth-source-pick-first-password :host "admin.websense.net")
                                  (user-error "No secret found for admin.websense.net")))
-           (url (concat "https://admin.websense.net/r/" blocklist-secret "?page=bw_add")))
-      (and (y-or-n-p (format "Add %s to the blocklist with description '%s'? " email description))
-           (let ((url-request-method "POST")
-                 (url-request-extra-headers
-                  '(("Content-Type" . "application/x-www-form-urlencoded")))
-                 (url-request-data (concat "action=save&action_general=deny&"
-                                           "email_1=" (url-encode-url email) "&"
-                                           "description_1=" (url-encode-url description))))
-             (url-retrieve url
-                           (lambda (_)
-                             (let ((status (url-http-symbol-value-in-buffer
-                                            'url-http-response-status (current-buffer))))
-                               (pcase status
-                                 (200 (message "Added %s to the blocklist with description '%s'" email description))
-                                 (_ (user-error "Failed to add %s to the blocklist" email))))))
-             t))))
+           (url (concat "https://admin.websense.net/r/" blocklist-secret "?page=bw_add"))
+           (response (cadr
+                       (read-multiple-choice
+                        (format "Add %s to the blocklist with description '%s'? " email description)
+                        '((?y "yes" "Yes - using the suggested description")
+                          (?e "edit" "Yes - but using a different description")
+                          (?n "no" "No - do not add to the blocklist"))
+                        nil nil (and (not use-short-answers)
+                                     (not (use-dialog-box-p)))))))
+      (unless (equal response "no")
+        (when (equal response "edit")
+          (setq description (read-string "Description: " description)))
+        (let ((url-request-method "POST")
+              (url-request-extra-headers
+               '(("Content-Type" . "application/x-www-form-urlencoded")))
+              (url-request-data (concat "action=save&action_general=deny&"
+                                        "email_1=" (url-encode-url email) "&"
+                                        "description_1=" (url-encode-url description))))
+          (url-retrieve url
+                        (lambda (_)
+                          (let ((status (url-http-symbol-value-in-buffer
+                                         'url-http-response-status (current-buffer))))
+                            (pcase status
+                              (200 (message "Added %s to the blocklist with description '%s'" email description))
+                              (_ (user-error "Failed to add %s to the blocklist" email))))))
+          t))))
   ;; requires to have set the following in ~/.notmuch-config so that the X-MailControl-ReportSpam header is available
   ;;
   ;; [show]
