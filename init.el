@@ -1336,8 +1336,7 @@ With a prefix argument, will default to looking for all
     (insert (propertize nick
                         'face
                         ;; colorise as is done on Libera.Chat by erc-nicks
-                        (let ((erc-server-process (with-current-buffer "Libera.Chat"
-                                                    erc-server-process)))
+                        (with-current-buffer "Libera.Chat"
                           (erc-nicks--highlight nick)))))
 
   (defun apm-eudc-display-query (query)
