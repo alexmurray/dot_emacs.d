@@ -917,7 +917,8 @@
   :config
   (add-to-list 'eglot-server-programs '(markdown-mode "vscode-markdown-languageserver" "--stdio"))
   (add-to-list 'eglot-server-programs '(vimrc-mode "vim-language-server" "--stdio"
-                                                   :initializationOptions (:vim-runtime "/usr/share/vim/vim90"))))
+                                                   :initializationOptions (:vim-runtime "/usr/share/vim/vim90")))
+  (add-to-list 'eglot-server-programs '(markdown-mode "vale.vale-ls")))
 
 (use-package eldoc
   :config (global-eldoc-mode 1))
