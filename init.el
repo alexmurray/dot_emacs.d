@@ -2550,9 +2550,6 @@ clocktable works."
   :ensure t
   :ensure-system-package (rg . ripgrep))
 
-(use-package rmsbolt
-  :ensure t)
-
 (use-package rnc-mode
   :ensure t)
 
