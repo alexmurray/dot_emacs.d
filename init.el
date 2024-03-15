@@ -457,9 +457,7 @@
            (blamer-commit-formatter ":: %s")
            ;; nicer borders
            (blamer-border-lines '(?+ ?- ?+ ?| ?+ ?+ )))
-  :custom-face (blamer-face ((t (:inherit completions-annotations :height 0.9))))
-  :init
-  (global-blamer-mode 1))
+  :custom-face (blamer-face ((t (:inherit completions-annotations :height 0.9)))))
 
 (use-package breadcrumb
   :ensure t
