@@ -2514,6 +2514,13 @@ clocktable works."
 
 (use-package projection
   :ensure t
+  :hook (after-init . global-projection-hook-mode)
+  :bind-keymap ("C-x P" . projection-map)
+  :config (with-eval-after-load 'project
+            (require 'projection)))
+
+(use-package projection-multi
+  :ensure projection
   :bind (("C-x C-m" . projection-multi-compile)))
 
 (use-package python
