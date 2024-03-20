@@ -971,6 +971,33 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+(use-package emms-setup
+  :ensure emms
+  :custom (emms-source-file-default-directory (expand-file-name "~/Music"))
+  :config
+  (emms-all)
+  (emms-default-players))
+
+(use-package emms-mode-line
+  :ensure emms
+  ;; disable for now since using mpris
+  :disabled t
+  :config (emms-mode-line-mode 1))
+
+(use-package emms-player-mpd
+  :ensure emms
+  :ensure-system-package (mpd)
+  :config
+  (setq emms-player-mpd-music-directory (expand-file-name "~/Music"))
+  (add-to-list 'emms-info-functions 'emms-info-mpd)
+  (add-to-list 'emms-player-list 'emms-player-mpd)
+  (emms-player-mpd-connect)
+  (emms-player-mpd-update-all))
+
+(use-package emms-mpris
+  :ensure emms
+  :config (emms-mpris-enable))
+
 (use-package epg
   :config
   (setq epg-user-id "alex.murray@canonical.com"))
