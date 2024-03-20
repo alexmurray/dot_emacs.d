@@ -980,8 +980,6 @@
 
 (use-package emms-mode-line
   :ensure emms
-  ;; disable for now since using mpris
-  :disabled t
   :config (emms-mode-line-mode 1))
 
 (use-package emms-player-mpd
