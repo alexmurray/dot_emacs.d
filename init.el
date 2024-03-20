@@ -987,6 +987,9 @@
   :ensure-system-package (mpd)
   :config
   (setq emms-player-mpd-music-directory (expand-file-name "~/Music"))
+  ;; mpd is configured to use local socket rather than network
+  (setq emms-player-mpd-server-name (expand-file-name "~/.mpd/socket"))
+  (setq emms-player-mpd-server-port nil)
   (add-to-list 'emms-info-functions 'emms-info-mpd)
   (add-to-list 'emms-player-list 'emms-player-mpd)
   (emms-player-mpd-connect)
