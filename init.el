@@ -1779,7 +1779,8 @@ With a prefix argument, will default to looking for all
              "Do not keep FILE if it is on a lxd remote."
              ;; return non-nil to keep in recentf-list
              (not (string-match "^/lxd:.*" file)))
-  :config (add-to-list 'recentf-keep 'apm-recentf-ignore-lxd-tramp))
+  :config (with-eval-after-load 'recentf
+            (add-to-list 'recentf-keep 'apm-recentf-ignore-lxd-tramp))
 
 (use-package lp
   :load-path "/snap/gitlptools/current"
