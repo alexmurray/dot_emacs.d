@@ -763,19 +763,27 @@
 
 (use-package copilot
   :vc (:fetcher github :repo zerolfx/copilot.el)
+  :preface
+  (defun apm-copilot-complete-or-accept ()
+    (interactive)
+    (if (copilot--overlay-visible)
+        (copilot-accept-completion)
+      (copilot-complete)))
   :bind (:map copilot-mode-map
               ;; enable binding is normal copilot map as doing it just in the
               ;; completion map doesn't seem sufficient and gets overridden
               ;; sometimes (and hence they don't work)
-              ("C-<tab>" . copilot-accept-completion)
-              ("C-TAB" . copilot-accept-completion)
+              ("C-<tab>" . apm-copilot-complete-or-accept)
+              ("C-TAB" . apm-copilot-complete-or-accept)
               ("C-<backtab>" . copilot-accept-completion-by-word)
               ("C-<iso-lefttab>" . copilot-accept-completion-by-word)
+              ("C-<end>" . copilot-accept-completion-by-line)
               :map copilot-completion-map
-              ("C-<tab>" . copilot-accept-completion)
-              ("C-TAB" . copilot-accept-completion)
+              ("C-<tab>" . apm-copilot-complete-or-accept)
+              ("C-TAB" . apm-copilot-complete-or-accept)
               ("C-<backtab>" . copilot-accept-completion-by-word)
               ("C-<iso-lefttab>" . copilot-accept-completion-by-word)
+              ("C-<end>" . copilot-accept-completion-by-line)
               ("M-n" . copilot-next-completion)
               ("M-p" . copilot-previous-completion))
   :hook ((prog-mode . copilot-mode))
