@@ -980,11 +980,20 @@
 
 (use-package emms-mode-line
   :ensure emms
+  :after emms-setup
   :config (emms-mode-line-mode 1))
+
+(use-package emms-browser
+  :ensure emms
+  :after emms-setup
+  :custom (emms-browser-covers 'emms-browser-cache-thumbnail-async))
 
 (use-package emms-player-mpd
   :ensure emms
-  :ensure-system-package (mpd)
+  :after emms-setup
+  :ensure-system-package mpd
+  ;; link emms playlist clearing to mpd playlist clearing
+  :hook (emms-playlist-cleared . emms-player-mpd-clear)
   :config
   (setq emms-player-mpd-music-directory (expand-file-name "~/Music"))
   ;; mpd is configured to use local socket rather than network
@@ -992,11 +1001,13 @@
   (setq emms-player-mpd-server-port nil)
   (add-to-list 'emms-info-functions 'emms-info-mpd)
   (add-to-list 'emms-player-list 'emms-player-mpd)
+
   (emms-player-mpd-connect)
   (emms-player-mpd-update-all))
 
 (use-package emms-mpris
   :ensure emms
+  :after emms-setup
   :config (emms-mpris-enable))
 
 (use-package epg
