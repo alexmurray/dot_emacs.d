@@ -1979,12 +1979,31 @@ With a prefix argument, will default to looking for all
       (when (re-search-forward "Build Log:" nil t)
         (re-search-forward "https?://[^[:space:]]+" nil t)
         (when-let ((url (thing-at-point 'url)))
-          (message "Viewing build log: %s" url)
+          (message "Fetching build log... %s" url)
           (let ((buffer (url-retrieve-synchronously url t)))
             (with-current-buffer buffer
               (rename-buffer (format "*Build Log: %s*" url) t)
               (compilation-mode)
-              (pop-to-buffer buffer)))))))
+              (pop-to-buffer buffer)
+              ;; also run analyse-build-log when available to pinpoint the line
+              ;; of interest then scroll to that line
+              (if (executable-find "analyse-build-log")
+                  (let ((line))
+                      (with-temp-buffer
+                        (insert-buffer-substring buffer)
+                        (message "Analysing build log...")
+                        (shell-command-on-region (point-min) (point-max) "analyse-build-log /dev/stdin" t t)
+                        (compilation-mode)
+                        (save-excursion
+                          (goto-char (point-min))
+                          (when (re-search-forward "\\(Issue found at line\\|Failed line:\\) \\([0-9]+\\)" nil t)
+                            (setq line (string-to-number (match-string 2)))
+                            ;; show the full output to the user
+                            (message (buffer-substring (point-min) (point-max))))))
+                    (when line
+                      (with-current-buffer buffer
+                        (forward-line (1- line)))))
+                (message "analyse-build-log not found - install python3-buildlog-consultant to support automatic error finding"))))))))
   :bind (("C-c m" . notmuch)
          :map notmuch-show-mode-map
          ("C-c C-l C-b" . apm-notmuch-show-view-lp-build-log))
