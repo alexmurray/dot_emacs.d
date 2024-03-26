@@ -615,6 +615,17 @@
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
   :mode ("check-cves\\..*\\'" . check-cves-mode))
 
+(use-package citar
+  :ensure t
+  :after oc
+  :hook ((LaTeX-mode . citar-capf-setup)
+         (org-mode . citar-capf-setup))
+  :custom ((org-cite-insert-processor 'citar)
+           (org-cite-follow-processor 'citar)
+           (org-cite-activate-processor 'citar)
+           (citar-bibliography org-cite-global-bibliography)
+           (citar-bibliography '("~/org-files/references.bib"))))
+
 (use-package comint
   :hook ((comint-output-filter-functions . comint-osc-process-output)))
 
@@ -2231,6 +2242,10 @@ With a prefix argument, will default to looking for all
 (use-package org-block-capf
   :vc (:fetcher github :repo xenodium/org-block-capf)
   :hook (org-mode . org-block-capf-add-to-completion-at-point-functions))
+
+(use-package oc
+  :ensure org
+  :custom (org-cite-global-bibliography '("~/org-files/references.bib")))
 
 (use-package org-crypt
   :ensure org
