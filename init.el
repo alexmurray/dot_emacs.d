@@ -699,6 +699,7 @@
          ("C-x p b" . consult-project-buffer)
          ("C-x 4 b" . consult-buffer-other-window)
          ("C-x 5 b" . consult-buffer-other-frame)
+         ("M-i" . consult-imenu)
          ("M-s i" . consult-imenu)
          ("M-s l" . consult-line)
          ("M-s o" . consult-outline)
@@ -768,6 +769,12 @@
                                         "*Recent*"
                                       (buffer-name (marker-buffer marker)))))
                          (if transform (substring cand (1+ (length name))) name)))))
+
+(use-package consult-eglot
+  :ensure t
+  :after (consult eglot)
+  :bind (:map eglot-mode-map
+              ("M-s i" . consult-eglot-symbols)))
 
 (use-package consult-notmuch
   :ensure t)
