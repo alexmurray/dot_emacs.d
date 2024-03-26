@@ -1497,6 +1497,7 @@ With a prefix argument, will default to looking for all
 
 (use-package flymake
   :hook (prog-mode . flymake-mode)
+  :custom (flymake-mode-line-lighter "🪰")
   :bind (:map flymake-mode-map
               ("M-n" . flymake-goto-next-error)
               ("M-p" . flymake-goto-prev-error)))
