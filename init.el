@@ -1044,8 +1044,12 @@
   (add-to-list 'emms-info-functions 'emms-info-mpd)
   (add-to-list 'emms-player-list 'emms-player-mpd)
 
-  (emms-player-mpd-connect)
-  (emms-player-mpd-update-all))
+  ;; handle case where mpd is not running
+  (condition-case nil
+      (progn
+        (emms-player-mpd-connect)
+        (emms-player-mpd-update-all))
+    (error (alert "Failed to connect to mpd - is it running?"))))
 
 (use-package emms-mpris
   :ensure emms
