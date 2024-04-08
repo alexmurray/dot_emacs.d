@@ -878,10 +878,18 @@
          (text-mode . display-fill-column-indicator-mode)))
 
 (use-package dpkg-dev-el
+  :ensure-system-package (debputy . dh-debputy)
   :ensure t)
+
+(use-package debian-autopkgtest-control-mode
+  :ensure dpkg-dev-el
+  :hook ((debian-autopkgtest-control-mode . eglot-ensure)
+  :config (with-eval-after-load 'eglot
+            (add-to-list 'eglot-server-programs '(debian-autopkgtest-control-mode . ("debputy" "lsp" "server")))))
 
 (use-package debian-changelog-mode
   :ensure dpkg-dev-el
+  :hook ((debian-changelog-mode . eglot-ensure)
   :config (let ((releases (append (split-string
                                    (shell-command-to-string
                                     "distro-info --supported-esm"))
@@ -889,7 +897,15 @@
                                    (shell-command-to-string
                                     "distro-info --devel")))))
             (dolist (release releases)
-              (add-to-list 'debian-changelog-allowed-distributions release))))
+              (add-to-list 'debian-changelog-allowed-distributions release)))
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs '(debian-changelog-mode . ("debputy" "lsp" "server")))))
+
+(use-package debian-control-mode
+  :ensure dpkg-dev-el
+  :hook ((debian-control-mode . eglot-ensure)
+  :config (with-eval-after-load 'eglot
+            (add-to-list 'eglot-server-programs '(debian-control-mode . ("debputy" "lsp" "server")))))
 
 (use-package delsel
   ;; enable delete-selection mode to allow replacing selected region
