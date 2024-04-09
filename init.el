@@ -953,12 +953,22 @@
          (yaml-mode . eglot-ensure)
          (eglot-managed-mode . apm-eglot-compose-eldoc)
          (eglot-managed-mode . eglot-inlay-hints-mode))
-  :custom (eglot-extend-to-xref t)
+  :custom
+  (eglot-extend-to-xref t)
+  ;; speed up performance
+  (eglot-events-buffer-size 0)
   :config
+  ;; speed up performance
+  (fset #'jsonrpc--log-event #'ignore)
   (add-to-list 'eglot-server-programs '(markdown-mode "vscode-markdown-languageserver" "--stdio"))
   (add-to-list 'eglot-server-programs '(vimrc-mode "vim-language-server" "--stdio"
                                                    :initializationOptions (:vim-runtime "/usr/share/vim/vim90")))
   (add-to-list 'eglot-server-programs '(markdown-mode "vale.vale-ls")))
+
+(use-package eglot-booster
+  :vc (:fetcher github :repo jdtsmith/eglot-booster)
+  :after eglot
+  :config (eglot-booster-mode))
 
 (use-package eldoc
   :config (global-eldoc-mode 1))
