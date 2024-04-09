@@ -883,13 +883,13 @@
 
 (use-package debian-autopkgtest-control-mode
   :ensure dpkg-dev-el
-  :hook ((debian-autopkgtest-control-mode . eglot-ensure)
+  :hook ((debian-autopkgtest-control-mode . eglot-ensure))
   :config (with-eval-after-load 'eglot
             (add-to-list 'eglot-server-programs '(debian-autopkgtest-control-mode . ("debputy" "lsp" "server")))))
 
 (use-package debian-changelog-mode
   :ensure dpkg-dev-el
-  :hook ((debian-changelog-mode . eglot-ensure)
+  :hook ((debian-changelog-mode . eglot-ensure))
   :config (let ((releases (append (split-string
                                    (shell-command-to-string
                                     "distro-info --supported-esm"))
@@ -903,7 +903,7 @@
 
 (use-package debian-control-mode
   :ensure dpkg-dev-el
-  :hook ((debian-control-mode . eglot-ensure)
+  :hook ((debian-control-mode . eglot-ensure))
   :config (with-eval-after-load 'eglot
             (add-to-list 'eglot-server-programs '(debian-control-mode . ("debputy" "lsp" "server")))))
 
