@@ -955,8 +955,6 @@
          (eglot-managed-mode . eglot-inlay-hints-mode))
   :custom
   (eglot-extend-to-xref t)
-  ;; speed up performance
-  (eglot-events-buffer-size 0)
   :config
   ;; speed up performance
   (fset #'jsonrpc--log-event #'ignore)
