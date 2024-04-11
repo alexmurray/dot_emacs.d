@@ -2802,7 +2802,6 @@ clocktable works."
 
 (use-package treemacs
   :ensure t
-  :custom (treemacs-position 'right)
   :bind (:map global-map
               ("M-0"       . treemacs-select-window)
               ("C-x t 1"   . treemacs-delete-other-windows)
@@ -2838,7 +2837,7 @@ clocktable works."
         treemacs-no-delete-other-windows         t
         treemacs-project-follow-cleanup          nil
         treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-        treemacs-position                        'left
+        treemacs-position                        'right
         treemacs-read-string-input               'from-child-frame
         treemacs-recenter-distance               0.1
         treemacs-recenter-after-file-follow      nil
