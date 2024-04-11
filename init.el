@@ -2475,6 +2475,11 @@ clocktable works."
   ;; reload any saved org clock information on startup
   (org-clock-persistence-insinuate))
 
+(use-package org-clock-agenda-daytime-mode
+  :ensure t
+  :after org
+  :config (org-clock-agenda-daytime-mode 1))
+
 (use-package org-clock-convenience
   :ensure t
   :bind (:map org-agenda-mode-map
