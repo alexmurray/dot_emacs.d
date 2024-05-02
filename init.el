@@ -786,13 +786,11 @@
               ("M-n" . copilot-next-completion)
               ("M-p" . copilot-previous-completion))
   :hook ((prog-mode . copilot-mode))
-  ;; this needs to be set after copilot-mode is loaded otherwise it will
-  ;; still be the default value which is relative to copilot.el in our
-  ;; local vendor directory
-  :config (setq copilot--base-dir "/snap/copilot-client/current")
-  :custom
-  ;; ensure we use the node executable shipped in the copilot-client snap
-  (copilot-node-executable "/snap/bin/copilot-client.node"))
+  :config (setq copilot--server-executable "/snap/copilot-client/current/dist/agent.js")
+  :custom ((copilot-install-dir "/snap/copilot-client/current/dist")
+           (copilot-node-executable "/snap/bin/copilot-client.node")
+           (copilot-server-args '("--stdio"))
+           (copilot--server-executable "/snap/copilot-client/current/dist/agent.js")))
 
 (use-package crontab-mode
   :ensure t)
