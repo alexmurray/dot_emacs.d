@@ -367,7 +367,9 @@
   :bind (("C-c b l" . apm-browse-lp-bug-at-point)))
 
 (use-package apparmor-mode
-  :ensure t)
+  :ensure t
+  :config (add-to-list 'auto-mode-alist
+               `(,(expand-file-name "~/git/apparmor/profiles/apparmor.d/") . apparmor-mode)))
 
 (use-package apropos
   :bind ("C-h a" . apropos))
