@@ -48,9 +48,6 @@
     (add-to-list 'recentf-exclude no-littering-var-directory)
     (add-to-list 'recentf-exclude no-littering-etc-directory)))
 
-(use-package use-package-ensure-system-package
-  :ensure t)
-
 ;; support :vc integration in use-package - this is in emacs 30 but not emacs-29
 ;; so install it manually if needed
 (unless (package-installed-p 'vc-use-package)
@@ -64,12 +61,6 @@
 (use-package bind-key
   :ensure t)
 
-(use-package system-packages
-  :ensure t
-  :custom
-  (system-packages-package-manager 'apt)
-  (system-packages-noconfirm t)
-  (system-packages-use-sudo t))
 
 ;; customisations
 (setq custom-file (locate-user-emacs-file "custom.el"))
@@ -346,6 +337,7 @@
   :ensure t
   :config
   (unless (file-exists-p (expand-file-name "~/.local/share/fonts/all-the-icons.ttf"))
+    (alert "Installing all-the-icons font...")
     (all-the-icons-install-fonts)))
 
 (use-package all-the-icons-completion
@@ -838,7 +830,8 @@
 
 (use-package deadgrep
   :ensure t
-  :ensure-system-package (rg . ripgrep))
+  :init (unless (executable-find "rg")
+          (alert "Please apt install ripgrep")))
 
 (use-package debian-el
   :ensure t)
@@ -878,7 +871,8 @@
          (text-mode . display-fill-column-indicator-mode)))
 
 (use-package dpkg-dev-el
-  :ensure-system-package (debputy . dh-debputy)
+  :init (unless (executable-find "debputy")
+          (alert "Please apt install dh-debputy"))
   :ensure t)
 
 (use-package debian-autopkgtest-control-mode
@@ -966,6 +960,8 @@
 (use-package eglot-booster
   :vc (:fetcher github :repo jdtsmith/eglot-booster)
   :after eglot
+  :init (unless (executable-find "emacs-lsp-booster")
+          (alert "Please install emacs-lsp-booster to ~/bin from https://github.com/blahgeek/emacs-lsp-booster/releases"))
   :config (eglot-booster-mode))
 
 (use-package eldoc
@@ -1532,7 +1528,8 @@ With a prefix argument, will default to looking for all
 
 (use-package flymake-codespell
   :ensure t
-  :ensure-system-package (codespell)
+  :init (unless (executable-find "codespell")
+          (alert "Please apt install codespell"))
   :hook (prog-mode . flymake-codespell-setup-backend))
 
 (use-package flymake-ruff
@@ -1771,7 +1768,8 @@ With a prefix argument, will default to looking for all
   :ensure t)
 
 (use-package ldap
-  :ensure-system-package (ldapsearch . ldap-utils)
+  :init (unless (executable-find "ldapsearch")
+          (alert "Please apt install ldap-utils"))
   :demand t
   :custom
   (ldap-host-parameters-alist '(("ldaps://ldap.canonical.com"
@@ -1868,7 +1866,8 @@ With a prefix argument, will default to looking for all
 
 (use-package mailscripts
   :load-path "vendor/"
-  :ensure-system-package (maildir-import-patch . mailscripts))
+  :init (unless (executable-find "maildir-import-patch")
+          (alert "Please apt install mailscripts")))
 
 (use-package mallard-mode
   :ensure t
@@ -1997,7 +1996,11 @@ With a prefix argument, will default to looking for all
 
 (use-package notmuch
   :ensure t
-  :ensure-system-package (notmuch afew)
+  :init
+  (unless (executable-find "notmuch")
+    (alert "Please apt install notmuch"))
+  (unless (executable-find "afew")
+    (alert "Please apt install afew"))
   :preface
   (defvar apm-notmuch-discouraged-senders '((("text/plain") . ("forum@forum.snapcraft.io"
                                                                "bounce@websense.com"
@@ -2683,7 +2686,8 @@ clocktable works."
 
 (use-package ripgrep
   :ensure t
-  :ensure-system-package (rg . ripgrep))
+  :init (unless (executable-find "rg")
+          (alert "Please apt install ripgrep")))
 
 (use-package rnc-mode
   :ensure t)
