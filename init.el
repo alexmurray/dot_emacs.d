@@ -792,7 +792,9 @@
   :custom ((copilot-install-dir "/snap/copilot-client/current/dist")
            (copilot-node-executable "/snap/bin/copilot-client.node")
            (copilot-server-args '("--stdio"))
-           (copilot--server-executable "/snap/copilot-client/current/dist/agent.js")))
+           (copilot--server-executable "/snap/copilot-client/current/dist/agent.js")
+           ;; silence warning on startup about version mismatch
+           (copilot-version "1.26.0")))
 
 (use-package crontab-mode
   :ensure t)
