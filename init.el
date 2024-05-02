@@ -1913,6 +1913,13 @@ With a prefix argument, will default to looking for all
   (setq completion-auto-help 'visible)
   (setq completion-auto-select 'second-tab))
 
+(use-package minimap
+  :ensure t
+  :config
+  (setq minimap-window-location 'right)
+  (add-to-list 'minimap-major-modes 'check-cves-mode)
+  (minimap-mode 1))
+
 (use-package minions
   :ensure t
   :config
