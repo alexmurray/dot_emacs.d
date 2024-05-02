@@ -2977,7 +2977,7 @@ clocktable works."
   :demand t
   :config
   (setq webpaste-paste-confirmation t)
-  (setq webpaste-provider-priority '("paste.ubuntu.com")))
+  (setq webpaste-provider-priority '("dpaste.org")))
 
 (use-package which-key
   :ensure t
