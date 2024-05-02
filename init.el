@@ -1030,6 +1030,9 @@
   :config
   (setq emms-player-mpd-music-directory (expand-file-name "~/Music"))
   ;; mpd is configured to use local socket rather than network
+  ;; simply ensure ~/.config/mpd/mpd.conf has:
+  ;; bind_to_address     "~/.mpd/socket"
+  ;; and then can enable via systemctl --user enable mpd.service
   (setq emms-player-mpd-server-name (expand-file-name "~/.mpd/socket"))
   (setq emms-player-mpd-server-port nil)
   (add-to-list 'emms-info-functions 'emms-info-mpd)
