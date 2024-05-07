@@ -538,7 +538,7 @@
 (use-package cargo
   :ensure t
   :init (unless (executable-find "cargo")
-          (alert "Please install rust: https://www.rust-lang.org/en-US/install.html"))
+          (alert "Please install the rustup snap"))
   :defer t
   :hook ((rust-mode . cargo-minor-mode)))
 
@@ -2692,10 +2692,10 @@ clocktable works."
 
 (use-package rust-mode
   :ensure t
-  ;; ensure rust-analyzer is installed via cargo
+  ;; ensure rust-analyzer is installed via the rustup snap
   :config
-  (unless (file-exists-p (expand-file-name "rust-analyzer" "~/.cargo/bin"))
-    (alert "Please install rust-analyzer: rustup component add rust-analyzer")))
+  (unless (executable-find "rust-analyzer")
+    (alert "Please install the rustup snap")))
 
 ;; save minibuffer history
 (use-package savehist
