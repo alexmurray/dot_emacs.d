@@ -1853,7 +1853,8 @@ With a prefix argument, will default to looking for all
                         str (match-beginning 0) (match-end 0))))
               (url (string-trim
                     (substring-no-properties
-                     str (match-beginning 1) (match-end 1)))))
+                     str (match-beginning 1) (match-end 1))))
+              (y-or-n-p-use-read-key t))
           (when (y-or-n-p prompt)
             (browse-url url))))))
   :init
