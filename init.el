@@ -788,13 +788,24 @@
               ("M-n" . copilot-next-completion)
               ("M-p" . copilot-previous-completion))
   :hook ((prog-mode . copilot-mode))
-  :config (setq copilot--server-executable "/snap/copilot-client/current/dist/agent.js")
-  :custom ((copilot-install-dir "/snap/copilot-client/current/dist")
-           (copilot-node-executable "/snap/bin/copilot-client.node")
-           (copilot-server-args '("--stdio"))
-           (copilot--server-executable "/snap/copilot-client/current/dist/agent.js")
-           ;; silence warning on startup about version mismatch
-           (copilot-version "1.26.0")))
+  :custom
+  ((copilot-install-dir "/snap/copilot-client/current/dist")
+   (copilot-node-executable "/snap/bin/copilot-client.node")
+   (copilot-server-args '("--stdio"))
+   (copilot--server-executable "/snap/copilot-client/current/dist/agent.js")
+   ;; silence warning on startup about version mismatch
+   (copilot-version "1.26.0"))  ;; need to set these after copilot is loaded to avoid errors
+  :config
+  (setq copilot--server-executable "/snap/copilot-client/current/dist/agent.js")
+  (setq copilot-version "1.26.0")
+  ;; the snap doesn't ship the required package.json so instead get the version
+  ;; from the installed snap itself
+  (define-advice copilot-installed-version (:around (orig-fun &rest args) read-copilot-installed-version-from-snap-info)
+    "Read copilot version from snap info."
+    (let ((snap-info (shell-command-to-string "snap info copilot-client")))
+      (if (string-match "installed:\\s-*\\([0-9.]+\\)" snap-info)
+          (match-string 1 snap-info)
+        (user-error "Could not determine copilot version from snap info")))))
 
 (use-package crontab-mode
   :ensure t)
