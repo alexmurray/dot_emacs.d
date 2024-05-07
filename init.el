@@ -633,6 +633,7 @@
   :custom
   (corfu-cycle t)
   (corfu-auto t)
+  (corfu-auto-prefix 3)
   :init
   (global-corfu-mode 1)
   (setq tab-always-indent 'complete)
