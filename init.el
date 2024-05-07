@@ -1418,8 +1418,9 @@ With a prefix argument, will default to looking for all
     (insert (propertize nick
                         'face
                         ;; colorise as is done on Libera.Chat by erc-nicks
-                        (with-current-buffer "Libera.Chat"
-                          (erc-nicks--highlight nick)))))
+                        (ignore-errors
+                          (with-current-buffer "Libera.Chat"
+                            (erc-nicks--highlight nick))))))
 
   (defun apm-eudc-display-query (query)
     "Display QUERY as an interactive element."
