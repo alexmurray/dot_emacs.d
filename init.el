@@ -1909,6 +1909,7 @@ With a prefix argument, will default to looking for all
 
 (use-package minimap
   :ensure t
+  :disabled t
   :config
   (setq minimap-window-location 'right)
   (add-to-list 'minimap-major-modes 'check-cves-mode)
