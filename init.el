@@ -1842,27 +1842,13 @@ With a prefix argument, will default to looking for all
 
 (use-package magit
   :ensure t
-  :preface
-  (defun apm-magit-process-lp-merge-request-prompt-hook (_ str)
-    "Hook to handle LP merge request prompt in git output in STR."
-    (let* ((regex "remote: Create a merge proposal for '.*' on Launchpad by visiting:\\s-*\nremote:\\s-*\\(https://code.launchpad.net[^[:space:]]*\\)")
-           (resize-mini-windows t))
-      (when (string-match regex str)
-        (let ((prompt (string-replace
-                       "remote: " ""
-                       (substring-no-properties
-                        str (match-beginning 0) (match-end 0))))
-              (url (string-trim
-                    (substring-no-properties
-                     str (match-beginning 1) (match-end 1))))
-              (y-or-n-p-use-read-key t))
-          (when (y-or-n-p prompt)
-            (browse-url url))))))
-  :init
-  (add-hook 'magit-process-prompt-functions #'apm-magit-process-lp-merge-request-prompt-hook)
   :custom (magit-diff-refine-hunk t)
   :bind (("C-x g" . magit-status))
   :demand t)
+
+(use-package magit-file-icons
+  :ensure t
+  :config (magit-file-icons-mode 1))
 
 (use-package magit-patch-changelog
   :ensure t)
