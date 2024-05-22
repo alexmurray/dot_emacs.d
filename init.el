@@ -857,7 +857,9 @@
   :mode (("\\.debdiff\\'" . diff-mode)))
 
 (use-package dired
-  :custom (dired-dwim-target t)
+  :custom
+  (dired-dwim-target t)
+  (dired-vc-rename-file t)
   :hook ((dired-mode . dired-hide-details-mode)))
 
 (use-package dired-preview
