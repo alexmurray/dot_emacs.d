@@ -2340,6 +2340,7 @@ With a prefix argument, will default to looking for all
 
 (use-package org-appear
   :ensure t
+  :custom (org-appear-autolinks t)
   :hook (org-mode . org-appear-mode))
 
 (use-package org-autolist
