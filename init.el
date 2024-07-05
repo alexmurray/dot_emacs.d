@@ -2695,7 +2695,7 @@ clocktable works."
 
 (use-package projection
   :ensure t
-  :hook (after-init . global-projection-hook-mode)
+  :hook (emacs-startup . global-projection-hook-mode)
   :bind-keymap ("C-x P" . projection-map)
   :config (with-eval-after-load 'project
             (require 'projection)))
@@ -3014,10 +3014,18 @@ clocktable works."
 
 (use-package vertico
   :ensure t
-  :hook ((after-init . vertico-mode))
+  :hook ((emacs-startup . vertico-mode))
   :custom
   (vertico-cycle t)
   (vertico-resize nil))
+
+(use-package vertico-multiform
+  :ensure vertico
+  :config
+  ;; enhance display of jinx to use a grid
+  (add-to-list 'vertico-multiform-categories
+               '(jinx grid (vertico-grid-annotate . 20)))
+  (vertico-multiform-mode 1))
 
 (use-package vertico-repeat
   :ensure vertico
