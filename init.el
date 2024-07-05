@@ -1232,8 +1232,6 @@ With a prefix argument, will default to looking for all
   ;; while to get a DHCP lease etc
   (setq erc-server-reconnect-function #'erc-server-delayed-check-reconnect)
   (setq erc-server-auto-reconnect t)
-  (setq erc-server-reconnect-attempts 5)
-  (setq erc-server-reconnect-timeout 30)
 
   (setq erc-scrolltobottom-all t)
 
