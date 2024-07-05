@@ -2252,6 +2252,7 @@ With a prefix argument, will default to looking for all
 
   ;; add a few helpful custom saved search queries
   (add-to-list 'notmuch-saved-searches '(:name "cvewebbot" :query "from:noreply+security-tools@canonical.com and subject:\"CVE webbot process errors\"" :key "c"))
+  (add-to-list 'notmuch-saved-searches '(:name "vince-updates" :query "from:cert+donotreply@cert.org and subject:\"New Post in Case Discussion\"" :key "v"))
   (add-to-list 'notmuch-saved-searches '(:name "mantic-changes" :query "tag:lists/mantic-changes and tag:unread" :key "m"))
   (add-to-list 'notmuch-saved-searches '(:name "noble-changes" :query "tag:lists/noble-changes and tag:unread" :key "n"))
   (add-to-list 'notmuch-saved-searches '(:name "oracular-changes" :query "tag:lists/oracular-changes and tag:unread" :key "o")))
