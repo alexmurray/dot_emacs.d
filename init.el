@@ -2961,7 +2961,7 @@ clocktable works."
          ("C-c f c" . uct-find-cve)
          ("C-c u k" . uct-kernel-signoff-at-point))
   :init
-  (add-hook 'magit-process-prompt-functions #'uct-magit-process-check-syntax-prompt-hook))
+  (add-hook 'magit-process-prompt-functions #'uct-magit-process-git-commit-hook))
 
 (use-package udev-mode
   :ensure t)
