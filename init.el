@@ -2108,19 +2108,30 @@ With a prefix argument, will default to looking for all
                              (200 (message "Reported '%s' as spam" subject))
                              (_ (user-error "Failed to report as spam: %s" status))))) ))    )
 
+  (defun apm-get-websense-blocklist-url ()
+    "Get websense blocklist URL via the most recently received summary email."
+    ;; the summary email is sent with subject "Personal Email Subscription - Forcepoint Email Security Cloud"
+    (let ((summary-email (shell-command-to-string "notmuch show --include-html --sort=newest-first --limit 1  subject:\"Personal Email Subscription - Forcepoint Email Security Cloud\"")))
+      (when (string-match "\\(https://admin.websense.net/r/[^?]*\\).*Manage Allow/Block Lists" summary-email)
+        (match-string 1 summary-email))))
+
   (defun apm-prompt-to-add-email-to-forcepoint-blocklist (email description)
     "Add EMAIL to the forcepoint blocklist with DESCRIPTION."
-    (let* ((blocklist-secret (or (auth-source-pick-first-password :host "admin.websense.net")
-                                 (user-error "No secret found for admin.websense.net")))
-           (url (concat "https://admin.websense.net/r/" blocklist-secret "?page=bw_add"))
-           (response (cadr
-                       (read-multiple-choice
-                        (format "Add %s to the blocklist with description '%s'? " email description)
-                        '((?y "yes" "Yes - using the suggested description")
-                          (?e "edit" "Yes - but using a different description")
-                          (?n "no" "No - do not add to the blocklist"))
-                        nil nil (and (not use-short-answers)
-                                     (not (use-dialog-box-p)))))))
+    (let* ((blocklist-url (or (apm-get-websense-blocklist-url)
+                              (user-error "No URL found for managing websense blocklist")))
+           (url (concat blocklist-url "?page=bw_add"))
+           (n-similar (+ (string-to-number (shell-command-to-string (format "notmuch count from:%s" email)))
+                         (string-to-number (shell-command-to-string (format "notmuch count from:%s and tag:spam" email)))))
+           (response (if (> n-similar 1)
+                         (cadr
+                          (read-multiple-choice
+                           (format "Add %s to the blocklist with description '%s' (%d total emails from this sender)? " email description n-similar)
+                           '((?y "yes" "Yes - using the suggested description")
+                             (?e "edit" "Yes - but using a different description")
+                             (?n "no" "No - do not add to the blocklist"))
+                           nil nil (and (not use-short-answers)
+                                        (not (use-dialog-box-p)))))
+                       (message "Only 1 email from %s so not prompting to add to blocklist" email))))
       (unless (equal response "no")
         (when (equal response "edit")
           (setq description (read-string "Description: " description)))
