@@ -2540,11 +2540,25 @@ clocktable works."
 
 (use-package org-jira
   :ensure t
+  :preface
+  (defun apm-org-jira-get-issues-assigned-to-me ()
+    "Get all issues assigned to me."
+    (interactive)
+    (org-jira-get-issues-from-custom-jql '((:jql "assignee = currentUser() AND resolution = Unresolved ORDER BY priority DESC, updated DESC"
+                                                 :limit 1000
+                                                 :filename "jira-assigned-to-me"))))
+  (defun apm-org-jira-get-roadmap-issues-assigned-to-me ()
+    "Get all issues assigned to me tagged in the current roadmap cycle."
+    (interactive)
+    (org-jira-get-issues-from-custom-jql '((:jql "assignee = currentUser() AND resolution = Unresolved AND labels = '24.10' ORDER BY priority DESC, updated DESC"
+                                                 :limit 1000
+                                                 :filename "jira-assigned-to-me-roadmap"))))
   :config
   (setq jiralib-url "https://warthogs.atlassian.net")
   (setq org-jira-progress-issue-flow
         '(("Untriaged" . "Triaged")
-          ("Triaged" . "Blocked")
+          ("Triaged" . "In Progress")
+          ("In Progress" . "Blocked")
           ("Blocked" . "In Review")
           ("In Review" . "To Be Deployed")
           ("To Be Deployed" . "Done")
