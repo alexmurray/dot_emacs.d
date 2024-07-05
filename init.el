@@ -1755,13 +1755,27 @@ With a prefix argument, will default to looking for all
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-(use-package jit-spell
-  :ensure t
-  :demand t
-  :hook ((text-mode . jit-spell-mode)
-         (prog-mode . jit-spell-mode)
-         (debian-changelog-mode . jit-spell-mode))
-  :bind (:map jit-spell-mode-map ("C-;" . jit-spell-correct-word)))
+
+(use-package jinx
+    :ensure t
+    :preface
+    ;; jinx uses emacs modules and we need to ensure it compiles with gcc from the
+    ;; emacs snap
+    (define-advice jinx--load-module (:around (orig-fun &rest args) apm-jinx--load-module)
+      "Ensure that the module is compiled with the correct gcc."
+      (let* ((emacs-snap-dir (file-name-as-directory (getenv "EMACS_SNAP_DIR")))
+             (process-environment (append `(,(concat "CC=" emacs-snap-dir "usr/bin/gcc-10" )
+                                            ,(concat "CXX=" emacs-snap-dir "usr/bin/g++-10")
+                                            ,(concat "CFLAGS=--sysroot=" emacs-snap-dir " -B" emacs-snap-dir "usr/lib/gcc")
+                                            ,(concat "CPATH=" (file-name-directory (car (file-expand-wildcards (concat emacs-snap-dir "usr/include/*/bits")))))
+                                            ,(concat "CPPFLAGS=--sysroot=" emacs-snap-dir)
+                                            ,(concat "LDFLAGS=--sysroot=" emacs-snap-dir " -L" emacs-snap-dir "usr/lib")
+                                            ,(concat "PKG_CONFIG_PATH=" (car (file-expand-wildcards (concat emacs-snap-dir "usr/lib/*/pkgconfig")))))
+                                          process-environment)))
+        (apply orig-fun args)))
+    :bind (("M-$" . jinx-correct)
+           :map jinx-mode-map ("C-;" . jinx-correct))
+    :hook ((emacs-startup . global-jinx-mode)))
 
 (use-package journalctl-mode
   :ensure t
@@ -1876,7 +1890,7 @@ With a prefix argument, will default to looking for all
 
 (use-package marginalia
   :ensure t
-  :hook ((after-init . marginalia-mode)))
+  :hook ((emacs-startup . marginalia-mode)))
 
 (use-package markdown-mode
   :ensure t
