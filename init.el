@@ -289,7 +289,7 @@
   (blink-cursor-mode -1)
 
   ;; system font doesn't seem to scale properly in emacs so set it manually
-  (let ((preferred-font "Ubuntu Sans Mono-10"))
+  (let ((preferred-font "Ubuntu Sans Mono-11"))
     (if (font-info preferred-font)
         ;; apply this to all existing and future frames
         (set-frame-font preferred-font nil t)
