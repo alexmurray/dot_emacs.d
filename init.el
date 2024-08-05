@@ -2718,6 +2718,10 @@ clocktable works."
   (python-check-command (executable-find "flake8"))
   (python-flymake-command '("flake8" "-")))
 
+(use-package pythontest
+  :ensure t
+  :custom (pythontest-test-runner "pytest"))
+
 (use-package quilt
   :ensure t)
 
