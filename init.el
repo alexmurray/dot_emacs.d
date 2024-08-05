@@ -1723,6 +1723,7 @@ With a prefix argument, will default to looking for all
   :bind (("M-/" . hippie-expand)))
 
 (use-package hl-line
+  :disabled t
   :config (global-hl-line-mode 1))
 
 (use-package hl-todo
