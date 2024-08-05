@@ -2686,9 +2686,10 @@ clocktable works."
             (require 'magit-extras))
   ;; make debian source packages work as projects
   (defun apm-project-try-debian (dir)
-    "Find a debian source package from DIR."
-    (let ((dir (locate-dominating-file dir "debian/control")))
-      (and dir (cons 'debian dir))))
+    "Find a debian source package from DIR but only for local files."
+    (unless (file-remote-p dir)
+      (let ((dir (locate-dominating-file dir "debian/control")))
+        (and dir (cons 'debian dir)))))
 
   (cl-defmethod project-root ((project (head debian)))
     (cdr project))
