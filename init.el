@@ -964,10 +964,12 @@
   :config
   ;; speed up performance
   (fset #'jsonrpc--log-event #'ignore)
-  (add-to-list 'eglot-server-programs '(markdown-mode "vscode-markdown-languageserver" "--stdio"))
+  (add-to-list 'eglot-server-programs '(markdown-mode "vscode-markdown-languageserver" "--stdio"
+                                                      :initializationOptions (:markdownFileExtensions ["md"])))
   (add-to-list 'eglot-server-programs '(vimrc-mode "vim-language-server" "--stdio"
                                                    :initializationOptions (:vim-runtime "/usr/share/vim/vim90")))
-  (add-to-list 'eglot-server-programs '(markdown-mode "vale.vale-ls")))
+  ;; (add-to-list 'eglot-server-programs '(markdown-mode "vale.vale-ls"))
+  )
 
 (use-package eglot-booster
   :vc (:fetcher github :repo jdtsmith/eglot-booster)
