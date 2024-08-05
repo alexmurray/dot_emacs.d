@@ -1319,7 +1319,13 @@ With a prefix argument, will default to looking for all
   :ensure erc
   ;; ensure this is set and we don't inadvertently unset it
   :bind (:map erc-mode-map ("C-c C-c" . nil))
-  :config (setq erc-interpret-controls-p t))
+  ;; use erc-keep-place-indicator-mode
+  :hook (erc-mode . erc-keep-place-indicator-mode)
+  :config
+  (progn
+    (setq erc-interpret-controls-p t)
+    (add-to-list 'erc-modules 'keep-place)
+    (erc-update-modules)))
 
 (use-package erc-image
   :ensure t
