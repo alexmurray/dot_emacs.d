@@ -2577,6 +2577,11 @@ clocktable works."
   :bind (:map org-mode-map
               ("C-x m" . org-menu)))
 
+(use-package org-modern
+  :ensure t
+  :after org
+  :hook (after-init . global-org-modern-mode))
+
 (use-package org-src
   :ensure org
   :config
