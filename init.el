@@ -800,10 +800,10 @@
    (copilot-server-args '("--stdio"))
    (copilot--server-executable "/snap/copilot-client/current/dist/agent.js")
    ;; silence warning on startup about version mismatch
-   (copilot-version "1.26.0"))  ;; need to set these after copilot is loaded to avoid errors
+   (copilot-version "1.27.0"))  ;; need to set these after copilot is loaded to avoid errors
   :config
   (setq copilot--server-executable "/snap/copilot-client/current/dist/agent.js")
-  (setq copilot-version "1.26.0")
+  (setq copilot-version "1.27.0")
   ;; the snap doesn't ship the required package.json so instead get the version
   ;; from the installed snap itself
   (define-advice copilot-installed-version (:around (orig-fun &rest args) read-copilot-installed-version-from-snap-info)
