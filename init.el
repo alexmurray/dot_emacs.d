@@ -2573,15 +2573,11 @@ clocktable works."
           ("To Be Deployed" . "Done")
           ("Done" . "Rejected"))))
 
-(use-package org-menu
-  :vc (:fetcher github :repo sheijk/org-menu)
-  :bind (:map org-mode-map
-              ("C-x m" . org-menu)))
-
 (use-package org-modern
   :ensure t
   :after org
-  :hook (after-init . global-org-modern-mode))
+  :hook (after-init . global-org-modern-mode)
+  :custom (org-modern-table nil))
 
 (use-package org-src
   :ensure org
