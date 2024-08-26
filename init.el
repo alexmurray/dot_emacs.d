@@ -966,10 +966,11 @@
   (fset #'jsonrpc--log-event #'ignore)
   (add-to-list 'eglot-server-programs '(markdown-mode "vscode-markdown-languageserver" "--stdio"
                                                       :initializationOptions (:markdownFileExtensions ["md"])))
-  (add-to-list 'eglot-server-programs '(vimrc-mode "vim-language-server" "--stdio"
-                                                   :initializationOptions (:vim-runtime "/usr/share/vim/vim90")))
-  ;; (add-to-list 'eglot-server-programs '(markdown-mode "vale.vale-ls"))
-  )
+  ;; use vale-lsp over markdown-languageserver as the former still doesn't work
+  ;; as a snap...
+  (add-to-list 'eglot-server-programs '(markdown-mode "vale.vale-ls"))
+  (add-to-list 'eglot-server-programs `(vimrc-mode "vim-language-server" "--stdio"
+                                                   :initializationOptions (:vim-runtime ,(car (file-expand-wildcards "/usr/share/vim/vim*"))))))
 
 (use-package eglot-booster
   :vc (:fetcher github :repo jdtsmith/eglot-booster)
