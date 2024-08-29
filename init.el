@@ -2432,9 +2432,10 @@ With a prefix argument, will default to looking for all
              "* %^{meeting title}     :meeting:
 %^{meeting day+time}T
 - %a%?")
-            ("R" "snap-store-review" entry (file+olp ,canonical-org "Manual snap reviews")
-             "** %^{snap name}
-- %a%?" :clock-in t :clock-keep t)
+            ("R" "review-tools-merge-request" entry (file+olp ,canonical-org "review-tools")
+             "* [[https://code.launchpad.net/~jslarraz/review-tools/+git/review-tools/+merge/%\\1][review-tools MR #%^{number} %^{title}]]
+- https://code.launchpad.net/~jslarraz/review-tools/+git/review-tools/+merge/%\\1%?
+- %a")
             ("D" "snap-store-discussion" entry (file+olp ,canonical-org "snap forum store request discussions")
              "** %^{snap name}
 - %a%?" :clock-in t :clock-keep t)
