@@ -614,10 +614,6 @@
   ;; treat linux style as safe for local variable
   (add-to-list 'safe-local-variable-values '(c-ts-mode-indent-style . linux)))
 
-(use-package chatgpt-shell
-  :ensure t
-  :custom ((chatgpt-shell-openai-key (lambda () (auth-source-pick-first-password :host "api.openai.com")))))
-
 (use-package check-cves-mode
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
   :mode ("check-cves\\..*\\'" . check-cves-mode))
