@@ -549,6 +549,12 @@
   :defer t
   :hook ((rust-mode . cargo-minor-mode)))
 
+(use-package casual-agenda
+  :ensure t
+  :after org-agenda
+  :bind (:map org-agenda-mode-map
+              ("C-o" . casual-agenda-tmenu)))
+
 (use-package cc-mode
   :defer t
   :preface
