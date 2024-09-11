@@ -2434,8 +2434,8 @@ With a prefix argument, will default to looking for all
              "* %^{meeting title}     :meeting:
 %^{meeting day+time}T
 - %a%?")
-            ("R" "review-tools-merge-request" entry (file+olp ,canonical-org "review-tools")
-             "* [[https://code.launchpad.net/~jslarraz/review-tools/+git/review-tools/+merge/%\\1][review-tools MR #%^{number} %^{title}]]
+            ("R" "review-tools-merge-request" entry (file+olp ,canonical-org "review-tools" "review-tools merge requests reviews")
+             "** [[https://code.launchpad.net/~jslarraz/review-tools/+git/review-tools/+merge/%\\1][review-tools MR #%^{number} %^{title}]]
 - https://code.launchpad.net/~jslarraz/review-tools/+git/review-tools/+merge/%\\1%?
 - %a")
             ("D" "snap-store-discussion" entry (file+olp ,canonical-org "snap forum store request discussions")
