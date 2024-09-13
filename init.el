@@ -957,6 +957,9 @@
   :config
   ;; speed up performance
   (fset #'jsonrpc--log-event #'ignore)
+  ;; enable formatting in vscode-json-languageserver
+  (add-to-list 'eglot-server-programs '(json-mode "vscode-json-languageserver" "--stdio"
+                                                  :initializationOptions (:provideFormatter t)))
   (add-to-list 'eglot-server-programs '(markdown-mode "vscode-markdown-languageserver" "--stdio"
                                                       :initializationOptions (:markdownFileExtensions ["md"])))
   ;; use vale-lsp over markdown-languageserver as the former still doesn't work
