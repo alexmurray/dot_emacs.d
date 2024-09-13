@@ -451,14 +451,8 @@
 (use-package blamer
   :ensure t
   :bind (("s-i" . blamer-show-posframe-commit-info))
-  :custom ((blamer-view 'overlay)
-           (blamer-max-commit-message-length fill-column)
-           (blamer-author-formatter "%s ")
-           (blamer-datetime-formatter "[%s] ")
-           (blamer-commit-formatter ":: %s")
-           ;; nicer borders
-           (blamer-border-lines '(?+ ?- ?+ ?| ?+ ?+ )))
-  :custom-face (blamer-face ((t (:inherit completions-annotations :height 0.9)))))
+  :custom-face (blamer-face ((t (:inherit completions-annotations :height 0.9))))
+  :init (global-blamer-mode 1))
 
 (use-package breadcrumb
   :ensure t
