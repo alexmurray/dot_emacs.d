@@ -1675,16 +1675,13 @@ With a prefix argument, will default to looking for all
 
 (use-package go-translate
   :ensure t
-  :bind (("C-c t" . gts-do-translate))
+  :bind (("C-c t" . gt-do-translate))
   :config
-  (setq gts-translate-list '(("zh" "en")))
-  (setq gts-default-translator
-        (gts-translator
-         :picker (gts-prompt-picker)
-         :engines (list (gts-bing-engine)
-                        (gts-google-engine :parser (gts-google-summary-parser))
-                        (gts-google-rpc-engine))
-         :render (gts-buffer-render))))
+  (setq gt-default-translator
+        (gt-translator
+         ;; add translate support for chinese to english
+         :taker (gt-taker :langs '(zh en))
+         :engines (list (gt-google-engine) (gt-bing-engine)))))
 
 (use-package goto-addr
   :defer t
