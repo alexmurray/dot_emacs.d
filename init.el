@@ -11,6 +11,16 @@
 ;;; Package management
 (require 'package)
 
+(use-package package
+  :custom (package-install-upgrade-built-in t))
+
+(use-package gnu-elpa-keyring-update
+  :ensure t)
+
+(use-package gnu-elpa
+  :defer t
+  :ensure t)
+
 ;; add melpa archive and gnu-devel
 (eval-and-compile
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -1598,13 +1608,6 @@ With a prefix argument, will default to looking for all
 (use-package gitignore-mode
   :ensure git-modes
   :defer t)
-
-(use-package gnu-elpa
-  :defer t
-  :ensure t)
-
-(use-package gnu-elpa-keyring-update
-  :ensure t)
 
 (use-package gnuplot
   :ensure t)
