@@ -2569,7 +2569,8 @@ clocktable works."
 
 (use-package pythontest
   :ensure t
-  :custom (pythontest-test-runner "pytest"))
+  ;; use the default unittest runner since it supports unittest.subTest() etc
+  :custom (pythontest-test-runner "unittest"))
 
 (use-package quilt
   :ensure t)
