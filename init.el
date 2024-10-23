@@ -11,41 +11,313 @@
 ;;; Package management
 (require 'package)
 
-(use-package package
-  :custom (package-install-upgrade-built-in t))
-
-(use-package gnu-elpa-keyring-update
-  :ensure t)
-
-(use-package gnu-elpa
-  :defer t
-  :ensure t)
-
-;; add melpa archive and gnu-devel
-(eval-and-compile
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-  (add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/")))
-
-;; use gnu over non-gnu over melpa over gnu-devel
-(setq package-archive-priorities '(("gnu" . 3) ("nongnu" . 2) ("melpa" . 1)))
-
-;; but use erc from gnu-devel
-(setq package-pinned-packages '((erc . "gnu-devel")))
-
-(defvar use-package-enable-imenu-support t)
 ;; must be set before loading use-package
+(defvar use-package-enable-imenu-support t)
 (setq use-package-enable-imenu-support t)
 ;; compute stats info - needs to be set before loading use-package as well - see
 ;; stats with `use-package-report'
 ;;(setq use-package-compute-statistics t)
+;; uncomment to debug package loading times
+;; (setq use-package-verbose t)
 
 (eval-and-compile
   (require 'use-package))
 
-;; uncomment to debug package loading times
-;; (setq use-package-verbose t)
-;; compute stats to see what is taking so long on init
-;; (setq use-package-compute-statistics t)
+(use-package package
+  :custom (package-install-upgrade-built-in t)
+  :config
+  ;; add melpa archive and gnu-devel
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/"))
+
+  ;; use gnu over non-gnu over melpa over gnu-devel
+  (setq package-archive-priorities '(("gnu" . 4) ("nongnu" . 2) ("melpa" . 1) ("gnu-devel" . 0)))
+
+  ;; but use erc from gnu-devel
+  (setq package-pinned-packages '((erc . "gnu-devel"))))
+
+(use-package gnu-elpa-keyring-update
+  :ensure t)
+
+;; load org early so everything else gets compiled against it
+(use-package org
+  :pin gnu
+  :bind (("C-c a" . org-agenda)
+         ("C-c c" . org-capture)
+         ("C-c l" . org-store-link)
+         ("C-c j" . consult-org-agenda)
+         ("C-c C-w" . org-refile)
+         :map org-mode-map
+         ("M-s i" . consult-org-heading))
+  ;; ensure we always load org at startup
+  :demand t
+  :preface
+  (defun apm-org-mode-setup ()
+    ;; add * = ~ as electric pairs
+    (setq-local electric-pair-pairs (append electric-pair-pairs '((?\* . ?\*)
+                                                                  (?\= . ?\=)
+                                                                  (?\~ . ?\~)))))
+  :hook (org-mode . apm-org-mode-setup)
+  :config
+  (setq org-log-repeat nil)
+  (setq org-log-into-drawer t)
+  (setq org-pretty-entities t)
+  ;; org-appear is disabled to show emphasis markers instead
+  (setq org-hide-emphasis-markers nil)
+  (setq org-directory (expand-file-name "~/org-files/"))
+  (setq org-agenda-files (mapcar #'(lambda (f)
+                                     (expand-file-name f org-directory))
+                                 '("personal.org" "canonical.org"
+                                   "inbox.org" "tickler.org" "notes.org")))
+  ;; don't indent org document sections etc
+  (setq org-adapt-indentation nil)
+  (setq org-imenu-depth 4)
+  ;; @ = add note with time
+  ;; ! = record only time of state change
+  ;; | = remaining keywords are final states
+  (setq org-todo-keywords '((sequence "TODO(t)" "WORK(w)" "|" "CANCELLED(c@)" "DELEGATED(G@)" "DONE")))
+  ;; ensure it is harder to inadvertently delete collapsed parts of org
+  ;; documents
+  (setq org-catch-invisible-edits 'smart)
+  (setq org-ctrl-k-protect-subtree t)
+  (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
+  (add-to-list 'org-file-apps '("\\.aup3?\\'" . "audacity %s")))
+
+(use-package erc
+  :pin gnu-devel
+  :ensure t
+  :preface
+  (eval-when-compile
+    (require 'erc-log)
+    (require 'erc-match))
+
+  (defun apm-prompt-to-connect-to-irc ()
+    "Prompt to connect to irc."
+    (interactive)
+    (let ((connectivity (string-trim
+                         (shell-command-to-string "nmcli networking connectivity"))))
+      (if (string= connectivity "full")
+          (when (y-or-n-p "Connect to IRC? ")
+            ;; connect to matterircd on localhost and oftc and freenode via znc
+            ;;(erc :server "localhost" :port "6667" :nick "alexmurray")
+            (erc-tls :server "znc.secret.server" :port "7076"
+                     :nick "amurray" :password (concat "amurray/OFTC:"
+                                                       (auth-source-pick-first-password
+                                                        :user "amurray"
+                                                        :host "znc.secret.server"
+                                                        :port "7076")))
+            (erc-tls :server "znc.secret.server" :port "7076"
+                     :nick "amurray" :password (concat "amurray/libera:"
+                                                       (auth-source-pick-first-password
+                                                        :user "amurray"
+                                                        :host "znc.secret.server"
+                                                        :port "7076"))))
+        (message "Network connectivity is %s, not prompting to connect to IRC" connectivity)))
+
+    (defgroup apm-erc nil
+      "apm's erc customisations."
+      :group 'erc))
+
+  ;; face to show in header line when disconnected
+  (defface apm-erc-header-line-disconnected
+    '((t (:foreground "black" :background "indianred")))
+    "Face to use when ERC has been disconnected."
+    :group 'apm-erc)
+
+  (defun apm-erc-update-header-line-show-disconnected ()
+    "Use a different face in the header-line when disconnected."
+    (erc-with-server-buffer
+      (unless (erc-server-process-alive)
+        'apm-erc-header-line-disconnected)))
+
+  (defun apm-erc-find-logfile ()
+    "Find and open the current `erc-mode` buffers logfile."
+    (interactive)
+    (when (and (eq major-mode 'erc-mode) erc-log-mode)
+      (find-file-other-window (erc-current-logfile))))
+
+  (defun apm-erc-nicks ()
+    "Returns the list of possible nicks from `erc-nick'."
+    (if (listp erc-nick)
+        erc-nick
+      (list erc-nick)))
+
+  (defun apm-occur-in-erc (&optional regexp)
+    "Find matches of REGEXP in all erc buffers.
+With a prefix argument, will default to looking for all
+`erc-keywords' and mentions of `erc-nick'."
+    (interactive
+     (list
+      (let ((regex  (concat "\\(" (regexp-opt erc-keywords) "\\|"
+                            (concat "\\(^\\|[^<]\\)" (regexp-opt (apm-erc-nicks)) "\\([^>]\\|$\\)")
+                            "\\)")))
+        (read-string "Regexp: "
+                     (substring-no-properties
+                      (or (cond ((region-active-p)
+                                 (buffer-substring (region-beginning) (region-end)))
+                                (current-prefix-arg
+                                 regex)
+                                (t
+                                 (word-at-point)))
+                          ""))))))
+    (let ((erc-buffers nil))
+      (dolist (buffer (buffer-list))
+        (with-current-buffer buffer
+          (when (and (eq major-mode 'erc-mode)
+                     (not (erc-server-buffer-p)))
+            (push buffer erc-buffers))))
+      (multi-occur erc-buffers regexp)))
+
+  (defun apm-erc-browse-url-from-channel-topic ()
+    "Find urls in erc-channel-topic and offer to visit via `browse-url'."
+    (interactive)
+    (let ((topic erc-channel-topic)
+          (urls nil))
+      (with-temp-buffer
+        (insert topic)
+        (goto-char (point-min))
+        (while (re-search-forward "https?://" nil t)
+          (push (thing-at-point 'url t) urls)))
+      (if urls
+          (browse-url (completing-read "URL: " urls))
+        (user-error "No URLs listed in channel topic"))))
+
+  (defun apm-erc-lookup-nick (nick)
+    ;; if this is a matterircd buffer then query via launchpadid since they
+    ;; are used as nicks there
+    (if (eq 'matterircd (erc-network))
+        (apm-eudc-lookup-launchpadid nick)
+      (apm-eudc-lookup-nick nick)))
+
+  :hook ((after-init . apm-prompt-to-connect-to-irc))
+  :bind (:map erc-mode-map
+              ("C-c f e" . apm-erc-find-logfile)
+              ("M-s e" . apm-occur-in-erc)
+              :map erc-fill-wrap-mode-map
+              ("C-c a" . org-agenda))
+  :config
+  (eval-and-compile
+    (require 'erc-button)
+    (require 'erc-desktop-notifications)
+    (require 'erc-fill)
+    (require 'erc-join)
+    (require 'erc-log)
+    (require 'erc-match)
+    (require 'erc-nicks)
+    (require 'erc-networks)
+    (require 'erc-notify)
+    (require 'erc-services)
+    (require 'erc-track))
+
+  (setq erc-user-full-name user-full-name)
+  (setq erc-nick (list user-login-name "alexmurray"))
+
+  ;; make prompt more dynamic
+  (setq erc-prompt #'erc-prompt-format)
+  (setq erc-prompt-for-nickserv-password nil)
+
+  (setq erc-use-auth-source-for-nickserv-password t)
+
+  (setq erc-autojoin-timing 'ident)
+
+  ;; since we connect to oftc directly, we need to autojoin channels there
+  ;; - not needed for libera (since we use ZNC) or canonical matterircd
+  (setq erc-autojoin-channels-alist nil)
+  (setq erc-fill-function #'erc-fill-wrap)
+  ;; account for really long names
+  (setq erc-fill-static-center 22)
+  ;; this fits on a dual horizontal split on my laptop
+  (setq erc-fill-column 110)
+
+  ;; use sensible buffer names with server as well
+  (setq erc-rename-buffers t)
+
+  ;; try harder to reconnect but wait longer each time since it may take a
+  ;; while to get a DHCP lease etc
+  (setq erc-server-reconnect-function #'erc-server-delayed-check-reconnect)
+  (setq erc-server-auto-reconnect t)
+
+  (setq erc-scrolltobottom-all t)
+
+  (add-to-list 'erc-modules 'button)
+  (add-to-list 'erc-modules 'log)
+  (add-to-list 'erc-modules 'match)
+  (add-to-list 'erc-modules 'nicks)
+  (add-to-list 'erc-modules 'notifications)
+  (add-to-list 'erc-modules 'scrolltobottom)
+  (add-to-list 'erc-modules 'services)
+  (add-to-list 'erc-modules 'services-regain)
+  (add-to-list 'erc-modules 'spelling)
+  (erc-update-modules)
+
+  ;; format nicknames to show if user has voice(+), owner (~), admin (&),
+  ;; operator (@)
+  (setq erc-show-speaker-membership-status t)
+
+  (setq erc-keywords '("alexmurray" "cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm" "@here" "@all" "@channel" "@security"))
+
+  ;; when joining don't bring to front
+  (setq erc-join-buffer 'bury)
+
+  ;; ensure erc-track plays nicer with minions - https://github.com/tarsius/minions/issues/22
+  (setq erc-track-position-in-mode-line t)
+  (setq erc-track-switch-direction 'importance)
+  (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
+                                  ;; channel mode (324), creation
+                                  ;; time (329), topic (332), topic
+                                  ;; who time (333), names (353), no
+                                  ;; chan modes (477)
+                                  "324" "329" "332" "333" "353" "477"))
+
+  (setq erc-track-exclude-server-buffer t)
+  (setq erc-track-showcount t)
+  ;; emacs channels are noisy
+  (setq erc-track-exclude '("#emacs" "#emacsconf" "#ubuntu"))
+  (setq erc-track-shorten-function nil)
+
+  (add-to-list 'erc-nick-popup-alist
+               '("Directory" . (apm-erc-lookup-nick nick)))
+  ;; only hide join / part / quit for those who are idle for more
+  ;; than 10 hours (ie are using a bouncer)
+  (setq erc-lurker-hide-list '("JOIN" "PART" "QUIT" "NICK"))
+  (setq erc-lurker-threshold-time (* 10 60 60))
+
+  ;; hide channel mode (324), creation time (329), topic (332), topic
+  ;; who time (333), names (353) - see
+  ;; https://www.alien.net.au/irc/irc2numerics.html
+  (setq erc-hide-list '("324" "329" "332" "333" "353"))
+
+  (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
+  (setq erc-log-insert-log-on-open nil)
+  (setq erc-log-file-coding-system 'utf-8)
+  (setq erc-log-write-after-send t)
+  (setq erc-log-write-after-insert t)
+  (setq erc-save-buffer-on-part t)
+
+  ;; log mentions when away
+  (add-to-list 'erc-log-matches-types-alist
+               '(current-nick . "ERC Mentions"))
+
+  (unless (file-exists-p erc-log-channels-directory)
+    (mkdir erc-log-channels-directory t))
+
+  (erc-autojoin-mode 1)
+
+  (erc-spelling-mode 1)
+
+  ;; make sure we identify to nickserv
+  (erc-services-mode 1)
+
+  ;; change header line face when disconnected
+  (setq erc-header-line-face-method
+        #'apm-erc-update-header-line-show-disconnected)
+
+  ;; make sure any privmsg (which is via query buffers) show up as urgent
+  ;; in track list
+  (defadvice erc-track-select-mode-line-face (around erc-track-find-face-promote-query activate)
+    (if (erc-query-buffer-p)
+        (setq ad-return-value 'erc-current-nick-face)
+      ad-do-it)))
 
 ;; load no-littering as soon as possible during init so it can hook as many
 ;; paths as possible
@@ -126,8 +398,6 @@
    "SettingChanged"
    #'apm-desktop-portal-settings-changed))
 
-;; disable doom themes for now until I have time to get them looking better,
-;; particularly with erc buffer tracking
 (use-package doom-themes
   :ensure t
   :preface
@@ -145,80 +415,52 @@
          `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow)))))
          ;; revert some elements for light theme
          `(notmuch-message-summary-face ((t (:foreground ,(doom-color 'grey)))))
-         `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base4)))))))))
+         `(notmuch-wash-cited-text ((t (:foreground ,(doom-color 'base4))))))))
+    ;; ensure erc-nicks uses defined colors from doom-theme
+    (with-eval-after-load 'erc-nicks
+      (dolist (buffer-name '("Libera.Chat" "OFTC"))
+        (when-let (buffer (get-buffer buffer-name))
+          (with-current-buffer buffer
+            (erc-nicks-refresh nil))))))
   :custom
   (doom-one-padded-modeline t)
   :config
   (doom-themes-visual-bell-config)
   (doom-themes-org-config)
-  (setq apm-preferred-dark-theme 'doom-one)
+  (setq apm-preferred-dark-theme 'doom-vibrant)
   (setq apm-preferred-light-theme 'doom-one-light)
   ;; set customisations after loading the theme
   (add-hook 'apm-load-preferred-theme-hook #'apm-setup-doom-themes)
   (apm-set-preferred-theme))
 
-(use-package kanagawa-theme
+(use-package kanagawa-themes
   :ensure t
   :disabled t
   :preface
-  (defun apm-setup-kanagawa-theme ()
+  (defun apm-setup-kanagawa-themes ()
     (let ((custom--inhibit-theme-enable nil))
       (custom-theme-set-faces
-       'kanagawa
-       `(erc-input-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'wave-red kanagawa-dark-palette))))))
-       `(erc-keyword-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'ronin-yellow kanagawa-dark-palette))))))
-       `(erc-notice-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'sumi-ink-4 kanagawa-dark-palette))))))
-       `(erc-prompt-face ((((class color) (min-colors 89)) (:background ,(car (alist-get 'wave-blue-1 kanagawa-dark-palette))))))
-       `(erc-timestamp-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'autumn-green kanagawa-dark-palette))))))
-       `(message-mml ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'spring-green kanagawa-dark-palette))))))
+       'kanagawa-wave
+       ;; `(erc-input-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'wave-red kanagawa-dark-palette))))))
+       ;; `(erc-keyword-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'ronin-yellow kanagawa-dark-palette))))))
+       ;; `(erc-notice-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'sumi-ink-4 kanagawa-dark-palette))))))
+       ;; `(erc-prompt-face ((((class color) (min-colors 89)) (:background ,(car (alist-get 'wave-blue-1 kanagawa-dark-palette))))))
+       ;; `(erc-timestamp-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'autumn-green kanagawa-dark-palette))))))
+       ;; `(message-mml ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'spring-green kanagawa-dark-palet
        `(notmuch-search-unread-face ((((class color) (min-colors 89)) (:weight bold))))
-       `(notmuch-tag-added ((((class color) (min-colors 89)) (:underline ,(car (alist-get 'spring-green kanagawa-dark-palette))))))
-       `(notmuch-tag-deleted ((((class color) (min-colors 89)) (:strike-through ,(car (alist-get 'wave-red kanagawa-dark-palette))))))
-       `(notmuch-tag-face ((((class color) (min-colors 89)) (:weight bold :foreground ,(car (alist-get 'wave-blue-2 kanagawa-dark-palette))))))
-       `(notmuch-tag-unread ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'wave-red kanagawa-dark-palette))))))
-       `(notmuch-wash-cited-text ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'fuji-gray kanagawa-dark-palette)) :slant ,(if kanagawa-theme-keyword-italic 'italic 'normal)))))
-       `(sh-heredoc ((((class color) (min-colors 89)) (:weight bold :foreground ,(car (alist-get 'autumn-yellow kanagawa-dark-palette)))))))))
-     :config
-  (setq apm-preferred-dark-theme 'kanagawa)
-  (setq apm-preferred-light-theme 'kanagawa)
-  ;; set customisations after loading the theme
-  (add-hook 'apm-load-preferred-theme-hook #'apm-setup-kanagawa-theme)
-  (apm-set-preferred-theme))
-
-(use-package doom-modeline
-  :preface
-  :disabled t
-  (eval-and-compile
-    (require 'erc-track))
-  (defun apm-erc-stylize-buffer-name (name)
-    (let ((channel (assoc (get-buffer name) erc-modified-channels-alist)))
-      (if channel
-          (erc-make-mode-line-buffer-name name (car channel) (cddr channel)
-                                          (cadr channel))
-        name)))
-  :ensure t
-  :custom
-  (doom-modeline-hud t)
-  (doom-modeline-unicode-fallback t)
-  (doom-modeline-github t)
-  (doom-modeline-irc-buffers t)
-  (doom-modeline-irc-stylize #'apm-erc-stylize-buffer-name)
-  (doom-modeline-buffer-encoding nil)
-  (doom-modeline-env-python-executable "python3")
-  :init
-  (doom-modeline-mode 1))
-
-(use-package modus-themes
-  :ensure t
-  :disabled t
-  :custom
-  (modus-themes-italic-constructs t)
-  (modus-themes-bold-constructs t)
-  (modus-themes-variable-pitch-ui t)
-  (modus-themes-mixed-fonts t)
+       `(notmuch-tag-added ((((class color) (min-colors 89)) (:underline ,(car (alist-get 'spring-green kanagawa-themes-color-palette-list))))))
+       `(notmuch-tag-deleted ((((class color) (min-colors 89)) (:strike-through ,(car (alist-get 'wave-red kanagawa-themes-color-palette-list))))))
+       `(notmuch-tag-face ((((class color) (min-colors 89)) (:weight bold :foreground ,(car (alist-get 'wave-blue-2 kanagawa-themes-color-palette-list))))))
+       `(notmuch-tag-unread ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'wave-red kanagawa-themes-color-palette-list))))))
+       `(notmuch-wash-cited-text ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'fuji-gray kanagawa-themes-color-palette-list)) :slant ,(if kanagawawa-theme-keyword-italic 'italic 'normal)))))
+       `(sh-heredoc ((((class color) (min-colors 89)) (:weight bold :foreground ,(car (alist-get 'autumn-yellow kanagawa-themes-color-palette-list)))))))))
+  :custom ((kanagawa-themes-org-height nil)
+           (kanagawa-themes-org-height nil))
   :config
-  (setq apm-preferred-dark-theme 'modus-vivendi-tinted)
-  (setq apm-preferred-light-theme 'modus-operandi-tinted)
+  (setq apm-preferred-dark-theme 'kanagawa-wave)
+  (setq apm-preferred-light-theme 'kanagawa-wave)
+  ;; set customisations after loading the theme
+  (add-hook 'apm-load-preferred-theme-hook #'apm-setup-kanagawa-themes)
   (apm-set-preferred-theme))
 
 (use-package alert
@@ -250,8 +492,7 @@
   ;; use pipes for subprocess communication
   (setq-default process-connection-type nil)
   ;; performance increases as per https://emacs-lsp.github.io/lsp-mode/page/performance/
-  ;; disabled while using emacs-gc-stats
-  ;; (setq gc-cons-threshold 100000000)
+  (setq gc-cons-threshold 100000000)
   (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
   ;; personalisation
@@ -460,6 +701,7 @@
 
 (use-package blamer
   :ensure t
+  :disabled t
   :bind (("s-i" . blamer-show-posframe-commit-info))
   :custom-face (blamer-face ((t (:inherit completions-annotations :height 0.9))))
   :init (global-blamer-mode 1))
@@ -1088,242 +1330,6 @@
   :config
   (setq epg-user-id "alex.murray@canonical.com"))
 
-(use-package erc
-  :pin gnu-devel
-  :ensure t
-  :preface
-  (eval-when-compile
-    (require 'erc-log)
-    (require 'erc-match))
-
-  (defun apm-prompt-to-connect-to-irc ()
-    "Prompt to connect to irc."
-    (interactive)
-    (let ((connectivity (string-trim
-                         (shell-command-to-string "nmcli networking connectivity"))))
-      (if (string= connectivity "full")
-          (when (y-or-n-p "Connect to IRC? ")
-            ;; connect to matterircd on localhost and oftc and freenode via znc
-            ;;(erc :server "localhost" :port "6667" :nick "alexmurray")
-            (erc-tls :server "znc.secret.server" :port "7076"
-                     :nick "amurray" :password (concat "amurray/OFTC:"
-                                                       (auth-source-pick-first-password
-                                                        :user "amurray"
-                                                        :host "znc.secret.server"
-                                                        :port "7076")))
-            (erc-tls :server "znc.secret.server" :port "7076"
-                     :nick "amurray" :password (concat "amurray/libera:"
-                                                       (auth-source-pick-first-password
-                                                        :user "amurray"
-                                                        :host "znc.secret.server"
-                                                        :port "7076"))))
-        (message "Network connectivity is %s, not prompting to connect to IRC" connectivity)))
-
-    (defgroup apm-erc nil
-      "apm's erc customisations."
-      :group 'erc))
-
-  ;; face to show in header line when disconnected
-  (defface apm-erc-header-line-disconnected
-    '((t (:foreground "black" :background "indianred")))
-    "Face to use when ERC has been disconnected."
-    :group 'apm-erc)
-
-  (defun apm-erc-update-header-line-show-disconnected ()
-    "Use a different face in the header-line when disconnected."
-    (erc-with-server-buffer
-      (unless (erc-server-process-alive)
-        'apm-erc-header-line-disconnected)))
-
-  (defun apm-erc-find-logfile ()
-    "Find and open the current `erc-mode` buffers logfile."
-    (interactive)
-    (when (and (eq major-mode 'erc-mode) erc-log-mode)
-      (find-file-other-window (erc-current-logfile))))
-
-  (defun apm-erc-nicks ()
-    "Returns the list of possible nicks from `erc-nick'."
-    (if (listp erc-nick)
-        erc-nick
-      (list erc-nick)))
-
-  (defun apm-occur-in-erc (&optional regexp)
-    "Find matches of REGEXP in all erc buffers.
-With a prefix argument, will default to looking for all
-`erc-keywords' and mentions of `erc-nick'."
-    (interactive
-     (list
-      (let ((regex  (concat "\\(" (regexp-opt erc-keywords) "\\|"
-                            (concat "\\(^\\|[^<]\\)" (regexp-opt (apm-erc-nicks)) "\\([^>]\\|$\\)")
-                            "\\)")))
-        (read-string "Regexp: "
-                     (substring-no-properties
-                      (or (cond ((region-active-p)
-                                 (buffer-substring (region-beginning) (region-end)))
-                                (current-prefix-arg
-                                 regex)
-                                (t
-                                 (word-at-point)))
-                          ""))))))
-    (let ((erc-buffers nil))
-      (dolist (buffer (buffer-list))
-        (with-current-buffer buffer
-          (when (and (eq major-mode 'erc-mode)
-                     (not (erc-server-buffer-p)))
-            (push buffer erc-buffers))))
-      (multi-occur erc-buffers regexp)))
-
-  (defun apm-erc-browse-url-from-channel-topic ()
-    "Find urls in erc-channel-topic and offer to visit via `browse-url'."
-    (interactive)
-    (let ((topic erc-channel-topic)
-          (urls nil))
-      (with-temp-buffer
-        (insert topic)
-        (goto-char (point-min))
-        (while (re-search-forward "https?://" nil t)
-          (push (thing-at-point 'url t) urls)))
-      (if urls
-          (browse-url (completing-read "URL: " urls))
-        (user-error "No URLs listed in channel topic"))))
-
-  (defun apm-erc-lookup-nick (nick)
-    ;; if this is a matterircd buffer then query via launchpadid since they
-    ;; are used as nicks there
-    (if (eq 'matterircd (erc-network))
-        (apm-eudc-lookup-launchpadid nick)
-      (apm-eudc-lookup-nick nick)))
-
-  :hook ((after-init . apm-prompt-to-connect-to-irc))
-  :bind (:map erc-mode-map
-              ("C-c f e" . apm-erc-find-logfile)
-              ("M-s e" . apm-occur-in-erc)
-              :map erc-fill-wrap-mode-map
-              ("C-c a" . org-agenda))
-  :config
-  (eval-and-compile
-    (require 'erc-button)
-    (require 'erc-desktop-notifications)
-    (require 'erc-fill)
-    (require 'erc-join)
-    (require 'erc-log)
-    (require 'erc-match)
-    (require 'erc-nicks)
-    (require 'erc-networks)
-    (require 'erc-notify)
-    (require 'erc-services)
-    (require 'erc-track))
-
-  (setq erc-user-full-name user-full-name)
-  (setq erc-nick (list user-login-name "alexmurray"))
-
-  ;; make prompt more dynamic
-  (setq erc-prompt #'erc-prompt-format)
-  (setq erc-prompt-for-nickserv-password nil)
-
-  (setq erc-use-auth-source-for-nickserv-password t)
-
-  (setq erc-autojoin-timing 'ident)
-
-  ;; since we connect to oftc directly, we need to autojoin channels there
-  ;; - not needed for libera (since we use ZNC) or canonical matterircd
-  (setq erc-autojoin-channels-alist nil)
-  (setq erc-fill-function #'erc-fill-wrap)
-  ;; account for really long names
-  (setq erc-fill-static-center 22)
-  ;; this fits on a dual horizontal split on my laptop
-  (setq erc-fill-column 110)
-
-  ;; use sensible buffer names with server as well
-  (setq erc-rename-buffers t)
-
-  ;; try harder to reconnect but wait longer each time since it may take a
-  ;; while to get a DHCP lease etc
-  (setq erc-server-reconnect-function #'erc-server-delayed-check-reconnect)
-  (setq erc-server-auto-reconnect t)
-
-  (setq erc-scrolltobottom-all t)
-
-  (add-to-list 'erc-modules 'button)
-  (add-to-list 'erc-modules 'log)
-  (add-to-list 'erc-modules 'match)
-  (add-to-list 'erc-modules 'nicks)
-  (add-to-list 'erc-modules 'notifications)
-  (add-to-list 'erc-modules 'scrolltobottom)
-  (add-to-list 'erc-modules 'services)
-  (add-to-list 'erc-modules 'services-regain)
-  (add-to-list 'erc-modules 'spelling)
-  (erc-update-modules)
-
-  ;; format nicknames to show if user has voice(+), owner (~), admin (&),
-  ;; operator (@)
-  (setq erc-show-speaker-membership-status t)
-
-  (setq erc-keywords '("alexmurray" "cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm" "@here" "@all" "@channel" "@security"))
-
-  ;; when joining don't bring to front
-  (setq erc-join-buffer 'bury)
-
-  ;; ensure erc-track plays nicer with minions - https://github.com/tarsius/minions/issues/22
-  (setq erc-track-position-in-mode-line t)
-  (setq erc-track-switch-direction 'importance)
-  (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
-                                  ;; channel mode (324), creation
-                                  ;; time (329), topic (332), topic
-                                  ;; who time (333), names (353), no
-                                  ;; chan modes (477)
-                                  "324" "329" "332" "333" "353" "477"))
-
-  (setq erc-track-exclude-server-buffer t)
-  (setq erc-track-showcount t)
-  ;; emacs channels are noisy
-  (setq erc-track-exclude '("#emacs" "#emacsconf" "#ubuntu"))
-  (setq erc-track-shorten-function nil)
-
-  (add-to-list 'erc-nick-popup-alist
-               '("Directory" . (apm-erc-lookup-nick nick)))
-  ;; only hide join / part / quit for those who are idle for more
-  ;; than 10 hours (ie are using a bouncer)
-  (setq erc-lurker-hide-list '("JOIN" "PART" "QUIT" "NICK"))
-  (setq erc-lurker-threshold-time (* 10 60 60))
-
-  ;; hide channel mode (324), creation time (329), topic (332), topic
-  ;; who time (333), names (353) - see
-  ;; https://www.alien.net.au/irc/irc2numerics.html
-  (setq erc-hide-list '("324" "329" "332" "333" "353"))
-
-  (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
-  (setq erc-log-insert-log-on-open nil)
-  (setq erc-log-file-coding-system 'utf-8)
-  (setq erc-log-write-after-send t)
-  (setq erc-log-write-after-insert t)
-  (setq erc-save-buffer-on-part t)
-
-  ;; log mentions when away
-  (add-to-list 'erc-log-matches-types-alist
-               '(current-nick . "ERC Mentions"))
-
-  (unless (file-exists-p erc-log-channels-directory)
-    (mkdir erc-log-channels-directory t))
-
-  (erc-autojoin-mode 1)
-
-  (erc-spelling-mode 1)
-
-  ;; make sure we identify to nickserv
-  (erc-services-mode 1)
-
-  ;; change header line face when disconnected
-  (setq erc-header-line-face-method
-        #'apm-erc-update-header-line-show-disconnected)
-
-  ;; make sure any privmsg (which is via query buffers) show up as urgent
-  ;; in track list
-  (defadvice erc-track-select-mode-line-face (around erc-track-find-face-promote-query activate)
-    (if (erc-query-buffer-p)
-        (setq ad-return-value 'erc-current-nick-face)
-      ad-do-it)))
-
 (use-package erc-goodies
   :ensure erc
   ;; ensure this is set and we don't inadvertently unset it
@@ -1610,6 +1616,10 @@ With a prefix argument, will default to looking for all
   :defer t)
 
 (use-package gnuplot
+  :ensure t)
+
+(use-package gnu-elpa
+  :defer t
   :ensure t)
 
 (use-package gnus-art
@@ -2284,50 +2294,8 @@ With a prefix argument, will default to looking for all
   ;; for vertico
   :ensure t)
 
-(use-package org
-  :pin gnu
-  :bind (("C-c a" . org-agenda)
-         ("C-c c" . org-capture)
-         ("C-c l" . org-store-link)
-         ("C-c j" . consult-org-agenda)
-         ("C-c C-w" . org-refile)
-         :map org-mode-map
-         ("M-s i" . consult-org-heading))
-  ;; ensure we always load org at startup
-  :demand t
-  :preface
-  (defun apm-org-mode-setup ()
-    ;; add * = ~ as electric pairs
-    (setq-local electric-pair-pairs (append electric-pair-pairs '((?\* . ?\*)
-                                                                  (?\= . ?\=)
-                                                                  (?\~ . ?\~)))))
-  :hook (org-mode . apm-org-mode-setup)
-  :config
-  (setq org-log-repeat nil)
-  (setq org-log-into-drawer t)
-  (setq org-pretty-entities t)
-  ;; use org-appear instead
-  (setq org-hide-emphasis-markers t)
-  (setq org-directory (expand-file-name "~/org-files/"))
-  (setq org-agenda-files (mapcar #'(lambda (f)
-                                     (expand-file-name f org-directory))
-                                 '("personal.org" "canonical.org"
-                                   "inbox.org" "tickler.org" "notes.org")))
-  ;; don't indent org document sections etc
-  (setq org-adapt-indentation nil)
-  (setq org-imenu-depth 4)
-  ;; @ = add note with time
-  ;; ! = record only time of state change
-  ;; | = remaining keywords are final states
-  (setq org-todo-keywords '((sequence "TODO(t)" "WORK(w)" "|" "CANCELLED(c@)" "DELEGATED(G@)" "DONE")))
-  ;; ensure it is harder to inadvertently delete collapsed parts of org
-  ;; documents
-  (setq org-catch-invisible-edits 'smart)
-  (setq org-ctrl-k-protect-subtree t)
-  (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
-  (add-to-list 'org-file-apps '("\\.aup3?\\'" . "audacity %s")))
-
 (use-package org-block-capf
+  :after org
   :vc (:fetcher github :repo xenodium/org-block-capf)
   :hook (org-mode . org-block-capf-add-to-completion-at-point-functions))
 
@@ -2525,27 +2493,26 @@ clocktable works."
   ;; reload any saved org clock information on startup
   (org-clock-persistence-insinuate))
 
-(use-package org-clock-agenda-daytime-mode
-  :ensure t
-  :after org
-  :config (org-clock-agenda-daytime-mode 1))
-
 (use-package org-clock-convenience
   :ensure t
+  :after org
   :bind (:map org-agenda-mode-map
               ("S-<up>" . org-clock-convenience-timestamp-up)
               ("S-<down>" . org-clock-convenience-timestamp-down)))
 
 (use-package org-duration
   :ensure org
+  :after org
   ;; don't show days, only total hours as maximum value
   :config (setq org-duration-format (quote h:mm)))
 
 (use-package orgit
-  :ensure t)
+  :ensure t
+  :after org)
 
 (use-package org-jira
   :ensure t
+  :after org
   :preface
   (defun apm-org-jira-get-issues-assigned-to-me ()
     "Get all issues assigned to me."
