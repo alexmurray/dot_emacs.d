@@ -426,6 +426,7 @@ With a prefix argument, will default to looking for all
   (doom-one-padded-modeline t)
   :config
   (doom-themes-visual-bell-config)
+  (require 'org-indent) ;; https://github.com/doomemacs/themes/issues/807
   (doom-themes-org-config)
   (setq apm-preferred-dark-theme 'doom-vibrant)
   (setq apm-preferred-light-theme 'doom-one-light)
