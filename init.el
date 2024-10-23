@@ -2211,15 +2211,11 @@ With a prefix argument, will default to looking for all
 (use-package org-id
   :ensure org
   :config
-  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
-
-(use-package org-appear
-  :ensure t
-  :custom (org-appear-autolinks t)
-  :hook (org-mode . org-appear-mode))
+  (setq org-id-link-to-org-use-id t))
 
 (use-package org-autolist
   :ensure t
+  :after org
   :hook (org-mode . org-autolist-mode))
 
 (use-package org-refile
