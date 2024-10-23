@@ -1128,14 +1128,19 @@ With a prefix argument, will default to looking for all
 (use-package debian-changelog-mode
   :ensure dpkg-dev-el
   :hook ((debian-changelog-mode . eglot-ensure))
-  :config (let ((releases (append (split-string
-                                   (shell-command-to-string
-                                    "distro-info --supported-esm"))
-                                  (split-string
-                                   (shell-command-to-string
-                                    "distro-info --devel")))))
+  :config (let ((pockets '("" "-updates" "-security"))
+                (releases (delete-dups (append (split-string
+                                                (shell-command-to-string
+                                                 "distro-info --supported"))
+                                               (split-string
+                                                (shell-command-to-string
+                                                 "distro-info --supported-esm"))
+                                               (split-string
+                                                (shell-command-to-string
+                                                 "distro-info --devel"))))))
             (dolist (release releases)
-              (add-to-list 'debian-changelog-allowed-distributions release)))
+              (dolist (pocket pockets)
+                (add-to-list 'debian-changelog-allowed-distributions (concat release pocket)))))
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs '(debian-changelog-mode . ("debputy" "lsp" "server")))))
 
