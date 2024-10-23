@@ -1819,7 +1819,8 @@ With a prefix argument, will default to looking for all
 
 (use-package markdown-mode
   :ensure t
-  :defer t
+  ;; ensure it is loaded since is used by eglot
+  :demand t
   :mode (("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :ensure-system-package markdown)
