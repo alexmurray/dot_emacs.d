@@ -2448,18 +2448,11 @@ clocktable works."
   :hook ((org-mode . org-table-sticky-header-mode)))
 
 (use-package org-timeblock
-  :ensure t)
-
-(use-package org-upcoming-modeline
   :ensure t
-  :after org
-  :config (org-upcoming-modeline-mode 1))
-
-(use-package org-wild-notifier
-  :ensure t
-  :config (org-wild-notifier-mode 1))
+  :after org)
 
 (use-package ox-hugo
+  :after ox
   :ensure t)
 
 (use-package paredit
