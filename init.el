@@ -699,13 +699,6 @@ With a prefix argument, will default to looking for all
   :init (unless (executable-find "black")
           (alert "Please install the black snap")))
 
-(use-package blamer
-  :ensure t
-  :disabled t
-  :bind (("s-i" . blamer-show-posframe-commit-info))
-  :custom-face (blamer-face ((t (:inherit completions-annotations :height 0.9))))
-  :init (global-blamer-mode 1))
-
 (use-package breadcrumb
   :ensure t
   :config (breadcrumb-mode 1))
@@ -1114,10 +1107,6 @@ With a prefix argument, will default to looking for all
   (dired-vc-rename-file t)
   :hook ((dired-mode . dired-hide-details-mode)))
 
-(use-package dired-preview
-  :ensure t
-  :hook ((dired-mode . dired-preview-mode)))
-
 (use-package disk-usage
   :ensure t)
 
@@ -1249,82 +1238,6 @@ With a prefix argument, will default to looking for all
   :ensure t
   :defer t
   :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode))
-
-(use-package embark
-  :ensure t
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
-  :init
-
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
-
-  ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
-  ;; strategy, if you want to see the documentation from multiple providers.
-  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
-  :config
-
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
-
-(use-package embark-consult
-  :ensure t ; only need to install it, embark loads it after consult if found
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
-
-(use-package emms-setup
-  :ensure emms
-  :custom (emms-source-file-default-directory (expand-file-name "~/Music"))
-  :config
-  (emms-all)
-  (emms-default-players))
-
-(use-package emms-mode-line
-  :ensure emms
-  :after emms-setup
-  :config (emms-mode-line-mode 1))
-
-(use-package emms-browser
-  :ensure emms
-  :after emms-setup
-  :custom (emms-browser-covers 'emms-browser-cache-thumbnail-async))
-
-(use-package emms-player-mpd
-  :ensure emms
-  :after emms-setup
-  :ensure-system-package mpd
-  ;; link emms playlist clearing to mpd playlist clearing
-  :hook (emms-playlist-cleared . emms-player-mpd-clear)
-  :config
-  (setq emms-player-mpd-music-directory (expand-file-name "~/Music"))
-  ;; mpd is configured to use local socket rather than network
-  ;; simply ensure ~/.config/mpd/mpd.conf has:
-  ;; bind_to_address     "~/.mpd/socket"
-  ;; and then can enable via systemctl --user enable mpd.service
-  (setq emms-player-mpd-server-name (expand-file-name "~/.mpd/socket"))
-  (setq emms-player-mpd-server-port nil)
-  (add-to-list 'emms-info-functions 'emms-info-mpd)
-  (add-to-list 'emms-player-list 'emms-player-mpd)
-
-  ;; handle case where mpd is not running
-  (condition-case nil
-      (progn
-        (emms-player-mpd-connect)
-        (emms-player-mpd-update-all))
-    (error (alert "Failed to connect to mpd - is it running?"))))
-
-(use-package emms-mpris
-  :ensure emms
-  :after emms-setup
-  :config (emms-mpris-enable))
 
 (use-package epg
   :config
@@ -1731,10 +1644,6 @@ With a prefix argument, will default to looking for all
 (use-package hippie-exp
   :bind (("M-/" . hippie-expand)))
 
-(use-package hl-line
-  :disabled t
-  :config (global-hl-line-mode 1))
-
 (use-package hl-todo
   :ensure t
   :config
@@ -1943,14 +1852,6 @@ With a prefix argument, will default to looking for all
                                         (eglot (styles orderless))))
   (setq completion-auto-help 'visible)
   (setq completion-auto-select 'second-tab))
-
-(use-package minimap
-  :ensure t
-  :disabled t
-  :config
-  (setq minimap-window-location 'right)
-  (add-to-list 'minimap-major-modes 'check-cves-mode)
-  (minimap-mode 1))
 
 (use-package minions
   :ensure t
@@ -2536,12 +2437,6 @@ clocktable works."
           ("In Review" . "To Be Deployed")
           ("To Be Deployed" . "Done")
           ("Done" . "Rejected"))))
-
-(use-package org-modern
-  :ensure t
-  :after org
-  :hook (after-init . global-org-modern-mode)
-  :custom (org-modern-table nil))
 
 (use-package org-src
   :ensure org
