@@ -2177,8 +2177,8 @@ With a prefix argument, will default to looking for all
   ;; add a few helpful custom saved search queries
   (add-to-list 'notmuch-saved-searches '(:name "cvewebbot" :query "from:noreply+security-tools@canonical.com and subject:\"CVE webbot process errors\"" :key "c"))
   (add-to-list 'notmuch-saved-searches '(:name "vince-updates" :query "from:cert+donotreply@cert.org and subject:\"New Post in Case Discussion\"" :key "v"))
-  (add-to-list 'notmuch-saved-searches '(:name "noble-changes" :query "tag:lists/noble-changes and tag:unread" :key "n"))
-  (add-to-list 'notmuch-saved-searches '(:name "oracular-changes" :query "tag:lists/oracular-changes and tag:unread" :key "o")))
+  (dolist (rel '("noble" "oracular" "plucky"))
+    (add-to-list 'notmuch-saved-searches `(:name ,(concat rel "-changes") :query ,(concat "tag:lists/" rel "-changes and tag:unread") :key ,(substring rel 0 1)))))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
