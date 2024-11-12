@@ -2457,6 +2457,10 @@ clocktable works."
   :ensure t
   :after org)
 
+(use-package ox-gfm
+  :ensure t
+  :after ox)
+
 (use-package ox-hugo
   :after ox
   :ensure t)
