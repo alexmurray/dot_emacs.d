@@ -613,14 +613,6 @@ With a prefix argument, will default to looking for all
   ;; show colours correctly in shell
   :config (ansi-color-for-comint-mode-on))
 
-;; we could use the built-in `isearch-lazy-count' but this doesn't do counts on
-;; query-replace-regexp etc
-(use-package anzu
-  :ensure t
-  :init (global-anzu-mode 1)
-  :bind (("M-%" . anzu-query-replace-regexp)
-         ("C-M-%" . anzu-query-replace)))
-
 (use-package apm-misc
   :load-path "lisp/"
   :bind (("C-c b l" . apm-browse-lp-bug-at-point)))
@@ -2905,6 +2897,10 @@ clocktable works."
 (use-package virtual-auto-fill
   :ensure t
   :hook ((markdown-mode . virtual-auto-fill-mode)))
+
+(use-package visual-replace
+  :ensure t
+  :config (visual-replace-global-mode 1))
 
 (use-package webpaste
   :ensure t
