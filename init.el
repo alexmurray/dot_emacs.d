@@ -1237,6 +1237,12 @@ With a prefix argument, will default to looking for all
   :defer t
   :hook ((emacs-lisp-mode ielm-mode) . elisp-def-mode))
 
+(use-package elisp-mode
+  ;; ensure flymake-mode is off for elisp files by default to minimise the
+  ;; chance of RCE -
+  ;; https://eshelyaron.com/posts/2024-11-27-emacs-aritrary-code-execution-and-how-to-avoid-it.html
+  :hook (emacs-lisp-mode . flymake-mode-off))
+
 (use-package epg
   :config
   (setq epg-user-id "alex.murray@canonical.com"))
