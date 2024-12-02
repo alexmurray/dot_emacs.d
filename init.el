@@ -1710,7 +1710,7 @@ With a prefix argument, will default to looking for all
            :map jinx-mode-map ("C-;" . jinx-correct))
     :hook ((emacs-startup . global-jinx-mode)))
 
-(use-package journalctl-mode
+(use-package journalctl
   :ensure t
   :vc (:fetcher github :repo WJCFerguson/journalctl))
 
