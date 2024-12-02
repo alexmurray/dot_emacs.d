@@ -1697,8 +1697,8 @@ With a prefix argument, will default to looking for all
     (define-advice jinx--load-module (:around (orig-fun &rest args) apm-jinx--load-module)
       "Ensure that the module is compiled with the correct gcc."
       (let* ((emacs-snap-dir (file-name-as-directory (getenv "EMACS_SNAP_DIR")))
-             (process-environment (append `(,(concat "CC=" emacs-snap-dir "usr/bin/gcc-10" )
-                                            ,(concat "CXX=" emacs-snap-dir "usr/bin/g++-10")
+             (process-environment (append `(,(concat "CC=" emacs-snap-dir "usr/bin/gcc-14" )
+                                            ,(concat "CXX=" emacs-snap-dir "usr/bin/g++-14")
                                             ,(concat "CFLAGS=--sysroot=" emacs-snap-dir " -B" emacs-snap-dir "usr/lib/gcc")
                                             ,(concat "CPATH=" (file-name-directory (car (file-expand-wildcards (concat emacs-snap-dir "usr/include/*/bits")))))
                                             ,(concat "CPPFLAGS=--sysroot=" emacs-snap-dir)
