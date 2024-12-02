@@ -999,6 +999,10 @@ With a prefix argument, will default to looking for all
 (use-package consult-notmuch
   :ensure t)
 
+(use-package consult-xref-stack
+  :vc (:fetcher github :repo brett-lempereur/consult-xref-stack)
+  :bind (("C-," . consult-xref-stack-backward)))
+
 (use-package copilot
   :vc (:fetcher github :repo zerolfx/copilot.el)
   :preface
