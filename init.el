@@ -1035,7 +1035,7 @@ With a prefix argument, will default to looking for all
    (copilot-server-args '("--stdio"))
    (copilot--server-executable "/snap/copilot-client/current/dist/language-server.js")
    ;; silence warning on startup about version mismatch
-   (copilot-version "1.40.0"))  ;; need to set these after copilot is loaded to avoid errors
+   (copilot-version "1.40.0")) ;; need to set these after copilot is loaded to avoid errors
   :config
   (setq copilot--server-executable "/snap/copilot-client/current/dist/language-server.js")
   (setq copilot-version "1.40.0")
