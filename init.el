@@ -1230,6 +1230,11 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
           (alert "Please install emacs-lsp-booster to ~/bin from https://github.com/blahgeek/emacs-lsp-booster/releases"))
   :config (eglot-booster-mode))
 
+(use-package eglot-inactive-regions
+  :ensure t
+  :after eglot
+  :config (eglot-inactive-regions-mode 1))
+
 (use-package eldoc
   :config (global-eldoc-mode 1))
 
