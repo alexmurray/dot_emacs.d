@@ -1039,8 +1039,8 @@ With a prefix argument, will default to looking for all
 As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a67590c9e31b806a38f1dbd3aa4c8b7356c1157cb9d51a79cf16447cR331."
     (apply orig-fun args)
     (when (eq (cadr args) 'initialize)
-      (message "sending copilot--notify 'initialized")
       (copilot--notify 'initialized '())))
+
   ;; the snap doesn't ship the required package.json so instead get the version
   ;; from the installed snap itself
   (define-advice copilot-installed-version (:around (orig-fun &rest args) read-copilot-installed-version-from-snap-info)
