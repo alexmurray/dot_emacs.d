@@ -1193,14 +1193,12 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
   (ediff-split-window-function 'split-window-horizontally))
 
 (use-package eglot
-  :ensure t
   :preface
   ;; compose all eldoc messages together so eglot plays nicely with flymake etc
   ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
   (defun apm-eglot-compose-eldoc ()
     (setq eldoc-documentation-strategy
           'eldoc-documentation-compose))
-  :pin gnu
   :hook ((prog-mode . eglot-ensure)
          (yaml-mode . eglot-ensure)
          (eglot-managed-mode . apm-eglot-compose-eldoc)
