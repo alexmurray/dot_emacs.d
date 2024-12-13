@@ -764,13 +764,6 @@ With a prefix argument, will default to looking for all
         (propertize "Wk"
                     'font-lock-face 'calendar-iso-week-header-face)))
 
-(use-package calfw
-  :ensure t)
-
-(use-package calfw-org
-  :ensure t
-  :after calfw)
-
 (use-package cargo
   :ensure t
   :init (unless (executable-find "cargo")
