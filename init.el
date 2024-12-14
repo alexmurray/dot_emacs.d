@@ -2458,10 +2458,6 @@ clocktable works."
   :defer t
   :hook ((org-mode . org-table-sticky-header-mode)))
 
-(use-package org-timeblock
-  :ensure t
-  :after org)
-
 (use-package ox-gfm
   :ensure t
   :after ox)
