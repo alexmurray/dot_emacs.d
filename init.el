@@ -1229,6 +1229,10 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
   ;; tie in with eglot
   :hook ((eglot-managed-mode . eldoc-box-hover-mode)))
 
+(use-package eldoc-diffstat
+  :ensure t
+  :config (global-eldoc-diffstat-mode 1))
+
 (use-package elf-mode
   :ensure t)
 
