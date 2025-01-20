@@ -1104,6 +1104,9 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
   (dired-vc-rename-file t)
   :hook ((dired-mode . dired-hide-details-mode)))
 
+(use-package discourse-mode
+  :vc (:fetcher codeberg :repo "glenneth/discourse-emacs"))
+
 (use-package disk-usage
   :ensure t)
 
