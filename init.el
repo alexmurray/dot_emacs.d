@@ -2504,15 +2504,6 @@ clocktable works."
   :hook ((perl-mode . apm-perl-mode-setup))
   :custom (perl-indent-level 8))
 
-(use-package pixel-scroll
-  :bind
-  (([remap scroll-up-command] . pixel-scroll-interpolate-down)
-   ([remap scroll-down-command] . pixel-scroll-interpolate-up))
-  :custom
-  (pixel-scroll-precision-interpolate-page t)
-  :init
-  (pixel-scroll-precision-mode 1))
-
 (use-package pod-mode
   :vc (:fetcher github :repo renormalist/emacs-pod-mode)
   :mode ("\\.pod$" . pod-mode))
@@ -2751,6 +2742,14 @@ clocktable works."
 
 (use-package udev-mode
   :ensure t)
+
+(use-package ultra-scroll
+  :vc (:fetcher github :repo jdtsmith/ultra-scroll)
+  :init
+  (setq scroll-conservatively 101 ; important!
+        scroll-margin 0)
+  :config
+  (ultra-scroll-mode 1))
 
 (use-package undo-tree
   :ensure t
