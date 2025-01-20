@@ -2823,7 +2823,7 @@ clocktable works."
 
 (use-package virtual-auto-fill
   :ensure t
-  :hook ((markdown-mode . virtual-auto-fill-mode)))
+  :hook (((markdown-mode rst-mode) . virtual-auto-fill-mode)))
 
 (use-package visual-replace
   :ensure t
