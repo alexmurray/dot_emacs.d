@@ -1662,6 +1662,10 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
 (use-package hippie-exp
   :bind (("M-/" . hippie-expand)))
 
+(use-package hl-printf
+  :ensure t
+  :hook ((prog-mode . hl-printf-mode)))
+
 (use-package hl-todo
   :ensure t
   :config
