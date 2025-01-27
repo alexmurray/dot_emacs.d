@@ -834,6 +834,10 @@ With a prefix argument, will default to looking for all
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
   :mode ("check-cves\\..*\\'" . check-cves-mode))
 
+(use-package clang-format
+  :ensure-system-package clang-format
+  :load-path "/usr/share/emacs/site-lisp/clang-format/")
+
 (use-package comint
   :hook ((comint-output-filter-functions . comint-osc-process-output)))
 
