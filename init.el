@@ -2031,7 +2031,7 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
                         (when line
                           (with-current-buffer buffer
                             (forward-line (1- line)))))
-                    (message "analyse-build-log not found - install python3-buildlog-consultant to support automatic error finding"))))
+                    (message "analyse-build-log not found - install python3-buildlog-consultant or buildlog-consultant to support automatic error finding"))))
             (error (message "Failed to download build log or analyse it: %s" (cdr err))))))))
   :bind (("C-c m" . notmuch)
          :map notmuch-show-mode-map
