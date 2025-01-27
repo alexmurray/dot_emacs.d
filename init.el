@@ -2199,6 +2199,7 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
 
   ;; add a few helpful custom saved search queries
   (add-to-list 'notmuch-saved-searches '(:name "cvewebbot" :query "from:noreply+security-tools@canonical.com and subject:\"CVE webbot process errors\"" :key "c"))
+  (add-to-list 'notmuch-saved-searches '(:name "emacs-devel" :query "tag:lists/emacs-devel and tag:inbox" :key "e"))
   (add-to-list 'notmuch-saved-searches '(:name "vince-updates" :query "from:cert+donotreply@cert.org and subject:\"New Post in Case Discussion\"" :key "v"))
   (dolist (rel '("noble" "oracular" "plucky"))
     (add-to-list 'notmuch-saved-searches `(:name ,(concat rel "-changes") :query ,(concat "tag:lists/" rel "-changes and tag:unread") :key ,(substring rel 0 1)))))
