@@ -2143,6 +2143,26 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
 
   ;; automatically display and download failed LP build logs
   (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-lp-build-log)
+
+  (defun apm-notmuch-wash-gfm (_msg _depth)
+    "Format entire message as GFM if supported."
+    ;; get entire message, use a tempt buffer to format it as GFM and then
+    ;; replace message with that
+    (when (fboundp 'gfm-mode)
+      (let ((message (buffer-substring (point-min) (point-max))))
+        (with-temp-buffer
+          (delay-mode-hooks
+            (gfm-mode))
+          (insert message)
+          (font-lock-ensure)
+          (setq message (buffer-string)))
+        (delete-region (point-min) (point-max))
+        (insert message))))
+
+  ;; TODO - make this configurable basd on the message itself and only run when
+  ;; it looks like a plain text email with markdown contents
+  ;; (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-gfm)
+
   ;; add gnus-art emphasis highlighting too
   (with-eval-after-load 'gnus-art
     (defun apm-notmuch-wash-article-emphasize (_msg _depth)
