@@ -2324,10 +2324,6 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
              "* %^{meeting title}     :meeting:
 %^{meeting day+time}T
 - %a%?")
-            ("R" "review-tools-merge-request" entry (file+olp ,canonical-org "review-tools" "review-tools merge requests reviews")
-             "** [[https://code.launchpad.net/~jslarraz/review-tools/+git/review-tools/+merge/%\\1][review-tools MR #%^{number} %^{title}]]
-- https://code.launchpad.net/~jslarraz/review-tools/+git/review-tools/+merge/%\\1%?
-- %a")
             ("D" "snap-store-discussion" entry (file+olp ,canonical-org "snap forum store request discussions")
              "** %^{snap name}
 - %a%?" :clock-in t :clock-keep t)
@@ -2338,6 +2334,26 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
              "* [[https://github.com/snapcore/snapd/pull/%\\1][snapd PR #%^{number} %^{title}]]
 - https://github.com/snapcore/snapd/pull/%\\1%?
 - %a")
+            ("h" "hiring-take-home-test" entry (file+olp ,canonical-org "Hiring")
+             "* Review and grade take home test (%?) (=%^{application_id\\=}=)     :hiring:
+- %a
+- %^{link}")
+            ("i" "hiring-interview" entry (file+olp ,canonical-org "Hiring")
+             "* %^{candidate name} %^{role} %^{interview type} (=%^{application_id\\=}=)     :hiring:
+- %a
+- %^{greenhouse link}
+** TODO Prepare for interview
+:SCHEDULED: %^{prep day+time}T
+- %\\5
+- [ ] Review job description and interview notes
+- [ ] Resume
+- [ ] %?
+- [ ] Draft questions
+** Conduct interview     :meeting:
+%^{interview day+time}T
+** TODO Scorecard
+:SCHEDULED: %^{scorecard day+time}T
+- %\\5")
             ("r" "protocol" entry (file ,inbox-org)
              "* %^{Title}
 Source: %u, %c
