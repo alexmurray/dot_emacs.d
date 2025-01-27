@@ -1969,7 +1969,10 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
   (unless (executable-find "afew")
     (alert "Please apt install afew"))
   :preface
+  ;; discourage the use of text/plain for certain senders
   (defvar apm-notmuch-discouraged-senders '((("text/plain") . ("forum@forum.snapcraft.io"
+                                                               "noreply@discourse.ubuntu.com"
+                                                               "noreply@discourse.canonical.com"
                                                                "bounce@websense.com"
                                                                "wsm-postmaster@intel.com"
                                                                "no-reply@onepointpay.com.au"))))
