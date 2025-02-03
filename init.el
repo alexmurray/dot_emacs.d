@@ -835,8 +835,8 @@ With a prefix argument, will default to looking for all
   :mode ("check-cves\\..*\\'" . check-cves-mode))
 
 (use-package clang-format
-  :ensure-system-package clang-format
-  :load-path "/usr/share/emacs/site-lisp/clang-format/")
+  :ensure t
+  :hook '((c-mode-common . clang-format-on-save-mode)))
 
 (use-package comint
   :hook ((comint-output-filter-functions . comint-osc-process-output)))
