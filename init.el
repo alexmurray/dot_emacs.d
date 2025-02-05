@@ -64,7 +64,7 @@
   (setq org-pretty-entities t)
   ;; org-appear is disabled to show emphasis markers instead
   (setq org-hide-emphasis-markers nil)
-  (setq org-directory (expand-file-name "~/org-files/"))
+  (setq org-directory (expand-file-name "~/git/org-files/"))
   (setq org-agenda-files (mapcar #'(lambda (f)
                                      (expand-file-name f org-directory))
                                  '("personal.org" "canonical.org"
@@ -2271,11 +2271,11 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
 (use-package org-refile
   :ensure org
   :config
-  (setq org-refile-targets '(("~/org-files/canonical.org" :maxlevel . 4)
-                             ("~/org-files/personal.org" :maxlevel . 2)
-                             ("~/org-files/someday.org" :level . 1)
-                             ("~/org-files/tickler.org" :maxlevel . 1)
-                             ("~/org-files/notes.org" :maxlevel . 2)))
+  (setq org-refile-targets '(("~/git/org-files/canonical.org" :maxlevel . 4)
+                             ("~/git/org-files/personal.org" :maxlevel . 2)
+                             ("~/git/org-files/someday.org" :level . 1)
+                             ("~/git/org-files/tickler.org" :maxlevel . 1)
+                             ("~/git/org-files/notes.org" :maxlevel . 2)))
   ;; allow to refile as top-level items in files
   (setq org-refile-use-outline-path 'file)
   (setq org-outline-path-complete-in-steps nil))
@@ -2316,9 +2316,9 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
             #'org-agenda-find-same-or-today-or-agenda 90)
   (setq org-agenda-custom-commands
         '(("i" "TODO from inbox" todo "TODO"
-           ((org-agenda-files '("~/org-files/inbox.org"))))
+           ((org-agenda-files '("~/git/org-files/inbox.org"))))
           ("c" "TODO from canonical" todo "TODO"
-           ((org-agenda-files '("~/org-files/canonical.org"))))
+           ((org-agenda-files '("~/git/org-files/canonical.org"))))
           ("I" "Next TODO from all" todo "TODO" (
                                                  (org-agenda-skip-function #'apm-org-agenda-skip-all-siblings-but-first-todo))))))
 
