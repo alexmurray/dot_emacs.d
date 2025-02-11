@@ -2061,7 +2061,7 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
     "Get websense blocklist URL via the most recently received summary email."
     ;; the summary email is sent with subject "Personal Email Subscription - Forcepoint Email Security Cloud"
     (let ((summary-email (shell-command-to-string "notmuch show --include-html --sort=newest-first --limit 1  subject:\"Personal Email Subscription - Forcepoint Email Security Cloud\"")))
-      (when (string-match "\\(https://admin.websense.net/r/[^?]*\\).*Manage Allow/Block Lists" summary-email)
+      (when (string-match "\\(https://www.mailcontrol.com/r/[^?]*\\).*Manage Allow/Block Lists" summary-email)
         (match-string 1 summary-email))))
 
   (defun apm-prompt-to-add-email-to-forcepoint-blocklist (email description)
