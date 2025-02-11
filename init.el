@@ -1504,6 +1504,8 @@ As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a
 
 (use-package flymake-ruff
   :ensure t
+  :init (unless (executable-find "ruff")
+          (alert "Please snap install ruff"))
   :preface (defun apm-flymake-ruff-load ()
              (when (and (derived-mode-p 'python-base-mode)
                         (not (eq buffer-file-name nil)))
