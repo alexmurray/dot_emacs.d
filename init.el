@@ -2835,21 +2835,6 @@ clocktable works."
   :ensure t
   :config (vc-auto-commit-activate 1))
 
-(use-package vdiff
-  :ensure t
-  :config (define-key vdiff-mode-map (kbd "C-c") vdiff-mode-prefix-map))
-
-(use-package vdiff-magit
-  :ensure t
-  :bind (:map magit-mode-map
-              ("e" . vdiff-magit-dwim)
-              ("E" . vdiff-magit))
-  :config
-  (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
-  (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
-  (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
-  (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit))
-
 (use-package vertico
   :ensure t
   :hook ((emacs-startup . vertico-mode))
