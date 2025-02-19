@@ -1021,36 +1021,7 @@ With a prefix argument, will default to looking for all
               ("M-n" . copilot-next-completion)
               ("M-p" . copilot-previous-completion))
   :hook ((prog-mode . copilot-mode))
-  :config
-  ;; ideally we would advise copilot--request but it is a macro so instead
-  ;; advise jsonrpc-request
-  (define-advice jsonrpc-request (:around (orig-fun &rest args) send-copilot-initialized-notification-on-initialize)
-    "Send a copilot--notify initialized if this is an initialize request.
-
-As per https://github.com/copilot-emacs/copilot.el/pull/338/files#diff-72b2f8a1a67590c9e31b806a38f1dbd3aa4c8b7356c1157cb9d51a79cf16447cR331."
-    (let ((res (apply orig-fun args)))
-      (when (eq (cadr args) 'initialize)
-        (copilot--notify 'initialized '()))
-      res))
-
-  ;; the snap doesn't ship the required package.json so instead get the version
-  ;; from the installed snap itself
-  (define-advice copilot-installed-version (:around (orig-fun &rest args) read-copilot-installed-version-from-snap-info)
-    "Read copilot version from snap info."
-    (let ((snap-info (shell-command-to-string "snap info copilot-client")))
-      (if (string-match "installed:\\s-*\\([0-9.]+\\)" snap-info)
-          (match-string 1 snap-info)
-        (user-error "Could not determine copilot version from snap info"))))
-  ;; need to set these after copilot is loaded to avoid errors
-  (setq copilot--server-executable "/snap/copilot-client/current/dist/language-server.js")
-  (setq copilot-version "1.41.0")
-  :custom
-  ((copilot-install-dir "/snap/copilot-client/current/dist")
-   (copilot-node-executable "/snap/bin/copilot-client.node")
-   (copilot-server-args '("--stdio"))
-   (copilot--server-executable "/snap/copilot-client/current/dist/language-server.js")
-   ;; silence warning on startup about version mismatch
-   (copilot-version "1.41.0")))
+  :custom ((copilot-server-executable "/snap/bin/copilot-language-server")))
 
 (use-package crontab-mode
   :ensure t)
