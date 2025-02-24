@@ -836,7 +836,8 @@ With a prefix argument, will default to looking for all
 
 (use-package clang-format
   :ensure t
-  :hook '((c-mode-common . clang-format-on-save-mode)))
+  :hook '((c-mode-common . clang-format-on-save-mode)
+          (c-ts-mode . clang-format-on-save-mode)))
 
 (use-package comint
   :hook ((comint-output-filter-functions . comint-osc-process-output)))
