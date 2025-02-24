@@ -891,10 +891,7 @@ With a prefix argument, will default to looking for all
   (add-to-list 'auto-mode-alist '("_\\(amd64\\|source\\)\\.build\\'" . compilation-mode)))
 
 (use-package completion-preview
-  ;; only in emacs master
-  :disabled (unless (require 'completion-preview nil t))
-  :hook ((prog-mode . completion-preview-mode)
-         (text-mode . completion-preview-mode))
+  :init (global-completion-preview-mode 1)
   :bind (:map completion-preview-active-mode-map
               ("M-n" . completion-preview-next-candidate)
               ("M-p" . completion-preview-previous-candidate)
