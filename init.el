@@ -1661,8 +1661,11 @@ With a prefix argument, will default to looking for all
   :bind (("M-i" . imenu)))
 
 (use-package ispell
+  ;; using jinx for spell checking
+  :disabled t
   :defer t
-  :ensure-system-package aspell
+  :init (unless (executable-find "aspell")
+          (alert "Please apt install aspell"))
   :custom
   (ispell-program-name "aspell")
   (ispell-dictionary "australian")
