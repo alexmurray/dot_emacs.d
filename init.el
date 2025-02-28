@@ -1789,13 +1789,11 @@ With a prefix argument, will default to looking for all
 
 (use-package magit
   :ensure t
-  :custom (magit-diff-refine-hunk t)
+  :pin melpa
+  :custom ((magit-diff-refine-hunk t)
+           (magit-format-file-function #'magit-format-file-all-the-icons))
   :bind (("C-x g" . magit-status))
   :demand t)
-
-(use-package magit-file-icons
-  :ensure t
-  :config (magit-file-icons-mode 1))
 
 (use-package magit-patch-changelog
   :ensure t)
