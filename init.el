@@ -893,11 +893,15 @@ With a prefix argument, will default to looking for all
 
 (use-package completion-preview
   :init (global-completion-preview-mode 1)
+  :disabled t ; doesn't yet play well with corfu
   :bind (:map completion-preview-active-mode-map
               ("M-n" . completion-preview-next-candidate)
-              ("M-p" . completion-preview-previous-candidate)
+              ("M-p" . completion-preview-prev-candidate)
               ("M-i" . completion-preview-insert))
-  :custom (completion-preview-minimum-symbol-length 2))
+  :custom (completion-preview-minimum-symbol-length 2)
+  :config
+  ;; Org mode has a custom `self-insert-command'
+  (push 'org-self-insert-command completion-preview-commands))
 
 (use-package consult
   :ensure t
