@@ -1818,11 +1818,12 @@ With a prefix argument, will default to looking for all
 
 (use-package markdown-mode
   :ensure t
+  :init (unless (executable-find "markdown")
+          (alert "Please apt install discount"))
   ;; ensure it is loaded since is used by eglot
   :demand t
   :mode (("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :ensure-system-package markdown)
+         ("\\.markdown\\'" . markdown-mode)))
 
 (use-package mb-depth
   :config (minibuffer-depth-indicate-mode 1))
