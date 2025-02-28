@@ -2333,11 +2333,11 @@ With a prefix argument, will default to looking for all
 - https://github.com/snapcore/snapd/pull/%\\1%?
 - %a")
             ("h" "hiring-take-home-test" entry (file+olp ,canonical-org "Hiring")
-             "* Review and grade take home test (%?) (=%^{application_id\\=}=)     :hiring:
+             "* Review and grade take home test (%?) (=application_id=%^{application_id\\=}=)     :hiring:
 - %a
 - %^{link}")
             ("i" "hiring-interview" entry (file+olp ,canonical-org "Hiring")
-             "* %^{candidate name} %^{role} %^{interview type} (=%^{application_id\\=}=)     :hiring:
+             "* %^{candidate name} %^{role} %^{interview type} (=application_id=%^{application_id\\=}=)     :hiring:
 - %a
 - %^{greenhouse link}
 ** TODO Prepare for interview
