@@ -1833,14 +1833,16 @@ With a prefix argument, will default to looking for all
   :ensure t)
 
 (use-package message
-  ;; use standard completion UI for message completion
   :custom
+  ;; use standard completion UI for message completion
   (message-expand-name-standard-ui t)
   (message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
   (message-citation-line-function #'message-insert-formatted-citation-line)
   (message-make-forward-subject-function 'message-forward-subject-fwd)
   ;; kill message buffer after sending rather than burying
-  (message-kill-buffer-on-exit t))
+  (message-kill-buffer-on-exit t)
+  ;; disable filling of long lines
+  (message-fill-column nil))
 
 (use-package minibuffer
   :config
