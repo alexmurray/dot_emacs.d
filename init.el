@@ -1838,6 +1838,8 @@ With a prefix argument, will default to looking for all
   :ensure t)
 
 (use-package message
+  ;; to better support format=flowed
+  :hook (message-mode . use-hard-newlines)
   :custom
   ;; use standard completion UI for message completion
   (message-expand-name-standard-ui t)
