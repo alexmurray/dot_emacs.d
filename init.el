@@ -1090,6 +1090,12 @@ With a prefix argument, will default to looking for all
   :hook ((prog-mode . display-fill-column-indicator-mode)
          (text-mode . display-fill-column-indicator-mode)))
 
+(use-package disproject
+  :ensure t
+  ;; Replace `project-prefix-map' with `disproject-dispatch'.
+  :bind (:map ctl-x-map
+              ("p" . disproject-dispatch)))
+
 (use-package dpkg-dev-el
   :init (unless (executable-find "debputy")
           (alert "Please apt install dh-debputy"))
