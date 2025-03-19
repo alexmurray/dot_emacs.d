@@ -1711,6 +1711,15 @@ With a prefix argument, will default to looking for all
            :map jinx-mode-map ("C-;" . jinx-correct))
     :hook ((emacs-startup . global-jinx-mode)))
 
+(use-package jira
+  :ensure t
+  :config
+  (setq jira-base-url "https://warthogs.atlassian.net")
+  (let ((user-and-token (auth-source-user-and-password
+                         (url-host (url-generic-parse-url jira-base-url)))))
+    (setq jira-username (car user-and-token))
+    (setq jira-token (cadr user-and-token))))
+
 (use-package journalctl
   :ensure t
   :vc (:fetcher github :repo WJCFerguson/journalctl))
@@ -2459,33 +2468,6 @@ clocktable works."
 (use-package orgit
   :ensure t
   :after org)
-
-(use-package org-jira
-  :ensure t
-  :after org
-  :preface
-  (defun apm-org-jira-get-issues-assigned-to-me ()
-    "Get all issues assigned to me."
-    (interactive)
-    (org-jira-get-issues-from-custom-jql '((:jql "assignee = currentUser() AND resolution = Unresolved ORDER BY priority DESC, updated DESC"
-                                                 :limit 1000
-                                                 :filename "jira-assigned-to-me"))))
-  (defun apm-org-jira-get-roadmap-issues-assigned-to-me ()
-    "Get all issues assigned to me tagged in the current roadmap cycle."
-    (interactive)
-    (org-jira-get-issues-from-custom-jql '((:jql "assignee = currentUser() AND resolution = Unresolved AND labels = '24.10' ORDER BY priority DESC, updated DESC"
-                                                 :limit 1000
-                                                 :filename "jira-assigned-to-me-roadmap"))))
-  :config
-  (setq jiralib-url "https://warthogs.atlassian.net")
-  (setq org-jira-progress-issue-flow
-        '(("Untriaged" . "Triaged")
-          ("Triaged" . "In Progress")
-          ("In Progress" . "Blocked")
-          ("Blocked" . "In Review")
-          ("In Review" . "To Be Deployed")
-          ("To Be Deployed" . "Done")
-          ("Done" . "Rejected"))))
 
 (use-package org-src
   :ensure org
