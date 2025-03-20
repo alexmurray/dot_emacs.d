@@ -1714,11 +1714,7 @@ With a prefix argument, will default to looking for all
 (use-package jira
   :ensure t
   :config
-  (setq jira-base-url "https://warthogs.atlassian.net")
-  (let ((user-and-token (auth-source-user-and-password
-                         (url-host (url-generic-parse-url jira-base-url)))))
-    (setq jira-username (car user-and-token))
-    (setq jira-token (cadr user-and-token))))
+  (setq jira-base-url "https://warthogs.atlassian.net"))
 
 (use-package journalctl
   :ensure t
