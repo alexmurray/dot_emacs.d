@@ -936,12 +936,12 @@ With a prefix argument, will default to looking for all
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
          ;; Isearch integration
-         ("M-s e" . consult-isearch)
+         ("M-s e" . consult-isearch-history)
          ;; https://emacsredux.com/blog/2021/11/25/redo-complex-command-with-consult/
          ([remap repeat-complex-command] . consult-complex-command)
          :map isearch-mode-map
-         ("M-e" . consult-isearch)   ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch) ;; orig. isearch-edit-string
+         ("M-e" . consult-isearch-history)   ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history) ;; orig. isearch-edit-string
          ("M-s l" . consult-line)
          :map minibuffer-mode-map
          ("C-y" . yank))
