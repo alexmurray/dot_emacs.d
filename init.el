@@ -1583,7 +1583,7 @@ With a prefix argument, will default to looking for all
              ;; return non-nil to keep in recentf-list
              (not (string-match "^/lxd:.*" file)))
   :config (with-eval-after-load 'recentf
-            (add-to-list 'recentf-keep 'apm-recentf-ignore-lxd-tramp))
+            (add-to-list 'recentf-keep 'apm-recentf-ignore-lxd-tramp)))
 
 (use-package lp
   :load-path "/snap/gitlptools/current"
@@ -1983,7 +1983,7 @@ clocktable works."
   (defun apm-recentf-ignore-sudo (file)
     "Do not keep FILE if it requires sudo to read."
     ;; return non-nil to keep in recentf-list
-    (not (string-match "^/sudo:.*" file))))
+    (not (string-match "^/sudo:.*" file)))
   :custom (recentf-keep '(apm-recentf-ignore-sudo recentf-keep-default-predicate))
   :config (recentf-mode 1))
 
