@@ -1010,18 +1010,6 @@ With a prefix argument, will default to looking for all
 (use-package crontab-mode
   :ensure t)
 
-(use-package cve-mode
-  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts"
-  :mode (("CVE-[[:digit:]]\\{4\\}-[[:digit:]]\\{4,\\}\\'" . cve-mode)
-         ("00boilerplate.*\\'" . cve-mode)
-         (("boilerplate" . cve-mode)))
-  :hook ((cve-mode . flymake-mode))
-  ;; this is used for Notes in CVE files which the web pages link to the
-  ;; corresponding launchpad user
-  :custom
-  (cve-mode-default-user "alexmurray")
-  (cve-mode-prefix-notes-lines 'all))
-
 ;; show suspicious c constructs automatically
 (use-package cwarn
   :init (global-cwarn-mode 1))
@@ -1835,9 +1823,6 @@ With a prefix argument, will default to looking for all
   :defer t
   :hook ((c++-mode . modern-c++-font-lock-mode)))
 
-(use-package moinmoin-mode
-  :load-path "vendor/")
-
 (use-package mouse
   :config (context-menu-mode 1))
 
@@ -2285,9 +2270,6 @@ clocktable works."
                    :scroll-bar-width 0))
   (spacious-padding-mode 1))
 
-(use-package spdx
-  :ensure t)
-
 (use-package strace-mode
   :ensure t)
 
@@ -2302,19 +2284,7 @@ clocktable works."
   :ensure t)
 
 (use-package time
-  :bind ((("C-c z" . world-clock)))
-  :config (let ((team '(("Australia/Adelaide" . ("amurray"))
-                        ("Europe/Brussels" . ("ebarretto"))
-                        ("Europe/London" . ("ChrisCoulson"))
-                        ("America/Sao_Paulo" . ("leosilva" "pfsmorigo"))
-                        ("America/Argentina/Buenos_Aires" . ("emitorino"))
-                        ("America/New_York" . ("dan"))
-                        ("America/Toronto" . ("mdeslaur"))
-                        ("America/Los_Angeles" . ("jj" "sarnold" "sbeattie")))))
-            ;; validate team
-            (dolist (member team)
-              (unless (file-exists-p (expand-file-name (car member) "/usr/share/zoneinfo"))
-                (user-error "TZ %s does not exist!" (car member)))))
+  :config
   (setq display-time-default-load-average nil)
   (setq display-time-use-mail-icon t)
   (setq display-time-day-and-date t)
@@ -2325,15 +2295,6 @@ clocktable works."
   :ensure t
   :custom (treesit-auto-install 'prompt)
   :config (global-treesit-auto-mode 1))
-
-(use-package uct
-  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
-  :demand t
-  :bind (("C-c u u" . uct)
-         ("C-c f c" . uct-find-cve)
-         ("C-c u k" . uct-kernel-signoff-at-point))
-  :init
-  (add-hook 'magit-process-prompt-functions #'uct-magit-process-git-commit-hook))
 
 (use-package udev-mode
   :ensure t)
@@ -2362,15 +2323,6 @@ clocktable works."
                 uniquify-separator ":"
                 uniquify-after-kill-buffer-p t
                 uniquify-ignore-buffers-re "^\\*"))
-
-(use-package usn
-  :load-path "~/ubuntu/git/usn-tool/"
-  :commands (usn-compose-from-draft)
-  :bind (("C-c f u" . usn-show-at-point)))
-
-(use-package uvt
-  :load-path "~/ubuntu/git/ubuntu-qa-tools/vm-tools/"
-  :bind (("C-c v" . uvt)))
 
 (use-package vc-auto-commit
   ;; used to automatically commit changes in org-files git repo
