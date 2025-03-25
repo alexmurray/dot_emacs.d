@@ -1493,25 +1493,25 @@ With a prefix argument, will default to looking for all
 
 
 (use-package jinx
-    :ensure t
-    :preface
-    ;; jinx uses emacs modules and we need to ensure it compiles with gcc from the
-    ;; emacs snap
-    (define-advice jinx--load-module (:around (orig-fun &rest args) apm-jinx--load-module)
-      "Ensure that the module is compiled with the correct gcc."
-      (let* ((emacs-snap-dir (file-name-as-directory (getenv "EMACS_SNAP_DIR")))
-             (process-environment (append `(,(concat "CC=" emacs-snap-dir "usr/bin/gcc-14" )
-                                            ,(concat "CXX=" emacs-snap-dir "usr/bin/g++-14")
-                                            ,(concat "CFLAGS=--sysroot=" emacs-snap-dir " -B" emacs-snap-dir "usr/lib/gcc")
-                                            ,(concat "CPATH=" (file-name-directory (car (file-expand-wildcards (concat emacs-snap-dir "usr/include/*/bits")))))
-                                            ,(concat "CPPFLAGS=--sysroot=" emacs-snap-dir)
-                                            ,(concat "LDFLAGS=--sysroot=" emacs-snap-dir " -L" emacs-snap-dir "usr/lib")
-                                            ,(concat "PKG_CONFIG_PATH=" (car (file-expand-wildcards (concat emacs-snap-dir "usr/lib/*/pkgconfig")))))
-                                          process-environment)))
-        (apply orig-fun args)))
-    :bind (("M-$" . jinx-correct)
-           :map jinx-mode-map ("C-;" . jinx-correct))
-    :hook ((emacs-startup . global-jinx-mode)))
+  :ensure t
+  :preface
+  ;; jinx uses emacs modules and we need to ensure it compiles with gcc from the
+  ;; emacs snap
+  (define-advice jinx--load-module (:around (orig-fun &rest args) apm-jinx--load-module)
+    "Ensure that the module is compiled with the correct gcc."
+    (let* ((emacs-snap-dir (file-name-as-directory (getenv "EMACS_SNAP_DIR")))
+           (process-environment (append `(,(concat "CC=" emacs-snap-dir "usr/bin/gcc-14" )
+                                          ,(concat "CXX=" emacs-snap-dir "usr/bin/g++-14")
+                                          ,(concat "CFLAGS=--sysroot=" emacs-snap-dir " -B" emacs-snap-dir "usr/lib/gcc")
+                                          ,(concat "CPATH=" (file-name-directory (car (file-expand-wildcards (concat emacs-snap-dir "usr/include/*/bits")))))
+                                          ,(concat "CPPFLAGS=--sysroot=" emacs-snap-dir)
+                                          ,(concat "LDFLAGS=--sysroot=" emacs-snap-dir " -L" emacs-snap-dir "usr/lib")
+                                          ,(concat "PKG_CONFIG_PATH=" (car (file-expand-wildcards (concat emacs-snap-dir "usr/lib/*/pkgconfig")))))
+                                        process-environment)))
+      (apply orig-fun args)))
+  :bind (("M-$" . jinx-correct)
+         :map jinx-mode-map ("C-;" . jinx-correct))
+  :hook ((emacs-startup . global-jinx-mode)))
 
 (use-package jira
   :ensure t
