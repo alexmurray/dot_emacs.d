@@ -1245,140 +1245,6 @@ With a prefix argument, will default to looking for all
 (use-package erlang
   :load-path "vendor/erlang")
 
-(use-package eudc
-  :after ldap
-  :config
-  (eval-when-compile
-    (require 'ldap))
-  (eudc-set-server ldap-default-host 'ldap)
-  ;; better display of custom canonical ldap attributes
-  (add-to-list 'eudc-user-attribute-names-alist
-               '(mozillanickname . "IRC Nick"))
-  (add-to-list 'eudc-user-attribute-names-alist
-               '(mozillacustom1 . "Team"))
-  (add-to-list 'eudc-user-attribute-names-alist
-               '(mozillacustom3 . "Timezone Name"))
-  (add-to-list 'eudc-user-attribute-names-alist
-               '(mozillacustom4 . "UTC Offset"))
-  (add-to-list 'eudc-user-attribute-names-alist
-               '(launchpadid . "Launchpad ID"))
-  (add-to-list 'eudc-user-attribute-names-alist
-               '(githubid . "Github ID"))
-  ;; keep byte-compiler happy
-  (defvar eudc-bob-generic-keymap nil)
-  ;; add support for querying up the hierarchy via manager
-  (defvar apm-eudc-bob-query-keymap
-    (let ((map (make-sparse-keymap)))
-      (define-key map [return] 'apm-eudc-query-at-point)
-      map))
-  (set-keymap-parent apm-eudc-bob-query-keymap eudc-bob-generic-keymap)
-  (add-to-list 'eudc-attribute-display-method-alist '("jpegphoto" . eudc-display-jpeg-inline))
-  (add-to-list 'eudc-attribute-display-method-alist '("manager" . apm-eudc-display-query))
-  (add-to-list 'eudc-attribute-display-method-alist '("utc offset" . apm-eudc-display-utc-offset))
-  (add-to-list 'eudc-attribute-display-method-alist '("timezone name" . apm-eudc-display-timezone))
-  (add-to-list 'eudc-attribute-display-method-alist '("launchpad id" . apm-eudc-display-launchpadid))
-  (add-to-list 'eudc-attribute-display-method-alist '("github id" . apm-eudc-display-githubid))
-  (add-to-list 'eudc-attribute-display-method-alist '("wikipage" . apm-eudc-display-wikipage))
-  (add-to-list 'eudc-attribute-display-method-alist '("irc nick" . apm-eudc-display-nick))
-  (defun apm-eudc-query-at-point ()
-    (interactive)
-    (let ((id (eudc-bob-get-overlay-prop 'query)))
-      (unless id (error "No query here"))
-      (let ((name))
-        (save-match-data
-          (if (not (and (string-match "cn=\\([^,]*\\)" id)
-                        (setq name (match-string 1 id))))
-              (error "Failed to extract cn from id %s" id)
-            (eudc-display-records (eudc-query `((cn . ,name)))))))))
-
-  (defun apm-eudc-display-timezone (timezone)
-    "Display TIMEZONE with current local time."
-    (insert (concat timezone
-                    " ["
-                    (current-time-string nil timezone)
-                    "]")))
-
-  (defun apm-eudc-display-utc-offset (offset)
-    "Display OFFSET with current local time."
-    (let ((hours (string-to-number (substring offset 0 3)))
-          (mins (string-to-number (substring offset 3))))
-      (insert (concat offset
-                      " ["
-                      (current-time-string
-                       (time-add (current-time) (* (+ (* hours 60) mins) 60)) t)
-                      "]"))))
-
-  (defun apm-eudc-display-launchpadid (id)
-    "Display ID as a clickable URL."
-    (eudc-display-url (concat "https://launchpad.net/~" id)))
-
-  (defun apm-eudc-display-githubid (id)
-    "Display ID as a clickable URL."
-    (eudc-display-url (concat "https://github.com/" id)))
-
-  (defun apm-eudc-display-wikipage (id)
-    "Display ID as a clickable URL."
-    (eudc-display-url (concat "https://wiki.canonical.com/" id)))
-
-  (defun apm-eudc-display-nick (nick)
-    "Display NICK as using colors from erc-nicks."
-    (insert (propertize nick
-                        'face
-                        ;; colorise as is done on Libera.Chat by erc-nicks
-                        (ignore-errors
-                          (with-current-buffer "Libera.Chat"
-                            (erc-nicks--highlight nick))))))
-
-  (defun apm-eudc-display-query (query)
-    "Display QUERY as an interactive element."
-    (eudc-bob-make-button query apm-eudc-bob-query-keymap nil (list 'query query)))
-
-  (defun apm-eudc-lookup-email (&optional email)
-    (interactive (list
-                  (let ((initial
-                         ;; remove any opening / closing angle brackets if
-                         ;; present
-                         (replace-regexp-in-string "[<>]" ""
-                                                   (substring-no-properties (or (thing-at-point 'email) "")))))
-                    (read-string "Email address: " initial))))
-    (eudc-display-records (eudc-query  `((email . ,email)))))
-
-  (defun apm-eudc-lookup-nick (&optional nick)
-    (interactive
-     (list
-      ;; some buffers are read-only in which case `word-at-point' returns a
-      ;; read-only string so need to remove properties
-      (let ((initial (substring-no-properties (or (word-at-point) ""))))
-        (if (eq major-mode 'erc-mode)
-            (completing-read "Nick: " (erc-get-channel-nickname-list)
-                             nil nil initial)
-          (read-string "Nick: " initial)))))
-    (eudc-display-records (eudc-query  `((mozillaNickName . ,nick)))))
-
-  (defun apm-eudc-lookup-launchpadid (&optional id)
-    (interactive
-     (list
-      ;; some buffers are read-only in which case `word-at-point' returns a
-      ;; read-only string so need to remove properties
-      (let ((initial (substring-no-properties (or (word-at-point) ""))))
-        (if (eq major-mode 'erc-mode)
-            (completing-read "Id: " (erc-get-channel-nickname-list)
-                             nil nil initial)
-          (read-string "Id: " initial)))))
-    (eudc-display-records (eudc-query  `((launchpadid . ,id))))))
-
-(use-package eudc-capf
-  :preface (defun apm-setup-eudc-capf ()
-             (add-hook 'completion-at-point-functions #'eudc-capf-complete -1 t))
-  :hook ((notmuch-message-mode . apm-setup-eudc-capf))
-  :config
-  (add-to-list 'eudc-capf-modes 'notmuch-message-mode))
-
-(use-package eudcb-notmuch-address
-  ;; https://www.mail-archive.com/notmuch@notmuchmail.org/msg53258.html
-  :load-path "vendor/"
-  :config (add-to-list 'eudc-server-hotlist '("localhost" . notmuch-address)))
-
 (use-package eshell
   :defer t
   :preface
@@ -1508,24 +1374,6 @@ With a prefix argument, will default to looking for all
   (setq gnus-treat-fill-long-lines nil)
   ;; discourse emails use --- as signature separator
   (setq gnus-signature-separator '("^---? $" "^---? *$")))
-
-(use-package gnus-dired
-  :ensure gnus
-  :config
-  ;; make the `gnus-dired-mail-buffers' function also work on
-  ;; message-mode derived modes, such as notmuch-message-mode
-  (define-advice gnus-dired-mail-buffers (:around (orig-fun &rest args) include-message-mode-derived-buffers)
-    "Return a list of active message buffers."
-    (let (buffers)
-      (save-current-buffer
-        (dolist (buffer (buffer-list t))
-          (set-buffer buffer)
-          (when (and (derived-mode-p 'message-mode)
-                     (null message-sent-message-via))
-            (push (buffer-name buffer) buffers))))
-      (append (apply orig-fun args) (nreverse buffers))))
-  (setq gnus-dired-mail-mode 'notmuch-user-agent)
-  (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode))
 
 (use-package goggles
   :ensure t
@@ -2100,18 +1948,7 @@ clocktable works."
   :demand t
   ;; try forcing magit to be integrated with project-switch-commands
   :config (with-eval-after-load 'magit
-            (require 'magit-extras))
-  ;; make debian source packages work as projects
-  (defun apm-project-try-debian (dir)
-    "Find a debian source package from DIR but only for local files."
-    (unless (file-remote-p dir)
-      (let ((dir (locate-dominating-file dir "debian/control")))
-        (and dir (cons 'debian dir)))))
-
-  (cl-defmethod project-root ((project (head debian)))
-    (cdr project))
-
-  (add-hook 'project-find-functions #'apm-project-try-debian))
+            (require 'magit-extras)))
 
 (use-package project-mode-line-tag
   :ensure t
