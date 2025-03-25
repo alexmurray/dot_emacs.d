@@ -1233,23 +1233,6 @@ With a prefix argument, will default to looking for all
   (add-to-list 'erc-modules 'image)
   (erc-update-modules))
 
-(use-package erc-matterircd
-  :load-path "vendor/"
-  :disabled t
-  :after erc
-  :config
-  ;; don't clutter view with context ids
-  (setq erc-matterircd-replace-context-id "↩")
-  (setq erc-matterircd-updatelastviewed-on-buffer-switch t)
-  (setq erc-matterircd-server "chat.canonical.com")
-  (setq erc-matterircd-team "canonical")
-  (let ((token (auth-source-pick-first-password :host "matterircd")))
-    (if (null token)
-        (alert (format "Please store matterircd token in ~/.authinfo.gpg with machine matterircd"))
-      (setq erc-matterircd-password (concat "token=" token))))
-  (add-to-list 'erc-modules 'matterircd)
-  (erc-update-modules))
-
 (use-package erc-view-log
   :ensure t
   :config
@@ -2058,10 +2041,6 @@ clocktable works."
   :ensure t
   :after ox)
 
-(use-package ox-hugo
-  :after ox
-  :ensure t)
-
 (use-package paredit
   :ensure t
   ;; don't steal occur prefix
@@ -2095,10 +2074,6 @@ clocktable works."
              (setq-local indent-tabs-mode t))
   :hook ((perl-mode . apm-perl-mode-setup))
   :custom (perl-indent-level 8))
-
-(use-package pod-mode
-  :vc (:fetcher github :repo renormalist/emacs-pod-mode)
-  :mode ("\\.pod$" . pod-mode))
 
 (use-package posframe
   :ensure t
@@ -2149,10 +2124,6 @@ clocktable works."
   :config (with-eval-after-load 'project
             (require 'projection)))
 
-(use-package projection-multi
-  :ensure projection
-  :bind (("C-x C-m" . projection-multi-compile)))
-
 (use-package python
   :defer t
   :custom
@@ -2164,9 +2135,6 @@ clocktable works."
   :ensure t
   ;; use the default unittest runner since it supports unittest.subTest() etc
   :custom (pythontest-test-runner "unittest"))
-
-(use-package quilt
-  :ensure t)
 
 (use-package rainbow-mode
   :ensure t
