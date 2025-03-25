@@ -607,7 +607,7 @@ With a prefix argument, will default to looking for all
 (use-package apparmor-mode
   :ensure t
   :config (add-to-list 'auto-mode-alist
-               `(,(expand-file-name "~/git/apparmor/profiles/apparmor.d/") . apparmor-mode)))
+                       `(,(expand-file-name "~/git/apparmor/profiles/apparmor.d/") . apparmor-mode)))
 
 (use-package apropos
   :bind ("C-h a" . apropos))
