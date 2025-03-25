@@ -1005,7 +1005,8 @@ With a prefix argument, will default to looking for all
               ("C-<end>" . copilot-accept-completion-by-line)
               ("M-n" . copilot-next-completion)
               ("M-p" . copilot-previous-completion))
-  :hook ((prog-mode . copilot-mode)))
+  :hook ((prog-mode . copilot-mode))
+  :custom (copilot-server-executable "/snap/bin/copilot-language-server"))
 
 (use-package crontab-mode
   :ensure t)
