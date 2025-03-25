@@ -67,7 +67,7 @@
   (setq org-directory (expand-file-name "~/git/org-files/"))
   (setq org-agenda-files (mapcar #'(lambda (f)
                                      (expand-file-name f org-directory))
-                                 '("personal.org" "canonical.org"
+                                 '("personal.org"
                                    "inbox.org" "tickler.org" "notes.org")))
   ;; don't indent org document sections etc
   (setq org-adapt-indentation nil)
@@ -221,7 +221,7 @@ With a prefix argument, will default to looking for all
   (setq erc-autojoin-timing 'ident)
 
   ;; since we connect to oftc directly, we need to autojoin channels there
-  ;; - not needed for libera (since we use ZNC) or canonical matterircd
+  ;; - not needed for libera (since we use ZNC)
   (setq erc-autojoin-channels-alist nil)
   (setq erc-fill-function #'erc-fill-wrap)
   ;; account for really long names
@@ -498,8 +498,7 @@ With a prefix argument, will default to looking for all
 
   ;; personalisation
   (setq user-full-name "Alex Murray")
-  ;; via notmuch below
-  (setq user-mail-address "alex.murray@canonical.com")
+  (setq user-mail-address "murray.alex@gmail.com")
 
   ;; enable narrow-to-region
   (put 'narrow-to-region 'disabled nil)
@@ -1241,7 +1240,7 @@ With a prefix argument, will default to looking for all
 
 (use-package epg
   :config
-  (setq epg-user-id "alex.murray@canonical.com"))
+  (setq epg-user-id "murray.alex@gmail.com"))
 
 (use-package erc-goodies
   :ensure erc
@@ -1733,17 +1732,6 @@ With a prefix argument, will default to looking for all
 
 (use-package json-mode
   :ensure t)
-
-(use-package ldap
-  :init (unless (executable-find "ldapsearch")
-          (alert "Please apt install ldap-utils"))
-  :demand t
-  :custom
-  (ldap-host-parameters-alist '(("ldaps://ldap.canonical.com"
-                                 base "ou=staff,dc=canonical,dc=com"
-                                 binddn "cn=Alex Murray,ou=staff,dc=canonical,dc=com"
-                                 auth-source t)))
-  (ldap-default-host "ldaps://ldap.canonical.com"))
 
 (use-package lin
   :ensure t
@@ -2262,8 +2250,7 @@ With a prefix argument, will default to looking for all
 (use-package org-refile
   :ensure org
   :config
-  (setq org-refile-targets '(("~/git/org-files/canonical.org" :maxlevel . 4)
-                             ("~/git/org-files/personal.org" :maxlevel . 2)
+  (setq org-refile-targets '(("~/git/org-files/personal.org" :maxlevel . 2)
                              ("~/git/org-files/someday.org" :level . 1)
                              ("~/git/org-files/tickler.org" :maxlevel . 1)
                              ("~/git/org-files/notes.org" :maxlevel . 2)))
@@ -2308,18 +2295,15 @@ With a prefix argument, will default to looking for all
   (setq org-agenda-custom-commands
         '(("i" "TODO from inbox" todo "TODO"
            ((org-agenda-files '("~/git/org-files/inbox.org"))))
-          ("c" "TODO from canonical" todo "TODO"
-           ((org-agenda-files '("~/git/org-files/canonical.org"))))
-          ("I" "Next TODO from all" todo "TODO" (
-                                                 (org-agenda-skip-function #'apm-org-agenda-skip-all-siblings-but-first-todo))))))
+          ("p" "TODO from personal" todo "TODO"
+           ((org-agenda-files '("~/git/org-files/personal.org")))))))
 
 (use-package org-capture
   :preface
   :after org
   :config
   (let ((inbox-org (expand-file-name "inbox.org" org-directory))
-        (tickler-org (expand-file-name "tickler.org" org-directory))
-        (canonical-org (expand-file-name "canonical.org" org-directory)))
+        (tickler-org (expand-file-name "tickler.org" org-directory)))
     (setq org-capture-templates
           `(("t" "todo" entry (file ,inbox-org)
              "* TODO %i%?
@@ -2328,43 +2312,6 @@ With a prefix argument, will default to looking for all
              "* %i%?
 %U
 - %a")
-            ("p" "project" entry (file ,canonical-org)
-             "* %i%?
-- %a")
-            ("m" "meeting" entry (file+headline ,canonical-org "Meetings")
-             "* %^{meeting title}     :meeting:
-%^{meeting day+time}T
-- %a%?")
-            ("D" "snap-store-discussion" entry (file+olp ,canonical-org "snap forum store request discussions")
-             "** %^{snap name}
-- %a%?" :clock-in t :clock-keep t)
-            ("T" "snap-store-tallied-processed" entry (file+olp ,canonical-org "snap forum store requests processed/tallied")
-             "** %^{snap name}
-- %a%?" :clock-in t :clock-keep t)
-            ("P" "snapd-pr-review" entry (file+olp ,canonical-org "snapd PR reviews")
-             "* [[https://github.com/snapcore/snapd/pull/%\\1][snapd PR #%^{number} %^{title}]]
-- https://github.com/snapcore/snapd/pull/%\\1%?
-- %a")
-            ("h" "hiring-take-home-test" entry (file+olp ,canonical-org "Hiring")
-             "* Review and grade take home test (%?) (=application_id=%^{application_id\\=}=)     :hiring:
-- %a
-- %^{link}")
-            ("i" "hiring-interview" entry (file+olp ,canonical-org "Hiring")
-             "* %^{candidate name} %^{role} %^{interview type} (=application_id=%^{application_id\\=}=)     :hiring:
-- %a
-- %^{greenhouse link}
-** TODO Prepare for interview
-:SCHEDULED: %^{prep day+time}T
-- %\\5
-- [ ] Review job description and interview notes
-- [ ] Resume
-- [ ] %?
-- [ ] Draft questions
-** Conduct interview     :meeting:
-%^{interview day+time}T
-** TODO Scorecard
-:SCHEDULED: %^{scorecard day+time}T
-- %\\5")
             ("r" "protocol" entry (file ,inbox-org)
              "* %^{Title}
 Source: %u, %c
@@ -2683,13 +2630,6 @@ clocktable works."
 
 (use-package smiley
   :custom (smiley-style 'emoji))
-
-(use-package smtpmail
-  :custom
-  (smtpmail-smtp-user "amurray")
-  (smtpmail-local-domain "canonical.com")
-  (smtpmail-smtp-server "smtp.canonical.com")
-  (smtpmail-smtp-service 587))
 
 (use-package so-long
   :config (global-so-long-mode 1))
