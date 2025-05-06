@@ -1423,6 +1423,18 @@ With a prefix argument, will default to looking for all
   :ensure t
   :config (global-set-key [remap goto-line] 'goto-line-preview))
 
+(use-package gptel
+  :ensure t
+  ;; configure to use local ollama instance
+  :config (setq
+ gptel-model 'qwen2.5-coder:latest
+ gptel-backend (gptel-make-ollama "Ollama"
+                 :host "localhost:11434"
+                 :stream t
+                 :models '(qwen2.5-coder:latest)))
+
+
+  )
 (use-package gud
   :defer t
   :hook ((gud-mode . gud-tooltip-mode)))
