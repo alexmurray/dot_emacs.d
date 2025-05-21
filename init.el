@@ -1879,6 +1879,9 @@ clocktable works."
   :ensure t
   :after org)
 
+(use-package orgit-forge
+  :ensure t)
+
 (use-package org-src
   :ensure org
   :config
