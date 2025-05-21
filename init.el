@@ -1599,7 +1599,6 @@ With a prefix argument, will default to looking for all
 
 (use-package magit
   :ensure t
-  :pin melpa
   :custom ((magit-diff-refine-hunk t)
            (magit-format-file-function #'magit-format-file-all-the-icons))
   :bind (("C-x g" . magit-status))
