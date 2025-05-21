@@ -1431,7 +1431,7 @@ With a prefix argument, will default to looking for all
  gptel-backend (gptel-make-ollama "Ollama"
                  :host "localhost:11434"
                  :stream t
-                 :models '(qwen2.5-coder:latest)))
+                 :models '(qwen2.5-coder qwen3:latest)))
 
 
   )
