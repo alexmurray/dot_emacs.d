@@ -189,7 +189,7 @@ With a prefix argument, will default to looking for all
         (apm-eudc-lookup-launchpadid nick)
       (apm-eudc-lookup-nick nick)))
 
-  :hook ((after-init . apm-prompt-to-connect-to-irc))
+  ;; :hook ((after-init . apm-prompt-to-connect-to-irc))
   :bind (:map erc-mode-map
               ("C-c f e" . apm-erc-find-logfile)
               ("M-s e" . apm-occur-in-erc)
