@@ -1037,9 +1037,6 @@ With a prefix argument, will default to looking for all
   (dired-vc-rename-file t)
   :hook ((dired-mode . dired-hide-details-mode)))
 
-(use-package discourse-mode
-  :vc (:fetcher codeberg :repo "glenneth/discourse-emacs"))
-
 (use-package disk-usage
   :ensure t)
 
