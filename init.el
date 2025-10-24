@@ -1137,6 +1137,7 @@ With a prefix argument, will default to looking for all
   :config
   ;; speed up performance
   (fset #'jsonrpc--log-event #'ignore)
+  (add-to-list 'eglot-server-programs '(cmake-ts-mode "cmake-language-server" :initializationOptions (:buildDirectory "build/")))
   ;; enable formatting in vscode-json-languageserver
   (add-to-list 'eglot-server-programs '(json-mode "vscode-json-languageserver" "--stdio"
                                                   :initializationOptions (:provideFormatter t)))
