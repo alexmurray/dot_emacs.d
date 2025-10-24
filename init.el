@@ -330,13 +330,6 @@ With a prefix argument, will default to looking for all
     (add-to-list 'recentf-exclude no-littering-var-directory)
     (add-to-list 'recentf-exclude no-littering-etc-directory)))
 
-;; support :vc integration in use-package - this is in emacs 30 but not emacs-29
-;; so install it manually if needed
-(unless (package-installed-p 'vc-use-package)
-  (package-vc-install "https://github.com/slotThe/vc-use-package"))
-(eval-and-compile
-  (require 'vc-use-package))
-
 (use-package diminish
   :ensure t)
 
@@ -973,11 +966,11 @@ With a prefix argument, will default to looking for all
               ("M-s i" . consult-eglot-symbols)))
 
 (use-package consult-xref-stack
-  :vc (:fetcher github :repo brett-lempereur/consult-xref-stack)
+  :vc (:url "https://github.com/brett-lempereur/consult-xref-stack/")
   :bind (("C-," . consult-xref-stack-backward)))
 
 (use-package copilot
-  :vc (:fetcher github :repo zerolfx/copilot.el)
+  :vc (:url "https://github.com/zerolfx/copilot.el/")
   :demand t
   :preface
   (defun apm-copilot-complete-or-accept ()
@@ -1159,7 +1152,7 @@ With a prefix argument, will default to looking for all
                                                    :initializationOptions (:vim-runtime ,(car (file-expand-wildcards "/usr/share/vim/vim*"))))))
 
 (use-package eglot-booster
-  :vc (:fetcher github :repo jdtsmith/eglot-booster)
+  :vc (:url "https://github.com/jdtsmith/eglot-booster/")
   :after eglot
   :init (unless (executable-find "emacs-lsp-booster")
           (alert "Please install emacs-lsp-booster to ~/bin from https://github.com/blahgeek/emacs-lsp-booster/releases"))
@@ -1518,7 +1511,7 @@ With a prefix argument, will default to looking for all
 
 (use-package journalctl
   :ensure t
-  :vc (:fetcher github :repo WJCFerguson/journalctl))
+  :vc (:url "https://github.com/WJCFerguson/journalctl/"))
 
 (use-package jq-mode
   :ensure t)
@@ -1689,7 +1682,7 @@ With a prefix argument, will default to looking for all
 
 (use-package org-block-capf
   :after org
-  :vc (:fetcher github :repo xenodium/org-block-capf)
+  :vc (:url "https://github.com/xenodium/org-block-capf/")
   :hook (org-mode . org-block-capf-add-to-completion-at-point-functions))
 
 (use-package org-crypt
@@ -2105,7 +2098,7 @@ clocktable works."
   :ensure t)
 
 (use-package ultra-scroll
-  :vc (:fetcher github :repo jdtsmith/ultra-scroll)
+  :vc (:url "https://github.com/jdtsmith/ultra-scroll/")
   :init
   (setq scroll-conservatively 101 ; important!
         scroll-margin 0)
@@ -2206,7 +2199,7 @@ clocktable works."
   :config (yas-global-mode 1))
 
 (use-package yasnippet-capf
-  :vc (:fetcher github :repo elken/yasnippet-capf)
+  :vc (:url "https://github.com/elken/yasnippet-capf/")
   :after cape
   :config (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
