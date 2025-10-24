@@ -676,11 +676,6 @@ With a prefix argument, will default to looking for all
   :ensure t
   :config (bbdb-initialize 'message))
 
-(use-package blacken
-  :ensure t
-  :init (unless (executable-find "black")
-          (alert "Please install the black snap")))
-
 (use-package breadcrumb
   :ensure t
   :config (breadcrumb-mode 1))
