@@ -522,12 +522,12 @@ With a prefix argument, will default to looking for all
 
   ;; system font doesn't seem to scale properly in emacs so set it manually
   (let ((preferred-font "Ubuntu Sans Mono-11"))
-      (if (daemonp)
-          (add-to-list 'default-frame-alist `(font . ,preferred-font))
-        (if (null (font-info preferred-font))
-            (alert "Please apt install fonts-ubuntu")
-          ;; apply this to all existing and future frames
-          (set-frame-font preferred-font nil t))))
+    (if (daemonp)
+        (add-to-list 'default-frame-alist `(font . ,preferred-font))
+      (if (null (font-info preferred-font))
+          (alert "Please apt install fonts-ubuntu")
+        ;; apply this to all existing and future frames
+        (set-frame-font preferred-font nil t))))
 
   ;; make emacs less laggy
   (setq inhibit-compacting-font-caches t)
