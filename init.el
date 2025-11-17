@@ -1409,11 +1409,11 @@ With a prefix argument, will default to looking for all
   :ensure t
   ;; configure to use local ollama instance
   :config (setq
- gptel-model 'qwen2.5-coder:latest
- gptel-backend (gptel-make-ollama "Ollama"
-                 :host "localhost:11434"
-                 :stream t
-                 :models '(qwen2.5-coder qwen3:latest)))
+           gptel-model 'qwen2.5-coder:latest
+           gptel-backend (gptel-make-ollama "Ollama"
+                           :host "localhost:11434"
+                           :stream t
+                           :models '(qwen2.5-coder qwen3:latest)))
 
 
   )
@@ -1499,8 +1499,8 @@ With a prefix argument, will default to looking for all
                                           ,(concat "PKG_CONFIG_PATH=" (car (file-expand-wildcards (concat sysroot "usr/lib/*/pkgconfig")))))
                                         process-environment))
            (jinx--compile-flags (append jinx--compile-flags
-                                               (list (concat "--sysroot=" sysroot)
-                                                     (concat "-Wl,-rpath=" sysroot "/lib/x86_64-linux-gnu")))))
+                                        (list (concat "--sysroot=" sysroot)
+                                              (concat "-Wl,-rpath=" sysroot "/lib/x86_64-linux-gnu")))))
       (apply orig-fun args)))
   :bind (("M-$" . jinx-correct)
          :map jinx-mode-map ("C-;" . jinx-correct))
