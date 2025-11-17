@@ -595,6 +595,10 @@ With a prefix argument, will default to looking for all
   ;; show colours correctly in shell
   :config (ansi-color-for-comint-mode-on))
 
+(use-package apheleia
+  :ensure t
+  :config (apheleia-global-mode 1))
+
 (use-package apm-misc
   :load-path "lisp/"
   :bind (("C-c b l" . apm-browse-lp-bug-at-point)))
@@ -809,11 +813,6 @@ With a prefix argument, will default to looking for all
 (use-package check-cves-mode
   :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
   :mode ("check-cves\\..*\\'" . check-cves-mode))
-
-(use-package clang-format
-  :ensure t
-  :hook '((c-mode-common . clang-format-on-save-mode)
-          (c-ts-mode . clang-format-on-save-mode)))
 
 (use-package comint
   :hook ((comint-output-filter-functions . comint-osc-process-output)))
