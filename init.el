@@ -57,7 +57,9 @@
     (setq-local electric-pair-pairs (append electric-pair-pairs '((?\* . ?\*)
                                                                   (?\= . ?\=)
                                                                   (?\~ . ?\~)))))
-  :hook (org-mode . apm-org-mode-setup)
+  :hook
+  (org-mode . apm-org-mode-setup)
+  (org-mode . turn-on-auto-fill)
   :config
   (setq org-log-repeat nil)
   (setq org-log-into-drawer t)
@@ -75,249 +77,11 @@
   ;; @ = add note with time
   ;; ! = record only time of state change
   ;; | = remaining keywords are final states
-  (setq org-todo-keywords '((sequence "TODO(t)" "WORK(w)" "|" "CANCELLED(c@)" "DELEGATED(G@)" "DONE")))
+  (setq org-todo-keywords '((sequence "TODO(t)" "WORK(w)" "REVW(r)" "|" "CANCELLED(c@)" "DELEGATED(G@)" "DONE")))
   ;; ensure it is harder to inadvertently delete collapsed parts of org
   ;; documents
   (setq org-catch-invisible-edits 'smart)
-  (setq org-ctrl-k-protect-subtree t)
-  (add-to-list 'org-file-apps '("\\.webm\\'" . "xdg-open %s"))
-  (add-to-list 'org-file-apps '("\\.aup3?\\'" . "audacity %s")))
-
-(use-package erc
-  :pin gnu-devel
-  :ensure t
-  :preface
-  (eval-when-compile
-    (require 'erc-log)
-    (require 'erc-match))
-
-  (defun apm-prompt-to-connect-to-irc ()
-    "Prompt to connect to irc."
-    (interactive)
-    (let ((connectivity (string-trim
-                         (shell-command-to-string "nmcli networking connectivity"))))
-      (if (string= connectivity "full")
-          (when (y-or-n-p "Connect to IRC? ")
-            ;; connect to matterircd on localhost and oftc and freenode via znc
-            ;;(erc :server "localhost" :port "6667" :nick "alexmurray")
-            (erc-tls :server "znc.secret.server" :port "7076"
-                     :nick "amurray" :password (concat "amurray/OFTC:"
-                                                       (auth-source-pick-first-password
-                                                        :user "amurray"
-                                                        :host "znc.secret.server"
-                                                        :port "7076")))
-            (erc-tls :server "znc.secret.server" :port "7076"
-                     :nick "amurray" :password (concat "amurray/libera:"
-                                                       (auth-source-pick-first-password
-                                                        :user "amurray"
-                                                        :host "znc.secret.server"
-                                                        :port "7076"))))
-        (message "Network connectivity is %s, not prompting to connect to IRC" connectivity)))
-
-    (defgroup apm-erc nil
-      "apm's erc customisations."
-      :group 'erc))
-
-  ;; face to show in header line when disconnected
-  (defface apm-erc-header-line-disconnected
-    '((t (:foreground "black" :background "indianred")))
-    "Face to use when ERC has been disconnected."
-    :group 'apm-erc)
-
-  (defun apm-erc-update-header-line-show-disconnected ()
-    "Use a different face in the header-line when disconnected."
-    (erc-with-server-buffer
-      (unless (erc-server-process-alive)
-        'apm-erc-header-line-disconnected)))
-
-  (defun apm-erc-find-logfile ()
-    "Find and open the current `erc-mode` buffers logfile."
-    (interactive)
-    (when (and (eq major-mode 'erc-mode) erc-log-mode)
-      (find-file-other-window (erc-current-logfile))))
-
-  (defun apm-erc-nicks ()
-    "Returns the list of possible nicks from `erc-nick'."
-    (if (listp erc-nick)
-        erc-nick
-      (list erc-nick)))
-
-  (defun apm-occur-in-erc (&optional regexp)
-    "Find matches of REGEXP in all erc buffers.
-With a prefix argument, will default to looking for all
-`erc-keywords' and mentions of `erc-nick'."
-    (interactive
-     (list
-      (let ((regex  (concat "\\(" (regexp-opt erc-keywords) "\\|"
-                            (concat "\\(^\\|[^<]\\)" (regexp-opt (apm-erc-nicks)) "\\([^>]\\|$\\)")
-                            "\\)")))
-        (read-string "Regexp: "
-                     (substring-no-properties
-                      (or (cond ((region-active-p)
-                                 (buffer-substring (region-beginning) (region-end)))
-                                (current-prefix-arg
-                                 regex)
-                                (t
-                                 (word-at-point)))
-                          ""))))))
-    (let ((erc-buffers nil))
-      (dolist (buffer (buffer-list))
-        (with-current-buffer buffer
-          (when (and (eq major-mode 'erc-mode)
-                     (not (erc-server-buffer-p)))
-            (push buffer erc-buffers))))
-      (multi-occur erc-buffers regexp)))
-
-  (defun apm-erc-browse-url-from-channel-topic ()
-    "Find urls in erc-channel-topic and offer to visit via `browse-url'."
-    (interactive)
-    (let ((topic erc-channel-topic)
-          (urls nil))
-      (with-temp-buffer
-        (insert topic)
-        (goto-char (point-min))
-        (while (re-search-forward "https?://" nil t)
-          (push (thing-at-point 'url t) urls)))
-      (if urls
-          (browse-url (completing-read "URL: " urls))
-        (user-error "No URLs listed in channel topic"))))
-
-  (defun apm-erc-lookup-nick (nick)
-    ;; if this is a matterircd buffer then query via launchpadid since they
-    ;; are used as nicks there
-    (if (eq 'matterircd (erc-network))
-        (apm-eudc-lookup-launchpadid nick)
-      (apm-eudc-lookup-nick nick)))
-
-  ;; :hook ((after-init . apm-prompt-to-connect-to-irc))
-  :bind (:map erc-mode-map
-              ("C-c f e" . apm-erc-find-logfile)
-              ("M-s e" . apm-occur-in-erc)
-              :map erc-fill-wrap-mode-map
-              ("C-c a" . org-agenda))
-  :config
-  (eval-and-compile
-    (require 'erc-button)
-    (require 'erc-desktop-notifications)
-    (require 'erc-fill)
-    (require 'erc-join)
-    (require 'erc-log)
-    (require 'erc-match)
-    (require 'erc-nicks)
-    (require 'erc-networks)
-    (require 'erc-notify)
-    (require 'erc-services)
-    (require 'erc-track))
-
-  (setq erc-user-full-name user-full-name)
-  (setq erc-nick (list user-login-name "alexmurray"))
-
-  ;; make prompt more dynamic
-  (setq erc-prompt #'erc-prompt-format)
-  (setq erc-prompt-for-nickserv-password nil)
-
-  (setq erc-use-auth-source-for-nickserv-password t)
-
-  (setq erc-autojoin-timing 'ident)
-
-  ;; since we connect to oftc directly, we need to autojoin channels there
-  ;; - not needed for libera (since we use ZNC)
-  (setq erc-autojoin-channels-alist nil)
-  (setq erc-fill-function #'erc-fill-wrap)
-  ;; account for really long names
-  (setq erc-fill-static-center 22)
-  ;; this fits on a dual horizontal split on my laptop
-  (setq erc-fill-column 110)
-
-  ;; use sensible buffer names with server as well
-  (setq erc-rename-buffers t)
-
-  ;; try harder to reconnect but wait longer each time since it may take a
-  ;; while to get a DHCP lease etc
-  (setq erc-server-reconnect-function #'erc-server-delayed-check-reconnect)
-  (setq erc-server-auto-reconnect t)
-
-  (setq erc-scrolltobottom-all t)
-
-  (add-to-list 'erc-modules 'button)
-  (add-to-list 'erc-modules 'log)
-  (add-to-list 'erc-modules 'match)
-  (add-to-list 'erc-modules 'nicks)
-  (add-to-list 'erc-modules 'notifications)
-  (add-to-list 'erc-modules 'scrolltobottom)
-  (add-to-list 'erc-modules 'services)
-  (add-to-list 'erc-modules 'services-regain)
-  (add-to-list 'erc-modules 'spelling)
-  (erc-update-modules)
-
-  ;; format nicknames to show if user has voice(+), owner (~), admin (&),
-  ;; operator (@)
-  (setq erc-show-speaker-membership-status t)
-
-  (setq erc-keywords '("alexmurray" "cve" "vulnerability" "apparmor" "seccomp" "exploit" "security" "esm" "@here" "@all" "@channel" "@security"))
-
-  ;; when joining don't bring to front
-  (setq erc-join-buffer 'bury)
-
-  ;; ensure erc-track plays nicer with minions - https://github.com/tarsius/minions/issues/22
-  (setq erc-track-position-in-mode-line t)
-  (setq erc-track-switch-direction 'importance)
-  (setq erc-track-exclude-types '("JOIN" "PART" "QUIT" "NICK" "MODE"
-                                  ;; channel mode (324), creation
-                                  ;; time (329), topic (332), topic
-                                  ;; who time (333), names (353), no
-                                  ;; chan modes (477)
-                                  "324" "329" "332" "333" "353" "477"))
-
-  (setq erc-track-exclude-server-buffer t)
-  (setq erc-track-showcount t)
-  ;; emacs channels are noisy
-  (setq erc-track-exclude '("#emacs" "#emacsconf" "#ubuntu"))
-  (setq erc-track-shorten-function nil)
-
-  (add-to-list 'erc-nick-popup-alist
-               '("Directory" . (apm-erc-lookup-nick nick)))
-  ;; only hide join / part / quit for those who are idle for more
-  ;; than 10 hours (ie are using a bouncer)
-  (setq erc-lurker-hide-list '("JOIN" "PART" "QUIT" "NICK"))
-  (setq erc-lurker-threshold-time (* 10 60 60))
-
-  ;; hide channel mode (324), creation time (329), topic (332), topic
-  ;; who time (333), names (353) - see
-  ;; https://www.alien.net.au/irc/irc2numerics.html
-  (setq erc-hide-list '("324" "329" "332" "333" "353"))
-
-  (setq erc-log-channels-directory "~/.emacs.d/erc/logs")
-  (setq erc-log-insert-log-on-open nil)
-  (setq erc-log-file-coding-system 'utf-8)
-  (setq erc-log-write-after-send t)
-  (setq erc-log-write-after-insert t)
-  (setq erc-save-buffer-on-part t)
-
-  ;; log mentions when away
-  (add-to-list 'erc-log-matches-types-alist
-               '(current-nick . "ERC Mentions"))
-
-  (unless (file-exists-p erc-log-channels-directory)
-    (mkdir erc-log-channels-directory t))
-
-  (erc-autojoin-mode 1)
-
-  (erc-spelling-mode 1)
-
-  ;; make sure we identify to nickserv
-  (erc-services-mode 1)
-
-  ;; change header line face when disconnected
-  (setq erc-header-line-face-method
-        #'apm-erc-update-header-line-show-disconnected)
-
-  ;; make sure any privmsg (which is via query buffers) show up as urgent
-  ;; in track list
-  (defadvice erc-track-select-mode-line-face (around erc-track-find-face-promote-query activate)
-    (if (erc-query-buffer-p)
-        (setq ad-return-value 'erc-current-nick-face)
-      ad-do-it)))
+  (setq org-ctrl-k-protect-subtree t))
 
 ;; load no-littering as soon as possible during init so it can hook as many
 ;; paths as possible
@@ -399,16 +163,10 @@ With a prefix argument, will default to looking for all
       (if (eq apm-preferred-theme apm-preferred-dark-theme)
           (custom-theme-set-faces
            apm-preferred-theme
-           `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow))))))
+           `(blamer-face ((t (:foreground ,(doom-color 'grey))))))
         (custom-theme-set-faces
          apm-preferred-theme
-         `(erc-keyword-face ((t (:weight bold :foreground ,(doom-color 'yellow))))))))
-    ;; ensure erc-nicks uses defined colors from doom-theme
-    (with-eval-after-load 'erc-nicks
-      (dolist (buffer-name '("Libera.Chat" "OFTC"))
-        (when-let (buffer (get-buffer buffer-name))
-          (with-current-buffer buffer
-            (erc-nicks-refresh nil))))))
+         `(blamer-face ((t (:foreground ,(doom-color 'grey)))))))))
   :custom
   (doom-one-padded-modeline t)
   :config
@@ -419,30 +177,6 @@ With a prefix argument, will default to looking for all
   (setq apm-preferred-light-theme 'doom-one-light)
   ;; set customisations after loading the theme
   (add-hook 'apm-load-preferred-theme-hook #'apm-setup-doom-themes)
-  (apm-set-preferred-theme))
-
-(use-package kanagawa-themes
-  :ensure t
-  :disabled t
-  :preface
-  (defun apm-setup-kanagawa-themes ()
-    (let ((custom--inhibit-theme-enable nil))
-      (custom-theme-set-faces
-       'kanagawa-wave
-       ;; `(erc-input-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'wave-red kanagawa-dark-palette))))))
-       ;; `(erc-keyword-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'ronin-yellow kanagawa-dark-palette))))))
-       ;; `(erc-notice-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'sumi-ink-4 kanagawa-dark-palette))))))
-       ;; `(erc-prompt-face ((((class color) (min-colors 89)) (:background ,(car (alist-get 'wave-blue-1 kanagawa-dark-palette))))))
-       ;; `(erc-timestamp-face ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'autumn-green kanagawa-dark-palette))))))
-       ;; `(message-mml ((((class color) (min-colors 89)) (:foreground ,(car (alist-get 'spring-green kanagawa-dark-palet
-       `(sh-heredoc ((((class color) (min-colors 89)) (:weight bold :foreground ,(car (alist-get 'autumn-yellow kanagawa-themes-color-palette-list)))))))))
-  :custom ((kanagawa-themes-org-height nil)
-           (kanagawa-themes-org-height nil))
-  :config
-  (setq apm-preferred-dark-theme 'kanagawa-wave)
-  (setq apm-preferred-light-theme 'kanagawa-wave)
-  ;; set customisations after loading the theme
-  (add-hook 'apm-load-preferred-theme-hook #'apm-setup-kanagawa-themes)
   (apm-set-preferred-theme))
 
 (use-package alert
@@ -470,11 +204,34 @@ With a prefix argument, will default to looking for all
                       (point-max))
              fill-column)))
       (call-interactively #'fill-paragraph)))
+
+  (defvar apm-gc-idle-timer nil)
+  (defvar apm-gc-cons-threshold (* 200 1024 1024))
+  (defvar apm-gc-idle-timeout 3.0)
+
+  (defun apm-minibuffer-setup-hook ()
+    "Set gc-cons-threshold to maximum when minibuffer is active."
+    (setq gc-cons-threshold most-positive-fixnum))
+
+  (defun apm-minibuffer-exit-hook ()
+    "Reset gc-cons-threshold."
+    (setq gc-cons-threshold apm-gc-cons-threshold))
+  :hook
+  ((minibuffer-setup . apm-minibuffer-setup-hook)
+   (minibuffer-exit . apm-minibuffer-exit-hook))
+
   :config
   ;; use pipes for subprocess communication
   (setq-default process-connection-type nil)
-  ;; performance increases as per https://emacs-lsp.github.io/lsp-mode/page/performance/
-  (setq gc-cons-threshold 100000000)
+  (setq gc-cons-threshold apm-gc-cons-threshold)
+  (setq apm-gc-idle-timer
+        (run-with-idle-timer
+         apm-gc-idle-timeout
+         t
+         #'garbage-collect))
+  ;; display messages during garbage collection
+  (setq garbage-collection-messages t)
+
   (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
   ;; personalisation
@@ -521,7 +278,7 @@ With a prefix argument, will default to looking for all
   (blink-cursor-mode -1)
 
   ;; system font doesn't seem to scale properly in emacs so set it manually
-  (let ((preferred-font "Ubuntu Sans Mono-11"))
+  (let ((preferred-font "Ubuntu Sans Mono-10"))
     (if (daemonp)
         (add-to-list 'default-frame-alist `(font . ,preferred-font))
       (if (null (font-info preferred-font))
@@ -549,7 +306,10 @@ With a prefix argument, will default to looking for all
   (setq completion-ignore-case t)
 
   ;; show empty lines
-  (setq indicate-empty-lines t))
+  (setq indicate-empty-lines t)
+
+  ;; allow recursive minibuffer usage
+  (setq enable-recursive-minibuffers t))
 
 ;;; Packages
 (use-package abbrev
@@ -590,6 +350,9 @@ With a prefix argument, will default to looking for all
   :ensure t
   :hook ((dired-mode . all-the-icons-dired-mode)))
 
+(use-package android-mode
+  :ensure t)
+
 (use-package ansi-color
   :hook ((compilation-filter . ansi-color-compilation-filter))
   ;; show colours correctly in shell
@@ -597,10 +360,16 @@ With a prefix argument, will default to looking for all
 
 (use-package apheleia
   :ensure t
+  :config
+  ;; use ruff for python formatting
+  (dolist (mode '(python-mode python-ts-mode))
+    (setf (alist-get mode apheleia-mode-alist)
+          '(ruff-isort ruff)))
   :config (apheleia-global-mode 1))
 
 (use-package apm-misc
   :load-path "lisp/"
+  :disabled t
   :bind (("C-c b l" . apm-browse-lp-bug-at-point)))
 
 (use-package apparmor-mode
@@ -647,6 +416,11 @@ With a prefix argument, will default to looking for all
   (setq-default reftex-plug-into-AUCTeX t)
   (setq-default TeX-source-correlate-start-server t))
 
+(use-package auto-dim-other-buffers
+  :ensure t
+  :config
+  (auto-dim-other-buffers-mode 1))
+
 (use-package auth-source
   ;; prefer encrypted auth source to non-encrypted
   :init
@@ -669,9 +443,17 @@ With a prefix argument, will default to looking for all
     (diminish (cdr m)))
   (beginend-global-mode 1))
 
-(use-package bbdb
+(use-package blamer
   :ensure t
-  :config (bbdb-initialize 'message))
+  :custom
+  ;; seem to get errors if trying to blame the selected lien as well so only show for the current line aka visual
+  (blamer-type 'visual)
+  (blamer-commit-formatter "· %s")
+  (blamer-idle-time 0.2)
+  :config
+  (global-blamer-mode 1)
+  (with-eval-after-load 'git-commit
+    (setq blamer-max-commit-message-length git-commit-summary-max-length)))
 
 (use-package breadcrumb
   :ensure t
@@ -689,33 +471,6 @@ With a prefix argument, will default to looking for all
 
 (use-package bs
   :bind ("C-x C-b" . bs-show))
-
-(use-package bug-reference
-  :defer t
-  :hook ((prog-mode . bug-reference-prog-mode)
-         (erc-mode . bug-reference-mode)
-         (org-mode . bug-reference-mode))
-  :preface (defun apm-bug-reference-url-format ()
-             (let ((prefix (match-string-no-properties 2))
-                   (id (match-string-no-properties 4)))
-               (cond ((or (string-prefix-p "lp" prefix t)
-                          (string-prefix-p "bug" prefix t))
-                      (format "https://launchpad.net/bugs/%s" id))
-                     ((string-prefix-p "CVE" prefix)
-                      (format "https://ubuntu.com/security/CVE-%s" id))
-                     ((string-match "^\\([UL]SN\\)" prefix)
-                      (format "https://ubuntu.com/security/notices/%s-%s"
-                              (match-string-no-properties 1 prefix) id))
-                     ((string-prefix-p "USN" prefix)
-                      (format "https://ubuntu.com/security/notices/USN-%s" id))
-                     ((string-prefix-p "SEC-" prefix)
-                      (format "https://warthogs.atlassian.net/browse/SEC-%s" id))
-                     (t (error (concat "Unknown bug prefix '%s'" prefix))))))
-  :init
-  (eval-when-compile
-    (require 'bug-reference))
-  (setq bug-reference-url-format #'apm-bug-reference-url-format
-        bug-reference-bug-regexp "\\<\\(\\(\\([Ll][Pp]:?\\|bug\\) #?\\|CVE[ -]\\|[UL]SN[ -]\\|SEC-\\)\\([0-9Y][0-9N-]*\\)\\)\\>"))
 
 (use-package calc
   :defer t
@@ -753,66 +508,15 @@ With a prefix argument, will default to looking for all
 
 (use-package cc-mode
   :defer t
-  :preface
-  ;; c-mode and other derived modes (c++, java etc) etc
-  (defun apm-c-mode-common-setup ()
-    "Tweaks and customisations for all modes derived from c-common-mode."
-    (auto-fill-mode 1)
-    ;; diminish auto-fill in the modeline
-    (with-eval-after-load 'diminish
-      (diminish 'auto-fill-function))
-    ;; turn on auto-newline and hungry-delete
-    (c-toggle-auto-hungry-state 1)
-    ;; turn on electric indent
-    (c-toggle-electric-state 1)
-    ;; ensure fill-paragraph takes doxygen @ markers as start of new
-    ;; paragraphs properly
-    (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
-  :hook ((c-mode-common . apm-c-mode-common-setup))
-  :config
-  ;; from https://www.kernel.org/doc/html/v5.0/process/coding-style.html
-  (defvar c-syntactic-element)
-  (defun c-lineup-arglist-tabs-only (ignored)
-    "Line up argument lists by tabs, not spaces"
-    (let* ((anchor (c-langelem-pos c-syntactic-element))
-           (column (c-langelem-2nd-pos c-syntactic-element))
-           (offset (- (1+ column) anchor))
-           (steps (floor offset c-basic-offset)))
-      (* (max steps 1) c-basic-offset)))
-  ;; Add upstream kernel style which uses actual tabs
-  (c-add-style "linux-tabs-only"
-               '("linux" (c-offsets-alist
-                          (arglist-cont-nonempty
-                           c-lineup-gcc-asm-reg
-                           c-lineup-arglist-tabs-only)))))
+  :custom (c-basic-offset 2))
 
-(use-package apm-c
-  :load-path "lisp/"
-  :preface
-  (defun apm-c-ts-mode-setup ()
-    "Tweaks and customisations for `c-mode'."
-    (let ((filename (buffer-file-name)))
-      (if (and filename (string-match-p (expand-file-name "~/git/apparmor-kernel") filename))
-          ;; upstream linux kernel style actually uses tabs... urgh
-          (progn
-            (setq indent-tabs-mode t)
-            (setq c-ts-mode-indent-offset 8))))
-    ;; always show trailing whitespace
-    (setq show-trailing-whitespace t)
-    ;; ensure fill-paragraph takes doxygen @ markers as start of new
-    ;; paragraphs properly
-    (setq paragraph-start "^[ ]*\\(//+\\|\\**\\)[ ]*\\([ ]*$\\|@param\\)\\|^\f"))
-  :hook (((c-ts-mode c++-ts-mode) . apm-c-ts-mode-setup))
-  :custom
-  (c-ts-mode-indent-offset 4)
-  (c-ts-mode-indent-style "linux")
+(use-package c-ts-mode
   :config
-  ;; treat linux style as safe for local variable
-  (add-to-list 'safe-local-variable-values '(c-ts-mode-indent-style . linux)))
-
-(use-package check-cves-mode
-  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/"
-  :mode ("check-cves\\..*\\'" . check-cves-mode))
+  (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . c-or-c++-ts-mode))
+  :custom (c-ts-mode-indent-offset 2)
+  (c-ts-mode-indent-style 'linux))
 
 (use-package comint
   :hook ((comint-output-filter-functions . comint-osc-process-output)))
@@ -861,6 +565,7 @@ With a prefix argument, will default to looking for all
 
 (use-package compile
   :hook ((shell-mode . compilation-shell-minor-mode))
+  :bind ("<f5>" . compile)
   ;; automatically scroll to first error on output
   :config (setq compilation-scroll-output 'first-error)
   ;; use compilation-mode for _source.build files
@@ -891,7 +596,7 @@ With a prefix argument, will default to looking for all
          ("M-s i" . consult-imenu)
          ("M-s l" . consult-line)
          ("M-s o" . consult-outline)
-         ("C-y". consult-yank-replace)
+         ("C-y". consult-yank-pop)
          ("M-y". consult-yank-pop)
          ("M-g e" . consult-compile-error)
          ("M-g g" . consult-goto-line)   ;; orig. goto-line
@@ -1013,17 +718,6 @@ With a prefix argument, will default to looking for all
   :init (unless (executable-find "rg")
           (alert "Please apt install ripgrep")))
 
-(use-package debian-el
-  :ensure t)
-
-(use-package debbugs
-  :ensure t)
-
-(use-package define-word
-  :ensure t
-  :bind (("C-c d" . define-word-at-point)
-         ("C-c D" . define-word)))
-
 (use-package devhelp
   :ensure t)
 
@@ -1042,6 +736,12 @@ With a prefix argument, will default to looking for all
 (use-package display-fill-column-indicator
   :hook ((prog-mode . display-fill-column-indicator-mode)
          (text-mode . display-fill-column-indicator-mode)))
+
+(use-package display-line-numbers
+  :hook ((prog-mode . display-line-numbers-mode)
+         (text-mode . display-line-numbers-mode))
+  :custom
+  (display-line-numbers-widen t))
 
 (use-package disproject
   :ensure t
@@ -1098,6 +798,9 @@ With a prefix argument, will default to looking for all
          (dired-mode . diff-hl-dired-mode))
   :config (global-diff-hl-mode 1))
 
+(use-package diffview
+  :ensure t)
+
 (use-package disaster
   :ensure t
   :bind ((:map c-mode-base-map ("C-c d" . disaster))))
@@ -1119,20 +822,16 @@ With a prefix argument, will default to looking for all
   (ediff-split-window-function 'split-window-horizontally))
 
 (use-package eglot
-  :preface
-  ;; compose all eldoc messages together so eglot plays nicely with flymake etc
-  ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
-  (defun apm-eglot-compose-eldoc ()
-    (setq eldoc-documentation-strategy
-          'eldoc-documentation-compose))
   :hook ((prog-mode . eglot-ensure)
          (yaml-mode . eglot-ensure)
-         (eglot-managed-mode . apm-eglot-compose-eldoc)
          (eglot-managed-mode . eglot-inlay-hints-mode))
+  :bind (:map eglot-mode-map ("<f2>" . eglot-rename))
   :custom
   (eglot-extend-to-xref t)
+  (eglot-documentation-strategy 'eldoc-documentation-compose-eagerly)
   ;; improve performance by logging less
   (eglot-events-buffer-config '(:size 20000 :format short))
+  :custom-face (eglot-highlight-symbol-face ((t (:inherit bold :underline t))))
   :config
   ;; speed up performance
   (fset #'jsonrpc--log-event #'ignore)
@@ -1197,37 +896,6 @@ With a prefix argument, will default to looking for all
   :config
   (setq epg-user-id "murray.alex@gmail.com"))
 
-(use-package erc-goodies
-  :ensure erc
-  ;; ensure this is set and we don't inadvertently unset it
-  :bind (:map erc-mode-map ("C-c C-c" . nil))
-  ;; use erc-keep-place-indicator-mode
-  :hook (erc-mode . erc-keep-place-indicator-mode)
-  :config
-  (progn
-    (setq erc-interpret-controls-p t)
-    (add-to-list 'erc-modules 'keep-place)
-    (erc-update-modules)))
-
-(use-package erc-image
-  :ensure t
-  :after erc
-  :config
-  (add-to-list 'erc-modules 'image)
-  (erc-update-modules))
-
-(use-package erc-view-log
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist
-               `(,(format "%s/.*\\.[log|txt]"
-                          (regexp-quote
-                           (expand-file-name
-                            erc-log-channels-directory))) . erc-view-log-mode)))
-
-(use-package erlang
-  :load-path "vendor/erlang")
-
 (use-package eshell
   :defer t
   :preface
@@ -1248,15 +916,10 @@ With a prefix argument, will default to looking for all
   :hook ((term-mode . eterm-256color-mode))
   :init (unless (file-exists-p "~/.terminfo/e/eterm-color")
           (make-directory "~/.terminfo/e/" t)
-          (shell-command "tic /snap/emacs/current/usr/share/emacs/27.0.50/etc/e/eterm-color.ti")))
+          (shell-command (concat  "tic " (car (file-expand-wildcards "/snap/emacs/current/usr/share/emacs/*/etc/e/eterm-color.ti"))))))
 
 (use-package executable
   :hook ((after-save . executable-make-buffer-file-executable-if-script-p)))
-
-(use-package exec-path-from-shell
-  :ensure t
-  :init (when (memq window-system '(mac ns))
-          (exec-path-from-shell-initialize)))
 
 (use-package expreg
   :ensure t
@@ -1272,7 +935,7 @@ With a prefix argument, will default to looking for all
 
 (use-package flymake
   :hook (prog-mode . flymake-mode)
-  :custom (flymake-mode-line-lighter "🪰")
+  :custom (flymake-mode-line-lighter "ℹ")
   :bind (:map flymake-mode-map
               ("M-n" . flymake-goto-next-error)
               ("M-p" . flymake-goto-prev-error)))
@@ -1292,7 +955,9 @@ With a prefix argument, will default to looking for all
                         (not (eq buffer-file-name nil)))
                (flymake-ruff-load)))
   ;; load via eglot - but this should only be done in python-mode buffers
-  :hook (eglot-managed-mode . apm-flymake-ruff-load))
+  :hook (eglot-managed-mode . apm-flymake-ruff-load)
+  ;; bypass snap confinement since apparmor blocks snap-confine and hence the ruff snap from inheriting the file-descriptor for the temp file created by call-process-region used internally by flymake-ruff
+  :custom (flymake-ruff-program "/snap/ruff/current/bin/ruff"))
 
 (use-package forge
   :ensure t
@@ -1325,6 +990,14 @@ With a prefix argument, will default to looking for all
   :ensure git-modes
   :defer t)
 
+(use-package git-commit-mode
+  :ensure magit
+  :after magit
+  :preface (defun apm-git-commit-mode-setup ()
+             (setq-local fill-column 75))
+  :hook ((git-commit-mode . apm-git-commit-mode-setup))
+  :config (git-commit-turn-on-auto-fill))
+
 (use-package gitconfig-mode
   :ensure git-modes
   :defer t)
@@ -1339,24 +1012,6 @@ With a prefix argument, will default to looking for all
 (use-package gnu-elpa
   :defer t
   :ensure t)
-
-(use-package gnus-art
-  :config
-  ;; add custom highlighting to gnus for launchpad security bugs
-  (add-to-list 'gnus-emphasis-alist
-               (list "\\(Private security bug reported\\)" 1 1 'error))
-  (add-to-list 'gnus-emphasis-alist
-               (list "\\(This bug is a security vulnerability\\)" 1 1 'warning))
-  ;; github PRs I have been requested to review
-  (add-to-list 'gnus-emphasis-alist
-               (list "\\(requested your review on:\\|amurray\\|alexmurray\\|Alex Murray\\)" 1 1 'error))
-  ;; and for build failure emacs
-  (add-to-list 'gnus-emphasis-alist
-               (list "\\(State: failed to \\(build\\|upload\\)\\)" 1 1 'error))
-  ;; don't fill long lines as breaks tables in emails
-  (setq gnus-treat-fill-long-lines nil)
-  ;; discourse emails use --- as signature separator
-  (setq gnus-signature-separator '("^---? $" "^---? *$")))
 
 (use-package goggles
   :ensure t
@@ -1413,10 +1068,8 @@ With a prefix argument, will default to looking for all
            gptel-backend (gptel-make-ollama "Ollama"
                            :host "localhost:11434"
                            :stream t
-                           :models '(qwen2.5-coder qwen3:latest)))
+                           :models '(qwen2.5-coder))))
 
-
-  )
 (use-package gud
   :defer t
   :hook ((gud-mode . gud-tooltip-mode)))
@@ -1463,18 +1116,6 @@ With a prefix argument, will default to looking for all
 (use-package imenu
   :bind (("M-i" . imenu)))
 
-(use-package ispell
-  ;; using jinx for spell checking
-  :disabled t
-  :defer t
-  :init (unless (executable-find "aspell")
-          (alert "Please apt install aspell"))
-  :custom
-  (ispell-program-name "aspell")
-  (ispell-dictionary "australian")
-  (ispell-extra-args '("--sug-mode=ultra"))
-  (ispell-silently-savep t))
-
 (use-package keypression
   :ensure t)
 
@@ -1485,7 +1126,6 @@ With a prefix argument, will default to looking for all
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
 
 (use-package jinx
   :ensure t
@@ -1532,37 +1172,7 @@ With a prefix argument, will default to looking for all
   :ensure t
   :bind
   ("C-c C-l C-o" . link-hint-open-link)
-  ("C-c C-l C-c" . link-hint-copy-link)
-  :config
-  (defun link-hint--next-bug-reference (bound)
-    "Find the next bug-reference."
-    (let ((next (next-single-char-property-change
-                 (point) 'bug-reference-url nil bound)))
-      (unless (eq next bound)
-        ;; check 'bug-reference-url is set at next - if it is then return
-        ;; this
-        (catch 'found
-          (dolist (overlay (overlays-at next))
-            (when (overlay-get overlay 'bug-reference-url)
-              (throw 'found next)))
-          ;; otherwise find the next one
-          (setq next
-                (next-single-char-property-change
-                 next 'bug-reference-url nil bound))
-          (unless (eq next bound) next)))))
-
-  (defun link-hint--bug-reference-at-point-p ()
-    "Return the bug-reference url at the point or nil."
-    (car (get-char-property-and-overlay (point) 'bug-reference-url)))
-
-  (link-hint-define-type 'bug-reference
-    :next #'link-hint--next-bug-reference
-    :at-point-p #'link-hint--bug-reference-at-point-p
-    :vars '(bug-reference-mode)
-    :open #'browse-url
-    :copy #'kill-new)
-
-  (push 'link-hint-bug-reference link-hint-types))
+  ("C-c C-l C-c" . link-hint-copy-link))
 
 (use-package lxd-tramp
   :ensure t
@@ -1594,10 +1204,6 @@ With a prefix argument, will default to looking for all
   ;; doesn't provide it anymore so explicitly add it
   :ensure t)
 
-(use-package mallard-mode
-  :ensure t
-  :defer t)
-
 (use-package marginalia
   :ensure t
   :hook ((emacs-startup . marginalia-mode)))
@@ -1616,7 +1222,12 @@ With a prefix argument, will default to looking for all
 
 (use-package mermaid-mode
   :ensure t
-  :defer t)
+  :defer t
+  :custom
+  ;; we are using the snap so make sure it has somewhere it can read to/write from by default rather than the global /tmp/
+  ((mermaid-tmp-dir (expand-file-name "~/snap/mermaid-cli/common/"))
+   ;; workaround bug in mermail.el where an empty mermaid-flags results in errors when spawning mmdc since it sees an empty command-line argument and complains - so set mermaid-flags to something relatively innocuous
+   (mermaid-flags "-q")))
 
 (use-package meson-mode
   :ensure t)
@@ -1677,18 +1288,6 @@ With a prefix argument, will default to looking for all
   ;; for vertico
   :ensure t)
 
-(use-package org-block-capf
-  :after org
-  :vc (:url "https://github.com/xenodium/org-block-capf/")
-  :hook (org-mode . org-block-capf-add-to-completion-at-point-functions))
-
-(use-package org-crypt
-  :ensure org
-  :config
-  (org-crypt-use-before-save-magic)
-  (setq org-tags-exclude-from-inheritance '("crypt"))
-  (setq org-crypt-key '("88E9530BCBDDC200517B5EB0F498D2D9DE7DAD9C")))
-
 (use-package org-id
   :ensure org
   :config
@@ -1698,6 +1297,13 @@ With a prefix argument, will default to looking for all
   :ensure t
   :after org
   :hook (org-mode . org-autolist-mode))
+
+(use-package org-crypt
+  :ensure org
+  :config
+  (org-crypt-use-before-save-magic)
+  (setq org-tags-exclude-from-inheritance '("crypt"))
+  (setq org-crypt-key '("88E9530BCBDDC200517B5EB0F498D2D9DE7DAD9C")))
 
 (use-package org-refile
   :ensure org
@@ -1716,19 +1322,6 @@ With a prefix argument, will default to looking for all
 
 (use-package org-agenda
   :ensure org
-  :preface
-  (defun apm-org-agenda-skip-all-siblings-but-first-todo ()
-    "Skip all but the first TODO entry."
-    (let ((should-skip-entry nil))
-      (unless (string= "TODO" (org-get-todo-state))
-        (setq should-skip-entry t))
-      (save-excursion
-        (while (and (not should-skip-entry) (org-goto-sibling t))
-          (when (string= "TODO" (org-get-todo-state))
-            (setq should-skip-entry t))))
-      (when should-skip-entry
-        (or (outline-next-heading)
-            (goto-char (point-max))))))
   :custom
   ;; add remove-match so grid lines which are already present in an entry
   ;; are not shown
@@ -1774,58 +1367,6 @@ Captured On: %U")))))
 
 (use-package org-clock
   :after org
-  :preface
-  (defun apm-org-clock-weekly-report-formatter (ipos tables params)
-    "Generate a weekly task report with the given `IPOS', `TABLES' and `PARAMS'.
-The `IPOS' is the point position. `TABLES' should be a list of table data.
-The `PARAMS' should be a property list of table keywords and values.
-
-See `org-clocktable-write-default' if you want an example of how the standard
-clocktable works."
-    (let* ((lang (or (plist-get params :lang) "en"))
-           (block (plist-get params :block))
-           (emph (plist-get params :emphasize))
-           (header (plist-get params :header))
-           (show-time (plist-get params :show-time)))
-      (goto-char ipos)
-      (insert-before-markers
-       (or header
-           ;; Format the standard header.
-           (format "#+CAPTION: %s %s%s\n"
-                   (org-clock--translate "Clock summary at" lang)
-                   (format-time-string (org-time-stamp-format t t))
-                   (if block
-                       (let ((range-text
-                              (nth 2 (org-clock-special-range
-                                      block nil t
-                                      (plist-get params :wstart)
-                                      (plist-get params :mstart)))))
-                         (format ", for %s." range-text))
-                     ""))))
-      (let '(total-time (apply #'+ (mapcar #'cadr tables)))
-        (when (and total-time (> total-time 0))
-          (pcase-dolist (`(, file-name , file-time , entries) tables)
-            (when (and file-time (> file-time 0))
-              (pcase-dolist (`(,level ,headline ,tgs ,ts ,time ,props) entries)
-                (insert-before-markers
-                 ;; indent with level
-                 (if (= level 1)
-                     "- "
-                   (concat (make-string level ? ) "- "))
-                 headline
-                 (if show-time
-                     (concat " ["
-                             (org-duration-from-minutes time)
-                             "]")
-                   "")
-                 "\n"))))
-          (when show-time
-            (insert-before-markers
-             "\n"
-             "Total time"
-             (concat " ["
-                     (format "%s" (org-duration-from-minutes total-time))
-                     "]")))))))
   ;; ensure we always run org-clock-persistence-insinuate below
   :demand t
   :bind (("C-c g" . org-clock-goto)
@@ -1917,9 +1458,6 @@ clocktable works."
   :ensure t
   :config (setq posframe-mouse-banish nil))
 
-(use-package pr-review
-  :ensure t)
-
 (use-package prescient
   :ensure t
   :config (prescient-persist-mode 1))
@@ -1936,6 +1474,7 @@ clocktable works."
   :ensure t
   :pin gnu
   :demand t
+  :bind ("<f5>" . project-compile)
   ;; try forcing magit to be integrated with project-switch-commands
   :config (with-eval-after-load 'magit
             (require 'magit-extras)))
@@ -1951,17 +1490,26 @@ clocktable works."
   :config (with-eval-after-load 'project
             (require 'projection)))
 
+(use-package pydoc
+  :ensure t
+  :custom
+  (pydoc-command "python3 -m pydoc")
+  (pydoc-python-command "python3"))
+
 (use-package python
   :defer t
+  :init (unless (executable-find "ruff")
+          (alert "Please snap install ruff"))
+  :preface (defun apm-python-mode-setup ()
+             "Remove python-flymake as we use flymake-ruff instead."
+             (remove-hook 'flymake-diagnostic-functions 'python-flymake t))
+  :hook ((python-mode . apm-python-mode-setup))
   :custom
   (python-indent-offset 4)
-  (python-check-command (executable-find "flake8"))
-  (python-flymake-command '("flake8" "-")))
+  (python-check-command (executable-find "ruff check")))
 
-(use-package pythontest
-  :ensure t
-  ;; use the default unittest runner since it supports unittest.subTest() etc
-  :custom (pythontest-test-runner "unittest"))
+(use-package python-pytest
+  :ensure t)
 
 (use-package rainbow-mode
   :ensure t
@@ -2054,17 +1602,6 @@ clocktable works."
 (use-package so-long
   :config (global-so-long-mode 1))
 
-(use-package spacious-padding
-  :ensure t
-  :config (setq spacious-padding-widths
-                '( :internal-border-width 0
-                   :header-line-width 4
-                   :mode-line-width 4
-                   :tab-width 4
-                   :right-divider-width 0
-                   :scroll-bar-width 0))
-  (spacious-padding-mode 1))
-
 (use-package strace-mode
   :ensure t)
 
@@ -2101,17 +1638,6 @@ clocktable works."
         scroll-margin 0)
   :config
   (ultra-scroll-mode 1))
-
-(use-package undo-tree
-  :ensure t
-  :config
-  (when (require 'no-littering nil t)
-    (setq undo-tree-history-directory-alist
-          `((,(concat "\\`" (file-name-as-directory temporary-file-directory)))
-            ("\\`/tmp/" . nil)
-            ("\\`/dev/shm/" . nil)
-            ("." . ,(no-littering-expand-var-file-name "undo-tree-hist/")))))
-  (global-undo-tree-mode 1))
 
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'post-forward
@@ -2152,9 +1678,8 @@ clocktable works."
   :ensure t
   :hook (((markdown-mode rst-mode) . virtual-auto-fill-mode)))
 
-(use-package visual-replace
-  :ensure t
-  :config (visual-replace-global-mode 1))
+(use-package vundo
+  :ensure t)
 
 (use-package webpaste
   :ensure t
@@ -2174,13 +1699,27 @@ clocktable works."
   :init (setq-default whitespace-style
                       '(face tabs tab-mark trailing missing-newline-at-eof))
   :config
-  ;; whitespace-mode is not useful for erc or magit-log buffers
-  (setq whitespace-global-modes '(not erc-mode magit-log-mode))
+  ;; whitespace-mode is not useful for magit-log buffers
+  (setq whitespace-global-modes '(not magit-log-mode))
   (global-whitespace-mode 1))
 
 (use-package whitespace-cleanup-mode
   :ensure t
   :config (global-whitespace-cleanup-mode 1))
+
+(use-package window
+  :preface
+  (defun apm-select-split-window-right ()
+    (interactive)
+    (select-window (split-window-right)))
+  (defun apm-select-split-window-below ()
+    (interactive)
+    (select-window (split-window-below)))
+  :bind
+  ;; use keybindings similar to ghostty for convenience
+  ("C-S-o" . apm-select-split-window-right)
+  ("C-S-e" . apm-select-split-window-below)
+  ("s-ESC" . other-window))
 
 (use-package wgrep-deadgrep
   :ensure t)
@@ -2189,6 +1728,9 @@ clocktable works."
   :ensure t)
 
 (use-package yaml-mode
+  :ensure t)
+
+(use-package yaml-pro
   :ensure t)
 
 (use-package yasnippet
