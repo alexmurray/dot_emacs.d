@@ -835,7 +835,7 @@
   :config
   ;; speed up performance
   (fset #'jsonrpc--log-event #'ignore)
-  (add-to-list 'eglot-server-programs '(cmake-ts-mode "cmake-language-server" :initializationOptions (:buildDirectory "build/")))
+  (add-to-list 'eglot-server-programs '(cmake-ts-mode "neocmakelsp" "stdio"))
   ;; enable formatting in vscode-json-languageserver
   (add-to-list 'eglot-server-programs '(json-mode "vscode-json-languageserver" "--stdio"
                                                   :initializationOptions (:provideFormatter t)))
