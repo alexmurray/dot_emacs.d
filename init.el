@@ -849,6 +849,7 @@
 
 (use-package eglot-booster
   :vc (:url "https://github.com/jdtsmith/eglot-booster/")
+  :disabled t
   :after eglot
   :init (unless (executable-find "emacs-lsp-booster")
           (alert "Please install emacs-lsp-booster to ~/bin from https://github.com/blahgeek/emacs-lsp-booster/releases"))
