@@ -317,13 +317,6 @@
   (setq save-abbrevs t)
   (setq-default abbrev-mode t))
 
-(use-package ace-window
-  :ensure t
-  :after avy
-  :defer t
-  :bind (("C-x o" . ace-window))
-  :config (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
-
 (use-package adaptive-wrap
   :ensure t
   :defer t
@@ -425,15 +418,6 @@
   ;; prefer encrypted auth source to non-encrypted
   :init
   (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc")))
-
-(use-package avy
-  :ensure t
-  :bind (("C-\\" . avy-goto-char-timer))
-  :config
-  ;; dim text when avy is active
-  (setq avy-background t)
-  ;; insert chars infront of target rather than over target
-  (setq avy-style 'pre))
 
 (use-package beginend
   :ensure t
@@ -933,6 +917,10 @@
   :custom
   (view-read-only t)
   (save-some-buffers-default-predicate #'save-some-buffers-root))
+
+(use-package flash
+  :ensure t
+  :bind (("s-j" . flash-jump)))
 
 (use-package flymake
   :hook (prog-mode . flymake-mode)
