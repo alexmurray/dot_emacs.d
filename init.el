@@ -658,7 +658,7 @@
   :bind (("C-," . consult-xref-stack-backward)))
 
 (use-package copilot
-  :vc (:url "https://github.com/zerolfx/copilot.el/")
+  :ensure t
   :demand t
   :preface
   (defun apm-copilot-complete-or-accept ()
