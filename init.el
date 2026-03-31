@@ -1056,11 +1056,11 @@
   :ensure t
   ;; configure to use local ollama instance
   :config (setq
-           gptel-model 'qwen2.5-coder:latest
+           gptel-model 'qwen3.5:4b
            gptel-backend (gptel-make-ollama "Ollama"
                            :host "localhost:11434"
                            :stream t
-                           :models '(qwen2.5-coder))))
+                           :models '(qwen3.5:4b))))
 
 (use-package gud
   :defer t
