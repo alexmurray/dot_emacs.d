@@ -689,6 +689,9 @@
 (use-package crontab-mode
   :ensure t)
 
+(use-package cve-mode
+  :load-path "~/ubuntu/git/ubuntu-cve-tracker/scripts/")
+
 ;; show suspicious c constructs automatically
 (use-package cwarn
   :init (global-cwarn-mode 1))
