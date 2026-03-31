@@ -1481,10 +1481,19 @@ Captured On: %U")))))
 
 (use-package projection
   :ensure t
-  :hook (emacs-startup . global-projection-hook-mode)
+  :hook (after-init . global-projection-hook-mode)
+  :hook (compilation-mode . projection-customize-compilation-mode)
+  :custom
+  (compilation-buffer-name-function 'projection-customize-compilation-buffer-name-function)
   :bind-keymap ("C-x P" . projection-map)
   :config (with-eval-after-load 'project
             (require 'projection)))
+
+(use-package projection-multi
+  :ensure t
+  :after projection
+  :bind (:map project-prefix-map
+              ("RET" . projection-multi-compile)))
 
 (use-package pydoc
   :ensure t
