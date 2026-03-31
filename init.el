@@ -1153,6 +1153,10 @@
 (use-package json-mode
   :ensure t)
 
+(use-package let-completion
+  :ensure t
+  :hook ((emacs-lisp-mode . let-completion-mode)))
+
 (use-package lin
   :ensure t
   :config (setq lin-face 'lin-cyan-override-fg))
