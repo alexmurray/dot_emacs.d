@@ -39,50 +39,6 @@
 (use-package gnu-elpa-keyring-update
   :ensure t)
 
-;; load org early so everything else gets compiled against it
-(use-package org
-  :pin gnu
-  :bind (("C-c a" . org-agenda)
-         ("C-c c" . org-capture)
-         ("C-c l" . org-store-link)
-         ("C-c j" . consult-org-agenda)
-         ("C-c C-w" . org-refile)
-         :map org-mode-map
-         ("M-s i" . consult-org-heading))
-  ;; ensure we always load org at startup
-  :demand t
-  :preface
-  (defun apm-org-mode-setup ()
-    ;; add * = ~ as electric pairs
-    (setq-local electric-pair-pairs (append electric-pair-pairs '((?\* . ?\*)
-                                                                  (?\= . ?\=)
-                                                                  (?\~ . ?\~)))))
-  :hook
-  (org-mode . apm-org-mode-setup)
-  (org-mode . turn-on-auto-fill)
-  :config
-  (setq org-log-repeat nil)
-  (setq org-log-into-drawer t)
-  (setq org-pretty-entities t)
-  ;; org-appear is disabled to show emphasis markers instead
-  (setq org-hide-emphasis-markers nil)
-  (setq org-directory (expand-file-name "~/git/org-files/"))
-  (setq org-agenda-files (mapcar #'(lambda (f)
-                                     (expand-file-name f org-directory))
-                                 '("personal.org"
-                                   "inbox.org" "tickler.org" "notes.org")))
-  ;; don't indent org document sections etc
-  (setq org-adapt-indentation nil)
-  (setq org-imenu-depth 4)
-  ;; @ = add note with time
-  ;; ! = record only time of state change
-  ;; | = remaining keywords are final states
-  (setq org-todo-keywords '((sequence "TODO(t)" "WORK(w)" "REVW(r)" "|" "CANCELLED(c@)" "DELEGATED(G@)" "DONE")))
-  ;; ensure it is harder to inadvertently delete collapsed parts of org
-  ;; documents
-  (setq org-catch-invisible-edits 'smart)
-  (setq org-ctrl-k-protect-subtree t))
-
 ;; load no-littering as soon as possible during init so it can hook as many
 ;; paths as possible
 (use-package no-littering
@@ -1283,6 +1239,49 @@
 (use-package orderless
   ;; for vertico
   :ensure t)
+
+(use-package org
+  ;; use built-in version of org
+  :bind (("C-c a" . org-agenda)
+         ("C-c c" . org-capture)
+         ("C-c l" . org-store-link)
+         ("C-c j" . consult-org-agenda)
+         ("C-c C-w" . org-refile)
+         :map org-mode-map
+         ("M-s i" . consult-org-heading))
+  ;; ensure we always load org at startup
+  :demand t
+  :preface
+  (defun apm-org-mode-setup ()
+    ;; add * = ~ as electric pairs
+    (setq-local electric-pair-pairs (append electric-pair-pairs '((?\* . ?\*)
+                                                                  (?\= . ?\=)
+                                                                  (?\~ . ?\~)))))
+  :hook
+  (org-mode . apm-org-mode-setup)
+  (org-mode . turn-on-auto-fill)
+  :config
+  (setq org-log-repeat nil)
+  (setq org-log-into-drawer t)
+  (setq org-pretty-entities t)
+  ;; org-appear is disabled to show emphasis markers instead
+  (setq org-hide-emphasis-markers nil)
+  (setq org-directory (expand-file-name "~/git/org-files/"))
+  (setq org-agenda-files (mapcar #'(lambda (f)
+                                     (expand-file-name f org-directory))
+                                 '("personal.org"
+                                   "inbox.org" "tickler.org" "notes.org")))
+  ;; don't indent org document sections etc
+  (setq org-adapt-indentation nil)
+  (setq org-imenu-depth 4)
+  ;; @ = add note with time
+  ;; ! = record only time of state change
+  ;; | = remaining keywords are final states
+  (setq org-todo-keywords '((sequence "TODO(t)" "WORK(w)" "REVW(r)" "|" "CANCELLED(c@)" "DELEGATED(G@)" "DONE")))
+  ;; ensure it is harder to inadvertently delete collapsed parts of org
+  ;; documents
+  (setq org-catch-invisible-edits 'smart)
+  (setq org-ctrl-k-protect-subtree t))
 
 (use-package org-id
   :ensure org
