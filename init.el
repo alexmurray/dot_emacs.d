@@ -111,28 +111,11 @@
    "SettingChanged"
    #'apm-desktop-portal-settings-changed))
 
-(use-package doom-themes
+(use-package batppuccin
   :ensure t
   :preface
-  (defun apm-setup-doom-themes ()
-    (let ((custom--inhibit-theme-enable nil))
-      (if (eq apm-preferred-theme apm-preferred-dark-theme)
-          (custom-theme-set-faces
-           apm-preferred-theme
-           `(blamer-face ((t (:foreground ,(doom-color 'grey))))))
-        (custom-theme-set-faces
-         apm-preferred-theme
-         `(blamer-face ((t (:foreground ,(doom-color 'grey)))))))))
-  :custom
-  (doom-one-padded-modeline t)
-  :config
-  (doom-themes-visual-bell-config)
-  (require 'org-indent) ;; https://github.com/doomemacs/themes/issues/807
-  (doom-themes-org-config)
-  (setq apm-preferred-dark-theme 'doom-vibrant)
-  (setq apm-preferred-light-theme 'doom-one-light)
-  ;; set customisations after loading the theme
-  (add-hook 'apm-load-preferred-theme-hook #'apm-setup-doom-themes)
+  (setq apm-preferred-dark-theme 'batppuccin-mocha)
+  (setq apm-preferred-light-theme 'batppuccin-latte)
   (apm-set-preferred-theme))
 
 (use-package alert
