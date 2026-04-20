@@ -1157,6 +1157,20 @@
 (use-package meson-mode
   :ensure t)
 
+(use-package message
+  ;; to better support format=flowed
+  :hook (message-mode . use-hard-newlines)
+  :custom
+  ;; use standard completion UI for message completion
+  (message-expand-name-standard-ui t)
+  (message-citation-line-format "On %a, %Y-%m-%d at %T %z, %N wrote:\n")
+  (message-citation-line-function #'message-insert-formatted-citation-line)
+  (message-make-forward-subject-function 'message-forward-subject-fwd)
+  ;; kill message buffer after sending rather than burying
+  (message-kill-buffer-on-exit t)
+  ;; disable filling of long lines
+  (message-fill-column nil))
+
 (use-package minibuffer
   :config
   (setq completion-styles '(substring orderless basic))
@@ -1171,6 +1185,9 @@
   :config
   (add-to-list 'minions-prominent-modes 'flymake-mode)
   (minions-mode 1))
+
+(use-package message-attachment-reminder
+  :ensure t)
 
 (use-package modern-cpp-font-lock
   :ensure t
@@ -1190,6 +1207,269 @@
 
 (use-package nhexl-mode
   :ensure t)
+
+(use-package notmuch
+  :ensure t
+  :init
+  (unless (executable-find "notmuch")
+    (alert "Please apt install notmuch"))
+  (unless (executable-find "afew")
+    (alert "Please apt install afew"))
+  :preface
+  ;; discourage the use of text/plain for certain senders
+  (defvar apm-notmuch-discouraged-senders '((("text/plain") . ("forum@forum.snapcraft.io"
+                                                               "noreply@discourse.ubuntu.com"
+                                                               "noreply@discourse.canonical.com"
+                                                               "bounce@websense.com"
+                                                               "wsm-postmaster@intel.com"
+                                                               "no-reply@onepointpay.com.au"))))
+  (defun apm-notmuch-determine-discouraged (msg)
+    "Determine is MSG wants text/plain to be discouraged."
+    (let* ((headers (plist-get msg :headers))
+           (from (or (plist-get headers :From) ""))
+           (discouraged '("text/html" "multipart/related")))
+      (dolist (discouraged-sender apm-notmuch-discouraged-senders)
+        (dolist (sender (cdr discouraged-sender))
+          (when (string-search sender from)
+            (setq discouraged (car discouraged-sender)))))
+      discouraged))
+
+  (defun apm-notmuch-show-view-lp-build-log ()
+    "Show the build log for the current message in a new buffer."
+    (interactive)
+    ;; find the build log URL in the current message, and open it in a new buffer
+    ;; with compilation-mode to view the log
+    (unless (eq major-mode 'notmuch-show-mode)
+      (error "Not in notmuch-show-mode"))
+    (save-excursion
+      (goto-char (point-min))
+      (when (re-search-forward "Build Log:" nil t)
+        (re-search-forward "https?://[^[:space:]]+" nil t)
+        (when-let ((url (thing-at-point 'url)))
+          (message "Fetching build log... %s" url)
+          (condition-case err
+              (let ((buffer (url-retrieve-synchronously url t)))
+                (with-current-buffer buffer
+                  (rename-buffer (format "*Build Log: %s*" url) t)
+                  (compilation-mode)
+                  (pop-to-buffer buffer)
+                  ;; also run analyse-build-log when available to pinpoint the line
+                  ;; of interest then scroll to that line
+                  (if (executable-find "analyse-build-log")
+                      (let ((line))
+                        (with-temp-buffer
+                          (insert-buffer-substring buffer)
+                          ;; lpci logs add :: prefix to lines which confuses
+                          ;; the analysis so remove this first
+                          (save-excursion
+                            (save-match-data
+                              (goto-char (point-min))
+                              (while (re-search-forward "^:: " nil t)
+                                (replace-match ""))))
+                          (message "Analysing build log...")
+                          (shell-command-on-region (point-min) (point-max) "analyse-build-log /dev/stdin" t t)
+                          (compilation-mode)
+                          (save-excursion
+                            (goto-char (point-min))
+                            (when (re-search-forward "\\(Issue found at line\\|Failed line:\\) \\([0-9]+\\)" nil t)
+                              (setq line (string-to-number (match-string 2)))
+                              ;; show the full output to the user
+                              (message (buffer-substring (point-min) (point-max))))))
+                        (when line
+                          (with-current-buffer buffer
+                            (forward-line (1- line)))))
+                    (message "analyse-build-log not found - install python3-buildlog-consultant or buildlog-consultant to support automatic error finding"))))
+            (error (message "Failed to download build log or analyse it: %s" (cdr err))))))))
+  :bind (("C-c m" . notmuch)
+         :map notmuch-show-mode-map
+         ("C-c C-l C-b" . apm-notmuch-show-view-lp-build-log))
+  :custom
+  (notmuch-wash-wrap-lines-length 150)
+  (notmuch-print-mechanism #'notmuch-print-ps-print/evince)
+  :config
+  (eval-and-compile
+    (require 'notmuch)
+    (require 'notmuch-show)
+    (require 'notmuch-tree))
+  (setq notmuch-multipart/alternative-discouraged 'apm-notmuch-determine-discouraged)
+  (defun apm-prompt-to-report-spam (subject url)
+    (and (y-or-n-p (format "Do you also want to report this message \"%s\" as spam to mailcontrol? " subject))
+         (url-retrieve (concat url)
+                       (lambda (s)
+                         (let ((status (url-http-symbol-value-in-buffer
+                                        'url-http-response-status (current-buffer))))
+                           (pcase status
+                             (200 (message "Reported '%s' as spam" subject))
+                             (_ (user-error "Failed to report as spam: %s" status))))) ))    )
+
+  (defun apm-get-websense-blocklist-url ()
+    "Get websense blocklist URL via the most recently received summary email."
+    ;; the summary email is sent with subject "Personal Email Subscription - Forcepoint Email Security Cloud"
+    (let ((summary-email (shell-command-to-string "notmuch show --include-html --sort=newest-first --limit 1  subject:\"Personal Email Subscription - Forcepoint Email Security Cloud\"")))
+      (when (string-match "\\(https://\\(admin.websense.net\\|www.mailcontrol.com\\)/r/[^?]*\\).*Manage Allow/Block Lists" summary-email)
+        (match-string 1 summary-email))))
+
+  (defun apm-prompt-to-add-email-to-forcepoint-blocklist (email description)
+    "Add EMAIL to the forcepoint blocklist with DESCRIPTION."
+    (let* ((blocklist-url (or (apm-get-websense-blocklist-url)
+                              (user-error "No URL found for managing websense blocklist")))
+           (url (concat blocklist-url "?page=bw_add"))
+           (n-similar (+ (string-to-number (shell-command-to-string (format "notmuch count from:%s" email)))
+                         (string-to-number (shell-command-to-string (format "notmuch count from:%s and tag:spam" email)))))
+           (response (if (> n-similar 1)
+                         (cadr
+                          (read-multiple-choice
+                           (format "Add %s to the blocklist with description '%s' (%d total emails from this sender)? " email description n-similar)
+                           '((?y "yes" "Yes - using the suggested description")
+                             (?e "edit" "Yes - but using a different description")
+                             (?n "no" "No - do not add to the blocklist"))
+                           nil nil (and (not use-short-answers)
+                                        (not (use-dialog-box-p)))))
+                       (message "Only 1 email from %s so not prompting to add to blocklist" email))))
+      (unless (equal response "no")
+        (when (equal response "edit")
+          (setq description (read-string "Description: " description)))
+        (let ((url-request-method "POST")
+              (url-request-extra-headers
+               '(("Content-Type" . "application/x-www-form-urlencoded")))
+              (url-request-data (concat "action=save&action_general=deny&"
+                                        "email_1=" (url-encode-url email) "&"
+                                        "description_1=" (url-encode-url description))))
+          (url-retrieve url
+                        (lambda (_)
+                          (let ((status (url-http-symbol-value-in-buffer
+                                         'url-http-response-status (current-buffer))))
+                            (pcase status
+                              (200 (message "Added %s to the blocklist with description '%s'" email description))
+                              (_ (user-error "Failed to add %s to the blocklist" email))))))
+          t))))
+  ;; requires to have set the following in ~/.notmuch-config so that the X-MailControl-ReportSpam header is available
+  ;;
+  ;; [show]
+  ;; extra_headers=X-MailControl-ReportSpam;Archived-At
+  (define-advice notmuch-show-tag (:around (orig-fun &rest args) prompt-report-spam-around-notmuch-show-tag)
+    "If tagging as spam then prompt to report to mailcontrol when supported"
+    (let ((tag-changes (car args)))
+      (when (seq-contains-p tag-changes "+spam" #'string=)
+        (let ((subject (notmuch-show-get-subject))
+              (sender (mail-extract-address-components (notmuch-show-get-from))))
+          (when-let ((url (notmuch-show-get-header :X-MailControl-ReportSpam)))
+            (and (apm-prompt-to-report-spam subject url)
+                 (apm-prompt-to-add-email-to-forcepoint-blocklist (cadr sender) (car sender)))))))
+    (apply orig-fun args))
+
+  ;; requires to have set the following in ~/.notmuch-config so that the Archived-At header is available
+  ;;
+  ;; [show]
+  ;; extra_headers=X-MailControl-ReportSpam;Archived-At
+  (define-advice notmuch-show-stash-mlarchive-link (:around (orig-fun &rest args) use-archived-at-header-around-notmuch-show-stash-mlarchive-link)
+    "Offer use of the Archived-At header if present."
+    (let ((archived-at (notmuch-show-get-header :Archived-At)))
+      (if archived-at
+          (let ((notmuch-show-stash-mlarchive-link-alist
+                 (append `(("Archived-At" . ,(lambda (id)
+                                               ;; strip any leading and trailing </>
+                                               (string-trim archived-at "<" ">"))))
+                         notmuch-show-stash-mlarchive-link-alist))
+                (notmuch-show-stash-ml-archive-link-default "Archived-At"))
+            (apply orig-fun args))
+        (apply orig-fun args))))
+
+  ;; place sent in Sent/ maildir with sent tag and remove unread or inbox tags
+  (setq notmuch-fcc-dirs "Sent +sent -unread -inbox")
+  ;; place drafts in Drafts/ maildir
+  (setq notmuch-draft-folder "Drafts")
+  (setq notmuch-archive-tags '("-inbox" "-unread"))
+  (setq mail-user-agent 'notmuch-user-agent)
+  ;; ensure kernel team daily bug report emails display without wrapping
+  (add-hook 'notmuch-show-insert-text/plain-hook 'notmuch-wash-convert-inline-patch-to-part)
+
+  (defun apm-notmuch-wash-lp-build-log (_msg _depth)
+    "Wash LP build logs in the current message."
+    (apm-notmuch-show-view-lp-build-log))
+
+  ;; automatically display and download failed LP build logs
+  (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-lp-build-log)
+
+  (defun apm-notmuch-wash-gfm (_msg _depth)
+    "Format entire message as GFM if supported."
+    ;; get entire message, use a tempt buffer to format it as GFM and then
+    ;; replace message with that
+    (when (fboundp 'gfm-mode)
+      (let ((message (buffer-substring (point-min) (point-max))))
+        (with-temp-buffer
+          (delay-mode-hooks
+            (gfm-mode))
+          (insert message)
+          (font-lock-ensure)
+          (setq message (buffer-string)))
+        (delete-region (point-min) (point-max))
+        (insert message))))
+
+  ;; TODO - make this configurable basd on the message itself and only run when
+  ;; it looks like a plain text email with markdown contents
+  ;; (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-gfm)
+
+  ;; add gnus-art emphasis highlighting too
+  (with-eval-after-load 'gnus-art
+    (defun apm-notmuch-wash-article-emphasize (_msg _depth)
+      (dolist (elem gnus-emphasis-alist)
+        (let ((regexp (car elem))
+              (invisible (nth 1 elem))
+              (visible (nth 2 elem))
+              (face (nth 3 elem))
+              (props (append '(article-type emphasis)
+                             gnus-hidden-properties)))
+          (goto-char (point-min))
+          (while (re-search-forward regexp nil t)
+            (when (and (match-beginning visible) (match-beginning invisible))
+              (gnus-article-hide-text
+               (match-beginning invisible) (match-end invisible) props)
+              (gnus-article-unhide-text-type
+               (match-beginning visible) (match-end visible) 'emphasis)
+              (gnus-put-overlay-excluding-newlines
+               (match-beginning visible) (match-end visible) 'face face)
+              (gnus-add-wash-type 'emphasis)
+              (goto-char (match-end invisible)))))))
+
+    (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-article-emphasize)
+    ;; ensure hyphenated words are highlighted correctly
+    (modify-syntax-entry ?- "w" notmuch-show-mode-syntax-table))
+
+  (with-eval-after-load 'epa
+    (defun apm-notmuch-wash-pgp-armor (_msg _depth)
+      (let ((epa-replace-original-text t))
+        (epa-decrypt-armor-in-region (point-min) (point-max))))
+    (add-hook 'notmuch-show-insert-text/plain-hook 'apm-notmuch-wash-pgp-armor))
+
+  ;; ensure when viewing parts we use a tmp dir which all snaps and regular
+  ;; applications can access
+  (setq mm-tmp-directory (expand-file-name "~/tmp"))
+  (unless (file-exists-p mm-tmp-directory)
+    (make-directory mm-tmp-directory))
+
+  ;; periodically refresh all notmuch buffers every 5 minutes - actually
+  ;; this causes point to move and so loses our place in the inbox buffer
+  ;; when refresh happens so don't do this for now...
+  (when nil
+    (defvar apm-notmuch-refresh-timer nil)
+    (when (timerp apm-notmuch-refresh-timer)
+      (cancel-timer apm-notmuch-refresh-timer))
+    (setq apm-notmuch-refresh-timer
+          (run-at-time t 300 #'notmuch-refresh-all-buffers))
+
+    ;; also ensure cursor doesn't move when notmuch buffers get refreshed
+    (define-advice notmuch-refresh-this-buffer (:around (orig-fun &rest args) save-excursion-around-notmuch-refresh)
+      "Save cursor position around notmuch-refresh-this-buffer."
+      (save-excursion
+        (apply orig-fun args))))
+
+  ;; add a few helpful custom saved search queries
+  (add-to-list 'notmuch-saved-searches '(:name "cvewebbot" :query "from:noreply+security-tools@canonical.com and subject:\"CVE webbot process errors\"" :key "c"))
+  (add-to-list 'notmuch-saved-searches '(:name "emacs-devel" :query "tag:lists/emacs-devel and tag:inbox" :key "e"))
+  (add-to-list 'notmuch-saved-searches '(:name "vince-updates" :query "from:cert+donotreply@cert.org and subject:\"New Post in Case Discussion\"" :key "v"))
+  (dolist (rel '("noble" "oracular" "plucky"))
+    (add-to-list 'notmuch-saved-searches `(:name ,(concat rel "-changes") :query ,(concat "tag:lists/" rel "-changes and tag:unread") :key ,(substring rel 0 1)))))
 
 (use-package nxml-mode
   ;; enable 'folding' with nxml-mode
