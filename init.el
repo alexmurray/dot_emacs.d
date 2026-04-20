@@ -972,16 +972,6 @@
             (append (list (replace-regexp-in-string "-testify\.m" "-check\.f" (car args)))
                     (cdr args))))
 
-(use-package go-translate
-  :ensure t
-  :bind (("C-c t" . gt-do-translate))
-  :config
-  (setq gt-default-translator
-        (gt-translator
-         ;; add translate support for chinese to english
-         :taker (gt-taker :langs '(zh en))
-         :engines (list (gt-google-engine) (gt-bing-engine)))))
-
 (use-package goto-addr
   :defer t
   :hook ((prog-mode . goto-address-prog-mode)
