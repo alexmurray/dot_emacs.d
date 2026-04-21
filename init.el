@@ -114,6 +114,12 @@
 (use-package batppuccin
   :ensure t
   :preface
+  (defun apm-batppuccin-setup ()
+    "Set up batppuccin theme."
+    (batppuccin-with-colors
+      (set-face-attribute 'which-func nil :foreground bat-blue)))
+  :hook (batppuccin-after-load . apm-batppuccin-setup)
+  :config
   (setq apm-preferred-dark-theme 'batppuccin-mocha)
   (setq apm-preferred-light-theme 'batppuccin-latte)
   (apm-set-preferred-theme))
