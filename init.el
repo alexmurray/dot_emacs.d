@@ -635,6 +635,10 @@
   :hook ((prog-mode . copilot-mode))
   :custom (copilot-server-executable "/snap/bin/copilot-language-server"))
 
+(use-package cov
+  :ensure t
+  :hook ((prog-mode . cov-mode)))
+
 (use-package crontab-mode
   :ensure t)
 
