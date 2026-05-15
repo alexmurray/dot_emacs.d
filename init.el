@@ -764,6 +764,7 @@
 (use-package eglot
   :hook ((prog-mode . eglot-ensure)
          (yaml-mode . eglot-ensure)
+         (yaml-ts-mode . eglot-ensure)
          (eglot-managed-mode . eglot-inlay-hints-mode))
   :bind (:map eglot-mode-map ("<f2>" . eglot-rename))
   :custom
