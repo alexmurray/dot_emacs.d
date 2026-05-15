@@ -315,9 +315,13 @@
   :bind (("C-c b l" . apm-browse-lp-bug-at-point)))
 
 (use-package apparmor-mode
-  :ensure t
-  :config (add-to-list 'auto-mode-alist
-                       `(,(expand-file-name "~/git/apparmor/profiles/apparmor.d/") . apparmor-mode)))
+  :load-path "~/git/apparmor-mode/"
+  :config
+  (add-to-list 'auto-mode-alist
+               `(,(expand-file-name "~/git/apparmor/profiles/apparmor.d/") . apparmor-mode))
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(apparmor-mode . ("apparmor-language-server")))))
 
 (use-package apropos
   :bind ("C-h a" . apropos))
