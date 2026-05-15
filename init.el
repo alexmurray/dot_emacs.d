@@ -268,6 +268,9 @@
   :defer t
   :hook ((text-mode . adaptive-wrap-prefix-mode)))
 
+(use-package agent-shell
+  :ensure t)
+
 (use-package aggressive-indent
   :ensure t
   :defer t
