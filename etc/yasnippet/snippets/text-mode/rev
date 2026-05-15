@@ -4,10 +4,14 @@
 # type: command
 # --
 ;; try and get the new version number automatically from the associated magit-diff buffer if there is one
-(let ((version "version"))
+(let ((version "version")
+      (filename "snapcraft.yaml"))
   (save-excursion
     (with-current-buffer (magit-get-mode-buffer 'magit-diff-mode)
       (goto-char (point-min))
       (when (re-search-forward "^\\+\\(version\\|    source-tag\\): \\(.*\\)" nil t)
-        (setq version (substring-no-properties (match-string 2))))))
-  (yas-expand-snippet (format "Update to latest upstream release ${%s}" version)))
+        (setq version (substring-no-properties (match-string 2))))
+      (goto-char (point-min))
+      (when (re-search-forward "^modified\\s-+\\s-+\\(.+\\)$" nil t)
+        (setq filename (match-string 1)))))
+  (yas-expand-snippet (format "${1:%s}: update to latest upstream release ${2:%s}" filename version)))
